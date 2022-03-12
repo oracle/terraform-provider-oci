@@ -134,6 +134,8 @@ func (client VbInstanceClient) changeVbInstanceCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/VbInstance/ChangeVbInstanceCompartment"
+		err = common.PostProcessServiceError(err, "VbInstance", "ChangeVbInstanceCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -190,6 +192,8 @@ func (client VbInstanceClient) createVbInstance(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/VbInstance/CreateVbInstance"
+		err = common.PostProcessServiceError(err, "VbInstance", "CreateVbInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -241,6 +245,8 @@ func (client VbInstanceClient) deleteVbInstance(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/VbInstance/DeleteVbInstance"
+		err = common.PostProcessServiceError(err, "VbInstance", "DeleteVbInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -292,6 +298,8 @@ func (client VbInstanceClient) getVbInstance(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/VbInstance/GetVbInstance"
+		err = common.PostProcessServiceError(err, "VbInstance", "GetVbInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -343,6 +351,8 @@ func (client VbInstanceClient) getWorkRequest(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "VbInstance", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -394,6 +404,8 @@ func (client VbInstanceClient) listVbInstances(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/VbInstanceSummaryCollection/ListVbInstances"
+		err = common.PostProcessServiceError(err, "VbInstance", "ListVbInstances", apiReferenceLink)
 		return response, err
 	}
 
@@ -445,6 +457,8 @@ func (client VbInstanceClient) listWorkRequestErrors(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/WorkRequestErrorCollection/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "VbInstance", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -496,6 +510,8 @@ func (client VbInstanceClient) listWorkRequestLogs(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/WorkRequestLogEntryCollection/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "VbInstance", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -547,6 +563,8 @@ func (client VbInstanceClient) listWorkRequests(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/WorkRequestSummaryCollection/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "VbInstance", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -603,6 +621,8 @@ func (client VbInstanceClient) requestSummarizedApplications(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/ApplicationSummaryCollection/RequestSummarizedApplications"
+		err = common.PostProcessServiceError(err, "VbInstance", "RequestSummarizedApplications", apiReferenceLink)
 		return response, err
 	}
 
@@ -660,6 +680,8 @@ func (client VbInstanceClient) startVbInstance(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/VbInstance/StartVbInstance"
+		err = common.PostProcessServiceError(err, "VbInstance", "StartVbInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -717,6 +739,8 @@ func (client VbInstanceClient) stopVbInstance(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/VbInstance/StopVbInstance"
+		err = common.PostProcessServiceError(err, "VbInstance", "StopVbInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -768,6 +792,8 @@ func (client VbInstanceClient) updateVbInstance(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/VbInstance/UpdateVbInstance"
+		err = common.PostProcessServiceError(err, "VbInstance", "UpdateVbInstance", apiReferenceLink)
 		return response, err
 	}
 

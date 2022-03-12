@@ -17,10 +17,10 @@ import (
 
 // CreateBlocklistDetails The blocklist record details.
 type CreateBlocklistDetails struct {
-	Target *BlocklistTarget `mandatory:"false" json:"target"`
+	Target *BlocklistTarget `mandatory:"true" json:"target"`
 
 	// The operation type
-	Operation OperationTypeEnum `mandatory:"false" json:"operation,omitempty"`
+	Operation OperationTypeEnum `mandatory:"true" json:"operation"`
 
 	// The reason for why the operation is blocklisted
 	Reason *string `mandatory:"false" json:"reason"`
@@ -35,10 +35,10 @@ func (m CreateBlocklistDetails) String() string {
 // Not recommended for calling this function directly
 func (m CreateBlocklistDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-
 	if _, ok := GetMappingOperationTypeEnum(string(m.Operation)); !ok && m.Operation != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operation: %s. Supported values are: %s.", m.Operation, strings.Join(GetOperationTypeEnumStringValues(), ",")))
 	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

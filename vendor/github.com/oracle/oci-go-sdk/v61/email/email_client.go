@@ -141,6 +141,8 @@ func (client EmailClient) changeEmailDomainCompartment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDomain/ChangeEmailDomainCompartment"
+		err = common.PostProcessServiceError(err, "Email", "ChangeEmailDomainCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -192,6 +194,8 @@ func (client EmailClient) changeSenderCompartment(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Sender/ChangeSenderCompartment"
+		err = common.PostProcessServiceError(err, "Email", "ChangeSenderCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -252,6 +256,8 @@ func (client EmailClient) createDkim(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Dkim/CreateDkim"
+		err = common.PostProcessServiceError(err, "Email", "CreateDkim", apiReferenceLink)
 		return response, err
 	}
 
@@ -308,6 +314,8 @@ func (client EmailClient) createEmailDomain(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDomain/CreateEmailDomain"
+		err = common.PostProcessServiceError(err, "Email", "CreateEmailDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -359,6 +367,8 @@ func (client EmailClient) createSender(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Sender/CreateSender"
+		err = common.PostProcessServiceError(err, "Email", "CreateSender", apiReferenceLink)
 		return response, err
 	}
 
@@ -413,6 +423,8 @@ func (client EmailClient) createSuppression(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Suppression/CreateSuppression"
+		err = common.PostProcessServiceError(err, "Email", "CreateSuppression", apiReferenceLink)
 		return response, err
 	}
 
@@ -469,6 +481,8 @@ func (client EmailClient) deleteDkim(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Dkim/DeleteDkim"
+		err = common.PostProcessServiceError(err, "Email", "DeleteDkim", apiReferenceLink)
 		return response, err
 	}
 
@@ -520,6 +534,8 @@ func (client EmailClient) deleteEmailDomain(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDomain/DeleteEmailDomain"
+		err = common.PostProcessServiceError(err, "Email", "DeleteEmailDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -572,6 +588,8 @@ func (client EmailClient) deleteSender(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Sender/DeleteSender"
+		err = common.PostProcessServiceError(err, "Email", "DeleteSender", apiReferenceLink)
 		return response, err
 	}
 
@@ -624,6 +642,8 @@ func (client EmailClient) deleteSuppression(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Suppression/DeleteSuppression"
+		err = common.PostProcessServiceError(err, "Email", "DeleteSuppression", apiReferenceLink)
 		return response, err
 	}
 
@@ -675,6 +695,8 @@ func (client EmailClient) getDkim(ctx context.Context, request common.OCIRequest
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Dkim/GetDkim"
+		err = common.PostProcessServiceError(err, "Email", "GetDkim", apiReferenceLink)
 		return response, err
 	}
 
@@ -726,6 +748,8 @@ func (client EmailClient) getEmailDomain(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDomain/GetEmailDomain"
+		err = common.PostProcessServiceError(err, "Email", "GetEmailDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -777,6 +801,8 @@ func (client EmailClient) getSender(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Sender/GetSender"
+		err = common.PostProcessServiceError(err, "Email", "GetSender", apiReferenceLink)
 		return response, err
 	}
 
@@ -829,6 +855,8 @@ func (client EmailClient) getSuppression(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Suppression/GetSuppression"
+		err = common.PostProcessServiceError(err, "Email", "GetSuppression", apiReferenceLink)
 		return response, err
 	}
 
@@ -880,6 +908,8 @@ func (client EmailClient) getWorkRequest(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "Email", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -931,6 +961,8 @@ func (client EmailClient) listDkims(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Dkim/ListDkims"
+		err = common.PostProcessServiceError(err, "Email", "ListDkims", apiReferenceLink)
 		return response, err
 	}
 
@@ -982,6 +1014,8 @@ func (client EmailClient) listEmailDomains(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDomain/ListEmailDomains"
+		err = common.PostProcessServiceError(err, "Email", "ListEmailDomains", apiReferenceLink)
 		return response, err
 	}
 
@@ -1033,6 +1067,8 @@ func (client EmailClient) listSenders(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Sender/ListSenders"
+		err = common.PostProcessServiceError(err, "Email", "ListSenders", apiReferenceLink)
 		return response, err
 	}
 
@@ -1086,6 +1122,8 @@ func (client EmailClient) listSuppressions(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Suppression/ListSuppressions"
+		err = common.PostProcessServiceError(err, "Email", "ListSuppressions", apiReferenceLink)
 		return response, err
 	}
 
@@ -1137,6 +1175,8 @@ func (client EmailClient) listWorkRequestErrors(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/WorkRequestErrorCollection/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "Email", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -1188,6 +1228,8 @@ func (client EmailClient) listWorkRequestLogs(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/WorkRequestLogEntryCollection/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "Email", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1239,6 +1281,8 @@ func (client EmailClient) listWorkRequests(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/WorkRequestSummaryCollection/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "Email", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1290,6 +1334,8 @@ func (client EmailClient) updateDkim(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Dkim/UpdateDkim"
+		err = common.PostProcessServiceError(err, "Email", "UpdateDkim", apiReferenceLink)
 		return response, err
 	}
 
@@ -1341,6 +1387,8 @@ func (client EmailClient) updateEmailDomain(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDomain/UpdateEmailDomain"
+		err = common.PostProcessServiceError(err, "Email", "UpdateEmailDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -1395,6 +1443,8 @@ func (client EmailClient) updateSender(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Sender/UpdateSender"
+		err = common.PostProcessServiceError(err, "Email", "UpdateSender", apiReferenceLink)
 		return response, err
 	}
 

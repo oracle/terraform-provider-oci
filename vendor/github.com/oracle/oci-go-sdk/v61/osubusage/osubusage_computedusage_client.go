@@ -128,6 +128,8 @@ func (client ComputedUsageClient) getComputedUsage(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "ComputedUsage", "GetComputedUsage", apiReferenceLink)
 		return response, err
 	}
 
@@ -179,6 +181,8 @@ func (client ComputedUsageClient) listComputedUsageAggregateds(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "ComputedUsage", "ListComputedUsageAggregateds", apiReferenceLink)
 		return response, err
 	}
 
@@ -230,6 +234,8 @@ func (client ComputedUsageClient) listComputedUsages(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "ComputedUsage", "ListComputedUsages", apiReferenceLink)
 		return response, err
 	}
 

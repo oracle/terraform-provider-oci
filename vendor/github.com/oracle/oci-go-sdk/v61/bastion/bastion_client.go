@@ -128,6 +128,8 @@ func (client BastionClient) changeBastionCompartment(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/Bastion/ChangeBastionCompartment"
+		err = common.PostProcessServiceError(err, "Bastion", "ChangeBastionCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -184,6 +186,8 @@ func (client BastionClient) createBastion(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/Bastion/CreateBastion"
+		err = common.PostProcessServiceError(err, "Bastion", "CreateBastion", apiReferenceLink)
 		return response, err
 	}
 
@@ -240,6 +244,8 @@ func (client BastionClient) createSession(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/Session/CreateSession"
+		err = common.PostProcessServiceError(err, "Bastion", "CreateSession", apiReferenceLink)
 		return response, err
 	}
 
@@ -291,6 +297,8 @@ func (client BastionClient) deleteBastion(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/Bastion/DeleteBastion"
+		err = common.PostProcessServiceError(err, "Bastion", "DeleteBastion", apiReferenceLink)
 		return response, err
 	}
 
@@ -342,6 +350,8 @@ func (client BastionClient) deleteSession(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/Session/DeleteSession"
+		err = common.PostProcessServiceError(err, "Bastion", "DeleteSession", apiReferenceLink)
 		return response, err
 	}
 
@@ -393,6 +403,8 @@ func (client BastionClient) getBastion(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/Bastion/GetBastion"
+		err = common.PostProcessServiceError(err, "Bastion", "GetBastion", apiReferenceLink)
 		return response, err
 	}
 
@@ -444,6 +456,8 @@ func (client BastionClient) getSession(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/Session/GetSession"
+		err = common.PostProcessServiceError(err, "Bastion", "GetSession", apiReferenceLink)
 		return response, err
 	}
 
@@ -495,6 +509,8 @@ func (client BastionClient) getWorkRequest(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "Bastion", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -546,6 +562,8 @@ func (client BastionClient) listBastions(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/Bastion/ListBastions"
+		err = common.PostProcessServiceError(err, "Bastion", "ListBastions", apiReferenceLink)
 		return response, err
 	}
 
@@ -597,6 +615,8 @@ func (client BastionClient) listSessions(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/Session/ListSessions"
+		err = common.PostProcessServiceError(err, "Bastion", "ListSessions", apiReferenceLink)
 		return response, err
 	}
 
@@ -648,6 +668,8 @@ func (client BastionClient) listWorkRequestErrors(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "Bastion", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -699,6 +721,8 @@ func (client BastionClient) listWorkRequestLogs(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "Bastion", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -750,6 +774,8 @@ func (client BastionClient) listWorkRequests(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "Bastion", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -801,6 +827,8 @@ func (client BastionClient) updateBastion(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/Bastion/UpdateBastion"
+		err = common.PostProcessServiceError(err, "Bastion", "UpdateBastion", apiReferenceLink)
 		return response, err
 	}
 
@@ -852,6 +880,8 @@ func (client BastionClient) updateSession(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/Session/UpdateSession"
+		err = common.PostProcessServiceError(err, "Bastion", "UpdateSession", apiReferenceLink)
 		return response, err
 	}
 

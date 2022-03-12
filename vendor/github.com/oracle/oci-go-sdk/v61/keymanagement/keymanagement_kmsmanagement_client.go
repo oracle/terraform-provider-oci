@@ -128,6 +128,8 @@ func (client KmsManagementClient) backupKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "BackupKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -190,6 +192,8 @@ func (client KmsManagementClient) cancelKeyDeletion(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "CancelKeyDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -252,6 +256,8 @@ func (client KmsManagementClient) cancelKeyVersionDeletion(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "CancelKeyVersionDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -314,6 +320,8 @@ func (client KmsManagementClient) changeKeyCompartment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "ChangeKeyCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -374,6 +382,8 @@ func (client KmsManagementClient) createKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "CreateKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -435,6 +445,8 @@ func (client KmsManagementClient) createKeyVersion(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "CreateKeyVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -496,6 +508,8 @@ func (client KmsManagementClient) disableKey(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "DisableKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -557,6 +571,8 @@ func (client KmsManagementClient) enableKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "EnableKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -612,6 +628,8 @@ func (client KmsManagementClient) getKey(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "GetKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -667,6 +685,8 @@ func (client KmsManagementClient) getKeyVersion(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "GetKeyVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -721,6 +741,8 @@ func (client KmsManagementClient) getReplicationStatus(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "GetReplicationStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -773,6 +795,8 @@ func (client KmsManagementClient) getWrappingKey(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "GetWrappingKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -831,6 +855,8 @@ func (client KmsManagementClient) importKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "ImportKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -891,6 +917,8 @@ func (client KmsManagementClient) importKeyVersion(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "ImportKeyVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -947,6 +975,8 @@ func (client KmsManagementClient) listKeyVersions(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "ListKeyVersions", apiReferenceLink)
 		return response, err
 	}
 
@@ -1002,6 +1032,8 @@ func (client KmsManagementClient) listKeys(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "ListKeys", apiReferenceLink)
 		return response, err
 	}
 
@@ -1060,6 +1092,8 @@ func (client KmsManagementClient) restoreKeyFromFile(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "RestoreKeyFromFile", apiReferenceLink)
 		return response, err
 	}
 
@@ -1118,6 +1152,8 @@ func (client KmsManagementClient) restoreKeyFromObjectStore(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "RestoreKeyFromObjectStore", apiReferenceLink)
 		return response, err
 	}
 
@@ -1179,6 +1215,8 @@ func (client KmsManagementClient) scheduleKeyDeletion(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "ScheduleKeyDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -1240,6 +1278,8 @@ func (client KmsManagementClient) scheduleKeyVersionDeletion(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "ScheduleKeyVersionDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -1297,6 +1337,8 @@ func (client KmsManagementClient) updateKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsManagement", "UpdateKey", apiReferenceLink)
 		return response, err
 	}
 

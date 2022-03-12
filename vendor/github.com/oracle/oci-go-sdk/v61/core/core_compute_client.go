@@ -135,6 +135,8 @@ func (client ComputeClient) acceptShieldedIntegrityPolicy(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/MeasuredBootReport/AcceptShieldedIntegrityPolicy"
+		err = common.PostProcessServiceError(err, "Compute", "AcceptShieldedIntegrityPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -186,6 +188,8 @@ func (client ComputeClient) addImageShapeCompatibilityEntry(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ImageShapeCompatibilityEntry/AddImageShapeCompatibilityEntry"
+		err = common.PostProcessServiceError(err, "Compute", "AddImageShapeCompatibilityEntry", apiReferenceLink)
 		return response, err
 	}
 
@@ -242,6 +246,8 @@ func (client ComputeClient) attachBootVolume(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolumeAttachment/AttachBootVolume"
+		err = common.PostProcessServiceError(err, "Compute", "AttachBootVolume", apiReferenceLink)
 		return response, err
 	}
 
@@ -300,6 +306,8 @@ func (client ComputeClient) attachVnic(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicAttachment/AttachVnic"
+		err = common.PostProcessServiceError(err, "Compute", "AttachVnic", apiReferenceLink)
 		return response, err
 	}
 
@@ -356,6 +364,8 @@ func (client ComputeClient) attachVolume(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeAttachment/AttachVolume"
+		err = common.PostProcessServiceError(err, "Compute", "AttachVolume", apiReferenceLink)
 		return response, err
 	}
 
@@ -426,6 +436,8 @@ func (client ComputeClient) captureConsoleHistory(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ConsoleHistory/CaptureConsoleHistory"
+		err = common.PostProcessServiceError(err, "Compute", "CaptureConsoleHistory", apiReferenceLink)
 		return response, err
 	}
 
@@ -484,6 +496,8 @@ func (client ComputeClient) changeComputeCapacityReservationCompartment(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityReservation/ChangeComputeCapacityReservationCompartment"
+		err = common.PostProcessServiceError(err, "Compute", "ChangeComputeCapacityReservationCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -543,6 +557,8 @@ func (client ComputeClient) changeComputeClusterCompartment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCluster/ChangeComputeClusterCompartment"
+		err = common.PostProcessServiceError(err, "Compute", "ChangeComputeClusterCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -601,6 +617,8 @@ func (client ComputeClient) changeComputeImageCapabilitySchemaCompartment(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeImageCapabilitySchema/ChangeComputeImageCapabilitySchemaCompartment"
+		err = common.PostProcessServiceError(err, "Compute", "ChangeComputeImageCapabilitySchemaCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -657,6 +675,8 @@ func (client ComputeClient) changeDedicatedVmHostCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DedicatedVmHost/ChangeDedicatedVmHostCompartment"
+		err = common.PostProcessServiceError(err, "Compute", "ChangeDedicatedVmHostCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -715,6 +735,8 @@ func (client ComputeClient) changeImageCompartment(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Image/ChangeImageCompartment"
+		err = common.PostProcessServiceError(err, "Compute", "ChangeImageCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -775,6 +797,8 @@ func (client ComputeClient) changeInstanceCompartment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/ChangeInstanceCompartment"
+		err = common.PostProcessServiceError(err, "Compute", "ChangeInstanceCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -831,6 +855,8 @@ func (client ComputeClient) createAppCatalogSubscription(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/AppCatalogSubscription/CreateAppCatalogSubscription"
+		err = common.PostProcessServiceError(err, "Compute", "CreateAppCatalogSubscription", apiReferenceLink)
 		return response, err
 	}
 
@@ -891,6 +917,8 @@ func (client ComputeClient) createComputeCapacityReservation(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Compute", "CreateComputeCapacityReservation", apiReferenceLink)
 		return response, err
 	}
 
@@ -952,6 +980,8 @@ func (client ComputeClient) createComputeCluster(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCluster/CreateComputeCluster"
+		err = common.PostProcessServiceError(err, "Compute", "CreateComputeCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -1008,6 +1038,8 @@ func (client ComputeClient) createComputeImageCapabilitySchema(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeImageCapabilitySchema/CreateComputeImageCapabilitySchema"
+		err = common.PostProcessServiceError(err, "Compute", "CreateComputeImageCapabilitySchema", apiReferenceLink)
 		return response, err
 	}
 
@@ -1067,6 +1099,8 @@ func (client ComputeClient) createDedicatedVmHost(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DedicatedVmHost/CreateDedicatedVmHost"
+		err = common.PostProcessServiceError(err, "Compute", "CreateDedicatedVmHost", apiReferenceLink)
 		return response, err
 	}
 
@@ -1139,6 +1173,8 @@ func (client ComputeClient) createImage(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Image/CreateImage"
+		err = common.PostProcessServiceError(err, "Compute", "CreateImage", apiReferenceLink)
 		return response, err
 	}
 
@@ -1198,6 +1234,8 @@ func (client ComputeClient) createInstanceConsoleConnection(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConsoleConnection/CreateInstanceConsoleConnection"
+		err = common.PostProcessServiceError(err, "Compute", "CreateInstanceConsoleConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -1261,6 +1299,8 @@ func (client ComputeClient) createInstanceScreenshot(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/CreateInstanceScreenshot"
+		err = common.PostProcessServiceError(err, "Compute", "CreateInstanceScreenshot", apiReferenceLink)
 		return response, err
 	}
 
@@ -1312,6 +1352,8 @@ func (client ComputeClient) deleteAppCatalogSubscription(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Compute", "DeleteAppCatalogSubscription", apiReferenceLink)
 		return response, err
 	}
 
@@ -1363,6 +1405,8 @@ func (client ComputeClient) deleteComputeCapacityReservation(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityReservation/DeleteComputeCapacityReservation"
+		err = common.PostProcessServiceError(err, "Compute", "DeleteComputeCapacityReservation", apiReferenceLink)
 		return response, err
 	}
 
@@ -1415,6 +1459,8 @@ func (client ComputeClient) deleteComputeCluster(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCluster/DeleteComputeCluster"
+		err = common.PostProcessServiceError(err, "Compute", "DeleteComputeCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -1466,6 +1512,8 @@ func (client ComputeClient) deleteComputeImageCapabilitySchema(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeImageCapabilitySchema/DeleteComputeImageCapabilitySchema"
+		err = common.PostProcessServiceError(err, "Compute", "DeleteComputeImageCapabilitySchema", apiReferenceLink)
 		return response, err
 	}
 
@@ -1517,6 +1565,8 @@ func (client ComputeClient) deleteConsoleHistory(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ConsoleHistory/DeleteConsoleHistory"
+		err = common.PostProcessServiceError(err, "Compute", "DeleteConsoleHistory", apiReferenceLink)
 		return response, err
 	}
 
@@ -1570,6 +1620,8 @@ func (client ComputeClient) deleteDedicatedVmHost(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DedicatedVmHost/DeleteDedicatedVmHost"
+		err = common.PostProcessServiceError(err, "Compute", "DeleteDedicatedVmHost", apiReferenceLink)
 		return response, err
 	}
 
@@ -1621,6 +1673,8 @@ func (client ComputeClient) deleteImage(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Compute", "DeleteImage", apiReferenceLink)
 		return response, err
 	}
 
@@ -1672,6 +1726,8 @@ func (client ComputeClient) deleteInstanceConsoleConnection(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConsoleConnection/DeleteInstanceConsoleConnection"
+		err = common.PostProcessServiceError(err, "Compute", "DeleteInstanceConsoleConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -1725,6 +1781,8 @@ func (client ComputeClient) detachBootVolume(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Compute", "DetachBootVolume", apiReferenceLink)
 		return response, err
 	}
 
@@ -1784,6 +1842,8 @@ func (client ComputeClient) detachVnic(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicAttachment/DetachVnic"
+		err = common.PostProcessServiceError(err, "Compute", "DetachVnic", apiReferenceLink)
 		return response, err
 	}
 
@@ -1837,6 +1897,8 @@ func (client ComputeClient) detachVolume(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeAttachment/DetachVolume"
+		err = common.PostProcessServiceError(err, "Compute", "DetachVolume", apiReferenceLink)
 		return response, err
 	}
 
@@ -1899,6 +1961,8 @@ func (client ComputeClient) exportImage(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Image/ExportImage"
+		err = common.PostProcessServiceError(err, "Compute", "ExportImage", apiReferenceLink)
 		return response, err
 	}
 
@@ -1950,6 +2014,8 @@ func (client ComputeClient) getAppCatalogListing(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/AppCatalogListing/GetAppCatalogListing"
+		err = common.PostProcessServiceError(err, "Compute", "GetAppCatalogListing", apiReferenceLink)
 		return response, err
 	}
 
@@ -2001,6 +2067,8 @@ func (client ComputeClient) getAppCatalogListingAgreements(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/AppCatalogListingResourceVersionAgreements/GetAppCatalogListingAgreements"
+		err = common.PostProcessServiceError(err, "Compute", "GetAppCatalogListingAgreements", apiReferenceLink)
 		return response, err
 	}
 
@@ -2052,6 +2120,8 @@ func (client ComputeClient) getAppCatalogListingResourceVersion(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion"
+		err = common.PostProcessServiceError(err, "Compute", "GetAppCatalogListingResourceVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -2103,6 +2173,8 @@ func (client ComputeClient) getBootVolumeAttachment(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolumeAttachment/GetBootVolumeAttachment"
+		err = common.PostProcessServiceError(err, "Compute", "GetBootVolumeAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2154,6 +2226,8 @@ func (client ComputeClient) getComputeCapacityReservation(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityReservation/GetComputeCapacityReservation"
+		err = common.PostProcessServiceError(err, "Compute", "GetComputeCapacityReservation", apiReferenceLink)
 		return response, err
 	}
 
@@ -2205,6 +2279,8 @@ func (client ComputeClient) getComputeCluster(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCluster/GetComputeCluster"
+		err = common.PostProcessServiceError(err, "Compute", "GetComputeCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -2256,6 +2332,8 @@ func (client ComputeClient) getComputeGlobalImageCapabilitySchema(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeGlobalImageCapabilitySchema/GetComputeGlobalImageCapabilitySchema"
+		err = common.PostProcessServiceError(err, "Compute", "GetComputeGlobalImageCapabilitySchema", apiReferenceLink)
 		return response, err
 	}
 
@@ -2307,6 +2385,8 @@ func (client ComputeClient) getComputeGlobalImageCapabilitySchemaVersion(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeGlobalImageCapabilitySchemaVersion/GetComputeGlobalImageCapabilitySchemaVersion"
+		err = common.PostProcessServiceError(err, "Compute", "GetComputeGlobalImageCapabilitySchemaVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -2358,6 +2438,8 @@ func (client ComputeClient) getComputeImageCapabilitySchema(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeImageCapabilitySchema/GetComputeImageCapabilitySchema"
+		err = common.PostProcessServiceError(err, "Compute", "GetComputeImageCapabilitySchema", apiReferenceLink)
 		return response, err
 	}
 
@@ -2411,6 +2493,8 @@ func (client ComputeClient) getConsoleHistory(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ConsoleHistory/GetConsoleHistory"
+		err = common.PostProcessServiceError(err, "Compute", "GetConsoleHistory", apiReferenceLink)
 		return response, err
 	}
 
@@ -2464,6 +2548,8 @@ func (client ComputeClient) getConsoleHistoryContent(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ConsoleHistory/GetConsoleHistoryContent"
+		err = common.PostProcessServiceError(err, "Compute", "GetConsoleHistoryContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -2515,6 +2601,8 @@ func (client ComputeClient) getDedicatedVmHost(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DedicatedVmHost/GetDedicatedVmHost"
+		err = common.PostProcessServiceError(err, "Compute", "GetDedicatedVmHost", apiReferenceLink)
 		return response, err
 	}
 
@@ -2566,6 +2654,8 @@ func (client ComputeClient) getImage(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Image/GetImage"
+		err = common.PostProcessServiceError(err, "Compute", "GetImage", apiReferenceLink)
 		return response, err
 	}
 
@@ -2617,6 +2707,8 @@ func (client ComputeClient) getImageShapeCompatibilityEntry(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ImageShapeCompatibilityEntry/GetImageShapeCompatibilityEntry"
+		err = common.PostProcessServiceError(err, "Compute", "GetImageShapeCompatibilityEntry", apiReferenceLink)
 		return response, err
 	}
 
@@ -2668,6 +2760,8 @@ func (client ComputeClient) getInstance(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/GetInstance"
+		err = common.PostProcessServiceError(err, "Compute", "GetInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -2719,6 +2813,8 @@ func (client ComputeClient) getInstanceConsoleConnection(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConsoleConnection/GetInstanceConsoleConnection"
+		err = common.PostProcessServiceError(err, "Compute", "GetInstanceConsoleConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -2770,6 +2866,8 @@ func (client ComputeClient) getInstanceScreenshot(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceScreenshot/GetInstanceScreenshot"
+		err = common.PostProcessServiceError(err, "Compute", "GetInstanceScreenshot", apiReferenceLink)
 		return response, err
 	}
 
@@ -2820,6 +2918,8 @@ func (client ComputeClient) getInstanceScreenshotContent(ctx context.Context, re
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Compute", "GetInstanceScreenshotContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -2871,6 +2971,8 @@ func (client ComputeClient) getMeasuredBootReport(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/MeasuredBootReport/GetMeasuredBootReport"
+		err = common.PostProcessServiceError(err, "Compute", "GetMeasuredBootReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -2922,6 +3024,8 @@ func (client ComputeClient) getVnicAttachment(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicAttachment/GetVnicAttachment"
+		err = common.PostProcessServiceError(err, "Compute", "GetVnicAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2973,6 +3077,8 @@ func (client ComputeClient) getVolumeAttachment(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeAttachment/GetVolumeAttachment"
+		err = common.PostProcessServiceError(err, "Compute", "GetVolumeAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -3025,6 +3131,8 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceCredentials/GetWindowsInstanceInitialCredentials"
+		err = common.PostProcessServiceError(err, "Compute", "GetWindowsInstanceInitialCredentials", apiReferenceLink)
 		return response, err
 	}
 
@@ -3054,7 +3162,11 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // - **VALIDATELIVEMIGRATE** - Live migrate the instance to validate impact on the customer workload.
 //                             Live migrating an instance moves it to a different physical host while the instance is running.
 //
-// - **DIAGNOSTICREBOOT** - **This feature currently only supports virtual machines** Powers off the VM instance then rebuilds and powers it back on.
+// - **DIAGNOSTICREBOOT** - Powers off the instance, rebuilds it on the physical host, and then powers it back on.
+// Before you send a diagnostic reboot, restart the instance's OS, confirm that the instance and networking settings are configured
+// correctly, and try other troubleshooting steps (https://docs.cloud.oracle.com/iaas/Content/Compute/References/troubleshooting-compute-instances.htm).
+// Use diagnostic reboot as a final attempt to troubleshoot an unreachable instance. For virtual machine (VM) instances only.
+// For more information, see Performing a Diagnostic Reboot (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/diagnostic-reboot.htm).
 //
 // For more information about managing instance lifecycle states, see
 // Stopping and Starting an Instance (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/restartinginstance.htm).
@@ -3106,6 +3218,8 @@ func (client ComputeClient) instanceAction(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/InstanceAction"
+		err = common.PostProcessServiceError(err, "Compute", "InstanceAction", apiReferenceLink)
 		return response, err
 	}
 
@@ -3193,6 +3307,8 @@ func (client ComputeClient) launchInstance(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance"
+		err = common.PostProcessServiceError(err, "Compute", "LaunchInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -3244,6 +3360,8 @@ func (client ComputeClient) listAppCatalogListingResourceVersions(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/AppCatalogListingResourceVersionSummary/ListAppCatalogListingResourceVersions"
+		err = common.PostProcessServiceError(err, "Compute", "ListAppCatalogListingResourceVersions", apiReferenceLink)
 		return response, err
 	}
 
@@ -3295,6 +3413,8 @@ func (client ComputeClient) listAppCatalogListings(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/AppCatalogListingSummary/ListAppCatalogListings"
+		err = common.PostProcessServiceError(err, "Compute", "ListAppCatalogListings", apiReferenceLink)
 		return response, err
 	}
 
@@ -3346,6 +3466,8 @@ func (client ComputeClient) listAppCatalogSubscriptions(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/AppCatalogSubscriptionSummary/ListAppCatalogSubscriptions"
+		err = common.PostProcessServiceError(err, "Compute", "ListAppCatalogSubscriptions", apiReferenceLink)
 		return response, err
 	}
 
@@ -3398,6 +3520,8 @@ func (client ComputeClient) listBootVolumeAttachments(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolumeAttachment/ListBootVolumeAttachments"
+		err = common.PostProcessServiceError(err, "Compute", "ListBootVolumeAttachments", apiReferenceLink)
 		return response, err
 	}
 
@@ -3449,6 +3573,8 @@ func (client ComputeClient) listComputeCapacityReservationInstanceShapes(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityReservationInstanceShapeSummary/ListComputeCapacityReservationInstanceShapes"
+		err = common.PostProcessServiceError(err, "Compute", "ListComputeCapacityReservationInstanceShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -3500,6 +3626,8 @@ func (client ComputeClient) listComputeCapacityReservationInstances(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CapacityReservationInstanceSummary/ListComputeCapacityReservationInstances"
+		err = common.PostProcessServiceError(err, "Compute", "ListComputeCapacityReservationInstances", apiReferenceLink)
 		return response, err
 	}
 
@@ -3553,6 +3681,8 @@ func (client ComputeClient) listComputeCapacityReservations(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityReservation/ListComputeCapacityReservations"
+		err = common.PostProcessServiceError(err, "Compute", "ListComputeCapacityReservations", apiReferenceLink)
 		return response, err
 	}
 
@@ -3605,6 +3735,8 @@ func (client ComputeClient) listComputeClusters(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCluster/ListComputeClusters"
+		err = common.PostProcessServiceError(err, "Compute", "ListComputeClusters", apiReferenceLink)
 		return response, err
 	}
 
@@ -3656,6 +3788,8 @@ func (client ComputeClient) listComputeGlobalImageCapabilitySchemaVersions(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeGlobalImageCapabilitySchemaVersionSummary/ListComputeGlobalImageCapabilitySchemaVersions"
+		err = common.PostProcessServiceError(err, "Compute", "ListComputeGlobalImageCapabilitySchemaVersions", apiReferenceLink)
 		return response, err
 	}
 
@@ -3707,6 +3841,8 @@ func (client ComputeClient) listComputeGlobalImageCapabilitySchemas(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeGlobalImageCapabilitySchemaSummary/ListComputeGlobalImageCapabilitySchemas"
+		err = common.PostProcessServiceError(err, "Compute", "ListComputeGlobalImageCapabilitySchemas", apiReferenceLink)
 		return response, err
 	}
 
@@ -3758,6 +3894,8 @@ func (client ComputeClient) listComputeImageCapabilitySchemas(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeImageCapabilitySchemaSummary/ListComputeImageCapabilitySchemas"
+		err = common.PostProcessServiceError(err, "Compute", "ListComputeImageCapabilitySchemas", apiReferenceLink)
 		return response, err
 	}
 
@@ -3809,6 +3947,8 @@ func (client ComputeClient) listConsoleHistories(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ConsoleHistory/ListConsoleHistories"
+		err = common.PostProcessServiceError(err, "Compute", "ListConsoleHistories", apiReferenceLink)
 		return response, err
 	}
 
@@ -3861,6 +4001,8 @@ func (client ComputeClient) listDedicatedVmHostInstanceShapes(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DedicatedVmHostInstanceShapeSummary/ListDedicatedVmHostInstanceShapes"
+		err = common.PostProcessServiceError(err, "Compute", "ListDedicatedVmHostInstanceShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -3912,6 +4054,8 @@ func (client ComputeClient) listDedicatedVmHostInstances(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DedicatedVmHostInstanceSummary/ListDedicatedVmHostInstances"
+		err = common.PostProcessServiceError(err, "Compute", "ListDedicatedVmHostInstances", apiReferenceLink)
 		return response, err
 	}
 
@@ -3963,6 +4107,8 @@ func (client ComputeClient) listDedicatedVmHostShapes(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DedicatedVmHostShapeSummary/ListDedicatedVmHostShapes"
+		err = common.PostProcessServiceError(err, "Compute", "ListDedicatedVmHostShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -4016,6 +4162,8 @@ func (client ComputeClient) listDedicatedVmHosts(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DedicatedVmHostSummary/ListDedicatedVmHosts"
+		err = common.PostProcessServiceError(err, "Compute", "ListDedicatedVmHosts", apiReferenceLink)
 		return response, err
 	}
 
@@ -4067,6 +4215,8 @@ func (client ComputeClient) listImageShapeCompatibilityEntries(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ImageShapeCompatibilityEntry/ListImageShapeCompatibilityEntries"
+		err = common.PostProcessServiceError(err, "Compute", "ListImageShapeCompatibilityEntries", apiReferenceLink)
 		return response, err
 	}
 
@@ -4126,6 +4276,8 @@ func (client ComputeClient) listImages(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Image/ListImages"
+		err = common.PostProcessServiceError(err, "Compute", "ListImages", apiReferenceLink)
 		return response, err
 	}
 
@@ -4178,6 +4330,8 @@ func (client ComputeClient) listInstanceConsoleConnections(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConsoleConnection/ListInstanceConsoleConnections"
+		err = common.PostProcessServiceError(err, "Compute", "ListInstanceConsoleConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -4229,6 +4383,8 @@ func (client ComputeClient) listInstanceDevices(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Device/ListInstanceDevices"
+		err = common.PostProcessServiceError(err, "Compute", "ListInstanceDevices", apiReferenceLink)
 		return response, err
 	}
 
@@ -4280,6 +4436,8 @@ func (client ComputeClient) listInstanceScreenshots(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/ListInstanceScreenshots"
+		err = common.PostProcessServiceError(err, "Compute", "ListInstanceScreenshots", apiReferenceLink)
 		return response, err
 	}
 
@@ -4333,6 +4491,8 @@ func (client ComputeClient) listInstances(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/ListInstances"
+		err = common.PostProcessServiceError(err, "Compute", "ListInstances", apiReferenceLink)
 		return response, err
 	}
 
@@ -4385,6 +4545,8 @@ func (client ComputeClient) listShapes(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes"
+		err = common.PostProcessServiceError(err, "Compute", "ListShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -4438,6 +4600,8 @@ func (client ComputeClient) listVnicAttachments(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicAttachment/ListVnicAttachments"
+		err = common.PostProcessServiceError(err, "Compute", "ListVnicAttachments", apiReferenceLink)
 		return response, err
 	}
 
@@ -4508,6 +4672,8 @@ func (client ComputeClient) listVolumeAttachments(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeAttachment/ListVolumeAttachments"
+		err = common.PostProcessServiceError(err, "Compute", "ListVolumeAttachments", apiReferenceLink)
 		return response, err
 	}
 
@@ -4559,6 +4725,8 @@ func (client ComputeClient) removeImageShapeCompatibilityEntry(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ImageShapeCompatibilityEntry/RemoveImageShapeCompatibilityEntry"
+		err = common.PostProcessServiceError(err, "Compute", "RemoveImageShapeCompatibilityEntry", apiReferenceLink)
 		return response, err
 	}
 
@@ -4617,6 +4785,8 @@ func (client ComputeClient) terminateInstance(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Compute", "TerminateInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -4670,6 +4840,8 @@ func (client ComputeClient) updateComputeCapacityReservation(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityReservation/UpdateComputeCapacityReservation"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateComputeCapacityReservation", apiReferenceLink)
 		return response, err
 	}
 
@@ -4726,6 +4898,8 @@ func (client ComputeClient) updateComputeCluster(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCluster/UpdateComputeCluster"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateComputeCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -4777,6 +4951,8 @@ func (client ComputeClient) updateComputeImageCapabilitySchema(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeImageCapabilitySchema/UpdateComputeImageCapabilitySchema"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateComputeImageCapabilitySchema", apiReferenceLink)
 		return response, err
 	}
 
@@ -4828,6 +5004,8 @@ func (client ComputeClient) updateConsoleHistory(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ConsoleHistory/UpdateConsoleHistory"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateConsoleHistory", apiReferenceLink)
 		return response, err
 	}
 
@@ -4885,6 +5063,8 @@ func (client ComputeClient) updateDedicatedVmHost(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DedicatedVmHost/UpdateDedicatedVmHost"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateDedicatedVmHost", apiReferenceLink)
 		return response, err
 	}
 
@@ -4941,6 +5121,8 @@ func (client ComputeClient) updateImage(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Image/UpdateImage"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateImage", apiReferenceLink)
 		return response, err
 	}
 
@@ -5001,6 +5183,8 @@ func (client ComputeClient) updateInstance(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/UpdateInstance"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -5052,6 +5236,8 @@ func (client ComputeClient) updateInstanceConsoleConnection(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConsoleConnection/UpdateInstanceConsoleConnection"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateInstanceConsoleConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -5103,6 +5289,8 @@ func (client ComputeClient) updateVolumeAttachment(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeAttachment/UpdateVolumeAttachment"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateVolumeAttachment", apiReferenceLink)
 		return response, err
 	}
 

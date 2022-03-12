@@ -39,6 +39,8 @@ const (
 	OperationTypesUpdateMetastoreConfig     OperationTypesEnum = "UPDATE_METASTORE_CONFIG"
 	OperationTypesActivateMetastoreConfig   OperationTypesEnum = "ACTIVATE_METASTORE_CONFIG"
 	OperationTypesTestMetastoreConfig       OperationTypesEnum = "TEST_METASTORE_CONFIG"
+	OperationTypesPatchBds                  OperationTypesEnum = "PATCH_BDS"
+	OperationTypesPatchOdh                  OperationTypesEnum = "PATCH_ODH"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -63,6 +65,8 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"UPDATE_METASTORE_CONFIG":      OperationTypesUpdateMetastoreConfig,
 	"ACTIVATE_METASTORE_CONFIG":    OperationTypesActivateMetastoreConfig,
 	"TEST_METASTORE_CONFIG":        OperationTypesTestMetastoreConfig,
+	"PATCH_BDS":                    OperationTypesPatchBds,
+	"PATCH_ODH":                    OperationTypesPatchOdh,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -87,6 +91,8 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"update_metastore_config":      OperationTypesUpdateMetastoreConfig,
 	"activate_metastore_config":    OperationTypesActivateMetastoreConfig,
 	"test_metastore_config":        OperationTypesTestMetastoreConfig,
+	"patch_bds":                    OperationTypesPatchBds,
+	"patch_odh":                    OperationTypesPatchOdh,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -122,6 +128,8 @@ func GetOperationTypesEnumStringValues() []string {
 		"UPDATE_METASTORE_CONFIG",
 		"ACTIVATE_METASTORE_CONFIG",
 		"TEST_METASTORE_CONFIG",
+		"PATCH_BDS",
+		"PATCH_ODH",
 	}
 }
 

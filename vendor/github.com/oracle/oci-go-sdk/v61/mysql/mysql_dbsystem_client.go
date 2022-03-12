@@ -134,6 +134,8 @@ func (client DbSystemClient) addAnalyticsCluster(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/AnalyticsCluster/AddAnalyticsCluster"
+		err = common.PostProcessServiceError(err, "DbSystem", "AddAnalyticsCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -190,6 +192,8 @@ func (client DbSystemClient) addHeatWaveCluster(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/HeatWaveCluster/AddHeatWaveCluster"
+		err = common.PostProcessServiceError(err, "DbSystem", "AddHeatWaveCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -246,6 +250,8 @@ func (client DbSystemClient) createDbSystem(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DbSystem", "CreateDbSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -299,6 +305,8 @@ func (client DbSystemClient) deleteAnalyticsCluster(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/AnalyticsCluster/DeleteAnalyticsCluster"
+		err = common.PostProcessServiceError(err, "DbSystem", "DeleteAnalyticsCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -351,6 +359,8 @@ func (client DbSystemClient) deleteDbSystem(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/DbSystem/DeleteDbSystem"
+		err = common.PostProcessServiceError(err, "DbSystem", "DeleteDbSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -403,6 +413,8 @@ func (client DbSystemClient) deleteHeatWaveCluster(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/HeatWaveCluster/DeleteHeatWaveCluster"
+		err = common.PostProcessServiceError(err, "DbSystem", "DeleteHeatWaveCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -460,6 +472,8 @@ func (client DbSystemClient) generateAnalyticsClusterMemoryEstimate(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/AnalyticsClusterMemoryEstimate/GenerateAnalyticsClusterMemoryEstimate"
+		err = common.PostProcessServiceError(err, "DbSystem", "GenerateAnalyticsClusterMemoryEstimate", apiReferenceLink)
 		return response, err
 	}
 
@@ -516,6 +530,8 @@ func (client DbSystemClient) generateHeatWaveClusterMemoryEstimate(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/HeatWaveClusterMemoryEstimate/GenerateHeatWaveClusterMemoryEstimate"
+		err = common.PostProcessServiceError(err, "DbSystem", "GenerateHeatWaveClusterMemoryEstimate", apiReferenceLink)
 		return response, err
 	}
 
@@ -568,6 +584,8 @@ func (client DbSystemClient) getAnalyticsCluster(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/AnalyticsCluster/GetAnalyticsCluster"
+		err = common.PostProcessServiceError(err, "DbSystem", "GetAnalyticsCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -621,6 +639,8 @@ func (client DbSystemClient) getAnalyticsClusterMemoryEstimate(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/AnalyticsClusterMemoryEstimate/GetAnalyticsClusterMemoryEstimate"
+		err = common.PostProcessServiceError(err, "DbSystem", "GetAnalyticsClusterMemoryEstimate", apiReferenceLink)
 		return response, err
 	}
 
@@ -672,6 +692,8 @@ func (client DbSystemClient) getDbSystem(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/DbSystem/GetDbSystem"
+		err = common.PostProcessServiceError(err, "DbSystem", "GetDbSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -723,6 +745,8 @@ func (client DbSystemClient) getHeatWaveCluster(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/HeatWaveCluster/GetHeatWaveCluster"
+		err = common.PostProcessServiceError(err, "DbSystem", "GetHeatWaveCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -775,6 +799,8 @@ func (client DbSystemClient) getHeatWaveClusterMemoryEstimate(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/HeatWaveClusterMemoryEstimate/GetHeatWaveClusterMemoryEstimate"
+		err = common.PostProcessServiceError(err, "DbSystem", "GetHeatWaveClusterMemoryEstimate", apiReferenceLink)
 		return response, err
 	}
 
@@ -827,6 +853,8 @@ func (client DbSystemClient) listDbSystems(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/DbSystemSummary/ListDbSystems"
+		err = common.PostProcessServiceError(err, "DbSystem", "ListDbSystems", apiReferenceLink)
 		return response, err
 	}
 
@@ -884,6 +912,8 @@ func (client DbSystemClient) restartAnalyticsCluster(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/AnalyticsCluster/RestartAnalyticsCluster"
+		err = common.PostProcessServiceError(err, "DbSystem", "RestartAnalyticsCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -940,6 +970,8 @@ func (client DbSystemClient) restartDbSystem(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/DbSystem/RestartDbSystem"
+		err = common.PostProcessServiceError(err, "DbSystem", "RestartDbSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -996,6 +1028,8 @@ func (client DbSystemClient) restartHeatWaveCluster(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/HeatWaveCluster/RestartHeatWaveCluster"
+		err = common.PostProcessServiceError(err, "DbSystem", "RestartHeatWaveCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -1053,6 +1087,8 @@ func (client DbSystemClient) startAnalyticsCluster(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/AnalyticsCluster/StartAnalyticsCluster"
+		err = common.PostProcessServiceError(err, "DbSystem", "StartAnalyticsCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -1109,6 +1145,8 @@ func (client DbSystemClient) startDbSystem(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/DbSystem/StartDbSystem"
+		err = common.PostProcessServiceError(err, "DbSystem", "StartDbSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -1165,6 +1203,8 @@ func (client DbSystemClient) startHeatWaveCluster(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/HeatWaveCluster/StartHeatWaveCluster"
+		err = common.PostProcessServiceError(err, "DbSystem", "StartHeatWaveCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -1222,6 +1262,8 @@ func (client DbSystemClient) stopAnalyticsCluster(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/AnalyticsCluster/StopAnalyticsCluster"
+		err = common.PostProcessServiceError(err, "DbSystem", "StopAnalyticsCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -1279,6 +1321,8 @@ func (client DbSystemClient) stopDbSystem(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/DbSystem/StopDbSystem"
+		err = common.PostProcessServiceError(err, "DbSystem", "StopDbSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -1335,6 +1379,8 @@ func (client DbSystemClient) stopHeatWaveCluster(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/HeatWaveCluster/StopHeatWaveCluster"
+		err = common.PostProcessServiceError(err, "DbSystem", "StopHeatWaveCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -1387,6 +1433,8 @@ func (client DbSystemClient) updateAnalyticsCluster(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/AnalyticsCluster/UpdateAnalyticsCluster"
+		err = common.PostProcessServiceError(err, "DbSystem", "UpdateAnalyticsCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -1444,6 +1492,8 @@ func (client DbSystemClient) updateDbSystem(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/DbSystem/UpdateDbSystem"
+		err = common.PostProcessServiceError(err, "DbSystem", "UpdateDbSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -1495,6 +1545,8 @@ func (client DbSystemClient) updateHeatWaveCluster(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/HeatWaveCluster/UpdateHeatWaveCluster"
+		err = common.PostProcessServiceError(err, "DbSystem", "UpdateHeatWaveCluster", apiReferenceLink)
 		return response, err
 	}
 

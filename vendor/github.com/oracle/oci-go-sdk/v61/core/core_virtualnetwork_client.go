@@ -132,6 +132,8 @@ func (client VirtualNetworkClient) acceptLocalPeeringToken(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LocalPeeringConnection/AcceptLocalPeeringToken"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AcceptLocalPeeringToken", apiReferenceLink)
 		return response, err
 	}
 
@@ -183,6 +185,8 @@ func (client VirtualNetworkClient) addAdditionalRouteRules(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RouteTable/AddAdditionalRouteRules"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AddAdditionalRouteRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -234,6 +238,8 @@ func (client VirtualNetworkClient) addDrgRouteDistributionStatements(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteDistributionStatement/AddDrgRouteDistributionStatements"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AddDrgRouteDistributionStatements", apiReferenceLink)
 		return response, err
 	}
 
@@ -290,6 +296,8 @@ func (client VirtualNetworkClient) addDrgRouteRules(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteRule/AddDrgRouteRules"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AddDrgRouteRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -347,6 +355,8 @@ func (client VirtualNetworkClient) addIpv6VcnCidr(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/AddIpv6VcnCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AddIpv6VcnCidr", apiReferenceLink)
 		return response, err
 	}
 
@@ -398,6 +408,8 @@ func (client VirtualNetworkClient) addNetworkSecurityGroupSecurityRules(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/SecurityRule/AddNetworkSecurityGroupSecurityRules"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AddNetworkSecurityGroupSecurityRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -455,6 +467,8 @@ func (client VirtualNetworkClient) addPublicIpPoolCapacity(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpPool/AddPublicIpPoolCapacity"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AddPublicIpPoolCapacity", apiReferenceLink)
 		return response, err
 	}
 
@@ -515,6 +529,8 @@ func (client VirtualNetworkClient) addVcnCidr(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/AddVcnCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AddVcnCidr", apiReferenceLink)
 		return response, err
 	}
 
@@ -567,6 +583,8 @@ func (client VirtualNetworkClient) advertiseByoipRange(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/AdvertiseByoipRange"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AdvertiseByoipRange", apiReferenceLink)
 		return response, err
 	}
 
@@ -625,6 +643,8 @@ func (client VirtualNetworkClient) attachDav(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Dav/AttachDav"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AttachDav", apiReferenceLink)
 		return response, err
 	}
 
@@ -684,6 +704,8 @@ func (client VirtualNetworkClient) attachServiceId(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ServiceGateway/AttachServiceId"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AttachServiceId", apiReferenceLink)
 		return response, err
 	}
 
@@ -742,6 +764,8 @@ func (client VirtualNetworkClient) attachVnicToDestinationSmartNic(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/AttachVnicToDestinationSmartNic"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AttachVnicToDestinationSmartNic", apiReferenceLink)
 		return response, err
 	}
 
@@ -798,6 +822,8 @@ func (client VirtualNetworkClient) attachVnicWorker(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicWorker/AttachVnicWorker"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AttachVnicWorker", apiReferenceLink)
 		return response, err
 	}
 
@@ -854,6 +880,8 @@ func (client VirtualNetworkClient) backfill(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Backfill/Backfill"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "Backfill", apiReferenceLink)
 		return response, err
 	}
 
@@ -903,6 +931,8 @@ func (client VirtualNetworkClient) bulkAddVirtualCircuitPublicPrefixes(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuitPublicPrefix/BulkAddVirtualCircuitPublicPrefixes"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "BulkAddVirtualCircuitPublicPrefixes", apiReferenceLink)
 		return response, err
 	}
 
@@ -952,6 +982,8 @@ func (client VirtualNetworkClient) bulkDeleteVirtualCircuitPublicPrefixes(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuitPublicPrefix/BulkDeleteVirtualCircuitPublicPrefixes"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "BulkDeleteVirtualCircuitPublicPrefixes", apiReferenceLink)
 		return response, err
 	}
 
@@ -1008,6 +1040,8 @@ func (client VirtualNetworkClient) bulkMigration(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BulkMigration/BulkMigration"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "BulkMigration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1066,6 +1100,8 @@ func (client VirtualNetworkClient) changeByoipRangeCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/ChangeByoipRangeCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeByoipRangeCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1124,6 +1160,8 @@ func (client VirtualNetworkClient) changeC3DrgCompartment(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/ChangeC3DrgCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeC3DrgCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1182,6 +1220,8 @@ func (client VirtualNetworkClient) changeCaptureFilterCompartment(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CaptureFilter/ChangeCaptureFilterCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeCaptureFilterCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1238,6 +1278,8 @@ func (client VirtualNetworkClient) changeClientVpnCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpn/ChangeClientVpnCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeClientVpnCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1296,6 +1338,8 @@ func (client VirtualNetworkClient) changeCpeCompartment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Cpe/ChangeCpeCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeCpeCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1354,6 +1398,8 @@ func (client VirtualNetworkClient) changeCrossConnectCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnect/ChangeCrossConnectCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeCrossConnectCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1412,6 +1458,8 @@ func (client VirtualNetworkClient) changeCrossConnectGroupCompartment(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectGroup/ChangeCrossConnectGroupCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeCrossConnectGroupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1470,6 +1518,8 @@ func (client VirtualNetworkClient) changeDhcpOptionsCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DhcpOptions/ChangeDhcpOptionsCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeDhcpOptionsCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1528,6 +1578,8 @@ func (client VirtualNetworkClient) changeDrgAttachmentCompartment(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/ChangeDrgAttachmentCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeDrgAttachmentCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1586,6 +1638,8 @@ func (client VirtualNetworkClient) changeDrgCompartment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/ChangeDrgCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeDrgCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1644,6 +1698,8 @@ func (client VirtualNetworkClient) changeIPSecConnectionCompartment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnection/ChangeIPSecConnectionCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeIPSecConnectionCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1697,6 +1753,8 @@ func (client VirtualNetworkClient) changeInternalDrgCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrg/ChangeInternalDrgCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeInternalDrgCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1753,6 +1811,8 @@ func (client VirtualNetworkClient) changeInternalGenericGatewayCompartment(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalGenericGateway/ChangeInternalGenericGatewayCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeInternalGenericGatewayCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1811,6 +1871,8 @@ func (client VirtualNetworkClient) changeInternetGatewayCompartment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternetGateway/ChangeInternetGatewayCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeInternetGatewayCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1869,6 +1931,8 @@ func (client VirtualNetworkClient) changeLocalPeeringGatewayCompartment(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LocalPeeringGateway/ChangeLocalPeeringGatewayCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeLocalPeeringGatewayCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1927,6 +1991,8 @@ func (client VirtualNetworkClient) changeNatGatewayCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NatGateway/ChangeNatGatewayCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeNatGatewayCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1984,6 +2050,8 @@ func (client VirtualNetworkClient) changeNetworkSecurityGroupCompartment(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/ChangeNetworkSecurityGroupCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeNetworkSecurityGroupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2042,6 +2110,8 @@ func (client VirtualNetworkClient) changePrivateEndpointCompartment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateEndpoint/ChangePrivateEndpointCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangePrivateEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2102,6 +2172,8 @@ func (client VirtualNetworkClient) changePublicIpCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/ChangePublicIpCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangePublicIpCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2160,6 +2232,8 @@ func (client VirtualNetworkClient) changePublicIpPoolCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpPool/ChangePublicIpPoolCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangePublicIpPoolCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2218,6 +2292,8 @@ func (client VirtualNetworkClient) changeRemotePeeringConnectionCompartment(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RemotePeeringConnection/ChangeRemotePeeringConnectionCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeRemotePeeringConnectionCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2276,6 +2352,8 @@ func (client VirtualNetworkClient) changeRouteTableCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RouteTable/ChangeRouteTableCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeRouteTableCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2334,6 +2412,8 @@ func (client VirtualNetworkClient) changeSecurityListCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/SecurityList/ChangeSecurityListCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeSecurityListCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2392,6 +2472,8 @@ func (client VirtualNetworkClient) changeServiceGatewayCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ServiceGateway/ChangeServiceGatewayCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeServiceGatewayCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2450,6 +2532,8 @@ func (client VirtualNetworkClient) changeSubnetCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/ChangeSubnetCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeSubnetCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2508,6 +2592,8 @@ func (client VirtualNetworkClient) changeVcnCompartment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/ChangeVcnCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeVcnCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2566,6 +2652,8 @@ func (client VirtualNetworkClient) changeVcnDrgCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/ChangeVcnDrgCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeVcnDrgCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2624,6 +2712,8 @@ func (client VirtualNetworkClient) changeVirtualCircuitCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuit/ChangeVirtualCircuitCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeVirtualCircuitCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2682,6 +2772,8 @@ func (client VirtualNetworkClient) changeVlanCompartment(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vlan/ChangeVlanCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeVlanCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2740,6 +2832,8 @@ func (client VirtualNetworkClient) changeVnicAttachmentsCompartmentRequest(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/ChangeVnicAttachmentsCompartmentRequest"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeVnicAttachmentsCompartmentRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -2798,6 +2892,8 @@ func (client VirtualNetworkClient) changeVtapCompartment(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vtap/ChangeVtapCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeVtapCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2849,6 +2945,8 @@ func (client VirtualNetworkClient) completePromotion(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/CompletePromotion"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CompletePromotion", apiReferenceLink)
 		return response, err
 	}
 
@@ -2900,6 +2998,8 @@ func (client VirtualNetworkClient) completeUnpromotion(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/CompleteUnpromotion"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CompleteUnpromotion", apiReferenceLink)
 		return response, err
 	}
 
@@ -2951,6 +3051,8 @@ func (client VirtualNetworkClient) connectLocalPeeringConnections(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LocalPeeringConnection/ConnectLocalPeeringConnections"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ConnectLocalPeeringConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -3008,6 +3110,8 @@ func (client VirtualNetworkClient) connectLocalPeeringGateways(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LocalPeeringGateway/ConnectLocalPeeringGateways"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ConnectLocalPeeringGateways", apiReferenceLink)
 		return response, err
 	}
 
@@ -3065,6 +3169,8 @@ func (client VirtualNetworkClient) connectRemotePeeringConnections(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RemotePeeringConnection/ConnectRemotePeeringConnections"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ConnectRemotePeeringConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -3121,6 +3227,8 @@ func (client VirtualNetworkClient) createByoipRange(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/CreateByoipRange"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateByoipRange", apiReferenceLink)
 		return response, err
 	}
 
@@ -3186,6 +3294,8 @@ func (client VirtualNetworkClient) createC3Drg(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/CreateC3Drg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateC3Drg", apiReferenceLink)
 		return response, err
 	}
 
@@ -3250,6 +3360,8 @@ func (client VirtualNetworkClient) createC3DrgAttachment(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/CreateC3DrgAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateC3DrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -3312,6 +3424,8 @@ func (client VirtualNetworkClient) createCaptureFilter(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CaptureFilter/CreateCaptureFilter"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateCaptureFilter", apiReferenceLink)
 		return response, err
 	}
 
@@ -3371,6 +3485,8 @@ func (client VirtualNetworkClient) createClientVpn(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpn/CreateClientVpn"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateClientVpn", apiReferenceLink)
 		return response, err
 	}
 
@@ -3427,6 +3543,8 @@ func (client VirtualNetworkClient) createClientVpnUser(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpnUser/CreateClientVpnUser"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateClientVpnUser", apiReferenceLink)
 		return response, err
 	}
 
@@ -3494,6 +3612,8 @@ func (client VirtualNetworkClient) createCpe(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Cpe/CreateCpe"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateCpe", apiReferenceLink)
 		return response, err
 	}
 
@@ -3565,6 +3685,8 @@ func (client VirtualNetworkClient) createCrossConnect(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnect/CreateCrossConnect"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateCrossConnect", apiReferenceLink)
 		return response, err
 	}
 
@@ -3633,6 +3755,8 @@ func (client VirtualNetworkClient) createCrossConnectGroup(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectGroup/CreateCrossConnectGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateCrossConnectGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -3689,6 +3813,8 @@ func (client VirtualNetworkClient) createDav(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Dav/CreateDav"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateDav", apiReferenceLink)
 		return response, err
 	}
 
@@ -3754,6 +3880,8 @@ func (client VirtualNetworkClient) createDhcpOptions(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DhcpOptions/CreateDhcpOptions"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateDhcpOptions", apiReferenceLink)
 		return response, err
 	}
 
@@ -3819,6 +3947,8 @@ func (client VirtualNetworkClient) createDrg(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/CreateDrg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -3883,6 +4013,8 @@ func (client VirtualNetworkClient) createDrgAttachment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/CreateDrgAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateDrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -3942,6 +4074,8 @@ func (client VirtualNetworkClient) createDrgRouteDistribution(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteDistribution/CreateDrgRouteDistribution"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateDrgRouteDistribution", apiReferenceLink)
 		return response, err
 	}
 
@@ -3999,6 +4133,8 @@ func (client VirtualNetworkClient) createDrgRouteTable(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteTable/CreateDrgRouteTable"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateDrgRouteTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -4055,6 +4191,8 @@ func (client VirtualNetworkClient) createEndpointService(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/EndpointService/CreateEndpointService"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateEndpointService", apiReferenceLink)
 		return response, err
 	}
 
@@ -4111,6 +4249,8 @@ func (client VirtualNetworkClient) createFlowLogConfig(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FlowLogConfig/CreateFlowLogConfig"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateFlowLogConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -4170,6 +4310,8 @@ func (client VirtualNetworkClient) createFlowLogConfigAttachment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FlowLogConfigAttachment/CreateFlowLogConfigAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateFlowLogConfigAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -4247,6 +4389,8 @@ func (client VirtualNetworkClient) createIPSecConnection(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnection/CreateIPSecConnection"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateIPSecConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -4303,6 +4447,8 @@ func (client VirtualNetworkClient) createInternalDnsRecord(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDnsRecord/CreateInternalDnsRecord"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalDnsRecord", apiReferenceLink)
 		return response, err
 	}
 
@@ -4368,6 +4514,8 @@ func (client VirtualNetworkClient) createInternalDrg(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrg/CreateInternalDrg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -4432,6 +4580,8 @@ func (client VirtualNetworkClient) createInternalDrgAttachment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrgAttachment/CreateInternalDrgAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalDrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -4488,6 +4638,8 @@ func (client VirtualNetworkClient) createInternalGenericGateway(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalGenericGateway/CreateInternalGenericGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalGenericGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -4560,6 +4712,8 @@ func (client VirtualNetworkClient) createInternalPublicIp(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPublicIp/CreateInternalPublicIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalPublicIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -4616,6 +4770,8 @@ func (client VirtualNetworkClient) createInternalVnic(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnic/CreateInternalVnic"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalVnic", apiReferenceLink)
 		return response, err
 	}
 
@@ -4672,6 +4828,8 @@ func (client VirtualNetworkClient) createInternalVnicAttachment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/CreateInternalVnicAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalVnicAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -4743,6 +4901,8 @@ func (client VirtualNetworkClient) createInternetGateway(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternetGateway/CreateInternetGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternetGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -4799,6 +4959,8 @@ func (client VirtualNetworkClient) createIpv6(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Ipv6/CreateIpv6"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateIpv6", apiReferenceLink)
 		return response, err
 	}
 
@@ -4855,6 +5017,8 @@ func (client VirtualNetworkClient) createLocalPeeringConnection(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LocalPeeringConnection/CreateLocalPeeringConnection"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateLocalPeeringConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -4911,6 +5075,8 @@ func (client VirtualNetworkClient) createLocalPeeringGateway(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LocalPeeringGateway/CreateLocalPeeringGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateLocalPeeringGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -4968,6 +5134,8 @@ func (client VirtualNetworkClient) createNatGateway(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NatGateway/CreateNatGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateNatGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -5024,6 +5192,8 @@ func (client VirtualNetworkClient) createNetworkSecurityGroup(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/CreateNetworkSecurityGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateNetworkSecurityGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -5082,6 +5252,8 @@ func (client VirtualNetworkClient) createPrivateAccessGateway(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateAccessGateway/CreatePrivateAccessGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreatePrivateAccessGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -5139,6 +5311,8 @@ func (client VirtualNetworkClient) createPrivateEndpoint(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateEndpoint/CreatePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreatePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -5197,6 +5371,8 @@ func (client VirtualNetworkClient) createPrivateIp(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/CreatePrivateIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreatePrivateIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -5253,6 +5429,8 @@ func (client VirtualNetworkClient) createPrivateIpNextHop(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIpNextHop/CreatePrivateIpNextHop"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreatePrivateIpNextHop", apiReferenceLink)
 		return response, err
 	}
 
@@ -5325,6 +5503,8 @@ func (client VirtualNetworkClient) createPublicIp(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/CreatePublicIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreatePublicIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -5381,6 +5561,8 @@ func (client VirtualNetworkClient) createPublicIpPool(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpPool/CreatePublicIpPool"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreatePublicIpPool", apiReferenceLink)
 		return response, err
 	}
 
@@ -5437,6 +5619,8 @@ func (client VirtualNetworkClient) createRemotePeeringConnection(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RemotePeeringConnection/CreateRemotePeeringConnection"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateRemotePeeringConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -5505,6 +5689,8 @@ func (client VirtualNetworkClient) createRouteTable(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RouteTable/CreateRouteTable"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateRouteTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -5562,6 +5748,8 @@ func (client VirtualNetworkClient) createScanProxy(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ScanProxy/CreateScanProxy"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateScanProxy", apiReferenceLink)
 		return response, err
 	}
 
@@ -5629,6 +5817,8 @@ func (client VirtualNetworkClient) createSecurityList(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/SecurityList/CreateSecurityList"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateSecurityList", apiReferenceLink)
 		return response, err
 	}
 
@@ -5691,6 +5881,8 @@ func (client VirtualNetworkClient) createServiceGateway(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ServiceGateway/CreateServiceGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateServiceGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -5771,6 +5963,8 @@ func (client VirtualNetworkClient) createSubnet(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/CreateSubnet"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateSubnet", apiReferenceLink)
 		return response, err
 	}
 
@@ -5851,6 +6045,8 @@ func (client VirtualNetworkClient) createVcn(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/CreateVcn"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateVcn", apiReferenceLink)
 		return response, err
 	}
 
@@ -5915,6 +6111,8 @@ func (client VirtualNetworkClient) createVcnDrg(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/CreateVcnDrg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateVcnDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -5979,6 +6177,8 @@ func (client VirtualNetworkClient) createVcnDrgAttachment(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/CreateVcnDrgAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateVcnDrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -6052,6 +6252,8 @@ func (client VirtualNetworkClient) createVirtualCircuit(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuit/CreateVirtualCircuit"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateVirtualCircuit", apiReferenceLink)
 		return response, err
 	}
 
@@ -6108,6 +6310,8 @@ func (client VirtualNetworkClient) createVlan(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vlan/CreateVlan"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateVlan", apiReferenceLink)
 		return response, err
 	}
 
@@ -6164,6 +6368,8 @@ func (client VirtualNetworkClient) createVnicWorker(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicWorker/CreateVnicWorker"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateVnicWorker", apiReferenceLink)
 		return response, err
 	}
 
@@ -6226,6 +6432,8 @@ func (client VirtualNetworkClient) createVtap(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vtap/CreateVtap"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateVtap", apiReferenceLink)
 		return response, err
 	}
 
@@ -6281,6 +6489,8 @@ func (client VirtualNetworkClient) deleteByoipRange(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/DeleteByoipRange"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteByoipRange", apiReferenceLink)
 		return response, err
 	}
 
@@ -6335,6 +6545,8 @@ func (client VirtualNetworkClient) deleteC3Drg(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteC3Drg", apiReferenceLink)
 		return response, err
 	}
 
@@ -6390,6 +6602,8 @@ func (client VirtualNetworkClient) deleteC3DrgAttachment(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteC3DrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -6442,6 +6656,8 @@ func (client VirtualNetworkClient) deleteCaptureFilter(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CaptureFilter/DeleteCaptureFilter"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteCaptureFilter", apiReferenceLink)
 		return response, err
 	}
 
@@ -6493,6 +6709,8 @@ func (client VirtualNetworkClient) deleteClientVpn(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpn/DeleteClientVpn"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteClientVpn", apiReferenceLink)
 		return response, err
 	}
 
@@ -6544,6 +6762,8 @@ func (client VirtualNetworkClient) deleteClientVpnUser(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpnUser/DeleteClientVpnUser"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteClientVpnUser", apiReferenceLink)
 		return response, err
 	}
 
@@ -6597,6 +6817,8 @@ func (client VirtualNetworkClient) deleteCpe(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteCpe", apiReferenceLink)
 		return response, err
 	}
 
@@ -6649,6 +6871,8 @@ func (client VirtualNetworkClient) deleteCrossConnect(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteCrossConnect", apiReferenceLink)
 		return response, err
 	}
 
@@ -6702,6 +6926,8 @@ func (client VirtualNetworkClient) deleteCrossConnectGroup(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteCrossConnectGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -6753,6 +6979,8 @@ func (client VirtualNetworkClient) deleteDav(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Dav/DeleteDav"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteDav", apiReferenceLink)
 		return response, err
 	}
 
@@ -6807,6 +7035,8 @@ func (client VirtualNetworkClient) deleteDhcpOptions(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteDhcpOptions", apiReferenceLink)
 		return response, err
 	}
 
@@ -6861,6 +7091,8 @@ func (client VirtualNetworkClient) deleteDrg(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -6914,6 +7146,8 @@ func (client VirtualNetworkClient) deleteDrgAttachment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteDrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -6966,6 +7200,8 @@ func (client VirtualNetworkClient) deleteDrgRouteDistribution(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteDistributionStatement/DeleteDrgRouteDistribution"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteDrgRouteDistribution", apiReferenceLink)
 		return response, err
 	}
 
@@ -7017,6 +7253,8 @@ func (client VirtualNetworkClient) deleteDrgRouteTable(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPublicIp/DeleteDrgRouteTable"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteDrgRouteTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -7069,6 +7307,8 @@ func (client VirtualNetworkClient) deleteEndpointService(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/EndpointService/DeleteEndpointService"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteEndpointService", apiReferenceLink)
 		return response, err
 	}
 
@@ -7120,6 +7360,8 @@ func (client VirtualNetworkClient) deleteFlowLogConfig(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteFlowLogConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -7172,6 +7414,8 @@ func (client VirtualNetworkClient) deleteFlowLogConfigAttachment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteFlowLogConfigAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -7229,6 +7473,8 @@ func (client VirtualNetworkClient) deleteIPSecConnection(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteIPSecConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -7280,6 +7526,8 @@ func (client VirtualNetworkClient) deleteInternalDnsRecord(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalDnsRecord", apiReferenceLink)
 		return response, err
 	}
 
@@ -7334,6 +7582,8 @@ func (client VirtualNetworkClient) deleteInternalDrg(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -7385,6 +7635,8 @@ func (client VirtualNetworkClient) deleteInternalDrgAttachment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalDrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -7436,6 +7688,8 @@ func (client VirtualNetworkClient) deleteInternalGenericGateway(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalGenericGateway/DeleteInternalGenericGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalGenericGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -7494,6 +7748,8 @@ func (client VirtualNetworkClient) deleteInternalPublicIp(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPublicIp/DeleteInternalPublicIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalPublicIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -7545,6 +7801,8 @@ func (client VirtualNetworkClient) deleteInternalVnic(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnic/DeleteInternalVnic"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalVnic", apiReferenceLink)
 		return response, err
 	}
 
@@ -7596,6 +7854,8 @@ func (client VirtualNetworkClient) deleteInternalVnicAttachment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/DeleteInternalVnicAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalVnicAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -7650,6 +7910,8 @@ func (client VirtualNetworkClient) deleteInternetGateway(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternetGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -7702,6 +7964,8 @@ func (client VirtualNetworkClient) deleteIpv6(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteIpv6", apiReferenceLink)
 		return response, err
 	}
 
@@ -7755,6 +8019,8 @@ func (client VirtualNetworkClient) deleteLocalPeeringConnection(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LocalPeeringConnection/DeleteLocalPeeringConnection"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteLocalPeeringConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -7808,6 +8074,8 @@ func (client VirtualNetworkClient) deleteLocalPeeringGateway(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteLocalPeeringGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -7862,6 +8130,8 @@ func (client VirtualNetworkClient) deleteNatGateway(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteNatGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -7918,6 +8188,8 @@ func (client VirtualNetworkClient) deleteNetworkSecurityGroup(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/DeleteNetworkSecurityGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteNetworkSecurityGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -7969,6 +8241,8 @@ func (client VirtualNetworkClient) deletePrivateAccessGateway(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateAccessGateway/DeletePrivateAccessGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeletePrivateAccessGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -8020,6 +8294,8 @@ func (client VirtualNetworkClient) deletePrivateEndpoint(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateEndpoint/DeletePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeletePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -8079,6 +8355,8 @@ func (client VirtualNetworkClient) deletePrivateIp(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeletePrivateIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -8130,6 +8408,8 @@ func (client VirtualNetworkClient) deletePrivateIpNextHop(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeletePrivateIpNextHop", apiReferenceLink)
 		return response, err
 	}
 
@@ -8192,6 +8472,8 @@ func (client VirtualNetworkClient) deletePublicIp(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeletePublicIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -8245,6 +8527,8 @@ func (client VirtualNetworkClient) deletePublicIpPool(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpPool/DeletePublicIpPool"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeletePublicIpPool", apiReferenceLink)
 		return response, err
 	}
 
@@ -8298,6 +8582,8 @@ func (client VirtualNetworkClient) deleteRemotePeeringConnection(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteRemotePeeringConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -8349,6 +8635,8 @@ func (client VirtualNetworkClient) deleteReverseConnectionNatIp(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ReverseConnectionNatIp/DeleteReverseConnectionNatIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteReverseConnectionNatIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -8403,6 +8691,8 @@ func (client VirtualNetworkClient) deleteRouteTable(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteRouteTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -8454,6 +8744,8 @@ func (client VirtualNetworkClient) deleteScanProxy(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ScanProxy/DeleteScanProxy"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteScanProxy", apiReferenceLink)
 		return response, err
 	}
 
@@ -8508,6 +8800,8 @@ func (client VirtualNetworkClient) deleteSecurityList(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteSecurityList", apiReferenceLink)
 		return response, err
 	}
 
@@ -8560,6 +8854,8 @@ func (client VirtualNetworkClient) deleteServiceGateway(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteServiceGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -8613,6 +8909,8 @@ func (client VirtualNetworkClient) deleteSubnet(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteSubnet", apiReferenceLink)
 		return response, err
 	}
 
@@ -8666,6 +8964,8 @@ func (client VirtualNetworkClient) deleteVcn(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteVcn", apiReferenceLink)
 		return response, err
 	}
 
@@ -8720,6 +9020,8 @@ func (client VirtualNetworkClient) deleteVcnDrg(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteVcnDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -8773,6 +9075,8 @@ func (client VirtualNetworkClient) deleteVcnDrgAttachment(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteVcnDrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -8827,6 +9131,8 @@ func (client VirtualNetworkClient) deleteVirtualCircuit(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteVirtualCircuit", apiReferenceLink)
 		return response, err
 	}
 
@@ -8878,6 +9184,8 @@ func (client VirtualNetworkClient) deleteVlan(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vlan/DeleteVlan"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteVlan", apiReferenceLink)
 		return response, err
 	}
 
@@ -8929,6 +9237,8 @@ func (client VirtualNetworkClient) deleteVnicWorker(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteVnicWorker", apiReferenceLink)
 		return response, err
 	}
 
@@ -8981,6 +9291,8 @@ func (client VirtualNetworkClient) deleteVtap(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vtap/DeleteVtap"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteVtap", apiReferenceLink)
 		return response, err
 	}
 
@@ -9037,6 +9349,8 @@ func (client VirtualNetworkClient) detachDav(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Dav/DetachDav"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DetachDav", apiReferenceLink)
 		return response, err
 	}
 
@@ -9098,6 +9412,8 @@ func (client VirtualNetworkClient) detachServiceId(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ServiceGateway/DetachServiceId"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DetachServiceId", apiReferenceLink)
 		return response, err
 	}
 
@@ -9156,6 +9472,8 @@ func (client VirtualNetworkClient) detachVnicFromDestinationSmartNic(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/DetachVnicFromDestinationSmartNic"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DetachVnicFromDestinationSmartNic", apiReferenceLink)
 		return response, err
 	}
 
@@ -9214,6 +9532,8 @@ func (client VirtualNetworkClient) detachVnicFromSourceSmartNic(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/DetachVnicFromSourceSmartNic"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DetachVnicFromSourceSmartNic", apiReferenceLink)
 		return response, err
 	}
 
@@ -9270,6 +9590,8 @@ func (client VirtualNetworkClient) detachVnicWorker(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicWorker/DetachVnicWorker"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DetachVnicWorker", apiReferenceLink)
 		return response, err
 	}
 
@@ -9321,6 +9643,8 @@ func (client VirtualNetworkClient) disableReverseConnections(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateEndpoint/DisableReverseConnections"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DisableReverseConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -9372,6 +9696,8 @@ func (client VirtualNetworkClient) disableVnicWorker(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicWorker/DisableVnicWorker"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DisableVnicWorker", apiReferenceLink)
 		return response, err
 	}
 
@@ -9423,6 +9749,8 @@ func (client VirtualNetworkClient) drainVnicWorker(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicWorker/DrainVnicWorker"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DrainVnicWorker", apiReferenceLink)
 		return response, err
 	}
 
@@ -9479,6 +9807,8 @@ func (client VirtualNetworkClient) drgMigration(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgMigration/DrgMigration"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DrgMigration", apiReferenceLink)
 		return response, err
 	}
 
@@ -9535,6 +9865,8 @@ func (client VirtualNetworkClient) enableReverseConnections(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateEndpoint/EnableReverseConnections"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "EnableReverseConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -9586,6 +9918,8 @@ func (client VirtualNetworkClient) enableVnicWorker(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicWorker/EnableVnicWorker"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "EnableVnicWorker", apiReferenceLink)
 		return response, err
 	}
 
@@ -9640,6 +9974,8 @@ func (client VirtualNetworkClient) generateLocalPeeringToken(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LocalPeeringConnection/GenerateLocalPeeringToken"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GenerateLocalPeeringToken", apiReferenceLink)
 		return response, err
 	}
 
@@ -9691,6 +10027,8 @@ func (client VirtualNetworkClient) getAllDrgAttachments(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/GetAllDrgAttachments"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetAllDrgAttachments", apiReferenceLink)
 		return response, err
 	}
 
@@ -9742,6 +10080,8 @@ func (client VirtualNetworkClient) getAllowedIkeIPSecParameters(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/AllowedIkeIPSecParameters/GetAllowedIkeIPSecParameters"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetAllowedIkeIPSecParameters", apiReferenceLink)
 		return response, err
 	}
 
@@ -9793,6 +10133,8 @@ func (client VirtualNetworkClient) getByoipRange(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/GetByoipRange"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetByoipRange", apiReferenceLink)
 		return response, err
 	}
 
@@ -9844,6 +10186,8 @@ func (client VirtualNetworkClient) getC3Drg(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/GetC3Drg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetC3Drg", apiReferenceLink)
 		return response, err
 	}
 
@@ -9895,6 +10239,8 @@ func (client VirtualNetworkClient) getC3DrgAttachment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/GetC3DrgAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetC3DrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -9946,6 +10292,8 @@ func (client VirtualNetworkClient) getCaptureFilter(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CaptureFilter/GetCaptureFilter"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetCaptureFilter", apiReferenceLink)
 		return response, err
 	}
 
@@ -9997,6 +10345,8 @@ func (client VirtualNetworkClient) getClientVpn(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpn/GetClientVpn"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetClientVpn", apiReferenceLink)
 		return response, err
 	}
 
@@ -10047,6 +10397,8 @@ func (client VirtualNetworkClient) getClientVpnProfile(ctx context.Context, requ
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpn/GetClientVpnProfile"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetClientVpnProfile", apiReferenceLink)
 		return response, err
 	}
 
@@ -10098,6 +10450,8 @@ func (client VirtualNetworkClient) getClientVpnStatus(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpn/GetClientVpnStatus"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetClientVpnStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -10149,6 +10503,8 @@ func (client VirtualNetworkClient) getClientVpnUser(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpnUser/GetClientVpnUser"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetClientVpnUser", apiReferenceLink)
 		return response, err
 	}
 
@@ -10199,6 +10555,8 @@ func (client VirtualNetworkClient) getClientVpnUserProfile(ctx context.Context, 
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpnUser/GetClientVpnUserProfile"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetClientVpnUserProfile", apiReferenceLink)
 		return response, err
 	}
 
@@ -10250,6 +10608,8 @@ func (client VirtualNetworkClient) getCpe(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Cpe/GetCpe"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetCpe", apiReferenceLink)
 		return response, err
 	}
 
@@ -10314,6 +10674,8 @@ func (client VirtualNetworkClient) getCpeDeviceConfigContent(ctx context.Context
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Cpe/GetCpeDeviceConfigContent"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetCpeDeviceConfigContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -10372,6 +10734,8 @@ func (client VirtualNetworkClient) getCpeDeviceShape(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CpeDeviceShapeDetail/GetCpeDeviceShape"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetCpeDeviceShape", apiReferenceLink)
 		return response, err
 	}
 
@@ -10432,6 +10796,8 @@ func (client VirtualNetworkClient) getCreateReverseConnectionNatIp(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ReverseConnectionNatIp/GetCreateReverseConnectionNatIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetCreateReverseConnectionNatIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -10483,6 +10849,8 @@ func (client VirtualNetworkClient) getCrossConnect(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnect/GetCrossConnect"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetCrossConnect", apiReferenceLink)
 		return response, err
 	}
 
@@ -10534,6 +10902,8 @@ func (client VirtualNetworkClient) getCrossConnectGroup(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectGroup/GetCrossConnectGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetCrossConnectGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -10585,6 +10955,8 @@ func (client VirtualNetworkClient) getCrossConnectLetterOfAuthority(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LetterOfAuthority/GetCrossConnectLetterOfAuthority"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetCrossConnectLetterOfAuthority", apiReferenceLink)
 		return response, err
 	}
 
@@ -10636,6 +11008,8 @@ func (client VirtualNetworkClient) getCrossConnectStatus(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectStatus/GetCrossConnectStatus"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetCrossConnectStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -10687,6 +11061,8 @@ func (client VirtualNetworkClient) getDav(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Dav/GetDav"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDav", apiReferenceLink)
 		return response, err
 	}
 
@@ -10738,6 +11114,8 @@ func (client VirtualNetworkClient) getDhcpOptions(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DhcpOptions/GetDhcpOptions"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDhcpOptions", apiReferenceLink)
 		return response, err
 	}
 
@@ -10789,6 +11167,8 @@ func (client VirtualNetworkClient) getDrg(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/GetDrg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -10840,6 +11220,8 @@ func (client VirtualNetworkClient) getDrgAttachedNetworkInfo(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachedNetworkInfo/GetDrgAttachedNetworkInfo"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDrgAttachedNetworkInfo", apiReferenceLink)
 		return response, err
 	}
 
@@ -10891,6 +11273,8 @@ func (client VirtualNetworkClient) getDrgAttachment(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/GetDrgAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -10942,6 +11326,8 @@ func (client VirtualNetworkClient) getDrgMigrationCountRegion(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgMigrationCountRegion/GetDrgMigrationCountRegion"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDrgMigrationCountRegion", apiReferenceLink)
 		return response, err
 	}
 
@@ -10993,6 +11379,8 @@ func (client VirtualNetworkClient) getDrgMigrationCountTenancy(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgMigrationCountTenancy/GetDrgMigrationCountTenancy"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDrgMigrationCountTenancy", apiReferenceLink)
 		return response, err
 	}
 
@@ -11045,6 +11433,8 @@ func (client VirtualNetworkClient) getDrgRedundancyStatus(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRedundancyStatus/GetDrgRedundancyStatus"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDrgRedundancyStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -11096,6 +11486,8 @@ func (client VirtualNetworkClient) getDrgRouteDistribution(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteDistribution/GetDrgRouteDistribution"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDrgRouteDistribution", apiReferenceLink)
 		return response, err
 	}
 
@@ -11147,6 +11539,8 @@ func (client VirtualNetworkClient) getDrgRouteTable(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteTable/GetDrgRouteTable"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDrgRouteTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -11198,6 +11592,8 @@ func (client VirtualNetworkClient) getEndpointService(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/EndpointService/GetEndpointService"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetEndpointService", apiReferenceLink)
 		return response, err
 	}
 
@@ -11249,6 +11645,8 @@ func (client VirtualNetworkClient) getEndpointServiceNextHop(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/EndpointServiceNextHop/GetEndpointServiceNextHop"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetEndpointServiceNextHop", apiReferenceLink)
 		return response, err
 	}
 
@@ -11301,6 +11699,8 @@ func (client VirtualNetworkClient) getFastConnectProviderService(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FastConnectProviderService/GetFastConnectProviderService"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetFastConnectProviderService", apiReferenceLink)
 		return response, err
 	}
 
@@ -11353,6 +11753,8 @@ func (client VirtualNetworkClient) getFastConnectProviderServiceKey(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FastConnectProviderServiceKey/GetFastConnectProviderServiceKey"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetFastConnectProviderServiceKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -11404,6 +11806,8 @@ func (client VirtualNetworkClient) getFlowLogConfig(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FlowLogConfig/GetFlowLogConfig"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetFlowLogConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -11455,6 +11859,8 @@ func (client VirtualNetworkClient) getFlowLogConfigAttachment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FlowLogConfigAttachment/GetFlowLogConfigAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetFlowLogConfigAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -11508,6 +11914,8 @@ func (client VirtualNetworkClient) getIPSecConnection(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnection/GetIPSecConnection"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetIPSecConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -11561,6 +11969,8 @@ func (client VirtualNetworkClient) getIPSecConnectionDeviceConfig(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionDeviceConfig/GetIPSecConnectionDeviceConfig"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetIPSecConnectionDeviceConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -11613,6 +12023,8 @@ func (client VirtualNetworkClient) getIPSecConnectionDeviceStatus(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionDeviceStatus/GetIPSecConnectionDeviceStatus"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetIPSecConnectionDeviceStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -11664,6 +12076,8 @@ func (client VirtualNetworkClient) getIPSecConnectionMigrationStatus(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionMigrationStatus/GetIPSecConnectionMigrationStatus"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetIPSecConnectionMigrationStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -11717,6 +12131,8 @@ func (client VirtualNetworkClient) getIPSecConnectionTunnel(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnel/GetIPSecConnectionTunnel"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetIPSecConnectionTunnel", apiReferenceLink)
 		return response, err
 	}
 
@@ -11768,6 +12184,8 @@ func (client VirtualNetworkClient) getIPSecConnectionTunnelError(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnelErrorDetails/GetIPSecConnectionTunnelError"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetIPSecConnectionTunnelError", apiReferenceLink)
 		return response, err
 	}
 
@@ -11820,6 +12238,8 @@ func (client VirtualNetworkClient) getIPSecConnectionTunnelSharedSecret(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnelSharedSecret/GetIPSecConnectionTunnelSharedSecret"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetIPSecConnectionTunnelSharedSecret", apiReferenceLink)
 		return response, err
 	}
 
@@ -11871,6 +12291,8 @@ func (client VirtualNetworkClient) getInternalDnsRecord(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDnsRecord/GetInternalDnsRecord"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalDnsRecord", apiReferenceLink)
 		return response, err
 	}
 
@@ -11922,6 +12344,8 @@ func (client VirtualNetworkClient) getInternalDrg(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrg/GetInternalDrg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -11973,6 +12397,8 @@ func (client VirtualNetworkClient) getInternalDrgAttachment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrgAttachment/GetInternalDrgAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalDrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -12024,6 +12450,8 @@ func (client VirtualNetworkClient) getInternalGenericGateway(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalGenericGateway/GetInternalGenericGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalGenericGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -12080,6 +12508,8 @@ func (client VirtualNetworkClient) getInternalGenericGatewayByGatewayId(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalGenericGateway/GetInternalGenericGatewayByGatewayId"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalGenericGatewayByGatewayId", apiReferenceLink)
 		return response, err
 	}
 
@@ -12134,6 +12564,8 @@ func (client VirtualNetworkClient) getInternalPublicIp(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPublicIp/GetInternalPublicIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalPublicIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -12185,6 +12617,8 @@ func (client VirtualNetworkClient) getInternalSubnet(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalSubnet/GetInternalSubnet"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalSubnet", apiReferenceLink)
 		return response, err
 	}
 
@@ -12236,6 +12670,8 @@ func (client VirtualNetworkClient) getInternalVnic(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnic/GetInternalVnic"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalVnic", apiReferenceLink)
 		return response, err
 	}
 
@@ -12287,6 +12723,8 @@ func (client VirtualNetworkClient) getInternalVnicAttachment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/GetInternalVnicAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalVnicAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -12338,6 +12776,8 @@ func (client VirtualNetworkClient) getInternetGateway(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternetGateway/GetInternetGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternetGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -12403,6 +12843,8 @@ func (client VirtualNetworkClient) getIpsecCpeDeviceConfigContent(ctx context.Co
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnection/GetIpsecCpeDeviceConfigContent"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetIpsecCpeDeviceConfigContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -12457,6 +12899,8 @@ func (client VirtualNetworkClient) getIpv6(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Ipv6/GetIpv6"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetIpv6", apiReferenceLink)
 		return response, err
 	}
 
@@ -12508,6 +12952,8 @@ func (client VirtualNetworkClient) getLocalPeeringConnection(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LocalPeeringConnection/GetLocalPeeringConnection"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetLocalPeeringConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -12559,6 +13005,8 @@ func (client VirtualNetworkClient) getLocalPeeringGateway(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LocalPeeringGateway/GetLocalPeeringGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetLocalPeeringGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -12610,6 +13058,8 @@ func (client VirtualNetworkClient) getNatGateway(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NatGateway/GetNatGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetNatGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -12665,6 +13115,8 @@ func (client VirtualNetworkClient) getNetworkSecurityGroup(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/GetNetworkSecurityGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetNetworkSecurityGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -12716,6 +13168,8 @@ func (client VirtualNetworkClient) getNetworkingTopology(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NetworkingTopology/GetNetworkingTopology"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetNetworkingTopology", apiReferenceLink)
 		return response, err
 	}
 
@@ -12767,6 +13221,8 @@ func (client VirtualNetworkClient) getPrivateAccessGateway(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateAccessGateway/GetPrivateAccessGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetPrivateAccessGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -12818,6 +13274,8 @@ func (client VirtualNetworkClient) getPrivateEndpoint(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateEndpoint/GetPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -12872,6 +13330,8 @@ func (client VirtualNetworkClient) getPrivateEndpointAssociation(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateEndpointAssociation/GetPrivateEndpointAssociation"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetPrivateEndpointAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -12926,6 +13386,8 @@ func (client VirtualNetworkClient) getPrivateIp(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/GetPrivateIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetPrivateIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -12977,6 +13439,8 @@ func (client VirtualNetworkClient) getPrivateIpNextHop(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIpNextHop/GetPrivateIpNextHop"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetPrivateIpNextHop", apiReferenceLink)
 		return response, err
 	}
 
@@ -13035,6 +13499,8 @@ func (client VirtualNetworkClient) getPublicIp(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/GetPublicIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetPublicIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -13089,6 +13555,8 @@ func (client VirtualNetworkClient) getPublicIpByIpAddress(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/GetPublicIpByIpAddress"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetPublicIpByIpAddress", apiReferenceLink)
 		return response, err
 	}
 
@@ -13149,6 +13617,8 @@ func (client VirtualNetworkClient) getPublicIpByPrivateIpId(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/GetPublicIpByPrivateIpId"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetPublicIpByPrivateIpId", apiReferenceLink)
 		return response, err
 	}
 
@@ -13200,6 +13670,8 @@ func (client VirtualNetworkClient) getPublicIpPool(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpPool/GetPublicIpPool"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetPublicIpPool", apiReferenceLink)
 		return response, err
 	}
 
@@ -13251,6 +13723,8 @@ func (client VirtualNetworkClient) getRemotePeeringConnection(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RemotePeeringConnection/GetRemotePeeringConnection"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetRemotePeeringConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -13303,6 +13777,8 @@ func (client VirtualNetworkClient) getReverseConnectionNatIp(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ReverseConnectionNatIp/GetReverseConnectionNatIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetReverseConnectionNatIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -13354,6 +13830,8 @@ func (client VirtualNetworkClient) getRouteTable(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RouteTable/GetRouteTable"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetRouteTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -13405,6 +13883,8 @@ func (client VirtualNetworkClient) getScanProxy(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ScanProxy/GetScanProxy"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetScanProxy", apiReferenceLink)
 		return response, err
 	}
 
@@ -13456,6 +13936,8 @@ func (client VirtualNetworkClient) getSecurityList(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/SecurityList/GetSecurityList"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetSecurityList", apiReferenceLink)
 		return response, err
 	}
 
@@ -13507,6 +13989,8 @@ func (client VirtualNetworkClient) getService(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Service/GetService"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetService", apiReferenceLink)
 		return response, err
 	}
 
@@ -13558,6 +14042,8 @@ func (client VirtualNetworkClient) getServiceGateway(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ServiceGateway/GetServiceGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetServiceGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -13609,6 +14095,8 @@ func (client VirtualNetworkClient) getSubnet(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/GetSubnet"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetSubnet", apiReferenceLink)
 		return response, err
 	}
 
@@ -13660,6 +14148,8 @@ func (client VirtualNetworkClient) getSubnetTopology(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/SubnetTopology/GetSubnetTopology"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetSubnetTopology", apiReferenceLink)
 		return response, err
 	}
 
@@ -13715,6 +14205,8 @@ func (client VirtualNetworkClient) getTunnelCpeDeviceConfig(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/TunnelCpeDeviceConfig/GetTunnelCpeDeviceConfig"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetTunnelCpeDeviceConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -13779,6 +14271,8 @@ func (client VirtualNetworkClient) getTunnelCpeDeviceConfigContent(ctx context.C
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/TunnelCpeDeviceConfig/GetTunnelCpeDeviceConfigContent"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetTunnelCpeDeviceConfigContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -13830,6 +14324,8 @@ func (client VirtualNetworkClient) getUpgradeStatus(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/GetUpgradeStatus"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetUpgradeStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -13881,6 +14377,8 @@ func (client VirtualNetworkClient) getVcn(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/GetVcn"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVcn", apiReferenceLink)
 		return response, err
 	}
 
@@ -13932,6 +14430,8 @@ func (client VirtualNetworkClient) getVcnDnsResolverAssociation(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VcnDnsResolverAssociation/GetVcnDnsResolverAssociation"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVcnDnsResolverAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -13983,6 +14483,8 @@ func (client VirtualNetworkClient) getVcnDrg(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/GetVcnDrg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVcnDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -14034,6 +14536,8 @@ func (client VirtualNetworkClient) getVcnDrgAttachment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/GetVcnDrgAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVcnDrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -14085,6 +14589,8 @@ func (client VirtualNetworkClient) getVcnTopology(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VcnTopology/GetVcnTopology"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVcnTopology", apiReferenceLink)
 		return response, err
 	}
 
@@ -14136,6 +14642,8 @@ func (client VirtualNetworkClient) getVirtualCircuit(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuit/GetVirtualCircuit"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVirtualCircuit", apiReferenceLink)
 		return response, err
 	}
 
@@ -14187,6 +14695,8 @@ func (client VirtualNetworkClient) getVlan(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vlan/GetVlan"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVlan", apiReferenceLink)
 		return response, err
 	}
 
@@ -14241,6 +14751,8 @@ func (client VirtualNetworkClient) getVnic(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vnic/GetVnic"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVnic", apiReferenceLink)
 		return response, err
 	}
 
@@ -14292,6 +14804,8 @@ func (client VirtualNetworkClient) getVnicWorker(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicWorker/GetVnicWorker"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVnicWorker", apiReferenceLink)
 		return response, err
 	}
 
@@ -14343,6 +14857,8 @@ func (client VirtualNetworkClient) getVtap(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vtap/GetVtap"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVtap", apiReferenceLink)
 		return response, err
 	}
 
@@ -14394,6 +14910,8 @@ func (client VirtualNetworkClient) listAdditionalRouteRules(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RouteTable/ListAdditionalRouteRules"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListAdditionalRouteRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -14446,6 +14964,8 @@ func (client VirtualNetworkClient) listAllowedPeerRegionsForRemotePeering(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PeerRegionForRemotePeering/ListAllowedPeerRegionsForRemotePeering"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListAllowedPeerRegionsForRemotePeering", apiReferenceLink)
 		return response, err
 	}
 
@@ -14498,6 +15018,8 @@ func (client VirtualNetworkClient) listByoipAllocatedRanges(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipAllocatedRangeSummary/ListByoipAllocatedRanges"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListByoipAllocatedRanges", apiReferenceLink)
 		return response, err
 	}
 
@@ -14550,6 +15072,8 @@ func (client VirtualNetworkClient) listByoipRanges(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/ListByoipRanges"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListByoipRanges", apiReferenceLink)
 		return response, err
 	}
 
@@ -14604,6 +15128,8 @@ func (client VirtualNetworkClient) listC3DrgAttachments(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/ListC3DrgAttachments"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListC3DrgAttachments", apiReferenceLink)
 		return response, err
 	}
 
@@ -14655,6 +15181,8 @@ func (client VirtualNetworkClient) listC3Drgs(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/ListC3Drgs"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListC3Drgs", apiReferenceLink)
 		return response, err
 	}
 
@@ -14706,6 +15234,8 @@ func (client VirtualNetworkClient) listCaptureFilters(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CaptureFilter/ListCaptureFilters"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListCaptureFilters", apiReferenceLink)
 		return response, err
 	}
 
@@ -14757,6 +15287,8 @@ func (client VirtualNetworkClient) listClientVpnUsers(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpnUser/ListClientVpnUsers"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListClientVpnUsers", apiReferenceLink)
 		return response, err
 	}
 
@@ -14808,6 +15340,8 @@ func (client VirtualNetworkClient) listClientVpns(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpn/ListClientVpns"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListClientVpns", apiReferenceLink)
 		return response, err
 	}
 
@@ -14868,6 +15402,8 @@ func (client VirtualNetworkClient) listCpeDeviceShapes(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CpeDeviceShapeSummary/ListCpeDeviceShapes"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListCpeDeviceShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -14919,6 +15455,8 @@ func (client VirtualNetworkClient) listCpes(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Cpe/ListCpes"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListCpes", apiReferenceLink)
 		return response, err
 	}
 
@@ -14970,6 +15508,8 @@ func (client VirtualNetworkClient) listCrossConnectGroups(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectGroup/ListCrossConnectGroups"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListCrossConnectGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -15022,6 +15562,8 @@ func (client VirtualNetworkClient) listCrossConnectLocations(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectLocation/ListCrossConnectLocations"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListCrossConnectLocations", apiReferenceLink)
 		return response, err
 	}
 
@@ -15074,6 +15616,8 @@ func (client VirtualNetworkClient) listCrossConnectMappings(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectMappingDetailsCollection/ListCrossConnectMappings"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListCrossConnectMappings", apiReferenceLink)
 		return response, err
 	}
 
@@ -15126,6 +15670,8 @@ func (client VirtualNetworkClient) listCrossConnects(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnect/ListCrossConnects"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListCrossConnects", apiReferenceLink)
 		return response, err
 	}
 
@@ -15179,6 +15725,8 @@ func (client VirtualNetworkClient) listCrossconnectPortSpeedShapes(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectPortSpeedShape/ListCrossconnectPortSpeedShapes"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListCrossconnectPortSpeedShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -15230,6 +15778,8 @@ func (client VirtualNetworkClient) listDavs(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Dav/ListDavs"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListDavs", apiReferenceLink)
 		return response, err
 	}
 
@@ -15284,6 +15834,8 @@ func (client VirtualNetworkClient) listDhcpOptions(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DhcpOptions/ListDhcpOptions"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListDhcpOptions", apiReferenceLink)
 		return response, err
 	}
 
@@ -15339,6 +15891,8 @@ func (client VirtualNetworkClient) listDrgAttachments(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/ListDrgAttachments"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListDrgAttachments", apiReferenceLink)
 		return response, err
 	}
 
@@ -15390,6 +15944,8 @@ func (client VirtualNetworkClient) listDrgRouteDistributionStatements(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteDistributionStatement/ListDrgRouteDistributionStatements"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListDrgRouteDistributionStatements", apiReferenceLink)
 		return response, err
 	}
 
@@ -15443,6 +15999,8 @@ func (client VirtualNetworkClient) listDrgRouteDistributions(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteDistribution/ListDrgRouteDistributions"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListDrgRouteDistributions", apiReferenceLink)
 		return response, err
 	}
 
@@ -15494,6 +16052,8 @@ func (client VirtualNetworkClient) listDrgRouteRules(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteRule/ListDrgRouteRules"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListDrgRouteRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -15546,6 +16106,8 @@ func (client VirtualNetworkClient) listDrgRouteTables(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteTable/ListDrgRouteTables"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListDrgRouteTables", apiReferenceLink)
 		return response, err
 	}
 
@@ -15597,6 +16159,8 @@ func (client VirtualNetworkClient) listDrgs(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/ListDrgs"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListDrgs", apiReferenceLink)
 		return response, err
 	}
 
@@ -15648,6 +16212,8 @@ func (client VirtualNetworkClient) listDrgsByStates(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/ListDrgsByStates"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListDrgsByStates", apiReferenceLink)
 		return response, err
 	}
 
@@ -15700,6 +16266,8 @@ func (client VirtualNetworkClient) listEndpointServices(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/EndpointServiceSummary/ListEndpointServices"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListEndpointServices", apiReferenceLink)
 		return response, err
 	}
 
@@ -15755,6 +16323,8 @@ func (client VirtualNetworkClient) listFastConnectProviderServices(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FastConnectProviderService/ListFastConnectProviderServices"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListFastConnectProviderServices", apiReferenceLink)
 		return response, err
 	}
 
@@ -15808,6 +16378,8 @@ func (client VirtualNetworkClient) listFastConnectProviderVirtualCircuitBandwidt
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FastConnectProviderService/ListFastConnectProviderVirtualCircuitBandwidthShapes"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListFastConnectProviderVirtualCircuitBandwidthShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -15860,6 +16432,8 @@ func (client VirtualNetworkClient) listFlowLogConfigAttachments(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FlowLogConfigAttachment/ListFlowLogConfigAttachments"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListFlowLogConfigAttachments", apiReferenceLink)
 		return response, err
 	}
 
@@ -15911,6 +16485,8 @@ func (client VirtualNetworkClient) listFlowLogConfigs(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FlowLogConfig/ListFlowLogConfigs"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListFlowLogConfigs", apiReferenceLink)
 		return response, err
 	}
 
@@ -15962,6 +16538,8 @@ func (client VirtualNetworkClient) listIPSecConnectionTunnelRoutes(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/TunnelRouteSummary/ListIPSecConnectionTunnelRoutes"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListIPSecConnectionTunnelRoutes", apiReferenceLink)
 		return response, err
 	}
 
@@ -16013,6 +16591,8 @@ func (client VirtualNetworkClient) listIPSecConnectionTunnelSecurityAssociations
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/TunnelSecurityAssociationSummary/ListIPSecConnectionTunnelSecurityAssociations"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListIPSecConnectionTunnelSecurityAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -16064,6 +16644,8 @@ func (client VirtualNetworkClient) listIPSecConnectionTunnels(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnel/ListIPSecConnectionTunnels"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListIPSecConnectionTunnels", apiReferenceLink)
 		return response, err
 	}
 
@@ -16116,6 +16698,8 @@ func (client VirtualNetworkClient) listIPSecConnections(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnection/ListIPSecConnections"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListIPSecConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -16168,6 +16752,8 @@ func (client VirtualNetworkClient) listInternalDnsRecords(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDnsRecord/ListInternalDnsRecords"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalDnsRecords", apiReferenceLink)
 		return response, err
 	}
 
@@ -16220,6 +16806,8 @@ func (client VirtualNetworkClient) listInternalDrgAttachments(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrgAttachment/ListInternalDrgAttachments"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalDrgAttachments", apiReferenceLink)
 		return response, err
 	}
 
@@ -16271,6 +16859,8 @@ func (client VirtualNetworkClient) listInternalDrgs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrg/ListInternalDrgs"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalDrgs", apiReferenceLink)
 		return response, err
 	}
 
@@ -16322,6 +16912,8 @@ func (client VirtualNetworkClient) listInternalGenericGateways(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalGenericGateway/ListInternalGenericGateways"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalGenericGateways", apiReferenceLink)
 		return response, err
 	}
 
@@ -16388,6 +16980,8 @@ func (client VirtualNetworkClient) listInternalPublicIps(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPublicIp/ListInternalPublicIps"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalPublicIps", apiReferenceLink)
 		return response, err
 	}
 
@@ -16439,6 +17033,8 @@ func (client VirtualNetworkClient) listInternalVnicAttachments(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/ListInternalVnicAttachments"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalVnicAttachments", apiReferenceLink)
 		return response, err
 	}
 
@@ -16490,6 +17086,8 @@ func (client VirtualNetworkClient) listInternalVnics(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnic/ListInternalVnics"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalVnics", apiReferenceLink)
 		return response, err
 	}
 
@@ -16542,6 +17140,8 @@ func (client VirtualNetworkClient) listInternetGateways(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternetGateway/ListInternetGateways"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternetGateways", apiReferenceLink)
 		return response, err
 	}
 
@@ -16599,6 +17199,8 @@ func (client VirtualNetworkClient) listIpv6s(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Ipv6/ListIpv6s"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListIpv6s", apiReferenceLink)
 		return response, err
 	}
 
@@ -16650,6 +17252,8 @@ func (client VirtualNetworkClient) listLocalPeeringConnections(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LocalPeeringConnection/ListLocalPeeringConnections"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListLocalPeeringConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -16702,6 +17306,8 @@ func (client VirtualNetworkClient) listLocalPeeringGateways(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LocalPeeringGateway/ListLocalPeeringGateways"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListLocalPeeringGateways", apiReferenceLink)
 		return response, err
 	}
 
@@ -16754,6 +17360,8 @@ func (client VirtualNetworkClient) listNatGateways(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NatGateway/ListNatGateways"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListNatGateways", apiReferenceLink)
 		return response, err
 	}
 
@@ -16805,6 +17413,8 @@ func (client VirtualNetworkClient) listNetworkSecurityGroupSecurityRules(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/SecurityRule/ListNetworkSecurityGroupSecurityRules"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListNetworkSecurityGroupSecurityRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -16856,6 +17466,8 @@ func (client VirtualNetworkClient) listNetworkSecurityGroupVnics(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroupVnic/ListNetworkSecurityGroupVnics"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListNetworkSecurityGroupVnics", apiReferenceLink)
 		return response, err
 	}
 
@@ -16908,6 +17520,8 @@ func (client VirtualNetworkClient) listNetworkSecurityGroups(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/ListNetworkSecurityGroups"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListNetworkSecurityGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -16959,6 +17573,8 @@ func (client VirtualNetworkClient) listNextHops(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/EndpointServiceNextHop/ListNextHops"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListNextHops", apiReferenceLink)
 		return response, err
 	}
 
@@ -17011,6 +17627,8 @@ func (client VirtualNetworkClient) listPrivateAccessGateways(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateAccessGatewaySummary/ListPrivateAccessGateways"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListPrivateAccessGateways", apiReferenceLink)
 		return response, err
 	}
 
@@ -17065,6 +17683,8 @@ func (client VirtualNetworkClient) listPrivateEndpointAssociations(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateEndpointAssociation/ListPrivateEndpointAssociations"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListPrivateEndpointAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -17117,6 +17737,8 @@ func (client VirtualNetworkClient) listPrivateEndpoints(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateEndpointSummary/ListPrivateEndpoints"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListPrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
 
@@ -17180,6 +17802,8 @@ func (client VirtualNetworkClient) listPrivateIps(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/ListPrivateIps"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListPrivateIps", apiReferenceLink)
 		return response, err
 	}
 
@@ -17232,6 +17856,8 @@ func (client VirtualNetworkClient) listPublicIpPools(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpPool/ListPublicIpPools"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListPublicIpPools", apiReferenceLink)
 		return response, err
 	}
 
@@ -17298,6 +17924,8 @@ func (client VirtualNetworkClient) listPublicIps(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/ListPublicIps"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListPublicIps", apiReferenceLink)
 		return response, err
 	}
 
@@ -17350,6 +17978,8 @@ func (client VirtualNetworkClient) listRemotePeeringConnections(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RemotePeeringConnection/ListRemotePeeringConnections"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListRemotePeeringConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -17401,6 +18031,8 @@ func (client VirtualNetworkClient) listReverseConnectionNatIpCidrs(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ReverseConnectionNatIpCidrSummary/ListReverseConnectionNatIpCidrs"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListReverseConnectionNatIpCidrs", apiReferenceLink)
 		return response, err
 	}
 
@@ -17453,6 +18085,8 @@ func (client VirtualNetworkClient) listReverseConnectionNatIps(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ReverseConnectionNatIp/ListReverseConnectionNatIps"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListReverseConnectionNatIps", apiReferenceLink)
 		return response, err
 	}
 
@@ -17507,6 +18141,8 @@ func (client VirtualNetworkClient) listRouteTables(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RouteTable/ListRouteTables"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListRouteTables", apiReferenceLink)
 		return response, err
 	}
 
@@ -17558,6 +18194,8 @@ func (client VirtualNetworkClient) listScanProxies(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ScanProxy/ListScanProxies"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListScanProxies", apiReferenceLink)
 		return response, err
 	}
 
@@ -17610,6 +18248,8 @@ func (client VirtualNetworkClient) listSecurityLists(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/SecurityList/ListSecurityLists"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListSecurityLists", apiReferenceLink)
 		return response, err
 	}
 
@@ -17662,6 +18302,8 @@ func (client VirtualNetworkClient) listServiceGateways(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ServiceGateway/ListServiceGateways"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListServiceGateways", apiReferenceLink)
 		return response, err
 	}
 
@@ -17714,6 +18356,8 @@ func (client VirtualNetworkClient) listServices(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Service/ListServices"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListServices", apiReferenceLink)
 		return response, err
 	}
 
@@ -17766,6 +18410,8 @@ func (client VirtualNetworkClient) listSubnets(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/ListSubnets"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListSubnets", apiReferenceLink)
 		return response, err
 	}
 
@@ -17821,6 +18467,8 @@ func (client VirtualNetworkClient) listVcnDrgAttachments(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/ListVcnDrgAttachments"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVcnDrgAttachments", apiReferenceLink)
 		return response, err
 	}
 
@@ -17872,6 +18520,8 @@ func (client VirtualNetworkClient) listVcnDrgs(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/ListVcnDrgs"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVcnDrgs", apiReferenceLink)
 		return response, err
 	}
 
@@ -17923,6 +18573,8 @@ func (client VirtualNetworkClient) listVcns(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/ListVcns"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVcns", apiReferenceLink)
 		return response, err
 	}
 
@@ -17974,6 +18626,8 @@ func (client VirtualNetworkClient) listVirtualCircuitBandwidthShapes(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuitBandwidthShape/ListVirtualCircuitBandwidthShapes"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVirtualCircuitBandwidthShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -18026,6 +18680,8 @@ func (client VirtualNetworkClient) listVirtualCircuitPublicPrefixes(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuitPublicPrefix/ListVirtualCircuitPublicPrefixes"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVirtualCircuitPublicPrefixes", apiReferenceLink)
 		return response, err
 	}
 
@@ -18077,6 +18733,8 @@ func (client VirtualNetworkClient) listVirtualCircuits(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuit/ListVirtualCircuits"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVirtualCircuits", apiReferenceLink)
 		return response, err
 	}
 
@@ -18128,6 +18786,8 @@ func (client VirtualNetworkClient) listVlans(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vlan/ListVlans"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVlans", apiReferenceLink)
 		return response, err
 	}
 
@@ -18181,6 +18841,8 @@ func (client VirtualNetworkClient) listVnicWorkers(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicWorker/ListVnicWorkers"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVnicWorkers", apiReferenceLink)
 		return response, err
 	}
 
@@ -18232,6 +18894,8 @@ func (client VirtualNetworkClient) listVtaps(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vtap/ListVtaps"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVtaps", apiReferenceLink)
 		return response, err
 	}
 
@@ -18284,6 +18948,8 @@ func (client VirtualNetworkClient) migrateDrg(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrg/MigrateDrg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "MigrateDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -18340,6 +19006,8 @@ func (client VirtualNetworkClient) migrateIPSecConnection(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnection/MigrateIPSecConnection"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "MigrateIPSecConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -18391,6 +19059,8 @@ func (client VirtualNetworkClient) modifyReverseConnections(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateEndpoint/ModifyReverseConnections"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ModifyReverseConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -18453,6 +19123,8 @@ func (client VirtualNetworkClient) modifyVcnCidr(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/ModifyVcnCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ModifyVcnCidr", apiReferenceLink)
 		return response, err
 	}
 
@@ -18504,6 +19176,8 @@ func (client VirtualNetworkClient) removeAdditionalRouteRules(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RouteTable/RemoveAdditionalRouteRules"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveAdditionalRouteRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -18555,6 +19229,8 @@ func (client VirtualNetworkClient) removeDrgPeeringConnection(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveDrgPeeringConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -18606,6 +19282,8 @@ func (client VirtualNetworkClient) removeDrgRouteDistributionStatements(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteDistributionStatement/RemoveDrgRouteDistributionStatements"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveDrgRouteDistributionStatements", apiReferenceLink)
 		return response, err
 	}
 
@@ -18657,6 +19335,8 @@ func (client VirtualNetworkClient) removeDrgRouteRules(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteRule/RemoveDrgRouteRules"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveDrgRouteRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -18708,6 +19388,8 @@ func (client VirtualNetworkClient) removeExportDrgRouteDistribution(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/RemoveExportDrgRouteDistribution"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveExportDrgRouteDistribution", apiReferenceLink)
 		return response, err
 	}
 
@@ -18760,6 +19442,8 @@ func (client VirtualNetworkClient) removeImportDrgRouteDistribution(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteTable/RemoveImportDrgRouteDistribution"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveImportDrgRouteDistribution", apiReferenceLink)
 		return response, err
 	}
 
@@ -18816,6 +19500,8 @@ func (client VirtualNetworkClient) removeIpv6VcnCidr(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/RemoveIpv6VcnCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveIpv6VcnCidr", apiReferenceLink)
 		return response, err
 	}
 
@@ -18867,6 +19553,8 @@ func (client VirtualNetworkClient) removeNetworkSecurityGroupSecurityRules(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/SecurityRule/RemoveNetworkSecurityGroupSecurityRules"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveNetworkSecurityGroupSecurityRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -18923,6 +19611,8 @@ func (client VirtualNetworkClient) removePublicIpPoolCapacity(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpPool/RemovePublicIpPoolCapacity"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemovePublicIpPoolCapacity", apiReferenceLink)
 		return response, err
 	}
 
@@ -18982,6 +19672,8 @@ func (client VirtualNetworkClient) removeVcnCidr(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/RemoveVcnCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveVcnCidr", apiReferenceLink)
 		return response, err
 	}
 
@@ -19038,6 +19730,8 @@ func (client VirtualNetworkClient) rollbackDrgMigration(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RollbackDrgMigration/RollbackDrgMigration"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RollbackDrgMigration", apiReferenceLink)
 		return response, err
 	}
 
@@ -19094,6 +19788,8 @@ func (client VirtualNetworkClient) rollbackIPSecConnection(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnection/RollbackIPSecConnection"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RollbackIPSecConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -19150,6 +19846,8 @@ func (client VirtualNetworkClient) rollbackUpgradeDrg(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/RollbackUpgradeDrg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RollbackUpgradeDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -19207,6 +19905,8 @@ func (client VirtualNetworkClient) routeVnicIngressTrafficToDestinationSmartNic(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/RouteVnicIngressTrafficToDestinationSmartNic"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RouteVnicIngressTrafficToDestinationSmartNic", apiReferenceLink)
 		return response, err
 	}
 
@@ -19258,6 +19958,8 @@ func (client VirtualNetworkClient) setDrgPeeringConnection(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "SetDrgPeeringConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -19309,6 +20011,8 @@ func (client VirtualNetworkClient) undrainVnicWorker(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicWorker/UndrainVnicWorker"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UndrainVnicWorker", apiReferenceLink)
 		return response, err
 	}
 
@@ -19360,6 +20064,8 @@ func (client VirtualNetworkClient) updateByoipRange(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/UpdateByoipRange"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateByoipRange", apiReferenceLink)
 		return response, err
 	}
 
@@ -19411,6 +20117,8 @@ func (client VirtualNetworkClient) updateC3Drg(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/UpdateC3Drg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateC3Drg", apiReferenceLink)
 		return response, err
 	}
 
@@ -19463,6 +20171,8 @@ func (client VirtualNetworkClient) updateC3DrgAttachment(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/UpdateC3DrgAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateC3DrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -19514,6 +20224,8 @@ func (client VirtualNetworkClient) updateCaptureFilter(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CaptureFilter/UpdateCaptureFilter"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateCaptureFilter", apiReferenceLink)
 		return response, err
 	}
 
@@ -19570,6 +20282,8 @@ func (client VirtualNetworkClient) updateClientVpn(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpn/UpdateClientVpn"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateClientVpn", apiReferenceLink)
 		return response, err
 	}
 
@@ -19621,6 +20335,8 @@ func (client VirtualNetworkClient) updateClientVpnUser(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpnUser/UpdateClientVpnUser"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateClientVpnUser", apiReferenceLink)
 		return response, err
 	}
 
@@ -19673,6 +20389,8 @@ func (client VirtualNetworkClient) updateCpe(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Cpe/UpdateCpe"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateCpe", apiReferenceLink)
 		return response, err
 	}
 
@@ -19724,6 +20442,8 @@ func (client VirtualNetworkClient) updateCrossConnect(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnect/UpdateCrossConnect"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateCrossConnect", apiReferenceLink)
 		return response, err
 	}
 
@@ -19776,6 +20496,8 @@ func (client VirtualNetworkClient) updateCrossConnectGroup(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectGroup/UpdateCrossConnectGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateCrossConnectGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -19832,6 +20554,8 @@ func (client VirtualNetworkClient) updateDav(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Dav/UpdateDav"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateDav", apiReferenceLink)
 		return response, err
 	}
 
@@ -19885,6 +20609,8 @@ func (client VirtualNetworkClient) updateDhcpOptions(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DhcpOptions/UpdateDhcpOptions"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateDhcpOptions", apiReferenceLink)
 		return response, err
 	}
 
@@ -19936,6 +20662,8 @@ func (client VirtualNetworkClient) updateDrg(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/UpdateDrg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -19988,6 +20716,8 @@ func (client VirtualNetworkClient) updateDrgAttachment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/UpdateDrgAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateDrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -20039,6 +20769,8 @@ func (client VirtualNetworkClient) updateDrgRouteDistribution(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteDistribution/UpdateDrgRouteDistribution"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateDrgRouteDistribution", apiReferenceLink)
 		return response, err
 	}
 
@@ -20090,6 +20822,8 @@ func (client VirtualNetworkClient) updateDrgRouteDistributionStatements(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteDistributionStatement/UpdateDrgRouteDistributionStatements"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateDrgRouteDistributionStatements", apiReferenceLink)
 		return response, err
 	}
 
@@ -20141,6 +20875,8 @@ func (client VirtualNetworkClient) updateDrgRouteRules(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteRule/UpdateDrgRouteRules"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateDrgRouteRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -20192,6 +20928,8 @@ func (client VirtualNetworkClient) updateDrgRouteTable(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteTable/UpdateDrgRouteTable"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateDrgRouteTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -20243,6 +20981,8 @@ func (client VirtualNetworkClient) updateEndpointService(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/EndpointService/UpdateEndpointService"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateEndpointService", apiReferenceLink)
 		return response, err
 	}
 
@@ -20299,6 +21039,8 @@ func (client VirtualNetworkClient) updateEndpointServiceNextHop(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/EndpointServiceNextHop/UpdateEndpointServiceNextHop"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateEndpointServiceNextHop", apiReferenceLink)
 		return response, err
 	}
 
@@ -20350,6 +21092,8 @@ func (client VirtualNetworkClient) updateFlowLogConfig(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FlowLogConfig/UpdateFlowLogConfig"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateFlowLogConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -20401,6 +21145,8 @@ func (client VirtualNetworkClient) updateFlowLogConfigAttachment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FlowLogConfigAttachment/UpdateFlowLogConfigAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateFlowLogConfigAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -20454,6 +21200,8 @@ func (client VirtualNetworkClient) updateIPSecConnection(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnection/UpdateIPSecConnection"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateIPSecConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -20513,6 +21261,8 @@ func (client VirtualNetworkClient) updateIPSecConnectionTunnel(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnel/UpdateIPSecConnectionTunnel"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateIPSecConnectionTunnel", apiReferenceLink)
 		return response, err
 	}
 
@@ -20565,6 +21315,8 @@ func (client VirtualNetworkClient) updateIPSecConnectionTunnelSharedSecret(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnelSharedSecret/UpdateIPSecConnectionTunnelSharedSecret"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateIPSecConnectionTunnelSharedSecret", apiReferenceLink)
 		return response, err
 	}
 
@@ -20617,6 +21369,8 @@ func (client VirtualNetworkClient) updateInternalDnsRecord(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDnsRecord/UpdateInternalDnsRecord"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalDnsRecord", apiReferenceLink)
 		return response, err
 	}
 
@@ -20668,6 +21422,8 @@ func (client VirtualNetworkClient) updateInternalDrg(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrg/UpdateInternalDrg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -20720,6 +21476,8 @@ func (client VirtualNetworkClient) updateInternalDrgAttachment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrgAttachment/UpdateInternalDrgAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalDrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -20766,6 +21524,8 @@ func (client VirtualNetworkClient) updateInternalGenericGateway(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalGenericGateway/UpdateInternalGenericGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalGenericGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -20847,6 +21607,8 @@ func (client VirtualNetworkClient) updateInternalPublicIp(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPublicIp/UpdateInternalPublicIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalPublicIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -20898,6 +21660,8 @@ func (client VirtualNetworkClient) updateInternalVnic(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnic/UpdateInternalVnic"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalVnic", apiReferenceLink)
 		return response, err
 	}
 
@@ -20954,6 +21718,8 @@ func (client VirtualNetworkClient) updateInternalVnicMetadata(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/UpdateInternalVnicMetadata"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalVnicMetadata", apiReferenceLink)
 		return response, err
 	}
 
@@ -21008,6 +21774,8 @@ func (client VirtualNetworkClient) updateInternetGateway(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternetGateway/UpdateInternetGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternetGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -21064,6 +21832,8 @@ func (client VirtualNetworkClient) updateIpv6(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Ipv6/UpdateIpv6"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateIpv6", apiReferenceLink)
 		return response, err
 	}
 
@@ -21115,6 +21885,8 @@ func (client VirtualNetworkClient) updateLocalPeeringConnection(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LocalPeeringConnection/UpdateLocalPeeringConnection"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateLocalPeeringConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -21166,6 +21938,8 @@ func (client VirtualNetworkClient) updateLocalPeeringGateway(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LocalPeeringGateway/UpdateLocalPeeringGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateLocalPeeringGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -21217,6 +21991,8 @@ func (client VirtualNetworkClient) updateNatGateway(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NatGateway/UpdateNatGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateNatGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -21278,6 +22054,8 @@ func (client VirtualNetworkClient) updateNetworkSecurityGroup(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/UpdateNetworkSecurityGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateNetworkSecurityGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -21329,6 +22107,8 @@ func (client VirtualNetworkClient) updateNetworkSecurityGroupSecurityRules(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/SecurityRule/UpdateNetworkSecurityGroupSecurityRules"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateNetworkSecurityGroupSecurityRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -21380,6 +22160,8 @@ func (client VirtualNetworkClient) updatePrivateAccessGateway(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateAccessGateway/UpdatePrivateAccessGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdatePrivateAccessGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -21431,6 +22213,8 @@ func (client VirtualNetworkClient) updatePrivateEndpoint(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateEndpoint/UpdatePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdatePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -21489,6 +22273,8 @@ func (client VirtualNetworkClient) updatePrivateIp(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/UpdatePrivateIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdatePrivateIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -21540,6 +22326,8 @@ func (client VirtualNetworkClient) updatePrivateIpNextHop(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIpNextHop/UpdatePrivateIpNextHop"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdatePrivateIpNextHop", apiReferenceLink)
 		return response, err
 	}
 
@@ -21622,6 +22410,8 @@ func (client VirtualNetworkClient) updatePublicIp(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/UpdatePublicIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdatePublicIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -21673,6 +22463,8 @@ func (client VirtualNetworkClient) updatePublicIpPool(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpPool/UpdatePublicIpPool"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdatePublicIpPool", apiReferenceLink)
 		return response, err
 	}
 
@@ -21724,6 +22516,8 @@ func (client VirtualNetworkClient) updateRemotePeeringConnection(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RemotePeeringConnection/UpdateRemotePeeringConnection"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateRemotePeeringConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -21780,6 +22574,8 @@ func (client VirtualNetworkClient) updateResourcePool(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateResourcePool", apiReferenceLink)
 		return response, err
 	}
 
@@ -21833,6 +22629,8 @@ func (client VirtualNetworkClient) updateRouteTable(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RouteTable/UpdateRouteTable"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateRouteTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -21884,6 +22682,8 @@ func (client VirtualNetworkClient) updateScanProxy(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ScanProxy/UpdateScanProxy"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateScanProxy", apiReferenceLink)
 		return response, err
 	}
 
@@ -21938,6 +22738,8 @@ func (client VirtualNetworkClient) updateSecurityList(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/SecurityList/UpdateSecurityList"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateSecurityList", apiReferenceLink)
 		return response, err
 	}
 
@@ -21990,6 +22792,8 @@ func (client VirtualNetworkClient) updateServiceGateway(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ServiceGateway/UpdateServiceGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateServiceGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -22041,6 +22845,8 @@ func (client VirtualNetworkClient) updateSubnet(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/UpdateSubnet"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateSubnet", apiReferenceLink)
 		return response, err
 	}
 
@@ -22099,6 +22905,8 @@ func (client VirtualNetworkClient) updateTunnelCpeDeviceConfig(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/TunnelCpeDeviceConfig/UpdateTunnelCpeDeviceConfig"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateTunnelCpeDeviceConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -22150,6 +22958,8 @@ func (client VirtualNetworkClient) updateVcn(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/UpdateVcn"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVcn", apiReferenceLink)
 		return response, err
 	}
 
@@ -22201,6 +23011,8 @@ func (client VirtualNetworkClient) updateVcnDrg(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/UpdateVcnDrg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVcnDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -22253,6 +23065,8 @@ func (client VirtualNetworkClient) updateVcnDrgAttachment(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/UpdateVcnDrgAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVcnDrgAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -22325,6 +23139,8 @@ func (client VirtualNetworkClient) updateVirtualCircuit(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuit/UpdateVirtualCircuit"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVirtualCircuit", apiReferenceLink)
 		return response, err
 	}
 
@@ -22377,6 +23193,8 @@ func (client VirtualNetworkClient) updateVlan(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vlan/UpdateVlan"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVlan", apiReferenceLink)
 		return response, err
 	}
 
@@ -22428,6 +23246,8 @@ func (client VirtualNetworkClient) updateVnic(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vnic/UpdateVnic"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVnic", apiReferenceLink)
 		return response, err
 	}
 
@@ -22484,6 +23304,8 @@ func (client VirtualNetworkClient) updateVnicShape(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/UpdateVnicShape"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVnicShape", apiReferenceLink)
 		return response, err
 	}
 
@@ -22535,6 +23357,8 @@ func (client VirtualNetworkClient) updateVnicWorker(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicWorker/UpdateVnicWorker"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVnicWorker", apiReferenceLink)
 		return response, err
 	}
 
@@ -22586,6 +23410,8 @@ func (client VirtualNetworkClient) updateVtap(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVtap", apiReferenceLink)
 		return response, err
 	}
 
@@ -22643,6 +23469,8 @@ func (client VirtualNetworkClient) upgradeDrg(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/UpgradeDrg"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpgradeDrg", apiReferenceLink)
 		return response, err
 	}
 
@@ -22695,6 +23523,8 @@ func (client VirtualNetworkClient) validateByoipRange(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/ValidateByoipRange"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ValidateByoipRange", apiReferenceLink)
 		return response, err
 	}
 
@@ -22749,6 +23579,8 @@ func (client VirtualNetworkClient) validateCreateAndAttachVnicRequest(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnic/ValidateCreateAndAttachVnicRequest"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ValidateCreateAndAttachVnicRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -22800,6 +23632,8 @@ func (client VirtualNetworkClient) validateDrgRoutes(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ValidationStatusInfo/ValidateDrgRoutes"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ValidateDrgRoutes", apiReferenceLink)
 		return response, err
 	}
 
@@ -22851,6 +23685,8 @@ func (client VirtualNetworkClient) withdrawByoipRange(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/WithdrawByoipRange"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "WithdrawByoipRange", apiReferenceLink)
 		return response, err
 	}
 

@@ -130,6 +130,8 @@ func (client AppmgmtControlClient) activateMonitoringPlugin(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AppmgmtControl", "ActivateMonitoringPlugin", apiReferenceLink)
 		return response, err
 	}
 
@@ -181,6 +183,8 @@ func (client AppmgmtControlClient) getMonitoredInstance(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AppmgmtControl", "GetMonitoredInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -232,6 +236,8 @@ func (client AppmgmtControlClient) getWorkRequest(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AppmgmtControl", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -283,6 +289,8 @@ func (client AppmgmtControlClient) listMonitoredInstances(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AppmgmtControl", "ListMonitoredInstances", apiReferenceLink)
 		return response, err
 	}
 
@@ -334,6 +342,8 @@ func (client AppmgmtControlClient) listWorkRequestErrors(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AppmgmtControl", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -385,6 +395,8 @@ func (client AppmgmtControlClient) listWorkRequestLogs(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AppmgmtControl", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -436,6 +448,8 @@ func (client AppmgmtControlClient) listWorkRequests(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AppmgmtControl", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -492,6 +506,8 @@ func (client AppmgmtControlClient) publishTopProcessesMetrics(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AppmgmtControl", "PublishTopProcessesMetrics", apiReferenceLink)
 		return response, err
 	}
 

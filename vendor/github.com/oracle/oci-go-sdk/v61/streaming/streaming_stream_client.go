@@ -121,6 +121,8 @@ func (client StreamClient) consumerCommit(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/Group/ConsumerCommit"
+		err = common.PostProcessServiceError(err, "Stream", "ConsumerCommit", apiReferenceLink)
 		return response, err
 	}
 
@@ -173,6 +175,8 @@ func (client StreamClient) consumerHeartbeat(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/Group/ConsumerHeartbeat"
+		err = common.PostProcessServiceError(err, "Stream", "ConsumerHeartbeat", apiReferenceLink)
 		return response, err
 	}
 
@@ -229,6 +233,8 @@ func (client StreamClient) createCursor(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/Cursor/CreateCursor"
+		err = common.PostProcessServiceError(err, "Stream", "CreateCursor", apiReferenceLink)
 		return response, err
 	}
 
@@ -281,6 +287,8 @@ func (client StreamClient) createGroupCursor(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/Cursor/CreateGroupCursor"
+		err = common.PostProcessServiceError(err, "Stream", "CreateGroupCursor", apiReferenceLink)
 		return response, err
 	}
 
@@ -333,6 +341,8 @@ func (client StreamClient) getGroup(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/Group/GetGroup"
+		err = common.PostProcessServiceError(err, "Stream", "GetGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -387,6 +397,8 @@ func (client StreamClient) getMessages(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/Message/GetMessages"
+		err = common.PostProcessServiceError(err, "Stream", "GetMessages", apiReferenceLink)
 		return response, err
 	}
 
@@ -451,6 +463,8 @@ func (client StreamClient) putMessages(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/Message/PutMessages"
+		err = common.PostProcessServiceError(err, "Stream", "PutMessages", apiReferenceLink)
 		return response, err
 	}
 
@@ -503,6 +517,8 @@ func (client StreamClient) updateGroup(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/Group/UpdateGroup"
+		err = common.PostProcessServiceError(err, "Stream", "UpdateGroup", apiReferenceLink)
 		return response, err
 	}
 

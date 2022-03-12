@@ -135,6 +135,8 @@ func (client SqlTuningClient) cloneSqlTuningTask(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/CloneSqlTuningTask"
+		err = common.PostProcessServiceError(err, "SqlTuning", "CloneSqlTuningTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -191,6 +193,8 @@ func (client SqlTuningClient) dropSqlTuningTask(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/DropSqlTuningTask"
+		err = common.PostProcessServiceError(err, "SqlTuning", "DropSqlTuningTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -244,6 +248,8 @@ func (client SqlTuningClient) getExecutionPlanStatsComparision(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/GetExecutionPlanStatsComparision"
+		err = common.PostProcessServiceError(err, "SqlTuning", "GetExecutionPlanStatsComparision", apiReferenceLink)
 		return response, err
 	}
 
@@ -295,6 +301,8 @@ func (client SqlTuningClient) getSqlExecutionPlan(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/GetSqlExecutionPlan"
+		err = common.PostProcessServiceError(err, "SqlTuning", "GetSqlExecutionPlan", apiReferenceLink)
 		return response, err
 	}
 
@@ -346,6 +354,8 @@ func (client SqlTuningClient) getSqlTuningAdvisorTaskSummaryReport(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/GetSqlTuningAdvisorTaskSummaryReport"
+		err = common.PostProcessServiceError(err, "SqlTuning", "GetSqlTuningAdvisorTaskSummaryReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -397,6 +407,8 @@ func (client SqlTuningClient) listSqlTuningAdvisorTaskFindings(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListSqlTuningAdvisorTaskFindings"
+		err = common.PostProcessServiceError(err, "SqlTuning", "ListSqlTuningAdvisorTaskFindings", apiReferenceLink)
 		return response, err
 	}
 
@@ -449,6 +461,8 @@ func (client SqlTuningClient) listSqlTuningAdvisorTaskRecommendations(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListSqlTuningAdvisorTaskRecommendations"
+		err = common.PostProcessServiceError(err, "SqlTuning", "ListSqlTuningAdvisorTaskRecommendations", apiReferenceLink)
 		return response, err
 	}
 
@@ -500,6 +514,8 @@ func (client SqlTuningClient) listSqlTuningAdvisorTasks(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListSqlTuningAdvisorTasks"
+		err = common.PostProcessServiceError(err, "SqlTuning", "ListSqlTuningAdvisorTasks", apiReferenceLink)
 		return response, err
 	}
 
@@ -556,6 +572,8 @@ func (client SqlTuningClient) startSqlTuningTask(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/StartSqlTuningTask"
+		err = common.PostProcessServiceError(err, "SqlTuning", "StartSqlTuningTask", apiReferenceLink)
 		return response, err
 	}
 

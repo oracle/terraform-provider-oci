@@ -128,6 +128,8 @@ func (client HealthCheckServiceInfraDpHostClient) deleteHealthCheckServiceInfraD
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/DpHost/DeleteHealthCheckServiceInfraDpHost"
+		err = common.PostProcessServiceError(err, "HealthCheckServiceInfraDpHost", "DeleteHealthCheckServiceInfraDpHost", apiReferenceLink)
 		return response, err
 	}
 
@@ -179,6 +181,8 @@ func (client HealthCheckServiceInfraDpHostClient) getHealthCheckServiceInfraDpHo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/DpHost/GetHealthCheckServiceInfraDpHost"
+		err = common.PostProcessServiceError(err, "HealthCheckServiceInfraDpHost", "GetHealthCheckServiceInfraDpHost", apiReferenceLink)
 		return response, err
 	}
 
@@ -235,6 +239,8 @@ func (client HealthCheckServiceInfraDpHostClient) postHeartBeat(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/DpHost/PostHeartBeat"
+		err = common.PostProcessServiceError(err, "HealthCheckServiceInfraDpHost", "PostHeartBeat", apiReferenceLink)
 		return response, err
 	}
 
@@ -291,6 +297,8 @@ func (client HealthCheckServiceInfraDpHostClient) updateHealthCheckServiceInfraD
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/DpHost/UpdateHealthCheckServiceInfraDpHost"
+		err = common.PostProcessServiceError(err, "HealthCheckServiceInfraDpHost", "UpdateHealthCheckServiceInfraDpHost", apiReferenceLink)
 		return response, err
 	}
 

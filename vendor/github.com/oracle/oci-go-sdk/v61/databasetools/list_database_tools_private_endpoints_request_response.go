@@ -17,7 +17,7 @@ type ListDatabaseToolsPrivateEndpointsRequest struct {
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only resources their subnetId matches the given subnetId.
+	// A filter to return only resources their `subnetId` matches the specified `subnetId`.
 	SubnetId *string `mandatory:"false" contributesTo:"query" name:"subnetId"`
 
 	// The maximum number of items to return.
@@ -35,13 +35,13 @@ type ListDatabaseToolsPrivateEndpointsRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A filter to return only resources their type matches the given type.
+	// A filter to return only resources their `endpointServiceId` matches the specified `endpointServiceId`.
 	EndpointServiceId *string `mandatory:"false" contributesTo:"query" name:"endpointServiceId"`
 
-	// A filter to return only resources their lifecycleState matches the given lifecycleState.
+	// A filter to return only resources their `lifecycleState` matches the specified `lifecycleState`.
 	LifecycleState ListDatabaseToolsPrivateEndpointsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return only resources that match the entire display name given.
+	// A filter to return only resources that match the entire specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

@@ -134,6 +134,8 @@ func (client AnalyticsClient) changeAnalyticsInstanceCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/ChangeAnalyticsInstanceCompartment"
+		err = common.PostProcessServiceError(err, "Analytics", "ChangeAnalyticsInstanceCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -191,6 +193,8 @@ func (client AnalyticsClient) changeAnalyticsInstanceNetworkEndpoint(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/ChangeAnalyticsInstanceNetworkEndpoint"
+		err = common.PostProcessServiceError(err, "Analytics", "ChangeAnalyticsInstanceNetworkEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -248,6 +252,8 @@ func (client AnalyticsClient) createAnalyticsInstance(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Analytics", "CreateAnalyticsInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -305,6 +311,8 @@ func (client AnalyticsClient) createPrivateAccessChannel(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/CreatePrivateAccessChannel"
+		err = common.PostProcessServiceError(err, "Analytics", "CreatePrivateAccessChannel", apiReferenceLink)
 		return response, err
 	}
 
@@ -362,6 +370,8 @@ func (client AnalyticsClient) createVanityUrl(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/CreateVanityUrl"
+		err = common.PostProcessServiceError(err, "Analytics", "CreateVanityUrl", apiReferenceLink)
 		return response, err
 	}
 
@@ -419,6 +429,8 @@ func (client AnalyticsClient) deleteAnalyticsInstance(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/DeleteAnalyticsInstance"
+		err = common.PostProcessServiceError(err, "Analytics", "DeleteAnalyticsInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -475,6 +487,8 @@ func (client AnalyticsClient) deletePrivateAccessChannel(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/DeletePrivateAccessChannel"
+		err = common.PostProcessServiceError(err, "Analytics", "DeletePrivateAccessChannel", apiReferenceLink)
 		return response, err
 	}
 
@@ -531,6 +545,8 @@ func (client AnalyticsClient) deleteVanityUrl(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/DeleteVanityUrl"
+		err = common.PostProcessServiceError(err, "Analytics", "DeleteVanityUrl", apiReferenceLink)
 		return response, err
 	}
 
@@ -582,6 +598,8 @@ func (client AnalyticsClient) deleteWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/WorkRequest/DeleteWorkRequest"
+		err = common.PostProcessServiceError(err, "Analytics", "DeleteWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -633,6 +651,8 @@ func (client AnalyticsClient) getAnalyticsInstance(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/GetAnalyticsInstance"
+		err = common.PostProcessServiceError(err, "Analytics", "GetAnalyticsInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -684,6 +704,8 @@ func (client AnalyticsClient) getPrivateAccessChannel(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/GetPrivateAccessChannel"
+		err = common.PostProcessServiceError(err, "Analytics", "GetPrivateAccessChannel", apiReferenceLink)
 		return response, err
 	}
 
@@ -735,6 +757,8 @@ func (client AnalyticsClient) getWorkRequest(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "Analytics", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -786,6 +810,8 @@ func (client AnalyticsClient) listAnalyticsInstances(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstanceSummary/ListAnalyticsInstances"
+		err = common.PostProcessServiceError(err, "Analytics", "ListAnalyticsInstances", apiReferenceLink)
 		return response, err
 	}
 
@@ -837,6 +863,8 @@ func (client AnalyticsClient) listWorkRequestErrors(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "Analytics", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -888,6 +916,8 @@ func (client AnalyticsClient) listWorkRequestLogs(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/WorkRequestLog/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "Analytics", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -939,6 +969,8 @@ func (client AnalyticsClient) listWorkRequests(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/WorkRequestSummary/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "Analytics", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -996,6 +1028,8 @@ func (client AnalyticsClient) scaleAnalyticsInstance(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/ScaleAnalyticsInstance"
+		err = common.PostProcessServiceError(err, "Analytics", "ScaleAnalyticsInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1052,6 +1086,8 @@ func (client AnalyticsClient) setKmsKey(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/SetKmsKey"
+		err = common.PostProcessServiceError(err, "Analytics", "SetKmsKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -1109,6 +1145,8 @@ func (client AnalyticsClient) startAnalyticsInstance(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/StartAnalyticsInstance"
+		err = common.PostProcessServiceError(err, "Analytics", "StartAnalyticsInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1166,6 +1204,8 @@ func (client AnalyticsClient) stopAnalyticsInstance(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/StopAnalyticsInstance"
+		err = common.PostProcessServiceError(err, "Analytics", "StopAnalyticsInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1218,6 +1258,8 @@ func (client AnalyticsClient) updateAnalyticsInstance(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/UpdateAnalyticsInstance"
+		err = common.PostProcessServiceError(err, "Analytics", "UpdateAnalyticsInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1274,6 +1316,8 @@ func (client AnalyticsClient) updatePrivateAccessChannel(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/UpdatePrivateAccessChannel"
+		err = common.PostProcessServiceError(err, "Analytics", "UpdatePrivateAccessChannel", apiReferenceLink)
 		return response, err
 	}
 
@@ -1330,6 +1374,8 @@ func (client AnalyticsClient) updateVanityUrl(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/analytics/20190331/AnalyticsInstance/UpdateVanityUrl"
+		err = common.PostProcessServiceError(err, "Analytics", "UpdateVanityUrl", apiReferenceLink)
 		return response, err
 	}
 

@@ -14,7 +14,7 @@ import (
 // ChangeDatabaseToolsConnectionCompartmentRequest wrapper for the ChangeDatabaseToolsConnectionCompartment operation
 type ChangeDatabaseToolsConnectionCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a DatabaseToolsConnection.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools connection.
 	DatabaseToolsConnectionId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsConnectionId"`
 
 	// Request to change the compartment of the DatabaseToolsConnection.

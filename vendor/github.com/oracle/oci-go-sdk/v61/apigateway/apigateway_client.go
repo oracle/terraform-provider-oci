@@ -135,6 +135,8 @@ func (client ApiGatewayClient) changeApiCompartment(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Api/ChangeApiCompartment"
+		err = common.PostProcessServiceError(err, "ApiGateway", "ChangeApiCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -191,6 +193,8 @@ func (client ApiGatewayClient) changeCatalogCompartment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Catalog/ChangeCatalogCompartment"
+		err = common.PostProcessServiceError(err, "ApiGateway", "ChangeCatalogCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -247,6 +251,8 @@ func (client ApiGatewayClient) changeCertificateCompartment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Certificate/ChangeCertificateCompartment"
+		err = common.PostProcessServiceError(err, "ApiGateway", "ChangeCertificateCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -303,6 +309,8 @@ func (client ApiGatewayClient) createApi(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "ApiGateway", "CreateApi", apiReferenceLink)
 		return response, err
 	}
 
@@ -359,6 +367,8 @@ func (client ApiGatewayClient) createCatalog(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Catalog/CreateCatalog"
+		err = common.PostProcessServiceError(err, "ApiGateway", "CreateCatalog", apiReferenceLink)
 		return response, err
 	}
 
@@ -415,6 +425,8 @@ func (client ApiGatewayClient) createCertificate(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "ApiGateway", "CreateCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -471,6 +483,8 @@ func (client ApiGatewayClient) createSdk(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Sdk/CreateSdk"
+		err = common.PostProcessServiceError(err, "ApiGateway", "CreateSdk", apiReferenceLink)
 		return response, err
 	}
 
@@ -522,6 +536,8 @@ func (client ApiGatewayClient) deleteApi(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Api/DeleteApi"
+		err = common.PostProcessServiceError(err, "ApiGateway", "DeleteApi", apiReferenceLink)
 		return response, err
 	}
 
@@ -573,6 +589,8 @@ func (client ApiGatewayClient) deleteCatalog(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Catalog/DeleteCatalog"
+		err = common.PostProcessServiceError(err, "ApiGateway", "DeleteCatalog", apiReferenceLink)
 		return response, err
 	}
 
@@ -624,6 +642,8 @@ func (client ApiGatewayClient) deleteCertificate(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Certificate/DeleteCertificate"
+		err = common.PostProcessServiceError(err, "ApiGateway", "DeleteCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -675,6 +695,8 @@ func (client ApiGatewayClient) deleteSdk(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Sdk/DeleteSdk"
+		err = common.PostProcessServiceError(err, "ApiGateway", "DeleteSdk", apiReferenceLink)
 		return response, err
 	}
 
@@ -726,6 +748,8 @@ func (client ApiGatewayClient) getApi(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Api/GetApi"
+		err = common.PostProcessServiceError(err, "ApiGateway", "GetApi", apiReferenceLink)
 		return response, err
 	}
 
@@ -776,6 +800,8 @@ func (client ApiGatewayClient) getApiContent(ctx context.Context, request common
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Api/GetApiContent"
+		err = common.PostProcessServiceError(err, "ApiGateway", "GetApiContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -827,6 +853,8 @@ func (client ApiGatewayClient) getApiDeploymentSpecification(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/ApiSpecification/GetApiDeploymentSpecification"
+		err = common.PostProcessServiceError(err, "ApiGateway", "GetApiDeploymentSpecification", apiReferenceLink)
 		return response, err
 	}
 
@@ -878,6 +906,8 @@ func (client ApiGatewayClient) getApiValidations(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/ApiValidations/GetApiValidations"
+		err = common.PostProcessServiceError(err, "ApiGateway", "GetApiValidations", apiReferenceLink)
 		return response, err
 	}
 
@@ -929,6 +959,8 @@ func (client ApiGatewayClient) getCatalog(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Catalog/GetCatalog"
+		err = common.PostProcessServiceError(err, "ApiGateway", "GetCatalog", apiReferenceLink)
 		return response, err
 	}
 
@@ -980,6 +1012,8 @@ func (client ApiGatewayClient) getCertificate(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Certificate/GetCertificate"
+		err = common.PostProcessServiceError(err, "ApiGateway", "GetCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -1031,6 +1065,8 @@ func (client ApiGatewayClient) getSdk(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Sdk/GetSdk"
+		err = common.PostProcessServiceError(err, "ApiGateway", "GetSdk", apiReferenceLink)
 		return response, err
 	}
 
@@ -1082,6 +1118,8 @@ func (client ApiGatewayClient) listApis(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Api/ListApis"
+		err = common.PostProcessServiceError(err, "ApiGateway", "ListApis", apiReferenceLink)
 		return response, err
 	}
 
@@ -1133,6 +1171,8 @@ func (client ApiGatewayClient) listCatalogs(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Catalog/ListCatalogs"
+		err = common.PostProcessServiceError(err, "ApiGateway", "ListCatalogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1184,6 +1224,8 @@ func (client ApiGatewayClient) listCertificates(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Certificate/ListCertificates"
+		err = common.PostProcessServiceError(err, "ApiGateway", "ListCertificates", apiReferenceLink)
 		return response, err
 	}
 
@@ -1235,6 +1277,8 @@ func (client ApiGatewayClient) listSdkLanguageTypes(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/SdkLanguageTypeSummary/ListSdkLanguageTypes"
+		err = common.PostProcessServiceError(err, "ApiGateway", "ListSdkLanguageTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -1286,6 +1330,8 @@ func (client ApiGatewayClient) listSdks(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Sdk/ListSdks"
+		err = common.PostProcessServiceError(err, "ApiGateway", "ListSdks", apiReferenceLink)
 		return response, err
 	}
 
@@ -1337,6 +1383,8 @@ func (client ApiGatewayClient) updateApi(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Api/UpdateApi"
+		err = common.PostProcessServiceError(err, "ApiGateway", "UpdateApi", apiReferenceLink)
 		return response, err
 	}
 
@@ -1388,6 +1436,8 @@ func (client ApiGatewayClient) updateCatalog(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Catalog/UpdateCatalog"
+		err = common.PostProcessServiceError(err, "ApiGateway", "UpdateCatalog", apiReferenceLink)
 		return response, err
 	}
 
@@ -1439,6 +1489,8 @@ func (client ApiGatewayClient) updateCertificate(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Certificate/UpdateCertificate"
+		err = common.PostProcessServiceError(err, "ApiGateway", "UpdateCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -1490,6 +1542,8 @@ func (client ApiGatewayClient) updateSdk(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Sdk/UpdateSdk"
+		err = common.PostProcessServiceError(err, "ApiGateway", "UpdateSdk", apiReferenceLink)
 		return response, err
 	}
 

@@ -134,6 +134,8 @@ func (client DbBackupsClient) changeBackupCompartment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/Backup/ChangeBackupCompartment"
+		err = common.PostProcessServiceError(err, "DbBackups", "ChangeBackupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -190,6 +192,8 @@ func (client DbBackupsClient) createBackup(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/Backup/CreateBackup"
+		err = common.PostProcessServiceError(err, "DbBackups", "CreateBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -241,6 +245,8 @@ func (client DbBackupsClient) deleteBackup(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/Backup/DeleteBackup"
+		err = common.PostProcessServiceError(err, "DbBackups", "DeleteBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -292,6 +298,8 @@ func (client DbBackupsClient) getBackup(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/Backup/GetBackup"
+		err = common.PostProcessServiceError(err, "DbBackups", "GetBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -343,6 +351,8 @@ func (client DbBackupsClient) listBackups(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/BackupSummary/ListBackups"
+		err = common.PostProcessServiceError(err, "DbBackups", "ListBackups", apiReferenceLink)
 		return response, err
 	}
 
@@ -394,6 +404,8 @@ func (client DbBackupsClient) updateBackup(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/Backup/UpdateBackup"
+		err = common.PostProcessServiceError(err, "DbBackups", "UpdateBackup", apiReferenceLink)
 		return response, err
 	}
 

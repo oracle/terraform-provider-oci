@@ -133,6 +133,8 @@ func (client RewardsClient) createRedeemableUser(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage-proxy/20190111/RedeemableUser/CreateRedeemableUser"
+		err = common.PostProcessServiceError(err, "Rewards", "CreateRedeemableUser", apiReferenceLink)
 		return response, err
 	}
 
@@ -184,6 +186,8 @@ func (client RewardsClient) deleteRedeemableUser(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage-proxy/20190111/RedeemableUser/DeleteRedeemableUser"
+		err = common.PostProcessServiceError(err, "Rewards", "DeleteRedeemableUser", apiReferenceLink)
 		return response, err
 	}
 
@@ -235,6 +239,8 @@ func (client RewardsClient) listProducts(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage-proxy/20190111/ProductSummary/ListProducts"
+		err = common.PostProcessServiceError(err, "Rewards", "ListProducts", apiReferenceLink)
 		return response, err
 	}
 
@@ -286,6 +292,8 @@ func (client RewardsClient) listRedeemableUsers(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage-proxy/20190111/RedeemableUserSummary/ListRedeemableUsers"
+		err = common.PostProcessServiceError(err, "Rewards", "ListRedeemableUsers", apiReferenceLink)
 		return response, err
 	}
 
@@ -337,6 +345,8 @@ func (client RewardsClient) listRewards(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage-proxy/20190111/MonthlyRewardSummary/ListRewards"
+		err = common.PostProcessServiceError(err, "Rewards", "ListRewards", apiReferenceLink)
 		return response, err
 	}
 

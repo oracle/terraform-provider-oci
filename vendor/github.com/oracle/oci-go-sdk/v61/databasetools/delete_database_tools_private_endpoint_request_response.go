@@ -14,7 +14,7 @@ import (
 // DeleteDatabaseToolsPrivateEndpointRequest wrapper for the DeleteDatabaseToolsPrivateEndpoint operation
 type DeleteDatabaseToolsPrivateEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a DatabaseToolsPrivateEndpoint.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools private endpoint.
 	DatabaseToolsPrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsPrivateEndpointId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

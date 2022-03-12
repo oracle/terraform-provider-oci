@@ -39,12 +39,6 @@ type UpdateNatGatewayDetails struct {
 	// Whether the NAT gateway blocks traffic through it. The default is `false`.
 	// Example: `true`
 	BlockTraffic *bool `mandatory:"false" json:"blockTraffic"`
-
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table used by the NAT gateway.
-	// If you don't specify a route table here, the NAT gateway is created without an associated route
-	// table. The Networking service does NOT automatically associate the attached VCN's default route
-	// table with the NAT gateway.
-	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m UpdateNatGatewayDetails) String() string {

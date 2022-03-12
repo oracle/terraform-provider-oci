@@ -14,7 +14,7 @@ import (
 // CreateDatabaseToolsConnectionRequest wrapper for the CreateDatabaseToolsConnection operation
 type CreateDatabaseToolsConnectionRequest struct {
 
-	// Details for the new DatabaseToolsConnection.
+	// Details for the new `DatabaseToolsConnection`.
 	CreateDatabaseToolsConnectionDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -137,6 +137,8 @@ func (client ResourceManagerClient) cancelJob(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Job/CancelJob"
+		err = common.PostProcessServiceError(err, "ResourceManager", "CancelJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -196,6 +198,8 @@ func (client ResourceManagerClient) changeConfigurationSourceProviderCompartment
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/ConfigurationSourceProvider/ChangeConfigurationSourceProviderCompartment"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ChangeConfigurationSourceProviderCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -253,6 +257,8 @@ func (client ResourceManagerClient) changeStackCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/ChangeStackCompartment"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ChangeStackCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -312,6 +318,8 @@ func (client ResourceManagerClient) changeTemplateCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Template/ChangeTemplateCompartment"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ChangeTemplateCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -371,6 +379,8 @@ func (client ResourceManagerClient) createConfigurationSourceProvider(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/ConfigurationSourceProvider/CreateConfigurationSourceProvider"
+		err = common.PostProcessServiceError(err, "ResourceManager", "CreateConfigurationSourceProvider", apiReferenceLink)
 		return response, err
 	}
 
@@ -428,6 +438,8 @@ func (client ResourceManagerClient) createJob(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Job/CreateJob"
+		err = common.PostProcessServiceError(err, "ResourceManager", "CreateJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -491,6 +503,8 @@ func (client ResourceManagerClient) createStack(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/CreateStack"
+		err = common.PostProcessServiceError(err, "ResourceManager", "CreateStack", apiReferenceLink)
 		return response, err
 	}
 
@@ -548,6 +562,8 @@ func (client ResourceManagerClient) createTemplate(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Template/CreateTemplate"
+		err = common.PostProcessServiceError(err, "ResourceManager", "CreateTemplate", apiReferenceLink)
 		return response, err
 	}
 
@@ -600,6 +616,8 @@ func (client ResourceManagerClient) deleteConfigurationSourceProvider(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/ConfigurationSourceProvider/DeleteConfigurationSourceProvider"
+		err = common.PostProcessServiceError(err, "ResourceManager", "DeleteConfigurationSourceProvider", apiReferenceLink)
 		return response, err
 	}
 
@@ -652,6 +670,8 @@ func (client ResourceManagerClient) deleteStack(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/DeleteStack"
+		err = common.PostProcessServiceError(err, "ResourceManager", "DeleteStack", apiReferenceLink)
 		return response, err
 	}
 
@@ -704,6 +724,8 @@ func (client ResourceManagerClient) deleteTemplate(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Template/DeleteTemplate"
+		err = common.PostProcessServiceError(err, "ResourceManager", "DeleteTemplate", apiReferenceLink)
 		return response, err
 	}
 
@@ -761,6 +783,8 @@ func (client ResourceManagerClient) detectStackDrift(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/DetectStackDrift"
+		err = common.PostProcessServiceError(err, "ResourceManager", "DetectStackDrift", apiReferenceLink)
 		return response, err
 	}
 
@@ -813,6 +837,8 @@ func (client ResourceManagerClient) getConfigurationSourceProvider(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/ConfigurationSourceProvider/GetConfigurationSourceProvider"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetConfigurationSourceProvider", apiReferenceLink)
 		return response, err
 	}
 
@@ -865,6 +891,8 @@ func (client ResourceManagerClient) getJob(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Job/GetJob"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -917,6 +945,8 @@ func (client ResourceManagerClient) getJobDetailedLogContent(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Job/GetJobDetailedLogContent"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetJobDetailedLogContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -969,6 +999,8 @@ func (client ResourceManagerClient) getJobLogs(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Job/GetJobLogs"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetJobLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1021,6 +1053,8 @@ func (client ResourceManagerClient) getJobLogsContent(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Job/GetJobLogsContent"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetJobLogsContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -1073,6 +1107,8 @@ func (client ResourceManagerClient) getJobTfConfig(ctx context.Context, request 
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Job/GetJobTfConfig"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetJobTfConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -1124,6 +1160,8 @@ func (client ResourceManagerClient) getJobTfState(ctx context.Context, request c
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Job/GetJobTfState"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetJobTfState", apiReferenceLink)
 		return response, err
 	}
 
@@ -1176,6 +1214,8 @@ func (client ResourceManagerClient) getStack(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/GetStack"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetStack", apiReferenceLink)
 		return response, err
 	}
 
@@ -1228,6 +1268,8 @@ func (client ResourceManagerClient) getStackTfConfig(ctx context.Context, reques
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/GetStackTfConfig"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetStackTfConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -1279,6 +1321,8 @@ func (client ResourceManagerClient) getStackTfState(ctx context.Context, request
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/GetStackTfState"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetStackTfState", apiReferenceLink)
 		return response, err
 	}
 
@@ -1331,6 +1375,8 @@ func (client ResourceManagerClient) getTemplate(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Template/GetTemplate"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetTemplate", apiReferenceLink)
 		return response, err
 	}
 
@@ -1383,6 +1429,8 @@ func (client ResourceManagerClient) getTemplateLogo(ctx context.Context, request
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Template/GetTemplateLogo"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetTemplateLogo", apiReferenceLink)
 		return response, err
 	}
 
@@ -1435,6 +1483,8 @@ func (client ResourceManagerClient) getTemplateTfConfig(ctx context.Context, req
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Template/GetTemplateTfConfig"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetTemplateTfConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -1487,6 +1537,8 @@ func (client ResourceManagerClient) getWorkRequest(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -1541,6 +1593,8 @@ func (client ResourceManagerClient) listConfigurationSourceProviders(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/ConfigurationSourceProviderSummary/ListConfigurationSourceProviders"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ListConfigurationSourceProviders", apiReferenceLink)
 		return response, err
 	}
 
@@ -1596,6 +1650,8 @@ func (client ResourceManagerClient) listJobs(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/JobSummary/ListJobs"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ListJobs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1648,6 +1704,8 @@ func (client ResourceManagerClient) listResourceDiscoveryServices(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/ListResourceDiscoveryServices"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ListResourceDiscoveryServices", apiReferenceLink)
 		return response, err
 	}
 
@@ -1704,6 +1762,8 @@ func (client ResourceManagerClient) listStackResourceDriftDetails(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/StackResourceDriftSummary/ListStackResourceDriftDetails"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ListStackResourceDriftDetails", apiReferenceLink)
 		return response, err
 	}
 
@@ -1758,6 +1818,8 @@ func (client ResourceManagerClient) listStacks(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/StackSummary/ListStacks"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ListStacks", apiReferenceLink)
 		return response, err
 	}
 
@@ -1810,6 +1872,8 @@ func (client ResourceManagerClient) listTemplateCategories(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/TemplateCategorySummary/ListTemplateCategories"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ListTemplateCategories", apiReferenceLink)
 		return response, err
 	}
 
@@ -1863,6 +1927,8 @@ func (client ResourceManagerClient) listTemplates(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Template/ListTemplates"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ListTemplates", apiReferenceLink)
 		return response, err
 	}
 
@@ -1915,6 +1981,8 @@ func (client ResourceManagerClient) listTerraformVersions(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/ListTerraformVersions"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ListTerraformVersions", apiReferenceLink)
 		return response, err
 	}
 
@@ -1967,6 +2035,8 @@ func (client ResourceManagerClient) listWorkRequestErrors(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/WorkRequest/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -2019,6 +2089,8 @@ func (client ResourceManagerClient) listWorkRequestLogs(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/WorkRequest/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -2071,6 +2143,8 @@ func (client ResourceManagerClient) listWorkRequests(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -2125,6 +2199,8 @@ func (client ResourceManagerClient) updateConfigurationSourceProvider(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/ConfigurationSourceProvider/UpdateConfigurationSourceProvider"
+		err = common.PostProcessServiceError(err, "ResourceManager", "UpdateConfigurationSourceProvider", apiReferenceLink)
 		return response, err
 	}
 
@@ -2177,6 +2253,8 @@ func (client ResourceManagerClient) updateJob(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Job/UpdateJob"
+		err = common.PostProcessServiceError(err, "ResourceManager", "UpdateJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -2234,6 +2312,8 @@ func (client ResourceManagerClient) updateStack(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/UpdateStack"
+		err = common.PostProcessServiceError(err, "ResourceManager", "UpdateStack", apiReferenceLink)
 		return response, err
 	}
 
@@ -2286,6 +2366,8 @@ func (client ResourceManagerClient) updateTemplate(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Template/UpdateTemplate"
+		err = common.PostProcessServiceError(err, "ResourceManager", "UpdateTemplate", apiReferenceLink)
 		return response, err
 	}
 

@@ -129,6 +129,8 @@ func (client PluginconfigClient) listInstanceagentAvailablePlugins(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/instanceagent/20180530/Plugin/ListInstanceagentAvailablePlugins"
+		err = common.PostProcessServiceError(err, "Pluginconfig", "ListInstanceagentAvailablePlugins", apiReferenceLink)
 		return response, err
 	}
 

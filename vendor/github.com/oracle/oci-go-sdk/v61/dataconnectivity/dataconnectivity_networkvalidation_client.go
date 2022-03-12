@@ -133,6 +133,8 @@ func (client NetworkValidationClient) getNetworkConnectivityStatusCollection(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "NetworkValidation", "GetNetworkConnectivityStatusCollection", apiReferenceLink)
 		return response, err
 	}
 

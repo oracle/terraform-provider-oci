@@ -136,6 +136,8 @@ func (client KmsVaultClient) backupVault(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsVault", "BackupVault", apiReferenceLink)
 		return response, err
 	}
 
@@ -199,6 +201,8 @@ func (client KmsVaultClient) cancelVaultDeletion(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsVault", "CancelVaultDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -261,6 +265,8 @@ func (client KmsVaultClient) changeVaultCompartment(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsVault", "ChangeVaultCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -324,6 +330,8 @@ func (client KmsVaultClient) createVault(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsVault", "CreateVault", apiReferenceLink)
 		return response, err
 	}
 
@@ -387,6 +395,8 @@ func (client KmsVaultClient) createVaultReplica(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsVault", "CreateVaultReplica", apiReferenceLink)
 		return response, err
 	}
 
@@ -447,6 +457,8 @@ func (client KmsVaultClient) deleteVaultReplica(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsVault", "DeleteVaultReplica", apiReferenceLink)
 		return response, err
 	}
 
@@ -502,6 +514,8 @@ func (client KmsVaultClient) getVault(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsVault", "GetVault", apiReferenceLink)
 		return response, err
 	}
 
@@ -553,6 +567,8 @@ func (client KmsVaultClient) getVaultUsage(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsVault", "GetVaultUsage", apiReferenceLink)
 		return response, err
 	}
 
@@ -613,6 +629,8 @@ func (client KmsVaultClient) listVaultReplicas(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsVault", "ListVaultReplicas", apiReferenceLink)
 		return response, err
 	}
 
@@ -668,6 +686,8 @@ func (client KmsVaultClient) listVaults(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsVault", "ListVaults", apiReferenceLink)
 		return response, err
 	}
 
@@ -726,6 +746,8 @@ func (client KmsVaultClient) restoreVaultFromFile(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsVault", "RestoreVaultFromFile", apiReferenceLink)
 		return response, err
 	}
 
@@ -784,6 +806,8 @@ func (client KmsVaultClient) restoreVaultFromObjectStore(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsVault", "RestoreVaultFromObjectStore", apiReferenceLink)
 		return response, err
 	}
 
@@ -848,6 +872,8 @@ func (client KmsVaultClient) scheduleVaultDeletion(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsVault", "ScheduleVaultDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -905,6 +931,8 @@ func (client KmsVaultClient) updateVault(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsVault", "UpdateVault", apiReferenceLink)
 		return response, err
 	}
 

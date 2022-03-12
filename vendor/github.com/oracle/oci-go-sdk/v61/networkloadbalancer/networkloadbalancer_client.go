@@ -133,6 +133,8 @@ func (client NetworkLoadBalancerClient) attachNlbToPod(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/AttachNlbToPod"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "AttachNlbToPod", apiReferenceLink)
 		return response, err
 	}
 
@@ -190,6 +192,8 @@ func (client NetworkLoadBalancerClient) changeNetworkLoadBalancerCompartment(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/ChangeNetworkLoadBalancerCompartment"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ChangeNetworkLoadBalancerCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -246,6 +250,8 @@ func (client NetworkLoadBalancerClient) createBackend(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/Backend/CreateBackend"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "CreateBackend", apiReferenceLink)
 		return response, err
 	}
 
@@ -302,6 +308,8 @@ func (client NetworkLoadBalancerClient) createBackendSet(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/BackendSet/CreateBackendSet"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "CreateBackendSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -358,6 +366,8 @@ func (client NetworkLoadBalancerClient) createListener(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/Listener/CreateListener"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "CreateListener", apiReferenceLink)
 		return response, err
 	}
 
@@ -414,6 +424,8 @@ func (client NetworkLoadBalancerClient) createNetworkLoadBalancer(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/CreateNetworkLoadBalancer"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "CreateNetworkLoadBalancer", apiReferenceLink)
 		return response, err
 	}
 
@@ -465,6 +477,8 @@ func (client NetworkLoadBalancerClient) deleteBackend(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/Backend/DeleteBackend"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "DeleteBackend", apiReferenceLink)
 		return response, err
 	}
 
@@ -517,6 +531,8 @@ func (client NetworkLoadBalancerClient) deleteBackendSet(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/BackendSet/DeleteBackendSet"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "DeleteBackendSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -568,6 +584,8 @@ func (client NetworkLoadBalancerClient) deleteListener(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/Listener/DeleteListener"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "DeleteListener", apiReferenceLink)
 		return response, err
 	}
 
@@ -619,6 +637,8 @@ func (client NetworkLoadBalancerClient) deleteNetworkLoadBalancer(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/DeleteNetworkLoadBalancer"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "DeleteNetworkLoadBalancer", apiReferenceLink)
 		return response, err
 	}
 
@@ -675,6 +695,8 @@ func (client NetworkLoadBalancerClient) detachNlbFromDestinationPod(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/DetachNlbFromDestinationPod"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "DetachNlbFromDestinationPod", apiReferenceLink)
 		return response, err
 	}
 
@@ -731,6 +753,8 @@ func (client NetworkLoadBalancerClient) detachNlbFromSourcePod(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/DetachNlbFromSourcePod"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "DetachNlbFromSourcePod", apiReferenceLink)
 		return response, err
 	}
 
@@ -782,6 +806,8 @@ func (client NetworkLoadBalancerClient) getBackend(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/Backend/GetBackend"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "GetBackend", apiReferenceLink)
 		return response, err
 	}
 
@@ -833,6 +859,8 @@ func (client NetworkLoadBalancerClient) getBackendHealth(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/BackendHealth/GetBackendHealth"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "GetBackendHealth", apiReferenceLink)
 		return response, err
 	}
 
@@ -884,6 +912,8 @@ func (client NetworkLoadBalancerClient) getBackendSet(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/BackendSet/GetBackendSet"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "GetBackendSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -935,6 +965,8 @@ func (client NetworkLoadBalancerClient) getBackendSetHealth(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/BackendSetHealth/GetBackendSetHealth"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "GetBackendSetHealth", apiReferenceLink)
 		return response, err
 	}
 
@@ -991,6 +1023,8 @@ func (client NetworkLoadBalancerClient) getHealthChecker(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/HealthChecker/GetHealthChecker"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "GetHealthChecker", apiReferenceLink)
 		return response, err
 	}
 
@@ -1042,6 +1076,8 @@ func (client NetworkLoadBalancerClient) getListener(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/Listener/GetListener"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "GetListener", apiReferenceLink)
 		return response, err
 	}
 
@@ -1093,6 +1129,8 @@ func (client NetworkLoadBalancerClient) getNetworkLoadBalancer(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/GetNetworkLoadBalancer"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "GetNetworkLoadBalancer", apiReferenceLink)
 		return response, err
 	}
 
@@ -1144,6 +1182,8 @@ func (client NetworkLoadBalancerClient) getNetworkLoadBalancerHealth(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancerHealth/GetNetworkLoadBalancerHealth"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "GetNetworkLoadBalancerHealth", apiReferenceLink)
 		return response, err
 	}
 
@@ -1195,6 +1235,8 @@ func (client NetworkLoadBalancerClient) getWorkRequest(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -1246,6 +1288,8 @@ func (client NetworkLoadBalancerClient) listBackendSets(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/BackendSetSummary/ListBackendSets"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ListBackendSets", apiReferenceLink)
 		return response, err
 	}
 
@@ -1297,6 +1341,8 @@ func (client NetworkLoadBalancerClient) listBackends(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/BackendSummary/ListBackends"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ListBackends", apiReferenceLink)
 		return response, err
 	}
 
@@ -1348,6 +1394,8 @@ func (client NetworkLoadBalancerClient) listListeners(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/ListenerSummary/ListListeners"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ListListeners", apiReferenceLink)
 		return response, err
 	}
 
@@ -1399,6 +1447,8 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancerHealths(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancerHealth/ListNetworkLoadBalancerHealths"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ListNetworkLoadBalancerHealths", apiReferenceLink)
 		return response, err
 	}
 
@@ -1450,6 +1500,8 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancers(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/ListNetworkLoadBalancers"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ListNetworkLoadBalancers", apiReferenceLink)
 		return response, err
 	}
 
@@ -1501,6 +1553,8 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancersPolicies(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancingPolicy/ListNetworkLoadBalancersPolicies"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ListNetworkLoadBalancersPolicies", apiReferenceLink)
 		return response, err
 	}
 
@@ -1553,6 +1607,8 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancersProtocols(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/ListenerProtocols/ListNetworkLoadBalancersProtocols"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ListNetworkLoadBalancersProtocols", apiReferenceLink)
 		return response, err
 	}
 
@@ -1604,6 +1660,8 @@ func (client NetworkLoadBalancerClient) listWorkRequestErrors(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -1655,6 +1713,8 @@ func (client NetworkLoadBalancerClient) listWorkRequestLogs(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1706,6 +1766,8 @@ func (client NetworkLoadBalancerClient) listWorkRequests(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1762,6 +1824,8 @@ func (client NetworkLoadBalancerClient) updateBackend(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/Backend/UpdateBackend"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "UpdateBackend", apiReferenceLink)
 		return response, err
 	}
 
@@ -1818,6 +1882,8 @@ func (client NetworkLoadBalancerClient) updateBackendSet(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/BackendSet/UpdateBackendSet"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "UpdateBackendSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -1874,6 +1940,8 @@ func (client NetworkLoadBalancerClient) updateHealthChecker(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/HealthChecker/UpdateHealthChecker"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "UpdateHealthChecker", apiReferenceLink)
 		return response, err
 	}
 
@@ -1930,6 +1998,8 @@ func (client NetworkLoadBalancerClient) updateListener(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/Listener/UpdateListener"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "UpdateListener", apiReferenceLink)
 		return response, err
 	}
 
@@ -1981,6 +2051,8 @@ func (client NetworkLoadBalancerClient) updateNetworkLoadBalancer(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/UpdateNetworkLoadBalancer"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "UpdateNetworkLoadBalancer", apiReferenceLink)
 		return response, err
 	}
 
@@ -2037,6 +2109,8 @@ func (client NetworkLoadBalancerClient) updateNetworkSecurityGroups(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/UpdateNetworkSecurityGroups"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "UpdateNetworkSecurityGroups", apiReferenceLink)
 		return response, err
 	}
 

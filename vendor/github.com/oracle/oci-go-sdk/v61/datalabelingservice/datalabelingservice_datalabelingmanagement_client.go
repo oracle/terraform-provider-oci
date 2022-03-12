@@ -85,9 +85,10 @@ func (client *DataLabelingManagementClient) ConfigurationProvider() *common.Conf
 }
 
 // AddDatasetLabels Add Labels to the Dataset LabelSet until the maximum number of Labels has been reached.
+// A default retry strategy applies to this operation AddDatasetLabels()
 func (client DataLabelingManagementClient) AddDatasetLabels(ctx context.Context, request AddDatasetLabelsRequest) (response AddDatasetLabelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -133,6 +134,8 @@ func (client DataLabelingManagementClient) addDatasetLabels(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/AddDatasetLabels"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "AddDatasetLabels", apiReferenceLink)
 		return response, err
 	}
 
@@ -141,9 +144,10 @@ func (client DataLabelingManagementClient) addDatasetLabels(ctx context.Context,
 }
 
 // ChangeDatasetCompartment Moves a Dataset resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeDatasetCompartment()
 func (client DataLabelingManagementClient) ChangeDatasetCompartment(ctx context.Context, request ChangeDatasetCompartmentRequest) (response ChangeDatasetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -184,6 +188,8 @@ func (client DataLabelingManagementClient) changeDatasetCompartment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/ChangeDatasetCompartment"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "ChangeDatasetCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -192,9 +198,10 @@ func (client DataLabelingManagementClient) changeDatasetCompartment(ctx context.
 }
 
 // CreateDataset Creates a new Dataset.
+// A default retry strategy applies to this operation CreateDataset()
 func (client DataLabelingManagementClient) CreateDataset(ctx context.Context, request CreateDatasetRequest) (response CreateDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -240,6 +247,8 @@ func (client DataLabelingManagementClient) createDataset(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/CreateDataset"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "CreateDataset", apiReferenceLink)
 		return response, err
 	}
 
@@ -248,9 +257,10 @@ func (client DataLabelingManagementClient) createDataset(ctx context.Context, re
 }
 
 // DeleteDataset Deletes a Dataset resource by identifier
+// A default retry strategy applies to this operation DeleteDataset()
 func (client DataLabelingManagementClient) DeleteDataset(ctx context.Context, request DeleteDatasetRequest) (response DeleteDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -291,6 +301,8 @@ func (client DataLabelingManagementClient) deleteDataset(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/DeleteDataset"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "DeleteDataset", apiReferenceLink)
 		return response, err
 	}
 
@@ -299,9 +311,10 @@ func (client DataLabelingManagementClient) deleteDataset(ctx context.Context, re
 }
 
 // GenerateDatasetRecords Generates Record resources from the Dataset's data source
+// A default retry strategy applies to this operation GenerateDatasetRecords()
 func (client DataLabelingManagementClient) GenerateDatasetRecords(ctx context.Context, request GenerateDatasetRecordsRequest) (response GenerateDatasetRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -347,6 +360,8 @@ func (client DataLabelingManagementClient) generateDatasetRecords(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/GenerateDatasetRecords"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "GenerateDatasetRecords", apiReferenceLink)
 		return response, err
 	}
 
@@ -355,9 +370,10 @@ func (client DataLabelingManagementClient) generateDatasetRecords(ctx context.Co
 }
 
 // GetDataset Gets a Dataset by identifier
+// A default retry strategy applies to this operation GetDataset()
 func (client DataLabelingManagementClient) GetDataset(ctx context.Context, request GetDatasetRequest) (response GetDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -398,6 +414,8 @@ func (client DataLabelingManagementClient) getDataset(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/GetDataset"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "GetDataset", apiReferenceLink)
 		return response, err
 	}
 
@@ -406,9 +424,10 @@ func (client DataLabelingManagementClient) getDataset(ctx context.Context, reque
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client DataLabelingManagementClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -449,6 +468,8 @@ func (client DataLabelingManagementClient) getWorkRequest(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -457,9 +478,10 @@ func (client DataLabelingManagementClient) getWorkRequest(ctx context.Context, r
 }
 
 // ListAnnotationFormats These are a static list in a given region.
+// A default retry strategy applies to this operation ListAnnotationFormats()
 func (client DataLabelingManagementClient) ListAnnotationFormats(ctx context.Context, request ListAnnotationFormatsRequest) (response ListAnnotationFormatsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -500,6 +522,8 @@ func (client DataLabelingManagementClient) listAnnotationFormats(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/AnnotationFormat/ListAnnotationFormats"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "ListAnnotationFormats", apiReferenceLink)
 		return response, err
 	}
 
@@ -508,9 +532,10 @@ func (client DataLabelingManagementClient) listAnnotationFormats(ctx context.Con
 }
 
 // ListDatasets Returns a list of Datasets.
+// A default retry strategy applies to this operation ListDatasets()
 func (client DataLabelingManagementClient) ListDatasets(ctx context.Context, request ListDatasetsRequest) (response ListDatasetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -551,6 +576,8 @@ func (client DataLabelingManagementClient) listDatasets(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/DatasetCollection/ListDatasets"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "ListDatasets", apiReferenceLink)
 		return response, err
 	}
 
@@ -559,9 +586,10 @@ func (client DataLabelingManagementClient) listDatasets(ctx context.Context, req
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DataLabelingManagementClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -602,6 +630,8 @@ func (client DataLabelingManagementClient) listWorkRequestErrors(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/WorkRequest/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -610,9 +640,10 @@ func (client DataLabelingManagementClient) listWorkRequestErrors(ctx context.Con
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DataLabelingManagementClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -653,6 +684,8 @@ func (client DataLabelingManagementClient) listWorkRequestLogs(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/WorkRequest/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -661,9 +694,10 @@ func (client DataLabelingManagementClient) listWorkRequestLogs(ctx context.Conte
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client DataLabelingManagementClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -704,6 +738,8 @@ func (client DataLabelingManagementClient) listWorkRequests(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -712,9 +748,10 @@ func (client DataLabelingManagementClient) listWorkRequests(ctx context.Context,
 }
 
 // RemoveDatasetLabels Removes the labels from the Dataset Labelset.  Labels can only be removed if there are no Annotations associated with the Dataset that reference the Label names.
+// A default retry strategy applies to this operation RemoveDatasetLabels()
 func (client DataLabelingManagementClient) RemoveDatasetLabels(ctx context.Context, request RemoveDatasetLabelsRequest) (response RemoveDatasetLabelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -760,6 +797,8 @@ func (client DataLabelingManagementClient) removeDatasetLabels(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/RemoveDatasetLabels"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "RemoveDatasetLabels", apiReferenceLink)
 		return response, err
 	}
 
@@ -768,9 +807,10 @@ func (client DataLabelingManagementClient) removeDatasetLabels(ctx context.Conte
 }
 
 // RenameDatasetLabels Renames the labels from the Dataset Labelset.  Labels that are renamed will be reflected in Annotations associated with the Dataset that reference the Label names.
+// A default retry strategy applies to this operation RenameDatasetLabels()
 func (client DataLabelingManagementClient) RenameDatasetLabels(ctx context.Context, request RenameDatasetLabelsRequest) (response RenameDatasetLabelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -816,6 +856,8 @@ func (client DataLabelingManagementClient) renameDatasetLabels(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/RenameDatasetLabels"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "RenameDatasetLabels", apiReferenceLink)
 		return response, err
 	}
 
@@ -825,9 +867,10 @@ func (client DataLabelingManagementClient) renameDatasetLabels(ctx context.Conte
 
 // SnapshotDataset Writes the dataset records and annotations in a consolidated format out to an object storage reference for consumption.
 // While the snapshot takes place, there may be a time while records and annotations cannot be created to ensure the snapshot is a point in time.
+// A default retry strategy applies to this operation SnapshotDataset()
 func (client DataLabelingManagementClient) SnapshotDataset(ctx context.Context, request SnapshotDatasetRequest) (response SnapshotDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -873,6 +916,8 @@ func (client DataLabelingManagementClient) snapshotDataset(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/SnapshotDataset"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "SnapshotDataset", apiReferenceLink)
 		return response, err
 	}
 
@@ -881,9 +926,10 @@ func (client DataLabelingManagementClient) snapshotDataset(ctx context.Context, 
 }
 
 // UpdateDataset Updates the Dataset
+// A default retry strategy applies to this operation UpdateDataset()
 func (client DataLabelingManagementClient) UpdateDataset(ctx context.Context, request UpdateDatasetRequest) (response UpdateDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -924,6 +970,8 @@ func (client DataLabelingManagementClient) updateDataset(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/UpdateDataset"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "UpdateDataset", apiReferenceLink)
 		return response, err
 	}
 

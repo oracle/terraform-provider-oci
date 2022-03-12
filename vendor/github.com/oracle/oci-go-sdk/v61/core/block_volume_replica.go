@@ -71,9 +71,6 @@ type BlockVolumeReplica struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The size (in Bytes) of the logical blocks for this block volume, between 512B to 32KB.
-	LogicalBlockSizeInBytes *int `mandatory:"false" json:"logicalBlockSizeInBytes"`
-
 	// The total size of the data transferred from the source block volume to the block volume replica, in GBs.
 	TotalDataTransferredInGBs *int64 `mandatory:"false" json:"totalDataTransferredInGBs"`
 

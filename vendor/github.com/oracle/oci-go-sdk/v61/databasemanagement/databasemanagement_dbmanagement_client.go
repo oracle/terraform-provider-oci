@@ -135,6 +135,8 @@ func (client DbManagementClient) addDataFiles(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Tablespace/AddDataFiles"
+		err = common.PostProcessServiceError(err, "DbManagement", "AddDataFiles", apiReferenceLink)
 		return response, err
 	}
 
@@ -193,6 +195,8 @@ func (client DbManagementClient) addManagedDatabaseToManagedDatabaseGroup(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabaseGroup/AddManagedDatabaseToManagedDatabaseGroup"
+		err = common.PostProcessServiceError(err, "DbManagement", "AddManagedDatabaseToManagedDatabaseGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -259,6 +263,8 @@ func (client DbManagementClient) changeDatabaseParameters(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ChangeDatabaseParameters"
+		err = common.PostProcessServiceError(err, "DbManagement", "ChangeDatabaseParameters", apiReferenceLink)
 		return response, err
 	}
 
@@ -315,6 +321,8 @@ func (client DbManagementClient) changeDbManagementPrivateEndpointCompartment(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DbManagementPrivateEndpoint/ChangeDbManagementPrivateEndpointCompartment"
+		err = common.PostProcessServiceError(err, "DbManagement", "ChangeDbManagementPrivateEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -371,6 +379,8 @@ func (client DbManagementClient) changeJobCompartment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Job/ChangeJobCompartment"
+		err = common.PostProcessServiceError(err, "DbManagement", "ChangeJobCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -429,6 +439,8 @@ func (client DbManagementClient) changeManagedDatabaseGroupCompartment(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabaseGroup/ChangeManagedDatabaseGroupCompartment"
+		err = common.PostProcessServiceError(err, "DbManagement", "ChangeManagedDatabaseGroupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -485,6 +497,8 @@ func (client DbManagementClient) createDbManagementPrivateEndpoint(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DbManagementPrivateEndpoint/CreateDbManagementPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DbManagement", "CreateDbManagementPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -543,6 +557,8 @@ func (client DbManagementClient) createJob(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Job/CreateJob"
+		err = common.PostProcessServiceError(err, "DbManagement", "CreateJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -600,6 +616,8 @@ func (client DbManagementClient) createManagedDatabaseGroup(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabaseGroup/CreateManagedDatabaseGroup"
+		err = common.PostProcessServiceError(err, "DbManagement", "CreateManagedDatabaseGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -656,6 +674,8 @@ func (client DbManagementClient) createTablespace(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Tablespace/CreateTablespace"
+		err = common.PostProcessServiceError(err, "DbManagement", "CreateTablespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -707,6 +727,8 @@ func (client DbManagementClient) deleteDbManagementPrivateEndpoint(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DbManagementPrivateEndpoint/DeleteDbManagementPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DbManagement", "DeleteDbManagementPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -758,6 +780,8 @@ func (client DbManagementClient) deleteJob(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Job/DeleteJob"
+		err = common.PostProcessServiceError(err, "DbManagement", "DeleteJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -810,6 +834,8 @@ func (client DbManagementClient) deleteManagedDatabaseGroup(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabaseGroup/DeleteManagedDatabaseGroup"
+		err = common.PostProcessServiceError(err, "DbManagement", "DeleteManagedDatabaseGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -866,6 +892,8 @@ func (client DbManagementClient) dropTablespace(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Tablespace/DropTablespace"
+		err = common.PostProcessServiceError(err, "DbManagement", "DropTablespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -922,6 +950,8 @@ func (client DbManagementClient) getAwrDbReport(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/GetAwrDbReport"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetAwrDbReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -978,6 +1008,8 @@ func (client DbManagementClient) getAwrDbSqlReport(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/GetAwrDbSqlReport"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetAwrDbSqlReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -1031,6 +1063,8 @@ func (client DbManagementClient) getClusterCacheMetric(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ClusterCacheMetric/GetClusterCacheMetric"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetClusterCacheMetric", apiReferenceLink)
 		return response, err
 	}
 
@@ -1083,6 +1117,8 @@ func (client DbManagementClient) getDatabaseFleetHealthMetrics(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DatabaseFleetHealthMetrics/GetDatabaseFleetHealthMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetDatabaseFleetHealthMetrics", apiReferenceLink)
 		return response, err
 	}
 
@@ -1134,6 +1170,8 @@ func (client DbManagementClient) getDatabaseHomeMetrics(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DatabaseHomeMetrics/GetDatabaseHomeMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetDatabaseHomeMetrics", apiReferenceLink)
 		return response, err
 	}
 
@@ -1185,6 +1223,8 @@ func (client DbManagementClient) getDbManagementPrivateEndpoint(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DbManagementPrivateEndpoint/GetDbManagementPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetDbManagementPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -1236,6 +1276,8 @@ func (client DbManagementClient) getJob(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Job/GetJob"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -1287,6 +1329,8 @@ func (client DbManagementClient) getJobExecution(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/JobExecution/GetJobExecution"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetJobExecution", apiReferenceLink)
 		return response, err
 	}
 
@@ -1338,6 +1382,8 @@ func (client DbManagementClient) getJobRun(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/JobRun/GetJobRun"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetJobRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -1389,6 +1435,8 @@ func (client DbManagementClient) getManagedDatabase(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/GetManagedDatabase"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetManagedDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -1440,6 +1488,8 @@ func (client DbManagementClient) getManagedDatabaseGroup(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabaseGroup/GetManagedDatabaseGroup"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetManagedDatabaseGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1494,6 +1544,8 @@ func (client DbManagementClient) getPdbMetrics(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/PdbMetrics/GetPdbMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetPdbMetrics", apiReferenceLink)
 		return response, err
 	}
 
@@ -1545,6 +1597,8 @@ func (client DbManagementClient) getTablespace(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Tablespace/GetTablespace"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetTablespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -1596,6 +1650,8 @@ func (client DbManagementClient) getUser(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/GetUser"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetUser", apiReferenceLink)
 		return response, err
 	}
 
@@ -1647,6 +1703,8 @@ func (client DbManagementClient) getWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -1698,6 +1756,8 @@ func (client DbManagementClient) listAsmProperties(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListAsmProperties"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListAsmProperties", apiReferenceLink)
 		return response, err
 	}
 
@@ -1749,6 +1809,8 @@ func (client DbManagementClient) listAssociatedDatabases(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/AssociatedDatabaseSummary/ListAssociatedDatabases"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListAssociatedDatabases", apiReferenceLink)
 		return response, err
 	}
 
@@ -1805,6 +1867,8 @@ func (client DbManagementClient) listAwrDbSnapshots(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListAwrDbSnapshots"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListAwrDbSnapshots", apiReferenceLink)
 		return response, err
 	}
 
@@ -1861,6 +1925,8 @@ func (client DbManagementClient) listAwrDbs(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListAwrDbs"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListAwrDbs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1912,6 +1978,8 @@ func (client DbManagementClient) listConsumerGroupPrivileges(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListConsumerGroupPrivileges"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListConsumerGroupPrivileges", apiReferenceLink)
 		return response, err
 	}
 
@@ -1963,6 +2031,8 @@ func (client DbManagementClient) listDataAccessContainers(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListDataAccessContainers"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListDataAccessContainers", apiReferenceLink)
 		return response, err
 	}
 
@@ -2014,6 +2084,8 @@ func (client DbManagementClient) listDatabaseParameters(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListDatabaseParameters"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListDatabaseParameters", apiReferenceLink)
 		return response, err
 	}
 
@@ -2065,6 +2137,8 @@ func (client DbManagementClient) listDbManagementPrivateEndpoints(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DbManagementPrivateEndpoint/ListDbManagementPrivateEndpoints"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListDbManagementPrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
 
@@ -2119,6 +2193,8 @@ func (client DbManagementClient) listJobExecutions(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/JobExecution/ListJobExecutions"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListJobExecutions", apiReferenceLink)
 		return response, err
 	}
 
@@ -2173,6 +2249,8 @@ func (client DbManagementClient) listJobRuns(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/JobRun/ListJobRuns"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListJobRuns", apiReferenceLink)
 		return response, err
 	}
 
@@ -2227,6 +2305,8 @@ func (client DbManagementClient) listJobs(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Job/ListJobs"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListJobs", apiReferenceLink)
 		return response, err
 	}
 
@@ -2281,6 +2361,8 @@ func (client DbManagementClient) listManagedDatabaseGroups(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabaseGroup/ListManagedDatabaseGroups"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListManagedDatabaseGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -2337,6 +2419,8 @@ func (client DbManagementClient) listManagedDatabases(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListManagedDatabases"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListManagedDatabases", apiReferenceLink)
 		return response, err
 	}
 
@@ -2388,6 +2472,8 @@ func (client DbManagementClient) listObjectPrivileges(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListObjectPrivileges"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListObjectPrivileges", apiReferenceLink)
 		return response, err
 	}
 
@@ -2439,6 +2525,8 @@ func (client DbManagementClient) listProxiedForUsers(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListProxiedForUsers"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListProxiedForUsers", apiReferenceLink)
 		return response, err
 	}
 
@@ -2490,6 +2578,8 @@ func (client DbManagementClient) listProxyUsers(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListProxyUsers"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListProxyUsers", apiReferenceLink)
 		return response, err
 	}
 
@@ -2541,6 +2631,8 @@ func (client DbManagementClient) listRoles(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListRoles"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListRoles", apiReferenceLink)
 		return response, err
 	}
 
@@ -2592,6 +2684,8 @@ func (client DbManagementClient) listSystemPrivileges(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListSystemPrivileges"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListSystemPrivileges", apiReferenceLink)
 		return response, err
 	}
 
@@ -2643,6 +2737,8 @@ func (client DbManagementClient) listTablespaces(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Tablespace/ListTablespaces"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListTablespaces", apiReferenceLink)
 		return response, err
 	}
 
@@ -2694,6 +2790,8 @@ func (client DbManagementClient) listUsers(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListUsers"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListUsers", apiReferenceLink)
 		return response, err
 	}
 
@@ -2745,6 +2843,8 @@ func (client DbManagementClient) listWorkRequestErrors(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -2796,6 +2896,8 @@ func (client DbManagementClient) listWorkRequestLogs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -2847,6 +2949,8 @@ func (client DbManagementClient) listWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -2903,6 +3007,8 @@ func (client DbManagementClient) removeDataFile(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Tablespace/RemoveDataFile"
+		err = common.PostProcessServiceError(err, "DbManagement", "RemoveDataFile", apiReferenceLink)
 		return response, err
 	}
 
@@ -2962,6 +3068,8 @@ func (client DbManagementClient) removeManagedDatabaseFromManagedDatabaseGroup(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabaseGroup/RemoveManagedDatabaseFromManagedDatabaseGroup"
+		err = common.PostProcessServiceError(err, "DbManagement", "RemoveManagedDatabaseFromManagedDatabaseGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -3018,6 +3126,8 @@ func (client DbManagementClient) resetDatabaseParameters(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ResetDatabaseParameters"
+		err = common.PostProcessServiceError(err, "DbManagement", "ResetDatabaseParameters", apiReferenceLink)
 		return response, err
 	}
 
@@ -3074,6 +3184,8 @@ func (client DbManagementClient) resizeDataFile(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Tablespace/ResizeDataFile"
+		err = common.PostProcessServiceError(err, "DbManagement", "ResizeDataFile", apiReferenceLink)
 		return response, err
 	}
 
@@ -3130,6 +3242,8 @@ func (client DbManagementClient) summarizeAwrDbCpuUsages(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/SummarizeAwrDbCpuUsages"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeAwrDbCpuUsages", apiReferenceLink)
 		return response, err
 	}
 
@@ -3186,6 +3300,8 @@ func (client DbManagementClient) summarizeAwrDbMetrics(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/SummarizeAwrDbMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeAwrDbMetrics", apiReferenceLink)
 		return response, err
 	}
 
@@ -3246,6 +3362,8 @@ func (client DbManagementClient) summarizeAwrDbParameterChanges(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/SummarizeAwrDbParameterChanges"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeAwrDbParameterChanges", apiReferenceLink)
 		return response, err
 	}
 
@@ -3310,6 +3428,8 @@ func (client DbManagementClient) summarizeAwrDbParameters(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/SummarizeAwrDbParameters"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeAwrDbParameters", apiReferenceLink)
 		return response, err
 	}
 
@@ -3366,6 +3486,8 @@ func (client DbManagementClient) summarizeAwrDbSnapshotRanges(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/SummarizeAwrDbSnapshotRanges"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeAwrDbSnapshotRanges", apiReferenceLink)
 		return response, err
 	}
 
@@ -3422,6 +3544,8 @@ func (client DbManagementClient) summarizeAwrDbSysstats(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/SummarizeAwrDbSysstats"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeAwrDbSysstats", apiReferenceLink)
 		return response, err
 	}
 
@@ -3478,6 +3602,8 @@ func (client DbManagementClient) summarizeAwrDbTopWaitEvents(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/SummarizeAwrDbTopWaitEvents"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeAwrDbTopWaitEvents", apiReferenceLink)
 		return response, err
 	}
 
@@ -3534,6 +3660,8 @@ func (client DbManagementClient) summarizeAwrDbWaitEventBuckets(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/SummarizeAwrDbWaitEventBuckets"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeAwrDbWaitEventBuckets", apiReferenceLink)
 		return response, err
 	}
 
@@ -3590,6 +3718,8 @@ func (client DbManagementClient) summarizeAwrDbWaitEvents(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/SummarizeAwrDbWaitEvents"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeAwrDbWaitEvents", apiReferenceLink)
 		return response, err
 	}
 
@@ -3641,6 +3771,8 @@ func (client DbManagementClient) summarizeJobExecutionsStatuses(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/JobExecutionsStatusSummaryCollection/SummarizeJobExecutionsStatuses"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeJobExecutionsStatuses", apiReferenceLink)
 		return response, err
 	}
 
@@ -3692,6 +3824,8 @@ func (client DbManagementClient) updateDbManagementPrivateEndpoint(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DbManagementPrivateEndpoint/UpdateDbManagementPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateDbManagementPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -3743,6 +3877,8 @@ func (client DbManagementClient) updateJob(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Job/UpdateJob"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -3794,6 +3930,8 @@ func (client DbManagementClient) updateManagedDatabaseGroup(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabaseGroup/UpdateManagedDatabaseGroup"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateManagedDatabaseGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -3845,6 +3983,8 @@ func (client DbManagementClient) updateTablespace(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Tablespace/UpdateTablespace"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateTablespace", apiReferenceLink)
 		return response, err
 	}
 

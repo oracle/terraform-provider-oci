@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -84,7 +84,7 @@ func (client *DatabaseToolsClient) ConfigurationProvider() *common.Configuration
 	return client.config
 }
 
-// ChangeDatabaseToolsConnectionCompartment Moves a DatabaseToolsConnection into a different compartment within the same tenancy.
+// ChangeDatabaseToolsConnectionCompartment Moves the specified Database Tools connection to a different compartment in the same tenancy.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client DatabaseToolsClient) ChangeDatabaseToolsConnectionCompartment(ctx context.Context, request ChangeDatabaseToolsConnectionCompartmentRequest) (response ChangeDatabaseToolsConnectionCompartmentResponse, err error) {
@@ -135,6 +135,8 @@ func (client DatabaseToolsClient) changeDatabaseToolsConnectionCompartment(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ChangeDatabaseToolsConnectionCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -142,7 +144,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsConnectionCompartment(ctx c
 	return response, err
 }
 
-// ChangeDatabaseToolsPrivateEndpointCompartment Moves a DatabaseToolsPrivateEndpoint into a different compartment within the same tenancy.
+// ChangeDatabaseToolsPrivateEndpointCompartment Moves a Database Tools private endpoint into a different compartment in the same tenancy.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client DatabaseToolsClient) ChangeDatabaseToolsPrivateEndpointCompartment(ctx context.Context, request ChangeDatabaseToolsPrivateEndpointCompartmentRequest) (response ChangeDatabaseToolsPrivateEndpointCompartmentResponse, err error) {
@@ -193,6 +195,8 @@ func (client DatabaseToolsClient) changeDatabaseToolsPrivateEndpointCompartment(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ChangeDatabaseToolsPrivateEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -200,7 +204,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsPrivateEndpointCompartment(
 	return response, err
 }
 
-// CreateDatabaseToolsConnection Creates a new DatabaseToolsConnection.
+// CreateDatabaseToolsConnection Creates a new Database Tools connection.
 func (client DatabaseToolsClient) CreateDatabaseToolsConnection(ctx context.Context, request CreateDatabaseToolsConnectionRequest) (response CreateDatabaseToolsConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -249,6 +253,8 @@ func (client DatabaseToolsClient) createDatabaseToolsConnection(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "CreateDatabaseToolsConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -256,7 +262,7 @@ func (client DatabaseToolsClient) createDatabaseToolsConnection(ctx context.Cont
 	return response, err
 }
 
-// CreateDatabaseToolsPrivateEndpoint Creates a new DatabaseToolsPrivateEndpoint.
+// CreateDatabaseToolsPrivateEndpoint Creates a new Database Tools private endpoint.
 func (client DatabaseToolsClient) CreateDatabaseToolsPrivateEndpoint(ctx context.Context, request CreateDatabaseToolsPrivateEndpointRequest) (response CreateDatabaseToolsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -305,6 +311,8 @@ func (client DatabaseToolsClient) createDatabaseToolsPrivateEndpoint(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "CreateDatabaseToolsPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -312,7 +320,7 @@ func (client DatabaseToolsClient) createDatabaseToolsPrivateEndpoint(ctx context
 	return response, err
 }
 
-// DeleteDatabaseToolsConnection Deletes a DatabaseToolsConnection resource by identifier
+// DeleteDatabaseToolsConnection Deletes the specified Database Tools connection resource.
 func (client DatabaseToolsClient) DeleteDatabaseToolsConnection(ctx context.Context, request DeleteDatabaseToolsConnectionRequest) (response DeleteDatabaseToolsConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -356,6 +364,8 @@ func (client DatabaseToolsClient) deleteDatabaseToolsConnection(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -363,7 +373,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsConnection(ctx context.Cont
 	return response, err
 }
 
-// DeleteDatabaseToolsPrivateEndpoint Deletes a DatabaseToolsPrivateEndpoint resource by identifier
+// DeleteDatabaseToolsPrivateEndpoint Deletes the specified Database Tools private endpoint.
 func (client DatabaseToolsClient) DeleteDatabaseToolsPrivateEndpoint(ctx context.Context, request DeleteDatabaseToolsPrivateEndpointRequest) (response DeleteDatabaseToolsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -407,6 +417,8 @@ func (client DatabaseToolsClient) deleteDatabaseToolsPrivateEndpoint(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -414,10 +426,11 @@ func (client DatabaseToolsClient) deleteDatabaseToolsPrivateEndpoint(ctx context
 	return response, err
 }
 
-// GetDatabaseToolsConnection Gets a DatabaseToolsConnection by identifier
+// GetDatabaseToolsConnection Gets details of the specified Database Tools connection.
+// A default retry strategy applies to this operation GetDatabaseToolsConnection()
 func (client DatabaseToolsClient) GetDatabaseToolsConnection(ctx context.Context, request GetDatabaseToolsConnectionRequest) (response GetDatabaseToolsConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -458,6 +471,8 @@ func (client DatabaseToolsClient) getDatabaseToolsConnection(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -465,10 +480,11 @@ func (client DatabaseToolsClient) getDatabaseToolsConnection(ctx context.Context
 	return response, err
 }
 
-// GetDatabaseToolsEndpointService Gets a DatabaseToolsEndpointService by identifier
+// GetDatabaseToolsEndpointService Gets details for the specified Database Tools endpoint service.
+// A default retry strategy applies to this operation GetDatabaseToolsEndpointService()
 func (client DatabaseToolsClient) GetDatabaseToolsEndpointService(ctx context.Context, request GetDatabaseToolsEndpointServiceRequest) (response GetDatabaseToolsEndpointServiceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -509,6 +525,8 @@ func (client DatabaseToolsClient) getDatabaseToolsEndpointService(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsEndpointService", apiReferenceLink)
 		return response, err
 	}
 
@@ -516,10 +534,11 @@ func (client DatabaseToolsClient) getDatabaseToolsEndpointService(ctx context.Co
 	return response, err
 }
 
-// GetDatabaseToolsPrivateEndpoint Gets a DatabaseToolsPrivateEndpoint by identifier
+// GetDatabaseToolsPrivateEndpoint Gets details of a specified Database Tools private endpoint.
+// A default retry strategy applies to this operation GetDatabaseToolsPrivateEndpoint()
 func (client DatabaseToolsClient) GetDatabaseToolsPrivateEndpoint(ctx context.Context, request GetDatabaseToolsPrivateEndpointRequest) (response GetDatabaseToolsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -560,6 +579,8 @@ func (client DatabaseToolsClient) getDatabaseToolsPrivateEndpoint(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -567,10 +588,11 @@ func (client DatabaseToolsClient) getDatabaseToolsPrivateEndpoint(ctx context.Co
 	return response, err
 }
 
-// GetWorkRequest Gets the status of the work request with the given ID.
+// GetWorkRequest Gets the status of the specified work request.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client DatabaseToolsClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -611,6 +633,8 @@ func (client DatabaseToolsClient) getWorkRequest(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -618,10 +642,11 @@ func (client DatabaseToolsClient) getWorkRequest(ctx context.Context, request co
 	return response, err
 }
 
-// ListDatabaseToolsConnections Returns a list of DatabaseToolsConnections.
+// ListDatabaseToolsConnections Returns a list of Database Tools connections.
+// A default retry strategy applies to this operation ListDatabaseToolsConnections()
 func (client DatabaseToolsClient) ListDatabaseToolsConnections(ctx context.Context, request ListDatabaseToolsConnectionsRequest) (response ListDatabaseToolsConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -662,6 +687,8 @@ func (client DatabaseToolsClient) listDatabaseToolsConnections(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -669,10 +696,11 @@ func (client DatabaseToolsClient) listDatabaseToolsConnections(ctx context.Conte
 	return response, err
 }
 
-// ListDatabaseToolsEndpointServices Returns a list of DatabaseToolsEndpointServices.
+// ListDatabaseToolsEndpointServices Returns a list of Database Tools endpoint services.
+// A default retry strategy applies to this operation ListDatabaseToolsEndpointServices()
 func (client DatabaseToolsClient) ListDatabaseToolsEndpointServices(ctx context.Context, request ListDatabaseToolsEndpointServicesRequest) (response ListDatabaseToolsEndpointServicesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -713,6 +741,8 @@ func (client DatabaseToolsClient) listDatabaseToolsEndpointServices(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsEndpointServices", apiReferenceLink)
 		return response, err
 	}
 
@@ -720,10 +750,11 @@ func (client DatabaseToolsClient) listDatabaseToolsEndpointServices(ctx context.
 	return response, err
 }
 
-// ListDatabaseToolsPrivateEndpoints Returns a list of DatabaseToolsPrivateEndpoints.
+// ListDatabaseToolsPrivateEndpoints Returns a list of Database Tools private endpoints.
+// A default retry strategy applies to this operation ListDatabaseToolsPrivateEndpoints()
 func (client DatabaseToolsClient) ListDatabaseToolsPrivateEndpoints(ctx context.Context, request ListDatabaseToolsPrivateEndpointsRequest) (response ListDatabaseToolsPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -764,6 +795,8 @@ func (client DatabaseToolsClient) listDatabaseToolsPrivateEndpoints(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsPrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
 
@@ -771,10 +804,11 @@ func (client DatabaseToolsClient) listDatabaseToolsPrivateEndpoints(ctx context.
 	return response, err
 }
 
-// ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// ListWorkRequestErrors Returns a paginated list of errors for the specified work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DatabaseToolsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -815,6 +849,8 @@ func (client DatabaseToolsClient) listWorkRequestErrors(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -822,10 +858,11 @@ func (client DatabaseToolsClient) listWorkRequestErrors(ctx context.Context, req
 	return response, err
 }
 
-// ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// ListWorkRequestLogs Returns a paginated list of logs for the specified work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DatabaseToolsClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -866,6 +903,8 @@ func (client DatabaseToolsClient) listWorkRequestLogs(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -874,9 +913,10 @@ func (client DatabaseToolsClient) listWorkRequestLogs(ctx context.Context, reque
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client DatabaseToolsClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -917,6 +957,8 @@ func (client DatabaseToolsClient) listWorkRequests(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -924,7 +966,7 @@ func (client DatabaseToolsClient) listWorkRequests(ctx context.Context, request 
 	return response, err
 }
 
-// UpdateDatabaseToolsConnection Updates the DatabaseToolsConnection
+// UpdateDatabaseToolsConnection Updates the specified Database Tools connection.
 func (client DatabaseToolsClient) UpdateDatabaseToolsConnection(ctx context.Context, request UpdateDatabaseToolsConnectionRequest) (response UpdateDatabaseToolsConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -968,6 +1010,8 @@ func (client DatabaseToolsClient) updateDatabaseToolsConnection(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "UpdateDatabaseToolsConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -975,7 +1019,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsConnection(ctx context.Cont
 	return response, err
 }
 
-// UpdateDatabaseToolsPrivateEndpoint Updates the DatabaseToolsPrivateEndpoint
+// UpdateDatabaseToolsPrivateEndpoint Updates the specified Database Tools private endpoint.
 func (client DatabaseToolsClient) UpdateDatabaseToolsPrivateEndpoint(ctx context.Context, request UpdateDatabaseToolsPrivateEndpointRequest) (response UpdateDatabaseToolsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1019,6 +1063,8 @@ func (client DatabaseToolsClient) updateDatabaseToolsPrivateEndpoint(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "UpdateDatabaseToolsPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -1026,7 +1072,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsPrivateEndpoint(ctx context
 	return response, err
 }
 
-// ValidateDatabaseToolsConnection Validate the DatabaseToolsConnection information details by establishing a connection to the database.
+// ValidateDatabaseToolsConnection Validates the Database Tools connection details by establishing a connection to the database.
 func (client DatabaseToolsClient) ValidateDatabaseToolsConnection(ctx context.Context, request ValidateDatabaseToolsConnectionRequest) (response ValidateDatabaseToolsConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1070,6 +1116,8 @@ func (client DatabaseToolsClient) validateDatabaseToolsConnection(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ValidateDatabaseToolsConnection", apiReferenceLink)
 		return response, err
 	}
 

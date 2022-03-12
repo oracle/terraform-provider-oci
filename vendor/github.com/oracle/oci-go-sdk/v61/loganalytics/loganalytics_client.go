@@ -135,6 +135,8 @@ func (client LogAnalyticsClient) addEntityAssociation(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntity/AddEntityAssociation"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "AddEntityAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -193,6 +195,8 @@ func (client LogAnalyticsClient) addSourceEventTypes(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/AddSourceEventTypes"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "AddSourceEventTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -251,6 +255,8 @@ func (client LogAnalyticsClient) appendLookupData(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLookup/AppendLookupData"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "AppendLookupData", apiReferenceLink)
 		return response, err
 	}
 
@@ -304,6 +310,8 @@ func (client LogAnalyticsClient) batchGetBasicInfo(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLabel/BatchGetBasicInfo"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "BatchGetBasicInfo", apiReferenceLink)
 		return response, err
 	}
 
@@ -355,6 +363,8 @@ func (client LogAnalyticsClient) cancelQueryWorkRequest(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryWorkRequest/CancelQueryWorkRequest"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "CancelQueryWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -413,6 +423,8 @@ func (client LogAnalyticsClient) changeLogAnalyticsEmBridgeCompartment(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEmBridge/ChangeLogAnalyticsEmBridgeCompartment"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ChangeLogAnalyticsEmBridgeCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -471,6 +483,8 @@ func (client LogAnalyticsClient) changeLogAnalyticsEntityCompartment(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntity/ChangeLogAnalyticsEntityCompartment"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ChangeLogAnalyticsEntityCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -529,6 +543,8 @@ func (client LogAnalyticsClient) changeLogAnalyticsLogGroupCompartment(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLogGroup/ChangeLogAnalyticsLogGroupCompartment"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ChangeLogAnalyticsLogGroupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -582,6 +598,8 @@ func (client LogAnalyticsClient) changeLogAnalyticsObjectCollectionRuleCompartme
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsObjectCollectionRule/ChangeLogAnalyticsObjectCollectionRuleCompartment"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ChangeLogAnalyticsObjectCollectionRuleCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -640,6 +658,8 @@ func (client LogAnalyticsClient) changeScheduledTaskCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/ScheduledTask/ChangeScheduledTaskCompartment"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ChangeScheduledTaskCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -697,6 +717,8 @@ func (client LogAnalyticsClient) clean(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/ScheduledTask/Clean"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "Clean", apiReferenceLink)
 		return response, err
 	}
 
@@ -750,6 +772,8 @@ func (client LogAnalyticsClient) compareContent(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryDetails/CompareContent"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "CompareContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -808,6 +832,8 @@ func (client LogAnalyticsClient) createLogAnalyticsEmBridge(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEmBridge/CreateLogAnalyticsEmBridge"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "CreateLogAnalyticsEmBridge", apiReferenceLink)
 		return response, err
 	}
 
@@ -866,6 +892,8 @@ func (client LogAnalyticsClient) createLogAnalyticsEntity(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntity/CreateLogAnalyticsEntity"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "CreateLogAnalyticsEntity", apiReferenceLink)
 		return response, err
 	}
 
@@ -924,6 +952,8 @@ func (client LogAnalyticsClient) createLogAnalyticsEntityType(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntityType/CreateLogAnalyticsEntityType"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "CreateLogAnalyticsEntityType", apiReferenceLink)
 		return response, err
 	}
 
@@ -982,6 +1012,8 @@ func (client LogAnalyticsClient) createLogAnalyticsLogGroup(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLogGroup/CreateLogAnalyticsLogGroup"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "CreateLogAnalyticsLogGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1035,6 +1067,8 @@ func (client LogAnalyticsClient) createLogAnalyticsObjectCollectionRule(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsObjectCollectionRule/CreateLogAnalyticsObjectCollectionRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "CreateLogAnalyticsObjectCollectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -1093,6 +1127,8 @@ func (client LogAnalyticsClient) createScheduledTask(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/ScheduledTask/CreateScheduledTask"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "CreateScheduledTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -1151,6 +1187,8 @@ func (client LogAnalyticsClient) deleteAssociations(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsAssociation/DeleteAssociations"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -1207,6 +1245,8 @@ func (client LogAnalyticsClient) deleteField(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsField/DeleteField"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteField", apiReferenceLink)
 		return response, err
 	}
 
@@ -1263,6 +1303,8 @@ func (client LogAnalyticsClient) deleteLabel(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLabel/DeleteLabel"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteLabel", apiReferenceLink)
 		return response, err
 	}
 
@@ -1314,6 +1356,8 @@ func (client LogAnalyticsClient) deleteLogAnalyticsEmBridge(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEmBridge/DeleteLogAnalyticsEmBridge"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteLogAnalyticsEmBridge", apiReferenceLink)
 		return response, err
 	}
 
@@ -1365,6 +1409,8 @@ func (client LogAnalyticsClient) deleteLogAnalyticsEntity(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntity/DeleteLogAnalyticsEntity"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteLogAnalyticsEntity", apiReferenceLink)
 		return response, err
 	}
 
@@ -1416,6 +1462,8 @@ func (client LogAnalyticsClient) deleteLogAnalyticsEntityType(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntityType/DeleteLogAnalyticsEntityType"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteLogAnalyticsEntityType", apiReferenceLink)
 		return response, err
 	}
 
@@ -1467,6 +1515,8 @@ func (client LogAnalyticsClient) deleteLogAnalyticsLogGroup(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLogGroup/DeleteLogAnalyticsLogGroup"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteLogAnalyticsLogGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1519,6 +1569,8 @@ func (client LogAnalyticsClient) deleteLogAnalyticsObjectCollectionRule(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsObjectCollectionRule/DeleteLogAnalyticsObjectCollectionRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteLogAnalyticsObjectCollectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -1575,6 +1627,8 @@ func (client LogAnalyticsClient) deleteLookup(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLookup/DeleteLookup"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteLookup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1631,6 +1685,8 @@ func (client LogAnalyticsClient) deleteParser(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsParser/DeleteParser"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteParser", apiReferenceLink)
 		return response, err
 	}
 
@@ -1682,6 +1738,8 @@ func (client LogAnalyticsClient) deleteScheduledTask(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/ScheduledTask/DeleteScheduledTask"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteScheduledTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -1738,6 +1796,8 @@ func (client LogAnalyticsClient) deleteSource(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/DeleteSource"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -1790,6 +1850,8 @@ func (client LogAnalyticsClient) deleteUpload(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Upload/DeleteUpload"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteUpload", apiReferenceLink)
 		return response, err
 	}
 
@@ -1842,6 +1904,8 @@ func (client LogAnalyticsClient) deleteUploadFile(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Upload/DeleteUploadFile"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteUploadFile", apiReferenceLink)
 		return response, err
 	}
 
@@ -1893,6 +1957,8 @@ func (client LogAnalyticsClient) deleteUploadWarning(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Upload/DeleteUploadWarning"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteUploadWarning", apiReferenceLink)
 		return response, err
 	}
 
@@ -1944,6 +2010,8 @@ func (client LogAnalyticsClient) disableArchiving(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/DisableArchiving"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DisableArchiving", apiReferenceLink)
 		return response, err
 	}
 
@@ -2004,6 +2072,8 @@ func (client LogAnalyticsClient) disableAutoAssociation(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/DisableAutoAssociation"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DisableAutoAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -2062,6 +2132,8 @@ func (client LogAnalyticsClient) disableSourceEventTypes(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/DisableSourceEventTypes"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DisableSourceEventTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -2113,6 +2185,8 @@ func (client LogAnalyticsClient) enableArchiving(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/EnableArchiving"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "EnableArchiving", apiReferenceLink)
 		return response, err
 	}
 
@@ -2173,6 +2247,8 @@ func (client LogAnalyticsClient) enableAutoAssociation(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/EnableAutoAssociation"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "EnableAutoAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -2231,6 +2307,8 @@ func (client LogAnalyticsClient) enableSourceEventTypes(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/EnableSourceEventTypes"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "EnableSourceEventTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -2289,6 +2367,8 @@ func (client LogAnalyticsClient) estimatePurgeDataSize(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/EstimatePurgeDataSize"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "EstimatePurgeDataSize", apiReferenceLink)
 		return response, err
 	}
 
@@ -2342,6 +2422,8 @@ func (client LogAnalyticsClient) estimateRecallDataSize(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/EstimateRecallDataSize"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "EstimateRecallDataSize", apiReferenceLink)
 		return response, err
 	}
 
@@ -2395,6 +2477,8 @@ func (client LogAnalyticsClient) estimateReleaseDataSize(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/EstimateReleaseDataSize"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "EstimateReleaseDataSize", apiReferenceLink)
 		return response, err
 	}
 
@@ -2452,6 +2536,8 @@ func (client LogAnalyticsClient) exportCustomContent(ctx context.Context, reques
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ExportCustomContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -2504,6 +2590,8 @@ func (client LogAnalyticsClient) exportQueryResult(ctx context.Context, request 
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryDetails/ExportQueryResult"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ExportQueryResult", apiReferenceLink)
 		return response, err
 	}
 
@@ -2562,6 +2650,8 @@ func (client LogAnalyticsClient) extractStructuredLogFieldPaths(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsParser/ExtractStructuredLogFieldPaths"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ExtractStructuredLogFieldPaths", apiReferenceLink)
 		return response, err
 	}
 
@@ -2620,6 +2710,8 @@ func (client LogAnalyticsClient) extractStructuredLogHeaderPaths(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsParser/ExtractStructuredLogHeaderPaths"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ExtractStructuredLogHeaderPaths", apiReferenceLink)
 		return response, err
 	}
 
@@ -2673,6 +2765,8 @@ func (client LogAnalyticsClient) filter(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryDetails/Filter"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "Filter", apiReferenceLink)
 		return response, err
 	}
 
@@ -2724,6 +2818,8 @@ func (client LogAnalyticsClient) getAssociationSummary(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsAssociation/GetAssociationSummary"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetAssociationSummary", apiReferenceLink)
 		return response, err
 	}
 
@@ -2775,6 +2871,8 @@ func (client LogAnalyticsClient) getCategory(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsCategory/GetCategory"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetCategory", apiReferenceLink)
 		return response, err
 	}
 
@@ -2831,6 +2929,8 @@ func (client LogAnalyticsClient) getColumnNames(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/GetColumnNames"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetColumnNames", apiReferenceLink)
 		return response, err
 	}
 
@@ -2882,6 +2982,8 @@ func (client LogAnalyticsClient) getConfigWorkRequest(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsConfigWorkRequest/GetConfigWorkRequest"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetConfigWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -2933,6 +3035,8 @@ func (client LogAnalyticsClient) getField(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsField/GetField"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetField", apiReferenceLink)
 		return response, err
 	}
 
@@ -2984,6 +3088,8 @@ func (client LogAnalyticsClient) getFieldsSummary(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsField/GetFieldsSummary"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetFieldsSummary", apiReferenceLink)
 		return response, err
 	}
 
@@ -3035,6 +3141,8 @@ func (client LogAnalyticsClient) getLabel(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLabel/GetLabel"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetLabel", apiReferenceLink)
 		return response, err
 	}
 
@@ -3086,6 +3194,8 @@ func (client LogAnalyticsClient) getLabelSummary(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLabel/GetLabelSummary"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetLabelSummary", apiReferenceLink)
 		return response, err
 	}
 
@@ -3137,6 +3247,8 @@ func (client LogAnalyticsClient) getLogAnalyticsEmBridge(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEmBridge/GetLogAnalyticsEmBridge"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetLogAnalyticsEmBridge", apiReferenceLink)
 		return response, err
 	}
 
@@ -3188,6 +3300,8 @@ func (client LogAnalyticsClient) getLogAnalyticsEmBridgeSummary(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEmBridge/GetLogAnalyticsEmBridgeSummary"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetLogAnalyticsEmBridgeSummary", apiReferenceLink)
 		return response, err
 	}
 
@@ -3239,6 +3353,8 @@ func (client LogAnalyticsClient) getLogAnalyticsEntitiesSummary(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntity/GetLogAnalyticsEntitiesSummary"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetLogAnalyticsEntitiesSummary", apiReferenceLink)
 		return response, err
 	}
 
@@ -3290,6 +3406,8 @@ func (client LogAnalyticsClient) getLogAnalyticsEntity(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntity/GetLogAnalyticsEntity"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetLogAnalyticsEntity", apiReferenceLink)
 		return response, err
 	}
 
@@ -3341,6 +3459,8 @@ func (client LogAnalyticsClient) getLogAnalyticsEntityType(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntityType/GetLogAnalyticsEntityType"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetLogAnalyticsEntityType", apiReferenceLink)
 		return response, err
 	}
 
@@ -3392,6 +3512,8 @@ func (client LogAnalyticsClient) getLogAnalyticsLogGroup(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLogGroup/GetLogAnalyticsLogGroup"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetLogAnalyticsLogGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -3443,6 +3565,8 @@ func (client LogAnalyticsClient) getLogAnalyticsLogGroupsSummary(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLogGroup/GetLogAnalyticsLogGroupsSummary"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetLogAnalyticsLogGroupsSummary", apiReferenceLink)
 		return response, err
 	}
 
@@ -3494,6 +3618,8 @@ func (client LogAnalyticsClient) getLogAnalyticsObjectCollectionRule(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsObjectCollectionRule/GetLogAnalyticsObjectCollectionRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetLogAnalyticsObjectCollectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -3545,6 +3671,8 @@ func (client LogAnalyticsClient) getLogSetsCount(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/GetLogSetsCount"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetLogSetsCount", apiReferenceLink)
 		return response, err
 	}
 
@@ -3596,6 +3724,8 @@ func (client LogAnalyticsClient) getLookup(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLookup/GetLookup"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetLookup", apiReferenceLink)
 		return response, err
 	}
 
@@ -3647,6 +3777,8 @@ func (client LogAnalyticsClient) getLookupSummary(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLookup/GetLookupSummary"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetLookupSummary", apiReferenceLink)
 		return response, err
 	}
 
@@ -3698,6 +3830,8 @@ func (client LogAnalyticsClient) getNamespace(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Namespace/GetNamespace"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetNamespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -3749,6 +3883,8 @@ func (client LogAnalyticsClient) getParser(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsParser/GetParser"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetParser", apiReferenceLink)
 		return response, err
 	}
 
@@ -3800,6 +3936,8 @@ func (client LogAnalyticsClient) getParserSummary(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsParser/GetParserSummary"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetParserSummary", apiReferenceLink)
 		return response, err
 	}
 
@@ -3851,6 +3989,8 @@ func (client LogAnalyticsClient) getPreferences(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsPreference/GetPreferences"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetPreferences", apiReferenceLink)
 		return response, err
 	}
 
@@ -3903,6 +4043,8 @@ func (client LogAnalyticsClient) getQueryResult(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryDetails/GetQueryResult"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetQueryResult", apiReferenceLink)
 		return response, err
 	}
 
@@ -3954,6 +4096,8 @@ func (client LogAnalyticsClient) getQueryWorkRequest(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryWorkRequest/GetQueryWorkRequest"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetQueryWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -4005,6 +4149,8 @@ func (client LogAnalyticsClient) getScheduledTask(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/ScheduledTask/GetScheduledTask"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetScheduledTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -4056,6 +4202,8 @@ func (client LogAnalyticsClient) getSource(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/GetSource"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -4107,6 +4255,8 @@ func (client LogAnalyticsClient) getSourceSummary(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/GetSourceSummary"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetSourceSummary", apiReferenceLink)
 		return response, err
 	}
 
@@ -4158,6 +4308,8 @@ func (client LogAnalyticsClient) getStorage(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/GetStorage"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetStorage", apiReferenceLink)
 		return response, err
 	}
 
@@ -4210,6 +4362,8 @@ func (client LogAnalyticsClient) getStorageUsage(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/GetStorageUsage"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetStorageUsage", apiReferenceLink)
 		return response, err
 	}
 
@@ -4262,6 +4416,8 @@ func (client LogAnalyticsClient) getStorageWorkRequest(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/GetStorageWorkRequest"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetStorageWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -4313,6 +4469,8 @@ func (client LogAnalyticsClient) getUnprocessedDataBucket(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Upload/GetUnprocessedDataBucket"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetUnprocessedDataBucket", apiReferenceLink)
 		return response, err
 	}
 
@@ -4364,6 +4522,8 @@ func (client LogAnalyticsClient) getUpload(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Upload/GetUpload"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetUpload", apiReferenceLink)
 		return response, err
 	}
 
@@ -4415,6 +4575,8 @@ func (client LogAnalyticsClient) getWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -4473,6 +4635,8 @@ func (client LogAnalyticsClient) importCustomContent(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsImportCustomContent/ImportCustomContent"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ImportCustomContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -4524,6 +4688,8 @@ func (client LogAnalyticsClient) listAssociableEntities(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/ListAssociableEntities"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListAssociableEntities", apiReferenceLink)
 		return response, err
 	}
 
@@ -4575,6 +4741,8 @@ func (client LogAnalyticsClient) listAssociatedEntities(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsAssociation/ListAssociatedEntities"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListAssociatedEntities", apiReferenceLink)
 		return response, err
 	}
 
@@ -4626,6 +4794,8 @@ func (client LogAnalyticsClient) listAutoAssociations(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/ListAutoAssociations"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListAutoAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -4677,6 +4847,8 @@ func (client LogAnalyticsClient) listCategories(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsCategory/ListCategories"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListCategories", apiReferenceLink)
 		return response, err
 	}
 
@@ -4728,6 +4900,8 @@ func (client LogAnalyticsClient) listConfigWorkRequests(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsConfigWorkRequest/ListConfigWorkRequests"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListConfigWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -4779,6 +4953,8 @@ func (client LogAnalyticsClient) listEntityAssociations(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntity/ListEntityAssociations"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListEntityAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -4830,6 +5006,8 @@ func (client LogAnalyticsClient) listEntitySourceAssociations(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsAssociation/ListEntitySourceAssociations"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListEntitySourceAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -4881,6 +5059,8 @@ func (client LogAnalyticsClient) listFields(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsField/ListFields"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListFields", apiReferenceLink)
 		return response, err
 	}
 
@@ -4932,6 +5112,8 @@ func (client LogAnalyticsClient) listLabelPriorities(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLabel/ListLabelPriorities"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListLabelPriorities", apiReferenceLink)
 		return response, err
 	}
 
@@ -4983,6 +5165,8 @@ func (client LogAnalyticsClient) listLabelSourceDetails(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLabel/ListLabelSourceDetails"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListLabelSourceDetails", apiReferenceLink)
 		return response, err
 	}
 
@@ -5034,6 +5218,8 @@ func (client LogAnalyticsClient) listLabels(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLabel/ListLabels"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListLabels", apiReferenceLink)
 		return response, err
 	}
 
@@ -5085,6 +5271,8 @@ func (client LogAnalyticsClient) listLogAnalyticsEmBridges(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEmBridge/ListLogAnalyticsEmBridges"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListLogAnalyticsEmBridges", apiReferenceLink)
 		return response, err
 	}
 
@@ -5136,6 +5324,8 @@ func (client LogAnalyticsClient) listLogAnalyticsEntities(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntity/ListLogAnalyticsEntities"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListLogAnalyticsEntities", apiReferenceLink)
 		return response, err
 	}
 
@@ -5187,6 +5377,8 @@ func (client LogAnalyticsClient) listLogAnalyticsEntityTopology(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntitySummary/ListLogAnalyticsEntityTopology"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListLogAnalyticsEntityTopology", apiReferenceLink)
 		return response, err
 	}
 
@@ -5238,6 +5430,8 @@ func (client LogAnalyticsClient) listLogAnalyticsEntityTypes(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntityType/ListLogAnalyticsEntityTypes"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListLogAnalyticsEntityTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -5289,6 +5483,8 @@ func (client LogAnalyticsClient) listLogAnalyticsLogGroups(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLogGroup/ListLogAnalyticsLogGroups"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListLogAnalyticsLogGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -5340,6 +5536,8 @@ func (client LogAnalyticsClient) listLogAnalyticsObjectCollectionRules(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsObjectCollectionRule/ListLogAnalyticsObjectCollectionRules"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListLogAnalyticsObjectCollectionRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -5391,6 +5589,8 @@ func (client LogAnalyticsClient) listLogSets(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/ListLogSets"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListLogSets", apiReferenceLink)
 		return response, err
 	}
 
@@ -5442,6 +5642,8 @@ func (client LogAnalyticsClient) listLookups(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLookup/ListLookups"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListLookups", apiReferenceLink)
 		return response, err
 	}
 
@@ -5493,6 +5695,8 @@ func (client LogAnalyticsClient) listMetaSourceTypes(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/ListMetaSourceTypes"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListMetaSourceTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -5545,6 +5749,8 @@ func (client LogAnalyticsClient) listNamespaces(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Namespace/ListNamespaces"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListNamespaces", apiReferenceLink)
 		return response, err
 	}
 
@@ -5596,6 +5802,8 @@ func (client LogAnalyticsClient) listParserFunctions(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsParser/ListParserFunctions"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListParserFunctions", apiReferenceLink)
 		return response, err
 	}
 
@@ -5647,6 +5855,8 @@ func (client LogAnalyticsClient) listParserMetaPlugins(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsParser/ListParserMetaPlugins"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListParserMetaPlugins", apiReferenceLink)
 		return response, err
 	}
 
@@ -5698,6 +5908,8 @@ func (client LogAnalyticsClient) listParsers(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsParser/ListParsers"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListParsers", apiReferenceLink)
 		return response, err
 	}
 
@@ -5749,6 +5961,8 @@ func (client LogAnalyticsClient) listQueryWorkRequests(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryWorkRequest/ListQueryWorkRequests"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListQueryWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -5800,6 +6014,8 @@ func (client LogAnalyticsClient) listRecalledData(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/ListRecalledData"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListRecalledData", apiReferenceLink)
 		return response, err
 	}
 
@@ -5852,6 +6068,8 @@ func (client LogAnalyticsClient) listResourceCategories(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsCategory/ListResourceCategories"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListResourceCategories", apiReferenceLink)
 		return response, err
 	}
 
@@ -5903,6 +6121,8 @@ func (client LogAnalyticsClient) listScheduledTasks(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/ScheduledTask/ListScheduledTasks"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListScheduledTasks", apiReferenceLink)
 		return response, err
 	}
 
@@ -5954,6 +6174,8 @@ func (client LogAnalyticsClient) listSourceAssociations(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsAssociation/ListSourceAssociations"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListSourceAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -6005,6 +6227,8 @@ func (client LogAnalyticsClient) listSourceEventTypes(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/ListSourceEventTypes"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListSourceEventTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -6056,6 +6280,8 @@ func (client LogAnalyticsClient) listSourceExtendedFieldDefinitions(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/ListSourceExtendedFieldDefinitions"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListSourceExtendedFieldDefinitions", apiReferenceLink)
 		return response, err
 	}
 
@@ -6107,6 +6333,8 @@ func (client LogAnalyticsClient) listSourceLabelOperators(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/ListSourceLabelOperators"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListSourceLabelOperators", apiReferenceLink)
 		return response, err
 	}
 
@@ -6158,6 +6386,8 @@ func (client LogAnalyticsClient) listSourceMetaFunctions(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/ListSourceMetaFunctions"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListSourceMetaFunctions", apiReferenceLink)
 		return response, err
 	}
 
@@ -6209,6 +6439,8 @@ func (client LogAnalyticsClient) listSourcePatterns(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/ListSourcePatterns"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListSourcePatterns", apiReferenceLink)
 		return response, err
 	}
 
@@ -6260,6 +6492,8 @@ func (client LogAnalyticsClient) listSources(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/ListSources"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListSources", apiReferenceLink)
 		return response, err
 	}
 
@@ -6311,6 +6545,8 @@ func (client LogAnalyticsClient) listStorageWorkRequestErrors(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/ListStorageWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListStorageWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -6362,6 +6598,8 @@ func (client LogAnalyticsClient) listStorageWorkRequests(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/ListStorageWorkRequests"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListStorageWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -6413,6 +6651,8 @@ func (client LogAnalyticsClient) listSupportedCharEncodings(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/CharEncodingCollection/ListSupportedCharEncodings"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListSupportedCharEncodings", apiReferenceLink)
 		return response, err
 	}
 
@@ -6464,6 +6704,8 @@ func (client LogAnalyticsClient) listSupportedTimezones(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/TimezoneCollection/ListSupportedTimezones"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListSupportedTimezones", apiReferenceLink)
 		return response, err
 	}
 
@@ -6515,6 +6757,8 @@ func (client LogAnalyticsClient) listUploadFiles(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Upload/ListUploadFiles"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListUploadFiles", apiReferenceLink)
 		return response, err
 	}
 
@@ -6566,6 +6810,8 @@ func (client LogAnalyticsClient) listUploadWarnings(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Upload/ListUploadWarnings"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListUploadWarnings", apiReferenceLink)
 		return response, err
 	}
 
@@ -6618,6 +6864,8 @@ func (client LogAnalyticsClient) listUploads(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Upload/ListUploads"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListUploads", apiReferenceLink)
 		return response, err
 	}
 
@@ -6669,6 +6917,8 @@ func (client LogAnalyticsClient) listWarnings(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsWarning/ListWarnings"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListWarnings", apiReferenceLink)
 		return response, err
 	}
 
@@ -6720,6 +6970,8 @@ func (client LogAnalyticsClient) listWorkRequestErrors(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -6771,6 +7023,8 @@ func (client LogAnalyticsClient) listWorkRequestLogs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/WorkRequestLog/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -6822,6 +7076,8 @@ func (client LogAnalyticsClient) listWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -6878,6 +7134,8 @@ func (client LogAnalyticsClient) offboardNamespace(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Namespace/OffboardNamespace"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "OffboardNamespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -6934,6 +7192,8 @@ func (client LogAnalyticsClient) onboardNamespace(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Namespace/OnboardNamespace"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "OnboardNamespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -6987,6 +7247,8 @@ func (client LogAnalyticsClient) parseQuery(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryDetails/ParseQuery"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ParseQuery", apiReferenceLink)
 		return response, err
 	}
 
@@ -7038,6 +7300,8 @@ func (client LogAnalyticsClient) pauseScheduledTask(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/ScheduledTask/PauseScheduledTask"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "PauseScheduledTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -7097,6 +7361,8 @@ func (client LogAnalyticsClient) purgeStorageData(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/PurgeStorageData"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "PurgeStorageData", apiReferenceLink)
 		return response, err
 	}
 
@@ -7148,6 +7414,8 @@ func (client LogAnalyticsClient) putQueryWorkRequestBackground(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryWorkRequest/PutQueryWorkRequestBackground"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "PutQueryWorkRequestBackground", apiReferenceLink)
 		return response, err
 	}
 
@@ -7201,6 +7469,8 @@ func (client LogAnalyticsClient) query(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryDetails/Query"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "Query", apiReferenceLink)
 		return response, err
 	}
 
@@ -7259,6 +7529,8 @@ func (client LogAnalyticsClient) recallArchivedData(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/RecallArchivedData"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "RecallArchivedData", apiReferenceLink)
 		return response, err
 	}
 
@@ -7317,6 +7589,8 @@ func (client LogAnalyticsClient) registerLookup(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLookup/RegisterLookup"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "RegisterLookup", apiReferenceLink)
 		return response, err
 	}
 
@@ -7375,6 +7649,8 @@ func (client LogAnalyticsClient) releaseRecalledData(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/ReleaseRecalledData"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ReleaseRecalledData", apiReferenceLink)
 		return response, err
 	}
 
@@ -7433,6 +7709,8 @@ func (client LogAnalyticsClient) removeEntityAssociations(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntity/RemoveEntityAssociations"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "RemoveEntityAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -7491,6 +7769,8 @@ func (client LogAnalyticsClient) removePreferences(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsPreference/RemovePreferences"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "RemovePreferences", apiReferenceLink)
 		return response, err
 	}
 
@@ -7544,6 +7824,8 @@ func (client LogAnalyticsClient) removeResourceCategories(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsCategory/RemoveResourceCategories"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "RemoveResourceCategories", apiReferenceLink)
 		return response, err
 	}
 
@@ -7602,6 +7884,8 @@ func (client LogAnalyticsClient) removeSourceEventTypes(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/RemoveSourceEventTypes"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "RemoveSourceEventTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -7653,6 +7937,8 @@ func (client LogAnalyticsClient) resumeScheduledTask(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/ScheduledTask/ResumeScheduledTask"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ResumeScheduledTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -7711,6 +7997,8 @@ func (client LogAnalyticsClient) run(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/ScheduledTask/Run"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "Run", apiReferenceLink)
 		return response, err
 	}
 
@@ -7764,6 +8052,8 @@ func (client LogAnalyticsClient) setUnprocessedDataBucket(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Upload/SetUnprocessedDataBucket"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "SetUnprocessedDataBucket", apiReferenceLink)
 		return response, err
 	}
 
@@ -7817,6 +8107,8 @@ func (client LogAnalyticsClient) suggest(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryDetails/Suggest"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "Suggest", apiReferenceLink)
 		return response, err
 	}
 
@@ -7875,6 +8167,8 @@ func (client LogAnalyticsClient) suppressWarning(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsWarning/SuppressWarning"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "SuppressWarning", apiReferenceLink)
 		return response, err
 	}
 
@@ -7933,6 +8227,8 @@ func (client LogAnalyticsClient) testParser(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsParser/TestParser"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "TestParser", apiReferenceLink)
 		return response, err
 	}
 
@@ -7991,6 +8287,8 @@ func (client LogAnalyticsClient) unsuppressWarning(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsWarning/UnsuppressWarning"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UnsuppressWarning", apiReferenceLink)
 		return response, err
 	}
 
@@ -8044,6 +8342,8 @@ func (client LogAnalyticsClient) updateLogAnalyticsEmBridge(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEmBridge/UpdateLogAnalyticsEmBridge"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateLogAnalyticsEmBridge", apiReferenceLink)
 		return response, err
 	}
 
@@ -8097,6 +8397,8 @@ func (client LogAnalyticsClient) updateLogAnalyticsEntity(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntity/UpdateLogAnalyticsEntity"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateLogAnalyticsEntity", apiReferenceLink)
 		return response, err
 	}
 
@@ -8150,6 +8452,8 @@ func (client LogAnalyticsClient) updateLogAnalyticsEntityType(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntityType/UpdateLogAnalyticsEntityType"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateLogAnalyticsEntityType", apiReferenceLink)
 		return response, err
 	}
 
@@ -8203,6 +8507,8 @@ func (client LogAnalyticsClient) updateLogAnalyticsLogGroup(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLogGroup/UpdateLogAnalyticsLogGroup"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateLogAnalyticsLogGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -8256,6 +8562,8 @@ func (client LogAnalyticsClient) updateLogAnalyticsObjectCollectionRule(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsObjectCollectionRule/UpdateLogAnalyticsObjectCollectionRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateLogAnalyticsObjectCollectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -8314,6 +8622,8 @@ func (client LogAnalyticsClient) updateLookup(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLookup/UpdateLookup"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateLookup", apiReferenceLink)
 		return response, err
 	}
 
@@ -8372,6 +8682,8 @@ func (client LogAnalyticsClient) updateLookupData(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLookup/UpdateLookupData"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateLookupData", apiReferenceLink)
 		return response, err
 	}
 
@@ -8430,6 +8742,8 @@ func (client LogAnalyticsClient) updatePreferences(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsPreference/UpdatePreferences"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdatePreferences", apiReferenceLink)
 		return response, err
 	}
 
@@ -8483,6 +8797,8 @@ func (client LogAnalyticsClient) updateResourceCategories(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsCategory/UpdateResourceCategories"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateResourceCategories", apiReferenceLink)
 		return response, err
 	}
 
@@ -8536,6 +8852,8 @@ func (client LogAnalyticsClient) updateScheduledTask(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/ScheduledTask/UpdateScheduledTask"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateScheduledTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -8589,6 +8907,8 @@ func (client LogAnalyticsClient) updateStorage(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/UpdateStorage"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateStorage", apiReferenceLink)
 		return response, err
 	}
 
@@ -8657,6 +8977,8 @@ func (client LogAnalyticsClient) uploadLogEventsFile(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Upload/UploadLogEventsFile"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UploadLogEventsFile", apiReferenceLink)
 		return response, err
 	}
 
@@ -8725,6 +9047,8 @@ func (client LogAnalyticsClient) uploadLogFile(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Upload/UploadLogFile"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UploadLogFile", apiReferenceLink)
 		return response, err
 	}
 
@@ -8783,6 +9107,8 @@ func (client LogAnalyticsClient) upsertAssociations(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsAssociation/UpsertAssociations"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpsertAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -8841,6 +9167,8 @@ func (client LogAnalyticsClient) upsertField(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsField/UpsertField"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpsertField", apiReferenceLink)
 		return response, err
 	}
 
@@ -8899,6 +9227,8 @@ func (client LogAnalyticsClient) upsertLabel(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsLabel/UpsertLabel"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpsertLabel", apiReferenceLink)
 		return response, err
 	}
 
@@ -8957,6 +9287,8 @@ func (client LogAnalyticsClient) upsertParser(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsParser/UpsertParser"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpsertParser", apiReferenceLink)
 		return response, err
 	}
 
@@ -9015,6 +9347,8 @@ func (client LogAnalyticsClient) upsertSource(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/UpsertSource"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpsertSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -9073,6 +9407,8 @@ func (client LogAnalyticsClient) validateAssociationParameters(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsAssociation/ValidateAssociationParameters"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ValidateAssociationParameters", apiReferenceLink)
 		return response, err
 	}
 
@@ -9124,6 +9460,8 @@ func (client LogAnalyticsClient) validateFile(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Upload/ValidateFile"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ValidateFile", apiReferenceLink)
 		return response, err
 	}
 
@@ -9182,6 +9520,8 @@ func (client LogAnalyticsClient) validateSource(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/ValidateSource"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ValidateSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -9240,6 +9580,8 @@ func (client LogAnalyticsClient) validateSourceExtendedFieldDetails(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/ValidateSourceExtendedFieldDetails"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ValidateSourceExtendedFieldDetails", apiReferenceLink)
 		return response, err
 	}
 
@@ -9291,6 +9633,8 @@ func (client LogAnalyticsClient) validateSourceMapping(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Upload/ValidateSourceMapping"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ValidateSourceMapping", apiReferenceLink)
 		return response, err
 	}
 
@@ -9350,6 +9694,8 @@ func (client LogAnalyticsClient) verify(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/ScheduledTask/Verify"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "Verify", apiReferenceLink)
 		return response, err
 	}
 

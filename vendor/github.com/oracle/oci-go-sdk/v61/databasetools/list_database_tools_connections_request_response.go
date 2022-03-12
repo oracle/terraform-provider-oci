@@ -17,13 +17,13 @@ type ListDatabaseToolsConnectionsRequest struct {
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only resources their lifecycleState matches the given lifecycleState.
+	// A filter to return only resources their `lifecycleState` matches the specified `lifecycleState`.
 	LifecycleState ListDatabaseToolsConnectionsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return only resources that match the entire display name given.
+	// A filter to return only resources that match the entire specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only resources their endpointServiceId matches the given endpointServiceId.
+	// A filter to return only resources their type matches the specified type.
 	Type []ConnectionTypeEnum `contributesTo:"query" name:"type" omitEmpty:"true" collectionFormat:"multi"`
 
 	// The maximum number of items to return.

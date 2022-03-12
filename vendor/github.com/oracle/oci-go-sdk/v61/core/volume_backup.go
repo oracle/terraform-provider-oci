@@ -76,9 +76,6 @@ type VolumeBackup struct {
 	// Using Keys (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
-	// The size (in Bytes) of the logical blocks for this block volume, between 512B to 32KB.
-	LogicalBlockSizeInBytes *int `mandatory:"false" json:"logicalBlockSizeInBytes"`
-
 	// The size of the volume, in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 

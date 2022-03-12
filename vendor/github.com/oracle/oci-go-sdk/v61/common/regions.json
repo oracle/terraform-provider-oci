@@ -280,5 +280,11 @@
         "realmDomainComponent": "oraclecloud15.com", 
         "regionIdentifier": "ap-dcc-gazipur-1", 
         "realmKey": "oc15"
+    }, 
+    {
+        "regionKey": "ord", 
+        "realmDomainComponent": "oraclecloud.com", 
+        "regionIdentifier": "us-chicago-1", 
+        "realmKey": "oc1"
     }
 ]

@@ -129,6 +129,8 @@ func (client StreamAdminClient) changeConnectHarnessCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/ConnectHarness/ChangeConnectHarnessCompartment"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "ChangeConnectHarnessCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -183,6 +185,8 @@ func (client StreamAdminClient) changeStreamCompartment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/Stream/ChangeStreamCompartment"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "ChangeStreamCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -235,6 +239,8 @@ func (client StreamAdminClient) changeStreamPoolCompartment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/StreamPool/ChangeStreamPoolCompartment"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "ChangeStreamPoolCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -293,6 +299,8 @@ func (client StreamAdminClient) createConnectHarness(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/ConnectHarness/CreateConnectHarness"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "CreateConnectHarness", apiReferenceLink)
 		return response, err
 	}
 
@@ -349,6 +357,8 @@ func (client StreamAdminClient) createStream(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/Stream/CreateStream"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "CreateStream", apiReferenceLink)
 		return response, err
 	}
 
@@ -408,6 +418,8 @@ func (client StreamAdminClient) createStreamPool(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/StreamPool/CreateStreamPool"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "CreateStreamPool", apiReferenceLink)
 		return response, err
 	}
 
@@ -464,6 +476,8 @@ func (client StreamAdminClient) deleteConnectHarness(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/ConnectHarness/DeleteConnectHarness"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "DeleteConnectHarness", apiReferenceLink)
 		return response, err
 	}
 
@@ -520,6 +534,8 @@ func (client StreamAdminClient) deleteStream(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/Stream/DeleteStream"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "DeleteStream", apiReferenceLink)
 		return response, err
 	}
 
@@ -573,6 +589,8 @@ func (client StreamAdminClient) deleteStreamPool(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/StreamPool/DeleteStreamPool"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "DeleteStreamPool", apiReferenceLink)
 		return response, err
 	}
 
@@ -625,6 +643,8 @@ func (client StreamAdminClient) getConnectHarness(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/ConnectHarness/GetConnectHarness"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "GetConnectHarness", apiReferenceLink)
 		return response, err
 	}
 
@@ -677,6 +697,8 @@ func (client StreamAdminClient) getStream(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/Stream/GetStream"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "GetStream", apiReferenceLink)
 		return response, err
 	}
 
@@ -729,6 +751,8 @@ func (client StreamAdminClient) getStreamPool(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/StreamPool/GetStreamPool"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "GetStreamPool", apiReferenceLink)
 		return response, err
 	}
 
@@ -781,6 +805,8 @@ func (client StreamAdminClient) listConnectHarnesses(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/ConnectHarnessSummary/ListConnectHarnesses"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "ListConnectHarnesses", apiReferenceLink)
 		return response, err
 	}
 
@@ -833,6 +859,8 @@ func (client StreamAdminClient) listStreamPools(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/StreamPoolSummary/ListStreamPools"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "ListStreamPools", apiReferenceLink)
 		return response, err
 	}
 
@@ -888,6 +916,8 @@ func (client StreamAdminClient) listStreams(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/StreamSummary/ListStreams"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "ListStreams", apiReferenceLink)
 		return response, err
 	}
 
@@ -940,6 +970,8 @@ func (client StreamAdminClient) updateConnectHarness(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/ConnectHarness/UpdateConnectHarness"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "UpdateConnectHarness", apiReferenceLink)
 		return response, err
 	}
 
@@ -992,6 +1024,8 @@ func (client StreamAdminClient) updateStream(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/Stream/UpdateStream"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "UpdateStream", apiReferenceLink)
 		return response, err
 	}
 
@@ -1044,6 +1078,8 @@ func (client StreamAdminClient) updateStreamPool(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/StreamPool/UpdateStreamPool"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "UpdateStreamPool", apiReferenceLink)
 		return response, err
 	}
 

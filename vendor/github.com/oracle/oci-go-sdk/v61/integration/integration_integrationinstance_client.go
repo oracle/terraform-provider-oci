@@ -133,6 +133,8 @@ func (client IntegrationInstanceClient) changeIntegrationInstanceCompartment(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/ChangeIntegrationInstanceCompartment"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "ChangeIntegrationInstanceCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -190,6 +192,8 @@ func (client IntegrationInstanceClient) changeIntegrationInstanceNetworkEndpoint
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/ChangeIntegrationInstanceNetworkEndpoint"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "ChangeIntegrationInstanceNetworkEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -246,6 +250,8 @@ func (client IntegrationInstanceClient) createIntegrationInstance(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/CreateIntegrationInstance"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "CreateIntegrationInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -297,6 +303,8 @@ func (client IntegrationInstanceClient) deleteIntegrationInstance(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/DeleteIntegrationInstance"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "DeleteIntegrationInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -348,6 +356,8 @@ func (client IntegrationInstanceClient) getIntegrationInstance(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/GetIntegrationInstance"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "GetIntegrationInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -399,6 +409,8 @@ func (client IntegrationInstanceClient) getWorkRequest(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -450,6 +462,8 @@ func (client IntegrationInstanceClient) listIntegrationInstances(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstanceSummary/ListIntegrationInstances"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "ListIntegrationInstances", apiReferenceLink)
 		return response, err
 	}
 
@@ -501,6 +515,8 @@ func (client IntegrationInstanceClient) listWorkRequestErrors(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -552,6 +568,8 @@ func (client IntegrationInstanceClient) listWorkRequestLogs(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -603,6 +621,8 @@ func (client IntegrationInstanceClient) listWorkRequests(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/WorkRequestSummary/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -659,6 +679,8 @@ func (client IntegrationInstanceClient) startIntegrationInstance(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/StartIntegrationInstance"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "StartIntegrationInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -715,6 +737,8 @@ func (client IntegrationInstanceClient) stopIntegrationInstance(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/StopIntegrationInstance"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "StopIntegrationInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -766,6 +790,8 @@ func (client IntegrationInstanceClient) updateIntegrationInstance(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/UpdateIntegrationInstance"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "UpdateIntegrationInstance", apiReferenceLink)
 		return response, err
 	}
 

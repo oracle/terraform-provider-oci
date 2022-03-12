@@ -135,6 +135,8 @@ func (client SddcClient) cancelDowngradeHcx(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/CancelDowngradeHcx"
+		err = common.PostProcessServiceError(err, "Sddc", "CancelDowngradeHcx", apiReferenceLink)
 		return response, err
 	}
 
@@ -194,6 +196,8 @@ func (client SddcClient) changeSddcCompartment(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/ChangeSddcCompartment"
+		err = common.PostProcessServiceError(err, "Sddc", "ChangeSddcCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -254,6 +258,8 @@ func (client SddcClient) createSddc(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/CreateSddc"
+		err = common.PostProcessServiceError(err, "Sddc", "CreateSddc", apiReferenceLink)
 		return response, err
 	}
 
@@ -310,6 +316,8 @@ func (client SddcClient) deleteSddc(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/DeleteSddc"
+		err = common.PostProcessServiceError(err, "Sddc", "DeleteSddc", apiReferenceLink)
 		return response, err
 	}
 
@@ -370,6 +378,8 @@ func (client SddcClient) downgradeHcx(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/DowngradeHcx"
+		err = common.PostProcessServiceError(err, "Sddc", "DowngradeHcx", apiReferenceLink)
 		return response, err
 	}
 
@@ -422,6 +432,8 @@ func (client SddcClient) getSddc(ctx context.Context, request common.OCIRequest,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/GetSddc"
+		err = common.PostProcessServiceError(err, "Sddc", "GetSddc", apiReferenceLink)
 		return response, err
 	}
 
@@ -475,6 +487,8 @@ func (client SddcClient) listSddcs(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/SddcSummary/ListSddcs"
+		err = common.PostProcessServiceError(err, "Sddc", "ListSddcs", apiReferenceLink)
 		return response, err
 	}
 
@@ -527,6 +541,8 @@ func (client SddcClient) listSupportedHostShapes(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapeSummary/ListSupportedHostShapes"
+		err = common.PostProcessServiceError(err, "Sddc", "ListSupportedHostShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -579,6 +595,8 @@ func (client SddcClient) listSupportedSkus(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/SupportedSkuSummary/ListSupportedSkus"
+		err = common.PostProcessServiceError(err, "Sddc", "ListSupportedSkus", apiReferenceLink)
 		return response, err
 	}
 
@@ -632,6 +650,8 @@ func (client SddcClient) listSupportedVmwareSoftwareVersions(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/SupportedVmwareSoftwareVersionSummary/ListSupportedVmwareSoftwareVersions"
+		err = common.PostProcessServiceError(err, "Sddc", "ListSupportedVmwareSoftwareVersions", apiReferenceLink)
 		return response, err
 	}
 
@@ -689,6 +709,8 @@ func (client SddcClient) refreshHcxLicenseStatus(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/RefreshHcxLicenseStatus"
+		err = common.PostProcessServiceError(err, "Sddc", "RefreshHcxLicenseStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -745,6 +767,8 @@ func (client SddcClient) updateSddc(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc"
+		err = common.PostProcessServiceError(err, "Sddc", "UpdateSddc", apiReferenceLink)
 		return response, err
 	}
 
@@ -802,6 +826,8 @@ func (client SddcClient) upgradeHcx(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpgradeHcx"
+		err = common.PostProcessServiceError(err, "Sddc", "UpgradeHcx", apiReferenceLink)
 		return response, err
 	}
 

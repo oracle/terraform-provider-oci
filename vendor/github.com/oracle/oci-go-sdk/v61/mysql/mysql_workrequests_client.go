@@ -128,6 +128,8 @@ func (client WorkRequestsClient) getWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "WorkRequests", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -179,6 +181,8 @@ func (client WorkRequestsClient) listWorkRequestErrors(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "WorkRequests", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -230,6 +234,8 @@ func (client WorkRequestsClient) listWorkRequestLogs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "WorkRequests", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -281,6 +287,8 @@ func (client WorkRequestsClient) listWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/WorkRequestSummary/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "WorkRequests", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 

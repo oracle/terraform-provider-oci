@@ -136,6 +136,8 @@ func (client MonitoringClient) changeAlarmCompartment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/Alarm/ChangeAlarmCompartment"
+		err = common.PostProcessServiceError(err, "Monitoring", "ChangeAlarmCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -196,6 +198,8 @@ func (client MonitoringClient) createAlarm(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/Alarm/CreateAlarm"
+		err = common.PostProcessServiceError(err, "Monitoring", "CreateAlarm", apiReferenceLink)
 		return response, err
 	}
 
@@ -251,6 +255,8 @@ func (client MonitoringClient) deleteAlarm(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/Alarm/DeleteAlarm"
+		err = common.PostProcessServiceError(err, "Monitoring", "DeleteAlarm", apiReferenceLink)
 		return response, err
 	}
 
@@ -306,6 +312,8 @@ func (client MonitoringClient) getAlarm(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/Alarm/GetAlarm"
+		err = common.PostProcessServiceError(err, "Monitoring", "GetAlarm", apiReferenceLink)
 		return response, err
 	}
 
@@ -361,6 +369,8 @@ func (client MonitoringClient) getAlarmHistory(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/AlarmHistoryCollection/GetAlarmHistory"
+		err = common.PostProcessServiceError(err, "Monitoring", "GetAlarmHistory", apiReferenceLink)
 		return response, err
 	}
 
@@ -416,6 +426,8 @@ func (client MonitoringClient) listAlarmDimensionHistory(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/AlarmDimensionHistoryCollection/ListAlarmDimensionHistory"
+		err = common.PostProcessServiceError(err, "Monitoring", "ListAlarmDimensionHistory", apiReferenceLink)
 		return response, err
 	}
 
@@ -471,6 +483,8 @@ func (client MonitoringClient) listAlarmDimensionStates(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/AlarmDimensionStatesCollection/ListAlarmDimensionStates"
+		err = common.PostProcessServiceError(err, "Monitoring", "ListAlarmDimensionStates", apiReferenceLink)
 		return response, err
 	}
 
@@ -526,6 +540,8 @@ func (client MonitoringClient) listAlarms(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/AlarmSummary/ListAlarms"
+		err = common.PostProcessServiceError(err, "Monitoring", "ListAlarms", apiReferenceLink)
 		return response, err
 	}
 
@@ -581,6 +597,8 @@ func (client MonitoringClient) listAlarmsStatus(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/AlarmStatusSummary/ListAlarmsStatus"
+		err = common.PostProcessServiceError(err, "Monitoring", "ListAlarmsStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -635,6 +653,8 @@ func (client MonitoringClient) listMetrics(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/Metric/ListMetrics"
+		err = common.PostProcessServiceError(err, "Monitoring", "ListMetrics", apiReferenceLink)
 		return response, err
 	}
 
@@ -698,6 +718,8 @@ func (client MonitoringClient) postMetricData(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/MetricData/PostMetricData"
+		err = common.PostProcessServiceError(err, "Monitoring", "PostMetricData", apiReferenceLink)
 		return response, err
 	}
 
@@ -753,6 +775,8 @@ func (client MonitoringClient) removeAlarmSuppression(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/Suppression/RemoveAlarmSuppression"
+		err = common.PostProcessServiceError(err, "Monitoring", "RemoveAlarmSuppression", apiReferenceLink)
 		return response, err
 	}
 
@@ -807,6 +831,8 @@ func (client MonitoringClient) summarizeMetricsData(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/MetricData/SummarizeMetricsData"
+		err = common.PostProcessServiceError(err, "Monitoring", "SummarizeMetricsData", apiReferenceLink)
 		return response, err
 	}
 
@@ -862,6 +888,8 @@ func (client MonitoringClient) updateAlarm(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/Alarm/UpdateAlarm"
+		err = common.PostProcessServiceError(err, "Monitoring", "UpdateAlarm", apiReferenceLink)
 		return response, err
 	}
 

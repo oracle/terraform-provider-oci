@@ -32,13 +32,13 @@ type ListDatabaseToolsEndpointServicesRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A filter to return only resources their lifecycleState matches the given lifecycleState.
+	// A filter to return only resources their `lifecycleState` matches the specified `lifecycleState`.
 	LifecycleState ListDatabaseToolsEndpointServicesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return only resources that match the entire display name given.
+	// A filter to return only resources that match the entire specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only resources that match the entire name given.
+	// A filter to return only resources that match the entire specified name.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

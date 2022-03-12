@@ -14,7 +14,7 @@ import (
 // DeleteDatabaseToolsConnectionRequest wrapper for the DeleteDatabaseToolsConnection operation
 type DeleteDatabaseToolsConnectionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a DatabaseToolsConnection.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools connection.
 	DatabaseToolsConnectionId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsConnectionId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

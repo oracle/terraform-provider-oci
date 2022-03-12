@@ -125,6 +125,8 @@ func (client AuditClient) getConfiguration(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/audit/20190901/Configuration/GetConfiguration"
+		err = common.PostProcessServiceError(err, "Audit", "GetConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -177,6 +179,8 @@ func (client AuditClient) listEvents(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/audit/20190901/AuditEvent/ListEvents"
+		err = common.PostProcessServiceError(err, "Audit", "ListEvents", apiReferenceLink)
 		return response, err
 	}
 
@@ -228,6 +232,8 @@ func (client AuditClient) updateConfiguration(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/audit/20190901/Configuration/UpdateConfiguration"
+		err = common.PostProcessServiceError(err, "Audit", "UpdateConfiguration", apiReferenceLink)
 		return response, err
 	}
 

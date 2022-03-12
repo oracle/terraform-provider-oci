@@ -139,6 +139,8 @@ func (client EsxiHostClient) createEsxiHost(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost"
+		err = common.PostProcessServiceError(err, "EsxiHost", "CreateEsxiHost", apiReferenceLink)
 		return response, err
 	}
 
@@ -201,6 +203,8 @@ func (client EsxiHostClient) deleteEsxiHost(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/DeleteEsxiHost"
+		err = common.PostProcessServiceError(err, "EsxiHost", "DeleteEsxiHost", apiReferenceLink)
 		return response, err
 	}
 
@@ -253,6 +257,8 @@ func (client EsxiHostClient) getEsxiHost(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/GetEsxiHost"
+		err = common.PostProcessServiceError(err, "EsxiHost", "GetEsxiHost", apiReferenceLink)
 		return response, err
 	}
 
@@ -312,6 +318,8 @@ func (client EsxiHostClient) listEsxiHosts(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHostSummary/ListEsxiHosts"
+		err = common.PostProcessServiceError(err, "EsxiHost", "ListEsxiHosts", apiReferenceLink)
 		return response, err
 	}
 
@@ -364,6 +372,8 @@ func (client EsxiHostClient) updateEsxiHost(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/UpdateEsxiHost"
+		err = common.PostProcessServiceError(err, "EsxiHost", "UpdateEsxiHost", apiReferenceLink)
 		return response, err
 	}
 

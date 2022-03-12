@@ -14,7 +14,7 @@ import (
 // GetDatabaseToolsConnectionRequest wrapper for the GetDatabaseToolsConnection operation
 type GetDatabaseToolsConnectionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a DatabaseToolsConnection.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools connection.
 	DatabaseToolsConnectionId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsConnectionId"`
 
 	// The client request ID for tracing.

@@ -133,6 +133,8 @@ func (client BudgetClient) createAlertRule(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/budgets/20190111/AlertRule/CreateAlertRule"
+		err = common.PostProcessServiceError(err, "Budget", "CreateAlertRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -189,6 +191,8 @@ func (client BudgetClient) createBudget(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/budgets/20190111/Budget/CreateBudget"
+		err = common.PostProcessServiceError(err, "Budget", "CreateBudget", apiReferenceLink)
 		return response, err
 	}
 
@@ -240,6 +244,8 @@ func (client BudgetClient) deleteAlertRule(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/budgets/20190111/AlertRule/DeleteAlertRule"
+		err = common.PostProcessServiceError(err, "Budget", "DeleteAlertRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -291,6 +297,8 @@ func (client BudgetClient) deleteBudget(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/budgets/20190111/Budget/DeleteBudget"
+		err = common.PostProcessServiceError(err, "Budget", "DeleteBudget", apiReferenceLink)
 		return response, err
 	}
 
@@ -342,6 +350,8 @@ func (client BudgetClient) getAlertRule(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/budgets/20190111/AlertRule/GetAlertRule"
+		err = common.PostProcessServiceError(err, "Budget", "GetAlertRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -393,6 +403,8 @@ func (client BudgetClient) getBudget(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/budgets/20190111/Budget/GetBudget"
+		err = common.PostProcessServiceError(err, "Budget", "GetBudget", apiReferenceLink)
 		return response, err
 	}
 
@@ -444,6 +456,8 @@ func (client BudgetClient) listAlertRules(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/budgets/20190111/AlertRuleSummary/ListAlertRules"
+		err = common.PostProcessServiceError(err, "Budget", "ListAlertRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -499,6 +513,8 @@ func (client BudgetClient) listBudgets(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/budgets/20190111/BudgetSummary/ListBudgets"
+		err = common.PostProcessServiceError(err, "Budget", "ListBudgets", apiReferenceLink)
 		return response, err
 	}
 
@@ -550,6 +566,8 @@ func (client BudgetClient) updateAlertRule(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/budgets/20190111/AlertRule/UpdateAlertRule"
+		err = common.PostProcessServiceError(err, "Budget", "UpdateAlertRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -601,6 +619,8 @@ func (client BudgetClient) updateBudget(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/budgets/20190111/Budget/UpdateBudget"
+		err = common.PostProcessServiceError(err, "Budget", "UpdateBudget", apiReferenceLink)
 		return response, err
 	}
 

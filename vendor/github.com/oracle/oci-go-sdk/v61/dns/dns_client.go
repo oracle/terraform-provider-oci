@@ -135,6 +135,8 @@ func (client DnsClient) changeResolverCompartment(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Resolver/ChangeResolverCompartment"
+		err = common.PostProcessServiceError(err, "Dns", "ChangeResolverCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -191,6 +193,8 @@ func (client DnsClient) changeSteeringPolicyCompartment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/SteeringPolicy/ChangeSteeringPolicyCompartment"
+		err = common.PostProcessServiceError(err, "Dns", "ChangeSteeringPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -247,6 +251,8 @@ func (client DnsClient) changeTsigKeyCompartment(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/TsigKey/ChangeTsigKeyCompartment"
+		err = common.PostProcessServiceError(err, "Dns", "ChangeTsigKeyCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -303,6 +309,8 @@ func (client DnsClient) changeViewCompartment(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/View/ChangeViewCompartment"
+		err = common.PostProcessServiceError(err, "Dns", "ChangeViewCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -364,6 +372,8 @@ func (client DnsClient) changeZoneCompartment(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Zone/ChangeZoneCompartment"
+		err = common.PostProcessServiceError(err, "Dns", "ChangeZoneCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -420,6 +430,8 @@ func (client DnsClient) createResolverEndpoint(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Dns", "CreateResolverEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -477,6 +489,8 @@ func (client DnsClient) createSteeringPolicy(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Dns", "CreateSteeringPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -537,6 +551,8 @@ func (client DnsClient) createSteeringPolicyAttachment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Dns", "CreateSteeringPolicyAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -589,6 +605,8 @@ func (client DnsClient) createTsigKey(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Dns", "CreateTsigKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -645,6 +663,8 @@ func (client DnsClient) createView(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Dns", "CreateView", apiReferenceLink)
 		return response, err
 	}
 
@@ -698,6 +718,8 @@ func (client DnsClient) createZone(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Dns", "CreateZone", apiReferenceLink)
 		return response, err
 	}
 
@@ -749,6 +771,8 @@ func (client DnsClient) createZoneFromZoneFile(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Zone/CreateZoneFromZoneFile"
+		err = common.PostProcessServiceError(err, "Dns", "CreateZoneFromZoneFile", apiReferenceLink)
 		return response, err
 	}
 
@@ -802,6 +826,8 @@ func (client DnsClient) deleteDomainRecords(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Records/DeleteDomainRecords"
+		err = common.PostProcessServiceError(err, "Dns", "DeleteDomainRecords", apiReferenceLink)
 		return response, err
 	}
 
@@ -855,6 +881,8 @@ func (client DnsClient) deleteRRSet(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Dns", "DeleteRRSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -909,6 +937,8 @@ func (client DnsClient) deleteResolverEndpoint(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/ResolverEndpoint/DeleteResolverEndpoint"
+		err = common.PostProcessServiceError(err, "Dns", "DeleteResolverEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -963,6 +993,8 @@ func (client DnsClient) deleteSteeringPolicy(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Dns", "DeleteSteeringPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -1015,6 +1047,8 @@ func (client DnsClient) deleteSteeringPolicyAttachment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Dns", "DeleteSteeringPolicyAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1066,6 +1100,8 @@ func (client DnsClient) deleteTsigKey(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Dns", "DeleteTsigKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -1121,6 +1157,8 @@ func (client DnsClient) deleteView(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/View/DeleteView"
+		err = common.PostProcessServiceError(err, "Dns", "DeleteView", apiReferenceLink)
 		return response, err
 	}
 
@@ -1175,6 +1213,8 @@ func (client DnsClient) deleteZone(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Dns", "DeleteZone", apiReferenceLink)
 		return response, err
 	}
 
@@ -1229,6 +1269,8 @@ func (client DnsClient) getDomainRecords(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Records/GetDomainRecords"
+		err = common.PostProcessServiceError(err, "Dns", "GetDomainRecords", apiReferenceLink)
 		return response, err
 	}
 
@@ -1282,6 +1324,8 @@ func (client DnsClient) getRRSet(ctx context.Context, request common.OCIRequest,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/RRSet/GetRRSet"
+		err = common.PostProcessServiceError(err, "Dns", "GetRRSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -1335,6 +1379,8 @@ func (client DnsClient) getResolver(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Resolver/GetResolver"
+		err = common.PostProcessServiceError(err, "Dns", "GetResolver", apiReferenceLink)
 		return response, err
 	}
 
@@ -1388,6 +1434,8 @@ func (client DnsClient) getResolverEndpoint(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/ResolverEndpoint/GetResolverEndpoint"
+		err = common.PostProcessServiceError(err, "Dns", "GetResolverEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -1439,6 +1487,8 @@ func (client DnsClient) getSteeringPolicy(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/SteeringPolicy/GetSteeringPolicy"
+		err = common.PostProcessServiceError(err, "Dns", "GetSteeringPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -1490,6 +1540,8 @@ func (client DnsClient) getSteeringPolicyAttachment(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/SteeringPolicyAttachment/GetSteeringPolicyAttachment"
+		err = common.PostProcessServiceError(err, "Dns", "GetSteeringPolicyAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1541,6 +1593,8 @@ func (client DnsClient) getTsigKey(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/TsigKey/GetTsigKey"
+		err = common.PostProcessServiceError(err, "Dns", "GetTsigKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -1595,6 +1649,8 @@ func (client DnsClient) getView(ctx context.Context, request common.OCIRequest, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/View/GetView"
+		err = common.PostProcessServiceError(err, "Dns", "GetView", apiReferenceLink)
 		return response, err
 	}
 
@@ -1648,6 +1704,8 @@ func (client DnsClient) getZone(ctx context.Context, request common.OCIRequest, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Zone/GetZone"
+		err = common.PostProcessServiceError(err, "Dns", "GetZone", apiReferenceLink)
 		return response, err
 	}
 
@@ -1698,6 +1756,8 @@ func (client DnsClient) getZoneContent(ctx context.Context, request common.OCIRe
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Zone/GetZoneContent"
+		err = common.PostProcessServiceError(err, "Dns", "GetZoneContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -1753,6 +1813,8 @@ func (client DnsClient) getZoneRecords(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Records/GetZoneRecords"
+		err = common.PostProcessServiceError(err, "Dns", "GetZoneRecords", apiReferenceLink)
 		return response, err
 	}
 
@@ -1823,6 +1885,8 @@ func (client DnsClient) listResolverEndpoints(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/ResolverEndpoint/ListResolverEndpoints"
+		err = common.PostProcessServiceError(err, "Dns", "ListResolverEndpoints", apiReferenceLink)
 		return response, err
 	}
 
@@ -1878,6 +1942,8 @@ func (client DnsClient) listResolvers(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Resolver/ListResolvers"
+		err = common.PostProcessServiceError(err, "Dns", "ListResolvers", apiReferenceLink)
 		return response, err
 	}
 
@@ -1929,6 +1995,8 @@ func (client DnsClient) listSteeringPolicies(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/SteeringPolicy/ListSteeringPolicies"
+		err = common.PostProcessServiceError(err, "Dns", "ListSteeringPolicies", apiReferenceLink)
 		return response, err
 	}
 
@@ -1980,6 +2048,8 @@ func (client DnsClient) listSteeringPolicyAttachments(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/SteeringPolicyAttachment/ListSteeringPolicyAttachments"
+		err = common.PostProcessServiceError(err, "Dns", "ListSteeringPolicyAttachments", apiReferenceLink)
 		return response, err
 	}
 
@@ -2031,6 +2101,8 @@ func (client DnsClient) listTsigKeys(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/TsigKey/ListTsigKeys"
+		err = common.PostProcessServiceError(err, "Dns", "ListTsigKeys", apiReferenceLink)
 		return response, err
 	}
 
@@ -2086,6 +2158,8 @@ func (client DnsClient) listViews(ctx context.Context, request common.OCIRequest
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/View/ListViews"
+		err = common.PostProcessServiceError(err, "Dns", "ListViews", apiReferenceLink)
 		return response, err
 	}
 
@@ -2139,6 +2213,8 @@ func (client DnsClient) listZoneTransferServers(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/ZoneTransferServer/ListZoneTransferServers"
+		err = common.PostProcessServiceError(err, "Dns", "ListZoneTransferServers", apiReferenceLink)
 		return response, err
 	}
 
@@ -2192,6 +2268,8 @@ func (client DnsClient) listZones(ctx context.Context, request common.OCIRequest
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Zone/ListZones"
+		err = common.PostProcessServiceError(err, "Dns", "ListZones", apiReferenceLink)
 		return response, err
 	}
 
@@ -2247,6 +2325,8 @@ func (client DnsClient) patchDomainRecords(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Records/PatchDomainRecords"
+		err = common.PostProcessServiceError(err, "Dns", "PatchDomainRecords", apiReferenceLink)
 		return response, err
 	}
 
@@ -2300,6 +2380,8 @@ func (client DnsClient) patchRRSet(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/RRSet/PatchRRSet"
+		err = common.PostProcessServiceError(err, "Dns", "PatchRRSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -2355,6 +2437,8 @@ func (client DnsClient) patchZoneRecords(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Records/PatchZoneRecords"
+		err = common.PostProcessServiceError(err, "Dns", "PatchZoneRecords", apiReferenceLink)
 		return response, err
 	}
 
@@ -2420,6 +2504,8 @@ func (client DnsClient) promoteZoneDnssecKeyVersion(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Zone/PromoteZoneDnssecKeyVersion"
+		err = common.PostProcessServiceError(err, "Dns", "PromoteZoneDnssecKeyVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -2483,6 +2569,8 @@ func (client DnsClient) stageZoneDnssecKeyVersion(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Zone/StageZoneDnssecKeyVersion"
+		err = common.PostProcessServiceError(err, "Dns", "StageZoneDnssecKeyVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -2538,6 +2626,8 @@ func (client DnsClient) updateDomainRecords(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Records/UpdateDomainRecords"
+		err = common.PostProcessServiceError(err, "Dns", "UpdateDomainRecords", apiReferenceLink)
 		return response, err
 	}
 
@@ -2591,6 +2681,8 @@ func (client DnsClient) updateRRSet(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/RRSet/UpdateRRSet"
+		err = common.PostProcessServiceError(err, "Dns", "UpdateRRSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -2642,6 +2734,8 @@ func (client DnsClient) updateResolver(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Resolver/UpdateResolver"
+		err = common.PostProcessServiceError(err, "Dns", "UpdateResolver", apiReferenceLink)
 		return response, err
 	}
 
@@ -2693,6 +2787,8 @@ func (client DnsClient) updateResolverEndpoint(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/ResolverEndpoint/UpdateResolverEndpoint"
+		err = common.PostProcessServiceError(err, "Dns", "UpdateResolverEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -2744,6 +2840,8 @@ func (client DnsClient) updateSteeringPolicy(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/SteeringPolicy/UpdateSteeringPolicy"
+		err = common.PostProcessServiceError(err, "Dns", "UpdateSteeringPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -2795,6 +2893,8 @@ func (client DnsClient) updateSteeringPolicyAttachment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/SteeringPolicyAttachment/UpdateSteeringPolicyAttachment"
+		err = common.PostProcessServiceError(err, "Dns", "UpdateSteeringPolicyAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2846,6 +2946,8 @@ func (client DnsClient) updateTsigKey(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/TsigKey/UpdateTsigKey"
+		err = common.PostProcessServiceError(err, "Dns", "UpdateTsigKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -2897,6 +2999,8 @@ func (client DnsClient) updateView(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/View/UpdateView"
+		err = common.PostProcessServiceError(err, "Dns", "UpdateView", apiReferenceLink)
 		return response, err
 	}
 
@@ -2952,6 +3056,8 @@ func (client DnsClient) updateZone(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Zone/UpdateZone"
+		err = common.PostProcessServiceError(err, "Dns", "UpdateZone", apiReferenceLink)
 		return response, err
 	}
 
@@ -3008,6 +3114,8 @@ func (client DnsClient) updateZoneRecords(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Records/UpdateZoneRecords"
+		err = common.PostProcessServiceError(err, "Dns", "UpdateZoneRecords", apiReferenceLink)
 		return response, err
 	}
 

@@ -129,6 +129,8 @@ func (client RatecardClient) listRateCards(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Ratecard", "ListRateCards", apiReferenceLink)
 		return response, err
 	}
 

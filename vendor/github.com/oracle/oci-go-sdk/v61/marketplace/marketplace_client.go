@@ -134,6 +134,8 @@ func (client MarketplaceClient) changePublicationCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/Publication/ChangePublicationCompartment"
+		err = common.PostProcessServiceError(err, "Marketplace", "ChangePublicationCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -192,6 +194,8 @@ func (client MarketplaceClient) createAcceptedAgreement(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/AcceptedAgreement/CreateAcceptedAgreement"
+		err = common.PostProcessServiceError(err, "Marketplace", "CreateAcceptedAgreement", apiReferenceLink)
 		return response, err
 	}
 
@@ -249,6 +253,8 @@ func (client MarketplaceClient) createPublication(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/Publication/CreatePublication"
+		err = common.PostProcessServiceError(err, "Marketplace", "CreatePublication", apiReferenceLink)
 		return response, err
 	}
 
@@ -303,6 +309,8 @@ func (client MarketplaceClient) deleteAcceptedAgreement(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/AcceptedAgreement/DeleteAcceptedAgreement"
+		err = common.PostProcessServiceError(err, "Marketplace", "DeleteAcceptedAgreement", apiReferenceLink)
 		return response, err
 	}
 
@@ -355,6 +363,8 @@ func (client MarketplaceClient) deletePublication(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/Publication/DeletePublication"
+		err = common.PostProcessServiceError(err, "Marketplace", "DeletePublication", apiReferenceLink)
 		return response, err
 	}
 
@@ -407,6 +417,8 @@ func (client MarketplaceClient) getAcceptedAgreement(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/AcceptedAgreement/GetAcceptedAgreement"
+		err = common.PostProcessServiceError(err, "Marketplace", "GetAcceptedAgreement", apiReferenceLink)
 		return response, err
 	}
 
@@ -460,6 +472,8 @@ func (client MarketplaceClient) getAgreement(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/Agreement/GetAgreement"
+		err = common.PostProcessServiceError(err, "Marketplace", "GetAgreement", apiReferenceLink)
 		return response, err
 	}
 
@@ -523,6 +537,8 @@ func (client MarketplaceClient) getListing(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/Listing/GetListing"
+		err = common.PostProcessServiceError(err, "Marketplace", "GetListing", apiReferenceLink)
 		return response, err
 	}
 
@@ -585,6 +601,8 @@ func (client MarketplaceClient) getPackage(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/ListingPackage/GetPackage"
+		err = common.PostProcessServiceError(err, "Marketplace", "GetPackage", apiReferenceLink)
 		return response, err
 	}
 
@@ -637,6 +655,8 @@ func (client MarketplaceClient) getPublication(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/Publication/GetPublication"
+		err = common.PostProcessServiceError(err, "Marketplace", "GetPublication", apiReferenceLink)
 		return response, err
 	}
 
@@ -689,6 +709,8 @@ func (client MarketplaceClient) getPublicationPackage(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/PublicationPackage/GetPublicationPackage"
+		err = common.PostProcessServiceError(err, "Marketplace", "GetPublicationPackage", apiReferenceLink)
 		return response, err
 	}
 
@@ -742,6 +764,8 @@ func (client MarketplaceClient) listAcceptedAgreements(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/AcceptedAgreementSummary/ListAcceptedAgreements"
+		err = common.PostProcessServiceError(err, "Marketplace", "ListAcceptedAgreements", apiReferenceLink)
 		return response, err
 	}
 
@@ -794,6 +818,8 @@ func (client MarketplaceClient) listAgreements(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/AgreementSummary/ListAgreements"
+		err = common.PostProcessServiceError(err, "Marketplace", "ListAgreements", apiReferenceLink)
 		return response, err
 	}
 
@@ -847,6 +873,8 @@ func (client MarketplaceClient) listCategories(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/CategorySummary/ListCategories"
+		err = common.PostProcessServiceError(err, "Marketplace", "ListCategories", apiReferenceLink)
 		return response, err
 	}
 
@@ -910,6 +938,8 @@ func (client MarketplaceClient) listListings(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/ListingSummary/ListListings"
+		err = common.PostProcessServiceError(err, "Marketplace", "ListListings", apiReferenceLink)
 		return response, err
 	}
 
@@ -972,6 +1002,8 @@ func (client MarketplaceClient) listPackages(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/ListingPackageSummary/ListPackages"
+		err = common.PostProcessServiceError(err, "Marketplace", "ListPackages", apiReferenceLink)
 		return response, err
 	}
 
@@ -1024,6 +1056,8 @@ func (client MarketplaceClient) listPublicationPackages(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/PublicationPackageSummary/ListPublicationPackages"
+		err = common.PostProcessServiceError(err, "Marketplace", "ListPublicationPackages", apiReferenceLink)
 		return response, err
 	}
 
@@ -1076,6 +1110,8 @@ func (client MarketplaceClient) listPublications(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/PublicationSummary/ListPublications"
+		err = common.PostProcessServiceError(err, "Marketplace", "ListPublications", apiReferenceLink)
 		return response, err
 	}
 
@@ -1128,6 +1164,8 @@ func (client MarketplaceClient) listPublishers(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/PublisherSummary/ListPublishers"
+		err = common.PostProcessServiceError(err, "Marketplace", "ListPublishers", apiReferenceLink)
 		return response, err
 	}
 
@@ -1180,6 +1218,8 @@ func (client MarketplaceClient) listReportTypes(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/ReportTypeCollection/ListReportTypes"
+		err = common.PostProcessServiceError(err, "Marketplace", "ListReportTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -1232,6 +1272,8 @@ func (client MarketplaceClient) listReports(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/ReportCollection/ListReports"
+		err = common.PostProcessServiceError(err, "Marketplace", "ListReports", apiReferenceLink)
 		return response, err
 	}
 
@@ -1284,6 +1326,8 @@ func (client MarketplaceClient) listTaxes(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/TaxSummary/ListTaxes"
+		err = common.PostProcessServiceError(err, "Marketplace", "ListTaxes", apiReferenceLink)
 		return response, err
 	}
 
@@ -1337,6 +1381,8 @@ func (client MarketplaceClient) searchListings(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/ListingSummary/SearchListings"
+		err = common.PostProcessServiceError(err, "Marketplace", "SearchListings", apiReferenceLink)
 		return response, err
 	}
 
@@ -1394,6 +1440,8 @@ func (client MarketplaceClient) updateAcceptedAgreement(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/AcceptedAgreement/UpdateAcceptedAgreement"
+		err = common.PostProcessServiceError(err, "Marketplace", "UpdateAcceptedAgreement", apiReferenceLink)
 		return response, err
 	}
 
@@ -1451,6 +1499,8 @@ func (client MarketplaceClient) updatePublication(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/Publication/UpdatePublication"
+		err = common.PostProcessServiceError(err, "Marketplace", "UpdatePublication", apiReferenceLink)
 		return response, err
 	}
 

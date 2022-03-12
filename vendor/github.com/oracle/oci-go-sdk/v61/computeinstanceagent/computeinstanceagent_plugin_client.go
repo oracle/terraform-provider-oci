@@ -129,6 +129,8 @@ func (client PluginClient) getInstanceAgentPlugin(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/instanceagent/20180530/Plugin/GetInstanceAgentPlugin"
+		err = common.PostProcessServiceError(err, "Plugin", "GetInstanceAgentPlugin", apiReferenceLink)
 		return response, err
 	}
 
@@ -180,6 +182,8 @@ func (client PluginClient) listInstanceAgentPlugins(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/instanceagent/20180530/Plugin/ListInstanceAgentPlugins"
+		err = common.PostProcessServiceError(err, "Plugin", "ListInstanceAgentPlugins", apiReferenceLink)
 		return response, err
 	}
 

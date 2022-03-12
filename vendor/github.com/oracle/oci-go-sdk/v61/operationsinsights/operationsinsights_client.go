@@ -135,6 +135,8 @@ func (client OperationsInsightsClient) addExadataInsightMembers(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/AddExadataInsightMembers"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "AddExadataInsightMembers", apiReferenceLink)
 		return response, err
 	}
 
@@ -191,6 +193,8 @@ func (client OperationsInsightsClient) changeDatabaseInsightCompartment(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ChangeDatabaseInsightCompartment"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeDatabaseInsightCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -242,6 +246,8 @@ func (client OperationsInsightsClient) changeEnterpriseManagerBridgeCompartment(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/EnterpriseManagerBridges/ChangeEnterpriseManagerBridgeCompartment"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeEnterpriseManagerBridgeCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -298,6 +304,8 @@ func (client OperationsInsightsClient) changeExadataInsightCompartment(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/ChangeExadataInsightCompartment"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeExadataInsightCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -354,6 +362,8 @@ func (client OperationsInsightsClient) changeHostInsightCompartment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/ChangeHostInsightCompartment"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeHostInsightCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -410,6 +420,8 @@ func (client OperationsInsightsClient) changeOperationsInsightsPrivateEndpointCo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsPrivateEndpoint/ChangeOperationsInsightsPrivateEndpointCompartment"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeOperationsInsightsPrivateEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -466,6 +478,8 @@ func (client OperationsInsightsClient) changePeComanagedDatabaseInsight(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ChangePeComanagedDatabaseInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangePeComanagedDatabaseInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -523,6 +537,8 @@ func (client OperationsInsightsClient) createAwrHub(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/CreateAwrHub"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "CreateAwrHub", apiReferenceLink)
 		return response, err
 	}
 
@@ -579,6 +595,8 @@ func (client OperationsInsightsClient) createDatabaseInsight(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/CreateDatabaseInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "CreateDatabaseInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -635,6 +653,8 @@ func (client OperationsInsightsClient) createEnterpriseManagerBridge(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/EnterpriseManagerBridges/CreateEnterpriseManagerBridge"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "CreateEnterpriseManagerBridge", apiReferenceLink)
 		return response, err
 	}
 
@@ -691,6 +711,8 @@ func (client OperationsInsightsClient) createExadataInsight(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/CreateExadataInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "CreateExadataInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -747,6 +769,8 @@ func (client OperationsInsightsClient) createHostInsight(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/CreateHostInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "CreateHostInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -804,6 +828,8 @@ func (client OperationsInsightsClient) createOperationsInsightsPrivateEndpoint(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsPrivateEndpoint/CreateOperationsInsightsPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "CreateOperationsInsightsPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -862,6 +888,8 @@ func (client OperationsInsightsClient) createOperationsInsightsWarehouse(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouses/CreateOperationsInsightsWarehouse"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "CreateOperationsInsightsWarehouse", apiReferenceLink)
 		return response, err
 	}
 
@@ -919,6 +947,8 @@ func (client OperationsInsightsClient) createOperationsInsightsWarehouseUser(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouseUsers/CreateOperationsInsightsWarehouseUser"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "CreateOperationsInsightsWarehouseUser", apiReferenceLink)
 		return response, err
 	}
 
@@ -970,6 +1000,8 @@ func (client OperationsInsightsClient) deleteAwrHub(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/DeleteAwrHub"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteAwrHub", apiReferenceLink)
 		return response, err
 	}
 
@@ -1021,6 +1053,8 @@ func (client OperationsInsightsClient) deleteDatabaseInsight(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/DeleteDatabaseInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteDatabaseInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -1072,6 +1106,8 @@ func (client OperationsInsightsClient) deleteEnterpriseManagerBridge(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/EnterpriseManagerBridges/DeleteEnterpriseManagerBridge"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteEnterpriseManagerBridge", apiReferenceLink)
 		return response, err
 	}
 
@@ -1123,6 +1159,8 @@ func (client OperationsInsightsClient) deleteExadataInsight(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/DeleteExadataInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteExadataInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -1174,6 +1212,8 @@ func (client OperationsInsightsClient) deleteHostInsight(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/DeleteHostInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteHostInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -1225,6 +1265,8 @@ func (client OperationsInsightsClient) deleteOperationsInsightsPrivateEndpoint(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsPrivateEndpoint/DeleteOperationsInsightsPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteOperationsInsightsPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -1279,6 +1321,8 @@ func (client OperationsInsightsClient) deleteOperationsInsightsWarehouse(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouses/DeleteOperationsInsightsWarehouse"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteOperationsInsightsWarehouse", apiReferenceLink)
 		return response, err
 	}
 
@@ -1330,6 +1374,8 @@ func (client OperationsInsightsClient) deleteOperationsInsightsWarehouseUser(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouseUsers/DeleteOperationsInsightsWarehouseUser"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteOperationsInsightsWarehouseUser", apiReferenceLink)
 		return response, err
 	}
 
@@ -1386,6 +1432,8 @@ func (client OperationsInsightsClient) disableDatabaseInsight(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/DisableDatabaseInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DisableDatabaseInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -1442,6 +1490,8 @@ func (client OperationsInsightsClient) disableExadataInsight(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/DisableExadataInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DisableExadataInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -1498,6 +1548,8 @@ func (client OperationsInsightsClient) disableHostInsight(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/DisableHostInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DisableHostInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -1553,6 +1605,8 @@ func (client OperationsInsightsClient) downloadOperationsInsightsWarehouseWallet
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouses/DownloadOperationsInsightsWarehouseWallet"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DownloadOperationsInsightsWarehouseWallet", apiReferenceLink)
 		return response, err
 	}
 
@@ -1609,6 +1663,8 @@ func (client OperationsInsightsClient) enableDatabaseInsight(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/EnableDatabaseInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "EnableDatabaseInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -1665,6 +1721,8 @@ func (client OperationsInsightsClient) enableExadataInsight(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/EnableExadataInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "EnableExadataInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -1721,6 +1779,8 @@ func (client OperationsInsightsClient) enableHostInsight(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/EnableHostInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "EnableHostInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -1772,6 +1832,8 @@ func (client OperationsInsightsClient) getAwrHub(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/GetAwrHub"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetAwrHub", apiReferenceLink)
 		return response, err
 	}
 
@@ -1824,6 +1886,8 @@ func (client OperationsInsightsClient) getAwrReport(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/GetAwrReport"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetAwrReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -1875,6 +1939,8 @@ func (client OperationsInsightsClient) getDatabaseInsight(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/GetDatabaseInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetDatabaseInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -1926,6 +1992,8 @@ func (client OperationsInsightsClient) getEnterpriseManagerBridge(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/EnterpriseManagerBridges/GetEnterpriseManagerBridge"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetEnterpriseManagerBridge", apiReferenceLink)
 		return response, err
 	}
 
@@ -1977,6 +2045,8 @@ func (client OperationsInsightsClient) getExadataInsight(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/GetExadataInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetExadataInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -2028,6 +2098,8 @@ func (client OperationsInsightsClient) getHostInsight(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/GetHostInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetHostInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -2079,6 +2151,8 @@ func (client OperationsInsightsClient) getOperationsInsightsPrivateEndpoint(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsPrivateEndpoint/GetOperationsInsightsPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetOperationsInsightsPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -2131,6 +2205,8 @@ func (client OperationsInsightsClient) getOperationsInsightsWarehouse(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouses/GetOperationsInsightsWarehouse"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetOperationsInsightsWarehouse", apiReferenceLink)
 		return response, err
 	}
 
@@ -2182,6 +2258,8 @@ func (client OperationsInsightsClient) getOperationsInsightsWarehouseUser(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouseUsers/GetOperationsInsightsWarehouseUser"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetOperationsInsightsWarehouseUser", apiReferenceLink)
 		return response, err
 	}
 
@@ -2233,6 +2311,8 @@ func (client OperationsInsightsClient) getWorkRequest(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/WorkRequests/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -2289,6 +2369,8 @@ func (client OperationsInsightsClient) ingestDatabaseConfiguration(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/IngestDatabaseConfiguration"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "IngestDatabaseConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -2345,6 +2427,8 @@ func (client OperationsInsightsClient) ingestHostConfiguration(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/IngestHostConfiguration"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "IngestHostConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -2401,6 +2485,8 @@ func (client OperationsInsightsClient) ingestHostMetrics(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/IngestHostMetrics"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "IngestHostMetrics", apiReferenceLink)
 		return response, err
 	}
 
@@ -2458,6 +2544,8 @@ func (client OperationsInsightsClient) ingestSqlBucket(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/IngestSqlBucket"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "IngestSqlBucket", apiReferenceLink)
 		return response, err
 	}
 
@@ -2515,6 +2603,8 @@ func (client OperationsInsightsClient) ingestSqlPlanLines(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/IngestSqlPlanLines"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "IngestSqlPlanLines", apiReferenceLink)
 		return response, err
 	}
 
@@ -2572,6 +2662,8 @@ func (client OperationsInsightsClient) ingestSqlStats(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/IngestSqlStats"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "IngestSqlStats", apiReferenceLink)
 		return response, err
 	}
 
@@ -2630,6 +2722,8 @@ func (client OperationsInsightsClient) ingestSqlText(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/IngestSqlText"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "IngestSqlText", apiReferenceLink)
 		return response, err
 	}
 
@@ -2681,6 +2775,8 @@ func (client OperationsInsightsClient) listAwrHubs(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/ListAwrHubs"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListAwrHubs", apiReferenceLink)
 		return response, err
 	}
 
@@ -2733,6 +2829,8 @@ func (client OperationsInsightsClient) listAwrSnapshots(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/ListAwrSnapshots"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListAwrSnapshots", apiReferenceLink)
 		return response, err
 	}
 
@@ -2785,6 +2883,8 @@ func (client OperationsInsightsClient) listDatabaseConfigurations(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListDatabaseConfigurations"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListDatabaseConfigurations", apiReferenceLink)
 		return response, err
 	}
 
@@ -2837,6 +2937,8 @@ func (client OperationsInsightsClient) listDatabaseInsights(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListDatabaseInsights"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListDatabaseInsights", apiReferenceLink)
 		return response, err
 	}
 
@@ -2889,6 +2991,8 @@ func (client OperationsInsightsClient) listEnterpriseManagerBridges(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/EnterpriseManagerBridges/ListEnterpriseManagerBridges"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListEnterpriseManagerBridges", apiReferenceLink)
 		return response, err
 	}
 
@@ -2940,6 +3044,8 @@ func (client OperationsInsightsClient) listExadataConfigurations(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/ListExadataConfigurations"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListExadataConfigurations", apiReferenceLink)
 		return response, err
 	}
 
@@ -2992,6 +3098,8 @@ func (client OperationsInsightsClient) listExadataInsights(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/ListExadataInsights"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListExadataInsights", apiReferenceLink)
 		return response, err
 	}
 
@@ -3044,6 +3152,8 @@ func (client OperationsInsightsClient) listHostConfigurations(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/ListHostConfigurations"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListHostConfigurations", apiReferenceLink)
 		return response, err
 	}
 
@@ -3096,6 +3206,8 @@ func (client OperationsInsightsClient) listHostInsights(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/ListHostInsights"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListHostInsights", apiReferenceLink)
 		return response, err
 	}
 
@@ -3147,6 +3259,8 @@ func (client OperationsInsightsClient) listHostedEntities(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/ListHostedEntities"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListHostedEntities", apiReferenceLink)
 		return response, err
 	}
 
@@ -3202,6 +3316,8 @@ func (client OperationsInsightsClient) listImportableAgentEntities(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/ListImportableAgentEntities"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListImportableAgentEntities", apiReferenceLink)
 		return response, err
 	}
 
@@ -3253,6 +3369,8 @@ func (client OperationsInsightsClient) listImportableEnterpriseManagerEntities(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/EnterpriseManagerBridges/ListImportableEnterpriseManagerEntities"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListImportableEnterpriseManagerEntities", apiReferenceLink)
 		return response, err
 	}
 
@@ -3304,6 +3422,8 @@ func (client OperationsInsightsClient) listOperationsInsightsPrivateEndpoints(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsPrivateEndpointCollection/ListOperationsInsightsPrivateEndpoints"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListOperationsInsightsPrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
 
@@ -3355,6 +3475,8 @@ func (client OperationsInsightsClient) listOperationsInsightsWarehouseUsers(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouseUsers/ListOperationsInsightsWarehouseUsers"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListOperationsInsightsWarehouseUsers", apiReferenceLink)
 		return response, err
 	}
 
@@ -3407,6 +3529,8 @@ func (client OperationsInsightsClient) listOperationsInsightsWarehouses(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouses/ListOperationsInsightsWarehouses"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListOperationsInsightsWarehouses", apiReferenceLink)
 		return response, err
 	}
 
@@ -3459,6 +3583,8 @@ func (client OperationsInsightsClient) listSqlPlans(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListSqlPlans"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListSqlPlans", apiReferenceLink)
 		return response, err
 	}
 
@@ -3511,6 +3637,8 @@ func (client OperationsInsightsClient) listSqlSearches(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListSqlSearches"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListSqlSearches", apiReferenceLink)
 		return response, err
 	}
 
@@ -3562,6 +3690,8 @@ func (client OperationsInsightsClient) listSqlTexts(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListSqlTexts"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListSqlTexts", apiReferenceLink)
 		return response, err
 	}
 
@@ -3613,6 +3743,8 @@ func (client OperationsInsightsClient) listWorkRequestErrors(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/WorkRequests/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -3664,6 +3796,8 @@ func (client OperationsInsightsClient) listWorkRequestLogs(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/WorkRequests/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -3715,6 +3849,8 @@ func (client OperationsInsightsClient) listWorkRequests(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/WorkRequests/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -3766,6 +3902,8 @@ func (client OperationsInsightsClient) rotateOperationsInsightsWarehouseWallet(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouses/RotateOperationsInsightsWarehouseWallet"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "RotateOperationsInsightsWarehouseWallet", apiReferenceLink)
 		return response, err
 	}
 
@@ -3817,6 +3955,8 @@ func (client OperationsInsightsClient) summarizeAwrSourcesSummaries(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/SummarizeAwrSourcesSummaries"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAwrSourcesSummaries", apiReferenceLink)
 		return response, err
 	}
 
@@ -3870,6 +4010,8 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceCapacityT
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeDatabaseInsightResourceCapacityTrend"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeDatabaseInsightResourceCapacityTrend", apiReferenceLink)
 		return response, err
 	}
 
@@ -3922,6 +4064,8 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceForecastT
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeDatabaseInsightResourceForecastTrend"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeDatabaseInsightResourceForecastTrend", apiReferenceLink)
 		return response, err
 	}
 
@@ -3974,6 +4118,8 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceStatistic
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeDatabaseInsightResourceStatistics"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeDatabaseInsightResourceStatistics", apiReferenceLink)
 		return response, err
 	}
 
@@ -4028,6 +4174,8 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUsage(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeDatabaseInsightResourceUsage"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeDatabaseInsightResourceUsage", apiReferenceLink)
 		return response, err
 	}
 
@@ -4081,6 +4229,8 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUsageTren
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeDatabaseInsightResourceUsageTrend"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeDatabaseInsightResourceUsageTrend", apiReferenceLink)
 		return response, err
 	}
 
@@ -4133,6 +4283,8 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUtilizati
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeDatabaseInsightResourceUtilizationInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeDatabaseInsightResourceUtilizationInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -4186,6 +4338,8 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightTablespaceUsageTr
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeDatabaseInsightTablespaceUsageTrend"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeDatabaseInsightTablespaceUsageTrend", apiReferenceLink)
 		return response, err
 	}
 
@@ -4244,6 +4398,8 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceCapacityTr
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/SummarizeExadataInsightResourceCapacityTrend"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeExadataInsightResourceCapacityTrend", apiReferenceLink)
 		return response, err
 	}
 
@@ -4299,6 +4455,8 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceCapacityTr
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/SummarizeExadataInsightResourceCapacityTrendAggregated"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeExadataInsightResourceCapacityTrendAggregated", apiReferenceLink)
 		return response, err
 	}
 
@@ -4357,6 +4515,8 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceForecastTr
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/SummarizeExadataInsightResourceForecastTrend"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeExadataInsightResourceForecastTrend", apiReferenceLink)
 		return response, err
 	}
 
@@ -4411,6 +4571,8 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceForecastTr
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/SummarizeExadataInsightResourceForecastTrendAggregated"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeExadataInsightResourceForecastTrendAggregated", apiReferenceLink)
 		return response, err
 	}
 
@@ -4466,6 +4628,8 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceStatistics
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/SummarizeExadataInsightResourceStatistics"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeExadataInsightResourceStatistics", apiReferenceLink)
 		return response, err
 	}
 
@@ -4522,6 +4686,8 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceUsage(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/SummarizeExadataInsightResourceUsage"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeExadataInsightResourceUsage", apiReferenceLink)
 		return response, err
 	}
 
@@ -4578,6 +4744,8 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceUsageAggre
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/SummarizeExadataInsightResourceUsageAggregated"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeExadataInsightResourceUsageAggregated", apiReferenceLink)
 		return response, err
 	}
 
@@ -4629,6 +4797,8 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceUtilizatio
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/SummarizeExadataInsightResourceUtilizationInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeExadataInsightResourceUtilizationInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -4680,6 +4850,8 @@ func (client OperationsInsightsClient) summarizeExadataMembers(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/SummarizeExadataMembers"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeExadataMembers", apiReferenceLink)
 		return response, err
 	}
 
@@ -4733,6 +4905,8 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceCapacityTrend
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightResourceCapacityTrend"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightResourceCapacityTrend", apiReferenceLink)
 		return response, err
 	}
 
@@ -4785,6 +4959,8 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceForecastTrend
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightResourceForecastTrend"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightResourceForecastTrend", apiReferenceLink)
 		return response, err
 	}
 
@@ -4837,6 +5013,8 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceStatistics(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightResourceStatistics"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightResourceStatistics", apiReferenceLink)
 		return response, err
 	}
 
@@ -4891,6 +5069,8 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUsage(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightResourceUsage"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightResourceUsage", apiReferenceLink)
 		return response, err
 	}
 
@@ -4944,6 +5124,8 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUsageTrend(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightResourceUsageTrend"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightResourceUsageTrend", apiReferenceLink)
 		return response, err
 	}
 
@@ -4996,6 +5178,8 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUtilizationIn
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightResourceUtilizationInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightResourceUtilizationInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -5049,6 +5233,8 @@ func (client OperationsInsightsClient) summarizeHostInsightTopProcessesUsageTren
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightTopProcessesUsageTrend"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightTopProcessesUsageTrend", apiReferenceLink)
 		return response, err
 	}
 
@@ -5101,6 +5287,8 @@ func (client OperationsInsightsClient) summarizeOperationsInsightsWarehouseResou
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouses/SummarizeOperationsInsightsWarehouseResourceUsage"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeOperationsInsightsWarehouseResourceUsage", apiReferenceLink)
 		return response, err
 	}
 
@@ -5153,6 +5341,8 @@ func (client OperationsInsightsClient) summarizeSqlInsights(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeSqlInsights"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeSqlInsights", apiReferenceLink)
 		return response, err
 	}
 
@@ -5205,6 +5395,8 @@ func (client OperationsInsightsClient) summarizeSqlPlanInsights(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeSqlPlanInsights"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeSqlPlanInsights", apiReferenceLink)
 		return response, err
 	}
 
@@ -5257,6 +5449,8 @@ func (client OperationsInsightsClient) summarizeSqlResponseTimeDistributions(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeSqlResponseTimeDistributions"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeSqlResponseTimeDistributions", apiReferenceLink)
 		return response, err
 	}
 
@@ -5309,6 +5503,8 @@ func (client OperationsInsightsClient) summarizeSqlStatistics(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeSqlStatistics"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeSqlStatistics", apiReferenceLink)
 		return response, err
 	}
 
@@ -5361,6 +5557,8 @@ func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeries(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeSqlStatisticsTimeSeries"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeSqlStatisticsTimeSeries", apiReferenceLink)
 		return response, err
 	}
 
@@ -5413,6 +5611,8 @@ func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeriesByPlan(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeSqlStatisticsTimeSeriesByPlan"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeSqlStatisticsTimeSeriesByPlan", apiReferenceLink)
 		return response, err
 	}
 
@@ -5464,6 +5664,8 @@ func (client OperationsInsightsClient) updateAwrHub(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/UpdateAwrHub"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateAwrHub", apiReferenceLink)
 		return response, err
 	}
 
@@ -5515,6 +5717,8 @@ func (client OperationsInsightsClient) updateDatabaseInsight(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/UpdateDatabaseInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateDatabaseInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -5566,6 +5770,8 @@ func (client OperationsInsightsClient) updateEnterpriseManagerBridge(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/EnterpriseManagerBridges/UpdateEnterpriseManagerBridge"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateEnterpriseManagerBridge", apiReferenceLink)
 		return response, err
 	}
 
@@ -5617,6 +5823,8 @@ func (client OperationsInsightsClient) updateExadataInsight(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/UpdateExadataInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateExadataInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -5668,6 +5876,8 @@ func (client OperationsInsightsClient) updateHostInsight(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/UpdateHostInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateHostInsight", apiReferenceLink)
 		return response, err
 	}
 
@@ -5719,6 +5929,8 @@ func (client OperationsInsightsClient) updateOperationsInsightsPrivateEndpoint(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsPrivateEndpoint/UpdateOperationsInsightsPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateOperationsInsightsPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -5771,6 +5983,8 @@ func (client OperationsInsightsClient) updateOperationsInsightsWarehouse(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouses/UpdateOperationsInsightsWarehouse"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateOperationsInsightsWarehouse", apiReferenceLink)
 		return response, err
 	}
 
@@ -5822,6 +6036,8 @@ func (client OperationsInsightsClient) updateOperationsInsightsWarehouseUser(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouseUsers/UpdateOperationsInsightsWarehouseUser"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateOperationsInsightsWarehouseUser", apiReferenceLink)
 		return response, err
 	}
 

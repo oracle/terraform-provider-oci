@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Tools
+// Big Data Service API
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
-package databasetools
+package bds
 
 import (
 	"fmt"
@@ -15,24 +15,24 @@ import (
 	"strings"
 )
 
-// DatabaseToolsVirtualSource A VCN OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) and a list of CIDR blocks.
-type DatabaseToolsVirtualSource struct {
+// InstallPatchDetails The reqeust body while installing a patch to a cluster.
+type InstallPatchDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a VCN.
-	VcnId *string `mandatory:"false" json:"vcnId"`
+	// The version of the patch to be installed.
+	Version *string `mandatory:"true" json:"version"`
 
-	// A list of CIDR blocks.
-	IpRanges []string `mandatory:"false" json:"ipRanges"`
+	// Base-64 encoded password for the cluster admin user.
+	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
 }
 
-func (m DatabaseToolsVirtualSource) String() string {
+func (m InstallPatchDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DatabaseToolsVirtualSource) ValidateEnumValue() (bool, error) {
+func (m InstallPatchDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

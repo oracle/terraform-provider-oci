@@ -52,30 +52,35 @@ func ResourcePrincipalConfigurationProvider() (ConfigurationProviderWithClaimAcc
 	var version string
 	var ok bool
 	if version, ok = os.LookupEnv(ResourcePrincipalVersionEnvVar); !ok {
-		return nil, fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalVersionEnvVar)
+		err := fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalVersionEnvVar)
+		return nil, resourcePrincipalError{err: err}
 	}
 
 	switch version {
 	case ResourcePrincipalVersion2_2:
 		rpst := requireEnv(ResourcePrincipalRPSTEnvVar)
 		if rpst == nil {
-			return nil, fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalRPSTEnvVar)
+			err := fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalVersionEnvVar)
+			return nil, resourcePrincipalError{err: err}
 		}
 		private := requireEnv(ResourcePrincipalPrivatePEMEnvVar)
 		if private == nil {
-			return nil, fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalPrivatePEMEnvVar)
+			err := fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalVersionEnvVar)
+			return nil, resourcePrincipalError{err: err}
 		}
 		passphrase := requireEnv(ResourcePrincipalPrivatePEMPassphraseEnvVar)
 		region := requireEnv(ResourcePrincipalRegionEnvVar)
 		if region == nil {
-			return nil, fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalRegionEnvVar)
+			err := fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalRegionEnvVar)
+			return nil, resourcePrincipalError{err: err}
 		}
 		return newResourcePrincipalKeyProvider22(
 			*rpst, *private, passphrase, *region)
 	case ResourcePrincipalVersion1_1:
 		return newResourcePrincipalKeyProvider11(DefaultRptPathProvider{})
 	default:
-		return nil, fmt.Errorf("can not create resource principal, environment variable: %s, must be valid", ResourcePrincipalVersionEnvVar)
+		err := fmt.Errorf("can not create resource principal, environment variable: %s, must be valid", ResourcePrincipalVersionEnvVar)
+		return nil, resourcePrincipalError{err: err}
 	}
 }
 
@@ -84,9 +89,11 @@ func ResourcePrincipalConfigurationProviderWithPathProvider(pathProvider PathPro
 	var version string
 	var ok bool
 	if version, ok = os.LookupEnv(ResourcePrincipalVersionEnvVar); !ok {
-		return nil, fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalVersionEnvVar)
+		err := fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalVersionEnvVar)
+		return nil, resourcePrincipalError{err: err}
 	} else if version != ResourcePrincipalVersion1_1 {
-		return nil, fmt.Errorf("can not create resource principal, environment variable: %s, must be %s", ResourcePrincipalVersionEnvVar, ResourcePrincipalVersion1_1)
+		err := fmt.Errorf("can not create resource principal, environment variable: %s, must be %s", ResourcePrincipalVersionEnvVar, ResourcePrincipalVersion1_1)
+		return nil, resourcePrincipalError{err: err}
 	}
 	return newResourcePrincipalKeyProvider11(pathProvider)
 }
@@ -94,19 +101,23 @@ func ResourcePrincipalConfigurationProviderWithPathProvider(pathProvider PathPro
 func newResourcePrincipalKeyProvider11(pathProvider PathProvider) (ConfigurationProviderWithClaimAccess, error) {
 	rptEndpoint := requireEnv(ResourcePrincipalTokenEndpoint)
 	if rptEndpoint == nil {
-		return nil, fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalTokenEndpoint)
+		err := fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalTokenEndpoint)
+		return nil, resourcePrincipalError{err: err}
 	}
 	rptPath, err := pathProvider.Path()
 	if err != nil {
-		return nil, fmt.Errorf("can not create resource principal, due to: %s ", err.Error())
+		err := fmt.Errorf("can not create resource principal, due to: %s ", err.Error())
+		return nil, resourcePrincipalError{err: err}
 	}
 	resourceID, err := pathProvider.ResourceID()
 	if err != nil {
-		return nil, fmt.Errorf("can not create resource principal, due to: %s ", err.Error())
+		err := fmt.Errorf("can not create resource principal, due to: %s ", err.Error())
+		return nil, resourcePrincipalError{err: err}
 	}
 	rp, err := resourcePrincipalConfigurationProviderV1(*rptEndpoint+*rptPath, *resourceID)
 	if err != nil {
-		return nil, fmt.Errorf("can not create resource principal, due to: %s ", err.Error())
+		err := fmt.Errorf("can not create resource principal, due to: %s ", err.Error())
+		return nil, resourcePrincipalError{err: err}
 	}
 	return rp, nil
 }
@@ -131,7 +142,8 @@ func newResourcePrincipalKeyProvider22(sessionTokenLocation, privatePemLocation 
 	//Check both the the passphrase and the key are paths
 	if passphraseLocation != nil && (!isPath(privatePemLocation) && isPath(*passphraseLocation) ||
 		isPath(privatePemLocation) && !isPath(*passphraseLocation)) {
-		return nil, fmt.Errorf("cant not create resource principal: both key and passphrase need to be path or none needs to be path")
+		err := fmt.Errorf("cant not create resource principal: both key and passphrase need to be path or none needs to be path")
+		return nil, resourcePrincipalError{err: err}
 	}
 
 	var supplier sessionKeySupplier
@@ -141,7 +153,8 @@ func newResourcePrincipalKeyProvider22(sessionTokenLocation, privatePemLocation 
 	if isPath(privatePemLocation) {
 		supplier, err = newFileBasedKeySessionSupplier(privatePemLocation, passphraseLocation)
 		if err != nil {
-			return nil, fmt.Errorf("can not create resource principal, due to: %s ", err.Error())
+			err := fmt.Errorf("can not create resource principal, due to: %s ", err.Error())
+			return nil, resourcePrincipalError{err: err}
 		}
 	} else {
 		//else the content is in the env vars
@@ -151,7 +164,8 @@ func newResourcePrincipalKeyProvider22(sessionTokenLocation, privatePemLocation 
 		}
 		supplier, err = newStaticKeySessionSupplier([]byte(privatePemLocation), passphrase)
 		if err != nil {
-			return nil, fmt.Errorf("can not create resource principal, due to: %s ", err.Error())
+			err := fmt.Errorf("can not create resource principal, due to: %s ", err.Error())
+			return nil, resourcePrincipalError{err: err}
 		}
 	}
 
@@ -161,7 +175,8 @@ func newResourcePrincipalKeyProvider22(sessionTokenLocation, privatePemLocation 
 	} else {
 		fd, err = newStaticFederationClient(sessionTokenLocation, supplier)
 		if err != nil {
-			return nil, fmt.Errorf("can not create resource principal, due to: %s ", err.Error())
+			err := fmt.Errorf("can not create resource principal, due to: %s ", err.Error())
+			return nil, resourcePrincipalError{err: err}
 		}
 	}
 
@@ -175,7 +190,7 @@ func newResourcePrincipalKeyProvider22(sessionTokenLocation, privatePemLocation 
 func (p *resourcePrincipalKeyProvider) PrivateRSAKey() (privateKey *rsa.PrivateKey, err error) {
 	if privateKey, err = p.FederationClient.PrivateKey(); err != nil {
 		err = fmt.Errorf("failed to get private key: %s", err.Error())
-		return nil, err
+		return nil, resourcePrincipalError{err: err}
 	}
 	return privateKey, nil
 }
@@ -184,7 +199,8 @@ func (p *resourcePrincipalKeyProvider) KeyID() (string, error) {
 	var securityToken string
 	var err error
 	if securityToken, err = p.FederationClient.SecurityToken(); err != nil {
-		return "", fmt.Errorf("failed to get security token: %s", err.Error())
+		err = fmt.Errorf("failed to get security token: %s", err.Error())
+		return "", resourcePrincipalError{err: err}
 	}
 	return fmt.Sprintf("ST$%s", securityToken), nil
 }
@@ -233,4 +249,12 @@ func (p *resourcePrincipalKeyProvider) Refreshable() bool {
 // an absolute path.
 func isPath(str string) bool {
 	return path.IsAbs(str)
+}
+
+type resourcePrincipalError struct {
+	err error
+}
+
+func (ipe resourcePrincipalError) Error() string {
+	return fmt.Sprintf("%s\nResource principals authentication can only be used in certain OCI services. Please check that the OCI service you're running this code from supports Resource principals.\nSee https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdk_authentication_methods.htm for more info.", ipe.err.Error())
 }

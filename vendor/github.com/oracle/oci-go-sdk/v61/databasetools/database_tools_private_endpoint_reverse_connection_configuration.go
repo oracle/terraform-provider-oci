@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// DatabaseToolsPrivateEndpointReverseConnectionConfiguration Reverse connection configuration details of Private Endpoint.
+// DatabaseToolsPrivateEndpointReverseConnectionConfiguration Reverse connection configuration details of the private endpoint.
 type DatabaseToolsPrivateEndpointReverseConnectionConfiguration struct {
 
 	// A list of IP addresses in the customer VCN to be used as the source IPs for reverse connection packets

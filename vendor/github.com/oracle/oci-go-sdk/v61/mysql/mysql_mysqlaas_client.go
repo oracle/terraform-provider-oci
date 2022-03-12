@@ -133,6 +133,8 @@ func (client MysqlaasClient) createConfiguration(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Mysqlaas", "CreateConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -185,6 +187,8 @@ func (client MysqlaasClient) deleteConfiguration(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/Configuration/DeleteConfiguration"
+		err = common.PostProcessServiceError(err, "Mysqlaas", "DeleteConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -236,6 +240,8 @@ func (client MysqlaasClient) getConfiguration(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/Configuration/GetConfiguration"
+		err = common.PostProcessServiceError(err, "Mysqlaas", "GetConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -292,6 +298,8 @@ func (client MysqlaasClient) listConfigurations(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/ConfigurationSummary/ListConfigurations"
+		err = common.PostProcessServiceError(err, "Mysqlaas", "ListConfigurations", apiReferenceLink)
 		return response, err
 	}
 
@@ -346,6 +354,8 @@ func (client MysqlaasClient) listShapes(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes"
+		err = common.PostProcessServiceError(err, "Mysqlaas", "ListShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -398,6 +408,8 @@ func (client MysqlaasClient) listVersions(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/VersionSummary/ListVersions"
+		err = common.PostProcessServiceError(err, "Mysqlaas", "ListVersions", apiReferenceLink)
 		return response, err
 	}
 
@@ -449,6 +461,8 @@ func (client MysqlaasClient) updateConfiguration(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/Configuration/UpdateConfiguration"
+		err = common.PostProcessServiceError(err, "Mysqlaas", "UpdateConfiguration", apiReferenceLink)
 		return response, err
 	}
 

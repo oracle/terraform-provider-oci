@@ -249,6 +249,14 @@ type fileConfigurationProvider struct {
 	FileInfo *configFileInfo
 }
 
+type fileConfigurationProviderError struct {
+	err error
+}
+
+func (fpe fileConfigurationProviderError) Error() string {
+	return fmt.Sprintf("%s\nFor more info about config file and how to get required information, see https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdkconfig.htm for more info on OCI configuration files", fpe.err)
+}
+
 // ConfigurationProviderFromFile creates a configuration provider from a configuration file
 // by reading the "DEFAULT" profile
 func ConfigurationProviderFromFile(configFilePath, privateKeyPassword string) (ConfigurationProvider, error) {
@@ -266,7 +274,7 @@ func ConfigurationProviderFromFile(configFilePath, privateKeyPassword string) (C
 // and the given profile
 func ConfigurationProviderFromFileWithProfile(configFilePath, profile, privateKeyPassword string) (ConfigurationProvider, error) {
 	if configFilePath == "" {
-		return nil, fmt.Errorf("config file path can not be empty")
+		return nil, fileConfigurationProviderError{err: fmt.Errorf("config file path can not be empty")}
 	}
 
 	return fileConfigurationProvider{
@@ -299,7 +307,7 @@ var profileRegex = regexp.MustCompile(`^\[(.*)\]`)
 func parseConfigFile(data []byte, profile string) (info *configFileInfo, err error) {
 
 	if len(data) == 0 {
-		return nil, fmt.Errorf("configuration file content is empty")
+		return nil, fileConfigurationProviderError{err: fmt.Errorf("configuration file content is empty")}
 	}
 
 	content := string(data)
@@ -313,7 +321,7 @@ func parseConfigFile(data []byte, profile string) (info *configFileInfo, err err
 		}
 	}
 
-	return nil, fmt.Errorf("configuration file did not contain profile: %s", profile)
+	return nil, fileConfigurationProviderError{err: fmt.Errorf("configuration file did not contain profile: %s", profile)}
 }
 
 func parseConfigAtLine(start int, content []string) (info *configFileInfo, err error) {
@@ -397,12 +405,12 @@ func (p fileConfigurationProvider) readAndParseConfigFile() (info *configFileInf
 	}
 
 	if p.ConfigPath == "" {
-		return nil, fmt.Errorf("configuration path can not be empty")
+		return nil, fileConfigurationProviderError{err: fmt.Errorf("configuration path can not be empty")}
 	}
 
 	data, err := openConfigFile(p.ConfigPath)
 	if err != nil {
-		err = fmt.Errorf("error while parsing config file: %s. Due to: %s", p.ConfigPath, err.Error())
+		err = fileConfigurationProviderError{err: fmt.Errorf("error while parsing config file: %s. Due to: %s", p.ConfigPath, err.Error())}
 		return
 	}
 
@@ -414,13 +422,13 @@ func presentOrError(value string, expectedConf, presentConf rune, confMissing st
 	if presentConf&expectedConf == expectedConf {
 		return value, nil
 	}
-	return "", errors.New(confMissing + " configuration is missing from file")
+	return "", fileConfigurationProviderError{err: errors.New(confMissing + " configuration is missing from file")}
 }
 
 func (p fileConfigurationProvider) TenancyOCID() (value string, err error) {
 	info, err := p.readAndParseConfigFile()
 	if err != nil {
-		err = fmt.Errorf("can not read tenancy configuration due to: %s", err.Error())
+		err = fileConfigurationProviderError{err: fmt.Errorf("can not read tenancy configuration due to: %s", err.Error())}
 		return
 	}
 
@@ -431,7 +439,7 @@ func (p fileConfigurationProvider) TenancyOCID() (value string, err error) {
 func (p fileConfigurationProvider) UserOCID() (value string, err error) {
 	info, err := p.readAndParseConfigFile()
 	if err != nil {
-		err = fmt.Errorf("can not read tenancy configuration due to: %s", err.Error())
+		err = fileConfigurationProviderError{err: fmt.Errorf("can not read tenancy configuration due to: %s", err.Error())}
 		return
 	}
 
@@ -448,7 +456,7 @@ func (p fileConfigurationProvider) UserOCID() (value string, err error) {
 func (p fileConfigurationProvider) KeyFingerprint() (value string, err error) {
 	info, err := p.readAndParseConfigFile()
 	if err != nil {
-		err = fmt.Errorf("can not read tenancy configuration due to: %s", err.Error())
+		err = fileConfigurationProviderError{err: fmt.Errorf("can not read tenancy configuration due to: %s", err.Error())}
 		return
 	}
 	value, err = presentOrError(info.Fingerprint, hasFingerprint, info.PresentConfiguration, "fingerprint")
@@ -458,7 +466,7 @@ func (p fileConfigurationProvider) KeyFingerprint() (value string, err error) {
 func (p fileConfigurationProvider) KeyID() (keyID string, err error) {
 	info, err := p.readAndParseConfigFile()
 	if err != nil {
-		err = fmt.Errorf("can not read tenancy configuration due to: %s", err.Error())
+		err = fileConfigurationProviderError{err: fmt.Errorf("can not read tenancy configuration due to: %s", err.Error())}
 		return
 	}
 	if info.PresentConfiguration&hasUser == hasUser {
@@ -467,18 +475,18 @@ func (p fileConfigurationProvider) KeyID() (keyID string, err error) {
 	if filePath, err := presentOrError(info.SecurityTokenFilePath, hasSecurityTokenFile, info.PresentConfiguration, "securityTokenFilePath"); err == nil {
 		rawString, err := getTokenContent(filePath)
 		if err != nil {
-			return "", err
+			return "", fileConfigurationProviderError{err: err}
 		}
 		return "ST$" + rawString, nil
 	}
-	err = fmt.Errorf("can not read SecurityTokenFilePath from configuration file due to: %s", err.Error())
+	err = fileConfigurationProviderError{err: fmt.Errorf("can not read SecurityTokenFilePath from configuration file due to: %s", err.Error())}
 	return
 }
 
 func (p fileConfigurationProvider) PrivateRSAKey() (key *rsa.PrivateKey, err error) {
 	info, err := p.readAndParseConfigFile()
 	if err != nil {
-		err = fmt.Errorf("can not read tenancy configuration due to: %s", err.Error())
+		err = fileConfigurationProviderError{err: fmt.Errorf("can not read tenancy configuration due to: %s", err.Error())}
 		return
 	}
 
@@ -490,7 +498,7 @@ func (p fileConfigurationProvider) PrivateRSAKey() (key *rsa.PrivateKey, err err
 	expandedPath := expandPath(filePath)
 	pemFileContent, err := ioutil.ReadFile(expandedPath)
 	if err != nil {
-		err = fmt.Errorf("can not read PrivateKey  from configuration file due to: %s", err.Error())
+		err = fileConfigurationProviderError{err: fmt.Errorf("can not read PrivateKey  from configuration file due to: %s", err.Error())}
 		return
 	}
 
@@ -507,7 +515,7 @@ func (p fileConfigurationProvider) PrivateRSAKey() (key *rsa.PrivateKey, err err
 func (p fileConfigurationProvider) Region() (value string, err error) {
 	info, err := p.readAndParseConfigFile()
 	if err != nil {
-		err = fmt.Errorf("can not read region configuration due to: %s", err.Error())
+		err = fileConfigurationProviderError{err: fmt.Errorf("can not read region configuration due to: %s", err.Error())}
 		return
 	}
 
@@ -515,7 +523,7 @@ func (p fileConfigurationProvider) Region() (value string, err error) {
 	if err != nil {
 		val, error := getRegionFromEnvVar()
 		if error != nil {
-			err = fmt.Errorf("region configuration is missing from file, nor for OCI_REGION env var")
+			err = fileConfigurationProviderError{err: fmt.Errorf("region configuration is missing from file, nor for OCI_REGION env var")}
 			return
 		}
 		value = val
@@ -552,7 +560,7 @@ func getTokenContent(filePath string) (string, error) {
 	expandedPath := expandPath(filePath)
 	tokenFileContent, err := ioutil.ReadFile(expandedPath)
 	if err != nil {
-		err = fmt.Errorf("can not read token content from configuration file due to: %s", err.Error())
+		err = fileConfigurationProviderError{err: fmt.Errorf("can not read token content from configuration file due to: %s", err.Error())}
 		return "", err
 	}
 	return fmt.Sprintf("%s", tokenFileContent), nil

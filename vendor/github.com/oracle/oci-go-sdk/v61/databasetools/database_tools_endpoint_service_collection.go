@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// DatabaseToolsEndpointServiceCollection List of DatabaseToolsEndpointServiceSummary items.
+// DatabaseToolsEndpointServiceCollection List of `DatabaseToolsEndpointServiceSummary` items.
 type DatabaseToolsEndpointServiceCollection struct {
 
-	// Array of DatabaseToolsEndpointServiceSummary.
+	// Array of `DatabaseToolsEndpointServiceSummary` items.
 	Items []DatabaseToolsEndpointServiceSummary `mandatory:"true" json:"items"`
 }
 

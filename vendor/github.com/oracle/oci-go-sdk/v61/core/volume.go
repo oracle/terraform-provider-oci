@@ -85,9 +85,6 @@ type Volume struct {
 	// For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB.
 	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 
-	// The size (in Bytes) of the logical blocks for this block volume, between 512B to 32KB.
-	LogicalBlockSizeInBytes *int `mandatory:"false" json:"logicalBlockSizeInBytes"`
-
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
@@ -132,27 +129,26 @@ func (m Volume) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
-		FreeformTags            map[string]string                 `json:"freeformTags"`
-		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
-		IsHydrated              *bool                             `json:"isHydrated"`
-		KmsKeyId                *string                           `json:"kmsKeyId"`
-		VpusPerGB               *int64                            `json:"vpusPerGB"`
-		LogicalBlockSizeInBytes *int                              `json:"logicalBlockSizeInBytes"`
-		SizeInGBs               *int64                            `json:"sizeInGBs"`
-		SourceDetails           volumesourcedetails               `json:"sourceDetails"`
-		VolumeGroupId           *string                           `json:"volumeGroupId"`
-		IsAutoTuneEnabled       *bool                             `json:"isAutoTuneEnabled"`
-		AutoTunedVpusPerGB      *int64                            `json:"autoTunedVpusPerGB"`
-		BlockVolumeReplicas     []BlockVolumeReplicaInfo          `json:"blockVolumeReplicas"`
-		AutotunePolicies        []autotunepolicy                  `json:"autotunePolicies"`
-		AvailabilityDomain      *string                           `json:"availabilityDomain"`
-		CompartmentId           *string                           `json:"compartmentId"`
-		DisplayName             *string                           `json:"displayName"`
-		Id                      *string                           `json:"id"`
-		LifecycleState          VolumeLifecycleStateEnum          `json:"lifecycleState"`
-		SizeInMBs               *int64                            `json:"sizeInMBs"`
-		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
+		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
+		FreeformTags        map[string]string                 `json:"freeformTags"`
+		SystemTags          map[string]map[string]interface{} `json:"systemTags"`
+		IsHydrated          *bool                             `json:"isHydrated"`
+		KmsKeyId            *string                           `json:"kmsKeyId"`
+		VpusPerGB           *int64                            `json:"vpusPerGB"`
+		SizeInGBs           *int64                            `json:"sizeInGBs"`
+		SourceDetails       volumesourcedetails               `json:"sourceDetails"`
+		VolumeGroupId       *string                           `json:"volumeGroupId"`
+		IsAutoTuneEnabled   *bool                             `json:"isAutoTuneEnabled"`
+		AutoTunedVpusPerGB  *int64                            `json:"autoTunedVpusPerGB"`
+		BlockVolumeReplicas []BlockVolumeReplicaInfo          `json:"blockVolumeReplicas"`
+		AutotunePolicies    []autotunepolicy                  `json:"autotunePolicies"`
+		AvailabilityDomain  *string                           `json:"availabilityDomain"`
+		CompartmentId       *string                           `json:"compartmentId"`
+		DisplayName         *string                           `json:"displayName"`
+		Id                  *string                           `json:"id"`
+		LifecycleState      VolumeLifecycleStateEnum          `json:"lifecycleState"`
+		SizeInMBs           *int64                            `json:"sizeInMBs"`
+		TimeCreated         *common.SDKTime                   `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -171,8 +167,6 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	m.KmsKeyId = model.KmsKeyId
 
 	m.VpusPerGB = model.VpusPerGB
-
-	m.LogicalBlockSizeInBytes = model.LogicalBlockSizeInBytes
 
 	m.SizeInGBs = model.SizeInGBs
 

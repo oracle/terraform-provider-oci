@@ -139,6 +139,8 @@ func (client IdentityClient) activateDomain(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Domain/ActivateDomain"
+		err = common.PostProcessServiceError(err, "Identity", "ActivateDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -196,6 +198,8 @@ func (client IdentityClient) activateMfaTotpDevice(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/MfaTotpDeviceSummary/ActivateMfaTotpDevice"
+		err = common.PostProcessServiceError(err, "Identity", "ActivateMfaTotpDevice", apiReferenceLink)
 		return response, err
 	}
 
@@ -253,6 +257,8 @@ func (client IdentityClient) addTagDefaultLock(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagDefault/AddTagDefaultLock"
+		err = common.PostProcessServiceError(err, "Identity", "AddTagDefaultLock", apiReferenceLink)
 		return response, err
 	}
 
@@ -310,6 +316,8 @@ func (client IdentityClient) addTagNamespaceLock(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagNamespace/AddTagNamespaceLock"
+		err = common.PostProcessServiceError(err, "Identity", "AddTagNamespaceLock", apiReferenceLink)
 		return response, err
 	}
 
@@ -369,6 +377,8 @@ func (client IdentityClient) addUserToGroup(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/UserGroupMembership/AddUserToGroup"
+		err = common.PostProcessServiceError(err, "Identity", "AddUserToGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -423,6 +433,8 @@ func (client IdentityClient) assembleEffectiveTagSet(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagDefault/AssembleEffectiveTagSet"
+		err = common.PostProcessServiceError(err, "Identity", "AssembleEffectiveTagSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -484,6 +496,8 @@ func (client IdentityClient) bulkDeleteResources(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/BulkDeleteResources"
+		err = common.PostProcessServiceError(err, "Identity", "BulkDeleteResources", apiReferenceLink)
 		return response, err
 	}
 
@@ -556,6 +570,8 @@ func (client IdentityClient) bulkDeleteTags(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tag/BulkDeleteTags"
+		err = common.PostProcessServiceError(err, "Identity", "BulkDeleteTags", apiReferenceLink)
 		return response, err
 	}
 
@@ -623,6 +639,8 @@ func (client IdentityClient) bulkEditTags(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tag/BulkEditTags"
+		err = common.PostProcessServiceError(err, "Identity", "BulkEditTags", apiReferenceLink)
 		return response, err
 	}
 
@@ -684,6 +702,8 @@ func (client IdentityClient) bulkMoveResources(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/BulkMoveResources"
+		err = common.PostProcessServiceError(err, "Identity", "BulkMoveResources", apiReferenceLink)
 		return response, err
 	}
 
@@ -753,6 +773,8 @@ func (client IdentityClient) cascadeDeleteTagNamespace(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagNamespace/CascadeDeleteTagNamespace"
+		err = common.PostProcessServiceError(err, "Identity", "CascadeDeleteTagNamespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -812,6 +834,8 @@ func (client IdentityClient) changeDomainCompartment(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Domain/ChangeDomainCompartment"
+		err = common.PostProcessServiceError(err, "Identity", "ChangeDomainCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -875,6 +899,8 @@ func (client IdentityClient) changeDomainLicenseType(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Domain/ChangeDomainLicenseType"
+		err = common.PostProcessServiceError(err, "Identity", "ChangeDomainLicenseType", apiReferenceLink)
 		return response, err
 	}
 
@@ -935,6 +961,8 @@ func (client IdentityClient) changeTagNamespaceCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagNamespace/ChangeTagNamespaceCompartment"
+		err = common.PostProcessServiceError(err, "Identity", "ChangeTagNamespaceCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -999,6 +1027,8 @@ func (client IdentityClient) createAuthToken(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/AuthToken/CreateAuthToken"
+		err = common.PostProcessServiceError(err, "Identity", "CreateAuthToken", apiReferenceLink)
 		return response, err
 	}
 
@@ -1068,6 +1098,8 @@ func (client IdentityClient) createCompartment(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/CreateCompartment"
+		err = common.PostProcessServiceError(err, "Identity", "CreateCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1133,6 +1165,8 @@ func (client IdentityClient) createCustomerSecretKey(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/CustomerSecretKey/CreateCustomerSecretKey"
+		err = common.PostProcessServiceError(err, "Identity", "CreateCustomerSecretKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -1190,6 +1224,8 @@ func (client IdentityClient) createDbCredential(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/User/CreateDbCredential"
+		err = common.PostProcessServiceError(err, "Identity", "CreateDbCredential", apiReferenceLink)
 		return response, err
 	}
 
@@ -1252,6 +1288,8 @@ func (client IdentityClient) createDomain(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Domain/CreateDomain"
+		err = common.PostProcessServiceError(err, "Identity", "CreateDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -1322,6 +1360,8 @@ func (client IdentityClient) createDynamicGroup(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/DynamicGroup/CreateDynamicGroup"
+		err = common.PostProcessServiceError(err, "Identity", "CreateDynamicGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1394,6 +1434,8 @@ func (client IdentityClient) createGroup(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Group/CreateGroup"
+		err = common.PostProcessServiceError(err, "Identity", "CreateGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1465,6 +1507,8 @@ func (client IdentityClient) createIdentityProvider(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/IdentityProvider/CreateIdentityProvider"
+		err = common.PostProcessServiceError(err, "Identity", "CreateIdentityProvider", apiReferenceLink)
 		return response, err
 	}
 
@@ -1524,6 +1568,8 @@ func (client IdentityClient) createIdpGroupMapping(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/IdpGroupMapping/CreateIdpGroupMapping"
+		err = common.PostProcessServiceError(err, "Identity", "CreateIdpGroupMapping", apiReferenceLink)
 		return response, err
 	}
 
@@ -1586,6 +1632,8 @@ func (client IdentityClient) createManagedCompartment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/CreateManagedCompartment"
+		err = common.PostProcessServiceError(err, "Identity", "CreateManagedCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1643,6 +1691,8 @@ func (client IdentityClient) createMfaTotpDevice(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/MfaTotpDevice/CreateMfaTotpDevice"
+		err = common.PostProcessServiceError(err, "Identity", "CreateMfaTotpDevice", apiReferenceLink)
 		return response, err
 	}
 
@@ -1715,6 +1765,8 @@ func (client IdentityClient) createNetworkSource(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/NetworkSources/CreateNetworkSource"
+		err = common.PostProcessServiceError(err, "Identity", "CreateNetworkSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -1772,6 +1824,8 @@ func (client IdentityClient) createOAuthClientCredential(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/User/CreateOAuthClientCredential"
+		err = common.PostProcessServiceError(err, "Identity", "CreateOAuthClientCredential", apiReferenceLink)
 		return response, err
 	}
 
@@ -1840,6 +1894,8 @@ func (client IdentityClient) createOrResetUIPassword(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/UIPassword/CreateOrResetUIPassword"
+		err = common.PostProcessServiceError(err, "Identity", "CreateOrResetUIPassword", apiReferenceLink)
 		return response, err
 	}
 
@@ -1908,6 +1964,8 @@ func (client IdentityClient) createPolicy(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Policy/CreatePolicy"
+		err = common.PostProcessServiceError(err, "Identity", "CreatePolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -1965,6 +2023,8 @@ func (client IdentityClient) createRegionSubscription(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/RegionSubscription/CreateRegionSubscription"
+		err = common.PostProcessServiceError(err, "Identity", "CreateRegionSubscription", apiReferenceLink)
 		return response, err
 	}
 
@@ -2025,6 +2085,8 @@ func (client IdentityClient) createSmtpCredential(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/SmtpCredential/CreateSmtpCredential"
+		err = common.PostProcessServiceError(err, "Identity", "CreateSmtpCredential", apiReferenceLink)
 		return response, err
 	}
 
@@ -2090,6 +2152,8 @@ func (client IdentityClient) createSwiftPassword(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/SwiftPassword/CreateSwiftPassword"
+		err = common.PostProcessServiceError(err, "Identity", "CreateSwiftPassword", apiReferenceLink)
 		return response, err
 	}
 
@@ -2163,6 +2227,8 @@ func (client IdentityClient) createTag(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tag/CreateTag"
+		err = common.PostProcessServiceError(err, "Identity", "CreateTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -2225,6 +2291,8 @@ func (client IdentityClient) createTagDefault(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagDefault/CreateTagDefault"
+		err = common.PostProcessServiceError(err, "Identity", "CreateTagDefault", apiReferenceLink)
 		return response, err
 	}
 
@@ -2292,6 +2360,8 @@ func (client IdentityClient) createTagNamespace(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagNamespace/CreateTagNamespace"
+		err = common.PostProcessServiceError(err, "Identity", "CreateTagNamespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -2357,6 +2427,8 @@ func (client IdentityClient) createTagRule(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagRule/CreateTagRule"
+		err = common.PostProcessServiceError(err, "Identity", "CreateTagRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -2442,6 +2514,8 @@ func (client IdentityClient) createUser(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/User/CreateUser"
+		err = common.PostProcessServiceError(err, "Identity", "CreateUser", apiReferenceLink)
 		return response, err
 	}
 
@@ -2505,6 +2579,8 @@ func (client IdentityClient) deactivateDomain(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Domain/DeactivateDomain"
+		err = common.PostProcessServiceError(err, "Identity", "DeactivateDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -2560,6 +2636,8 @@ func (client IdentityClient) deleteApiKey(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Identity", "DeleteApiKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -2611,6 +2689,8 @@ func (client IdentityClient) deleteAuthToken(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Identity", "DeleteAuthToken", apiReferenceLink)
 		return response, err
 	}
 
@@ -2662,6 +2742,8 @@ func (client IdentityClient) deleteCompartment(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/DeleteCompartment"
+		err = common.PostProcessServiceError(err, "Identity", "DeleteCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2713,6 +2795,8 @@ func (client IdentityClient) deleteCustomerSecretKey(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Identity", "DeleteCustomerSecretKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -2764,6 +2848,8 @@ func (client IdentityClient) deleteDbCredential(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/User/DeleteDbCredential"
+		err = common.PostProcessServiceError(err, "Identity", "DeleteDbCredential", apiReferenceLink)
 		return response, err
 	}
 
@@ -2821,6 +2907,8 @@ func (client IdentityClient) deleteDomain(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Domain/DeleteDomain"
+		err = common.PostProcessServiceError(err, "Identity", "DeleteDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -2872,6 +2960,8 @@ func (client IdentityClient) deleteDynamicGroup(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Identity", "DeleteDynamicGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -2923,6 +3013,8 @@ func (client IdentityClient) deleteGroup(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Identity", "DeleteGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -2976,6 +3068,8 @@ func (client IdentityClient) deleteIdentityProvider(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Identity", "DeleteIdentityProvider", apiReferenceLink)
 		return response, err
 	}
 
@@ -3028,6 +3122,8 @@ func (client IdentityClient) deleteIdpGroupMapping(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Identity", "DeleteIdpGroupMapping", apiReferenceLink)
 		return response, err
 	}
 
@@ -3079,6 +3175,8 @@ func (client IdentityClient) deleteMfaTotpDevice(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/MfaTotpDevice/DeleteMfaTotpDevice"
+		err = common.PostProcessServiceError(err, "Identity", "DeleteMfaTotpDevice", apiReferenceLink)
 		return response, err
 	}
 
@@ -3130,6 +3228,8 @@ func (client IdentityClient) deleteNetworkSource(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/NetworkSources/DeleteNetworkSource"
+		err = common.PostProcessServiceError(err, "Identity", "DeleteNetworkSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -3181,6 +3281,8 @@ func (client IdentityClient) deleteOAuthClientCredential(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/User/DeleteOAuthClientCredential"
+		err = common.PostProcessServiceError(err, "Identity", "DeleteOAuthClientCredential", apiReferenceLink)
 		return response, err
 	}
 
@@ -3232,6 +3334,8 @@ func (client IdentityClient) deletePolicy(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Identity", "DeletePolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -3283,6 +3387,8 @@ func (client IdentityClient) deleteSmtpCredential(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Identity", "DeleteSmtpCredential", apiReferenceLink)
 		return response, err
 	}
 
@@ -3335,6 +3441,8 @@ func (client IdentityClient) deleteSwiftPassword(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Identity", "DeleteSwiftPassword", apiReferenceLink)
 		return response, err
 	}
 
@@ -3401,6 +3509,8 @@ func (client IdentityClient) deleteTag(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tag/DeleteTag"
+		err = common.PostProcessServiceError(err, "Identity", "DeleteTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -3452,6 +3562,8 @@ func (client IdentityClient) deleteTagDefault(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagDefault/DeleteTagDefault"
+		err = common.PostProcessServiceError(err, "Identity", "DeleteTagDefault", apiReferenceLink)
 		return response, err
 	}
 
@@ -3507,6 +3619,8 @@ func (client IdentityClient) deleteTagNamespace(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagNamespace/DeleteTagNamespace"
+		err = common.PostProcessServiceError(err, "Identity", "DeleteTagNamespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -3558,6 +3672,8 @@ func (client IdentityClient) deleteTagRule(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Identity", "DeleteTagRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -3609,6 +3725,8 @@ func (client IdentityClient) deleteUser(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Identity", "DeleteUser", apiReferenceLink)
 		return response, err
 	}
 
@@ -3673,6 +3791,8 @@ func (client IdentityClient) enableReplicationToRegion(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Domain/EnableReplicationToRegion"
+		err = common.PostProcessServiceError(err, "Identity", "EnableReplicationToRegion", apiReferenceLink)
 		return response, err
 	}
 
@@ -3725,6 +3845,8 @@ func (client IdentityClient) generateTotpSeed(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/MfaTotpDevice/GenerateTotpSeed"
+		err = common.PostProcessServiceError(err, "Identity", "GenerateTotpSeed", apiReferenceLink)
 		return response, err
 	}
 
@@ -3776,6 +3898,8 @@ func (client IdentityClient) getAccountByEntitlementId(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Account/GetAccountByEntitlementId"
+		err = common.PostProcessServiceError(err, "Identity", "GetAccountByEntitlementId", apiReferenceLink)
 		return response, err
 	}
 
@@ -3828,6 +3952,8 @@ func (client IdentityClient) getAuthenticationPolicy(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/AuthenticationPolicy/GetAuthenticationPolicy"
+		err = common.PostProcessServiceError(err, "Identity", "GetAuthenticationPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -3885,6 +4011,8 @@ func (client IdentityClient) getCompartment(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/GetCompartment"
+		err = common.PostProcessServiceError(err, "Identity", "GetCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -3936,6 +4064,8 @@ func (client IdentityClient) getDomain(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Domain/GetDomain"
+		err = common.PostProcessServiceError(err, "Identity", "GetDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -3987,6 +4117,8 @@ func (client IdentityClient) getDynamicGroup(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/DynamicGroup/GetDynamicGroup"
+		err = common.PostProcessServiceError(err, "Identity", "GetDynamicGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -4041,6 +4173,8 @@ func (client IdentityClient) getGroup(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Group/GetGroup"
+		err = common.PostProcessServiceError(err, "Identity", "GetGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -4092,6 +4226,8 @@ func (client IdentityClient) getIamWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/IamWorkRequest/GetIamWorkRequest"
+		err = common.PostProcessServiceError(err, "Identity", "GetIamWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -4144,6 +4280,8 @@ func (client IdentityClient) getIdentityProvider(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/IdentityProvider/GetIdentityProvider"
+		err = common.PostProcessServiceError(err, "Identity", "GetIdentityProvider", apiReferenceLink)
 		return response, err
 	}
 
@@ -4196,6 +4334,8 @@ func (client IdentityClient) getIdpGroupMapping(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/IdpGroupMapping/GetIdpGroupMapping"
+		err = common.PostProcessServiceError(err, "Identity", "GetIdpGroupMapping", apiReferenceLink)
 		return response, err
 	}
 
@@ -4247,6 +4387,8 @@ func (client IdentityClient) getMfaTotpDevice(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/MfaTotpDeviceSummary/GetMfaTotpDevice"
+		err = common.PostProcessServiceError(err, "Identity", "GetMfaTotpDevice", apiReferenceLink)
 		return response, err
 	}
 
@@ -4298,6 +4440,8 @@ func (client IdentityClient) getNetworkSource(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/NetworkSources/GetNetworkSource"
+		err = common.PostProcessServiceError(err, "Identity", "GetNetworkSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -4349,6 +4493,8 @@ func (client IdentityClient) getPolicy(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Policy/GetPolicy"
+		err = common.PostProcessServiceError(err, "Identity", "GetPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -4400,6 +4546,8 @@ func (client IdentityClient) getStandardTagTemplate(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/StandardTagNamespaceTemplate/GetStandardTagTemplate"
+		err = common.PostProcessServiceError(err, "Identity", "GetStandardTagTemplate", apiReferenceLink)
 		return response, err
 	}
 
@@ -4451,6 +4599,8 @@ func (client IdentityClient) getTag(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tag/GetTag"
+		err = common.PostProcessServiceError(err, "Identity", "GetTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -4502,6 +4652,8 @@ func (client IdentityClient) getTagDefault(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagDefault/GetTagDefault"
+		err = common.PostProcessServiceError(err, "Identity", "GetTagDefault", apiReferenceLink)
 		return response, err
 	}
 
@@ -4553,6 +4705,8 @@ func (client IdentityClient) getTagNamespace(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagNamespace/GetTagNamespace"
+		err = common.PostProcessServiceError(err, "Identity", "GetTagNamespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -4604,6 +4758,8 @@ func (client IdentityClient) getTagRule(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagRule/GetTagRule"
+		err = common.PostProcessServiceError(err, "Identity", "GetTagRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -4656,6 +4812,8 @@ func (client IdentityClient) getTaggingWorkRequest(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TaggingWorkRequest/GetTaggingWorkRequest"
+		err = common.PostProcessServiceError(err, "Identity", "GetTaggingWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -4707,6 +4865,8 @@ func (client IdentityClient) getTenancy(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tenancy/GetTenancy"
+		err = common.PostProcessServiceError(err, "Identity", "GetTenancy", apiReferenceLink)
 		return response, err
 	}
 
@@ -4758,6 +4918,8 @@ func (client IdentityClient) getUser(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/User/GetUser"
+		err = common.PostProcessServiceError(err, "Identity", "GetUser", apiReferenceLink)
 		return response, err
 	}
 
@@ -4809,6 +4971,8 @@ func (client IdentityClient) getUserGroupMembership(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/UserGroupMembership/GetUserGroupMembership"
+		err = common.PostProcessServiceError(err, "Identity", "GetUserGroupMembership", apiReferenceLink)
 		return response, err
 	}
 
@@ -4861,6 +5025,8 @@ func (client IdentityClient) getUserUIPasswordInformation(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/UIPasswordInformation/GetUserUIPasswordInformation"
+		err = common.PostProcessServiceError(err, "Identity", "GetUserUIPasswordInformation", apiReferenceLink)
 		return response, err
 	}
 
@@ -4913,6 +5079,8 @@ func (client IdentityClient) getWorkRequest(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "Identity", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -4971,6 +5139,8 @@ func (client IdentityClient) importStandardTags(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tag/ImportStandardTags"
+		err = common.PostProcessServiceError(err, "Identity", "ImportStandardTags", apiReferenceLink)
 		return response, err
 	}
 
@@ -5025,6 +5195,8 @@ func (client IdentityClient) listAllowedDomainLicenseTypes(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Domain/ListAllowedDomainLicenseTypes"
+		err = common.PostProcessServiceError(err, "Identity", "ListAllowedDomainLicenseTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -5078,6 +5250,8 @@ func (client IdentityClient) listApiKeys(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ApiKey/ListApiKeys"
+		err = common.PostProcessServiceError(err, "Identity", "ListApiKeys", apiReferenceLink)
 		return response, err
 	}
 
@@ -5130,6 +5304,8 @@ func (client IdentityClient) listAuthTokens(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/AuthToken/ListAuthTokens"
+		err = common.PostProcessServiceError(err, "Identity", "ListAuthTokens", apiReferenceLink)
 		return response, err
 	}
 
@@ -5185,6 +5361,8 @@ func (client IdentityClient) listAvailabilityDomains(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/AvailabilityDomain/ListAvailabilityDomains"
+		err = common.PostProcessServiceError(err, "Identity", "ListAvailabilityDomains", apiReferenceLink)
 		return response, err
 	}
 
@@ -5242,6 +5420,8 @@ func (client IdentityClient) listBulkActionResourceTypes(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/BulkActionResourceTypeCollection/ListBulkActionResourceTypes"
+		err = common.PostProcessServiceError(err, "Identity", "ListBulkActionResourceTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -5293,6 +5473,8 @@ func (client IdentityClient) listBulkEditTagsResourceTypes(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/BulkEditTagsResourceTypeCollection/ListBulkEditTagsResourceTypes"
+		err = common.PostProcessServiceError(err, "Identity", "ListBulkEditTagsResourceTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -5357,6 +5539,8 @@ func (client IdentityClient) listCompartments(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/ListCompartments"
+		err = common.PostProcessServiceError(err, "Identity", "ListCompartments", apiReferenceLink)
 		return response, err
 	}
 
@@ -5409,6 +5593,8 @@ func (client IdentityClient) listCostTrackingTags(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tag/ListCostTrackingTags"
+		err = common.PostProcessServiceError(err, "Identity", "ListCostTrackingTags", apiReferenceLink)
 		return response, err
 	}
 
@@ -5461,6 +5647,8 @@ func (client IdentityClient) listCustomerSecretKeys(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/CustomerSecretKeySummary/ListCustomerSecretKeys"
+		err = common.PostProcessServiceError(err, "Identity", "ListCustomerSecretKeys", apiReferenceLink)
 		return response, err
 	}
 
@@ -5512,6 +5700,8 @@ func (client IdentityClient) listDbCredentials(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/User/ListDbCredentials"
+		err = common.PostProcessServiceError(err, "Identity", "ListDbCredentials", apiReferenceLink)
 		return response, err
 	}
 
@@ -5563,6 +5753,8 @@ func (client IdentityClient) listDomains(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/DomainSummary/ListDomains"
+		err = common.PostProcessServiceError(err, "Identity", "ListDomains", apiReferenceLink)
 		return response, err
 	}
 
@@ -5616,6 +5808,8 @@ func (client IdentityClient) listDynamicGroups(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/DynamicGroup/ListDynamicGroups"
+		err = common.PostProcessServiceError(err, "Identity", "ListDynamicGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -5669,6 +5863,8 @@ func (client IdentityClient) listFaultDomains(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/FaultDomain/ListFaultDomains"
+		err = common.PostProcessServiceError(err, "Identity", "ListFaultDomains", apiReferenceLink)
 		return response, err
 	}
 
@@ -5722,6 +5918,8 @@ func (client IdentityClient) listGroups(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Group/ListGroups"
+		err = common.PostProcessServiceError(err, "Identity", "ListGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -5773,6 +5971,8 @@ func (client IdentityClient) listIamWorkRequestErrors(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/IamWorkRequest/ListIamWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "Identity", "ListIamWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -5824,6 +6024,8 @@ func (client IdentityClient) listIamWorkRequestLogs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/IamWorkRequestLogSummary/ListIamWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "Identity", "ListIamWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -5875,6 +6077,8 @@ func (client IdentityClient) listIamWorkRequests(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/IamWorkRequestSummary/ListIamWorkRequests"
+		err = common.PostProcessServiceError(err, "Identity", "ListIamWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -5927,6 +6131,8 @@ func (client IdentityClient) listIdentityProviderGroups(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/IdentityProviderGroupSummary/ListIdentityProviderGroups"
+		err = common.PostProcessServiceError(err, "Identity", "ListIdentityProviderGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -5998,6 +6204,8 @@ func (client IdentityClient) listIdentityProviders(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/IdentityProvider/ListIdentityProviders"
+		err = common.PostProcessServiceError(err, "Identity", "ListIdentityProviders", apiReferenceLink)
 		return response, err
 	}
 
@@ -6050,6 +6258,8 @@ func (client IdentityClient) listIdpGroupMappings(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/IdpGroupMapping/ListIdpGroupMappings"
+		err = common.PostProcessServiceError(err, "Identity", "ListIdpGroupMappings", apiReferenceLink)
 		return response, err
 	}
 
@@ -6102,6 +6312,8 @@ func (client IdentityClient) listManagedCompartments(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/ListManagedCompartments"
+		err = common.PostProcessServiceError(err, "Identity", "ListManagedCompartments", apiReferenceLink)
 		return response, err
 	}
 
@@ -6154,6 +6366,8 @@ func (client IdentityClient) listMfaTotpDevices(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/MfaTotpDeviceSummary/ListMfaTotpDevices"
+		err = common.PostProcessServiceError(err, "Identity", "ListMfaTotpDevices", apiReferenceLink)
 		return response, err
 	}
 
@@ -6207,6 +6421,8 @@ func (client IdentityClient) listNetworkSources(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/NetworkSourcesSummary/ListNetworkSources"
+		err = common.PostProcessServiceError(err, "Identity", "ListNetworkSources", apiReferenceLink)
 		return response, err
 	}
 
@@ -6258,6 +6474,8 @@ func (client IdentityClient) listOAuthClientCredentials(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/User/ListOAuthClientCredentials"
+		err = common.PostProcessServiceError(err, "Identity", "ListOAuthClientCredentials", apiReferenceLink)
 		return response, err
 	}
 
@@ -6312,6 +6530,8 @@ func (client IdentityClient) listPolicies(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Policy/ListPolicies"
+		err = common.PostProcessServiceError(err, "Identity", "ListPolicies", apiReferenceLink)
 		return response, err
 	}
 
@@ -6363,6 +6583,8 @@ func (client IdentityClient) listRegionSubscriptions(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/RegionSubscription/ListRegionSubscriptions"
+		err = common.PostProcessServiceError(err, "Identity", "ListRegionSubscriptions", apiReferenceLink)
 		return response, err
 	}
 
@@ -6404,6 +6626,8 @@ func (client IdentityClient) listRegions(ctx context.Context) (common.OCIRespons
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Region/ListRegions"
+		err = common.PostProcessServiceError(err, "Identity", "ListRegions", apiReferenceLink)
 		return response, err
 	}
 
@@ -6456,6 +6680,8 @@ func (client IdentityClient) listSmtpCredentials(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/SmtpCredentialSummary/ListSmtpCredentials"
+		err = common.PostProcessServiceError(err, "Identity", "ListSmtpCredentials", apiReferenceLink)
 		return response, err
 	}
 
@@ -6507,6 +6733,8 @@ func (client IdentityClient) listStandardTagNamespaces(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/StandardTagNamespaceTemplateSummary/ListStandardTagNamespaces"
+		err = common.PostProcessServiceError(err, "Identity", "ListStandardTagNamespaces", apiReferenceLink)
 		return response, err
 	}
 
@@ -6560,6 +6788,8 @@ func (client IdentityClient) listSwiftPasswords(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/SwiftPassword/ListSwiftPasswords"
+		err = common.PostProcessServiceError(err, "Identity", "ListSwiftPasswords", apiReferenceLink)
 		return response, err
 	}
 
@@ -6611,6 +6841,8 @@ func (client IdentityClient) listTagDefaults(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagDefaultSummary/ListTagDefaults"
+		err = common.PostProcessServiceError(err, "Identity", "ListTagDefaults", apiReferenceLink)
 		return response, err
 	}
 
@@ -6662,6 +6894,8 @@ func (client IdentityClient) listTagNamespaces(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagNamespaceSummary/ListTagNamespaces"
+		err = common.PostProcessServiceError(err, "Identity", "ListTagNamespaces", apiReferenceLink)
 		return response, err
 	}
 
@@ -6717,6 +6951,8 @@ func (client IdentityClient) listTagRules(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagRule/ListTagRules"
+		err = common.PostProcessServiceError(err, "Identity", "ListTagRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -6768,6 +7004,8 @@ func (client IdentityClient) listTaggingWorkRequestErrors(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TaggingWorkRequestErrorSummary/ListTaggingWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "Identity", "ListTaggingWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -6819,6 +7057,8 @@ func (client IdentityClient) listTaggingWorkRequestLogs(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TaggingWorkRequestLogSummary/ListTaggingWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "Identity", "ListTaggingWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -6870,6 +7110,8 @@ func (client IdentityClient) listTaggingWorkRequests(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TaggingWorkRequestSummary/ListTaggingWorkRequests"
+		err = common.PostProcessServiceError(err, "Identity", "ListTaggingWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -6921,6 +7163,8 @@ func (client IdentityClient) listTags(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagSummary/ListTags"
+		err = common.PostProcessServiceError(err, "Identity", "ListTags", apiReferenceLink)
 		return response, err
 	}
 
@@ -6972,6 +7216,8 @@ func (client IdentityClient) listTenancies(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tenancy/ListTenancies"
+		err = common.PostProcessServiceError(err, "Identity", "ListTenancies", apiReferenceLink)
 		return response, err
 	}
 
@@ -7031,6 +7277,8 @@ func (client IdentityClient) listUserGroupMemberships(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/UserGroupMembership/ListUserGroupMemberships"
+		err = common.PostProcessServiceError(err, "Identity", "ListUserGroupMemberships", apiReferenceLink)
 		return response, err
 	}
 
@@ -7084,6 +7332,8 @@ func (client IdentityClient) listUsers(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/User/ListUsers"
+		err = common.PostProcessServiceError(err, "Identity", "ListUsers", apiReferenceLink)
 		return response, err
 	}
 
@@ -7135,6 +7385,8 @@ func (client IdentityClient) listWorkRequests(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/WorkRequestSummary/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "Identity", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -7198,6 +7450,8 @@ func (client IdentityClient) moveCompartment(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/MoveCompartment"
+		err = common.PostProcessServiceError(err, "Identity", "MoveCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -7250,6 +7504,8 @@ func (client IdentityClient) recoverCompartment(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/RecoverCompartment"
+		err = common.PostProcessServiceError(err, "Identity", "RecoverCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -7307,6 +7563,8 @@ func (client IdentityClient) removeTagDefaultLock(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagDefault/RemoveTagDefaultLock"
+		err = common.PostProcessServiceError(err, "Identity", "RemoveTagDefaultLock", apiReferenceLink)
 		return response, err
 	}
 
@@ -7364,6 +7622,8 @@ func (client IdentityClient) removeTagNamespaceLock(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagNamespace/RemoveTagNamespaceLock"
+		err = common.PostProcessServiceError(err, "Identity", "RemoveTagNamespaceLock", apiReferenceLink)
 		return response, err
 	}
 
@@ -7415,6 +7675,8 @@ func (client IdentityClient) removeUserFromGroup(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/UserGroupMembership/RemoveUserFromGroup"
+		err = common.PostProcessServiceError(err, "Identity", "RemoveUserFromGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -7467,6 +7729,8 @@ func (client IdentityClient) resetIdpScimClient(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ScimClientCredentials/ResetIdpScimClient"
+		err = common.PostProcessServiceError(err, "Identity", "ResetIdpScimClient", apiReferenceLink)
 		return response, err
 	}
 
@@ -7519,6 +7783,8 @@ func (client IdentityClient) updateAuthToken(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/AuthToken/UpdateAuthToken"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateAuthToken", apiReferenceLink)
 		return response, err
 	}
 
@@ -7571,6 +7837,8 @@ func (client IdentityClient) updateAuthenticationPolicy(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/AuthenticationPolicy/UpdateAuthenticationPolicy"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateAuthenticationPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -7623,6 +7891,8 @@ func (client IdentityClient) updateCompartment(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/UpdateCompartment"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -7675,6 +7945,8 @@ func (client IdentityClient) updateCustomerSecretKey(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/CustomerSecretKeySummary/UpdateCustomerSecretKey"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateCustomerSecretKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -7729,6 +8001,8 @@ func (client IdentityClient) updateDomain(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Domain/UpdateDomain"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -7781,6 +8055,8 @@ func (client IdentityClient) updateDynamicGroup(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/DynamicGroup/UpdateDynamicGroup"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateDynamicGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -7833,6 +8109,8 @@ func (client IdentityClient) updateGroup(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Group/UpdateGroup"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -7886,6 +8164,8 @@ func (client IdentityClient) updateIdentityProvider(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/IdentityProvider/UpdateIdentityProvider"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateIdentityProvider", apiReferenceLink)
 		return response, err
 	}
 
@@ -7939,6 +8219,8 @@ func (client IdentityClient) updateIdpGroupMapping(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/IdpGroupMapping/UpdateIdpGroupMapping"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateIdpGroupMapping", apiReferenceLink)
 		return response, err
 	}
 
@@ -7991,6 +8273,8 @@ func (client IdentityClient) updateNetworkSource(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/NetworkSources/UpdateNetworkSource"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateNetworkSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -8043,6 +8327,8 @@ func (client IdentityClient) updateOAuthClientCredential(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/User/UpdateOAuthClientCredential"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateOAuthClientCredential", apiReferenceLink)
 		return response, err
 	}
 
@@ -8096,6 +8382,8 @@ func (client IdentityClient) updatePolicy(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Policy/UpdatePolicy"
+		err = common.PostProcessServiceError(err, "Identity", "UpdatePolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -8148,6 +8436,8 @@ func (client IdentityClient) updateSmtpCredential(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/SmtpCredentialSummary/UpdateSmtpCredential"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateSmtpCredential", apiReferenceLink)
 		return response, err
 	}
 
@@ -8201,6 +8491,8 @@ func (client IdentityClient) updateSwiftPassword(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/SwiftPassword/UpdateSwiftPassword"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateSwiftPassword", apiReferenceLink)
 		return response, err
 	}
 
@@ -8260,6 +8552,8 @@ func (client IdentityClient) updateTag(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tag/UpdateTag"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -8316,6 +8610,8 @@ func (client IdentityClient) updateTagDefault(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagDefault/UpdateTagDefault"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateTagDefault", apiReferenceLink)
 		return response, err
 	}
 
@@ -8374,6 +8670,8 @@ func (client IdentityClient) updateTagNamespace(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagNamespace/UpdateTagNamespace"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateTagNamespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -8427,6 +8725,8 @@ func (client IdentityClient) updateTagRule(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagRule/UpdateTagRule"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateTagRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -8479,6 +8779,8 @@ func (client IdentityClient) updateUser(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/User/UpdateUser"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateUser", apiReferenceLink)
 		return response, err
 	}
 
@@ -8531,6 +8833,8 @@ func (client IdentityClient) updateUserCapabilities(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/User/UpdateUserCapabilities"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateUserCapabilities", apiReferenceLink)
 		return response, err
 	}
 
@@ -8583,6 +8887,8 @@ func (client IdentityClient) updateUserState(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/User/UpdateUserState"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateUserState", apiReferenceLink)
 		return response, err
 	}
 
@@ -8651,6 +8957,8 @@ func (client IdentityClient) uploadApiKey(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ApiKey/UploadApiKey"
+		err = common.PostProcessServiceError(err, "Identity", "UploadApiKey", apiReferenceLink)
 		return response, err
 	}
 

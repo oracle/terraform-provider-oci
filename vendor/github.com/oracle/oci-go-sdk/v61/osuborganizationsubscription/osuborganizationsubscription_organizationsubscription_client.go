@@ -128,6 +128,8 @@ func (client OrganizationSubscriptionClient) listOrganizationSubscriptions(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "OrganizationSubscription", "ListOrganizationSubscriptions", apiReferenceLink)
 		return response, err
 	}
 

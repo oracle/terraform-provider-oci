@@ -130,6 +130,8 @@ func (client VaultsClient) cancelSecretDeletion(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Vaults", "CancelSecretDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -181,6 +183,8 @@ func (client VaultsClient) cancelSecretVersionDeletion(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Vaults", "CancelSecretVersionDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -239,6 +243,8 @@ func (client VaultsClient) changeSecretCompartment(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Vaults", "ChangeSecretCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -296,6 +302,8 @@ func (client VaultsClient) createSecret(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Vaults", "CreateSecret", apiReferenceLink)
 		return response, err
 	}
 
@@ -347,6 +355,8 @@ func (client VaultsClient) getSecret(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Vaults", "GetSecret", apiReferenceLink)
 		return response, err
 	}
 
@@ -398,6 +408,8 @@ func (client VaultsClient) getSecretVersion(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Vaults", "GetSecretVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -449,6 +461,8 @@ func (client VaultsClient) listSecretVersions(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Vaults", "ListSecretVersions", apiReferenceLink)
 		return response, err
 	}
 
@@ -500,6 +514,8 @@ func (client VaultsClient) listSecrets(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Vaults", "ListSecrets", apiReferenceLink)
 		return response, err
 	}
 
@@ -552,6 +568,8 @@ func (client VaultsClient) scheduleSecretDeletion(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Vaults", "ScheduleSecretDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -604,6 +622,8 @@ func (client VaultsClient) scheduleSecretVersionDeletion(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Vaults", "ScheduleSecretVersionDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -659,6 +679,8 @@ func (client VaultsClient) updateSecret(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Vaults", "UpdateSecret", apiReferenceLink)
 		return response, err
 	}
 

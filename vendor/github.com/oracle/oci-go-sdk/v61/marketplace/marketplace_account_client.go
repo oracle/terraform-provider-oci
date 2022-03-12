@@ -129,6 +129,8 @@ func (client AccountClient) getLaunchEligibility(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/LaunchEligibility/GetLaunchEligibility"
+		err = common.PostProcessServiceError(err, "Account", "GetLaunchEligibility", apiReferenceLink)
 		return response, err
 	}
 
@@ -181,6 +183,8 @@ func (client AccountClient) getThirdPartyPaidListingEligibility(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/ThirdPartyPaidListingEligibility/GetThirdPartyPaidListingEligibility"
+		err = common.PostProcessServiceError(err, "Account", "GetThirdPartyPaidListingEligibility", apiReferenceLink)
 		return response, err
 	}
 

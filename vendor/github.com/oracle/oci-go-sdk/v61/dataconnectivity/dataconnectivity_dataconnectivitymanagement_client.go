@@ -133,6 +133,8 @@ func (client DataConnectivityManagementClient) changeEndpointCompartment(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ChangeEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -189,6 +191,8 @@ func (client DataConnectivityManagementClient) changeRegistryCompartment(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ChangeRegistryCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -245,6 +249,8 @@ func (client DataConnectivityManagementClient) createAttachDataAsset(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateAttachDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -301,6 +307,8 @@ func (client DataConnectivityManagementClient) createConnection(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -357,6 +365,8 @@ func (client DataConnectivityManagementClient) createConnectionValidation(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateConnectionValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -413,6 +423,8 @@ func (client DataConnectivityManagementClient) createConnectivityValidation(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateConnectivityValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -469,6 +481,8 @@ func (client DataConnectivityManagementClient) createDataAsset(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -525,6 +539,8 @@ func (client DataConnectivityManagementClient) createDataPreview(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateDataPreview", apiReferenceLink)
 		return response, err
 	}
 
@@ -581,6 +597,8 @@ func (client DataConnectivityManagementClient) createDataProfile(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateDataProfile", apiReferenceLink)
 		return response, err
 	}
 
@@ -637,6 +655,8 @@ func (client DataConnectivityManagementClient) createDeReferenceArtifact(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateDeReferenceArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -693,6 +713,8 @@ func (client DataConnectivityManagementClient) createDetachDataAsset(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateDetachDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -749,6 +771,8 @@ func (client DataConnectivityManagementClient) createEndpoint(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -805,6 +829,8 @@ func (client DataConnectivityManagementClient) createEntityShape(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateEntityShape", apiReferenceLink)
 		return response, err
 	}
 
@@ -861,6 +887,8 @@ func (client DataConnectivityManagementClient) createExecuteOperationJob(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateExecuteOperationJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -917,6 +945,8 @@ func (client DataConnectivityManagementClient) createFolder(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateFolder", apiReferenceLink)
 		return response, err
 	}
 
@@ -973,6 +1003,8 @@ func (client DataConnectivityManagementClient) createFullPushDownTask(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateFullPushDownTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -1029,6 +1061,8 @@ func (client DataConnectivityManagementClient) createReferenceArtifact(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateReferenceArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -1085,6 +1119,8 @@ func (client DataConnectivityManagementClient) createRegistry(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateRegistry", apiReferenceLink)
 		return response, err
 	}
 
@@ -1141,6 +1177,8 @@ func (client DataConnectivityManagementClient) createTestNetworkConnectivity(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "CreateTestNetworkConnectivity", apiReferenceLink)
 		return response, err
 	}
 
@@ -1192,6 +1230,8 @@ func (client DataConnectivityManagementClient) deleteConnection(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "DeleteConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -1243,6 +1283,8 @@ func (client DataConnectivityManagementClient) deleteConnectionValidation(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "DeleteConnectionValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -1294,6 +1336,8 @@ func (client DataConnectivityManagementClient) deleteDataAsset(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "DeleteDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -1345,6 +1389,8 @@ func (client DataConnectivityManagementClient) deleteEndpoint(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "DeleteEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -1396,6 +1442,8 @@ func (client DataConnectivityManagementClient) deleteFolder(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "DeleteFolder", apiReferenceLink)
 		return response, err
 	}
 
@@ -1447,6 +1495,8 @@ func (client DataConnectivityManagementClient) deleteNetworkConnectivityStatus(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "DeleteNetworkConnectivityStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -1498,6 +1548,8 @@ func (client DataConnectivityManagementClient) deleteRegistry(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "DeleteRegistry", apiReferenceLink)
 		return response, err
 	}
 
@@ -1549,6 +1601,8 @@ func (client DataConnectivityManagementClient) getConnection(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -1600,6 +1654,8 @@ func (client DataConnectivityManagementClient) getConnectionValidation(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetConnectionValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -1651,6 +1707,8 @@ func (client DataConnectivityManagementClient) getDataAsset(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -1702,6 +1760,8 @@ func (client DataConnectivityManagementClient) getDataEntity(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetDataEntity", apiReferenceLink)
 		return response, err
 	}
 
@@ -1753,6 +1813,8 @@ func (client DataConnectivityManagementClient) getEndpoint(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -1804,6 +1866,8 @@ func (client DataConnectivityManagementClient) getExecuteOperationJob(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetExecuteOperationJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -1855,6 +1919,8 @@ func (client DataConnectivityManagementClient) getFolder(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetFolder", apiReferenceLink)
 		return response, err
 	}
 
@@ -1911,6 +1977,8 @@ func (client DataConnectivityManagementClient) getNetworkConnectivityStatus(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetNetworkConnectivityStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -1962,6 +2030,8 @@ func (client DataConnectivityManagementClient) getOperation(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetOperation", apiReferenceLink)
 		return response, err
 	}
 
@@ -2013,6 +2083,8 @@ func (client DataConnectivityManagementClient) getRegistry(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetRegistry", apiReferenceLink)
 		return response, err
 	}
 
@@ -2064,6 +2136,8 @@ func (client DataConnectivityManagementClient) getSchema(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetSchema", apiReferenceLink)
 		return response, err
 	}
 
@@ -2115,6 +2189,8 @@ func (client DataConnectivityManagementClient) getType(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetType", apiReferenceLink)
 		return response, err
 	}
 
@@ -2166,6 +2242,8 @@ func (client DataConnectivityManagementClient) getWorkRequest(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -2217,6 +2295,8 @@ func (client DataConnectivityManagementClient) listConnectionValidations(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListConnectionValidations", apiReferenceLink)
 		return response, err
 	}
 
@@ -2268,6 +2348,8 @@ func (client DataConnectivityManagementClient) listConnections(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -2319,6 +2401,8 @@ func (client DataConnectivityManagementClient) listDataAssets(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListDataAssets", apiReferenceLink)
 		return response, err
 	}
 
@@ -2370,6 +2454,8 @@ func (client DataConnectivityManagementClient) listDataEntities(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListDataEntities", apiReferenceLink)
 		return response, err
 	}
 
@@ -2421,6 +2507,8 @@ func (client DataConnectivityManagementClient) listEndpoints(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListEndpoints", apiReferenceLink)
 		return response, err
 	}
 
@@ -2472,6 +2560,8 @@ func (client DataConnectivityManagementClient) listFolders(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListFolders", apiReferenceLink)
 		return response, err
 	}
 
@@ -2523,6 +2613,8 @@ func (client DataConnectivityManagementClient) listOperations(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListOperations", apiReferenceLink)
 		return response, err
 	}
 
@@ -2574,6 +2666,8 @@ func (client DataConnectivityManagementClient) listReferenceArtifacts(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListReferenceArtifacts", apiReferenceLink)
 		return response, err
 	}
 
@@ -2625,6 +2719,8 @@ func (client DataConnectivityManagementClient) listRegistries(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListRegistries", apiReferenceLink)
 		return response, err
 	}
 
@@ -2676,6 +2772,8 @@ func (client DataConnectivityManagementClient) listSchemas(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListSchemas", apiReferenceLink)
 		return response, err
 	}
 
@@ -2727,6 +2825,8 @@ func (client DataConnectivityManagementClient) listTypes(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -2778,6 +2878,8 @@ func (client DataConnectivityManagementClient) listWorkRequestErrors(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -2829,6 +2931,8 @@ func (client DataConnectivityManagementClient) listWorkRequestLogs(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -2880,6 +2984,8 @@ func (client DataConnectivityManagementClient) listWorkRequests(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -2931,6 +3037,8 @@ func (client DataConnectivityManagementClient) updateConnection(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "UpdateConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -2982,6 +3090,8 @@ func (client DataConnectivityManagementClient) updateDataAsset(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "UpdateDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -3033,6 +3143,8 @@ func (client DataConnectivityManagementClient) updateEndpoint(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "UpdateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -3084,6 +3196,8 @@ func (client DataConnectivityManagementClient) updateFolder(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "UpdateFolder", apiReferenceLink)
 		return response, err
 	}
 
@@ -3135,6 +3249,8 @@ func (client DataConnectivityManagementClient) updateRegistry(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "UpdateRegistry", apiReferenceLink)
 		return response, err
 	}
 
@@ -3191,6 +3307,8 @@ func (client DataConnectivityManagementClient) validateDataAssetNetworkReachabli
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ValidateDataAssetNetworkReachablity", apiReferenceLink)
 		return response, err
 	}
 

@@ -135,6 +135,8 @@ func (client DeploymentClient) changeDeploymentCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Deployment/ChangeDeploymentCompartment"
+		err = common.PostProcessServiceError(err, "Deployment", "ChangeDeploymentCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -191,6 +193,8 @@ func (client DeploymentClient) createDeployment(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Deployment", "CreateDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -242,6 +246,8 @@ func (client DeploymentClient) deleteDeployment(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Deployment/DeleteDeployment"
+		err = common.PostProcessServiceError(err, "Deployment", "DeleteDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -293,6 +299,8 @@ func (client DeploymentClient) getDeployment(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Deployment/GetDeployment"
+		err = common.PostProcessServiceError(err, "Deployment", "GetDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -344,6 +352,8 @@ func (client DeploymentClient) listDeployments(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/DeploymentSummary/ListDeployments"
+		err = common.PostProcessServiceError(err, "Deployment", "ListDeployments", apiReferenceLink)
 		return response, err
 	}
 
@@ -395,6 +405,8 @@ func (client DeploymentClient) updateDeployment(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Deployment/UpdateDeployment"
+		err = common.PostProcessServiceError(err, "Deployment", "UpdateDeployment", apiReferenceLink)
 		return response, err
 	}
 

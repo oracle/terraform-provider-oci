@@ -14,7 +14,7 @@ import (
 // UpdateDatabaseToolsConnectionRequest wrapper for the UpdateDatabaseToolsConnection operation
 type UpdateDatabaseToolsConnectionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a DatabaseToolsConnection.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools connection.
 	DatabaseToolsConnectionId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsConnectionId"`
 
 	// The information to be updated.

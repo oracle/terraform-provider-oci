@@ -128,6 +128,8 @@ func (client GenericArtifactsContentClient) getGenericArtifactContent(ctx contex
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generic/20160918/GenericArtifact/GetGenericArtifactContent"
+		err = common.PostProcessServiceError(err, "GenericArtifactsContent", "GetGenericArtifactContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -178,6 +180,8 @@ func (client GenericArtifactsContentClient) getGenericArtifactContentByPath(ctx 
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generic/20160918/GenericArtifact/GetGenericArtifactContentByPath"
+		err = common.PostProcessServiceError(err, "GenericArtifactsContent", "GetGenericArtifactContentByPath", apiReferenceLink)
 		return response, err
 	}
 
@@ -239,6 +243,8 @@ func (client GenericArtifactsContentClient) putGenericArtifactContentByPath(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generic/20160918/GenericArtifact/PutGenericArtifactContentByPath"
+		err = common.PostProcessServiceError(err, "GenericArtifactsContent", "PutGenericArtifactContentByPath", apiReferenceLink)
 		return response, err
 	}
 

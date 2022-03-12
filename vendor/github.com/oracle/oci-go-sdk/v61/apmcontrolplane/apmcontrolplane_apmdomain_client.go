@@ -135,6 +135,8 @@ func (client ApmDomainClient) changeApmDomainCompartment(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-control-plane/20200630/ApmDomain/ChangeApmDomainCompartment"
+		err = common.PostProcessServiceError(err, "ApmDomain", "ChangeApmDomainCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -192,6 +194,8 @@ func (client ApmDomainClient) createApmDomain(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-control-plane/20200630/ApmDomain/CreateApmDomain"
+		err = common.PostProcessServiceError(err, "ApmDomain", "CreateApmDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -246,6 +250,8 @@ func (client ApmDomainClient) deleteApmDomain(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-control-plane/20200630/ApmDomain/DeleteApmDomain"
+		err = common.PostProcessServiceError(err, "ApmDomain", "DeleteApmDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -299,6 +305,8 @@ func (client ApmDomainClient) generateDataKeys(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-control-plane/20200630/DataKey/GenerateDataKeys"
+		err = common.PostProcessServiceError(err, "ApmDomain", "GenerateDataKeys", apiReferenceLink)
 		return response, err
 	}
 
@@ -351,6 +359,8 @@ func (client ApmDomainClient) getApmDomain(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-control-plane/20200630/ApmDomain/GetApmDomain"
+		err = common.PostProcessServiceError(err, "ApmDomain", "GetApmDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -403,6 +413,8 @@ func (client ApmDomainClient) getWorkRequest(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-control-plane/20200630/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "ApmDomain", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -455,6 +467,8 @@ func (client ApmDomainClient) listApmDomainWorkRequests(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-control-plane/20200630/WorkRequest/ListApmDomainWorkRequests"
+		err = common.PostProcessServiceError(err, "ApmDomain", "ListApmDomainWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -507,6 +521,8 @@ func (client ApmDomainClient) listApmDomains(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-control-plane/20200630/ApmDomainSummary/ListApmDomains"
+		err = common.PostProcessServiceError(err, "ApmDomain", "ListApmDomains", apiReferenceLink)
 		return response, err
 	}
 
@@ -560,6 +576,8 @@ func (client ApmDomainClient) listDataKeys(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-control-plane/20200630/DataKeySummary/ListDataKeys"
+		err = common.PostProcessServiceError(err, "ApmDomain", "ListDataKeys", apiReferenceLink)
 		return response, err
 	}
 
@@ -612,6 +630,8 @@ func (client ApmDomainClient) listWorkRequestErrors(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-control-plane/20200630/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "ApmDomain", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -664,6 +684,8 @@ func (client ApmDomainClient) listWorkRequestLogs(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-control-plane/20200630/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "ApmDomain", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -716,6 +738,8 @@ func (client ApmDomainClient) listWorkRequests(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-control-plane/20200630/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "ApmDomain", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -769,6 +793,8 @@ func (client ApmDomainClient) removeDataKeys(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-control-plane/20200630/DataKey/RemoveDataKeys"
+		err = common.PostProcessServiceError(err, "ApmDomain", "RemoveDataKeys", apiReferenceLink)
 		return response, err
 	}
 
@@ -821,6 +847,8 @@ func (client ApmDomainClient) updateApmDomain(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-control-plane/20200630/ApmDomain/UpdateApmDomain"
+		err = common.PostProcessServiceError(err, "ApmDomain", "UpdateApmDomain", apiReferenceLink)
 		return response, err
 	}
 

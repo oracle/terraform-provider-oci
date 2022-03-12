@@ -56,6 +56,9 @@ type ClusterDetails struct {
 
 	// The URL of the Hue server.
 	HueServerUrl *string `mandatory:"false" json:"hueServerUrl"`
+
+	// Version of the ODH (Oracle Distribution including Apache Hadoop) installed on the cluster.
+	OdhVersion *string `mandatory:"false" json:"odhVersion"`
 }
 
 func (m ClusterDetails) String() string {

@@ -133,6 +133,8 @@ func (client HealthCheckServiceInfraClient) registerHealthCheckServiceInfraDpHos
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/DpHost/RegisterHealthCheckServiceInfraDpHost"
+		err = common.PostProcessServiceError(err, "HealthCheckServiceInfra", "RegisterHealthCheckServiceInfraDpHost", apiReferenceLink)
 		return response, err
 	}
 

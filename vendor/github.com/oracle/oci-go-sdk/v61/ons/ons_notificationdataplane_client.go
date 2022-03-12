@@ -137,6 +137,8 @@ func (client NotificationDataPlaneClient) changeSubscriptionCompartment(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/Subscription/ChangeSubscriptionCompartment"
+		err = common.PostProcessServiceError(err, "NotificationDataPlane", "ChangeSubscriptionCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -196,6 +198,8 @@ func (client NotificationDataPlaneClient) createSubscription(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/Subscription/CreateSubscription"
+		err = common.PostProcessServiceError(err, "NotificationDataPlane", "CreateSubscription", apiReferenceLink)
 		return response, err
 	}
 
@@ -248,6 +252,8 @@ func (client NotificationDataPlaneClient) deleteSubscription(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/Subscription/DeleteSubscription"
+		err = common.PostProcessServiceError(err, "NotificationDataPlane", "DeleteSubscription", apiReferenceLink)
 		return response, err
 	}
 
@@ -300,6 +306,8 @@ func (client NotificationDataPlaneClient) getConfirmSubscription(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/Subscription/GetConfirmSubscription"
+		err = common.PostProcessServiceError(err, "NotificationDataPlane", "GetConfirmSubscription", apiReferenceLink)
 		return response, err
 	}
 
@@ -352,6 +360,8 @@ func (client NotificationDataPlaneClient) getSubscription(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/Subscription/GetSubscription"
+		err = common.PostProcessServiceError(err, "NotificationDataPlane", "GetSubscription", apiReferenceLink)
 		return response, err
 	}
 
@@ -404,6 +414,8 @@ func (client NotificationDataPlaneClient) getUnsubscription(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/Subscription/GetUnsubscription"
+		err = common.PostProcessServiceError(err, "NotificationDataPlane", "GetUnsubscription", apiReferenceLink)
 		return response, err
 	}
 
@@ -456,6 +468,8 @@ func (client NotificationDataPlaneClient) listSubscriptions(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/Subscription/ListSubscriptions"
+		err = common.PostProcessServiceError(err, "NotificationDataPlane", "ListSubscriptions", apiReferenceLink)
 		return response, err
 	}
 
@@ -517,6 +531,8 @@ func (client NotificationDataPlaneClient) publishMessage(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/NotificationTopic/PublishMessage"
+		err = common.PostProcessServiceError(err, "NotificationDataPlane", "PublishMessage", apiReferenceLink)
 		return response, err
 	}
 
@@ -569,6 +585,8 @@ func (client NotificationDataPlaneClient) resendSubscriptionConfirmation(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/Subscription/ResendSubscriptionConfirmation"
+		err = common.PostProcessServiceError(err, "NotificationDataPlane", "ResendSubscriptionConfirmation", apiReferenceLink)
 		return response, err
 	}
 
@@ -621,6 +639,8 @@ func (client NotificationDataPlaneClient) updateSubscription(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/Subscription/UpdateSubscription"
+		err = common.PostProcessServiceError(err, "NotificationDataPlane", "UpdateSubscription", apiReferenceLink)
 		return response, err
 	}
 

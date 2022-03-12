@@ -134,6 +134,8 @@ func (client LoggingManagementClient) changeContinuousQueryCompartment(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/ContinuousQuery/ChangeContinuousQueryCompartment"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ChangeContinuousQueryCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -186,6 +188,8 @@ func (client LoggingManagementClient) changeLogGroupCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogGroup/ChangeLogGroupCompartment"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ChangeLogGroupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -237,6 +241,8 @@ func (client LoggingManagementClient) changeLogLogGroup(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/Log/ChangeLogLogGroup"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ChangeLogLogGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -294,6 +300,8 @@ func (client LoggingManagementClient) changeLogSavedSearchCompartment(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogSavedSearch/ChangeLogSavedSearchCompartment"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ChangeLogSavedSearchCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -351,6 +359,8 @@ func (client LoggingManagementClient) changeUnifiedAgentConfigurationCompartment
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/UnifiedAgentConfiguration/ChangeUnifiedAgentConfigurationCompartment"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ChangeUnifiedAgentConfigurationCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -407,6 +417,8 @@ func (client LoggingManagementClient) createContinuousQuery(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/ContinuousQuery/CreateContinuousQuery"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "CreateContinuousQuery", apiReferenceLink)
 		return response, err
 	}
 
@@ -464,6 +476,8 @@ func (client LoggingManagementClient) createLog(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/Log/CreateLog"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "CreateLog", apiReferenceLink)
 		return response, err
 	}
 
@@ -521,6 +535,8 @@ func (client LoggingManagementClient) createLogGroup(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogGroup/CreateLogGroup"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "CreateLogGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -577,6 +593,8 @@ func (client LoggingManagementClient) createLogSavedSearch(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogSavedSearch/CreateLogSavedSearch"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "CreateLogSavedSearch", apiReferenceLink)
 		return response, err
 	}
 
@@ -633,6 +651,8 @@ func (client LoggingManagementClient) createUnifiedAgentConfiguration(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/UnifiedAgentConfiguration/CreateUnifiedAgentConfiguration"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "CreateUnifiedAgentConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -684,6 +704,8 @@ func (client LoggingManagementClient) deleteContinuousQuery(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/ContinuousQuery/DeleteContinuousQuery"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "DeleteContinuousQuery", apiReferenceLink)
 		return response, err
 	}
 
@@ -735,6 +757,8 @@ func (client LoggingManagementClient) deleteLog(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/Log/DeleteLog"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "DeleteLog", apiReferenceLink)
 		return response, err
 	}
 
@@ -786,6 +810,8 @@ func (client LoggingManagementClient) deleteLogGroup(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogGroup/DeleteLogGroup"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "DeleteLogGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -837,6 +863,8 @@ func (client LoggingManagementClient) deleteLogSavedSearch(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogSavedSearch/DeleteLogSavedSearch"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "DeleteLogSavedSearch", apiReferenceLink)
 		return response, err
 	}
 
@@ -888,6 +916,8 @@ func (client LoggingManagementClient) deleteUnifiedAgentConfiguration(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/UnifiedAgentConfiguration/DeleteUnifiedAgentConfiguration"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "DeleteUnifiedAgentConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -939,6 +969,8 @@ func (client LoggingManagementClient) deleteWorkRequest(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/WorkRequest/DeleteWorkRequest"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "DeleteWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -995,6 +1027,8 @@ func (client LoggingManagementClient) getContinuousQuery(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/ContinuousQuery/GetContinuousQuery"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "GetContinuousQuery", apiReferenceLink)
 		return response, err
 	}
 
@@ -1046,6 +1080,8 @@ func (client LoggingManagementClient) getLog(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/Log/GetLog"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "GetLog", apiReferenceLink)
 		return response, err
 	}
 
@@ -1097,6 +1133,8 @@ func (client LoggingManagementClient) getLogGroup(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogGroup/GetLogGroup"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "GetLogGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1148,6 +1186,8 @@ func (client LoggingManagementClient) getLogSavedSearch(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogSavedSearch/GetLogSavedSearch"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "GetLogSavedSearch", apiReferenceLink)
 		return response, err
 	}
 
@@ -1199,6 +1239,8 @@ func (client LoggingManagementClient) getUnifiedAgentConfiguration(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/UnifiedAgentConfiguration/GetUnifiedAgentConfiguration"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "GetUnifiedAgentConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1250,6 +1292,8 @@ func (client LoggingManagementClient) getWorkRequest(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -1301,6 +1345,8 @@ func (client LoggingManagementClient) listContinuousQuery(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/ContinuousQuery/ListContinuousQuery"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ListContinuousQuery", apiReferenceLink)
 		return response, err
 	}
 
@@ -1352,6 +1398,8 @@ func (client LoggingManagementClient) listLogGroups(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogGroupSummary/ListLogGroups"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ListLogGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -1403,6 +1451,8 @@ func (client LoggingManagementClient) listLogSavedSearches(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogSavedSearch/ListLogSavedSearches"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ListLogSavedSearches", apiReferenceLink)
 		return response, err
 	}
 
@@ -1454,6 +1504,8 @@ func (client LoggingManagementClient) listLogs(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogSummary/ListLogs"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ListLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1505,6 +1557,8 @@ func (client LoggingManagementClient) listServices(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/ServiceSummary/ListServices"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ListServices", apiReferenceLink)
 		return response, err
 	}
 
@@ -1556,6 +1610,8 @@ func (client LoggingManagementClient) listUnifiedAgentConfigurations(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/UnifiedAgentConfiguration/ListUnifiedAgentConfigurations"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ListUnifiedAgentConfigurations", apiReferenceLink)
 		return response, err
 	}
 
@@ -1607,6 +1663,8 @@ func (client LoggingManagementClient) listWorkRequestErrors(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -1658,6 +1716,8 @@ func (client LoggingManagementClient) listWorkRequestLogs(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/WorkRequestLog/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1709,6 +1769,8 @@ func (client LoggingManagementClient) listWorkRequests(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1760,6 +1822,8 @@ func (client LoggingManagementClient) updateContinuousQuery(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/ContinuousQuery/UpdateContinuousQuery"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "UpdateContinuousQuery", apiReferenceLink)
 		return response, err
 	}
 
@@ -1812,6 +1876,8 @@ func (client LoggingManagementClient) updateLog(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/Log/UpdateLog"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "UpdateLog", apiReferenceLink)
 		return response, err
 	}
 
@@ -1864,6 +1930,8 @@ func (client LoggingManagementClient) updateLogGroup(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogGroup/UpdateLogGroup"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "UpdateLogGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1915,6 +1983,8 @@ func (client LoggingManagementClient) updateLogSavedSearch(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogSavedSearch/UpdateLogSavedSearch"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "UpdateLogSavedSearch", apiReferenceLink)
 		return response, err
 	}
 
@@ -1967,6 +2037,8 @@ func (client LoggingManagementClient) updateUnifiedAgentConfiguration(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/UnifiedAgentConfiguration/UpdateUnifiedAgentConfiguration"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "UpdateUnifiedAgentConfiguration", apiReferenceLink)
 		return response, err
 	}
 

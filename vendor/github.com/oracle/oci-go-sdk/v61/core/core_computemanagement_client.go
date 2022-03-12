@@ -139,6 +139,8 @@ func (client ComputeManagementClient) attachInstancePoolInstance(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "ComputeManagement", "AttachInstancePoolInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -195,6 +197,8 @@ func (client ComputeManagementClient) attachLoadBalancer(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePool/AttachLoadBalancer"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "AttachLoadBalancer", apiReferenceLink)
 		return response, err
 	}
 
@@ -255,6 +259,8 @@ func (client ComputeManagementClient) changeClusterNetworkCompartment(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClusterNetwork/ChangeClusterNetworkCompartment"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "ChangeClusterNetworkCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -321,6 +327,8 @@ func (client ComputeManagementClient) changeInstanceConfigurationCompartment(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConfiguration/ChangeInstanceConfigurationCompartment"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "ChangeInstanceConfigurationCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -381,6 +389,8 @@ func (client ComputeManagementClient) changeInstancePoolCompartment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePool/ChangeInstancePoolCompartment"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "ChangeInstancePoolCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -438,6 +448,8 @@ func (client ComputeManagementClient) createClusterNetwork(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClusterNetwork/CreateClusterNetwork"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "CreateClusterNetwork", apiReferenceLink)
 		return response, err
 	}
 
@@ -495,6 +507,8 @@ func (client ComputeManagementClient) createInstanceConfiguration(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConfiguration/CreateInstanceConfiguration"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "CreateInstanceConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -551,6 +565,8 @@ func (client ComputeManagementClient) createInstancePool(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePool/CreateInstancePool"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "CreateInstancePool", apiReferenceLink)
 		return response, err
 	}
 
@@ -602,6 +618,8 @@ func (client ComputeManagementClient) deleteInstanceConfiguration(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "ComputeManagement", "DeleteInstanceConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -658,6 +676,8 @@ func (client ComputeManagementClient) detachInstancePoolInstance(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePoolInstance/DetachInstancePoolInstance"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "DetachInstancePoolInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -714,6 +734,8 @@ func (client ComputeManagementClient) detachLoadBalancer(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePool/DetachLoadBalancer"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "DetachLoadBalancer", apiReferenceLink)
 		return response, err
 	}
 
@@ -765,6 +787,8 @@ func (client ComputeManagementClient) getClusterNetwork(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClusterNetwork/GetClusterNetwork"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "GetClusterNetwork", apiReferenceLink)
 		return response, err
 	}
 
@@ -816,6 +840,8 @@ func (client ComputeManagementClient) getInstanceConfiguration(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConfiguration/GetInstanceConfiguration"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "GetInstanceConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -867,6 +893,8 @@ func (client ComputeManagementClient) getInstancePool(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePool/GetInstancePool"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "GetInstancePool", apiReferenceLink)
 		return response, err
 	}
 
@@ -918,6 +946,8 @@ func (client ComputeManagementClient) getInstancePoolInstance(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePoolInstance/GetInstancePoolInstance"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "GetInstancePoolInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -969,6 +999,8 @@ func (client ComputeManagementClient) getInstancePoolLoadBalancerAttachment(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePoolLoadBalancerAttachment/GetInstancePoolLoadBalancerAttachment"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "GetInstancePoolLoadBalancerAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1030,6 +1062,8 @@ func (client ComputeManagementClient) launchInstanceConfiguration(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstanceConfiguration"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "LaunchInstanceConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1081,6 +1115,8 @@ func (client ComputeManagementClient) listClusterNetworkInstances(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClusterNetwork/ListClusterNetworkInstances"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "ListClusterNetworkInstances", apiReferenceLink)
 		return response, err
 	}
 
@@ -1132,6 +1168,8 @@ func (client ComputeManagementClient) listClusterNetworks(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClusterNetwork/ListClusterNetworks"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "ListClusterNetworks", apiReferenceLink)
 		return response, err
 	}
 
@@ -1183,6 +1221,8 @@ func (client ComputeManagementClient) listInstanceConfigurations(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConfigurationSummary/ListInstanceConfigurations"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "ListInstanceConfigurations", apiReferenceLink)
 		return response, err
 	}
 
@@ -1234,6 +1274,8 @@ func (client ComputeManagementClient) listInstancePoolInstances(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceSummary/ListInstancePoolInstances"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "ListInstancePoolInstances", apiReferenceLink)
 		return response, err
 	}
 
@@ -1285,6 +1327,8 @@ func (client ComputeManagementClient) listInstancePools(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePoolSummary/ListInstancePools"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "ListInstancePools", apiReferenceLink)
 		return response, err
 	}
 
@@ -1342,6 +1386,8 @@ func (client ComputeManagementClient) resetInstancePool(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePool/ResetInstancePool"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "ResetInstancePool", apiReferenceLink)
 		return response, err
 	}
 
@@ -1401,6 +1447,8 @@ func (client ComputeManagementClient) softresetInstancePool(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePool/SoftresetInstancePool"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "SoftresetInstancePool", apiReferenceLink)
 		return response, err
 	}
 
@@ -1460,6 +1508,8 @@ func (client ComputeManagementClient) softstopInstancePool(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePool/SoftstopInstancePool"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "SoftstopInstancePool", apiReferenceLink)
 		return response, err
 	}
 
@@ -1517,6 +1567,8 @@ func (client ComputeManagementClient) startInstancePool(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePool/StartInstancePool"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "StartInstancePool", apiReferenceLink)
 		return response, err
 	}
 
@@ -1574,6 +1626,8 @@ func (client ComputeManagementClient) stopInstancePool(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePool/StopInstancePool"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "StopInstancePool", apiReferenceLink)
 		return response, err
 	}
 
@@ -1627,6 +1681,8 @@ func (client ComputeManagementClient) terminateClusterNetwork(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClusterNetwork/TerminateClusterNetwork"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "TerminateClusterNetwork", apiReferenceLink)
 		return response, err
 	}
 
@@ -1683,6 +1739,8 @@ func (client ComputeManagementClient) terminateInstancePool(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "ComputeManagement", "TerminateInstancePool", apiReferenceLink)
 		return response, err
 	}
 
@@ -1739,6 +1797,8 @@ func (client ComputeManagementClient) updateClusterNetwork(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClusterNetwork/UpdateClusterNetwork"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "UpdateClusterNetwork", apiReferenceLink)
 		return response, err
 	}
 
@@ -1795,6 +1855,8 @@ func (client ComputeManagementClient) updateInstanceConfiguration(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConfiguration/UpdateInstanceConfiguration"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "UpdateInstanceConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1852,6 +1914,8 @@ func (client ComputeManagementClient) updateInstancePool(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePool/UpdateInstancePool"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "UpdateInstancePool", apiReferenceLink)
 		return response, err
 	}
 

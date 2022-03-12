@@ -14,7 +14,7 @@ import (
 // GetDatabaseToolsEndpointServiceRequest wrapper for the GetDatabaseToolsEndpointService operation
 type GetDatabaseToolsEndpointServiceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a DatabaseToolsEndpointService.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools Endpoint Service.
 	DatabaseToolsEndpointServiceId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsEndpointServiceId"`
 
 	// The client request ID for tracing.
