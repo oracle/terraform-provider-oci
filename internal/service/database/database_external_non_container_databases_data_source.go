@@ -168,6 +168,12 @@ func (s *DatabaseExternalNonContainerDatabasesDataSourceCrud) SetData() error {
 			externalNonContainerDatabase["operations_insights_config"] = nil
 		}
 
+		if r.StackMonitoringConfig != nil {
+			externalNonContainerDatabase["stack_monitoring_config"] = []interface{}{StackMonitoringConfigToMap(r.StackMonitoringConfig)}
+		} else {
+			externalNonContainerDatabase["stack_monitoring_config"] = nil
+		}
+
 		externalNonContainerDatabase["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {
