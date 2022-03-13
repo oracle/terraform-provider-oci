@@ -37,17 +37,20 @@ func TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_b
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	agentId := utils.GetEnvSettingWithBlankDefault("connector_agent_id")
+	agentIdVariableStr := fmt.Sprintf("variable \"agent_id\" { default = \"%s\" }\n", agentId)
+
 	resourceName := "oci_database_external_pluggable_database_operations_insights_management.test_external_pluggable_database_operations_insights_management"
 	resourcePDB := "oci_database_external_pluggable_database.test_external_pluggable_database"
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+agentIdVariableStr+ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", acctest.Required, acctest.Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation), "database", "externalPluggableDatabaseOperationsInsightsManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Enablement of PDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", acctest.Required, acctest.Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
@@ -57,7 +60,7 @@ func TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_b
 
 		// Verify Enablement of PDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", acctest.Required, acctest.Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourcePDB, "operations_insights_config.0.operations_insights_status", "ENABLED"),
@@ -65,11 +68,11 @@ func TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_b
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies,
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies,
 		},
 		// Enablement of PDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", acctest.Required, acctest.Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
@@ -78,7 +81,7 @@ func TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_b
 		},
 		// Verify Enablement of PDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", acctest.Required, acctest.Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourcePDB, "operations_insights_config.0.operations_insights_status", "ENABLED"),
@@ -87,7 +90,7 @@ func TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_b
 
 		// Disablement of PDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", acctest.Optional, acctest.Update, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
@@ -96,7 +99,7 @@ func TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_b
 		},
 		// Verify Disablement of PDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", acctest.Optional, acctest.Update, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourcePDB, "operations_insights_config.0.operations_insights_status", "NOT_ENABLED"),
