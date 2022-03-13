@@ -145,6 +145,27 @@ func DatabaseExternalPluggableDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"stack_monitoring_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"stack_monitoring_connector_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"stack_monitoring_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -447,6 +468,12 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) SetData() error {
 		s.D.Set("source_id", *s.Res.SourceId)
 	}
 
+	if s.Res.StackMonitoringConfig != nil {
+		s.D.Set("stack_monitoring_config", []interface{}{StackMonitoringConfigToMap(s.Res.StackMonitoringConfig)})
+	} else {
+		s.D.Set("stack_monitoring_config", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -482,6 +509,18 @@ func OperationsInsightsConfigurationToMap(obj *oci_database.OperationsInsightsCo
 	}
 
 	result["operations_insights_status"] = string(obj.OperationsInsightsStatus)
+
+	return result
+}
+
+func StackMonitoringConfigToMap(obj *oci_database.StackMonitoringConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.StackMonitoringConnectorId != nil {
+		result["stack_monitoring_connector_id"] = string(*obj.StackMonitoringConnectorId)
+	}
+
+	result["stack_monitoring_status"] = string(obj.StackMonitoringStatus)
 
 	return result
 }

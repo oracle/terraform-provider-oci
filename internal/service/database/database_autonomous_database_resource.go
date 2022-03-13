@@ -808,12 +808,12 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 
 	configOperationsInsightsStatus := oci_database.AutonomousDatabaseOperationsInsightsStatusNotEnabled
 	if operationsInsightsStatus, ok := sync.D.GetOkExists("operations_insights_status"); ok {
-		configOperationsInsightsStatus = oci_database.AutonomousDatabaseOperationsInsightsStatusEnum((operationsInsightsStatus.(string)))
+		configOperationsInsightsStatus = oci_database.AutonomousDatabaseOperationsInsightsStatusEnum(operationsInsightsStatus.(string))
 	}
 
 	configDatabaseManagementStatus := oci_database.AutonomousDatabaseDatabaseManagementStatusNotEnabled
 	if databaseManagementStatus, ok := sync.D.GetOkExists("database_management_status"); ok {
-		configDatabaseManagementStatus = oci_database.AutonomousDatabaseDatabaseManagementStatusEnum((databaseManagementStatus.(string)))
+		configDatabaseManagementStatus = oci_database.AutonomousDatabaseDatabaseManagementStatusEnum(databaseManagementStatus.(string))
 	}
 
 	if e := tfresource.CreateResource(d, sync); e != nil {
@@ -1108,7 +1108,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	if operationsInsightsStatus, ok := s.D.GetOkExists("operations_insights_status"); ok && s.D.HasChange("operations_insights_status") {
 		oldRaw, newRaw := s.D.GetChange("operations_insights_status")
 		if newRaw != "" && oldRaw != "" {
-			configOperationsInsightsStatus := oci_database.AutonomousDatabaseOperationsInsightsStatusEnum((operationsInsightsStatus.(string)))
+			configOperationsInsightsStatus := oci_database.AutonomousDatabaseOperationsInsightsStatusEnum(operationsInsightsStatus.(string))
 			err := s.updateOperationsInsightsStatus(s.D.Id(), configOperationsInsightsStatus)
 			if err != nil {
 				return err
@@ -1119,7 +1119,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	if databaseManagementStatus, ok := s.D.GetOkExists("database_management_status"); ok && s.D.HasChange("database_management_status") {
 		_, newRaw := s.D.GetChange("database_management_status")
 		if newRaw != "" {
-			configDatabaseManagementStatus := oci_database.AutonomousDatabaseDatabaseManagementStatusEnum((databaseManagementStatus.(string)))
+			configDatabaseManagementStatus := oci_database.AutonomousDatabaseDatabaseManagementStatusEnum(databaseManagementStatus.(string))
 			err := s.updateAutonomousDatabaseManagementStatus(s.D.Id(), configDatabaseManagementStatus)
 			if err != nil {
 				return err
