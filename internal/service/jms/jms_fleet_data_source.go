@@ -100,6 +100,18 @@ func (s *JmsFleetDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.InventoryLog != nil {
+		s.D.Set("inventory_log", []interface{}{CustomLogToMap(s.Res.InventoryLog)})
+	} else {
+		s.D.Set("inventory_log", nil)
+	}
+
+	if s.Res.OperationLog != nil {
+		s.D.Set("operation_log", []interface{}{CustomLogToMap(s.Res.OperationLog)})
+	} else {
+		s.D.Set("operation_log", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

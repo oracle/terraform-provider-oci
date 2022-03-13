@@ -5,6 +5,7 @@ package jms
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -58,6 +59,54 @@ func JmsFleetResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"inventory_log": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"log_group_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"log_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
+			"operation_log": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"log_group_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"log_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
 			},
 
 			// Computed
@@ -147,6 +196,7 @@ func (s *JmsFleetResourceCrud) CreatedPending() []string {
 func (s *JmsFleetResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_jms.LifecycleStateActive),
+		string(oci_jms.LifecycleStateNeedsAttention),
 	}
 }
 
@@ -192,6 +242,28 @@ func (s *JmsFleetResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if inventoryLog, ok := s.D.GetOkExists("inventory_log"); ok {
+		if tmpList := inventoryLog.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "inventory_log", 0)
+			tmp, err := s.mapToCustomLog(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.InventoryLog = &tmp
+		}
+	}
+
+	if operationLog, ok := s.D.GetOkExists("operation_log"); ok {
+		if tmpList := operationLog.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "operation_log", 0)
+			tmp, err := s.mapToCustomLog(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.OperationLog = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms")
 
 	response, err := s.Client.CreateFleet(context.Background(), request)
@@ -211,7 +283,18 @@ func (s *JmsFleetResourceCrud) getFleetFromWorkRequest(workId *string, retryPoli
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
-		log.Printf("[DEBUG] creation failed for the workrequest: %v for identifier: %v\n", workId, fleetId)
+		// Try to cancel the work request
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, fleetId)
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+			oci_jms.CancelWorkRequestRequest{
+				WorkRequestId: workId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: retryPolicy,
+				},
+			})
+		if cancelErr != nil {
+			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
+		}
 		return err
 	}
 	s.D.SetId(*fleetId)
@@ -348,6 +431,28 @@ func (s *JmsFleetResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if inventoryLog, ok := s.D.GetOkExists("inventory_log"); ok {
+		if tmpList := inventoryLog.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "inventory_log", 0)
+			tmp, err := s.mapToCustomLog(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.InventoryLog = &tmp
+		}
+	}
+
+	if operationLog, ok := s.D.GetOkExists("operation_log"); ok {
+		if tmpList := operationLog.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "operation_log", 0)
+			tmp, err := s.mapToCustomLog(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.OperationLog = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms")
 
 	response, err := s.Client.UpdateFleet(context.Background(), request)
@@ -406,6 +511,18 @@ func (s *JmsFleetResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.InventoryLog != nil {
+		s.D.Set("inventory_log", []interface{}{CustomLogToMap(s.Res.InventoryLog)})
+	} else {
+		s.D.Set("inventory_log", nil)
+	}
+
+	if s.Res.OperationLog != nil {
+		s.D.Set("operation_log", []interface{}{CustomLogToMap(s.Res.OperationLog)})
+	} else {
+		s.D.Set("operation_log", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
@@ -417,6 +534,36 @@ func (s *JmsFleetResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *JmsFleetResourceCrud) mapToCustomLog(fieldKeyFormat string) (oci_jms.CustomLog, error) {
+	result := oci_jms.CustomLog{}
+
+	if logGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_group_id")); ok {
+		tmp := logGroupId.(string)
+		result.LogGroupId = &tmp
+	}
+
+	if logId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_id")); ok {
+		tmp := logId.(string)
+		result.LogId = &tmp
+	}
+
+	return result, nil
+}
+
+func CustomLogToMap(obj *oci_jms.CustomLog) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.LogGroupId != nil {
+		result["log_group_id"] = string(*obj.LogGroupId)
+	}
+
+	if obj.LogId != nil {
+		result["log_id"] = string(*obj.LogId)
+	}
+
+	return result
 }
 
 func FleetSummaryToMap(obj oci_jms.FleetSummary) map[string]interface{} {
@@ -458,6 +605,14 @@ func FleetSummaryToMap(obj oci_jms.FleetSummary) map[string]interface{} {
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.InventoryLog != nil {
+		result["inventory_log"] = []interface{}{CustomLogToMap(obj.InventoryLog)}
+	}
+
+	if obj.OperationLog != nil {
+		result["operation_log"] = []interface{}{CustomLogToMap(obj.OperationLog)}
 	}
 
 	result["state"] = string(obj.LifecycleState)

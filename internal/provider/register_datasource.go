@@ -791,6 +791,9 @@ func init() {
 	// jms service
 	RegisterDatasource("oci_jms_fleet", tf_jms.JmsFleetDataSource())
 	RegisterDatasource("oci_jms_fleets", tf_jms.JmsFleetsDataSource())
+	RegisterDatasource("oci_jms_fleet_blocklists", tf_jms.JmsFleetBlocklistsDataSource())
+	RegisterDatasource("oci_jms_fleet_installation_site", tf_jms.JmsFleetInstallationSiteDataSource())
+	RegisterDatasource("oci_jms_fleet_installation_sites", tf_jms.JmsFleetInstallationSitesDataSource())
 	RegisterDatasource("oci_jms_list_jre_usage", tf_jms.JmsListJreUsageDataSource())
 	RegisterDatasource("oci_jms_summarize_resource_inventory", tf_jms.JmsSummarizeResourceInventoryDataSource())
 	// kms service
