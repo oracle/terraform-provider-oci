@@ -47,6 +47,7 @@ The following attributes are exported:
 	* `approximate_application_count` - The approximate count of the applications running on this Java Runtime.
 	* `approximate_installation_count` - The approximate count of installations that are installations of this Java Runtime.
 	* `approximate_managed_instance_count` - The approximate count of the managed instances that report this Java Runtime.
+	* `approximate_pending_work_request_count` - The approximate count of work requests working on this Java Runtime.
 	* `distribution` - The distribution of a Java Runtime is the name of the lineage of product to which it belongs, for example _Java(TM) SE Runtime Environment_.
 	* `end_of_support_life_date` - The End of Support Life (EOSL) date of the Java Runtime (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)).
 	* `fleet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related fleet.  This property value is present only for /actions/listJreUsage.
@@ -59,10 +60,10 @@ The following attributes are exported:
 		* `version` - The version of the operating system as provided by the Java system property os.version.
 	* `release_date` - The release date of the Java Runtime (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)).
 	* `security_status` - The security status of the Java Runtime.
-	* `time_end` - Upper bound of the specified time period filter.
+	* `time_end` - Upper bound of the specified time period filter. JMS provides a view of the data that is _per day_. The query uses only the date element of the parameter.
 	* `time_first_seen` - The date and time the resource was _first_ reported to JMS. This is potentially _before_ the specified time period provided by the filters. For example, a resource can be first reported to JMS before the start of a specified time period, if it is also reported during the time period. 
 	* `time_last_seen` - The date and time the resource was _last_ reported to JMS. This is potentially _after_ the specified time period provided by the filters. For example, a resource can be last reported to JMS before the start of a specified time period, if it is also reported during the time period. 
-	* `time_start` - Lower bound of the specified time period filter.
+	* `time_start` - Lower bound of the specified time period filter. JMS provides a view of the data that is _per day_. The query uses only the date element of the parameter.
 	* `vendor` - The vendor of the Java Runtime.
 	* `version` - The version of the Java Runtime.
 

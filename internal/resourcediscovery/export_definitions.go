@@ -2363,6 +2363,7 @@ var exportJmsFleetHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_jms.LifecycleStateActive),
+		string(oci_jms.LifecycleStateNeedsAttention),
 	},
 }
 
