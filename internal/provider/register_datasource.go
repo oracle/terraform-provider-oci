@@ -1079,8 +1079,13 @@ func init() {
 	RegisterDatasource("oci_osmanagement_managed_instance_event_report", tf_osmanagement.OsmanagementManagedInstanceEventReportDataSource())
 	RegisterDatasource("oci_osmanagement_managed_instance_group", tf_osmanagement.OsmanagementManagedInstanceGroupDataSource())
 	RegisterDatasource("oci_osmanagement_managed_instance_groups", tf_osmanagement.OsmanagementManagedInstanceGroupsDataSource())
+	RegisterDatasource("oci_osmanagement_managed_instance_module_streams", tf_osmanagement.OsmanagementManagedInstanceModuleStreamsDataSource())
+	RegisterDatasource("oci_osmanagement_managed_instance_stream_profiles", tf_osmanagement.OsmanagementManagedInstanceStreamProfilesDataSource())
 	RegisterDatasource("oci_osmanagement_managed_instances", tf_osmanagement.OsmanagementManagedInstancesDataSource())
 	RegisterDatasource("oci_osmanagement_software_source", tf_osmanagement.OsmanagementSoftwareSourceDataSource())
+	RegisterDatasource("oci_osmanagement_software_source_module_stream", tf_osmanagement.OsmanagementSoftwareSourceModuleStreamDataSource())
+	RegisterDatasource("oci_osmanagement_software_source_module_stream_profile", tf_osmanagement.OsmanagementSoftwareSourceModuleStreamProfileDataSource())
+	RegisterDatasource("oci_osmanagement_software_source_stream_profiles", tf_osmanagement.OsmanagementSoftwareSourceStreamProfilesDataSource())
 	RegisterDatasource("oci_osmanagement_software_sources", tf_osmanagement.OsmanagementSoftwareSourcesDataSource())
 	//osp_gateway
 	RegisterDatasource("oci_osp_gateway_invoice", tf_osp_gateway.OspGatewayInvoiceDataSource())
