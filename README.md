@@ -1,10 +1,7 @@
-| :memo:        | As part of our introduction to self-service publishing in the Terraform Registry, this copy of the provider has been archived, and ownership has been transferred to Oracle for ongoing maintenance. Please visit https://github.com/oracle/terraform-provider-oci.       |
-|---------------|:------------------------|
-
 ## NOTICE  
-The OCI Terraform Provider is now available for automatic download through the Terraform Provider Registry. 
+**The OCI Terraform Provider is now available for automatic download through the Terraform Provider Registry. 
 For more information on how to get started view the [documentation](https://www.terraform.io/docs/providers/oci/index.html) 
-and [setup guide](https://www.terraform.io/docs/providers/oci/guides/version-3-upgrade.html).
+and [setup guide](https://www.terraform.io/docs/providers/oci/guides/version-3-upgrade.html).**
 
 
 Terraform Provider for Oracle Cloud Infrastructure
