@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v61/datalabelingservice"
+	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v62/datalabelingservice"
 )
 
 func DataLabelingServiceDatasetDataSource() *schema.Resource {

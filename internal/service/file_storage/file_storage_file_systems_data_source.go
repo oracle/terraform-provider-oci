@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v61/filestorage"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v62/filestorage"
 )
 
 func FileStorageFileSystemsDataSource() *schema.Resource {

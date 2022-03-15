@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_vault "github.com/oracle/oci-go-sdk/v61/vault"
+	oci_vault "github.com/oracle/oci-go-sdk/v62/vault"
 
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
 )
 
 func init() {

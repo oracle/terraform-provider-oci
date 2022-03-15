@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v61/datacatalog"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v62/datacatalog"
 )
 
 func DatacatalogCatalogPrivateEndpointResource() *schema.Resource {

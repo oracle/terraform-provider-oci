@@ -23,8 +23,8 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
-	oci_kms "github.com/oracle/oci-go-sdk/v61/keymanagement"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_kms "github.com/oracle/oci-go-sdk/v62/keymanagement"
 )
 
 func KmsKeyResource() *schema.Resource {

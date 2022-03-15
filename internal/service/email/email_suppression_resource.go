@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_email "github.com/oracle/oci-go-sdk/v61/email"
+	oci_email "github.com/oracle/oci-go-sdk/v62/email"
 )
 
 func EmailSuppressionResource() *schema.Resource {
