@@ -11,8 +11,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v61/dns"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v62/dns"
 )
 
 func DnsSteeringPoliciesDataSource() *schema.Resource {

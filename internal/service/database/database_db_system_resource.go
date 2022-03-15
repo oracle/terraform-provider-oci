@@ -13,13 +13,13 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v61/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v62/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
-	oci_database "github.com/oracle/oci-go-sdk/v61/database"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_database "github.com/oracle/oci-go-sdk/v62/database"
 )
 
 func DatabaseDbSystemResource() *schema.Resource {

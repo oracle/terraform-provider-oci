@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_nosql "github.com/oracle/oci-go-sdk/v61/nosql"
+	oci_nosql "github.com/oracle/oci-go-sdk/v62/nosql"
 )
 
 func NosqlIndexDataSource() *schema.Resource {

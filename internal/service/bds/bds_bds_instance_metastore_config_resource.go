@@ -18,8 +18,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_bds "github.com/oracle/oci-go-sdk/v61/bds"
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_bds "github.com/oracle/oci-go-sdk/v62/bds"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
 )
 
 func BdsBdsInstanceMetastoreConfigResource() *schema.Resource {

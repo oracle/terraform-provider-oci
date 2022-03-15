@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v61/apigateway"
-	"github.com/oracle/oci-go-sdk/v61/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v62/apigateway"
+	"github.com/oracle/oci-go-sdk/v62/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"

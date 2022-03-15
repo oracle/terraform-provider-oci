@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_generic_artifacts_content "github.com/oracle/oci-go-sdk/v61/genericartifactscontent"
+	oci_generic_artifacts_content "github.com/oracle/oci-go-sdk/v62/genericartifactscontent"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

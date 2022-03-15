@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v61/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v62/datasafe"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
