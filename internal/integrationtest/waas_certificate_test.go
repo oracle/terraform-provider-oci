@@ -20,8 +20,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v61/common"
-	oci_waas "github.com/oracle/oci-go-sdk/v61/waas"
+	"github.com/oracle/oci-go-sdk/v62/common"
+	oci_waas "github.com/oracle/oci-go-sdk/v62/waas"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

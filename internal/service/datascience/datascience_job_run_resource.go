@@ -15,7 +15,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_datascience "github.com/oracle/oci-go-sdk/v61/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v62/datascience"
 )
 
 func DatascienceJobRunResource() *schema.Resource {

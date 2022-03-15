@@ -13,7 +13,7 @@ import (
 
 	"fmt"
 
-	oci_core "github.com/oracle/oci-go-sdk/v61/core"
+	oci_core "github.com/oracle/oci-go-sdk/v62/core"
 )
 
 func CoreDefaultSecurityListResource() *schema.Resource {

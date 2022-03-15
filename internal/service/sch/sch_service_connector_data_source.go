@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_sch "github.com/oracle/oci-go-sdk/v61/sch"
+	oci_sch "github.com/oracle/oci-go-sdk/v62/sch"
 )
 
 func SchServiceConnectorDataSource() *schema.Resource {
