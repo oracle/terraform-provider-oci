@@ -30,6 +30,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment2", acctest.Required, acctest.Create, userAssessmentRepresentation)
 )
 
+// issue-routing-tag: data_safe/default
 func TestDataSafeCompareUserAssessmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeCompareUserAssessmentResource_basic")
 	defer httpreplay.SaveScenario()

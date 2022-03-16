@@ -62,11 +62,11 @@ The following arguments are supported:
 * `is_schedule_assessment` - (Optional) A filter to return only user assessments of type SAVE_SCHEDULE. 
 * `schedule_user_assessment_id` - (Optional) The OCID of the user assessment of type SAVE_SCHEDULE.
 * `state` - (Optional) The current state of the user assessment.
-* `target_id` - (Optional) A filter to return only items that match the specified target.
+* `target_id` - (Optional) A filter to return only items related to a specific target OCID.
 * `time_created_greater_than_or_equal_to` - (Optional) A filter to return only user assessments that were created after the specified date and time, as defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Using timeCreatedGreaterThanOrEqualTo parameter retrieves all assessments created after that date.
 
 	**Example:** 2016-12-19T16:39:57.600Z 
-* `time_created_less_than` - (Optional) Search for items that were created before a specific date. Specifying this parameter corresponding `timeCreatedLessThan` parameter will retrieve all items created before the specified created date, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339.
+* `time_created_less_than` - (Optional) Search for resources that were created before a specific date. Specifying this parameter corresponding `timeCreatedLessThan` parameter will retrieve all resources created before the specified created date, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339.
 
 	**Example:** 2016-12-19T16:39:57.600Z 
 * `triggered_by` - (Optional) A filter to return user assessments that were created by either the system or by a user only.

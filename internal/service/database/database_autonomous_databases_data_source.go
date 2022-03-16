@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v61/database"
+	oci_database "github.com/oracle/oci-go-sdk/v62/database"
 )
 
 func DatabaseAutonomousDatabasesDataSource() *schema.Resource {
@@ -336,6 +336,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.LifecycleDetails != nil {
 			autonomousDatabase["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		if r.MemoryPerOracleComputeUnitInGBs != nil {
+			autonomousDatabase["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
 		}
 
 		autonomousDatabase["nsg_ids"] = r.NsgIds

@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_ai_vision "github.com/oracle/oci-go-sdk/v61/aivision"
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_ai_vision "github.com/oracle/oci-go-sdk/v62/aivision"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

@@ -27,9 +27,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v61/loadbalancer"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v61/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v62/loadbalancer"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v62/workrequests"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -60,6 +60,8 @@ var (
 	HandleErrorVar                         = HandleError
 	ShouldRetryVar                         = ShouldRetry
 	reflectValueOf                         = reflect.ValueOf
+	jsonUnmarshalNewVar                    = json.Unmarshal
+	jsonUnmarshalOldVar                    = json.Unmarshal
 )
 
 const (
@@ -997,7 +999,7 @@ func StringMapToObjectMap(sm map[string]string) map[string]interface{} {
 func ConvertMapOfStringSlicesToMapOfStrings(rm map[string][]string) (map[string]string, error) {
 	result := map[string]string{}
 	for k, v := range rm {
-		val, err := json.Marshal(v)
+		val, err := jsonMarshal(v)
 		if err == nil {
 			result[k] = string(val)
 		} else {
@@ -1151,11 +1153,11 @@ func MonetaryDiffSuppress(key string, old string, new string, d *schema.Resource
 func JsonStringDiffSuppressFunction(key, old, new string, d *schema.ResourceData) bool {
 	var oldVal, newVal interface{}
 
-	if err := json.Unmarshal([]byte(old), &oldVal); err != nil {
+	if err := jsonUnmarshalOldVar([]byte(old), &oldVal); err != nil {
 		return false
 	}
 
-	if err := json.Unmarshal([]byte(new), &newVal); err != nil {
+	if err := jsonUnmarshalNewVar([]byte(new), &newVal); err != nil {
 		return false
 	}
 

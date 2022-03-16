@@ -22,6 +22,7 @@ data "oci_data_safe_target_databases" "test_target_databases" {
 
 	#Optional
 	access_level = var.target_database_access_level
+	associated_resource_id = oci_data_safe_associated_resource.test_associated_resource.id
 	compartment_id_in_subtree = var.target_database_compartment_id_in_subtree
 	database_type = var.target_database_database_type
 	display_name = var.target_database_display_name
@@ -36,6 +37,7 @@ data "oci_data_safe_target_databases" "test_target_databases" {
 The following arguments are supported:
 
 * `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed. 
+* `associated_resource_id` - (Optional) A filter to return the target databases that are associated to the resource id passed in as a parameter value.
 * `compartment_id` - (Required) A filter to return only resources that match the specified compartment OCID.
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `database_type` - (Optional) A filter to return target databases that match the database type of the target database.
@@ -55,6 +57,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `associated_resource_ids` - The OCIDs of associated resources like Database, Data Safe private endpoint etc.
 * `compartment_id` - The OCID of the compartment which contains the Data Safe target database.
 * `connection_option` - Types of connection supported by Data Safe.
 	* `connection_type` - The connection type used to connect to the database. Allowed values:

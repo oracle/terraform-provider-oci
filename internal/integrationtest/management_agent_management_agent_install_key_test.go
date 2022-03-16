@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v61/common"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v61/managementagent"
+	"github.com/oracle/oci-go-sdk/v62/common"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v62/managementagent"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -53,6 +53,7 @@ var (
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"allowed_key_install_count": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"is_unlimited":              acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"time_expires":              acctest.Representation{RepType: acctest.Optional, Create: expirationTimeForManagementAgentInstallKey.Format(time.RFC3339Nano)},
 	}
 
@@ -107,6 +108,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_unlimited", "false"),
 				resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForManagementAgentInstallKey.Format(time.RFC3339Nano)),
 
 				func(s *terraform.State) (err error) {
@@ -130,6 +132,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_unlimited", "false"),
 				resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForManagementAgentInstallKey.Format(time.RFC3339Nano)),
 
 				func(s *terraform.State) (err error) {
@@ -161,6 +164,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_install_keys.0.current_key_install_count"),
 				resource.TestCheckResourceAttr(datasourceName, "management_agent_install_keys.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_install_keys.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "management_agent_install_keys.0.is_unlimited", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_install_keys.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_install_keys.0.time_created"),
 				resource.TestCheckResourceAttr(datasourceName, "management_agent_install_keys.0.time_expires", expirationTimeForManagementAgentInstallKey.Format(time.RFC3339Nano)),
@@ -180,6 +184,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "current_key_install_count"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_unlimited", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "key"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

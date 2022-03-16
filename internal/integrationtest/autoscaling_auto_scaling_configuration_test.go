@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	oci_auto_scaling "github.com/oracle/oci-go-sdk/v61/autoscaling"
-	"github.com/oracle/oci-go-sdk/v61/common"
+	oci_auto_scaling "github.com/oracle/oci-go-sdk/v62/autoscaling"
+	"github.com/oracle/oci-go-sdk/v62/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -104,7 +104,7 @@ var (
 	}
 
 	AutoScalingConfigurationResourceDependencies = InstancePoolResourceDependenciesWithoutSecondaryVnic +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Required, acctest.Create, instancePoolRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Required, acctest.Create, instancePoolRepresentationWithLifecycleSizeIgnoreChanges)
 )
 
 // issue-routing-tag: auto_scaling/default

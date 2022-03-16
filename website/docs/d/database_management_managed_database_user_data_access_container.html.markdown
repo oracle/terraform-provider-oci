@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_management_managed_database_user_data_access_container
 This data source provides details about a specific Managed Database User Data Access Container resource in Oracle Cloud Infrastructure Database Management service.
 
-Gets the list of Containers if it does not apply to all containers for the specified user.
+Gets the list of containers for a specific user. This is only applicable if ALL_CONTAINERS !='Y'.
 
 ## Example Usage
 
@@ -38,6 +38,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `items` - An array of Container resources.
-	* `name` - The name of a container included in this attribute if it does not apply to all containers.
+* `items` - An array of container resources.
+	* `name` - The name of the container included in the attribute.
 

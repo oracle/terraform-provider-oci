@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_management_agent_management_agents
 This data source provides the list of Management Agents in Oracle Cloud Infrastructure Management Agent service.
 
-Returns a list of Management Agent.
+Returns a list of Management Agents.
+If no explicit page size limit is specified, it will default to 5000.
 
 
 ## Example Usage

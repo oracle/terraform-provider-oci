@@ -136,6 +136,10 @@ variable "managed_database_sql_tuning_advisor_tasks_summary_report_time_less_tha
   default = "timeLessThanOrEqualTo"
 }
 
+variable "managed_databases_asm_property_name" {
+  default = "DATA"
+}
+
 provider "oci" {
   tenancy_ocid = var.tenancy_ocid
   user_ocid = var.user_ocid
@@ -342,4 +346,20 @@ data "oci_database_management_managed_database_sql_tuning_advisor_tasks_summary_
   search_period                          = var.managed_database_sql_tuning_advisor_tasks_summary_report_search_period
   time_greater_than_or_equal_to          = var.managed_database_sql_tuning_advisor_tasks_summary_report_time_greater_than_or_equal_to
   time_less_than_or_equal_to             = var.managed_database_sql_tuning_advisor_tasks_summary_report_time_less_than_or_equal_to
+}
+
+data "oci_database_management_managed_databases_asm_properties" "test_managed_databases_asm_properties" {
+  #Required
+  managed_database_id = oci_database_management_managed_database.test_managed_database.id
+
+  #Optional
+  name = var.managed_databases_asm_property_name
+}
+
+data "oci_database_management_managed_databases_asm_property" "test_managed_databases_asm_property" {
+  #Required
+  managed_database_id = oci_database_management_managed_database.test_managed_database.id
+
+  #Optional
+  name = var.managed_databases_asm_property_name
 }

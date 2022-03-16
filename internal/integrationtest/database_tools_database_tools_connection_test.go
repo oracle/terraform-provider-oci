@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v61/common"
-	oci_database_tools "github.com/oracle/oci-go-sdk/v61/databasetools"
+	"github.com/oracle/oci-go-sdk/v62/common"
+	oci_database_tools "github.com/oracle/oci-go-sdk/v62/databasetools"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -95,6 +95,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
 )
 
+// issue-routing-tag: database_tools/default
 func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseToolsDatabaseToolsConnectionResource_basic")
 	defer httpreplay.SaveScenario()

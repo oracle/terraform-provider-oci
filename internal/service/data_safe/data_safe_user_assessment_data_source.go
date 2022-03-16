@@ -12,7 +12,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v61/datasafe"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v62/datasafe"
 )
 
 func DataSafeUserAssessmentDataSource() *schema.Resource {
@@ -94,7 +94,7 @@ func (s *DataSafeUserAssessmentDataSourceCrud) SetData() error {
 
 	ignoredTargets := []interface{}{}
 	for _, item := range s.Res.IgnoredTargets {
-		ignoredTargets = append(ignoredTargets, item)
+		ignoredTargets = append(ignoredTargets, IgnoredTargetsToMap(item))
 	}
 	s.D.Set("ignored_targets", ignoredTargets)
 

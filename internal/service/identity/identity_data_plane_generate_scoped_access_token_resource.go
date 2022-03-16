@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_identity_data_plane "github.com/oracle/oci-go-sdk/v61/identitydataplane"
+	oci_identity_data_plane "github.com/oracle/oci-go-sdk/v62/identitydataplane"
 )
 
 func IdentityDataPlaneGenerateScopedAccessTokenResource() *schema.Resource {

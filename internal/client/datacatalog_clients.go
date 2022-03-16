@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v61/datacatalog"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v62/datacatalog"
 
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
 )
 
 func init() {

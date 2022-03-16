@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_certificates_management "github.com/oracle/oci-go-sdk/v61/certificatesmanagement"
+	oci_certificates_management "github.com/oracle/oci-go-sdk/v62/certificatesmanagement"
 )
 
 func CertificatesManagementCaBundleResource() *schema.Resource {

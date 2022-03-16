@@ -18,8 +18,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v61/containerengine"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v62/containerengine"
 )
 
 func ContainerengineClusterResource() *schema.Resource {
@@ -560,6 +560,23 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 
 	workId := response.OpcWorkRequestId
 
+	clusterIDForGet, err := getClusterIdFromWorkRequest(workId, "cluster",
+		oci_containerengine.WorkRequestResourceActionTypeCreated, s.DisableNotFoundRetries, s.Client)
+
+	requestGet := oci_containerengine.GetClusterRequest{}
+	requestGet.ClusterId = clusterIDForGet
+	requestGet.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+	responseGet, getClusterErr := s.Client.GetCluster(context.Background(), requestGet)
+	if getClusterErr != nil {
+		return getClusterErr
+	}
+
+	s.Res = &responseGet.Cluster
+	s.D.SetId(s.ID())
+	if setDataErr := s.SetData(); setDataErr != nil {
+		log.Printf("[ERROR] error setting data before clusterWaitForWorkRequest() error: %v", setDataErr)
+	}
+
 	clusterID, err := clusterWaitForWorkRequest(workId, "cluster",
 		oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 
@@ -587,10 +604,10 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 		return err
 	}
 
-	requestGet := oci_containerengine.GetClusterRequest{}
+	requestGet = oci_containerengine.GetClusterRequest{}
 	requestGet.ClusterId = clusterID
 	requestGet.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
-	responseGet, err := s.Client.GetCluster(context.Background(), requestGet)
+	responseGet, err = s.Client.GetCluster(context.Background(), requestGet)
 	if err != nil {
 		return err
 	}
@@ -633,6 +650,37 @@ func clusterWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 		}
 		return false
 	}
+}
+
+func getClusterIdFromWorkRequest(wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,
+	disableFoundRetries bool, client *oci_containerengine.ContainerEngineClient) (*string, error) {
+	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "containerengine")
+	response := oci_containerengine.GetWorkRequestResponse{}
+	response, _ = client.GetWorkRequest(context.Background(),
+		oci_containerengine.GetWorkRequestRequest{
+			WorkRequestId: wId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+
+	var identifier *string
+	// The work request response contains an array of objects that finished the operation
+	for _, res := range response.Resources {
+		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+			identifier = res.Identifier
+			if res.ActionType == action {
+				return res.Identifier, nil
+			}
+		}
+	}
+
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
+		return nil, getErrorFromContainerengineClusterWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
+	}
+
+	return identifier, nil
 }
 
 func clusterWaitForWorkRequest(wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,

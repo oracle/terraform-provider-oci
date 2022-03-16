@@ -15,9 +15,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
-	oci_database "github.com/oracle/oci-go-sdk/v61/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v61/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_database "github.com/oracle/oci-go-sdk/v62/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v62/workrequests"
 )
 
 func DatabaseAutonomousDatabaseResource() *schema.Resource {
@@ -597,6 +597,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"memory_per_oracle_compute_unit_in_gbs": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"open_mode": {
@@ -1489,6 +1493,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
+		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
 
 	nsgIds := []interface{}{}

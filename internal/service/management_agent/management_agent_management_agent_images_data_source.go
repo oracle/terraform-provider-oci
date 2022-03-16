@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v61/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v62/managementagent"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -53,6 +53,14 @@ func ManagementAgentManagementAgentImagesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"object_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"package_architecture_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"package_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -167,6 +175,10 @@ func (s *ManagementAgentManagementAgentImagesDataSourceCrud) SetData() error {
 		if r.ObjectUrl != nil {
 			managementAgentImage["object_url"] = *r.ObjectUrl
 		}
+
+		managementAgentImage["package_architecture_type"] = r.PackageArchitectureType
+
+		managementAgentImage["package_type"] = r.PackageType
 
 		if r.PlatformName != nil {
 			managementAgentImage["platform_name"] = *r.PlatformName

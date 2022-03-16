@@ -17,8 +17,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
-	oci_core "github.com/oracle/oci-go-sdk/v61/core"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_core "github.com/oracle/oci-go-sdk/v62/core"
 )
 
 func CoreAppCatalogSubscriptionResource() *schema.Resource {

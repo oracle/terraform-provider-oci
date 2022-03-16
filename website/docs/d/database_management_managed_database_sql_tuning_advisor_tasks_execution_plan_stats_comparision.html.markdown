@@ -10,8 +10,9 @@ description: |-
 # Data Source: oci_database_management_managed_database_sql_tuning_advisor_tasks_execution_plan_stats_comparision
 This data source provides details about a specific Managed Database Sql Tuning Advisor Tasks Execution Plan Stats Comparision resource in Oracle Cloud Infrastructure Database Management service.
 
-A SQL tuning task may suggest new execution plan for a SQL. The API returns the
-stats comparison report for the plans.
+Retrieves a comparison of the existing SQL execution plan and a new plan.
+A SQL tuning task may suggest a new execution plan for a SQL,
+and this API retrieves the comparison report of the statistics of the two plans.
 
 
 ## Example Usage
@@ -30,9 +31,9 @@ data "oci_database_management_managed_database_sql_tuning_advisor_tasks_executio
 
 The following arguments are supported:
 
-* `execution_id` - (Required) The execution id for an execution of a SQL tuning task. This is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `execution_id` - (Required) The execution ID for an execution of a SQL tuning task. This is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
-* `sql_object_id` - (Required) The SQL object id for the SQL tuning task. This is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `sql_object_id` - (Required) The SQL object ID for the SQL tuning task. This is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `sql_tuning_advisor_task_id` - (Required) The SQL tuning task identifier. This is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
@@ -40,12 +41,12 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `modified` - The statistics of an SQL execution plan. 
+* `modified` - The statistics of a SQL execution plan. 
 	* `plan_stats` - A map contains the statistics for the SQL execution using the plan. The key of the map is the metric's name. The value of the map is the metric's value. 
 	* `plan_status` - The status of the execution using the plan. 
-	* `plan_type` - The type of the plan for the original or the new plan with profile/index etc.
-* `original` - The statistics of an SQL execution plan. 
+	* `plan_type` - The type of the original or modified plan with profile, index, and so on.
+* `original` - The statistics of a SQL execution plan. 
 	* `plan_stats` - A map contains the statistics for the SQL execution using the plan. The key of the map is the metric's name. The value of the map is the metric's value. 
 	* `plan_status` - The status of the execution using the plan. 
-	* `plan_type` - The type of the plan for the original or the new plan with profile/index etc.
+	* `plan_type` - The type of the original or modified plan with profile, index, and so on.
 
