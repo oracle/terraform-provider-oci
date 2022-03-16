@@ -9,8 +9,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v61/managementagent"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v62/managementagent"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -41,6 +41,12 @@ func ManagementAgentManagementAgentInstallKeyResource() *schema.Resource {
 			// Optional
 			"allowed_key_install_count": {
 				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"is_unlimited": {
+				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
@@ -173,6 +179,11 @@ func (s *ManagementAgentManagementAgentInstallKeyResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if isUnlimited, ok := s.D.GetOkExists("is_unlimited"); ok {
+		tmp := isUnlimited.(bool)
+		request.IsUnlimited = &tmp
+	}
+
 	if timeExpires, ok := s.D.GetOkExists("time_expires"); ok {
 		tmp, err := time.Parse(time.RFC3339Nano, timeExpires.(string))
 		if err != nil {
@@ -267,6 +278,10 @@ func (s *ManagementAgentManagementAgentInstallKeyResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.IsUnlimited != nil {
+		s.D.Set("is_unlimited", *s.Res.IsUnlimited)
 	}
 
 	if s.Res.Key != nil {

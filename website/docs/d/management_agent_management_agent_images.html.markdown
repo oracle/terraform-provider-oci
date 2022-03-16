@@ -50,6 +50,8 @@ The following attributes are exported:
 * `checksum` - Agent image content SHA256 Hash
 * `id` - Agent image resource id
 * `object_url` - Object storage URL for download
+* `package_architecture_type` - The installation package target architecture type
+* `package_type` - The installation package type
 * `platform_name` - Agent image platform display name
 * `platform_type` - Agent image platform type
 * `size` - Agent image size in bytes

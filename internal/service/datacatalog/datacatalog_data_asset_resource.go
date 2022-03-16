@@ -16,7 +16,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v61/datacatalog"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v62/datacatalog"
 )
 
 func DatacatalogDataAssetResource() *schema.Resource {

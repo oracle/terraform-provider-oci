@@ -7,10 +7,11 @@ import (
 	"fmt"
 	"net/url"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/data_safe"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/data_connectivity"
-
 	tf_datascience "github.com/terraform-providers/terraform-provider-oci/internal/service/datascience"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/devops"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
@@ -59,6 +60,9 @@ func init() {
 	exportDataConnectivityRegistryConnectionHints.getIdFn = getDataConnectivityRegistryConnectionId
 	exportDataConnectivityRegistryDataAssetHints.getIdFn = getDataConnectivityRegistryDataAssetId
 	exportDataConnectivityRegistryFolderHints.getIdFn = getDataConnectivityRegistryFolderId
+	exportDataSafeMaskingPoliciesMaskingColumnHints.getIdFn = getDataSafeMaskingPoliciesMaskingColumnId
+	exportDataSafeSensitiveDataModelsSensitiveColumnHints.getIdFn = getDataSafeSensitiveDataModelsSensitiveColumnId
+	exportDataSafeDiscoveryJobsResultHints.getIdFn = getDataSafeDiscoveryJobsResultId
 	exportDatabaseAutonomousContainerDatabaseDataguardAssociationHints.getIdFn = getDatabaseAutonomousContainerDatabaseDataguardAssociationId
 	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 	exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
@@ -263,6 +267,36 @@ func getDataConnectivityRegistryFolderId(resource *OCIResource) (string, error) 
 	}
 	registryId := resource.parent.id
 	return data_connectivity.GetRegistryFolderCompositeId(folderKey, registryId), nil
+}
+
+func getDataSafeMaskingPoliciesMaskingColumnId(resource *OCIResource) (string, error) {
+
+	maskingColumnKey, ok := resource.sourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find maskingColumnKey for DataSafe MaskingPoliciesMaskingColumn")
+	}
+	maskingPolicyId := resource.parent.id
+	return data_safe.GetMaskingPoliciesMaskingColumnCompositeId(maskingColumnKey, maskingPolicyId), nil
+}
+
+func getDataSafeSensitiveDataModelsSensitiveColumnId(resource *OCIResource) (string, error) {
+
+	sensitiveColumnKey, ok := resource.sourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find sensitiveColumnKey for DataSafe SensitiveDataModelsSensitiveColumn")
+	}
+	sensitiveDataModelId := resource.parent.id
+	return data_safe.GetSensitiveDataModelsSensitiveColumnCompositeId(sensitiveColumnKey, sensitiveDataModelId), nil
+}
+
+func getDataSafeDiscoveryJobsResultId(resource *OCIResource) (string, error) {
+
+	discoveryJobId := resource.parent.id
+	resultKey, ok := resource.sourceAttributes["result_key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find resultKey for DataSafe DiscoveryJobsResult")
+	}
+	return data_safe.GetDiscoveryJobsResultCompositeId(discoveryJobId, resultKey), nil
 }
 
 func getDatabaseAutonomousContainerDatabaseDataguardAssociationId(resource *OCIResource) (string, error) {

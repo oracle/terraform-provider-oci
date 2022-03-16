@@ -16,7 +16,7 @@ variable "private_key_path" {
 variable "region" {
 }
 
-variable "compartment_id" {
+variable "compartment_ocid" {
 }
 
 variable "ssh_public_key" {
@@ -35,7 +35,7 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   admin_network_cidr          = "192.168.0.0/16"
   cloud_control_plane_server1 = "10.32.88.1"
   cloud_control_plane_server2 = "10.32.88.3"
-  compartment_id              = var.compartment_id
+  compartment_id              = var.compartment_ocid
   display_name                = "tstExaInfra"
   dns_server                  = ["10.231.225.65"]
   gateway                     = "10.32.88.5"
@@ -112,7 +112,7 @@ data "oci_database_exadata_infrastructure_download_config_file" "test_exadata_in
 
 data "oci_database_exadata_infrastructures" "test_exadata_infrastructures" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
 resource "oci_identity_tag_namespace" "tag-namespace1" {

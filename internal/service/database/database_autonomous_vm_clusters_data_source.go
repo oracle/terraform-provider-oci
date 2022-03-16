@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v61/database"
+	oci_database "github.com/oracle/oci-go-sdk/v62/database"
 )
 
 func DatabaseAutonomousVmClustersDataSource() *schema.Resource {
@@ -119,12 +119,20 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.AutonomousDataStorageSizeInTBs != nil {
+			autonomousVmCluster["autonomous_data_storage_size_in_tbs"] = *r.AutonomousDataStorageSizeInTBs
+		}
+
 		if r.AvailableCpus != nil {
 			autonomousVmCluster["available_cpus"] = *r.AvailableCpus
 		}
 
 		if r.AvailableDataStorageSizeInTBs != nil {
 			autonomousVmCluster["available_data_storage_size_in_tbs"] = *r.AvailableDataStorageSizeInTBs
+		}
+
+		if r.CpuCoreCountPerNode != nil {
+			autonomousVmCluster["cpu_core_count_per_node"] = *r.CpuCoreCountPerNode
 		}
 
 		if r.CpusEnabled != nil {
@@ -165,14 +173,32 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 			autonomousVmCluster["is_local_backup_enabled"] = *r.IsLocalBackupEnabled
 		}
 
+		if r.LastMaintenanceRunId != nil {
+			autonomousVmCluster["last_maintenance_run_id"] = *r.LastMaintenanceRunId
+		}
+
 		autonomousVmCluster["license_model"] = r.LicenseModel
 
 		if r.LifecycleDetails != nil {
 			autonomousVmCluster["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.MaintenanceWindow != nil {
+			autonomousVmCluster["maintenance_window"] = []interface{}{MaintenanceWindowToMap(r.MaintenanceWindow)}
+		} else {
+			autonomousVmCluster["maintenance_window"] = nil
+		}
+
+		if r.MemoryPerOracleComputeUnitInGBs != nil {
+			autonomousVmCluster["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
+		}
+
 		if r.MemorySizeInGBs != nil {
 			autonomousVmCluster["memory_size_in_gbs"] = *r.MemorySizeInGBs
+		}
+
+		if r.NextMaintenanceRunId != nil {
+			autonomousVmCluster["next_maintenance_run_id"] = *r.NextMaintenanceRunId
 		}
 
 		if r.OcpusEnabled != nil {
@@ -187,6 +213,10 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		if r.TimeZone != nil {
 			autonomousVmCluster["time_zone"] = *r.TimeZone
+		}
+
+		if r.TotalContainerDatabases != nil {
+			autonomousVmCluster["total_container_databases"] = *r.TotalContainerDatabases
 		}
 
 		if r.VmClusterNetworkId != nil {

@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v61/common"
-	oci_database "github.com/oracle/oci-go-sdk/v61/database"
+	"github.com/oracle/oci-go-sdk/v62/common"
+	oci_database "github.com/oracle/oci-go-sdk/v62/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -59,6 +59,19 @@ var (
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"ntp":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.20`}, Update: []string{`192.168.10.22`}},
 	}
+
+	vmClusterNetwork2Representation = map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `testVmClusterNw`},
+		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
+		"scans":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterNetwork2ScansRepresentation},
+		"vm_networks":               []acctest.RepresentationGroup{{RepType: acctest.Required, Group: vmClusterNetwork2BackupVmNetworkRepresentation}, {RepType: acctest.Required, Group: vmClusterNetwork2ClientVmNetworkRepresentation}},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"dns":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.10`}, Update: []string{`192.168.10.12`}},
+		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"ntp":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.20`}, Update: []string{`192.168.10.22`}},
+	}
+
 	vmClusterNetworkScansRepresentation = map[string]interface{}{
 		"hostname":                   acctest.Representation{RepType: acctest.Required, Create: `myprefix1-ivmmj-scan`, Update: `myprefix2-ivmmj-scan`},
 		"ips":                        acctest.Representation{RepType: acctest.Required, Create: []string{`192.168.19.7`, `192.168.19.6`, `192.168.19.8`}, Update: []string{`192.168.19.7`, `192.168.19.8`, `192.168.19.9`}},
@@ -66,6 +79,15 @@ var (
 		"scan_listener_port_tcp":     acctest.Representation{RepType: acctest.Optional, Create: `1521`, Update: `1522`},
 		"scan_listener_port_tcp_ssl": acctest.Representation{RepType: acctest.Optional, Create: `2484`, Update: `2484`},
 	}
+
+	vmClusterNetwork2ScansRepresentation = map[string]interface{}{
+		"hostname":                   acctest.Representation{RepType: acctest.Required, Create: `myprefix4-ivmmj-scan`, Update: `myprefix3-ivmmj-scan`},
+		"ips":                        acctest.Representation{RepType: acctest.Required, Create: []string{`192.168.19.26`, `192.168.19.27`, `192.168.19.28`}, Update: []string{`192.168.19.27`, `192.168.19.28`, `192.168.19.29`}},
+		"port":                       acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
+		"scan_listener_port_tcp":     acctest.Representation{RepType: acctest.Optional, Create: `1521`, Update: `1522`},
+		"scan_listener_port_tcp_ssl": acctest.Representation{RepType: acctest.Optional, Create: `2484`, Update: `2484`},
+	}
+
 	vmClusterNetworkBackupVmNetworkRepresentation = map[string]interface{}{
 		"domain_name":  acctest.Representation{RepType: acctest.Required, Create: `oracle.com`, Update: `oracle.com`},
 		"gateway":      acctest.Representation{RepType: acctest.Required, Create: `192.169.20.1`, Update: `192.169.20.2`},
@@ -74,6 +96,16 @@ var (
 		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: vmClusterNetworkVmNetworksBackupNodes1Representation}, {RepType: acctest.Required, Group: vmClusterNetworkVmNetworksBackupNodes2Representation}},
 		"vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `100`},
 	}
+
+	vmClusterNetwork2BackupVmNetworkRepresentation = map[string]interface{}{
+		"domain_name":  acctest.Representation{RepType: acctest.Required, Create: `oracle.com`, Update: `oracle.com`},
+		"gateway":      acctest.Representation{RepType: acctest.Required, Create: `192.169.20.2`, Update: `192.169.20.3`},
+		"netmask":      acctest.Representation{RepType: acctest.Required, Create: `255.255.0.0`, Update: `255.255.192.0`},
+		"network_type": acctest.Representation{RepType: acctest.Required, Create: `BACKUP`, Update: `BACKUP`},
+		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: vmClusterNetwork2VmNetworksBackupNodes1Representation}, {RepType: acctest.Required, Group: vmClusterNetwork2VmNetworksBackupNodes2Representation}},
+		"vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `100`},
+	}
+
 	vmClusterNetworkClientVmNetworkRepresentation = map[string]interface{}{
 		"domain_name":  acctest.Representation{RepType: acctest.Required, Create: `oracle.com`, Update: `oracle.com`},
 		"gateway":      acctest.Representation{RepType: acctest.Required, Create: `192.168.20.1`, Update: `192.168.20.2`},
@@ -82,18 +114,44 @@ var (
 		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: vmClusterNetworkVmNetworksClientNodes1Representation}, {RepType: acctest.Required, Group: vmClusterNetworkVmNetworksClientNodes2Representation}},
 		"vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `101`},
 	}
+
+	vmClusterNetwork2ClientVmNetworkRepresentation = map[string]interface{}{
+		"domain_name":  acctest.Representation{RepType: acctest.Required, Create: `oracle.com`, Update: `oracle.com`},
+		"gateway":      acctest.Representation{RepType: acctest.Required, Create: `192.168.20.2`, Update: `192.168.20.3`},
+		"netmask":      acctest.Representation{RepType: acctest.Required, Create: `255.255.0.0`, Update: `255.255.192.0`},
+		"network_type": acctest.Representation{RepType: acctest.Required, Create: `CLIENT`, Update: `CLIENT`},
+		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: vmClusterNetwork2VmNetworksClientNodes1Representation}, {RepType: acctest.Required, Group: vmClusterNetwork2VmNetworksClientNodes2Representation}},
+		"vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `101`},
+	}
+
 	vmClusterNetworkVmNetworksClientNodes1Representation = map[string]interface{}{
 		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb21`, Update: `myprefix2-xapb22`},
 		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.10`, Update: `192.168.19.11`},
 		"vip":          acctest.Representation{RepType: acctest.Required, Create: `192.168.19.12`, Update: `192.168.19.13`},
 		"vip_hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb21-vip`, Update: `myprefix2-xapb22-vip`},
 	}
+
+	vmClusterNetwork2VmNetworksClientNodes1Representation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb31`, Update: `myprefix2-xapb32`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.18`, Update: `192.168.19.19`},
+		"vip":          acctest.Representation{RepType: acctest.Required, Create: `192.168.19.20`, Update: `192.168.19.21`},
+		"vip_hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb31-vip`, Update: `myprefix2-xapb32-vip`},
+	}
+
 	vmClusterNetworkVmNetworksClientNodes2Representation = map[string]interface{}{
 		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb25`, Update: `myprefix2-xapb26`},
 		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.14`, Update: `192.168.19.15`},
 		"vip":          acctest.Representation{RepType: acctest.Required, Create: `192.168.19.16`, Update: `192.168.19.17`},
 		"vip_hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb25-vip`, Update: `myprefix2-xapb26-vip`},
 	}
+
+	vmClusterNetwork2VmNetworksClientNodes2Representation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb35`, Update: `myprefix2-xapb36`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.22`, Update: `192.168.19.23`},
+		"vip":          acctest.Representation{RepType: acctest.Required, Create: `192.168.19.24`, Update: `192.168.19.25`},
+		"vip_hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb35-vip`, Update: `myprefix2-xapb36-vip`},
+	}
+
 	vmClusterNetworkVmNetworksBackupNodes1Representation = map[string]interface{}{
 		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb23`, Update: `myprefix2-xapb24`},
 		"ip":       acctest.Representation{RepType: acctest.Required, Create: `192.169.19.18`, Update: `192.169.19.19`},
@@ -101,6 +159,16 @@ var (
 	vmClusterNetworkVmNetworksBackupNodes2Representation = map[string]interface{}{
 		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb27`, Update: `myprefix2-xapb28`},
 		"ip":       acctest.Representation{RepType: acctest.Required, Create: `192.169.19.20`, Update: `192.169.19.21`},
+	}
+
+	vmClusterNetwork2VmNetworksBackupNodes1Representation = map[string]interface{}{
+		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb33`, Update: `myprefix2-xapb34`},
+		"ip":       acctest.Representation{RepType: acctest.Required, Create: `192.169.19.22`, Update: `192.169.19.23`},
+	}
+
+	vmClusterNetwork2VmNetworksBackupNodes2Representation = map[string]interface{}{
+		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb37`, Update: `myprefix2-xapb38`},
+		"ip":       acctest.Representation{RepType: acctest.Required, Create: `192.169.19.24`, Update: `192.169.19.25`},
 	}
 
 	activationFilePath, _ = createTmpActivationFile()

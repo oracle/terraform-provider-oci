@@ -18,7 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v61/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v62/identity"
 )
 
 func IdentityAuthTokenResource() *schema.Resource {

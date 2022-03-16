@@ -1,3 +1,17 @@
+## 4.68.0 (Unreleased)
+
+### Added
+- Support for Multi Autonomous VM Clusters in ExaCC
+- Management Agent Support for Unlimited key and package types
+- NLB IPv6 examples
+- Support for Data Safe Discovery and Masking
+- Support for DBM Storage_Management
+- Support for Data Safe audit and alert
+- Routing tags for database_tools tests
+### Bug Fix
+- Handle timeout for oke create request
+- AutoScaling documentation update
+
 ## 4.67.0 (March 10, 2022)
 
 ### Added

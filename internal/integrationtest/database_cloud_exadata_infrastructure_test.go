@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v61/common"
-	oci_database "github.com/oracle/oci-go-sdk/v61/database"
+	"github.com/oracle/oci-go-sdk/v62/common"
+	oci_database "github.com/oracle/oci-go-sdk/v62/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -32,6 +32,7 @@ var (
 	CloudExadataInfrastructureResourceConfig = CloudExadataInfrastructureResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Update, cloudExadataInfrastructureRepresentation)
 
+	PeerCeiRepresentation                                      = acctest.GetUpdatedRepresentationCopy("display_name", acctest.Representation{RepType: acctest.Required, Create: "peerCEInfra"}, cloudExadataInfrastructureRepresentation)
 	cloudExadataInfrastructureSingularDataSourceRepresentation = map[string]interface{}{
 		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
 	}

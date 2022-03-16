@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v61/datasafe"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v62/datasafe"
 )
 
 func DataSafeTargetDatabaseDataSource() *schema.Resource {
@@ -65,6 +65,8 @@ func (s *DataSafeTargetDatabaseDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	s.D.Set("associated_resource_ids", s.Res.AssociatedResourceIds)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

@@ -62,11 +62,11 @@ The following arguments are supported:
 * `is_schedule_assessment` - (Optional) A filter to return only security assessments of type save schedule. 
 * `schedule_assessment_id` - (Optional) The OCID of the security assessment of type SAVE_SCHEDULE.
 * `state` - (Optional) A filter to return only resources that match the specified lifecycle state.
-* `target_id` - (Optional) A filter to return only items that match the specified target.
-* `time_created_greater_than_or_equal_to` - (Optional) A filter to return only security assessments that were created after the specified date and time, as defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Using TimeCreatedGreaterThanOrEqualToQueryParam parameter retrieves all assessments created after that date.
+* `target_id` - (Optional) A filter to return only items related to a specific target OCID.
+* `time_created_greater_than_or_equal_to` - (Optional) A filter to return only the resources that were created after the specified date and time, as defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Using TimeCreatedGreaterThanOrEqualToQueryParam parameter retrieves all resources created after that date.
 
 	**Example:** 2016-12-19T16:39:57.600Z 
-* `time_created_less_than` - (Optional) Search for items that were created before a specific date. Specifying this parameter corresponding `timeCreatedLessThan` parameter will retrieve all items created before the specified created date, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339.
+* `time_created_less_than` - (Optional) Search for resources that were created before a specific date. Specifying this parameter corresponding `timeCreatedLessThan` parameter will retrieve all resources created before the specified created date, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339.
 
 	**Example:** 2016-12-19T16:39:57.600Z 
 * `triggered_by` - (Optional) A filter to return only security asessments that were created by either user or system.

@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v61/database"
+	oci_database "github.com/oracle/oci-go-sdk/v62/database"
 )
 
 func DatabaseDatabaseSoftwareImageResource() *schema.Resource {

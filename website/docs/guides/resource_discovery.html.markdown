@@ -439,6 +439,22 @@ data_safe
 * oci\_data\_safe\_target\_database
 * oci\_data\_safe\_security\_assessment
 * oci\_data\_safe\_user\_assessment
+* oci\_data\_safe\_unset\_security\_assessment\_baseline
+* oci\_data\_safe\_report\_definition
+* oci\_data\_safe\_audit\_trail
+* oci\_data\_safe\_alert
+* oci\_data\_safe\_audit\_archive\_retrieval
+* oci\_data\_safe\_audit\_profile
+* oci\_data\_safe\_audit\_policy
+* oci\_data\_safe\_target\_alert\_policy\_association
+* oci\_data\_safe\_sensitive\_type
+* oci\_data\_safe\_masking\_policy
+* oci\_data\_safe\_masking\_policies\_masking\_column
+* oci\_data\_safe\_library\_masking\_format
+* oci\_data\_safe\_sensitive\_data\_model
+* oci\_data\_safe\_sensitive\_data\_models\_sensitive\_column
+* oci\_data\_safe\_discovery\_jobs\_result
+* oci\_data\_safe\_discovery\_job
 
 database
     

@@ -16,6 +16,13 @@ import (
 
 type ConfigFunc func(d *schema.ResourceData) (interface{}, error)
 
+var (
+	GetEnvSettingWithDefaultVar      = utils.GetEnvSettingWithDefault
+	GetEnvSettingWithBlankDefaultVar = utils.GetEnvSettingWithBlankDefault
+	osMkdirAllVar                    = os.MkdirAll
+	utilsWriteTempFileVar            = utils.WriteTempFile
+)
+
 func init() {
 	TestAccProvider = ProviderTestCopy(func(d *schema.ResourceData) (interface{}, error) {
 		return GetTestClients(d), nil
@@ -32,10 +39,10 @@ func assertEnvAvailable(envVar string, t *testing.T) {
 	}
 }
 
-func GetCompartmentIDForLegacyTests() string {
+var GetCompartmentIDForLegacyTests = func() string {
 	var compartmentId string
-	if compartmentId = utils.GetEnvSettingWithDefault("compartment_ocid", "compartment_ocid"); compartmentId == "compartment_ocid" {
-		compartmentId = utils.GetEnvSettingWithBlankDefault("compartment_id_for_create")
+	if compartmentId = GetEnvSettingWithDefaultVar("compartment_ocid", "compartment_ocid"); compartmentId == "compartment_ocid" {
+		compartmentId = GetEnvSettingWithBlankDefaultVar("compartment_id_for_create")
 	}
 	return compartmentId
 }
@@ -113,11 +120,11 @@ security_token_file=%s
 `
 	keyPath := path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName, "oci_api_key.pem")
 	configPath := path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName, globalvar.DefaultConfigFileName)
-	err := os.MkdirAll(path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName), 0700)
+	err := osMkdirAllVar(path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName), 0700)
 	if err != nil {
 		return "", "", err
 	}
-	err = utils.WriteTempFile(testPrivateKey, keyPath)
+	err = utilsWriteTempFileVar(testPrivateKey, keyPath)
 	if err != nil {
 		return "", "", err
 	}

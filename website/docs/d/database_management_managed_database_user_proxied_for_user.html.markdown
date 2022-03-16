@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_management_managed_database_user_proxied_for_user
 This data source provides details about a specific Managed Database User Proxied For User resource in Oracle Cloud Infrastructure Database Management service.
 
-Gets the list of Users for which the current user acts as proxy.
+Gets the list of users on whose behalf the current user acts as proxy.
 
 ## Example Usage
 
@@ -38,8 +38,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `items` - An array of User resources.
-	* `authentication` - Indicates whether the proxy is required to supply the client credentials (YES) or not (NO)
-	* `flags` - Flags associated with the proxy/client pair
-	* `name` - The name of a proxy user or name of the user who the proxy user can act as
+* `items` - An array of user resources.
+	* `authentication` - Indicates whether the proxy is required to supply the client credentials (YES) or not (NO).
+	* `flags` - The flags associated with the proxy/client pair.
+	* `name` - The name of a proxy user or the name of the client user.
 

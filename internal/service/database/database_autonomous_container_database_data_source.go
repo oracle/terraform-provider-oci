@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v61/database"
+	oci_database "github.com/oracle/oci-go-sdk/v62/database"
 )
 
 func DatabaseAutonomousContainerDatabaseDataSource() *schema.Resource {
@@ -146,6 +146,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("maintenance_window", []interface{}{MaintenanceWindowToMap(s.Res.MaintenanceWindow)})
 	} else {
 		s.D.Set("maintenance_window", nil)
+	}
+
+	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
+		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
 
 	if s.Res.NextMaintenanceRunId != nil {

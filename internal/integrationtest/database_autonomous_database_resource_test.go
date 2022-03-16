@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
-	oci_database "github.com/oracle/oci-go-sdk/v61/database"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_database "github.com/oracle/oci-go-sdk/v62/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -1845,6 +1845,7 @@ func TestResourceDatabaseExaccAutonomousDatabaseResource_dataGuard(t *testing.T)
 				resource.TestCheckResourceAttr(resourceName, "is_access_control_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "are_primary_whitelisted_ips_used", "true"),
 				resource.TestCheckResourceAttr(resourceName, "standby_whitelisted_ips.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "memory_per_oracle_compute_unit_in_gbs"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")

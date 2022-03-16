@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -29,6 +29,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment4", acctest.Required, acctest.Create, userAssessmentRepresentation)
 )
 
+// issue-routing-tag: data_safe/default
 func TestDataSafeUserAssessmentComparisonResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeUserAssessmentComparisonResource_basic")
 	defer httpreplay.SaveScenario()

@@ -16,8 +16,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v61/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v61/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v62/datasafe"
 )
 
 func DataSafeDataSafeConfigurationResource() *schema.Resource {
@@ -42,6 +42,46 @@ func DataSafeDataSafeConfigurationResource() *schema.Resource {
 			},
 
 			// Computed
+			"data_safe_nat_gateway_ip_address": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"defined_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"global_settings": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"is_paid_usage": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"offline_retention_period": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"online_retention_period": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
+			},
+
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -305,6 +345,22 @@ func (s *DataSafeDataSafeConfigurationResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DataSafeNatGatewayIpAddress != nil {
+		s.D.Set("data_safe_nat_gateway_ip_address", *s.Res.DataSafeNatGatewayIpAddress)
+	}
+
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.GlobalSettings != nil {
+		s.D.Set("global_settings", []interface{}{GlobalSettingsToMap(s.Res.GlobalSettings)})
+	} else {
+		s.D.Set("global_settings", nil)
+	}
+
 	if s.Res.IsEnabled != nil {
 		s.D.Set("is_enabled", *s.Res.IsEnabled)
 	}
@@ -320,4 +376,22 @@ func (s *DataSafeDataSafeConfigurationResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func GlobalSettingsToMap(obj *oci_data_safe.GlobalSettings) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsPaidUsage != nil {
+		result["is_paid_usage"] = bool(*obj.IsPaidUsage)
+	}
+
+	if obj.OfflineRetentionPeriod != nil {
+		result["offline_retention_period"] = int(*obj.OfflineRetentionPeriod)
+	}
+
+	if obj.OnlineRetentionPeriod != nil {
+		result["online_retention_period"] = int(*obj.OnlineRetentionPeriod)
+	}
+
+	return result
 }

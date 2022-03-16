@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v61/common"
-	oci_database "github.com/oracle/oci-go-sdk/v61/database"
+	"github.com/oracle/oci-go-sdk/v62/common"
+	oci_database "github.com/oracle/oci-go-sdk/v62/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -642,6 +642,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.is_refreshable_clone"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.kms_key_id"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.license_model", "LICENSE_INCLUDED"),
+				// memory_per_oracle_compute_unit_in_gbs is used by only Exacc at the moment
+				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.memory_per_oracle_compute_unit_in_gbs"),
+				//resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.ocpu_count", 1.1),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.open_mode"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.operations_insights_status"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.database_management_status"),
@@ -700,6 +703,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_dedicated", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_preview"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
+				// @Codegen:  memory_per_oracle_compute_unit_in_gbs is used only by exacc at the moment
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "memory_per_oracle_compute_unit_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "open_mode"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "operations_insights_status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_management_status"),
