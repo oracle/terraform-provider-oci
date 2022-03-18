@@ -36,8 +36,7 @@ type CreateDeploymentDetails struct {
 	// Indicates if auto scaling is enabled for the Deployment's CPU core count.
 	IsAutoScalingEnabled *bool `mandatory:"true" json:"isAutoScalingEnabled"`
 
-	// The type of deployment, the value determines the exact 'type' of service executed in the Deployment. NOTE: Use of the value OGG is maintained for backward compatibility purposes.  Its use is discouraged
-	//       in favor of the equivalent DATABASE_ORACLE value.
+	// The deployment type.
 	DeploymentType DeploymentTypeEnum `mandatory:"true" json:"deploymentType"`
 
 	// Metadata about this specific object.

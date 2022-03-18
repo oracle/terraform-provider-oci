@@ -67,6 +67,9 @@ type ListDatabaseInsightsRequest struct {
 	// A flag to search all resources within a given compartment and all sub-compartments.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
+	// Unique Operations Insights PrivateEndpoint identifier
+	OpsiPrivateEndpointId *string `mandatory:"false" contributesTo:"query" name:"opsiPrivateEndpointId"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -179,30 +182,57 @@ type ListDatabaseInsightsDatabaseTypeEnum string
 
 // Set of constants representing the allowable values for ListDatabaseInsightsDatabaseTypeEnum
 const (
-	ListDatabaseInsightsDatabaseTypeAdwS           ListDatabaseInsightsDatabaseTypeEnum = "ADW-S"
-	ListDatabaseInsightsDatabaseTypeAtpS           ListDatabaseInsightsDatabaseTypeEnum = "ATP-S"
-	ListDatabaseInsightsDatabaseTypeAdwD           ListDatabaseInsightsDatabaseTypeEnum = "ADW-D"
-	ListDatabaseInsightsDatabaseTypeAtpD           ListDatabaseInsightsDatabaseTypeEnum = "ATP-D"
-	ListDatabaseInsightsDatabaseTypeExternalPdb    ListDatabaseInsightsDatabaseTypeEnum = "EXTERNAL-PDB"
-	ListDatabaseInsightsDatabaseTypeExternalNoncdb ListDatabaseInsightsDatabaseTypeEnum = "EXTERNAL-NONCDB"
+	ListDatabaseInsightsDatabaseTypeAdwS                 ListDatabaseInsightsDatabaseTypeEnum = "ADW-S"
+	ListDatabaseInsightsDatabaseTypeAtpS                 ListDatabaseInsightsDatabaseTypeEnum = "ATP-S"
+	ListDatabaseInsightsDatabaseTypeAdwD                 ListDatabaseInsightsDatabaseTypeEnum = "ADW-D"
+	ListDatabaseInsightsDatabaseTypeAtpD                 ListDatabaseInsightsDatabaseTypeEnum = "ATP-D"
+	ListDatabaseInsightsDatabaseTypeExternalPdb          ListDatabaseInsightsDatabaseTypeEnum = "EXTERNAL-PDB"
+	ListDatabaseInsightsDatabaseTypeExternalNoncdb       ListDatabaseInsightsDatabaseTypeEnum = "EXTERNAL-NONCDB"
+	ListDatabaseInsightsDatabaseTypeComanagedVmCdb       ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-VM-CDB"
+	ListDatabaseInsightsDatabaseTypeComanagedVmPdb       ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-VM-PDB"
+	ListDatabaseInsightsDatabaseTypeComanagedVmNoncdb    ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-VM-NONCDB"
+	ListDatabaseInsightsDatabaseTypeComanagedBmCdb       ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-BM-CDB"
+	ListDatabaseInsightsDatabaseTypeComanagedBmPdb       ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-BM-PDB"
+	ListDatabaseInsightsDatabaseTypeComanagedBmNoncdb    ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-BM-NONCDB"
+	ListDatabaseInsightsDatabaseTypeComanagedExacsCdb    ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-EXACS-CDB"
+	ListDatabaseInsightsDatabaseTypeComanagedExacsPdb    ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-EXACS-PDB"
+	ListDatabaseInsightsDatabaseTypeComanagedExacsNoncdb ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-EXACS-NONCDB"
 )
 
 var mappingListDatabaseInsightsDatabaseTypeEnum = map[string]ListDatabaseInsightsDatabaseTypeEnum{
-	"ADW-S":           ListDatabaseInsightsDatabaseTypeAdwS,
-	"ATP-S":           ListDatabaseInsightsDatabaseTypeAtpS,
-	"ADW-D":           ListDatabaseInsightsDatabaseTypeAdwD,
-	"ATP-D":           ListDatabaseInsightsDatabaseTypeAtpD,
-	"EXTERNAL-PDB":    ListDatabaseInsightsDatabaseTypeExternalPdb,
-	"EXTERNAL-NONCDB": ListDatabaseInsightsDatabaseTypeExternalNoncdb,
+	"ADW-S":                  ListDatabaseInsightsDatabaseTypeAdwS,
+	"ATP-S":                  ListDatabaseInsightsDatabaseTypeAtpS,
+	"ADW-D":                  ListDatabaseInsightsDatabaseTypeAdwD,
+	"ATP-D":                  ListDatabaseInsightsDatabaseTypeAtpD,
+	"EXTERNAL-PDB":           ListDatabaseInsightsDatabaseTypeExternalPdb,
+	"EXTERNAL-NONCDB":        ListDatabaseInsightsDatabaseTypeExternalNoncdb,
+	"COMANAGED-VM-CDB":       ListDatabaseInsightsDatabaseTypeComanagedVmCdb,
+	"COMANAGED-VM-PDB":       ListDatabaseInsightsDatabaseTypeComanagedVmPdb,
+	"COMANAGED-VM-NONCDB":    ListDatabaseInsightsDatabaseTypeComanagedVmNoncdb,
+	"COMANAGED-BM-CDB":       ListDatabaseInsightsDatabaseTypeComanagedBmCdb,
+	"COMANAGED-BM-PDB":       ListDatabaseInsightsDatabaseTypeComanagedBmPdb,
+	"COMANAGED-BM-NONCDB":    ListDatabaseInsightsDatabaseTypeComanagedBmNoncdb,
+	"COMANAGED-EXACS-CDB":    ListDatabaseInsightsDatabaseTypeComanagedExacsCdb,
+	"COMANAGED-EXACS-PDB":    ListDatabaseInsightsDatabaseTypeComanagedExacsPdb,
+	"COMANAGED-EXACS-NONCDB": ListDatabaseInsightsDatabaseTypeComanagedExacsNoncdb,
 }
 
 var mappingListDatabaseInsightsDatabaseTypeEnumLowerCase = map[string]ListDatabaseInsightsDatabaseTypeEnum{
-	"adw-s":           ListDatabaseInsightsDatabaseTypeAdwS,
-	"atp-s":           ListDatabaseInsightsDatabaseTypeAtpS,
-	"adw-d":           ListDatabaseInsightsDatabaseTypeAdwD,
-	"atp-d":           ListDatabaseInsightsDatabaseTypeAtpD,
-	"external-pdb":    ListDatabaseInsightsDatabaseTypeExternalPdb,
-	"external-noncdb": ListDatabaseInsightsDatabaseTypeExternalNoncdb,
+	"adw-s":                  ListDatabaseInsightsDatabaseTypeAdwS,
+	"atp-s":                  ListDatabaseInsightsDatabaseTypeAtpS,
+	"adw-d":                  ListDatabaseInsightsDatabaseTypeAdwD,
+	"atp-d":                  ListDatabaseInsightsDatabaseTypeAtpD,
+	"external-pdb":           ListDatabaseInsightsDatabaseTypeExternalPdb,
+	"external-noncdb":        ListDatabaseInsightsDatabaseTypeExternalNoncdb,
+	"comanaged-vm-cdb":       ListDatabaseInsightsDatabaseTypeComanagedVmCdb,
+	"comanaged-vm-pdb":       ListDatabaseInsightsDatabaseTypeComanagedVmPdb,
+	"comanaged-vm-noncdb":    ListDatabaseInsightsDatabaseTypeComanagedVmNoncdb,
+	"comanaged-bm-cdb":       ListDatabaseInsightsDatabaseTypeComanagedBmCdb,
+	"comanaged-bm-pdb":       ListDatabaseInsightsDatabaseTypeComanagedBmPdb,
+	"comanaged-bm-noncdb":    ListDatabaseInsightsDatabaseTypeComanagedBmNoncdb,
+	"comanaged-exacs-cdb":    ListDatabaseInsightsDatabaseTypeComanagedExacsCdb,
+	"comanaged-exacs-pdb":    ListDatabaseInsightsDatabaseTypeComanagedExacsPdb,
+	"comanaged-exacs-noncdb": ListDatabaseInsightsDatabaseTypeComanagedExacsNoncdb,
 }
 
 // GetListDatabaseInsightsDatabaseTypeEnumValues Enumerates the set of values for ListDatabaseInsightsDatabaseTypeEnum
@@ -223,6 +253,15 @@ func GetListDatabaseInsightsDatabaseTypeEnumStringValues() []string {
 		"ATP-D",
 		"EXTERNAL-PDB",
 		"EXTERNAL-NONCDB",
+		"COMANAGED-VM-CDB",
+		"COMANAGED-VM-PDB",
+		"COMANAGED-VM-NONCDB",
+		"COMANAGED-BM-CDB",
+		"COMANAGED-BM-PDB",
+		"COMANAGED-BM-NONCDB",
+		"COMANAGED-EXACS-CDB",
+		"COMANAGED-EXACS-PDB",
+		"COMANAGED-EXACS-NONCDB",
 	}
 }
 

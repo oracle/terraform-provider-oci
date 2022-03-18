@@ -112,6 +112,8 @@ type CreateDbSystemDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	DeletionPolicy *CreateDeletionPolicyDetails `mandatory:"false" json:"deletionPolicy"`
+
 	// Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled,
 	// and whether to enable or disable syncing of the Binary Logs.
 	CrashRecovery CrashRecoveryStatusEnum `mandatory:"false" json:"crashRecovery,omitempty"`
@@ -158,6 +160,7 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		Maintenance          *CreateMaintenanceDetails         `json:"maintenance"`
 		FreeformTags         map[string]string                 `json:"freeformTags"`
 		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
+		DeletionPolicy       *CreateDeletionPolicyDetails      `json:"deletionPolicy"`
 		CrashRecovery        CrashRecoveryStatusEnum           `json:"crashRecovery"`
 		CompartmentId        *string                           `json:"compartmentId"`
 		ShapeName            *string                           `json:"shapeName"`
@@ -214,6 +217,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.DeletionPolicy = model.DeletionPolicy
 
 	m.CrashRecovery = model.CrashRecovery
 

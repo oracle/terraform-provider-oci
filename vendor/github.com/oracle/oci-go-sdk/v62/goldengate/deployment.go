@@ -36,8 +36,7 @@ type Deployment struct {
 	// Indicates if auto scaling is enabled for the Deployment's CPU core count.
 	IsAutoScalingEnabled *bool `mandatory:"true" json:"isAutoScalingEnabled"`
 
-	// The type of deployment, the value determines the exact 'type' of service executed in the Deployment. NOTE: Use of the value OGG is maintained for backward compatibility purposes.  Its use is discouraged
-	//       in favor of the equivalent DATABASE_ORACLE value.
+	// The deployment type.
 	DeploymentType DeploymentTypeEnum `mandatory:"true" json:"deploymentType"`
 
 	// An object's Display Name.
@@ -102,6 +101,12 @@ type Deployment struct {
 
 	// The date the existing version in use will no longer be considered as usable and an upgrade will be required.  This date is typically 6 months after the version was released for use by GGS.  The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeUpgradeRequired *common.SDKTime `mandatory:"false" json:"timeUpgradeRequired"`
+
+	// The amount of storage being utilized (in bytes)
+	StorageUtilizationInBytes *int64 `mandatory:"false" json:"storageUtilizationInBytes"`
+
+	// Indicator will be true if the amount of storage being utilized exceeds the allowable storage utilization limit.  Exceeding the limit may be an indication of a misconfiguration of the deployment's GoldenGate service.
+	IsStorageUtilizationLimitExceeded *bool `mandatory:"false" json:"isStorageUtilizationLimitExceeded"`
 
 	OggData *OggDeployment `mandatory:"false" json:"oggData"`
 }
