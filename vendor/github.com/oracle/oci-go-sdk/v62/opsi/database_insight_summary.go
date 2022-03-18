@@ -74,28 +74,32 @@ type DatabaseInsightSummary interface {
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	GetLifecycleDetails() *string
+
+	// A message describing the status of the database connection of this resource. For example, it can be used to provide actionable information about the permission and content validity of the database connection.
+	GetDatabaseConnectionStatusDetails() *string
 }
 
 type databaseinsightsummary struct {
-	JsonData            []byte
-	Id                  *string                           `mandatory:"true" json:"id"`
-	DatabaseId          *string                           `mandatory:"true" json:"databaseId"`
-	CompartmentId       *string                           `mandatory:"false" json:"compartmentId"`
-	DatabaseName        *string                           `mandatory:"false" json:"databaseName"`
-	DatabaseDisplayName *string                           `mandatory:"false" json:"databaseDisplayName"`
-	DatabaseType        *string                           `mandatory:"false" json:"databaseType"`
-	DatabaseVersion     *string                           `mandatory:"false" json:"databaseVersion"`
-	DatabaseHostNames   []string                          `mandatory:"false" json:"databaseHostNames"`
-	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags          map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	ProcessorCount      *int                              `mandatory:"false" json:"processorCount"`
-	Status              ResourceStatusEnum                `mandatory:"false" json:"status,omitempty"`
-	TimeCreated         *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
-	TimeUpdated         *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	LifecycleState      LifecycleStateEnum                `mandatory:"false" json:"lifecycleState,omitempty"`
-	LifecycleDetails    *string                           `mandatory:"false" json:"lifecycleDetails"`
-	EntitySource        string                            `json:"entitySource"`
+	JsonData                        []byte
+	Id                              *string                           `mandatory:"true" json:"id"`
+	DatabaseId                      *string                           `mandatory:"true" json:"databaseId"`
+	CompartmentId                   *string                           `mandatory:"false" json:"compartmentId"`
+	DatabaseName                    *string                           `mandatory:"false" json:"databaseName"`
+	DatabaseDisplayName             *string                           `mandatory:"false" json:"databaseDisplayName"`
+	DatabaseType                    *string                           `mandatory:"false" json:"databaseType"`
+	DatabaseVersion                 *string                           `mandatory:"false" json:"databaseVersion"`
+	DatabaseHostNames               []string                          `mandatory:"false" json:"databaseHostNames"`
+	FreeformTags                    map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags                     map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags                      map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	ProcessorCount                  *int                              `mandatory:"false" json:"processorCount"`
+	Status                          ResourceStatusEnum                `mandatory:"false" json:"status,omitempty"`
+	TimeCreated                     *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
+	TimeUpdated                     *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	LifecycleState                  LifecycleStateEnum                `mandatory:"false" json:"lifecycleState,omitempty"`
+	LifecycleDetails                *string                           `mandatory:"false" json:"lifecycleDetails"`
+	DatabaseConnectionStatusDetails *string                           `mandatory:"false" json:"databaseConnectionStatusDetails"`
+	EntitySource                    string                            `json:"entitySource"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -126,6 +130,7 @@ func (m *databaseinsightsummary) UnmarshalJSON(data []byte) error {
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.LifecycleState = s.Model.LifecycleState
 	m.LifecycleDetails = s.Model.LifecycleDetails
+	m.DatabaseConnectionStatusDetails = s.Model.DatabaseConnectionStatusDetails
 	m.EntitySource = s.Model.EntitySource
 
 	return err
@@ -146,6 +151,10 @@ func (m *databaseinsightsummary) UnmarshalPolymorphicJSON(data []byte) (interfac
 		return mm, err
 	case "AUTONOMOUS_DATABASE":
 		mm := AutonomousDatabaseInsightSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "PE_COMANAGED_DATABASE":
+		mm := PeComanagedDatabaseInsightSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "EM_MANAGED_EXTERNAL_DATABASE":
@@ -240,6 +249,11 @@ func (m databaseinsightsummary) GetLifecycleState() LifecycleStateEnum {
 //GetLifecycleDetails returns LifecycleDetails
 func (m databaseinsightsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+//GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
+func (m databaseinsightsummary) GetDatabaseConnectionStatusDetails() *string {
+	return m.DatabaseConnectionStatusDetails
 }
 
 func (m databaseinsightsummary) String() string {

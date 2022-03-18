@@ -116,6 +116,10 @@ func (m *databaseconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := MacsManagedExternalDatabaseConfigurationSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PE_COMANAGED_DATABASE":
+		mm := PeComanagedManagedExternalDatabaseConfigurationSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}

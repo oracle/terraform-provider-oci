@@ -72,6 +72,9 @@ type EmManagedExternalDatabaseInsight struct {
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// A message describing the status of the database connection of this resource. For example, it can be used to provide actionable information about the permission and content validity of the database connection.
+	DatabaseConnectionStatusDetails *string `mandatory:"false" json:"databaseConnectionStatusDetails"`
+
 	// Enterprise Manager Entity Display Name
 	EnterpriseManagerEntityDisplayName *string `mandatory:"false" json:"enterpriseManagerEntityDisplayName"`
 
@@ -148,6 +151,11 @@ func (m EmManagedExternalDatabaseInsight) GetLifecycleState() LifecycleStateEnum
 //GetLifecycleDetails returns LifecycleDetails
 func (m EmManagedExternalDatabaseInsight) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+//GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
+func (m EmManagedExternalDatabaseInsight) GetDatabaseConnectionStatusDetails() *string {
+	return m.DatabaseConnectionStatusDetails
 }
 
 func (m EmManagedExternalDatabaseInsight) String() string {

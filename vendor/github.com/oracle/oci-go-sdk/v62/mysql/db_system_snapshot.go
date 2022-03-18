@@ -38,6 +38,8 @@ type DbSystemSnapshot struct {
 
 	Maintenance *MaintenanceDetails `mandatory:"true" json:"maintenance"`
 
+	DeletionPolicy *DeletionPolicyDetails `mandatory:"true" json:"deletionPolicy"`
+
 	// User-provided data about the DB System.
 	Description *string `mandatory:"false" json:"description"`
 

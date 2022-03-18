@@ -21,14 +21,17 @@ type DatabaseEntitySourceEnum string
 // Set of constants representing the allowable values for DatabaseEntitySourceEnum
 const (
 	DatabaseEntitySourceEmManagedExternalDatabase DatabaseEntitySourceEnum = "EM_MANAGED_EXTERNAL_DATABASE"
+	DatabaseEntitySourcePeComanagedDatabase       DatabaseEntitySourceEnum = "PE_COMANAGED_DATABASE"
 )
 
 var mappingDatabaseEntitySourceEnum = map[string]DatabaseEntitySourceEnum{
 	"EM_MANAGED_EXTERNAL_DATABASE": DatabaseEntitySourceEmManagedExternalDatabase,
+	"PE_COMANAGED_DATABASE":        DatabaseEntitySourcePeComanagedDatabase,
 }
 
 var mappingDatabaseEntitySourceEnumLowerCase = map[string]DatabaseEntitySourceEnum{
 	"em_managed_external_database": DatabaseEntitySourceEmManagedExternalDatabase,
+	"pe_comanaged_database":        DatabaseEntitySourcePeComanagedDatabase,
 }
 
 // GetDatabaseEntitySourceEnumValues Enumerates the set of values for DatabaseEntitySourceEnum
@@ -44,6 +47,7 @@ func GetDatabaseEntitySourceEnumValues() []DatabaseEntitySourceEnum {
 func GetDatabaseEntitySourceEnumStringValues() []string {
 	return []string{
 		"EM_MANAGED_EXTERNAL_DATABASE",
+		"PE_COMANAGED_DATABASE",
 	}
 }
 

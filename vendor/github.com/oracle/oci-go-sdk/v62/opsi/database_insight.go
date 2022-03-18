@@ -62,24 +62,28 @@ type DatabaseInsight interface {
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	GetLifecycleDetails() *string
+
+	// A message describing the status of the database connection of this resource. For example, it can be used to provide actionable information about the permission and content validity of the database connection.
+	GetDatabaseConnectionStatusDetails() *string
 }
 
 type databaseinsight struct {
-	JsonData         []byte
-	Id               *string                           `mandatory:"true" json:"id"`
-	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
-	Status           ResourceStatusEnum                `mandatory:"true" json:"status"`
-	FreeformTags     map[string]string                 `mandatory:"true" json:"freeformTags"`
-	DefinedTags      map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
-	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
-	LifecycleState   LifecycleStateEnum                `mandatory:"true" json:"lifecycleState"`
-	DatabaseType     *string                           `mandatory:"false" json:"databaseType"`
-	DatabaseVersion  *string                           `mandatory:"false" json:"databaseVersion"`
-	ProcessorCount   *int                              `mandatory:"false" json:"processorCount"`
-	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	TimeUpdated      *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
-	EntitySource     string                            `json:"entitySource"`
+	JsonData                        []byte
+	Id                              *string                           `mandatory:"true" json:"id"`
+	CompartmentId                   *string                           `mandatory:"true" json:"compartmentId"`
+	Status                          ResourceStatusEnum                `mandatory:"true" json:"status"`
+	FreeformTags                    map[string]string                 `mandatory:"true" json:"freeformTags"`
+	DefinedTags                     map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+	TimeCreated                     *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
+	LifecycleState                  LifecycleStateEnum                `mandatory:"true" json:"lifecycleState"`
+	DatabaseType                    *string                           `mandatory:"false" json:"databaseType"`
+	DatabaseVersion                 *string                           `mandatory:"false" json:"databaseVersion"`
+	ProcessorCount                  *int                              `mandatory:"false" json:"processorCount"`
+	SystemTags                      map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	TimeUpdated                     *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails                *string                           `mandatory:"false" json:"lifecycleDetails"`
+	DatabaseConnectionStatusDetails *string                           `mandatory:"false" json:"databaseConnectionStatusDetails"`
+	EntitySource                    string                            `json:"entitySource"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -106,6 +110,7 @@ func (m *databaseinsight) UnmarshalJSON(data []byte) error {
 	m.SystemTags = s.Model.SystemTags
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.LifecycleDetails = s.Model.LifecycleDetails
+	m.DatabaseConnectionStatusDetails = s.Model.DatabaseConnectionStatusDetails
 	m.EntitySource = s.Model.EntitySource
 
 	return err
@@ -126,6 +131,10 @@ func (m *databaseinsight) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		return mm, err
 	case "MACS_MANAGED_EXTERNAL_DATABASE":
 		mm := MacsManagedExternalDatabaseInsight{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "PE_COMANAGED_DATABASE":
+		mm := PeComanagedDatabaseInsight{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AUTONOMOUS_DATABASE":
@@ -200,6 +209,11 @@ func (m databaseinsight) GetTimeUpdated() *common.SDKTime {
 //GetLifecycleDetails returns LifecycleDetails
 func (m databaseinsight) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+//GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
+func (m databaseinsight) GetDatabaseConnectionStatusDetails() *string {
+	return m.DatabaseConnectionStatusDetails
 }
 
 func (m databaseinsight) String() string {

@@ -57,6 +57,10 @@ const (
 	OperationTypeCreateAwrhub                  OperationTypeEnum = "CREATE_AWRHUB"
 	OperationTypeMoveAwrhub                    OperationTypeEnum = "MOVE_AWRHUB"
 	OperationTypeDeleteAwrhub                  OperationTypeEnum = "DELETE_AWRHUB"
+	OperationTypeUpdatePrivateEndpoint         OperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
+	OperationTypeCreatePrivateEndpoint         OperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
+	OperationTypeMovePrivateEndpoint           OperationTypeEnum = "MOVE_PRIVATE_ENDPOINT"
+	OperationTypeDeletePrivateEndpoint         OperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -97,6 +101,10 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_AWRHUB":                    OperationTypeCreateAwrhub,
 	"MOVE_AWRHUB":                      OperationTypeMoveAwrhub,
 	"DELETE_AWRHUB":                    OperationTypeDeleteAwrhub,
+	"UPDATE_PRIVATE_ENDPOINT":          OperationTypeUpdatePrivateEndpoint,
+	"CREATE_PRIVATE_ENDPOINT":          OperationTypeCreatePrivateEndpoint,
+	"MOVE_PRIVATE_ENDPOINT":            OperationTypeMovePrivateEndpoint,
+	"DELETE_PRIVATE_ENDPOINT":          OperationTypeDeletePrivateEndpoint,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -137,6 +145,10 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"create_awrhub":                    OperationTypeCreateAwrhub,
 	"move_awrhub":                      OperationTypeMoveAwrhub,
 	"delete_awrhub":                    OperationTypeDeleteAwrhub,
+	"update_private_endpoint":          OperationTypeUpdatePrivateEndpoint,
+	"create_private_endpoint":          OperationTypeCreatePrivateEndpoint,
+	"move_private_endpoint":            OperationTypeMovePrivateEndpoint,
+	"delete_private_endpoint":          OperationTypeDeletePrivateEndpoint,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -188,6 +200,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"CREATE_AWRHUB",
 		"MOVE_AWRHUB",
 		"DELETE_AWRHUB",
+		"UPDATE_PRIVATE_ENDPOINT",
+		"CREATE_PRIVATE_ENDPOINT",
+		"MOVE_PRIVATE_ENDPOINT",
+		"DELETE_PRIVATE_ENDPOINT",
 	}
 }
 

@@ -248,9 +248,7 @@ github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 ## explicit
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v61 v61.0.0
-## explicit; go 1.13
-# github.com/oracle/oci-go-sdk/v62 v62.0.0
+# github.com/oracle/oci-go-sdk/v62 v62.0.0 => ./vendor/github.com/oracle/oci-go-sdk
 ## explicit; go 1.13
 github.com/oracle/oci-go-sdk/v62/aianomalydetection
 github.com/oracle/oci-go-sdk/v62/aivision
@@ -575,3 +573,4 @@ gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
 ## explicit
 gopkg.in/yaml.v3
+# github.com/oracle/oci-go-sdk/v62 => ../../oracle/oci-go-sdk

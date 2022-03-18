@@ -66,6 +66,9 @@ type MacsManagedExternalDatabaseInsight struct {
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// A message describing the status of the database connection of this resource. For example, it can be used to provide actionable information about the permission and content validity of the database connection.
+	DatabaseConnectionStatusDetails *string `mandatory:"false" json:"databaseConnectionStatusDetails"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
 	ManagementAgentId *string `mandatory:"false" json:"managementAgentId"`
 
@@ -154,6 +157,11 @@ func (m MacsManagedExternalDatabaseInsight) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
+//GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
+func (m MacsManagedExternalDatabaseInsight) GetDatabaseConnectionStatusDetails() *string {
+	return m.DatabaseConnectionStatusDetails
+}
+
 func (m MacsManagedExternalDatabaseInsight) String() string {
 	return common.PointerString(m)
 }
@@ -193,28 +201,29 @@ func (m MacsManagedExternalDatabaseInsight) MarshalJSON() (buff []byte, e error)
 // UnmarshalJSON unmarshals from json
 func (m *MacsManagedExternalDatabaseInsight) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DatabaseType                *string                           `json:"databaseType"`
-		DatabaseVersion             *string                           `json:"databaseVersion"`
-		ProcessorCount              *int                              `json:"processorCount"`
-		SystemTags                  map[string]map[string]interface{} `json:"systemTags"`
-		TimeUpdated                 *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleDetails            *string                           `json:"lifecycleDetails"`
-		ManagementAgentId           *string                           `json:"managementAgentId"`
-		ConnectorId                 *string                           `json:"connectorId"`
-		ConnectionDetails           *ConnectionDetails                `json:"connectionDetails"`
-		ConnectionCredentialDetails credentialdetails                 `json:"connectionCredentialDetails"`
-		DatabaseDisplayName         *string                           `json:"databaseDisplayName"`
-		DbAdditionalDetails         *interface{}                      `json:"dbAdditionalDetails"`
-		Id                          *string                           `json:"id"`
-		CompartmentId               *string                           `json:"compartmentId"`
-		Status                      ResourceStatusEnum                `json:"status"`
-		FreeformTags                map[string]string                 `json:"freeformTags"`
-		DefinedTags                 map[string]map[string]interface{} `json:"definedTags"`
-		TimeCreated                 *common.SDKTime                   `json:"timeCreated"`
-		LifecycleState              LifecycleStateEnum                `json:"lifecycleState"`
-		DatabaseId                  *string                           `json:"databaseId"`
-		DatabaseName                *string                           `json:"databaseName"`
-		DatabaseResourceType        *string                           `json:"databaseResourceType"`
+		DatabaseType                    *string                           `json:"databaseType"`
+		DatabaseVersion                 *string                           `json:"databaseVersion"`
+		ProcessorCount                  *int                              `json:"processorCount"`
+		SystemTags                      map[string]map[string]interface{} `json:"systemTags"`
+		TimeUpdated                     *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleDetails                *string                           `json:"lifecycleDetails"`
+		DatabaseConnectionStatusDetails *string                           `json:"databaseConnectionStatusDetails"`
+		ManagementAgentId               *string                           `json:"managementAgentId"`
+		ConnectorId                     *string                           `json:"connectorId"`
+		ConnectionDetails               *ConnectionDetails                `json:"connectionDetails"`
+		ConnectionCredentialDetails     credentialdetails                 `json:"connectionCredentialDetails"`
+		DatabaseDisplayName             *string                           `json:"databaseDisplayName"`
+		DbAdditionalDetails             *interface{}                      `json:"dbAdditionalDetails"`
+		Id                              *string                           `json:"id"`
+		CompartmentId                   *string                           `json:"compartmentId"`
+		Status                          ResourceStatusEnum                `json:"status"`
+		FreeformTags                    map[string]string                 `json:"freeformTags"`
+		DefinedTags                     map[string]map[string]interface{} `json:"definedTags"`
+		TimeCreated                     *common.SDKTime                   `json:"timeCreated"`
+		LifecycleState                  LifecycleStateEnum                `json:"lifecycleState"`
+		DatabaseId                      *string                           `json:"databaseId"`
+		DatabaseName                    *string                           `json:"databaseName"`
+		DatabaseResourceType            *string                           `json:"databaseResourceType"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -233,6 +242,8 @@ func (m *MacsManagedExternalDatabaseInsight) UnmarshalJSON(data []byte) (e error
 	m.TimeUpdated = model.TimeUpdated
 
 	m.LifecycleDetails = model.LifecycleDetails
+
+	m.DatabaseConnectionStatusDetails = model.DatabaseConnectionStatusDetails
 
 	m.ManagementAgentId = model.ManagementAgentId
 

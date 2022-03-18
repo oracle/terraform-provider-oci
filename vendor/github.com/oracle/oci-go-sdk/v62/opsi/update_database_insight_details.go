@@ -72,6 +72,10 @@ func (m *updatedatabaseinsightdetails) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := UpdateEmManagedExternalDatabaseInsightDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PE_COMANAGED_DATABASE":
+		mm := UpdatePeComanagedDatabaseInsightDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AUTONOMOUS_DATABASE":
 		mm := UpdateAutonomousDatabaseInsightDetails{}
 		err = json.Unmarshal(data, &mm)

@@ -186,30 +186,57 @@ type SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum string
 
 // Set of constants representing the allowable values for SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum
 const (
-	SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwS           SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "ADW-S"
-	SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpS           SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "ATP-S"
-	SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwD           SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "ADW-D"
-	SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpD           SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "ATP-D"
-	SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalPdb    SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "EXTERNAL-PDB"
-	SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalNoncdb SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "EXTERNAL-NONCDB"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwS                 SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "ADW-S"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpS                 SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "ATP-S"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwD                 SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "ADW-D"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpD                 SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "ATP-D"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalPdb          SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "EXTERNAL-PDB"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalNoncdb       SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "EXTERNAL-NONCDB"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedVmCdb       SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "COMANAGED-VM-CDB"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedVmPdb       SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "COMANAGED-VM-PDB"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedVmNoncdb    SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "COMANAGED-VM-NONCDB"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedBmCdb       SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "COMANAGED-BM-CDB"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedBmPdb       SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "COMANAGED-BM-PDB"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedBmNoncdb    SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "COMANAGED-BM-NONCDB"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsCdb    SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "COMANAGED-EXACS-CDB"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsPdb    SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "COMANAGED-EXACS-PDB"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsNoncdb SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "COMANAGED-EXACS-NONCDB"
 )
 
 var mappingSummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum{
-	"ADW-S":           SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwS,
-	"ATP-S":           SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpS,
-	"ADW-D":           SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwD,
-	"ATP-D":           SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpD,
-	"EXTERNAL-PDB":    SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalPdb,
-	"EXTERNAL-NONCDB": SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalNoncdb,
+	"ADW-S":                  SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwS,
+	"ATP-S":                  SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpS,
+	"ADW-D":                  SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwD,
+	"ATP-D":                  SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpD,
+	"EXTERNAL-PDB":           SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalPdb,
+	"EXTERNAL-NONCDB":        SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalNoncdb,
+	"COMANAGED-VM-CDB":       SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedVmCdb,
+	"COMANAGED-VM-PDB":       SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedVmPdb,
+	"COMANAGED-VM-NONCDB":    SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedVmNoncdb,
+	"COMANAGED-BM-CDB":       SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedBmCdb,
+	"COMANAGED-BM-PDB":       SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedBmPdb,
+	"COMANAGED-BM-NONCDB":    SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedBmNoncdb,
+	"COMANAGED-EXACS-CDB":    SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsCdb,
+	"COMANAGED-EXACS-PDB":    SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsPdb,
+	"COMANAGED-EXACS-NONCDB": SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsNoncdb,
 }
 
 var mappingSummarizeDatabaseInsightResourceUsageDatabaseTypeEnumLowerCase = map[string]SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum{
-	"adw-s":           SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwS,
-	"atp-s":           SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpS,
-	"adw-d":           SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwD,
-	"atp-d":           SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpD,
-	"external-pdb":    SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalPdb,
-	"external-noncdb": SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalNoncdb,
+	"adw-s":                  SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwS,
+	"atp-s":                  SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpS,
+	"adw-d":                  SummarizeDatabaseInsightResourceUsageDatabaseTypeAdwD,
+	"atp-d":                  SummarizeDatabaseInsightResourceUsageDatabaseTypeAtpD,
+	"external-pdb":           SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalPdb,
+	"external-noncdb":        SummarizeDatabaseInsightResourceUsageDatabaseTypeExternalNoncdb,
+	"comanaged-vm-cdb":       SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedVmCdb,
+	"comanaged-vm-pdb":       SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedVmPdb,
+	"comanaged-vm-noncdb":    SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedVmNoncdb,
+	"comanaged-bm-cdb":       SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedBmCdb,
+	"comanaged-bm-pdb":       SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedBmPdb,
+	"comanaged-bm-noncdb":    SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedBmNoncdb,
+	"comanaged-exacs-cdb":    SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsCdb,
+	"comanaged-exacs-pdb":    SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsPdb,
+	"comanaged-exacs-noncdb": SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsNoncdb,
 }
 
 // GetSummarizeDatabaseInsightResourceUsageDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum
@@ -230,6 +257,15 @@ func GetSummarizeDatabaseInsightResourceUsageDatabaseTypeEnumStringValues() []st
 		"ATP-D",
 		"EXTERNAL-PDB",
 		"EXTERNAL-NONCDB",
+		"COMANAGED-VM-CDB",
+		"COMANAGED-VM-PDB",
+		"COMANAGED-VM-NONCDB",
+		"COMANAGED-BM-CDB",
+		"COMANAGED-BM-PDB",
+		"COMANAGED-BM-NONCDB",
+		"COMANAGED-EXACS-CDB",
+		"COMANAGED-EXACS-PDB",
+		"COMANAGED-EXACS-NONCDB",
 	}
 }
 
