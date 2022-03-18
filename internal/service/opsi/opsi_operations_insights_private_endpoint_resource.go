@@ -16,7 +16,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	oci_common "github.com/oracle/oci-go-sdk/v62/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v62/operationsinsights"
+	oci_opsi "github.com/oracle/oci-go-sdk/v62/opsi"
 )
 
 func OpsiOperationsInsightsPrivateEndpointResource() *schema.Resource {
