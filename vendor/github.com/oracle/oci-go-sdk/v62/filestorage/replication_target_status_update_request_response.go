@@ -25,13 +25,13 @@ type ReplicationTargetStatusUpdateRequest struct {
 	DeltaState ReplicationTargetStatusUpdateDeltaStateEnum `mandatory:"false" contributesTo:"query" name:"deltaState" omitEmpty:"true"`
 
 	// The `objectNum` of the associated replication.
-	ReplicationNum *int `mandatory:"false" contributesTo:"query" name:"replicationNum"`
+	ReplicationNum *string `mandatory:"false" contributesTo:"query" name:"replicationNum"`
 
 	// The `objectNum` of the start point of the snapshot during replication operations.
-	LastSnapshotNum *int `mandatory:"false" contributesTo:"query" name:"lastSnapshotNum"`
+	LastSnapshotNum *string `mandatory:"false" contributesTo:"query" name:"lastSnapshotNum"`
 
 	// The `objectNum` of the end point of the snapshot during replication operations.
-	NewSnapshotNum *int `mandatory:"false" contributesTo:"query" name:"newSnapshotNum"`
+	NewSnapshotNum *string `mandatory:"false" contributesTo:"query" name:"newSnapshotNum"`
 
 	// The `snapshotTime` of the most recent recoverable replication snapshot.
 	RecoveryPointTime *int `mandatory:"false" contributesTo:"query" name:"recoveryPointTime"`
@@ -40,7 +40,7 @@ type ReplicationTargetStatusUpdateRequest struct {
 	KmsKeyOcid *string `mandatory:"false" contributesTo:"query" name:"kmsKeyOcid"`
 
 	// The total number of bytes in the Snapshot in-flight.
-	DeltaByteCount *int `mandatory:"false" contributesTo:"query" name:"deltaByteCount"`
+	DeltaByteCount *string `mandatory:"false" contributesTo:"query" name:"deltaByteCount"`
 
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.

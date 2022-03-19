@@ -2,10 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Cloud Guard API
+// Cloud Guard and Security Zones API
 //
-// Use the Cloud Guard API to automate processes that you would otherwise perform through the Cloud Guard Console.
-// **Note:** You can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
+// Use the Cloud Guard and Security Zones API to automate processes that you would otherwise perform through the Cloud Guard Console or the Security Zones Console. For more information on these services, see the Cloud Guard (https://docs.cloud.oracle.com/iaas/cloud-guard/home.htm) and Security Zones (https://docs.cloud.oracle.com/iaas/security-zone/home.htm) documentation.
+// **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations in Cloud Guard from any region.
 //
 
 package cloudguard
@@ -16,43 +16,43 @@ import (
 	"strings"
 )
 
-// SecurityPolicy Description of SecurityPolicy.
+// SecurityPolicy A security policy defines a security requirement for resources in a security zone. If a security zone enables a policy (using a recipe), then any action that attempts to violate that policy is denied.
 type SecurityPolicy struct {
 
 	// Unique identifier that is immutable on creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment Identifier
+	// The id of the security policy's compartment
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Owner of Recipe
+	// The owner of the security policy
 	Owner OwnerTypeEnum `mandatory:"true" json:"owner"`
 
-	// SecurityPolicy friendly name
+	// A shorter version of the security policy's name
 	FriendlyName *string `mandatory:"false" json:"friendlyName"`
 
-	// SecurityPolicy name
+	// The security policy's full name
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Security policy description
+	// The security policy's description
 	Description *string `mandatory:"false" json:"description"`
 
-	// The category of security policy.
+	// The category of security policy
 	Category *string `mandatory:"false" json:"category"`
 
-	// The list of services for policy.
+	// The list of services that the security policy protects
 	Services []string `mandatory:"false" json:"services"`
 
-	// The time the the SecurityPolicy was created. An RFC3339 formatted datetime string
+	// The time the security policy was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The time the SecurityPolicy was updated. An RFC3339 formatted datetime string
+	// The time the security policy was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the SecurityPolicy.
+	// The current state of the security policy
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+	// A message describing the current state in more detail. For example, this can be used to provide actionable information for a resource in a `Failed` state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

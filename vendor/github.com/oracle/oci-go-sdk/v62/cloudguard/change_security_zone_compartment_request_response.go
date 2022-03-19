@@ -14,10 +14,10 @@ import (
 // ChangeSecurityZoneCompartmentRequest wrapper for the ChangeSecurityZoneCompartment operation
 type ChangeSecurityZoneCompartmentRequest struct {
 
-	// unique SecurityZone identifier
+	// The unique identifier of the security zone (`SecurityZone`)
 	SecurityZoneId *string `mandatory:"true" contributesTo:"path" name:"securityZoneId"`
 
-	// The information to be updated.
+	// The compartment to which you want to move the security zone.
 	ChangeSecurityZoneCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

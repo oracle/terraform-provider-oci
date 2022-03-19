@@ -17,9 +17,9 @@ import (
 	"strings"
 )
 
-// ListAlarmDimensionStateDetails The configuration details for retrieving the alarm state entries.
+// RetrieveDimensionStatesDetails The configuration details for retrieving the alarm state entries.
 // Filter retrieved alarm state entries by status value and dimension key-value pairs.
-type ListAlarmDimensionStateDetails struct {
+type RetrieveDimensionStatesDetails struct {
 
 	// A filter to return only alarm state entries that match the specified dimension key-value pairs.
 	DimensionFilters map[string]string `mandatory:"false" json:"dimensionFilters"`
@@ -29,14 +29,14 @@ type ListAlarmDimensionStateDetails struct {
 	Status AlarmDimensionStatesEntryStatusEnum `mandatory:"false" json:"status,omitempty"`
 }
 
-func (m ListAlarmDimensionStateDetails) String() string {
+func (m RetrieveDimensionStatesDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ListAlarmDimensionStateDetails) ValidateEnumValue() (bool, error) {
+func (m RetrieveDimensionStatesDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if _, ok := GetMappingAlarmDimensionStatesEntryStatusEnum(string(m.Status)); !ok && m.Status != "" {

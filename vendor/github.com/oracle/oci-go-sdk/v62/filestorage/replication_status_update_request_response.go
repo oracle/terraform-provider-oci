@@ -17,17 +17,20 @@ type ReplicationStatusUpdateRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication.
 	ReplicationId *string `mandatory:"true" contributesTo:"query" name:"replicationId"`
 
+	// The `deltaStatus` of the snapshot during replication operations.
+	DeltaStatus ReplicationStatusUpdateDeltaStatusEnum `mandatory:"false" contributesTo:"query" name:"deltaStatus" omitEmpty:"true"`
+
 	// The `deltaState` of the snapshot in-transit.
 	DeltaState ReplicationStatusUpdateDeltaStateEnum `mandatory:"false" contributesTo:"query" name:"deltaState" omitEmpty:"true"`
 
 	// The `objectNum` of the associated replicationTarget.
-	ReplicationTargetNum *int `mandatory:"false" contributesTo:"query" name:"replicationTargetNum"`
+	ReplicationTargetNum *string `mandatory:"false" contributesTo:"query" name:"replicationTargetNum"`
 
 	// The `objectNum` of the start point of the snapshot during replication operations.
-	LastSnapshotNum *int `mandatory:"false" contributesTo:"query" name:"lastSnapshotNum"`
+	LastSnapshotNum *string `mandatory:"false" contributesTo:"query" name:"lastSnapshotNum"`
 
 	// The `objectNum` of the end point of the snapshot during replication operations.
-	NewSnapshotNum *int `mandatory:"false" contributesTo:"query" name:"newSnapshotNum"`
+	NewSnapshotNum *string `mandatory:"false" contributesTo:"query" name:"newSnapshotNum"`
 
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
@@ -69,6 +72,9 @@ func (request ReplicationStatusUpdateRequest) RetryPolicy() *common.RetryPolicy 
 // Not recommended for calling this function directly
 func (request ReplicationStatusUpdateRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingReplicationStatusUpdateDeltaStatusEnum(string(request.DeltaStatus)); !ok && request.DeltaStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeltaStatus: %s. Supported values are: %s.", request.DeltaStatus, strings.Join(GetReplicationStatusUpdateDeltaStatusEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingReplicationStatusUpdateDeltaStateEnum(string(request.DeltaState)); !ok && request.DeltaState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeltaState: %s. Supported values are: %s.", request.DeltaState, strings.Join(GetReplicationStatusUpdateDeltaStateEnumStringValues(), ",")))
 	}
@@ -98,6 +104,64 @@ func (response ReplicationStatusUpdateResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ReplicationStatusUpdateResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ReplicationStatusUpdateDeltaStatusEnum Enum with underlying type: string
+type ReplicationStatusUpdateDeltaStatusEnum string
+
+// Set of constants representing the allowable values for ReplicationStatusUpdateDeltaStatusEnum
+const (
+	ReplicationStatusUpdateDeltaStatusIdle         ReplicationStatusUpdateDeltaStatusEnum = "IDLE"
+	ReplicationStatusUpdateDeltaStatusCapturing    ReplicationStatusUpdateDeltaStatusEnum = "CAPTURING"
+	ReplicationStatusUpdateDeltaStatusApplying     ReplicationStatusUpdateDeltaStatusEnum = "APPLYING"
+	ReplicationStatusUpdateDeltaStatusServiceError ReplicationStatusUpdateDeltaStatusEnum = "SERVICE_ERROR"
+	ReplicationStatusUpdateDeltaStatusUserError    ReplicationStatusUpdateDeltaStatusEnum = "USER_ERROR"
+	ReplicationStatusUpdateDeltaStatusFailed       ReplicationStatusUpdateDeltaStatusEnum = "FAILED"
+)
+
+var mappingReplicationStatusUpdateDeltaStatusEnum = map[string]ReplicationStatusUpdateDeltaStatusEnum{
+	"IDLE":          ReplicationStatusUpdateDeltaStatusIdle,
+	"CAPTURING":     ReplicationStatusUpdateDeltaStatusCapturing,
+	"APPLYING":      ReplicationStatusUpdateDeltaStatusApplying,
+	"SERVICE_ERROR": ReplicationStatusUpdateDeltaStatusServiceError,
+	"USER_ERROR":    ReplicationStatusUpdateDeltaStatusUserError,
+	"FAILED":        ReplicationStatusUpdateDeltaStatusFailed,
+}
+
+var mappingReplicationStatusUpdateDeltaStatusEnumLowerCase = map[string]ReplicationStatusUpdateDeltaStatusEnum{
+	"idle":          ReplicationStatusUpdateDeltaStatusIdle,
+	"capturing":     ReplicationStatusUpdateDeltaStatusCapturing,
+	"applying":      ReplicationStatusUpdateDeltaStatusApplying,
+	"service_error": ReplicationStatusUpdateDeltaStatusServiceError,
+	"user_error":    ReplicationStatusUpdateDeltaStatusUserError,
+	"failed":        ReplicationStatusUpdateDeltaStatusFailed,
+}
+
+// GetReplicationStatusUpdateDeltaStatusEnumValues Enumerates the set of values for ReplicationStatusUpdateDeltaStatusEnum
+func GetReplicationStatusUpdateDeltaStatusEnumValues() []ReplicationStatusUpdateDeltaStatusEnum {
+	values := make([]ReplicationStatusUpdateDeltaStatusEnum, 0)
+	for _, v := range mappingReplicationStatusUpdateDeltaStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetReplicationStatusUpdateDeltaStatusEnumStringValues Enumerates the set of values in String for ReplicationStatusUpdateDeltaStatusEnum
+func GetReplicationStatusUpdateDeltaStatusEnumStringValues() []string {
+	return []string{
+		"IDLE",
+		"CAPTURING",
+		"APPLYING",
+		"SERVICE_ERROR",
+		"USER_ERROR",
+		"FAILED",
+	}
+}
+
+// GetMappingReplicationStatusUpdateDeltaStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingReplicationStatusUpdateDeltaStatusEnum(val string) (ReplicationStatusUpdateDeltaStatusEnum, bool) {
+	enum, ok := mappingReplicationStatusUpdateDeltaStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ReplicationStatusUpdateDeltaStateEnum Enum with underlying type: string

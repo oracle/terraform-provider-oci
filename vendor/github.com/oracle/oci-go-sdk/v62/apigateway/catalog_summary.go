@@ -32,7 +32,7 @@ type CatalogSummary struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// A user-friendly description. To provide some insight about the resource .
+	// A user-friendly description. To provide some insight about the resource.
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 

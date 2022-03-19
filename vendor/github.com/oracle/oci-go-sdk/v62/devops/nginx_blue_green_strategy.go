@@ -19,10 +19,10 @@ import (
 // NginxBlueGreenStrategy Specifies the NGINX blue green release strategy.
 type NginxBlueGreenStrategy struct {
 
-	// First Namespace for deployment.
+	// Namespace A for deployment.
 	NamespaceA *string `mandatory:"true" json:"namespaceA"`
 
-	// Second Namespace for deployment.
+	// Namespace B for deployment.
 	NamespaceB *string `mandatory:"true" json:"namespaceB"`
 
 	// Name of the Ingress resource.

@@ -33,9 +33,6 @@ type UpdateComputeInstanceGroupCanaryApprovalDeployStageDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A compute instance group canary traffic shift stage OCID for load balancer.
-	ComputeInstanceGroupCanaryTrafficShiftDeployStageId *string `mandatory:"false" json:"computeInstanceGroupCanaryTrafficShiftDeployStageId"`
-
 	ApprovalPolicy ApprovalPolicy `mandatory:"false" json:"approvalPolicy"`
 }
 
@@ -97,13 +94,12 @@ func (m UpdateComputeInstanceGroupCanaryApprovalDeployStageDetails) MarshalJSON(
 // UnmarshalJSON unmarshals from json
 func (m *UpdateComputeInstanceGroupCanaryApprovalDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description                                         *string                           `json:"description"`
-		DisplayName                                         *string                           `json:"displayName"`
-		DeployStagePredecessorCollection                    *DeployStagePredecessorCollection `json:"deployStagePredecessorCollection"`
-		FreeformTags                                        map[string]string                 `json:"freeformTags"`
-		DefinedTags                                         map[string]map[string]interface{} `json:"definedTags"`
-		ComputeInstanceGroupCanaryTrafficShiftDeployStageId *string                           `json:"computeInstanceGroupCanaryTrafficShiftDeployStageId"`
-		ApprovalPolicy                                      approvalpolicy                    `json:"approvalPolicy"`
+		Description                      *string                           `json:"description"`
+		DisplayName                      *string                           `json:"displayName"`
+		DeployStagePredecessorCollection *DeployStagePredecessorCollection `json:"deployStagePredecessorCollection"`
+		FreeformTags                     map[string]string                 `json:"freeformTags"`
+		DefinedTags                      map[string]map[string]interface{} `json:"definedTags"`
+		ApprovalPolicy                   approvalpolicy                    `json:"approvalPolicy"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -120,8 +116,6 @@ func (m *UpdateComputeInstanceGroupCanaryApprovalDeployStageDetails) UnmarshalJS
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
-
-	m.ComputeInstanceGroupCanaryTrafficShiftDeployStageId = model.ComputeInstanceGroupCanaryTrafficShiftDeployStageId
 
 	nn, e = model.ApprovalPolicy.UnmarshalPolymorphicJSON(model.ApprovalPolicy.JsonData)
 	if e != nil {

@@ -172,6 +172,9 @@ type InternalVnic struct {
 	// Example: `2001:0db8:0123:4567::/64`
 	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
 
+	// The list of IPv6 CIDR blocks for the subnet that includes Oracle Allocated, BYOIPv6 CIDRs and ULA or Private IPv6 CIDRs.
+	Ipv6CidrBlocks []string `mandatory:"false" json:"ipv6CidrBlocks"`
+
 	// The IPv6 address of the virtual router.
 	// Example: `2001:0db8:0123:4567:89ab:cdef:1234:5678`
 	Ipv6VirtualRouterIp *string `mandatory:"false" json:"ipv6VirtualRouterIp"`

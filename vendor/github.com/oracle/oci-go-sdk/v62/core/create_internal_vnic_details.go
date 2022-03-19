@@ -376,6 +376,11 @@ const (
 	CreateInternalVnicDetailsVnicShapeVnicaasTelesisGamma             CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_TELESIS_GAMMA"
 	CreateInternalVnicDetailsVnicShapeVnicaasPrivatedns               CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_PRIVATEDNS"
 	CreateInternalVnicDetailsVnicShapeVnicaasFwaas                    CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_FWAAS"
+	CreateInternalVnicDetailsVnicShapeVnicaasLbaasFree                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_FREE"
+	CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g512k              CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_512K"
+	CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M"
+	CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g2m                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_2M"
+	CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g3m                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_3M"
 	CreateInternalVnicDetailsVnicShapeDynamicE350g                    CreateInternalVnicDetailsVnicShapeEnum = "DYNAMIC_E3_50G"
 	CreateInternalVnicDetailsVnicShapeFixed0040E350g                  CreateInternalVnicDetailsVnicShapeEnum = "FIXED0040_E3_50G"
 	CreateInternalVnicDetailsVnicShapeFixed0100E350g                  CreateInternalVnicDetailsVnicShapeEnum = "FIXED0100_E3_50G"
@@ -1413,6 +1418,11 @@ var mappingCreateInternalVnicDetailsVnicShapeEnum = map[string]CreateInternalVni
 	"VNICAAS_TELESIS_GAMMA":                CreateInternalVnicDetailsVnicShapeVnicaasTelesisGamma,
 	"VNICAAS_PRIVATEDNS":                   CreateInternalVnicDetailsVnicShapeVnicaasPrivatedns,
 	"VNICAAS_FWAAS":                        CreateInternalVnicDetailsVnicShapeVnicaasFwaas,
+	"VNICAAS_LBAAS_FREE":                   CreateInternalVnicDetailsVnicShapeVnicaasLbaasFree,
+	"VNICAAS_LBAAS_8G_512K":                CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g512k,
+	"VNICAAS_LBAAS_8G_1M":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m,
+	"VNICAAS_LBAAS_8G_2M":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g2m,
+	"VNICAAS_LBAAS_8G_3M":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g3m,
 	"DYNAMIC_E3_50G":                       CreateInternalVnicDetailsVnicShapeDynamicE350g,
 	"FIXED0040_E3_50G":                     CreateInternalVnicDetailsVnicShapeFixed0040E350g,
 	"FIXED0100_E3_50G":                     CreateInternalVnicDetailsVnicShapeFixed0100E350g,
@@ -2450,6 +2460,11 @@ var mappingCreateInternalVnicDetailsVnicShapeEnumLowerCase = map[string]CreateIn
 	"vnicaas_telesis_gamma":                CreateInternalVnicDetailsVnicShapeVnicaasTelesisGamma,
 	"vnicaas_privatedns":                   CreateInternalVnicDetailsVnicShapeVnicaasPrivatedns,
 	"vnicaas_fwaas":                        CreateInternalVnicDetailsVnicShapeVnicaasFwaas,
+	"vnicaas_lbaas_free":                   CreateInternalVnicDetailsVnicShapeVnicaasLbaasFree,
+	"vnicaas_lbaas_8g_512k":                CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g512k,
+	"vnicaas_lbaas_8g_1m":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m,
+	"vnicaas_lbaas_8g_2m":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g2m,
+	"vnicaas_lbaas_8g_3m":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g3m,
 	"dynamic_e3_50g":                       CreateInternalVnicDetailsVnicShapeDynamicE350g,
 	"fixed0040_e3_50g":                     CreateInternalVnicDetailsVnicShapeFixed0040E350g,
 	"fixed0100_e3_50g":                     CreateInternalVnicDetailsVnicShapeFixed0100E350g,
@@ -3498,6 +3513,11 @@ func GetCreateInternalVnicDetailsVnicShapeEnumStringValues() []string {
 		"VNICAAS_TELESIS_GAMMA",
 		"VNICAAS_PRIVATEDNS",
 		"VNICAAS_FWAAS",
+		"VNICAAS_LBAAS_FREE",
+		"VNICAAS_LBAAS_8G_512K",
+		"VNICAAS_LBAAS_8G_1M",
+		"VNICAAS_LBAAS_8G_2M",
+		"VNICAAS_LBAAS_8G_3M",
 		"DYNAMIC_E3_50G",
 		"FIXED0040_E3_50G",
 		"FIXED0100_E3_50G",

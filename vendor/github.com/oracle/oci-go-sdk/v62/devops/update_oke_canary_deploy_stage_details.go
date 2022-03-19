@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateOkeCanaryDeployStageDetails Specifies the Container Engine for Kubernetes (OKE) cluster canary deployment stage.
+// UpdateOkeCanaryDeployStageDetails Specifies the Container Engine for Kubernetes (OKE) cluster Canary deployment stage.
 type UpdateOkeCanaryDeployStageDetails struct {
 
 	// Optional description about the deployment stage.

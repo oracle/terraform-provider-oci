@@ -19,7 +19,7 @@ import (
 // PrivateEndpointChannel Specifies the configuration to access private endpoint.
 type PrivateEndpointChannel struct {
 
-	// The OCID of the subnet where VNIC resources will be created for private endpoint.
+	// The OCID of the subnet where Virtual Network Interface Cards (VNIC) resources are created for private endpoint access.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// An array of network security group OCIDs.

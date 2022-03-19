@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// OkeBlueGreenTrafficShiftDeployStageExecutionProgress Specifies the Container Engine for Kubernetes (OKE) cluster blue-green deployment traffic shift stage.
+// OkeBlueGreenTrafficShiftDeployStageExecutionProgress Specifies the Container Engine for Kubernetes (OKE) cluster Blue-Green deployment traffic shift stage.
 type OkeBlueGreenTrafficShiftDeployStageExecutionProgress struct {
 
 	// Stage display name. Avoid entering confidential information.
@@ -36,7 +36,7 @@ type OkeBlueGreenTrafficShiftDeployStageExecutionProgress struct {
 	// Details about stage execution for all the target environments.
 	DeployStageExecutionProgressDetails []DeployStageExecutionProgressDetails `mandatory:"false" json:"deployStageExecutionProgressDetails"`
 
-	// Namespace either blue or green where traffic is going.
+	// Namespace where traffic is going.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
 	// The current state of the stage.

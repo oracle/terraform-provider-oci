@@ -14,7 +14,7 @@ import (
 // CreateSecurityZoneRequest wrapper for the CreateSecurityZone operation
 type CreateSecurityZoneRequest struct {
 
-	// Details for the new SecurityZone.
+	// Details for the new `SecurityZone`.
 	CreateSecurityZoneDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

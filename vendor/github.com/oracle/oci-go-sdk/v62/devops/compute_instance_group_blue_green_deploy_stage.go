@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ComputeInstanceGroupBlueGreenDeployStage Specifies the instance group blue-green deployment stage.
+// ComputeInstanceGroupBlueGreenDeployStage Specifies the Instance Group Blue-Green deployment stage.
 type ComputeInstanceGroupBlueGreenDeployStage struct {
 
 	// Unique identifier that is immutable on creation.

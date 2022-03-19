@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ComputeInstanceGroupDeployStage Specifies the instance group rolling deployment stage.
+// ComputeInstanceGroupDeployStage Specifies the Instance Group Rolling deployment stage.
 type ComputeInstanceGroupDeployStage struct {
 
 	// Unique identifier that is immutable on creation.

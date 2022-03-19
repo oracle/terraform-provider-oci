@@ -50,6 +50,9 @@ type CreateLdapBindAccountDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Not used by File Systems but required for SPLAT tag integration.
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The password for the LDAP bind account.
 	Password *string `mandatory:"false" json:"password"`
 
@@ -83,6 +86,11 @@ func (m CreateLdapBindAccountDetails) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m CreateLdapBindAccountDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetSystemTags returns SystemTags
+func (m CreateLdapBindAccountDetails) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 func (m CreateLdapBindAccountDetails) String() string {

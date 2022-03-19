@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// OkeCanaryTrafficShiftDeployStageExecutionProgress Specifies the Container Engine for Kubernetes (OKE) cluster canary deployment traffic shift stage.
+// OkeCanaryTrafficShiftDeployStageExecutionProgress Specifies the Container Engine for Kubernetes (OKE) cluster Canary deployment traffic shift stage.
 type OkeCanaryTrafficShiftDeployStageExecutionProgress struct {
 
 	// Stage display name. Avoid entering confidential information.

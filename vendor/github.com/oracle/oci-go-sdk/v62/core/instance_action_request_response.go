@@ -32,7 +32,7 @@ type InstanceActionRequest struct {
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// Instance Power Action details This feature is currently in preview and may change before public release. Do not use it for production workloads.
+	// Instance Power Action details
 	InstancePowerActionDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request.

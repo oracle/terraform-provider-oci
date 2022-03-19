@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// OkeBlueGreenDeployStageExecutionProgress Specifies the Container Engine for Kubernetes (OKE) cluster blue-green deployment stage.
+// OkeBlueGreenDeployStageExecutionProgress Specifies the Container Engine for Kubernetes (OKE) cluster Blue-Green deployment stage.
 type OkeBlueGreenDeployStageExecutionProgress struct {
 
 	// Stage display name. Avoid entering confidential information.
@@ -36,7 +36,7 @@ type OkeBlueGreenDeployStageExecutionProgress struct {
 	// Details about stage execution for all the target environments.
 	DeployStageExecutionProgressDetails []DeployStageExecutionProgressDetails `mandatory:"false" json:"deployStageExecutionProgressDetails"`
 
-	// Namespace either blue or green where artifacts were deployed.
+	// Namespace either environment A or environment B where artifacts are deployed.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
 	// The current state of the stage.

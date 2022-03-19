@@ -160,6 +160,11 @@ const (
 	CreateInternalVnicAttachmentDetailsVnicShapeVnicaasTelesisGamma             CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNICAAS_TELESIS_GAMMA"
 	CreateInternalVnicAttachmentDetailsVnicShapeVnicaasPrivatedns               CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNICAAS_PRIVATEDNS"
 	CreateInternalVnicAttachmentDetailsVnicShapeVnicaasFwaas                    CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNICAAS_FWAAS"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaasFree                CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNICAAS_LBAAS_FREE"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaas8g512k              CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_512K"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaas8g1m                CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaas8g2m                CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_2M"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaas8g3m                CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_3M"
 	CreateInternalVnicAttachmentDetailsVnicShapeDynamicE350g                    CreateInternalVnicAttachmentDetailsVnicShapeEnum = "DYNAMIC_E3_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeFixed0040E350g                  CreateInternalVnicAttachmentDetailsVnicShapeEnum = "FIXED0040_E3_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeFixed0100E350g                  CreateInternalVnicAttachmentDetailsVnicShapeEnum = "FIXED0100_E3_50G"
@@ -1197,6 +1202,11 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnum = map[string]CreateI
 	"VNICAAS_TELESIS_GAMMA":                CreateInternalVnicAttachmentDetailsVnicShapeVnicaasTelesisGamma,
 	"VNICAAS_PRIVATEDNS":                   CreateInternalVnicAttachmentDetailsVnicShapeVnicaasPrivatedns,
 	"VNICAAS_FWAAS":                        CreateInternalVnicAttachmentDetailsVnicShapeVnicaasFwaas,
+	"VNICAAS_LBAAS_FREE":                   CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaasFree,
+	"VNICAAS_LBAAS_8G_512K":                CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaas8g512k,
+	"VNICAAS_LBAAS_8G_1M":                  CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaas8g1m,
+	"VNICAAS_LBAAS_8G_2M":                  CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaas8g2m,
+	"VNICAAS_LBAAS_8G_3M":                  CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaas8g3m,
 	"DYNAMIC_E3_50G":                       CreateInternalVnicAttachmentDetailsVnicShapeDynamicE350g,
 	"FIXED0040_E3_50G":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed0040E350g,
 	"FIXED0100_E3_50G":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed0100E350g,
@@ -2234,6 +2244,11 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnumLowerCase = map[strin
 	"vnicaas_telesis_gamma":                CreateInternalVnicAttachmentDetailsVnicShapeVnicaasTelesisGamma,
 	"vnicaas_privatedns":                   CreateInternalVnicAttachmentDetailsVnicShapeVnicaasPrivatedns,
 	"vnicaas_fwaas":                        CreateInternalVnicAttachmentDetailsVnicShapeVnicaasFwaas,
+	"vnicaas_lbaas_free":                   CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaasFree,
+	"vnicaas_lbaas_8g_512k":                CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaas8g512k,
+	"vnicaas_lbaas_8g_1m":                  CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaas8g1m,
+	"vnicaas_lbaas_8g_2m":                  CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaas8g2m,
+	"vnicaas_lbaas_8g_3m":                  CreateInternalVnicAttachmentDetailsVnicShapeVnicaasLbaas8g3m,
 	"dynamic_e3_50g":                       CreateInternalVnicAttachmentDetailsVnicShapeDynamicE350g,
 	"fixed0040_e3_50g":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed0040E350g,
 	"fixed0100_e3_50g":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed0100E350g,
@@ -3282,6 +3297,11 @@ func GetCreateInternalVnicAttachmentDetailsVnicShapeEnumStringValues() []string 
 		"VNICAAS_TELESIS_GAMMA",
 		"VNICAAS_PRIVATEDNS",
 		"VNICAAS_FWAAS",
+		"VNICAAS_LBAAS_FREE",
+		"VNICAAS_LBAAS_8G_512K",
+		"VNICAAS_LBAAS_8G_1M",
+		"VNICAAS_LBAAS_8G_2M",
+		"VNICAAS_LBAAS_8G_3M",
 		"DYNAMIC_E3_50G",
 		"FIXED0040_E3_50G",
 		"FIXED0100_E3_50G",

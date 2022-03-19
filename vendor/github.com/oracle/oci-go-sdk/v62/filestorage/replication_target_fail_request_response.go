@@ -18,7 +18,7 @@ type ReplicationTargetFailRequest struct {
 	ReplicationTargetId *string `mandatory:"true" contributesTo:"query" name:"replicationTargetId"`
 
 	// The `objectNum` of the associated replication.
-	ReplicationNum *int `mandatory:"false" contributesTo:"query" name:"replicationNum"`
+	ReplicationNum *string `mandatory:"false" contributesTo:"query" name:"replicationNum"`
 
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.

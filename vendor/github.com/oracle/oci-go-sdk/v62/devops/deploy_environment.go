@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DeployEnvironment The target OCI resources, such as Compute instances, Container Engine for Kubernetes(OKE) clusters, or Function, where artifacts will be deployed.
+// DeployEnvironment The target OCI resources, such as Compute instances, Container Engine for Kubernetes(OKE) clusters, or Function, where artifacts are deployed.
 type DeployEnvironment interface {
 
 	// Unique identifier that is immutable on creation.

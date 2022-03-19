@@ -21,6 +21,9 @@ type ListContinuousQueryRequest struct {
 	// Severity of the continuous query.
 	Severity ContinuousQuerySeverityEnum `mandatory:"false" contributesTo:"query" name:"severity" omitEmpty:"true"`
 
+	// Frequency in minutes.
+	Frequency *string `mandatory:"false" contributesTo:"query" name:"frequency"`
+
 	// Resource name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
@@ -34,7 +37,7 @@ type ListContinuousQueryRequest struct {
 	// The maximum number of items to return in a paginated "List" call.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The field to sort by (one column only). Default sort order is
+	// The field to sort by (one column only) for continuous queries. Default sort order is
 	// ascending exception of `timeCreated` and `timeLastModified` columns (descending).
 	SortBy ListContinuousQuerySortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
@@ -137,18 +140,27 @@ type ListContinuousQuerySortByEnum string
 
 // Set of constants representing the allowable values for ListContinuousQuerySortByEnum
 const (
-	ListContinuousQuerySortByTimecreated ListContinuousQuerySortByEnum = "timeCreated"
-	ListContinuousQuerySortByDisplayname ListContinuousQuerySortByEnum = "displayName"
+	ListContinuousQuerySortByTimecreated    ListContinuousQuerySortByEnum = "timeCreated"
+	ListContinuousQuerySortByDisplayname    ListContinuousQuerySortByEnum = "displayName"
+	ListContinuousQuerySortBySeverity       ListContinuousQuerySortByEnum = "severity"
+	ListContinuousQuerySortByFrequency      ListContinuousQuerySortByEnum = "frequency"
+	ListContinuousQuerySortByLifecyclestate ListContinuousQuerySortByEnum = "lifecycleState"
 )
 
 var mappingListContinuousQuerySortByEnum = map[string]ListContinuousQuerySortByEnum{
-	"timeCreated": ListContinuousQuerySortByTimecreated,
-	"displayName": ListContinuousQuerySortByDisplayname,
+	"timeCreated":    ListContinuousQuerySortByTimecreated,
+	"displayName":    ListContinuousQuerySortByDisplayname,
+	"severity":       ListContinuousQuerySortBySeverity,
+	"frequency":      ListContinuousQuerySortByFrequency,
+	"lifecycleState": ListContinuousQuerySortByLifecyclestate,
 }
 
 var mappingListContinuousQuerySortByEnumLowerCase = map[string]ListContinuousQuerySortByEnum{
-	"timecreated": ListContinuousQuerySortByTimecreated,
-	"displayname": ListContinuousQuerySortByDisplayname,
+	"timecreated":    ListContinuousQuerySortByTimecreated,
+	"displayname":    ListContinuousQuerySortByDisplayname,
+	"severity":       ListContinuousQuerySortBySeverity,
+	"frequency":      ListContinuousQuerySortByFrequency,
+	"lifecyclestate": ListContinuousQuerySortByLifecyclestate,
 }
 
 // GetListContinuousQuerySortByEnumValues Enumerates the set of values for ListContinuousQuerySortByEnum
@@ -165,6 +177,9 @@ func GetListContinuousQuerySortByEnumStringValues() []string {
 	return []string{
 		"timeCreated",
 		"displayName",
+		"severity",
+		"frequency",
+		"lifecycleState",
 	}
 }
 

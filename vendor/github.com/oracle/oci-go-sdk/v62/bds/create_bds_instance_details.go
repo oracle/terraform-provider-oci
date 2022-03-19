@@ -44,6 +44,9 @@ type CreateBdsInstanceDetails struct {
 
 	NetworkConfig *NetworkConfig `mandatory:"false" json:"networkConfig"`
 
+	// Pre-authenticated URL of the script in Object Store that is downloaded and executed.
+	BootstrapScriptUrl *string `mandatory:"false" json:"bootstrapScriptUrl"`
+
 	// The user-defined kerberos realm name.
 	KerberosRealmName *string `mandatory:"false" json:"kerberosRealmName"`
 

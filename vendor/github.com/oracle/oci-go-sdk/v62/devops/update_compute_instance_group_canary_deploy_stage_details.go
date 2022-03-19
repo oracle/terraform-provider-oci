@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateComputeInstanceGroupCanaryDeployStageDetails Specifies the instance group canary deployment stage.
+// UpdateComputeInstanceGroupCanaryDeployStageDetails Specifies the Instance Group Canary deployment stage.
 type UpdateComputeInstanceGroupCanaryDeployStageDetails struct {
 
 	// Optional description about the deployment stage.

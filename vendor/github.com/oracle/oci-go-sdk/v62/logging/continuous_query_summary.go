@@ -4,7 +4,9 @@
 
 // Logging Management API
 //
-// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
+// Use the Logging Management API to create, read, list, update, and delete
+// log groups, log objects, agent configurations, and log data models.
+// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
 package logging
@@ -28,12 +30,6 @@ type ContinuousQuerySummary struct {
 	// The OCID of the compartment that the resource belongs to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Time the resource was created.
-	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
-
-	// Time the resource was last modified.
-	TimeLastModified *common.SDKTime `mandatory:"true" json:"timeLastModified"`
-
 	// Interval in minutes that query is run periodically.
 	IntervalInMinutes *int `mandatory:"true" json:"intervalInMinutes"`
 
@@ -52,6 +48,12 @@ type ContinuousQuerySummary struct {
 
 	// operator used in continuous query
 	Operator ContinuousQueryOperatorEnum `mandatory:"true" json:"operator"`
+
+	// Time the resource was created.
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// Time the resource was last modified.
+	TimeLastModified *common.SDKTime `mandatory:"false" json:"timeLastModified"`
 
 	QueryStartTime ContinuousQueryStartPolicy `mandatory:"false" json:"queryStartTime"`
 
@@ -106,6 +108,8 @@ func (m ContinuousQuerySummary) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ContinuousQuerySummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		TimeCreated        *common.SDKTime                   `json:"timeCreated"`
+		TimeLastModified   *common.SDKTime                   `json:"timeLastModified"`
 		QueryStartTime     continuousquerystartpolicy        `json:"queryStartTime"`
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
@@ -116,8 +120,6 @@ func (m *ContinuousQuerySummary) UnmarshalJSON(data []byte) (e error) {
 		Id                 *string                           `json:"id"`
 		Query              *string                           `json:"query"`
 		CompartmentId      *string                           `json:"compartmentId"`
-		TimeCreated        *common.SDKTime                   `json:"timeCreated"`
-		TimeLastModified   *common.SDKTime                   `json:"timeLastModified"`
 		IntervalInMinutes  *int                              `json:"intervalInMinutes"`
 		Threshold          *int                              `json:"threshold"`
 		DisplayName        *string                           `json:"displayName"`
@@ -131,6 +133,10 @@ func (m *ContinuousQuerySummary) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeLastModified = model.TimeLastModified
+
 	nn, e = model.QueryStartTime.UnmarshalPolymorphicJSON(model.QueryStartTime.JsonData)
 	if e != nil {
 		return
@@ -158,10 +164,6 @@ func (m *ContinuousQuerySummary) UnmarshalJSON(data []byte) (e error) {
 	m.Query = model.Query
 
 	m.CompartmentId = model.CompartmentId
-
-	m.TimeCreated = model.TimeCreated
-
-	m.TimeLastModified = model.TimeLastModified
 
 	m.IntervalInMinutes = model.IntervalInMinutes
 

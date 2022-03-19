@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ComputeInstanceGroupBlueGreenTrafficShiftDeployStageExecutionProgress Specifies the instance group blue-green deployment load balancer traffic shift stage.
+// ComputeInstanceGroupBlueGreenTrafficShiftDeployStageExecutionProgress Specifies the Instance Group Blue-Green deployment load balancer traffic shift stage.
 type ComputeInstanceGroupBlueGreenTrafficShiftDeployStageExecutionProgress struct {
 
 	// Stage display name. Avoid entering confidential information.
@@ -36,7 +36,7 @@ type ComputeInstanceGroupBlueGreenTrafficShiftDeployStageExecutionProgress struc
 	// Details about stage execution for all the target environments.
 	DeployStageExecutionProgressDetails []DeployStageExecutionProgressDetails `mandatory:"false" json:"deployStageExecutionProgressDetails"`
 
-	// The OCID of either the blue or green Environment where traffic is going.
+	// The OCID of the environment where traffic is going.
 	EnvironmentId *string `mandatory:"false" json:"environmentId"`
 
 	// The current state of the stage.

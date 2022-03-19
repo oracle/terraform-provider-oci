@@ -63,6 +63,9 @@ type BdsInstance struct {
 	// The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// pre-authenticated URL of the bootstrap script in Object Store that can be downloaded and executed.
+	BootstrapScriptUrl *string `mandatory:"false" json:"bootstrapScriptUrl"`
+
 	// Simple key-value pair that is applied without any predefined name, type, or scope.
 	// Exists for cross-compatibility only. For example, `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

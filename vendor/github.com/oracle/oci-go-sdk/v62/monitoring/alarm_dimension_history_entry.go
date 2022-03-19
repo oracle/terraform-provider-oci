@@ -19,7 +19,7 @@ import (
 
 // AlarmDimensionHistoryEntry A timestamped alarm history entry including a description (`summary`).
 // If the entry corresponds to a state transition, such as OK to Firing, then the entry also includes a transition timestamp.
-// The entry applies to one or more of the dimension key-value pairs specified in the request (from `ListAlarmDimensionHistoryDetails`).
+// The entry applies to one or more of the dimension key-value pairs specified in the request (from `RetrieveDimensionHistoryDetails`).
 type AlarmDimensionHistoryEntry struct {
 
 	// Description of the alarm history entry.

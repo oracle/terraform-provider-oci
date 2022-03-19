@@ -4,7 +4,9 @@
 
 // Logging Management API
 //
-// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
+// Use the Logging Management API to create, read, list, update, and delete
+// log groups, log objects, agent configurations, and log data models.
+// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
 package logging
@@ -40,7 +42,7 @@ type CreateLogDetails struct {
 
 	Configuration *Configuration `mandatory:"false" json:"configuration"`
 
-	// Log retention duration in 30-day increments (30, 60, 90 and so on).
+	// Log retention duration in 30-day increments (30, 60, 90 and so on until 180).
 	RetentionDuration *int `mandatory:"false" json:"retentionDuration"`
 }
 

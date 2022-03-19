@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateComputeInstanceGroupBlueGreenDeployStageDetails Specifies the instance group blue-green deployment stage.
+// CreateComputeInstanceGroupBlueGreenDeployStageDetails Specifies the Instance Group Blue-Green deployment stage.
 type CreateComputeInstanceGroupBlueGreenDeployStageDetails struct {
 
 	// The OCID of a pipeline.

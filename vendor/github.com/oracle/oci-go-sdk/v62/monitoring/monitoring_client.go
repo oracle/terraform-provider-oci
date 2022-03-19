@@ -378,120 +378,6 @@ func (client MonitoringClient) getAlarmHistory(ctx context.Context, request comm
 	return response, err
 }
 
-// ListAlarmDimensionHistory Lists the alarm history entries for the specified alarm and dimension key-value pairs.
-// For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
-// This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
-// Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
-// or transactions, per second (TPS) for a given tenancy.
-func (client MonitoringClient) ListAlarmDimensionHistory(ctx context.Context, request ListAlarmDimensionHistoryRequest) (response ListAlarmDimensionHistoryResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listAlarmDimensionHistory, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListAlarmDimensionHistoryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListAlarmDimensionHistoryResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListAlarmDimensionHistoryResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListAlarmDimensionHistoryResponse")
-	}
-	return
-}
-
-// listAlarmDimensionHistory implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) listAlarmDimensionHistory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alarms/{alarmId}/actions/retrieveDimensionHistory", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListAlarmDimensionHistoryResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/AlarmDimensionHistoryCollection/ListAlarmDimensionHistory"
-		err = common.PostProcessServiceError(err, "Monitoring", "ListAlarmDimensionHistory", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListAlarmDimensionStates Lists the alarm state entries for the specified alarm, status value, and dimension key-value pairs.
-// For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
-// This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
-// Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
-// or transactions, per second (TPS) for a given tenancy.
-func (client MonitoringClient) ListAlarmDimensionStates(ctx context.Context, request ListAlarmDimensionStatesRequest) (response ListAlarmDimensionStatesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listAlarmDimensionStates, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListAlarmDimensionStatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListAlarmDimensionStatesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListAlarmDimensionStatesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListAlarmDimensionStatesResponse")
-	}
-	return
-}
-
-// listAlarmDimensionStates implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) listAlarmDimensionStates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alarms/{alarmId}/actions/retrieveDimensionStates", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListAlarmDimensionStatesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/AlarmDimensionStatesCollection/ListAlarmDimensionStates"
-		err = common.PostProcessServiceError(err, "Monitoring", "ListAlarmDimensionStates", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListAlarms Lists the alarms for the specified compartment.
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
 // This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
@@ -777,6 +663,120 @@ func (client MonitoringClient) removeAlarmSuppression(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/Suppression/RemoveAlarmSuppression"
 		err = common.PostProcessServiceError(err, "Monitoring", "RemoveAlarmSuppression", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RetrieveDimensionHistory Retrieve the alarm history entries for the specified alarm and dimension key-value pairs.
+// For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
+// This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+// Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
+// or transactions, per second (TPS) for a given tenancy.
+func (client MonitoringClient) RetrieveDimensionHistory(ctx context.Context, request RetrieveDimensionHistoryRequest) (response RetrieveDimensionHistoryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.retrieveDimensionHistory, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RetrieveDimensionHistoryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RetrieveDimensionHistoryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RetrieveDimensionHistoryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RetrieveDimensionHistoryResponse")
+	}
+	return
+}
+
+// retrieveDimensionHistory implements the OCIOperation interface (enables retrying operations)
+func (client MonitoringClient) retrieveDimensionHistory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alarms/{alarmId}/actions/retrieveDimensionHistory", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RetrieveDimensionHistoryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/AlarmDimensionHistoryCollection/RetrieveDimensionHistory"
+		err = common.PostProcessServiceError(err, "Monitoring", "RetrieveDimensionHistory", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RetrieveDimensionStates Lists the alarm state entries for the specified alarm, status value, and dimension key-value pairs.
+// For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
+// This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+// Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
+// or transactions, per second (TPS) for a given tenancy.
+func (client MonitoringClient) RetrieveDimensionStates(ctx context.Context, request RetrieveDimensionStatesRequest) (response RetrieveDimensionStatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.retrieveDimensionStates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RetrieveDimensionStatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RetrieveDimensionStatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RetrieveDimensionStatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RetrieveDimensionStatesResponse")
+	}
+	return
+}
+
+// retrieveDimensionStates implements the OCIOperation interface (enables retrying operations)
+func (client MonitoringClient) retrieveDimensionStates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alarms/{alarmId}/actions/retrieveDimensionStates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RetrieveDimensionStatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/AlarmDimensionStatesCollection/RetrieveDimensionStates"
+		err = common.PostProcessServiceError(err, "Monitoring", "RetrieveDimensionStates", apiReferenceLink)
 		return response, err
 	}
 

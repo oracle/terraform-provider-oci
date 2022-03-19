@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ComputeInstanceGroupCanaryDeployStage Specifies the instance group canary deployment stage.
+// ComputeInstanceGroupCanaryDeployStage Specifies the Instance Group Canary deployment stage.
 type ComputeInstanceGroupCanaryDeployStage struct {
 
 	// Unique identifier that is immutable on creation.
@@ -31,7 +31,7 @@ type ComputeInstanceGroupCanaryDeployStage struct {
 	// The OCID of a compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A compute instance group environment OCID for canary deployment.
+	// A compute instance group environment OCID for Canary deployment.
 	ComputeInstanceGroupDeployEnvironmentId *string `mandatory:"true" json:"computeInstanceGroupDeployEnvironmentId"`
 
 	// The OCID of the artifact that contains the deployment specification.

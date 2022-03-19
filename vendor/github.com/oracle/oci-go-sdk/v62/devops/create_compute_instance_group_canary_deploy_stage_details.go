@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateComputeInstanceGroupCanaryDeployStageDetails Specifies the instance group canary deployment stage.
+// CreateComputeInstanceGroupCanaryDeployStageDetails Specifies the Instance Group Canary deployment stage.
 type CreateComputeInstanceGroupCanaryDeployStageDetails struct {
 
 	// The OCID of a pipeline.
@@ -24,7 +24,7 @@ type CreateComputeInstanceGroupCanaryDeployStageDetails struct {
 
 	DeployStagePredecessorCollection *DeployStagePredecessorCollection `mandatory:"true" json:"deployStagePredecessorCollection"`
 
-	// A compute instance group environment OCID for canary deployment.
+	// A compute instance group environment OCID for Canary deployment.
 	ComputeInstanceGroupDeployEnvironmentId *string `mandatory:"true" json:"computeInstanceGroupDeployEnvironmentId"`
 
 	// The OCID of the artifact that contains the deployment specification.

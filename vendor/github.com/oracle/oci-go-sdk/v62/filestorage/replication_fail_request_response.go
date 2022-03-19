@@ -18,7 +18,7 @@ type ReplicationFailRequest struct {
 	ReplicationId *string `mandatory:"true" contributesTo:"query" name:"replicationId"`
 
 	// The `objectNum` of the associated replicationTarget.
-	ReplicationTargetNum *int `mandatory:"false" contributesTo:"query" name:"replicationTargetNum"`
+	ReplicationTargetNum *string `mandatory:"false" contributesTo:"query" name:"replicationTargetNum"`
 
 	// The `deltaState` of the snapshot in-transit.
 	DeltaState ReplicationFailDeltaStateEnum `mandatory:"false" contributesTo:"query" name:"deltaState" omitEmpty:"true"`

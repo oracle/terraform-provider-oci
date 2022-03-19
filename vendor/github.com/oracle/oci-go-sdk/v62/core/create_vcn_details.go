@@ -36,6 +36,13 @@ type CreateVcnDetails struct {
 	// **Important:** Do *not* specify a value for `cidrBlock`. Use this parameter instead.
 	CidrBlocks []string `mandatory:"false" json:"cidrBlocks"`
 
+	// The list of one or more ULA or Private IPv6 CIDR blocks for the vcn that meets the following criteria:
+	// - The CIDR blocks must be valid.
+	// - Multiple CIDR blocks must not overlap each other or the on-premises network CIDR block.
+	// - The number of CIDR blocks must not exceed the limit of IPv6 CIDR blocks allowed to a vcn.
+	// **Important:** Do *not* specify a value for `ipv6CidrBlock`. Use this parameter instead.
+	Ipv6PrivateCidrBlocks []string `mandatory:"false" json:"ipv6PrivateCidrBlocks"`
+
 	// Specifies whether to skip Oracle allocated IPv6 GUA. By default, Oracle will allocate one GUA of /56
 	// size for an IPv6 enabled VCN.
 	IsOracleGuaAllocationEnabled *bool `mandatory:"false" json:"isOracleGuaAllocationEnabled"`

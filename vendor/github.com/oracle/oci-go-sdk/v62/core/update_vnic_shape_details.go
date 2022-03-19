@@ -103,6 +103,11 @@ const (
 	UpdateVnicShapeDetailsVnicShapeVnicaasTelesisGamma             UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_TELESIS_GAMMA"
 	UpdateVnicShapeDetailsVnicShapeVnicaasPrivatedns               UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_PRIVATEDNS"
 	UpdateVnicShapeDetailsVnicShapeVnicaasFwaas                    UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_FWAAS"
+	UpdateVnicShapeDetailsVnicShapeVnicaasLbaasFree                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_FREE"
+	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g512k              UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_512K"
+	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M"
+	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g2m                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_2M"
+	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g3m                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_3M"
 	UpdateVnicShapeDetailsVnicShapeDynamicE350g                    UpdateVnicShapeDetailsVnicShapeEnum = "DYNAMIC_E3_50G"
 	UpdateVnicShapeDetailsVnicShapeFixed0040E350g                  UpdateVnicShapeDetailsVnicShapeEnum = "FIXED0040_E3_50G"
 	UpdateVnicShapeDetailsVnicShapeFixed0100E350g                  UpdateVnicShapeDetailsVnicShapeEnum = "FIXED0100_E3_50G"
@@ -1140,6 +1145,11 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnum = map[string]UpdateVnicShapeDetai
 	"VNICAAS_TELESIS_GAMMA":                UpdateVnicShapeDetailsVnicShapeVnicaasTelesisGamma,
 	"VNICAAS_PRIVATEDNS":                   UpdateVnicShapeDetailsVnicShapeVnicaasPrivatedns,
 	"VNICAAS_FWAAS":                        UpdateVnicShapeDetailsVnicShapeVnicaasFwaas,
+	"VNICAAS_LBAAS_FREE":                   UpdateVnicShapeDetailsVnicShapeVnicaasLbaasFree,
+	"VNICAAS_LBAAS_8G_512K":                UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g512k,
+	"VNICAAS_LBAAS_8G_1M":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m,
+	"VNICAAS_LBAAS_8G_2M":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g2m,
+	"VNICAAS_LBAAS_8G_3M":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g3m,
 	"DYNAMIC_E3_50G":                       UpdateVnicShapeDetailsVnicShapeDynamicE350g,
 	"FIXED0040_E3_50G":                     UpdateVnicShapeDetailsVnicShapeFixed0040E350g,
 	"FIXED0100_E3_50G":                     UpdateVnicShapeDetailsVnicShapeFixed0100E350g,
@@ -2177,6 +2187,11 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnumLowerCase = map[string]UpdateVnicS
 	"vnicaas_telesis_gamma":                UpdateVnicShapeDetailsVnicShapeVnicaasTelesisGamma,
 	"vnicaas_privatedns":                   UpdateVnicShapeDetailsVnicShapeVnicaasPrivatedns,
 	"vnicaas_fwaas":                        UpdateVnicShapeDetailsVnicShapeVnicaasFwaas,
+	"vnicaas_lbaas_free":                   UpdateVnicShapeDetailsVnicShapeVnicaasLbaasFree,
+	"vnicaas_lbaas_8g_512k":                UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g512k,
+	"vnicaas_lbaas_8g_1m":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m,
+	"vnicaas_lbaas_8g_2m":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g2m,
+	"vnicaas_lbaas_8g_3m":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g3m,
 	"dynamic_e3_50g":                       UpdateVnicShapeDetailsVnicShapeDynamicE350g,
 	"fixed0040_e3_50g":                     UpdateVnicShapeDetailsVnicShapeFixed0040E350g,
 	"fixed0100_e3_50g":                     UpdateVnicShapeDetailsVnicShapeFixed0100E350g,
@@ -3225,6 +3240,11 @@ func GetUpdateVnicShapeDetailsVnicShapeEnumStringValues() []string {
 		"VNICAAS_TELESIS_GAMMA",
 		"VNICAAS_PRIVATEDNS",
 		"VNICAAS_FWAAS",
+		"VNICAAS_LBAAS_FREE",
+		"VNICAAS_LBAAS_8G_512K",
+		"VNICAAS_LBAAS_8G_1M",
+		"VNICAAS_LBAAS_8G_2M",
+		"VNICAAS_LBAAS_8G_3M",
 		"DYNAMIC_E3_50G",
 		"FIXED0040_E3_50G",
 		"FIXED0100_E3_50G",

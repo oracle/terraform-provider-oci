@@ -15,9 +15,9 @@ import (
 	"strings"
 )
 
-// LoadBalancerConfig Specifies config for load balancer traffic shift stages.
-// The Load Balancer specified here should be an Application Load Balancer type.
-// Network Load Balancers are not supported.
+// LoadBalancerConfig Specifies configuration for load balancer traffic shift stages.
+// The load balancer specified here should be an Application load balancer type.
+// Network load balancers are not supported.
 type LoadBalancerConfig struct {
 
 	// The OCID of the load balancer.

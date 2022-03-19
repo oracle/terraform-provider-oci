@@ -59,6 +59,9 @@ type ClusterDetails struct {
 
 	// Version of the ODH (Oracle Distribution including Apache Hadoop) installed on the cluster.
 	OdhVersion *string `mandatory:"false" json:"odhVersion"`
+
+	// The URL of the Jupyterhub.
+	JupyterHubUrl *string `mandatory:"false" json:"jupyterHubUrl"`
 }
 
 func (m ClusterDetails) String() string {

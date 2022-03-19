@@ -17,22 +17,22 @@ import (
 	"strings"
 )
 
-// ListAlarmDimensionHistoryDetails The configuration details for retrieving the alarm history entries.
+// RetrieveDimensionHistoryDetails The configuration details for retrieving the alarm history entries.
 // One or more dimension key-value pairs are required.
-type ListAlarmDimensionHistoryDetails struct {
+type RetrieveDimensionHistoryDetails struct {
 
 	// A filter to return only alarm history entries that match the specified dimension key-value pairs.
 	DimensionFilters map[string]string `mandatory:"true" json:"dimensionFilters"`
 }
 
-func (m ListAlarmDimensionHistoryDetails) String() string {
+func (m RetrieveDimensionHistoryDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ListAlarmDimensionHistoryDetails) ValidateEnumValue() (bool, error) {
+func (m RetrieveDimensionHistoryDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

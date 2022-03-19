@@ -14,10 +14,10 @@ import (
 // RemoveCompartmentRequest wrapper for the RemoveCompartment operation
 type RemoveCompartmentRequest struct {
 
-	// unique SecurityZone identifier
+	// The unique identifier of the security zone (`SecurityZone`)
 	SecurityZoneId *string `mandatory:"true" contributesTo:"path" name:"securityZoneId"`
 
-	// The information to be updated.
+	// The compartment to remove from the security zone.
 	RemoveCompartmentDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

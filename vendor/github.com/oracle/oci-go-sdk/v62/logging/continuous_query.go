@@ -4,7 +4,9 @@
 
 // Logging Management API
 //
-// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
+// Use the Logging Management API to create, read, list, update, and delete
+// log groups, log objects, agent configurations, and log data models.
+// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
 package logging
@@ -27,12 +29,6 @@ type ContinuousQuery struct {
 
 	// The OCID of the compartment that the resource belongs to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
-	// Time the resource was created.
-	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
-
-	// Time the resource was last modified.
-	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	QueryStartTime ContinuousQueryStartPolicy `mandatory:"true" json:"queryStartTime"`
 
@@ -59,6 +55,12 @@ type ContinuousQuery struct {
 	//   4. LESS
 	//   5. LESSTHANEQUALTO
 	Operator ContinuousQueryOperatorEnum `mandatory:"true" json:"operator"`
+
+	// Time the resource was created.
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// Time the resource was last modified.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -117,6 +119,8 @@ func (m ContinuousQuery) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ContinuousQuery) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		TimeCreated        *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated        *common.SDKTime                   `json:"timeUpdated"`
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		RecommendationText *string                           `json:"recommendationText"`
@@ -126,8 +130,6 @@ func (m *ContinuousQuery) UnmarshalJSON(data []byte) (e error) {
 		Id                 *string                           `json:"id"`
 		Query              *string                           `json:"query"`
 		CompartmentId      *string                           `json:"compartmentId"`
-		TimeCreated        *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated        *common.SDKTime                   `json:"timeUpdated"`
 		QueryStartTime     continuousquerystartpolicy        `json:"queryStartTime"`
 		IntervalInMinutes  *int                              `json:"intervalInMinutes"`
 		Threshold          *int                              `json:"threshold"`
@@ -142,6 +144,10 @@ func (m *ContinuousQuery) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
@@ -159,10 +165,6 @@ func (m *ContinuousQuery) UnmarshalJSON(data []byte) (e error) {
 	m.Query = model.Query
 
 	m.CompartmentId = model.CompartmentId
-
-	m.TimeCreated = model.TimeCreated
-
-	m.TimeUpdated = model.TimeUpdated
 
 	nn, e = model.QueryStartTime.UnmarshalPolymorphicJSON(model.QueryStartTime.JsonData)
 	if e != nil {
@@ -252,30 +254,33 @@ type ContinuousQuerySeverityEnum string
 
 // Set of constants representing the allowable values for ContinuousQuerySeverityEnum
 const (
-	ContinuousQuerySeverityCritical ContinuousQuerySeverityEnum = "CRITICAL"
-	ContinuousQuerySeverityHigh     ContinuousQuerySeverityEnum = "HIGH"
-	ContinuousQuerySeverityMedium   ContinuousQuerySeverityEnum = "MEDIUM"
-	ContinuousQuerySeverityLow      ContinuousQuerySeverityEnum = "LOW"
-	ContinuousQuerySeverityMinor    ContinuousQuerySeverityEnum = "MINOR"
-	ContinuousQuerySeverityNone     ContinuousQuerySeverityEnum = "NONE"
+	ContinuousQuerySeverityCritical      ContinuousQuerySeverityEnum = "CRITICAL"
+	ContinuousQuerySeverityHigh          ContinuousQuerySeverityEnum = "HIGH"
+	ContinuousQuerySeverityMedium        ContinuousQuerySeverityEnum = "MEDIUM"
+	ContinuousQuerySeverityLow           ContinuousQuerySeverityEnum = "LOW"
+	ContinuousQuerySeverityMinor         ContinuousQuerySeverityEnum = "MINOR"
+	ContinuousQuerySeverityInformational ContinuousQuerySeverityEnum = "INFORMATIONAL"
+	ContinuousQuerySeverityNone          ContinuousQuerySeverityEnum = "NONE"
 )
 
 var mappingContinuousQuerySeverityEnum = map[string]ContinuousQuerySeverityEnum{
-	"CRITICAL": ContinuousQuerySeverityCritical,
-	"HIGH":     ContinuousQuerySeverityHigh,
-	"MEDIUM":   ContinuousQuerySeverityMedium,
-	"LOW":      ContinuousQuerySeverityLow,
-	"MINOR":    ContinuousQuerySeverityMinor,
-	"NONE":     ContinuousQuerySeverityNone,
+	"CRITICAL":      ContinuousQuerySeverityCritical,
+	"HIGH":          ContinuousQuerySeverityHigh,
+	"MEDIUM":        ContinuousQuerySeverityMedium,
+	"LOW":           ContinuousQuerySeverityLow,
+	"MINOR":         ContinuousQuerySeverityMinor,
+	"INFORMATIONAL": ContinuousQuerySeverityInformational,
+	"NONE":          ContinuousQuerySeverityNone,
 }
 
 var mappingContinuousQuerySeverityEnumLowerCase = map[string]ContinuousQuerySeverityEnum{
-	"critical": ContinuousQuerySeverityCritical,
-	"high":     ContinuousQuerySeverityHigh,
-	"medium":   ContinuousQuerySeverityMedium,
-	"low":      ContinuousQuerySeverityLow,
-	"minor":    ContinuousQuerySeverityMinor,
-	"none":     ContinuousQuerySeverityNone,
+	"critical":      ContinuousQuerySeverityCritical,
+	"high":          ContinuousQuerySeverityHigh,
+	"medium":        ContinuousQuerySeverityMedium,
+	"low":           ContinuousQuerySeverityLow,
+	"minor":         ContinuousQuerySeverityMinor,
+	"informational": ContinuousQuerySeverityInformational,
+	"none":          ContinuousQuerySeverityNone,
 }
 
 // GetContinuousQuerySeverityEnumValues Enumerates the set of values for ContinuousQuerySeverityEnum
@@ -295,6 +300,7 @@ func GetContinuousQuerySeverityEnumStringValues() []string {
 		"MEDIUM",
 		"LOW",
 		"MINOR",
+		"INFORMATIONAL",
 		"NONE",
 	}
 }

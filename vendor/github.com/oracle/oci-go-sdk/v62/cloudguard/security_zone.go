@@ -2,10 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Cloud Guard API
+// Cloud Guard and Security Zones API
 //
-// Use the Cloud Guard API to automate processes that you would otherwise perform through the Cloud Guard Console.
-// **Note:** You can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
+// Use the Cloud Guard and Security Zones API to automate processes that you would otherwise perform through the Cloud Guard Console or the Security Zones Console. For more information on these services, see the Cloud Guard (https://docs.cloud.oracle.com/iaas/cloud-guard/home.htm) and Security Zones (https://docs.cloud.oracle.com/iaas/security-zone/home.htm) documentation.
+// **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations in Cloud Guard from any region.
 //
 
 package cloudguard
@@ -16,34 +16,40 @@ import (
 	"strings"
 )
 
-// SecurityZone Description of SecurityZone.
+// SecurityZone A security zone is associated with a security zone recipe and enforces all security zone policies in the recipe. Any actions in the zone's compartment (and any subcompartments in the zone) that violate a policy are denied.
 type SecurityZone struct {
 
 	// Unique identifier that is immutable on creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment Identifier
+	// The OCID of the compartment for the security zone
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the security zone recipe for security zone.
+	// The OCID of the recipe (`SecurityRecipe`) for the security zone
 	SecurityZoneRecipeId *string `mandatory:"true" json:"securityZoneRecipeId"`
 
-	// SecurityZone name
+	// The security zone's name
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// SecurityZone description
+	// The security zone's description
 	Description *string `mandatory:"false" json:"description"`
 
-	// The time the the SecurityZone was created. An RFC3339 formatted datetime string
+	// The OCID of the target associated with the security zone
+	SecurityZoneTargetId *string `mandatory:"false" json:"securityZoneTargetId"`
+
+	// List of inherited compartments
+	InheritedByCompartments []string `mandatory:"false" json:"inheritedByCompartments"`
+
+	// The time the security zone was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The time the SecurityZone was updated. An RFC3339 formatted datetime string
+	// The time the security zone was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the SecurityZone.
+	// The current state of the security zone
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+	// A message describing the current state in more detail. For example, this can be used to provide actionable information for a zone in the `Failed` state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

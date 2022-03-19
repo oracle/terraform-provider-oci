@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// OkeBlueGreenStrategy Specifies the required blue green release strategy for OKE deployment.
+// OkeBlueGreenStrategy Specifies the required blue-green release strategy for OKE deployment.
 type OkeBlueGreenStrategy interface {
 }
 

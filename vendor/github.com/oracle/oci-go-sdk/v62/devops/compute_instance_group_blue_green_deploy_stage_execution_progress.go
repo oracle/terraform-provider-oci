@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ComputeInstanceGroupBlueGreenDeployStageExecutionProgress Specifies the instance group blue-green deployment stage.
+// ComputeInstanceGroupBlueGreenDeployStageExecutionProgress Specifies the Instance Group Blue-Green deployment stage.
 type ComputeInstanceGroupBlueGreenDeployStageExecutionProgress struct {
 
 	// Stage display name. Avoid entering confidential information.
@@ -36,7 +36,7 @@ type ComputeInstanceGroupBlueGreenDeployStageExecutionProgress struct {
 	// Details about stage execution for all the target environments.
 	DeployStageExecutionProgressDetails []DeployStageExecutionProgressDetails `mandatory:"false" json:"deployStageExecutionProgressDetails"`
 
-	// The OCID of either the blue or green Environment where the artifacts were deployed.
+	// The OCID of the environment where the artifacts were deployed.
 	EnvironmentId *string `mandatory:"false" json:"environmentId"`
 
 	// The current state of the stage.

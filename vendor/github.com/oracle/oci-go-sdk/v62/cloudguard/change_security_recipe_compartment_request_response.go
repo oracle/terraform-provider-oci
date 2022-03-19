@@ -14,10 +14,10 @@ import (
 // ChangeSecurityRecipeCompartmentRequest wrapper for the ChangeSecurityRecipeCompartment operation
 type ChangeSecurityRecipeCompartmentRequest struct {
 
-	// unique SecurityRecipe identifier
+	// The unique identifier of the security zone recipe (`SecurityRecipe`)
 	SecurityRecipeId *string `mandatory:"true" contributesTo:"path" name:"securityRecipeId"`
 
-	// The information to be updated.
+	// The compartment to which you want to move the recipe.
 	ChangeSecurityRecipeCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

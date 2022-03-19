@@ -23,10 +23,10 @@ type ListSecurityZonesRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// unique SecurityZone identifier
+	// The unique identifier of the security zone (`SecurityZone`)
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
-	// unique SecurityRecipe identifier
+	// The unique identifier of the security zone recipe (`SecurityRecipe`)
 	SecurityRecipeId *string `mandatory:"false" contributesTo:"query" name:"securityRecipeId"`
 
 	// security zones in the subtree

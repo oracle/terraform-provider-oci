@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// OkeCanaryDeployStageSummary Specifies the Container Engine for Kubernetes (OKE) cluster canary deployment stage.
+// OkeCanaryDeployStageSummary Specifies the Container Engine for Kubernetes (OKE) cluster Canary deployment stage.
 type OkeCanaryDeployStageSummary struct {
 
 	// Unique identifier that is immutable on creation.

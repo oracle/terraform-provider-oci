@@ -18,14 +18,25 @@ import (
 // ChangeShapeNodes Individual worker nodes groups details.
 type ChangeShapeNodes struct {
 
-	// Change shape of worker nodes to the desired target shape. Only VM_STANDARD shapes are allowed here.
+	// Change shape of worker nodes to the desired target shape. Both VM_STANDARD and E4 Flex shapes are allowed here.
 	Worker *string `mandatory:"false" json:"worker"`
 
-	// Change shape of master nodes to the desired target shape. Only VM_STANDARD shapes are allowed here.
+	WorkerShapeConfig *ShapeConfigDetails `mandatory:"false" json:"workerShapeConfig"`
+
+	// Change shape of compute only worker nodes to the desired target shape. Both VM_STANDARD and E4 Flex shapes are allowed here.
+	ComputeOnlyWorker *string `mandatory:"false" json:"computeOnlyWorker"`
+
+	ComputeOnlyWorkerShapeConfig *ShapeConfigDetails `mandatory:"false" json:"computeOnlyWorkerShapeConfig"`
+
+	// Change shape of master nodes to the desired target shape. Both VM_STANDARD and E4 Flex shapes are allowed here.
 	Master *string `mandatory:"false" json:"master"`
 
-	// Change shape of utility nodes to the desired target shape. Only VM_STANDARD shapes are allowed here.
+	MasterShapeConfig *ShapeConfigDetails `mandatory:"false" json:"masterShapeConfig"`
+
+	// Change shape of utility nodes to the desired target shape. Both VM_STANDARD and E4 Flex shapes are allowed here.
 	Utility *string `mandatory:"false" json:"utility"`
+
+	UtilityShapeConfig *ShapeConfigDetails `mandatory:"false" json:"utilityShapeConfig"`
 
 	// Change shape of the Cloud SQL node to the desired target shape. Only VM_STANDARD shapes are allowed here.
 	Cloudsql *string `mandatory:"false" json:"cloudsql"`

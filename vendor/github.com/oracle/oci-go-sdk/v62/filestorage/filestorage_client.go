@@ -2575,6 +2575,59 @@ func (client FileStorageClient) replicationTargetFileSystemGet(ctx context.Conte
 	return response, err
 }
 
+// ReplicationTargetGet Gets the specified replication target's information.
+func (client FileStorageClient) ReplicationTargetGet(ctx context.Context, request ReplicationTargetGetRequest) (response ReplicationTargetGetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.replicationTargetGet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReplicationTargetGetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReplicationTargetGetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReplicationTargetGetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReplicationTargetGetResponse")
+	}
+	return
+}
+
+// replicationTargetGet implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) replicationTargetGet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/replicationTargets/actions/replicationTargetGet", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ReplicationTargetGetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ReplicationTarget/ReplicationTargetGet"
+		err = common.PostProcessServiceError(err, "FileStorage", "ReplicationTargetGet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ReplicationTargetStatusUpdate Update Replication Status of ReplicationTarget in a remote region. This API is called as part of Replication Lifecycle Management.
 func (client FileStorageClient) ReplicationTargetStatusUpdate(ctx context.Context, request ReplicationTargetStatusUpdateRequest) (response ReplicationTargetStatusUpdateResponse, err error) {
 	var ociResponse common.OCIResponse

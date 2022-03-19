@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateOkeBlueGreenDeployStageDetails Specifies the Container Engine for Kubernetes (OKE) cluster blue-green deployment stage.
+// CreateOkeBlueGreenDeployStageDetails Specifies the Container Engine for Kubernetes (OKE) cluster Blue-Green deployment stage.
 type CreateOkeBlueGreenDeployStageDetails struct {
 
 	// The OCID of a pipeline.

@@ -37,7 +37,7 @@ type OkeDeployStage struct {
 	// List of Kubernetes manifest artifact OCIDs.
 	KubernetesManifestDeployArtifactIds []string `mandatory:"true" json:"kubernetesManifestDeployArtifactIds"`
 
-	// Default Namespace to be used for Kubernetes deployment when not specified in the manifest.
+	// Default namespace to be used for Kubernetes deployment when not specified in the manifest.
 	Namespace *string `mandatory:"true" json:"namespace"`
 
 	// Optional description about the deployment stage.

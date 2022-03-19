@@ -14,7 +14,7 @@ import (
 // DeleteSecurityZoneRequest wrapper for the DeleteSecurityZone operation
 type DeleteSecurityZoneRequest struct {
 
-	// unique SecurityZone identifier
+	// The unique identifier of the security zone (`SecurityZone`)
 	SecurityZoneId *string `mandatory:"true" contributesTo:"path" name:"securityZoneId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

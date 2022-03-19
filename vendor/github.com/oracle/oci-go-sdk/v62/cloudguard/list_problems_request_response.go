@@ -65,7 +65,7 @@ type ListProblemsRequest struct {
 	// The ID of the target in which to list resources.
 	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
 
-	// Setting this to `SECURITY_ZONE` returns only security-zone related voilations.
+	// Setting this to `SECURITY_ZONE` returns only security-zone related violations.
 	ProblemCategory ListProblemsProblemCategoryEnum `mandatory:"false" contributesTo:"query" name:"problemCategory" omitEmpty:"true"`
 
 	// Default is false.

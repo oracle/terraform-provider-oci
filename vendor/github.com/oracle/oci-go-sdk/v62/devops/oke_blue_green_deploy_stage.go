@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// OkeBlueGreenDeployStage Specifies the Container Engine for Kubernetes (OKE) cluster blue-green deployment stage.
+// OkeBlueGreenDeployStage Specifies the Container Engine for Kubernetes (OKE) cluster Blue-Green deployment stage.
 type OkeBlueGreenDeployStage struct {
 
 	// Unique identifier that is immutable on creation.

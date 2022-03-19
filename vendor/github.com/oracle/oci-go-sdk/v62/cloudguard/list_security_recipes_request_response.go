@@ -23,7 +23,7 @@ type ListSecurityRecipesRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// unique SecurityRecipe identifier
+	// The unique identifier of the security zone recipe (`SecurityRecipe`)
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The maximum number of items to return.

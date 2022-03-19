@@ -7738,6 +7738,222 @@ func (client IdentityClient) resetIdpScimClient(ctx context.Context, request com
 	return response, err
 }
 
+// SetGovernanceFromChild Set the governing tenancy of child tenancy to be the parent (request originated from child)
+func (client IdentityClient) SetGovernanceFromChild(ctx context.Context, request SetGovernanceFromChildRequest) (response SetGovernanceFromChildResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.setGovernanceFromChild, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SetGovernanceFromChildResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SetGovernanceFromChildResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SetGovernanceFromChildResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SetGovernanceFromChildResponse")
+	}
+	return
+}
+
+// setGovernanceFromChild implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) setGovernanceFromChild(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tenancies/{childTenancyId}/actions/setGovernanceFromChild", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SetGovernanceFromChildResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tenancy/SetGovernanceFromChild"
+		err = common.PostProcessServiceError(err, "Identity", "SetGovernanceFromChild", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SetGovernanceFromParent Set the governing tenancy of child tenancy to be the parent (request originated from parent)
+func (client IdentityClient) SetGovernanceFromParent(ctx context.Context, request SetGovernanceFromParentRequest) (response SetGovernanceFromParentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.setGovernanceFromParent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SetGovernanceFromParentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SetGovernanceFromParentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SetGovernanceFromParentResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SetGovernanceFromParentResponse")
+	}
+	return
+}
+
+// setGovernanceFromParent implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) setGovernanceFromParent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tenancies/{childTenancyId}/actions/setGovernanceFromParent", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SetGovernanceFromParentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tenancy/SetGovernanceFromParent"
+		err = common.PostProcessServiceError(err, "Identity", "SetGovernanceFromParent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UnsetGovernanceFromChild Remove the governing tenancy of child tenancy (request originated from child)
+func (client IdentityClient) UnsetGovernanceFromChild(ctx context.Context, request UnsetGovernanceFromChildRequest) (response UnsetGovernanceFromChildResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.unsetGovernanceFromChild, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnsetGovernanceFromChildResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnsetGovernanceFromChildResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnsetGovernanceFromChildResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnsetGovernanceFromChildResponse")
+	}
+	return
+}
+
+// unsetGovernanceFromChild implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) unsetGovernanceFromChild(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tenancies/{childTenancyId}/actions/unsetGovernanceFromChild", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnsetGovernanceFromChildResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tenancy/UnsetGovernanceFromChild"
+		err = common.PostProcessServiceError(err, "Identity", "UnsetGovernanceFromChild", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UnsetGovernanceFromParent Remove the governing tenancy of child tenancy (request originated from parent)
+func (client IdentityClient) UnsetGovernanceFromParent(ctx context.Context, request UnsetGovernanceFromParentRequest) (response UnsetGovernanceFromParentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.unsetGovernanceFromParent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnsetGovernanceFromParentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnsetGovernanceFromParentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnsetGovernanceFromParentResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnsetGovernanceFromParentResponse")
+	}
+	return
+}
+
+// unsetGovernanceFromParent implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) unsetGovernanceFromParent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tenancies/{childTenancyId}/actions/unsetGovernanceFromParent", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnsetGovernanceFromParentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tenancy/UnsetGovernanceFromParent"
+		err = common.PostProcessServiceError(err, "Identity", "UnsetGovernanceFromParent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateAuthToken Updates the specified auth token's description.
 func (client IdentityClient) UpdateAuthToken(ctx context.Context, request UpdateAuthTokenRequest) (response UpdateAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse

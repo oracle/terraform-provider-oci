@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateComputeInstanceGroupBlueGreenDeployStageDetails Specifies the instance group blue-green deployment stage.
+// UpdateComputeInstanceGroupBlueGreenDeployStageDetails Specifies the Instance Group Blue-Green deployment stage.
 type UpdateComputeInstanceGroupBlueGreenDeployStageDetails struct {
 
 	// Optional description about the deployment stage.

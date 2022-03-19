@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateOkeCanaryDeployStageDetails Specifies the Container Engine for Kubernetes (OKE) cluster canary deployment stage.
+// CreateOkeCanaryDeployStageDetails Specifies the Container Engine for Kubernetes (OKE) cluster Canary deployment stage.
 type CreateOkeCanaryDeployStageDetails struct {
 
 	// The OCID of a pipeline.

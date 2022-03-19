@@ -11,15 +11,14 @@ import (
 	"strings"
 )
 
-// ListAlarmDimensionStatesRequest wrapper for the ListAlarmDimensionStates operation
-type ListAlarmDimensionStatesRequest struct {
+// RetrieveDimensionHistoryRequest wrapper for the RetrieveDimensionHistory operation
+type RetrieveDimensionHistoryRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm.
 	AlarmId *string `mandatory:"true" contributesTo:"path" name:"alarmId"`
 
-	// The configuration details for retrieving the alarm state entries. Filter retrieved alarm state entries by a specified status value
-	// and specified dimension key-value pairs.
-	ListAlarmDimensionStateDetails `contributesTo:"body"`
+	// The configuration details for retrieving the alarm history entries. One or more dimension key-value pairs are required.
+	RetrieveDimensionHistoryDetails `contributesTo:"body"`
 
 	// Customer part of the request identifier token. If you need to contact Oracle about a particular
 	// request, please provide the complete request ID.
@@ -40,12 +39,12 @@ type ListAlarmDimensionStatesRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request ListAlarmDimensionStatesRequest) String() string {
+func (request RetrieveDimensionHistoryRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ListAlarmDimensionStatesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request RetrieveDimensionHistoryRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -55,21 +54,21 @@ func (request ListAlarmDimensionStatesRequest) HTTPRequest(method, path string, 
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request ListAlarmDimensionStatesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request RetrieveDimensionHistoryRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListAlarmDimensionStatesRequest) RetryPolicy() *common.RetryPolicy {
+func (request RetrieveDimensionHistoryRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request ListAlarmDimensionStatesRequest) ValidateEnumValue() (bool, error) {
+func (request RetrieveDimensionHistoryRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -77,14 +76,14 @@ func (request ListAlarmDimensionStatesRequest) ValidateEnumValue() (bool, error)
 	return false, nil
 }
 
-// ListAlarmDimensionStatesResponse wrapper for the ListAlarmDimensionStates operation
-type ListAlarmDimensionStatesResponse struct {
+// RetrieveDimensionHistoryResponse wrapper for the RetrieveDimensionHistory operation
+type RetrieveDimensionHistoryResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// A list of AlarmDimensionStatesCollection instances
-	AlarmDimensionStatesCollection `presentIn:"body"`
+	// A list of AlarmDimensionHistoryCollection instances
+	AlarmDimensionHistoryCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
 	// a particular request, please provide the request ID.
@@ -95,11 +94,11 @@ type ListAlarmDimensionStatesResponse struct {
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
-func (response ListAlarmDimensionStatesResponse) String() string {
+func (response RetrieveDimensionHistoryResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response ListAlarmDimensionStatesResponse) HTTPResponse() *http.Response {
+func (response RetrieveDimensionHistoryResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

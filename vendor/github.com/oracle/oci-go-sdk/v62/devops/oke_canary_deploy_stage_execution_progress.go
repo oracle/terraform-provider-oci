@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// OkeCanaryDeployStageExecutionProgress Specifies the Container Engine for Kubernetes (OKE) cluster canary deployment stage.
+// OkeCanaryDeployStageExecutionProgress Specifies the Container Engine for Kubernetes (OKE) cluster Canary deployment stage.
 type OkeCanaryDeployStageExecutionProgress struct {
 
 	// Stage display name. Avoid entering confidential information.

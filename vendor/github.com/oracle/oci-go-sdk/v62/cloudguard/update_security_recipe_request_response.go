@@ -14,10 +14,10 @@ import (
 // UpdateSecurityRecipeRequest wrapper for the UpdateSecurityRecipe operation
 type UpdateSecurityRecipeRequest struct {
 
-	// unique SecurityRecipe identifier
+	// The unique identifier of the security zone recipe (`SecurityRecipe`)
 	SecurityRecipeId *string `mandatory:"true" contributesTo:"path" name:"securityRecipeId"`
 
-	// The information to be updated.
+	// The information to be updated in the security zone recipe.
 	UpdateSecurityRecipeDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

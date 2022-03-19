@@ -14,10 +14,10 @@ import (
 // AddCompartmentRequest wrapper for the AddCompartment operation
 type AddCompartmentRequest struct {
 
-	// unique SecurityZone identifier
+	// The unique identifier of the security zone (`SecurityZone`)
 	SecurityZoneId *string `mandatory:"true" contributesTo:"path" name:"securityZoneId"`
 
-	// The details to be updated.
+	// The compartment to add to the security zone.
 	AddCompartmentDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

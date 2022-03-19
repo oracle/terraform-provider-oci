@@ -23,7 +23,7 @@ type ListSecurityPoliciesRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// unique SecurityPolicy identifier
+	// The unique identifier of the security zone policy (`SecurityPolicy`)
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The maximum number of items to return.
