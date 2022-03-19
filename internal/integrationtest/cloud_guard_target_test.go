@@ -398,9 +398,9 @@ func testAccCheckCloudGuardTargetDestroy(s *terraform.State) error {
 				deletedLifecycleStates := map[string]bool{
 					string(oci_cloud_guard.LifecycleStateDeleted): true,
 				}
-				if _, ok := deletedLifecycleStates[string(response.GetLifecycleState())]; !ok {
+				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.
-					return fmt.Errorf("resource lifecycle state: %s is not in expected deleted lifecycle states", response.GetLifecycleState())
+					return fmt.Errorf("resource lifecycle state: %s is not in expected deleted lifecycle states", response.LifecycleState)
 				}
 				//resource lifecycle state is in expected deleted lifecycle states. continue with next one.
 				continue
@@ -485,7 +485,7 @@ func getTargetIds(compartment string) ([]string, error) {
 func targetSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if targetResponse, ok := response.Response.(oci_cloud_guard.GetTargetResponse); ok {
-		return targetResponse.GetLifecycleState() != oci_cloud_guard.LifecycleStateDeleted
+		return targetResponse.LifecycleState != oci_cloud_guard.LifecycleStateDeleted
 	}
 	return false
 }
