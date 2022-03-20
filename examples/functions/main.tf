@@ -102,6 +102,11 @@ resource "oci_functions_function" "test_function" {
   trace_config {
     is_enabled = var.function_trace_config.is_enabled
   }
+
+  provisioned_concurrency_config {
+    strategy = "CONSTANT"
+    count = 40
+  }
 }
 
 data "oci_functions_functions" "test_functions" {
