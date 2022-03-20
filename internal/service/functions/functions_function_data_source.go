@@ -103,6 +103,16 @@ func (s *FunctionsFunctionDataSourceCrud) SetData() error {
 		s.D.Set("memory_in_mbs", strconv.FormatInt(*s.Res.MemoryInMBs, 10))
 	}
 
+	if s.Res.ProvisionedConcurrencyConfig != nil {
+		provisionedConcurrencyConfigArray := []interface{}{}
+		if provisionedConcurrencyConfigMap := FunctionProvisionedConcurrencyConfigToMap(&s.Res.ProvisionedConcurrencyConfig); provisionedConcurrencyConfigMap != nil {
+			provisionedConcurrencyConfigArray = append(provisionedConcurrencyConfigArray, provisionedConcurrencyConfigMap)
+		}
+		s.D.Set("provisioned_concurrency_config", provisionedConcurrencyConfigArray)
+	} else {
+		s.D.Set("provisioned_concurrency_config", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
