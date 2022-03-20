@@ -73,25 +73,20 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `is_auto_tune_enabled` - (Optional) (Updatable) Specifies whether the auto-tune performance is enabled for this volume.
+* `is_auto_tune_enabled` - (Optional) (Updatable) Specifies whether the auto-tune performance is enabled for this boot volume. 
 * `kms_key_id` - (Optional) (Updatable) The OCID of the Key Management key to assign as the master encryption key for the volume. 
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
 * `size_in_mbs` - (Optional) The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use `size_in_gbs` instead. 
 * `source_details` - (Optional) 
 	* `id` - (Required) The OCID of the block volume replica.
 	* `type` - (Required) The type can be one of these values: `blockVolumeReplica`, `volume`, `volumeBackup`
-* `volume_backup_id` - (Optional) The OCID of the volume backup from which the data should be restored on the newly created volume. This field is deprecated. Use the `source_details` field instead to specify the backup for the volume. 
-* `vpus_per_gb` - (Optional) (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Elastic Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
+* `volume_backup_id` - (Optional) The OCID of the volume backup from which the data should be restored on the newly created volume. This field is deprecated. Use the sourceDetails field instead to specify the backup for the volume. 
+* `vpus_per_gb` - (Optional) (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 
 	Allowed values:
-	* `0`: Represents Lower Cost option.
 	* `10`: Represents Balanced option.
 	* `20`: Represents Higher Performance option.
-	* `30`-`120`: Represents the Ultra High Performance option.
-	
-	For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB. 
-* `block_volume_replicas_deletion` - (Optional) (updatable) The boolean value, if you have replicas and want to disable replicas set this argument to true and remove `block_volume_replicas` in representation at the same time. If you want to enable a new replicas, remove this argument and use `block_volume_replicas` again.
-
+	* `30`-`120`: Represents the Ultra High Performance option. 
 
 
 ** IMPORTANT **
@@ -101,7 +96,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `auto_tuned_vpus_per_gb` - The number of Volume Performance Units per GB that this volume is effectively tuned to. 
+* `auto_tuned_vpus_per_gb` - The number of Volume Performance Units per GB that this volume is effectively tuned to when it's idle. 
 * `availability_domain` - The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
 * `block_volume_replicas` - The list of block volume replicas of this volume.
 	* `availability_domain` - The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
@@ -112,7 +107,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the volume.
-* `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this volume.
+* `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this boot volume. 
 * `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup. 
 * `kms_key_id` - The OCID of the Key Management key which is the master encryption key for the volume. 
 * `size_in_gbs` - The size of the volume in GBs.
@@ -127,14 +122,9 @@ The following attributes are exported:
 * `vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 
 	Allowed values:
-	* `0`: Represents Lower Cost option.
 	* `10`: Represents Balanced option.
 	* `20`: Represents Higher Performance option.
-	* `30`-`120`: Represents the Ultra High Performance option.
-	
-	For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB. 
-* `block_volume_replicas_deletion` - The boolean value, if you have replicas and want to disable replicas set this argument to true and remove `block_volume_replicas` in representation at the same time. If you want to enable a new replicas, remove this argument and use `block_volume_replicas` again.
-
+	* `30`-`120`: Represents the Ultra High Performance option. 
 
 ## Timeouts
 
