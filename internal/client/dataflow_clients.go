@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_dataflow "github.com/oracle/oci-go-sdk/v62/dataflow"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v63/dataflow"
 
-	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_common "github.com/oracle/oci-go-sdk/v63/common"
 )
 
 func init() {

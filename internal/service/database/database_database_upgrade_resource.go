@@ -16,8 +16,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_database "github.com/oracle/oci-go-sdk/v62/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v62/workrequests"
+	oci_database "github.com/oracle/oci-go-sdk/v63/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v63/workrequests"
 )
 
 func DatabaseDatabaseUpgradeResource() *schema.Resource {

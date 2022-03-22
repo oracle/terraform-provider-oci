@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v62/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v63/loganalytics"
 
-	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_common "github.com/oracle/oci-go-sdk/v63/common"
 )
 
 func init() {
