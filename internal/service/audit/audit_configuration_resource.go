@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_audit "github.com/oracle/oci-go-sdk/v62/audit"
+	oci_audit "github.com/oracle/oci-go-sdk/v63/audit"
 )
 
 func AuditConfigurationResource() *schema.Resource {
