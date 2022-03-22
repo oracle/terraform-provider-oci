@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_identity_data_plane "github.com/oracle/oci-go-sdk/v62/identitydataplane"
+	oci_identity_data_plane "github.com/oracle/oci-go-sdk/v63/identitydataplane"
 
-	oci_common "github.com/oracle/oci-go-sdk/v62/common"
+	oci_common "github.com/oracle/oci-go-sdk/v63/common"
 )
 
 func init() {

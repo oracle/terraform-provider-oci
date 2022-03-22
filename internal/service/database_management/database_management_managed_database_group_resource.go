@@ -15,7 +15,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_database_management "github.com/oracle/oci-go-sdk/v62/databasemanagement"
+	oci_database_management "github.com/oracle/oci-go-sdk/v63/databasemanagement"
 )
 
 func DatabaseManagementManagedDatabaseGroupResource() *schema.Resource {

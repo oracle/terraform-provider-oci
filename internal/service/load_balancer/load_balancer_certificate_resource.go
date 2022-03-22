@@ -17,7 +17,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v62/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v63/loadbalancer"
 )
 
 func LoadBalancerCertificateResource() *schema.Resource {

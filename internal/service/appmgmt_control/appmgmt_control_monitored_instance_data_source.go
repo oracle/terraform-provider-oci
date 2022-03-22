@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_appmgmt_control "github.com/oracle/oci-go-sdk/v62/appmgmtcontrol"
+	oci_appmgmt_control "github.com/oracle/oci-go-sdk/v63/appmgmtcontrol"
 )
 
 func AppmgmtControlMonitoredInstanceDataSource() *schema.Resource {

@@ -31,8 +31,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	sdkMeta "github.com/hashicorp/terraform-plugin-sdk/v2/meta"
 
-	oci_common "github.com/oracle/oci-go-sdk/v62/common"
-	oci_common_auth "github.com/oracle/oci-go-sdk/v62/common/auth"
+	oci_common "github.com/oracle/oci-go-sdk/v63/common"
+	oci_common_auth "github.com/oracle/oci-go-sdk/v63/common/auth"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
