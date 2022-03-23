@@ -1,4 +1,4 @@
-## 4.69.0 (Unreleased)
+## 4.69.0 (March 23, 2022)
 
 ### Added
 - Support for MySQL Database Service Deletion Policy on Db Systems
