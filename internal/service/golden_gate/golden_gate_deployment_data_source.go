@@ -5,12 +5,13 @@ package golden_gate
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v62/goldengate"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v63/goldengate"
 )
 
 func GoldenGateDeploymentDataSource() *schema.Resource {
@@ -118,6 +119,10 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("is_public", *s.Res.IsPublic)
 	}
 
+	if s.Res.IsStorageUtilizationLimitExceeded != nil {
+		s.D.Set("is_storage_utilization_limit_exceeded", *s.Res.IsStorageUtilizationLimitExceeded)
+	}
+
 	s.D.Set("license_model", s.Res.LicenseModel)
 
 	if s.Res.LifecycleDetails != nil {
@@ -143,6 +148,10 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.StorageUtilizationInBytes != nil {
+		s.D.Set("storage_utilization_in_bytes", strconv.FormatInt(*s.Res.StorageUtilizationInBytes, 10))
+	}
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)

@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v62/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v63/loganalytics"
 )
 
 func LogAnalyticsLogAnalyticsResourceCategoriesManagementResource() *schema.Resource {

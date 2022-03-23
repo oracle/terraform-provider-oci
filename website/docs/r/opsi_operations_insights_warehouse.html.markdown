@@ -11,7 +11,8 @@ description: |-
 This resource provides the Operations Insights Warehouse resource in Oracle Cloud Infrastructure Opsi service.
 
 Create a Operations Insights Warehouse resource for the tenant in Operations Insights. New ADW will be provisioned for this tenant.
-There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment.
+There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment. If the 'opsi-warehouse-type'
+header is passed to the API, a warehouse resource without ADW or Schema provisioning is created.
 
 
 ## Example Usage

@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_artifacts "github.com/oracle/oci-go-sdk/v62/artifacts"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v63/artifacts"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

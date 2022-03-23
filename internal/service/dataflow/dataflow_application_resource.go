@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_dataflow "github.com/oracle/oci-go-sdk/v62/dataflow"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v63/dataflow"
 )
 
 func DataflowApplicationResource() *schema.Resource {

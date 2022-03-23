@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -16,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v62/common"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v62/goldengate"
+	oci_common "github.com/oracle/oci-go-sdk/v63/common"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v63/goldengate"
 )
 
 func GoldenGateDeploymentResource() *schema.Resource {
@@ -168,6 +169,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"is_storage_utilization_limit_exceeded": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -185,6 +190,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Computed: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"storage_utilization_in_bytes": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -692,6 +701,10 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 		s.D.Set("is_public", *s.Res.IsPublic)
 	}
 
+	if s.Res.IsStorageUtilizationLimitExceeded != nil {
+		s.D.Set("is_storage_utilization_limit_exceeded", *s.Res.IsStorageUtilizationLimitExceeded)
+	}
+
 	s.D.Set("license_model", s.Res.LicenseModel)
 
 	if s.Res.LifecycleDetails != nil {
@@ -721,6 +734,10 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.StorageUtilizationInBytes != nil {
+		s.D.Set("storage_utilization_in_bytes", strconv.FormatInt(*s.Res.StorageUtilizationInBytes, 10))
+	}
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
@@ -890,6 +907,10 @@ func GoldenGateDeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map
 		result["is_public"] = bool(*obj.IsPublic)
 	}
 
+	if obj.IsStorageUtilizationLimitExceeded != nil {
+		result["is_storage_utilization_limit_exceeded"] = bool(*obj.IsStorageUtilizationLimitExceeded)
+	}
+
 	result["license_model"] = string(obj.LicenseModel)
 
 	if obj.LifecycleDetails != nil {
@@ -907,6 +928,10 @@ func GoldenGateDeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.StorageUtilizationInBytes != nil {
+		result["storage_utilization_in_bytes"] = strconv.FormatInt(*obj.StorageUtilizationInBytes, 10)
+	}
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)

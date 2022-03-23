@@ -28,6 +28,7 @@ data "oci_opsi_database_insights" "test_database_insights" {
 	exadata_insight_id = oci_opsi_exadata_insight.test_exadata_insight.id
 	fields = var.database_insight_fields
 	id = var.database_insight_id
+	opsi_private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
 	state = var.database_insight_state
 	status = var.database_insight_status
 }
@@ -39,12 +40,13 @@ The following arguments are supported:
 
 * `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compartment_id_in_subtree` - (Optional) A flag to search all resources within a given compartment and all sub-compartments. 
-* `database_id` - (Applicable when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE) Optional list of database [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity. 
-* `database_type` - (Optional) Filter by one or more database type. Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB. 
-* `enterprise_manager_bridge_id` - (Optional) Unique Enterprise Manager bridge identifier
-* `exadata_insight_id` - (Optional) [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource. 
-* `fields` - (Optional) Specifies the fields to return in a database summary response. By default all fields are returned if omitted.
-* `id` - (Optional) Optional database insight resource [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
+* `database_id` - (Applicable when entity_source=AUTONOMOUS_DATABASE | PE_COMANAGED_DATABASE) Optional list of database [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity. 
+* `database_type` - (Optional) Filter by one or more database type. Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
+* `enterprise_manager_bridge_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_DATABASE) Unique Enterprise Manager bridge identifier
+* `exadata_insight_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_DATABASE) [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource. 
+* `fields` - (Optional) Specifies the fields to return in a database summary response. By default all fields are returned if omitted. 
+* `id` - (Optional) Optional list of database insight resource [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `opsi_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_DATABASE) Unique Operations Insights PrivateEndpoint identifier
 * `state` - (Optional) Lifecycle states
 * `status` - (Optional) Resource Status
 
@@ -60,6 +62,31 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - Compartment identifier of the database
+* `connection_credential_details` - User credential details to connect to the database. This is supplied via the External Database Service. 
+	* `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
+	* `credential_type` - Credential type.
+	* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
+	* `role` - database user role.
+	* `user_name` - database user name.
+* `connection_details` - Connection details to connect to the database. HostName, protocol, and port should be specified.
+	* `host_name` - Name of the listener host that will be used to create the connect string to the database.
+	* `hosts` - List of hosts and port for private endpoint accessed database resource.
+		* `host_ip` - Host IP used for connection requests for Cloud DB resource.
+		* `port` - Listener port number used for connection requests for rivate endpoint accessed db resource.
+	* `port` - Listener port number used for connection requests.
+	* `protocol` - Protocol used for connection requests for private endpoint accssed database resource.
+	* `service_name` - Database service name used for connection requests.
+* `credential_details` - User credential details to connect to the database. This is supplied via the External Database Service. 
+	* `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
+	* `credential_type` - Credential type.
+	* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
+	* `role` - database user role.
+	* `user_name` - database user name.
+* `database_connection_status_details` - A message describing the status of the database connection of this resource. For example, it can be used to provide actionable information about the permission and content validity of the database connection.
+* `database_display_name` - Display name of database
+* `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
+* `database_name` - Name of database
+* `database_resource_type` - Oracle Cloud Infrastructure database resource type
 * `database_type` - Operations Insights internal representation of the database type.
 * `database_version` - The version of the database.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
@@ -74,7 +101,8 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Database insight identifier
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-* `processor_count` - Processor count.
+* `opsi_private_endpoint_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+* `processor_count` - Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.
 * `state` - The current state of the database.
 * `status` - Indicates the status of a database insight in Operations Insights
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

@@ -15,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_mysql "github.com/oracle/oci-go-sdk/v62/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v63/mysql"
 )
 
 func MysqlMysqlDbSystemResource() *schema.Resource {
@@ -137,6 +137,35 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Computed:         true,
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
+			},
+			"deletion_policy": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"automatic_backup_retention": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"final_backup": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"is_delete_protected": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 			"description": {
 				Type:     schema.TypeString,
@@ -751,6 +780,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if deletionPolicy, ok := s.D.GetOkExists("deletion_policy"); ok {
+		if tmpList := deletionPolicy.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deletion_policy", 0)
+			tmp, err := s.mapToCreateDeletionPolicyDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DeletionPolicy = &tmp
+		}
+	}
+
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
@@ -889,6 +929,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if deletionPolicy, ok := s.D.GetOkExists("deletion_policy"); ok {
+		if tmpList := deletionPolicy.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deletion_policy", 0)
+			tmp, err := s.mapToUpdateDeletionPolicyDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DeletionPolicy = &tmp
+		}
+	}
+
 	if description, ok := s.D.GetOkExists("description"); ok && s.D.HasChange("description") {
 		tmp := description.(string)
 		request.Description = &tmp
@@ -986,6 +1037,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
+	if s.Res.DeletionPolicy != nil {
+		s.D.Set("deletion_policy", []interface{}{DeletionPolicyDetailsToMap(s.Res.DeletionPolicy)})
+	} else {
+		s.D.Set("deletion_policy", nil)
 	}
 
 	if s.Res.Description != nil {
@@ -1351,6 +1408,58 @@ func DbSystemSourceToMap(obj *oci_mysql.DbSystemSource) map[string]interface{} {
 	}
 
 	return result
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateDeletionPolicyDetails(fieldKeyFormat string) (oci_mysql.CreateDeletionPolicyDetails, error) {
+	result := oci_mysql.CreateDeletionPolicyDetails{}
+
+	if automaticBackupRetention, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "automatic_backup_retention")); ok {
+		result.AutomaticBackupRetention = oci_mysql.CreateDeletionPolicyDetailsAutomaticBackupRetentionEnum(automaticBackupRetention.(string))
+	}
+
+	if finalBackup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "final_backup")); ok {
+		result.FinalBackup = oci_mysql.CreateDeletionPolicyDetailsFinalBackupEnum(finalBackup.(string))
+	}
+
+	if isDeleteProtected, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_delete_protected")); ok {
+		tmp := isDeleteProtected.(bool)
+		result.IsDeleteProtected = &tmp
+	}
+
+	return result, nil
+}
+
+func DeletionPolicyDetailsToMap(obj *oci_mysql.DeletionPolicyDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["automatic_backup_retention"] = string(obj.AutomaticBackupRetention)
+
+	result["final_backup"] = string(obj.FinalBackup)
+
+	if obj.IsDeleteProtected != nil {
+		result["is_delete_protected"] = bool(*obj.IsDeleteProtected)
+	}
+
+	return result
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateDeletionPolicyDetails(fieldKeyFormat string) (oci_mysql.UpdateDeletionPolicyDetails, error) {
+	result := oci_mysql.UpdateDeletionPolicyDetails{}
+
+	if automaticBackupRetention, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "automatic_backup_retention")); ok {
+		result.AutomaticBackupRetention = oci_mysql.UpdateDeletionPolicyDetailsAutomaticBackupRetentionEnum(automaticBackupRetention.(string))
+	}
+
+	if finalBackup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "final_backup")); ok {
+		result.FinalBackup = oci_mysql.UpdateDeletionPolicyDetailsFinalBackupEnum(finalBackup.(string))
+	}
+
+	if isDeleteProtected, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_delete_protected")); ok {
+		tmp := isDeleteProtected.(bool)
+		result.IsDeleteProtected = &tmp
+	}
+
+	return result, nil
 }
 
 func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateMaintenanceDetails(fieldKeyFormat string) (oci_mysql.CreateMaintenanceDetails, error) {

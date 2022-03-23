@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v62/dataintegration"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v63/dataintegration"
 )
 
 func DataintegrationWorkspacesDataSource() *schema.Resource {

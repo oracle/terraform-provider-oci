@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v62/ocvp"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v63/ocvp"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -131,6 +131,10 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 
 	if s.Res.IsHcxPendingDowngrade != nil {
 		s.D.Set("is_hcx_pending_downgrade", *s.Res.IsHcxPendingDowngrade)
+	}
+
+	if s.Res.IsShieldedInstanceEnabled != nil {
+		s.D.Set("is_shielded_instance_enabled", *s.Res.IsShieldedInstanceEnabled)
 	}
 
 	if s.Res.NsxEdgeUplink1VlanId != nil {

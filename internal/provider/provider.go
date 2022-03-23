@@ -31,8 +31,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	sdkMeta "github.com/hashicorp/terraform-plugin-sdk/v2/meta"
 
-	oci_common "github.com/oracle/oci-go-sdk/v62/common"
-	oci_common_auth "github.com/oracle/oci-go-sdk/v62/common/auth"
+	oci_common "github.com/oracle/oci-go-sdk/v63/common"
+	oci_common_auth "github.com/oracle/oci-go-sdk/v63/common/auth"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
@@ -93,7 +93,7 @@ func ociVarName(attrName string) string {
 
 func init() {
 	descriptions = map[string]string{
-		globalvar.AuthAttrName:        fmt.Sprintf("(Optional) The type of auth to use. Options are '%s', '%s' and '%s'. By default, '%s' will be used.", globalvar.AuthAPIKeySetting, globalvar.AuthSecurityToken, globalvar.AuthInstancePrincipalSetting, globalvar.AuthAPIKeySetting),
+		globalvar.AuthAttrName:        fmt.Sprintf("(Optional) The type of auth to use. Options are '%s', '%s' and '%s' and '%s'. By default, '%s' will be used.", globalvar.AuthAPIKeySetting, globalvar.AuthSecurityToken, globalvar.AuthInstancePrincipalSetting, globalvar.ResourcePrincipal, globalvar.AuthAPIKeySetting),
 		globalvar.TenancyOcidAttrName: fmt.Sprintf("(Optional) The tenancy OCID for a user. The tenancy OCID can be found at the bottom of user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
 		globalvar.UserOcidAttrName:    fmt.Sprintf("(Optional) The user OCID. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
 		globalvar.FingerprintAttrName: fmt.Sprintf("(Optional) The fingerprint for the user's RSA key. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
@@ -129,7 +129,7 @@ func SchemaMap() map[string]*schema.Schema {
 			Optional:     true,
 			Description:  descriptions[globalvar.AuthAttrName],
 			DefaultFunc:  schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.AuthAttrName), ociVarName(globalvar.AuthAttrName)}, globalvar.AuthAPIKeySetting),
-			ValidateFunc: validation.StringInSlice([]string{globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting, globalvar.AuthSecurityToken}, true),
+			ValidateFunc: validation.StringInSlice([]string{globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting, globalvar.AuthSecurityToken, globalvar.ResourcePrincipal}, true),
 		},
 		globalvar.TenancyOcidAttrName: {
 			Type:        schema.TypeString,
@@ -412,7 +412,6 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 		log.Printf("[DEBUG] Configuration provided by: %s", cfg)
 
 		configProviders = append(configProviders, cfg)
-
 	case strings.ToLower(globalvar.AuthSecurityToken):
 		_, ok := utils.CheckIncompatibleAttrsForApiKeyAuth(d, ApiKeyConfigAttributes)
 		if !ok {
@@ -443,8 +442,14 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 			return nil, fmt.Errorf("Security token is invalid ")
 		}
 		configProviders = append(configProviders, securityTokenBasedAuthConfigProvider)
+	case strings.ToLower(globalvar.ResourcePrincipal):
+		resourcePrincipalAuthConfigProvider, err := oci_common_auth.ResourcePrincipalConfigurationProvider()
+		if err != nil {
+			return nil, err
+		}
+		configProviders = append(configProviders, resourcePrincipalAuthConfigProvider)
 	default:
-		return nil, fmt.Errorf("auth must be one of '%s' or '%s' or '%s' or '%s'", globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting, globalvar.AuthSecurityToken)
+		return nil, fmt.Errorf("auth must be one of '%s' or '%s' or '%s' or '%s' or '%s'", globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting, globalvar.AuthSecurityToken, globalvar.ResourcePrincipal)
 	}
 
 	return configProviders, nil
