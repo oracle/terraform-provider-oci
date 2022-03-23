@@ -94,7 +94,15 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     source_type = "BACKUP"
   }
 
+  #Optional
   crash_recovery = "ENABLED"
+
+  #Optional
+  deletion_policy {
+    automatic_backup_retention = "DELETE"
+    final_backup = "SKIP_FINAL_BACKUP"
+    is_delete_protected = "false"
+  }
 }
 
 data "oci_mysql_mysql_configurations" "test_mysql_configurations" {

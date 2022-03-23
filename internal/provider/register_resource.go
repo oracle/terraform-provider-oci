@@ -510,6 +510,7 @@ func init() {
 	RegisterResource("oci_opsi_enterprise_manager_bridge", tf_opsi.OpsiEnterpriseManagerBridgeResource())
 	RegisterResource("oci_opsi_exadata_insight", tf_opsi.OpsiExadataInsightResource())
 	RegisterResource("oci_opsi_host_insight", tf_opsi.OpsiHostInsightResource())
+	RegisterResource("oci_opsi_operations_insights_private_endpoint", tf_opsi.OpsiOperationsInsightsPrivateEndpointResource())
 	RegisterResource("oci_opsi_operations_insights_warehouse", tf_opsi.OpsiOperationsInsightsWarehouseResource())
 	RegisterResource("oci_opsi_operations_insights_warehouse_download_warehouse_wallet", tf_opsi.OpsiOperationsInsightsWarehouseDownloadWarehouseWalletResource())
 	RegisterResource("oci_opsi_operations_insights_warehouse_rotate_warehouse_wallet", tf_opsi.OpsiOperationsInsightsWarehouseRotateWarehouseWalletResource())

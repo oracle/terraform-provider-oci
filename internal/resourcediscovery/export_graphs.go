@@ -1159,6 +1159,7 @@ var opsiResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportOpsiHostInsightHints},
 		{TerraformResourceHints: exportOpsiExadataInsightHints},
 		{TerraformResourceHints: exportOpsiOperationsInsightsWarehouseHints},
+		{TerraformResourceHints: exportOpsiOperationsInsightsPrivateEndpointHints},
 	},
 	"oci_opsi_operations_insights_warehouse": {
 		{

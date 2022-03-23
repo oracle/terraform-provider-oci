@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_mysql "github.com/oracle/oci-go-sdk/v62/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v63/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -175,6 +175,12 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 
 		if r.DefinedTags != nil {
 			mysqlDbSystem["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+		}
+
+		if r.DeletionPolicy != nil {
+			mysqlDbSystem["deletion_policy"] = []interface{}{DeletionPolicyDetailsToMap(r.DeletionPolicy)}
+		} else {
+			mysqlDbSystem["deletion_policy"] = nil
 		}
 
 		if r.Description != nil {
