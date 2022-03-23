@@ -17,7 +17,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_devops "github.com/oracle/oci-go-sdk/v62/devops"
+	oci_devops "github.com/oracle/oci-go-sdk/v63/devops"
 )
 
 func DevopsRepositoryRefResource() *schema.Resource {

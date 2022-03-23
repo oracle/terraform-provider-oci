@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v62/database"
+	oci_database "github.com/oracle/oci-go-sdk/v63/database"
 )
 
 func DatabasePluggableDatabasesDataSource() *schema.Resource {

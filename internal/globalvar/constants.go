@@ -7,6 +7,7 @@ const (
 	AuthInstancePrincipalSetting          = "InstancePrincipal"
 	AuthInstancePrincipalWithCertsSetting = "InstancePrincipalWithCerts"
 	AuthSecurityToken                     = "SecurityToken"
+	ResourcePrincipal                     = "ResourcePrincipal"
 	RequestHeaderOpcOboToken              = "opc-obo-token"
 	RequestHeaderOpcHostSerial            = "opc-host-serial"
 	DefaultRequestTimeout                 = 0

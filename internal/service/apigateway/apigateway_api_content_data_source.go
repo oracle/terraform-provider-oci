@@ -9,7 +9,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v62/apigateway"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v63/apigateway"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

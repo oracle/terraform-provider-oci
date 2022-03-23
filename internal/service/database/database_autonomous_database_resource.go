@@ -15,9 +15,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v62/common"
-	oci_database "github.com/oracle/oci-go-sdk/v62/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v62/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v63/common"
+	oci_database "github.com/oracle/oci-go-sdk/v63/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v63/workrequests"
 )
 
 func DatabaseAutonomousDatabaseResource() *schema.Resource {
@@ -1088,11 +1088,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok && s.D.HasChange("kms_key_id") {
-		if vaultId, ok := s.D.GetOkExists("vault_id"); ok && s.D.HasChange("vault_id") {
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			oldRaw1, newRaw1 := s.D.GetChange("kms_key_id")
 			oldRaw2, newRaw2 := s.D.GetChange("vault_id")
-			if newRaw1 != "" && oldRaw1 != "" && newRaw2 != "" && oldRaw2 != "" {
+			if newRaw1 != "" && oldRaw1 != "" && newRaw2 != "" && oldRaw2 != "" && (s.D.HasChange("kms_key_id") || s.D.HasChange("vault_id")) {
 				err := s.ConfigureAutonomousDatabaseVaultKey(s.D.Id(), kmsKeyId.(string), vaultId.(string))
 				if err != nil {
 					return err

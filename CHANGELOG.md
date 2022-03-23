@@ -1,4 +1,17 @@
-## 4.68.0 (Unreleased)
+## 4.69.0 (Unreleased)
+
+### Added
+- Support for MySQL Database Service Deletion Policy on Db Systems
+- Support for GGS Storage Utilization properties
+- Support for Resource Principle Auth
+- Support for shielded instance SDDC
+- Support for OPSI service supporting DBCS featuer
+- Support for Multi Autonomous VM Clusters in ExaCC
+- Support for Data Safe Discovery and Masking
+### Bug Fix
+- Update kmskey and vault id separately.
+
+## 4.68.0 (March 16, 2022)
 
 ### Added
 - Support for Multi Autonomous VM Clusters in ExaCC

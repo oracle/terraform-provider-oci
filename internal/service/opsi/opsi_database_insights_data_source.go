@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_opsi "github.com/oracle/oci-go-sdk/v62/opsi"
+	oci_opsi "github.com/oracle/oci-go-sdk/v63/opsi"
 )
 
 func OpsiDatabaseInsightsDataSource() *schema.Resource {
@@ -56,6 +56,10 @@ func OpsiDatabaseInsightsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"exadata_insight_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"opsi_private_endpoint_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -173,6 +177,11 @@ func (s *OpsiDatabaseInsightsDataSourceCrud) Get() error {
 
 	if id, ok := s.D.GetOkExists("id"); ok {
 		request.Id = []string{id.(string)}
+	}
+
+	if opsiPrivateEndpointId, ok := s.D.GetOkExists("opsi_private_endpoint_id"); ok {
+		tmp := opsiPrivateEndpointId.(string)
+		request.OpsiPrivateEndpointId = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {

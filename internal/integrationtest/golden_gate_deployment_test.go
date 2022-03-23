@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v62/common"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v62/goldengate"
+	"github.com/oracle/oci-go-sdk/v63/common"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v63/goldengate"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -265,20 +265,22 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_scaling_enabled", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_healthy"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_latest_version"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_public", "false"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_public"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_storage_utilization_limit_exceeded"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ogg_data.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ogg_data.0.admin_username", "adminUsername2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ogg_data.0.certificate"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_address"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_utilization_in_bytes"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
 		// verify resource import
 		{
-			Config:            config + DeploymentRequiredOnlyResource,
+			Config:            config + DeploymentResourceConfig,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

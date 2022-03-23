@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/customdiff"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_functions "github.com/oracle/oci-go-sdk/v62/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v63/functions"
 )
 
 // The Functions API uses `imageDigest` as an optional I/O parameter. If unspecified, the controlplane

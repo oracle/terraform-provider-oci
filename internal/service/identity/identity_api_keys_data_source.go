@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v62/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v63/identity"
 )
 
 func IdentityApiKeysDataSource() *schema.Resource {
