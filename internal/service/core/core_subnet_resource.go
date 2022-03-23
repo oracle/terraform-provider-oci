@@ -13,7 +13,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_core "github.com/oracle/oci-go-sdk/v62/core"
+	oci_core "github.com/oracle/oci-go-sdk/v63/core"
 )
 
 func CoreSubnetResource() *schema.Resource {

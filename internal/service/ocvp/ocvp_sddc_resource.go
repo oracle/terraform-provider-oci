@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v62/common"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v62/ocvp"
+	oci_common "github.com/oracle/oci-go-sdk/v63/common"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v63/ocvp"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -139,6 +139,12 @@ func OcvpSddcResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"is_hcx_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"is_shielded_instance_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -420,6 +426,11 @@ func (s *OcvpSddcResourceCrud) Create() error {
 	if isHcxEnabled, ok := s.D.GetOkExists("is_hcx_enabled"); ok {
 		tmp := isHcxEnabled.(bool)
 		request.IsHcxEnabled = &tmp
+	}
+
+	if isShieldedInstanceEnabled, ok := s.D.GetOkExists("is_shielded_instance_enabled"); ok {
+		tmp := isShieldedInstanceEnabled.(bool)
+		request.IsShieldedInstanceEnabled = &tmp
 	}
 
 	if nsxEdgeUplink1VlanId, ok := s.D.GetOkExists("nsx_edge_uplink1vlan_id"); ok {
@@ -952,6 +963,10 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("is_hcx_pending_downgrade", *s.Res.IsHcxPendingDowngrade)
 	}
 
+	if s.Res.IsShieldedInstanceEnabled != nil {
+		s.D.Set("is_shielded_instance_enabled", *s.Res.IsShieldedInstanceEnabled)
+	}
+
 	if s.Res.NsxEdgeUplink1VlanId != nil {
 		s.D.Set("nsx_edge_uplink1vlan_id", *s.Res.NsxEdgeUplink1VlanId)
 	}
@@ -1117,6 +1132,10 @@ func SddcSummaryToMap(obj oci_ocvp.SddcSummary) map[string]interface{} {
 
 	if obj.IsHcxEnabled != nil {
 		result["is_hcx_enabled"] = bool(*obj.IsHcxEnabled)
+	}
+
+	if obj.IsShieldedInstanceEnabled != nil {
+		result["is_shielded_instance_enabled"] = bool(*obj.IsShieldedInstanceEnabled)
 	}
 
 	if obj.NsxManagerFqdn != nil {

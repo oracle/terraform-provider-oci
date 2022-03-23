@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_waas "github.com/oracle/oci-go-sdk/v62/waas"
+	oci_waas "github.com/oracle/oci-go-sdk/v63/waas"
 )
 
 func WaasPurgeCacheResource() *schema.Resource {

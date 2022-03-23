@@ -370,7 +370,8 @@ resource "oci_ocvp_sddc" "test_sddc" {
   // Optional
   provisioning_vlan_id = oci_core_vlan.test_provisioning_vlan.id
   replication_vlan_id  = oci_core_vlan.test_replication_vlan.id
-  initial_sku          = data.oci_ocvp_supported_skus.test_supported_skus.items[0].name
+  initial_sku          = "HOUR"
+  is_shielded_instance_enabled = false
   hcx_action = "upgrade"
   refresh_hcx_license_status = true
   #reserving_hcx_on_premise_license_keys = var.reserving_hcx_on_premise_license_keys

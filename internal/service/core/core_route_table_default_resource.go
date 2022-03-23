@@ -13,7 +13,7 @@ import (
 
 	"fmt"
 
-	oci_core "github.com/oracle/oci-go-sdk/v62/core"
+	oci_core "github.com/oracle/oci-go-sdk/v63/core"
 )
 
 func DefaultCoreRouteTableResource() *schema.Resource {

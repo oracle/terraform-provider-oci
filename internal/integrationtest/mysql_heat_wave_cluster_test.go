@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v62/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v62/mysql"
+	"github.com/oracle/oci-go-sdk/v63/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v63/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -41,7 +41,7 @@ var (
 		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"configuration_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
-		"shape_name":              acctest.Representation{RepType: acctest.Required, Create: `MySQL.HeatWave.VM.Standard.E3`},
+		"shape_name":              acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyRepresentation},
 		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
@@ -60,7 +60,7 @@ var (
 	heatWaveClusterRepresentation = map[string]interface{}{
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
 		"cluster_size": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
-		"shape_name":   acctest.Representation{RepType: acctest.Required, Create: `MySQL.HeatWave.VM.Standard.E3`},
+		"shape_name":   acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
 		"state":        acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`}, // testing stop & start actions
 	}
 
@@ -114,7 +114,7 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_size", "2"),
-				resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.HeatWave.VM.Standard.E3"),
+				resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.VM.Standard.E3.1.8GB"),
 				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
 
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
@@ -140,7 +140,7 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "3"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_size", "3"),
-				resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.HeatWave.VM.Standard.E3"),
+				resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.VM.Standard.E3.1.8GB"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
@@ -167,7 +167,7 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_nodes.#", "3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_size", "3"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "shape_name", "MySQL.HeatWave.VM.Standard.E3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "shape_name", "MySQL.VM.Standard.E3.1.8GB"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

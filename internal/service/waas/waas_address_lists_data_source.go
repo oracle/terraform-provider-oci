@@ -11,8 +11,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v62/common"
-	oci_waas "github.com/oracle/oci-go-sdk/v62/waas"
+	oci_common "github.com/oracle/oci-go-sdk/v63/common"
+	oci_waas "github.com/oracle/oci-go-sdk/v63/waas"
 )
 
 func WaasAddressListsDataSource() *schema.Resource {
