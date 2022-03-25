@@ -18,9 +18,9 @@ Retrieve lines of a specified file. Supports starting line number and limit. Thi
 ```hcl
 data "oci_devops_repository_file_line" "test_repository_file_line" {
 	#Required
-	file_path = var.repository_file_line_file_path
 	repository_id = oci_devops_repository.test_repository.id
 	revision = var.repository_file_line_revision
+	file_path = var.repository_file_line_file_path
 
 	#Optional
 	start_line_number = var.repository_file_line_start_line_number
@@ -31,7 +31,7 @@ data "oci_devops_repository_file_line" "test_repository_file_line" {
 
 The following arguments are supported:
 
-* `file_path` - (Required) Path to a file within a repository.
+* `file_path` - (Required) A filter to return only commits that affect any of the specified paths.
 * `repository_id` - (Required) Unique repository identifier.
 * `revision` - (Required) Retrieve file lines from specific revision.
 * `start_line_number` - (Optional) Line number from where to start returning file lines.

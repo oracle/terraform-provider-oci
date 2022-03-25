@@ -70,7 +70,7 @@ func readSingularDevopsRepositoryFileLine(d *schema.ResourceData, m interface{})
 type DevopsRepositoryFileLineDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_devops.DevopsClient
-	Res    *oci_devops.GetRepositoryFileLinesResponse
+	Res    *oci_devops.GetRepoFileLinesResponse
 }
 
 func (s *DevopsRepositoryFileLineDataSourceCrud) VoidState() {
@@ -78,7 +78,7 @@ func (s *DevopsRepositoryFileLineDataSourceCrud) VoidState() {
 }
 
 func (s *DevopsRepositoryFileLineDataSourceCrud) Get() error {
-	request := oci_devops.GetRepositoryFileLinesRequest{}
+	request := oci_devops.GetRepoFileLinesRequest{}
 
 	if filePath, ok := s.D.GetOkExists("file_path"); ok {
 		tmp := filePath.(string)
@@ -102,7 +102,7 @@ func (s *DevopsRepositoryFileLineDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "devops")
 
-	response, err := s.Client.GetRepositoryFileLines(context.Background(), request)
+	response, err := s.Client.GetRepoFileLines(context.Background(), request)
 	if err != nil {
 		return err
 	}
