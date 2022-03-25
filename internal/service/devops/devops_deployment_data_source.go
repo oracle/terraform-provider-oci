@@ -103,12 +103,6 @@ func (s *DevopsDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("deployment_arguments", nil)
 	}
 
-	if s.Res.GetDeploymentExecutionProgress() != nil {
-		s.D.Set("deployment_execution_progress", []interface{}{DeploymentExecutionProgressToMap(s.Res.GetDeploymentExecutionProgress())})
-	} else {
-		s.D.Set("deployment_execution_progress", nil)
-	}
-
 	if s.Res.GetDisplayName() != nil {
 		s.D.Set("display_name", *s.Res.GetDisplayName())
 	}

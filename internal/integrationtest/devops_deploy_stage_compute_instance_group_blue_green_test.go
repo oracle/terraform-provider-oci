@@ -19,46 +19,37 @@ import (
 )
 
 var (
-	DeployComputeInstanceGroupStageRequiredOnlyResource = DeployComputeInstanceGroupStageResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Required, acctest.Create, deployComputeInstanceGroupStageRepresentation)
+	DeployComputeInstanceGroupBlueGreenStageRequiredOnlyResource = DeployComputeInstanceGroupBlueGreenStageResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Required, acctest.Create, deployComputeInstanceGroupBlueGreenStageRepresentation)
 
-	DeployComputeInstanceGroupStageResourceConfig = DeployComputeInstanceGroupStageResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Update, deployComputeInstanceGroupStageRepresentation)
+	DeployComputeInstanceGroupBlueGreenStageResourceConfig = DeployComputeInstanceGroupBlueGreenStageResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Update, deployComputeInstanceGroupBlueGreenStageRepresentation)
 
-	deployComputeInstanceGroupStageSingularDataSourceRepresentation = map[string]interface{}{
+	deployComputeInstanceGroupBlueGreenStageSingularDataSourceRepresentation = map[string]interface{}{
 		"deploy_stage_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_stage.test_deploy_stage.id}`},
 	}
 
-	deployComputeInstanceGroupStageRepresentation = acctest.GetUpdatedRepresentationCopy("deploy_stage_type", acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT`},
+	deployComputeInstanceGroupBlueGreenStageRepresentation = acctest.GetUpdatedRepresentationCopy("deploy_stage_type", acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT`},
 		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(deployStageRepresentation, []string{"wait_criteria"}), map[string]interface{}{
-			"compute_instance_group_deploy_environment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_environment.test_deploy_instance_group_environment.id}`},
-			"deployment_spec_deploy_artifact_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_artifact.test_deploy_generic_artifact.id}`},
-			"rollout_policy":                               acctest.RepresentationGroup{RepType: acctest.Required, Group: deployComputeInstanceStageRolloutPolicyRepresentation},
-			"rollback_policy":                              acctest.RepresentationGroup{RepType: acctest.Optional, Group: deployStageRollbackPolicyRepresentation},
-			"load_balancer_config":                         acctest.RepresentationGroup{RepType: acctest.Optional, Group: deployStageLoadBalancerInstanceGroupConfigRepresentation},
-			"failure_policy":                               acctest.RepresentationGroup{RepType: acctest.Optional, Group: deployComputeInstanceStageFailurePolicyRepresentation},
-			"lifecycle":                                    acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+			"deploy_environment_id_a":            acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_environment.test_deploy_instance_group_environment_a.id}`},
+			"deploy_environment_id_b":            acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_environment.test_deploy_instance_group_environment_b.id}`},
+			"deployment_spec_deploy_artifact_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_artifact.test_deploy_generic_artifact.id}`},
+			"rollout_policy":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: deployComputeInstanceStageRolloutPolicyRepresentation},
+			"failure_policy":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: deployComputeInstanceStageFailurePolicyRepresentation},
+			"test_load_balancer_config":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: deployStageLoadBalancerInstanceGroupConfigRepresentation},
+			"production_load_balancer_config":    acctest.RepresentationGroup{RepType: acctest.Required, Group: deployStageProductionLoadBalancerInstanceGroupConfigRepresentation},
+			"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 		}))
 
-	deployComputeInstanceStageRolloutPolicyRepresentation = map[string]interface{}{
-		"policy_type":            acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_COUNT`},
-		"batch_delay_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `5`},
-		"batch_count":            acctest.Representation{RepType: acctest.Required, Create: `5`},
-	}
-
-	deployComputeInstanceStageFailurePolicyRepresentation = map[string]interface{}{
-		"policy_type":   acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_COUNT`},
-		"failure_count": acctest.Representation{RepType: acctest.Required, Create: `1`},
-	}
-
-	deployStageLoadBalancerInstanceGroupConfigRepresentation = map[string]interface{}{
+	deployStageProductionLoadBalancerInstanceGroupConfigRepresentation = map[string]interface{}{
 		"backend_port":     acctest.Representation{RepType: acctest.Optional, Create: `8080`},
-		"listener_name":    acctest.Representation{RepType: acctest.Required, Create: `LoadBalancerListener`, Update: `LoadBalancerListener2`},
-		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer_1.id}`, Update: `${oci_load_balancer_load_balancer.test_load_balancer_2.id}`},
+		"listener_name":    acctest.Representation{RepType: acctest.Required, Create: `LoadBalancerListener3`},
+		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer_1.id}`},
 	}
 
-	DeployComputeInstanceGroupStageResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_generic_artifact", acctest.Required, acctest.Create, deployGenericArtifactRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_instance_group_environment", acctest.Required, acctest.Create, deployInstanceGroupEnvironmentRepresentation) +
+	DeployComputeInstanceGroupBlueGreenStageResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_generic_artifact", acctest.Required, acctest.Create, deployGenericArtifactRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_instance_group_environment_a", acctest.Required, acctest.Create, deployInstanceGroupEnvironmentRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_instance_group_environment_b", acctest.Required, acctest.Create, deployInstanceGroupEnvironmentRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", acctest.Required, acctest.Create, deployPipelineRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation) +
@@ -68,8 +59,8 @@ var (
 )
 
 // issue-routing-tag: devops/default
-func TestDevopsDeployStageResource_computeInstanceGroupDeploy(t *testing.T) {
-	httpreplay.SetScenario("TestDevopsDeployStageResource_computeInstanceGroupDeploy")
+func TestDevopsDeployStageResource_computeInstanceGroupBlueGreenDeploy(t *testing.T) {
+	httpreplay.SetScenario("TestDevopsDeployStageResource_computeInstanceGroupBlueGreenDeploy")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -83,26 +74,29 @@ func TestDevopsDeployStageResource_computeInstanceGroupDeploy(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DeployComputeInstanceGroupStageResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Create, deployComputeInstanceGroupStageRepresentation), "devops", "deployStage", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DeployComputeInstanceGroupBlueGreenStageResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Create, deployComputeInstanceGroupBlueGreenStageRepresentation), "devops", "deployStage", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsDeployStageDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Required, acctest.Create, deployComputeInstanceGroupStageRepresentation),
+			Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupBlueGreenStageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Required, acctest.Create, deployComputeInstanceGroupBlueGreenStageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.0.items.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_stage_predecessor_collection.0.items.0.id"),
-				resource.TestCheckResourceAttr(resourceName, "deploy_stage_type", "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_type", "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT"),
 				resource.TestCheckResourceAttr(resourceName, "rollout_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "rollout_policy.0.batch_count", "5"),
 				resource.TestCheckResourceAttr(resourceName, "rollout_policy.0.policy_type", "COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_COUNT"),
-				resource.TestCheckResourceAttrSet(resourceName, "compute_instance_group_deploy_environment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_environment_id_a"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_environment_id_b"),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_spec_deploy_artifact_id"),
-				resource.TestCheckResourceAttr(resourceName, "rollback_policy.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "production_load_balancer_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "production_load_balancer_config.0.listener_name", "LoadBalancerListener3"),
+				resource.TestCheckResourceAttrSet(resourceName, "production_load_balancer_config.0.load_balancer_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -113,19 +107,19 @@ func TestDevopsDeployStageResource_computeInstanceGroupDeploy(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceDependencies,
+			Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupBlueGreenStageResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Create, deployComputeInstanceGroupStageRepresentation),
+			Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupBlueGreenStageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Create, deployComputeInstanceGroupBlueGreenStageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.0.items.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_stage_predecessor_collection.0.items.0.id"),
-				resource.TestCheckResourceAttr(resourceName, "deploy_stage_type", "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_type", "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -136,13 +130,15 @@ func TestDevopsDeployStageResource_computeInstanceGroupDeploy(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "rollout_policy.0.batch_count", "5"),
 				resource.TestCheckResourceAttr(resourceName, "rollout_policy.0.batch_delay_in_seconds", "5"),
 				resource.TestCheckResourceAttr(resourceName, "rollout_policy.0.policy_type", "COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_COUNT"),
-				resource.TestCheckResourceAttrSet(resourceName, "compute_instance_group_deploy_environment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_environment_id_a"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_environment_id_b"),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_spec_deploy_artifact_id"),
-				resource.TestCheckResourceAttr(resourceName, "rollback_policy.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "rollback_policy.0.policy_type", "AUTOMATED_STAGE_ROLLBACK_POLICY"),
-				resource.TestCheckResourceAttr(resourceName, "load_balancer_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "load_balancer_config.0.listener_name", "LoadBalancerListener"),
-				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_config.0.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "production_load_balancer_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "production_load_balancer_config.0.listener_name", "LoadBalancerListener3"),
+				resource.TestCheckResourceAttrSet(resourceName, "production_load_balancer_config.0.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "test_load_balancer_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "test_load_balancer_config.0.listener_name", "LoadBalancerListener"),
+				resource.TestCheckResourceAttrSet(resourceName, "test_load_balancer_config.0.load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "failure_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "failure_policy.0.failure_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "failure_policy.0.policy_type", "COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_COUNT"),
@@ -161,8 +157,8 @@ func TestDevopsDeployStageResource_computeInstanceGroupDeploy(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Update, deployComputeInstanceGroupStageRepresentation),
+			Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupBlueGreenStageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Update, deployComputeInstanceGroupBlueGreenStageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
@@ -178,13 +174,15 @@ func TestDevopsDeployStageResource_computeInstanceGroupDeploy(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "rollout_policy.0.batch_count", "5"),
 				resource.TestCheckResourceAttr(resourceName, "rollout_policy.0.batch_delay_in_seconds", "5"),
 				resource.TestCheckResourceAttr(resourceName, "rollout_policy.0.policy_type", "COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_COUNT"),
-				resource.TestCheckResourceAttrSet(resourceName, "compute_instance_group_deploy_environment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_environment_id_a"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_environment_id_b"),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_spec_deploy_artifact_id"),
-				resource.TestCheckResourceAttr(resourceName, "rollback_policy.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "rollback_policy.0.policy_type", "AUTOMATED_STAGE_ROLLBACK_POLICY"),
-				resource.TestCheckResourceAttr(resourceName, "load_balancer_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "load_balancer_config.0.listener_name", "LoadBalancerListener2"),
-				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_config.0.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "production_load_balancer_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "production_load_balancer_config.0.listener_name", "LoadBalancerListener3"),
+				resource.TestCheckResourceAttrSet(resourceName, "production_load_balancer_config.0.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "test_load_balancer_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "test_load_balancer_config.0.listener_name", "LoadBalancerListener2"),
+				resource.TestCheckResourceAttrSet(resourceName, "test_load_balancer_config.0.load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "failure_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "failure_policy.0.failure_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "failure_policy.0.policy_type", "COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_COUNT"),
@@ -202,8 +200,8 @@ func TestDevopsDeployStageResource_computeInstanceGroupDeploy(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", acctest.Optional, acctest.Update, deployStageDataSourceRepresentation) +
-				compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Update, deployComputeInstanceGroupStageRepresentation),
+				compartmentIdVariableStr + DeployComputeInstanceGroupBlueGreenStageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Update, deployComputeInstanceGroupBlueGreenStageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
@@ -216,14 +214,14 @@ func TestDevopsDeployStageResource_computeInstanceGroupDeploy(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Required, acctest.Create, deployComputeInstanceGroupStageSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Required, acctest.Create, deployComputeInstanceGroupBlueGreenStageSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DeployComputeInstanceGroupBlueGreenStageResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_stage_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_stage_predecessor_collection.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_stage_predecessor_collection.0.items.0.id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_stage_type", "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_stage_type", "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
@@ -237,13 +235,15 @@ func TestDevopsDeployStageResource_computeInstanceGroupDeploy(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "rollout_policy.0.batch_count", "5"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "rollout_policy.0.batch_delay_in_seconds", "5"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "rollout_policy.0.policy_type", "COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_COUNT"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_instance_group_deploy_environment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_environment_id_a"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_environment_id_b"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_spec_deploy_artifact_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "rollback_policy.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "rollback_policy.0.policy_type", "AUTOMATED_STAGE_ROLLBACK_POLICY"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "load_balancer_config.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "load_balancer_config.0.listener_name", "LoadBalancerListener2"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_config.0.load_balancer_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "production_load_balancer_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "production_load_balancer_config.0.listener_name", "LoadBalancerListener3"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "production_load_balancer_config.0.load_balancer_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "test_load_balancer_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "test_load_balancer_config.0.listener_name", "LoadBalancerListener2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "test_load_balancer_config.0.load_balancer_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "failure_policy.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "failure_policy.0.failure_count", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "failure_policy.0.policy_type", "COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_COUNT"),
@@ -251,7 +251,7 @@ func TestDevopsDeployStageResource_computeInstanceGroupDeploy(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DeployComputeInstanceGroupStageRequiredOnlyResource,
+			Config:                  config + DeployComputeInstanceGroupBlueGreenStageRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

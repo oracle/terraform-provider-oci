@@ -90,7 +90,7 @@ The following attributes are exported:
 		* `build_pipeline_stage_id` - The stage OCID.
 		* `build_pipeline_stage_predecessors` - The collection containing the predecessors of a stage.
 			* `items` - A list of build pipeline stage predecessors for a stage.
-				* `id` - The ID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's ID.
+				* `id` - The OCID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's OCID. 
 		* `build_pipeline_stage_type` - Stage types.
 		* `build_source_collection` - Collection of build sources.
 			* `items` - Collection of build sources. In case of UPDATE operation, replaces existing build sources list. Merging with existing build sources is not supported.

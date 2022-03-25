@@ -91,6 +91,7 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, devopsRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "repository_type", "HOSTED"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
