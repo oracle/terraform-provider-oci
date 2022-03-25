@@ -38,7 +38,7 @@ The following attributes are exported:
 * `display_name` - Data catalog identifier, which can be renamed.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Unique identifier that is immutable on creation.
-* `lifecycle_details` - An message describing the current state in more detail.  For example, it can be used to provide actionable information for a resource in 'Failed' state. 
+* `lifecycle_details` - An message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in 'Failed' state. 
 * `number_of_objects` - The number of data objects added to the data catalog. Please see the data catalog documentation for further information on how this is calculated. 
 * `service_api_url` - The REST front endpoint URL to the data catalog instance.
 * `service_console_url` - The console front endpoint URL to the data catalog instance.
