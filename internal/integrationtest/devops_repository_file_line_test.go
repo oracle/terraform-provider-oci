@@ -5,7 +5,6 @@ package integrationtest
 
 import (
 	"fmt"
-	"strings"
 	"testing"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -18,27 +17,20 @@ import (
 
 var (
 	repositoryFileLineSingularDataSourceRepresentation = map[string]interface{}{
-		"file_path":     acctest.Representation{RepType: acctest.Required, Create: `filePath`},
-		"repository_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
-		"revision":      acctest.Representation{RepType: acctest.Required, Create: `revision`},
+		"file_path":     acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("test_file_for_static_resource")},
+		"repository_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("repository_id_for_static_resource")},
+		"revision":      acctest.Representation{RepType: acctest.Required, Create: `main`},
 	}
-
-	RepositoryFileLineResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, projectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, repositoryRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
 func TestDevopsRepositoryFileLineResource_basic(t *testing.T) {
-	if !strings.Contains(utils.GetEnvSettingWithBlankDefault("enabled_tests"), "RepositoryFileLine") {
-		t.Skip("TestDevopsRepositoryFileLineResource_basic test needs a Repository resource with existing commits to test")
-	}
 	httpreplay.SetScenario("TestDevopsRepositoryFileLineResource_basic")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_id_for_static_resource")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	singularDatasourceName := "data.oci_devops_repository_file_line.test_repository_file_line"
@@ -50,12 +42,11 @@ func TestDevopsRepositoryFileLineResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_file_line", "test_repository_file_line", acctest.Required, acctest.Create, repositoryFileLineSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + RepositoryFileLineResourceConfig,
+				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(singularDatasourceName, "file_path", "filePath"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "file_path", "testfile"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "revision", "revision"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "start_line_number", "10"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "revision", "main"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "lines.#", "1"),
 			),
