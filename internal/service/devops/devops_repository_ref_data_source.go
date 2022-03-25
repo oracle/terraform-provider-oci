@@ -97,6 +97,12 @@ func (s *DevopsRepositoryRefDataSourceCrud) SetData() error {
 			s.D.Set("repository_id", *v.RepositoryId)
 		}
 
+		s.D.Set("freeform_tags", s.Res.GetFreeformTags())
+
+		if s.Res.GetDefinedTags() != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.GetDefinedTags()))
+		}
+
 	case oci_devops.RepositoryTag:
 
 		s.D.Set("ref_type", "TAG")
@@ -115,6 +121,12 @@ func (s *DevopsRepositoryRefDataSourceCrud) SetData() error {
 
 		if v.RepositoryId != nil {
 			s.D.Set("repository_id", *v.RepositoryId)
+		}
+
+		s.D.Set("freeform_tags", s.Res.GetFreeformTags())
+
+		if s.Res.GetDefinedTags() != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.GetDefinedTags()))
 		}
 
 	default:
