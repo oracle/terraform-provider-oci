@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateComputeInstanceGroupDeployStageDetails Specifies the instance group rolling deployment stage.
+// CreateComputeInstanceGroupDeployStageDetails Specifies the Instance Group Rolling deployment stage.
 type CreateComputeInstanceGroupDeployStageDetails struct {
 
 	// The OCID of a pipeline.

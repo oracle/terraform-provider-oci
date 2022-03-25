@@ -23,6 +23,7 @@ const (
 	ActionTypeInProgress ActionTypeEnum = "IN_PROGRESS"
 	ActionTypeRelated    ActionTypeEnum = "RELATED"
 	ActionTypeUpdated    ActionTypeEnum = "UPDATED"
+	ActionTypeFailed     ActionTypeEnum = "FAILED"
 )
 
 var mappingActionTypeEnum = map[string]ActionTypeEnum{
@@ -31,6 +32,7 @@ var mappingActionTypeEnum = map[string]ActionTypeEnum{
 	"IN_PROGRESS": ActionTypeInProgress,
 	"RELATED":     ActionTypeRelated,
 	"UPDATED":     ActionTypeUpdated,
+	"FAILED":      ActionTypeFailed,
 }
 
 var mappingActionTypeEnumLowerCase = map[string]ActionTypeEnum{
@@ -39,6 +41,7 @@ var mappingActionTypeEnumLowerCase = map[string]ActionTypeEnum{
 	"in_progress": ActionTypeInProgress,
 	"related":     ActionTypeRelated,
 	"updated":     ActionTypeUpdated,
+	"failed":      ActionTypeFailed,
 }
 
 // GetActionTypeEnumValues Enumerates the set of values for ActionTypeEnum
@@ -58,6 +61,7 @@ func GetActionTypeEnumStringValues() []string {
 		"IN_PROGRESS",
 		"RELATED",
 		"UPDATED",
+		"FAILED",
 	}
 }
 

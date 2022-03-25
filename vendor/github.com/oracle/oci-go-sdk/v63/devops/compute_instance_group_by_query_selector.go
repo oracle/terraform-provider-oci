@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ComputeInstanceGroupByQuerySelector Specifies the Compute instance group environment filtered by DSL expression of the compute instances.
+// ComputeInstanceGroupByQuerySelector Specifies the Compute instance group environment filtered by the RQS query expression.
 type ComputeInstanceGroupByQuerySelector struct {
 
 	// Region identifier referred by the deployment environment. Region identifiers are listed at https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm

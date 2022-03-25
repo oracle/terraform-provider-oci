@@ -46,6 +46,12 @@ type CreateVirtualCircuitDetails struct {
 	// By default, routing information is shared for all routes in the same market.
 	RoutingPolicy []CreateVirtualCircuitDetailsRoutingPolicyEnum `mandatory:"false" json:"routingPolicy,omitempty"`
 
+	// Set to ENABLED to activate the bgp session of virtual circuit, DISABLED to deactivate.
+	BgpAdminState CreateVirtualCircuitDetailsBgpAdminStateEnum `mandatory:"false" json:"bgpAdminState,omitempty"`
+
+	// Set to true to enable BFD for ipv4 Bgp Peering, false to disable. If not set, default is false
+	IsBfdEnabled *bool `mandatory:"false" json:"isBfdEnabled"`
+
 	// Deprecated. Instead use `customerAsn`.
 	// If you specify values for both, the request will be rejected.
 	CustomerBgpAsn *int `mandatory:"false" json:"customerBgpAsn"`
@@ -125,6 +131,9 @@ func (m CreateVirtualCircuitDetails) ValidateEnumValue() (bool, error) {
 		}
 	}
 
+	if _, ok := GetMappingCreateVirtualCircuitDetailsBgpAdminStateEnum(string(m.BgpAdminState)); !ok && m.BgpAdminState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BgpAdminState: %s. Supported values are: %s.", m.BgpAdminState, strings.Join(GetCreateVirtualCircuitDetailsBgpAdminStateEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingVirtualCircuitIpMtuEnum(string(m.IpMtu)); !ok && m.IpMtu != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpMtu: %s. Supported values are: %s.", m.IpMtu, strings.Join(GetVirtualCircuitIpMtuEnumStringValues(), ",")))
 	}
@@ -181,6 +190,48 @@ func GetCreateVirtualCircuitDetailsRoutingPolicyEnumStringValues() []string {
 // GetMappingCreateVirtualCircuitDetailsRoutingPolicyEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateVirtualCircuitDetailsRoutingPolicyEnum(val string) (CreateVirtualCircuitDetailsRoutingPolicyEnum, bool) {
 	enum, ok := mappingCreateVirtualCircuitDetailsRoutingPolicyEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateVirtualCircuitDetailsBgpAdminStateEnum Enum with underlying type: string
+type CreateVirtualCircuitDetailsBgpAdminStateEnum string
+
+// Set of constants representing the allowable values for CreateVirtualCircuitDetailsBgpAdminStateEnum
+const (
+	CreateVirtualCircuitDetailsBgpAdminStateEnabled  CreateVirtualCircuitDetailsBgpAdminStateEnum = "ENABLED"
+	CreateVirtualCircuitDetailsBgpAdminStateDisabled CreateVirtualCircuitDetailsBgpAdminStateEnum = "DISABLED"
+)
+
+var mappingCreateVirtualCircuitDetailsBgpAdminStateEnum = map[string]CreateVirtualCircuitDetailsBgpAdminStateEnum{
+	"ENABLED":  CreateVirtualCircuitDetailsBgpAdminStateEnabled,
+	"DISABLED": CreateVirtualCircuitDetailsBgpAdminStateDisabled,
+}
+
+var mappingCreateVirtualCircuitDetailsBgpAdminStateEnumLowerCase = map[string]CreateVirtualCircuitDetailsBgpAdminStateEnum{
+	"enabled":  CreateVirtualCircuitDetailsBgpAdminStateEnabled,
+	"disabled": CreateVirtualCircuitDetailsBgpAdminStateDisabled,
+}
+
+// GetCreateVirtualCircuitDetailsBgpAdminStateEnumValues Enumerates the set of values for CreateVirtualCircuitDetailsBgpAdminStateEnum
+func GetCreateVirtualCircuitDetailsBgpAdminStateEnumValues() []CreateVirtualCircuitDetailsBgpAdminStateEnum {
+	values := make([]CreateVirtualCircuitDetailsBgpAdminStateEnum, 0)
+	for _, v := range mappingCreateVirtualCircuitDetailsBgpAdminStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateVirtualCircuitDetailsBgpAdminStateEnumStringValues Enumerates the set of values in String for CreateVirtualCircuitDetailsBgpAdminStateEnum
+func GetCreateVirtualCircuitDetailsBgpAdminStateEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
+}
+
+// GetMappingCreateVirtualCircuitDetailsBgpAdminStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateVirtualCircuitDetailsBgpAdminStateEnum(val string) (CreateVirtualCircuitDetailsBgpAdminStateEnum, bool) {
+	enum, ok := mappingCreateVirtualCircuitDetailsBgpAdminStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DeployEnvironment The target OCI resources, such as Compute instances, Container Engine for Kubernetes(OKE) clusters, or Function, where artifacts will be deployed.
+// DeployEnvironment The target OCI resources, such as Compute instances, Container Engine for Kubernetes(OKE) clusters, or Function, where artifacts are deployed.
 type DeployEnvironment interface {
 
 	// Unique identifier that is immutable on creation.
@@ -211,30 +211,33 @@ type DeployEnvironmentLifecycleStateEnum string
 
 // Set of constants representing the allowable values for DeployEnvironmentLifecycleStateEnum
 const (
-	DeployEnvironmentLifecycleStateCreating DeployEnvironmentLifecycleStateEnum = "CREATING"
-	DeployEnvironmentLifecycleStateUpdating DeployEnvironmentLifecycleStateEnum = "UPDATING"
-	DeployEnvironmentLifecycleStateActive   DeployEnvironmentLifecycleStateEnum = "ACTIVE"
-	DeployEnvironmentLifecycleStateDeleting DeployEnvironmentLifecycleStateEnum = "DELETING"
-	DeployEnvironmentLifecycleStateDeleted  DeployEnvironmentLifecycleStateEnum = "DELETED"
-	DeployEnvironmentLifecycleStateFailed   DeployEnvironmentLifecycleStateEnum = "FAILED"
+	DeployEnvironmentLifecycleStateCreating       DeployEnvironmentLifecycleStateEnum = "CREATING"
+	DeployEnvironmentLifecycleStateUpdating       DeployEnvironmentLifecycleStateEnum = "UPDATING"
+	DeployEnvironmentLifecycleStateActive         DeployEnvironmentLifecycleStateEnum = "ACTIVE"
+	DeployEnvironmentLifecycleStateDeleting       DeployEnvironmentLifecycleStateEnum = "DELETING"
+	DeployEnvironmentLifecycleStateDeleted        DeployEnvironmentLifecycleStateEnum = "DELETED"
+	DeployEnvironmentLifecycleStateFailed         DeployEnvironmentLifecycleStateEnum = "FAILED"
+	DeployEnvironmentLifecycleStateNeedsAttention DeployEnvironmentLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingDeployEnvironmentLifecycleStateEnum = map[string]DeployEnvironmentLifecycleStateEnum{
-	"CREATING": DeployEnvironmentLifecycleStateCreating,
-	"UPDATING": DeployEnvironmentLifecycleStateUpdating,
-	"ACTIVE":   DeployEnvironmentLifecycleStateActive,
-	"DELETING": DeployEnvironmentLifecycleStateDeleting,
-	"DELETED":  DeployEnvironmentLifecycleStateDeleted,
-	"FAILED":   DeployEnvironmentLifecycleStateFailed,
+	"CREATING":        DeployEnvironmentLifecycleStateCreating,
+	"UPDATING":        DeployEnvironmentLifecycleStateUpdating,
+	"ACTIVE":          DeployEnvironmentLifecycleStateActive,
+	"DELETING":        DeployEnvironmentLifecycleStateDeleting,
+	"DELETED":         DeployEnvironmentLifecycleStateDeleted,
+	"FAILED":          DeployEnvironmentLifecycleStateFailed,
+	"NEEDS_ATTENTION": DeployEnvironmentLifecycleStateNeedsAttention,
 }
 
 var mappingDeployEnvironmentLifecycleStateEnumLowerCase = map[string]DeployEnvironmentLifecycleStateEnum{
-	"creating": DeployEnvironmentLifecycleStateCreating,
-	"updating": DeployEnvironmentLifecycleStateUpdating,
-	"active":   DeployEnvironmentLifecycleStateActive,
-	"deleting": DeployEnvironmentLifecycleStateDeleting,
-	"deleted":  DeployEnvironmentLifecycleStateDeleted,
-	"failed":   DeployEnvironmentLifecycleStateFailed,
+	"creating":        DeployEnvironmentLifecycleStateCreating,
+	"updating":        DeployEnvironmentLifecycleStateUpdating,
+	"active":          DeployEnvironmentLifecycleStateActive,
+	"deleting":        DeployEnvironmentLifecycleStateDeleting,
+	"deleted":         DeployEnvironmentLifecycleStateDeleted,
+	"failed":          DeployEnvironmentLifecycleStateFailed,
+	"needs_attention": DeployEnvironmentLifecycleStateNeedsAttention,
 }
 
 // GetDeployEnvironmentLifecycleStateEnumValues Enumerates the set of values for DeployEnvironmentLifecycleStateEnum
@@ -255,6 +258,7 @@ func GetDeployEnvironmentLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"NEEDS_ATTENTION",
 	}
 }
 

@@ -74,28 +74,68 @@ func (m *updatedeploystagedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 
 	var err error
 	switch m.DeployStageType {
-	case "OKE_DEPLOYMENT":
-		mm := UpdateOkeDeployStageDetails{}
+	case "OKE_CANARY_TRAFFIC_SHIFT":
+		mm := UpdateOkeCanaryTrafficShiftDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "LOAD_BALANCER_TRAFFIC_SHIFT":
-		mm := UpdateLoadBalancerTrafficShiftDeployStageDetails{}
+	case "OKE_CANARY_DEPLOYMENT":
+		mm := UpdateOkeCanaryDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT":
 		mm := UpdateComputeInstanceGroupDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OKE_CANARY_APPROVAL":
+		mm := UpdateOkeCanaryApprovalDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_DEPLOYMENT":
+		mm := UpdateOkeDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL":
+		mm := UpdateComputeInstanceGroupCanaryApprovalDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LOAD_BALANCER_TRAFFIC_SHIFT":
+		mm := UpdateLoadBalancerTrafficShiftDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_BLUE_GREEN_DEPLOYMENT":
+		mm := UpdateOkeBlueGreenDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "WAIT":
 		mm := UpdateWaitDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_BLUE_GREEN_TRAFFIC_SHIFT":
+		mm := UpdateOkeBlueGreenTrafficShiftDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "MANUAL_APPROVAL":
 		mm := UpdateManualApprovalDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT":
+		mm := UpdateComputeInstanceGroupBlueGreenDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT":
+		mm := UpdateComputeInstanceGroupCanaryDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DEPLOY_FUNCTION":
 		mm := UpdateFunctionDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT":
+		mm := UpdateComputeInstanceGroupBlueGreenTrafficShiftDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT":
+		mm := UpdateComputeInstanceGroupCanaryTrafficShiftDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "INVOKE_FUNCTION":

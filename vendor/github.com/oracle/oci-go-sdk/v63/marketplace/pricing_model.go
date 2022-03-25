@@ -29,6 +29,8 @@ type PricingModel struct {
 
 	// The pricing rate.
 	Rate *float32 `mandatory:"false" json:"rate"`
+
+	InternationalMarketPrice *InternationalMarketPrice `mandatory:"false" json:"internationalMarketPrice"`
 }
 
 func (m PricingModel) String() string {

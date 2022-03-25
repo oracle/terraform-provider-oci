@@ -119,20 +119,52 @@ func (m *deploystagesummary) UnmarshalPolymorphicJSON(data []byte) (interface{},
 
 	var err error
 	switch m.DeployStageType {
-	case "WAIT":
-		mm := WaitDeployStageSummary{}
+	case "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT":
+		mm := ComputeInstanceGroupBlueGreenDeployStageSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT":
-		mm := ComputeInstanceGroupDeployStageSummary{}
+	case "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT":
+		mm := ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_BLUE_GREEN_DEPLOYMENT":
+		mm := OkeBlueGreenDeployStageSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "WAIT":
+		mm := WaitDeployStageSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OKE_DEPLOYMENT":
 		mm := OkeDeployStageSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL":
+		mm := ComputeInstanceGroupCanaryApprovalDeployStageSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "INVOKE_FUNCTION":
 		mm := InvokeFunctionDeployStageSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_CANARY_TRAFFIC_SHIFT":
+		mm := OkeCanaryTrafficShiftDeployStageSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT":
+		mm := ComputeInstanceGroupDeployStageSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT":
+		mm := ComputeInstanceGroupCanaryDeployStageSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_CANARY_APPROVAL":
+		mm := OkeCanaryApprovalDeployStageSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_CANARY_DEPLOYMENT":
+		mm := OkeCanaryDeployStageSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "LOAD_BALANCER_TRAFFIC_SHIFT":
@@ -143,8 +175,16 @@ func (m *deploystagesummary) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := ManualApprovalDeployStageSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OKE_BLUE_GREEN_TRAFFIC_SHIFT":
+		mm := OkeBlueGreenTrafficShiftDeployStageSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DEPLOY_FUNCTION":
 		mm := FunctionDeployStageSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT":
+		mm := ComputeInstanceGroupCanaryTrafficShiftDeployStageSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// LoadBalancerTrafficShiftDeployStageExecutionProgress Specifies the load balancer traffic shift stage execution details.
+// LoadBalancerTrafficShiftDeployStageExecutionProgress Specifies the load balancer Traffic Shift stage execution details.
 type LoadBalancerTrafficShiftDeployStageExecutionProgress struct {
 
 	// Stage display name. Avoid entering confidential information.

@@ -89,6 +89,10 @@ const (
 	WorkRequestOperationTypeMoveCatalogPrivateEndpoint   WorkRequestOperationTypeEnum = "MOVE_CATALOG_PRIVATE_ENDPOINT"
 	WorkRequestOperationTypeAttachCatalogPrivateEndpoint WorkRequestOperationTypeEnum = "ATTACH_CATALOG_PRIVATE_ENDPOINT"
 	WorkRequestOperationTypeDetachCatalogPrivateEndpoint WorkRequestOperationTypeEnum = "DETACH_CATALOG_PRIVATE_ENDPOINT"
+	WorkRequestOperationTypeCreateMetastore              WorkRequestOperationTypeEnum = "CREATE_METASTORE"
+	WorkRequestOperationTypeUpdateMetastore              WorkRequestOperationTypeEnum = "UPDATE_METASTORE"
+	WorkRequestOperationTypeDeleteMetastore              WorkRequestOperationTypeEnum = "DELETE_METASTORE"
+	WorkRequestOperationTypeMoveMetastore                WorkRequestOperationTypeEnum = "MOVE_METASTORE"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -102,6 +106,10 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"MOVE_CATALOG_PRIVATE_ENDPOINT":   WorkRequestOperationTypeMoveCatalogPrivateEndpoint,
 	"ATTACH_CATALOG_PRIVATE_ENDPOINT": WorkRequestOperationTypeAttachCatalogPrivateEndpoint,
 	"DETACH_CATALOG_PRIVATE_ENDPOINT": WorkRequestOperationTypeDetachCatalogPrivateEndpoint,
+	"CREATE_METASTORE":                WorkRequestOperationTypeCreateMetastore,
+	"UPDATE_METASTORE":                WorkRequestOperationTypeUpdateMetastore,
+	"DELETE_METASTORE":                WorkRequestOperationTypeDeleteMetastore,
+	"MOVE_METASTORE":                  WorkRequestOperationTypeMoveMetastore,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -115,6 +123,10 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"move_catalog_private_endpoint":   WorkRequestOperationTypeMoveCatalogPrivateEndpoint,
 	"attach_catalog_private_endpoint": WorkRequestOperationTypeAttachCatalogPrivateEndpoint,
 	"detach_catalog_private_endpoint": WorkRequestOperationTypeDetachCatalogPrivateEndpoint,
+	"create_metastore":                WorkRequestOperationTypeCreateMetastore,
+	"update_metastore":                WorkRequestOperationTypeUpdateMetastore,
+	"delete_metastore":                WorkRequestOperationTypeDeleteMetastore,
+	"move_metastore":                  WorkRequestOperationTypeMoveMetastore,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -139,6 +151,10 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"MOVE_CATALOG_PRIVATE_ENDPOINT",
 		"ATTACH_CATALOG_PRIVATE_ENDPOINT",
 		"DETACH_CATALOG_PRIVATE_ENDPOINT",
+		"CREATE_METASTORE",
+		"UPDATE_METASTORE",
+		"DELETE_METASTORE",
+		"MOVE_METASTORE",
 	}
 }
 

@@ -119,6 +119,10 @@ func (m *deploystage) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 
 	var err error
 	switch m.DeployStageType {
+	case "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT":
+		mm := ComputeInstanceGroupBlueGreenTrafficShiftDeployStage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LOAD_BALANCER_TRAFFIC_SHIFT":
 		mm := LoadBalancerTrafficShiftDeployStage{}
 		err = json.Unmarshal(data, &mm)
@@ -127,12 +131,52 @@ func (m *deploystage) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		mm := InvokeFunctionDeployStage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "WAIT":
-		mm := WaitDeployStage{}
+	case "OKE_CANARY_DEPLOYMENT":
+		mm := OkeCanaryDeployStage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OKE_DEPLOYMENT":
 		mm := OkeDeployStage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_CANARY_TRAFFIC_SHIFT":
+		mm := OkeCanaryTrafficShiftDeployStage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DEPLOY_FUNCTION":
+		mm := FunctionDeployStage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_BLUE_GREEN_DEPLOYMENT":
+		mm := OkeBlueGreenDeployStage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_CANARY_APPROVAL":
+		mm := OkeCanaryApprovalDeployStage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT":
+		mm := ComputeInstanceGroupCanaryTrafficShiftDeployStage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL":
+		mm := ComputeInstanceGroupCanaryApprovalDeployStage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "WAIT":
+		mm := WaitDeployStage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT":
+		mm := ComputeInstanceGroupBlueGreenDeployStage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT":
+		mm := ComputeInstanceGroupCanaryDeployStage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_BLUE_GREEN_TRAFFIC_SHIFT":
+		mm := OkeBlueGreenTrafficShiftDeployStage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "MANUAL_APPROVAL":
@@ -141,10 +185,6 @@ func (m *deploystage) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		return mm, err
 	case "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT":
 		mm := ComputeInstanceGroupDeployStage{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "DEPLOY_FUNCTION":
-		mm := FunctionDeployStage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -304,33 +344,63 @@ type DeployStageDeployStageTypeEnum string
 
 // Set of constants representing the allowable values for DeployStageDeployStageTypeEnum
 const (
-	DeployStageDeployStageTypeWait                                  DeployStageDeployStageTypeEnum = "WAIT"
-	DeployStageDeployStageTypeComputeInstanceGroupRollingDeployment DeployStageDeployStageTypeEnum = "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT"
-	DeployStageDeployStageTypeOkeDeployment                         DeployStageDeployStageTypeEnum = "OKE_DEPLOYMENT"
-	DeployStageDeployStageTypeDeployFunction                        DeployStageDeployStageTypeEnum = "DEPLOY_FUNCTION"
-	DeployStageDeployStageTypeInvokeFunction                        DeployStageDeployStageTypeEnum = "INVOKE_FUNCTION"
-	DeployStageDeployStageTypeLoadBalancerTrafficShift              DeployStageDeployStageTypeEnum = "LOAD_BALANCER_TRAFFIC_SHIFT"
-	DeployStageDeployStageTypeManualApproval                        DeployStageDeployStageTypeEnum = "MANUAL_APPROVAL"
+	DeployStageDeployStageTypeWait                                      DeployStageDeployStageTypeEnum = "WAIT"
+	DeployStageDeployStageTypeComputeInstanceGroupRollingDeployment     DeployStageDeployStageTypeEnum = "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT"
+	DeployStageDeployStageTypeComputeInstanceGroupBlueGreenDeployment   DeployStageDeployStageTypeEnum = "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT"
+	DeployStageDeployStageTypeComputeInstanceGroupBlueGreenTrafficShift DeployStageDeployStageTypeEnum = "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT"
+	DeployStageDeployStageTypeComputeInstanceGroupCanaryDeployment      DeployStageDeployStageTypeEnum = "COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT"
+	DeployStageDeployStageTypeComputeInstanceGroupCanaryTrafficShift    DeployStageDeployStageTypeEnum = "COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT"
+	DeployStageDeployStageTypeComputeInstanceGroupCanaryApproval        DeployStageDeployStageTypeEnum = "COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL"
+	DeployStageDeployStageTypeOkeBlueGreenDeployment                    DeployStageDeployStageTypeEnum = "OKE_BLUE_GREEN_DEPLOYMENT"
+	DeployStageDeployStageTypeOkeBlueGreenTrafficShift                  DeployStageDeployStageTypeEnum = "OKE_BLUE_GREEN_TRAFFIC_SHIFT"
+	DeployStageDeployStageTypeOkeCanaryDeployment                       DeployStageDeployStageTypeEnum = "OKE_CANARY_DEPLOYMENT"
+	DeployStageDeployStageTypeOkeCanaryTrafficShift                     DeployStageDeployStageTypeEnum = "OKE_CANARY_TRAFFIC_SHIFT"
+	DeployStageDeployStageTypeOkeCanaryApproval                         DeployStageDeployStageTypeEnum = "OKE_CANARY_APPROVAL"
+	DeployStageDeployStageTypeOkeDeployment                             DeployStageDeployStageTypeEnum = "OKE_DEPLOYMENT"
+	DeployStageDeployStageTypeDeployFunction                            DeployStageDeployStageTypeEnum = "DEPLOY_FUNCTION"
+	DeployStageDeployStageTypeInvokeFunction                            DeployStageDeployStageTypeEnum = "INVOKE_FUNCTION"
+	DeployStageDeployStageTypeLoadBalancerTrafficShift                  DeployStageDeployStageTypeEnum = "LOAD_BALANCER_TRAFFIC_SHIFT"
+	DeployStageDeployStageTypeManualApproval                            DeployStageDeployStageTypeEnum = "MANUAL_APPROVAL"
 )
 
 var mappingDeployStageDeployStageTypeEnum = map[string]DeployStageDeployStageTypeEnum{
 	"WAIT": DeployStageDeployStageTypeWait,
-	"COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT": DeployStageDeployStageTypeComputeInstanceGroupRollingDeployment,
-	"OKE_DEPLOYMENT":              DeployStageDeployStageTypeOkeDeployment,
-	"DEPLOY_FUNCTION":             DeployStageDeployStageTypeDeployFunction,
-	"INVOKE_FUNCTION":             DeployStageDeployStageTypeInvokeFunction,
-	"LOAD_BALANCER_TRAFFIC_SHIFT": DeployStageDeployStageTypeLoadBalancerTrafficShift,
-	"MANUAL_APPROVAL":             DeployStageDeployStageTypeManualApproval,
+	"COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT":       DeployStageDeployStageTypeComputeInstanceGroupRollingDeployment,
+	"COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT":    DeployStageDeployStageTypeComputeInstanceGroupBlueGreenDeployment,
+	"COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT": DeployStageDeployStageTypeComputeInstanceGroupBlueGreenTrafficShift,
+	"COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT":        DeployStageDeployStageTypeComputeInstanceGroupCanaryDeployment,
+	"COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT":     DeployStageDeployStageTypeComputeInstanceGroupCanaryTrafficShift,
+	"COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL":          DeployStageDeployStageTypeComputeInstanceGroupCanaryApproval,
+	"OKE_BLUE_GREEN_DEPLOYMENT":                       DeployStageDeployStageTypeOkeBlueGreenDeployment,
+	"OKE_BLUE_GREEN_TRAFFIC_SHIFT":                    DeployStageDeployStageTypeOkeBlueGreenTrafficShift,
+	"OKE_CANARY_DEPLOYMENT":                           DeployStageDeployStageTypeOkeCanaryDeployment,
+	"OKE_CANARY_TRAFFIC_SHIFT":                        DeployStageDeployStageTypeOkeCanaryTrafficShift,
+	"OKE_CANARY_APPROVAL":                             DeployStageDeployStageTypeOkeCanaryApproval,
+	"OKE_DEPLOYMENT":                                  DeployStageDeployStageTypeOkeDeployment,
+	"DEPLOY_FUNCTION":                                 DeployStageDeployStageTypeDeployFunction,
+	"INVOKE_FUNCTION":                                 DeployStageDeployStageTypeInvokeFunction,
+	"LOAD_BALANCER_TRAFFIC_SHIFT":                     DeployStageDeployStageTypeLoadBalancerTrafficShift,
+	"MANUAL_APPROVAL":                                 DeployStageDeployStageTypeManualApproval,
 }
 
 var mappingDeployStageDeployStageTypeEnumLowerCase = map[string]DeployStageDeployStageTypeEnum{
 	"wait": DeployStageDeployStageTypeWait,
-	"compute_instance_group_rolling_deployment": DeployStageDeployStageTypeComputeInstanceGroupRollingDeployment,
-	"oke_deployment":              DeployStageDeployStageTypeOkeDeployment,
-	"deploy_function":             DeployStageDeployStageTypeDeployFunction,
-	"invoke_function":             DeployStageDeployStageTypeInvokeFunction,
-	"load_balancer_traffic_shift": DeployStageDeployStageTypeLoadBalancerTrafficShift,
-	"manual_approval":             DeployStageDeployStageTypeManualApproval,
+	"compute_instance_group_rolling_deployment":       DeployStageDeployStageTypeComputeInstanceGroupRollingDeployment,
+	"compute_instance_group_blue_green_deployment":    DeployStageDeployStageTypeComputeInstanceGroupBlueGreenDeployment,
+	"compute_instance_group_blue_green_traffic_shift": DeployStageDeployStageTypeComputeInstanceGroupBlueGreenTrafficShift,
+	"compute_instance_group_canary_deployment":        DeployStageDeployStageTypeComputeInstanceGroupCanaryDeployment,
+	"compute_instance_group_canary_traffic_shift":     DeployStageDeployStageTypeComputeInstanceGroupCanaryTrafficShift,
+	"compute_instance_group_canary_approval":          DeployStageDeployStageTypeComputeInstanceGroupCanaryApproval,
+	"oke_blue_green_deployment":                       DeployStageDeployStageTypeOkeBlueGreenDeployment,
+	"oke_blue_green_traffic_shift":                    DeployStageDeployStageTypeOkeBlueGreenTrafficShift,
+	"oke_canary_deployment":                           DeployStageDeployStageTypeOkeCanaryDeployment,
+	"oke_canary_traffic_shift":                        DeployStageDeployStageTypeOkeCanaryTrafficShift,
+	"oke_canary_approval":                             DeployStageDeployStageTypeOkeCanaryApproval,
+	"oke_deployment":                                  DeployStageDeployStageTypeOkeDeployment,
+	"deploy_function":                                 DeployStageDeployStageTypeDeployFunction,
+	"invoke_function":                                 DeployStageDeployStageTypeInvokeFunction,
+	"load_balancer_traffic_shift":                     DeployStageDeployStageTypeLoadBalancerTrafficShift,
+	"manual_approval":                                 DeployStageDeployStageTypeManualApproval,
 }
 
 // GetDeployStageDeployStageTypeEnumValues Enumerates the set of values for DeployStageDeployStageTypeEnum
@@ -347,6 +417,16 @@ func GetDeployStageDeployStageTypeEnumStringValues() []string {
 	return []string{
 		"WAIT",
 		"COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT",
+		"COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT",
+		"COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT",
+		"COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT",
+		"COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT",
+		"COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL",
+		"OKE_BLUE_GREEN_DEPLOYMENT",
+		"OKE_BLUE_GREEN_TRAFFIC_SHIFT",
+		"OKE_CANARY_DEPLOYMENT",
+		"OKE_CANARY_TRAFFIC_SHIFT",
+		"OKE_CANARY_APPROVAL",
 		"OKE_DEPLOYMENT",
 		"DEPLOY_FUNCTION",
 		"INVOKE_FUNCTION",

@@ -89,9 +89,10 @@ func (client *AccountClient) ConfigurationProvider() *common.ConfigurationProvid
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetLaunchEligibility.go.html to see an example of how to use GetLaunchEligibility API.
+// A default retry strategy applies to this operation GetLaunchEligibility()
 func (client AccountClient) GetLaunchEligibility(ctx context.Context, request GetLaunchEligibilityRequest) (response GetLaunchEligibilityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -146,9 +147,10 @@ func (client AccountClient) getLaunchEligibility(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetThirdPartyPaidListingEligibility.go.html to see an example of how to use GetThirdPartyPaidListingEligibility API.
+// A default retry strategy applies to this operation GetThirdPartyPaidListingEligibility()
 func (client AccountClient) GetThirdPartyPaidListingEligibility(ctx context.Context, request GetThirdPartyPaidListingEligibilityRequest) (response GetThirdPartyPaidListingEligibilityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

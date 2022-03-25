@@ -49,8 +49,8 @@ type Repository struct {
 	DefaultBranch *string `mandatory:"false" json:"defaultBranch"`
 
 	// Type of repository:
-	// Mirrored - Repository created by mirroring an existing repository.
-	// Hosted - Repository created and hosted using OCI DevOps code repository.
+	// MIRRORED - Repository created by mirroring an existing repository.
+	// HOSTED - Repository created and hosted using OCI DevOps code repository.
 	RepositoryType RepositoryRepositoryTypeEnum `mandatory:"false" json:"repositoryType,omitempty"`
 
 	MirrorRepositoryConfig *MirrorRepositoryConfig `mandatory:"false" json:"mirrorRepositoryConfig"`
@@ -77,8 +77,8 @@ type Repository struct {
 	SizeInBytes *int64 `mandatory:"false" json:"sizeInBytes"`
 
 	// Trigger build events supported for this repository:
-	// Push - Build is triggered when a push event occurs.
-	// Commit updates - Build is triggered when new commits are mirrored into a repository.
+	// PUSH - Build is triggered when a push event occurs.
+	// COMMIT_UPDATES - Build is triggered when new commits are mirrored into a repository.
 	TriggerBuildEvents []RepositoryTriggerBuildEventsEnum `mandatory:"false" json:"triggerBuildEvents,omitempty"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`

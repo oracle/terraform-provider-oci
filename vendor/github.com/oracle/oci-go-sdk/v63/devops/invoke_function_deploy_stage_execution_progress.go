@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// InvokeFunctionDeployStageExecutionProgress Specifies the invoke function stage specific execution details.
+// InvokeFunctionDeployStageExecutionProgress Specifies the Invoke Function stage specific execution details.
 type InvokeFunctionDeployStageExecutionProgress struct {
 
 	// Stage display name. Avoid entering confidential information.

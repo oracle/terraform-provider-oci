@@ -19,7 +19,7 @@ import (
 // ComputeInstanceGroupFailurePolicyByCount Specifies a failure policy by count for a compute instance group rolling deployment stage.
 type ComputeInstanceGroupFailurePolicyByCount struct {
 
-	// The threshold count of failed instances in the group, which when reached or exceeded sets the stage as FAILED.
+	// The threshold count of failed instances in the group, which when reached or exceeded sets the stage as Failed.
 	FailureCount *int `mandatory:"true" json:"failureCount"`
 }
 

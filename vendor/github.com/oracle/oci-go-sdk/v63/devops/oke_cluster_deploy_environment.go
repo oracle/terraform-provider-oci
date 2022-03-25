@@ -55,6 +55,8 @@ type OkeClusterDeployEnvironment struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	NetworkChannel NetworkChannel `mandatory:"false" json:"networkChannel"`
+
 	// The current state of the deployment environment.
 	LifecycleState DeployEnvironmentLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
@@ -150,4 +152,67 @@ func (m OkeClusterDeployEnvironment) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *OkeClusterDeployEnvironment) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Description      *string                             `json:"description"`
+		DisplayName      *string                             `json:"displayName"`
+		TimeCreated      *common.SDKTime                     `json:"timeCreated"`
+		TimeUpdated      *common.SDKTime                     `json:"timeUpdated"`
+		LifecycleState   DeployEnvironmentLifecycleStateEnum `json:"lifecycleState"`
+		LifecycleDetails *string                             `json:"lifecycleDetails"`
+		FreeformTags     map[string]string                   `json:"freeformTags"`
+		DefinedTags      map[string]map[string]interface{}   `json:"definedTags"`
+		SystemTags       map[string]map[string]interface{}   `json:"systemTags"`
+		NetworkChannel   networkchannel                      `json:"networkChannel"`
+		Id               *string                             `json:"id"`
+		ProjectId        *string                             `json:"projectId"`
+		CompartmentId    *string                             `json:"compartmentId"`
+		ClusterId        *string                             `json:"clusterId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Description = model.Description
+
+	m.DisplayName = model.DisplayName
+
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.LifecycleState = model.LifecycleState
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	nn, e = model.NetworkChannel.UnmarshalPolymorphicJSON(model.NetworkChannel.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NetworkChannel = nn.(NetworkChannel)
+	} else {
+		m.NetworkChannel = nil
+	}
+
+	m.Id = model.Id
+
+	m.ProjectId = model.ProjectId
+
+	m.CompartmentId = model.CompartmentId
+
+	m.ClusterId = model.ClusterId
+
+	return
 }

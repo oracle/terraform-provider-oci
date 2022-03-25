@@ -82,6 +82,10 @@ func (m *createdeploymentdetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateSingleDeployStageDeploymentDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SINGLE_STAGE_REDEPLOYMENT":
+		mm := CreateSingleDeployStageRedeploymentDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}

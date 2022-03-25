@@ -23,6 +23,9 @@ type ApprovalAction struct {
 
 	// The action of the user on the DevOps deployment stage.
 	Action ApprovalActionActionEnum `mandatory:"true" json:"action"`
+
+	// The reason for approving or rejecting the deployment.
+	Reason *string `mandatory:"false" json:"reason"`
 }
 
 func (m ApprovalAction) String() string {

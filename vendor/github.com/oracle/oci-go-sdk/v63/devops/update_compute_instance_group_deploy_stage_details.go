@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateComputeInstanceGroupDeployStageDetails Specifies the instance group rolling deployment stage.
+// UpdateComputeInstanceGroupDeployStageDetails Specifies the Instance Group Rolling deployment stage.
 type UpdateComputeInstanceGroupDeployStageDetails struct {
 
 	// Optional description about the deployment stage.

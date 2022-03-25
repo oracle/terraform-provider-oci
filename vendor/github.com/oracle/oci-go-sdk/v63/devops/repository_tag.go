@@ -30,6 +30,12 @@ type RepositoryTag struct {
 
 	// SHA-1 hash value of the object pointed to by the tag.
 	ObjectId *string `mandatory:"true" json:"objectId"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 //GetRefName returns RefName
@@ -45,6 +51,16 @@ func (m RepositoryTag) GetFullRefName() *string {
 //GetRepositoryId returns RepositoryId
 func (m RepositoryTag) GetRepositoryId() *string {
 	return m.RepositoryId
+}
+
+//GetFreeformTags returns FreeformTags
+func (m RepositoryTag) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m RepositoryTag) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
 }
 
 func (m RepositoryTag) String() string {

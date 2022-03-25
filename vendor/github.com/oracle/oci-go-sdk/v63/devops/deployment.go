@@ -130,6 +130,10 @@ func (m *deployment) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 
 	var err error
 	switch m.DeploymentType {
+	case "SINGLE_STAGE_REDEPLOYMENT":
+		mm := SingleDeployStageRedeployment{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "PIPELINE_DEPLOYMENT":
 		mm := DeployPipelineDeployment{}
 		err = json.Unmarshal(data, &mm)
@@ -314,21 +318,24 @@ type DeploymentDeploymentTypeEnum string
 
 // Set of constants representing the allowable values for DeploymentDeploymentTypeEnum
 const (
-	DeploymentDeploymentTypePipelineDeployment    DeploymentDeploymentTypeEnum = "PIPELINE_DEPLOYMENT"
-	DeploymentDeploymentTypePipelineRedeployment  DeploymentDeploymentTypeEnum = "PIPELINE_REDEPLOYMENT"
-	DeploymentDeploymentTypeSingleStageDeployment DeploymentDeploymentTypeEnum = "SINGLE_STAGE_DEPLOYMENT"
+	DeploymentDeploymentTypePipelineDeployment      DeploymentDeploymentTypeEnum = "PIPELINE_DEPLOYMENT"
+	DeploymentDeploymentTypePipelineRedeployment    DeploymentDeploymentTypeEnum = "PIPELINE_REDEPLOYMENT"
+	DeploymentDeploymentTypeSingleStageDeployment   DeploymentDeploymentTypeEnum = "SINGLE_STAGE_DEPLOYMENT"
+	DeploymentDeploymentTypeSingleStageRedeployment DeploymentDeploymentTypeEnum = "SINGLE_STAGE_REDEPLOYMENT"
 )
 
 var mappingDeploymentDeploymentTypeEnum = map[string]DeploymentDeploymentTypeEnum{
-	"PIPELINE_DEPLOYMENT":     DeploymentDeploymentTypePipelineDeployment,
-	"PIPELINE_REDEPLOYMENT":   DeploymentDeploymentTypePipelineRedeployment,
-	"SINGLE_STAGE_DEPLOYMENT": DeploymentDeploymentTypeSingleStageDeployment,
+	"PIPELINE_DEPLOYMENT":       DeploymentDeploymentTypePipelineDeployment,
+	"PIPELINE_REDEPLOYMENT":     DeploymentDeploymentTypePipelineRedeployment,
+	"SINGLE_STAGE_DEPLOYMENT":   DeploymentDeploymentTypeSingleStageDeployment,
+	"SINGLE_STAGE_REDEPLOYMENT": DeploymentDeploymentTypeSingleStageRedeployment,
 }
 
 var mappingDeploymentDeploymentTypeEnumLowerCase = map[string]DeploymentDeploymentTypeEnum{
-	"pipeline_deployment":     DeploymentDeploymentTypePipelineDeployment,
-	"pipeline_redeployment":   DeploymentDeploymentTypePipelineRedeployment,
-	"single_stage_deployment": DeploymentDeploymentTypeSingleStageDeployment,
+	"pipeline_deployment":       DeploymentDeploymentTypePipelineDeployment,
+	"pipeline_redeployment":     DeploymentDeploymentTypePipelineRedeployment,
+	"single_stage_deployment":   DeploymentDeploymentTypeSingleStageDeployment,
+	"single_stage_redeployment": DeploymentDeploymentTypeSingleStageRedeployment,
 }
 
 // GetDeploymentDeploymentTypeEnumValues Enumerates the set of values for DeploymentDeploymentTypeEnum
@@ -346,6 +353,7 @@ func GetDeploymentDeploymentTypeEnumStringValues() []string {
 		"PIPELINE_DEPLOYMENT",
 		"PIPELINE_REDEPLOYMENT",
 		"SINGLE_STAGE_DEPLOYMENT",
+		"SINGLE_STAGE_REDEPLOYMENT",
 	}
 }
 

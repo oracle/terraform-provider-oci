@@ -67,6 +67,12 @@ type VirtualCircuit struct {
 	// By default, routing information is shared for all routes in the same market.
 	RoutingPolicy []VirtualCircuitRoutingPolicyEnum `mandatory:"false" json:"routingPolicy,omitempty"`
 
+	// Set to ENABLED to activate the  bgp session of virtual circuit, DISABLED to deactivate.
+	BgpAdminState VirtualCircuitBgpAdminStateEnum `mandatory:"false" json:"bgpAdminState,omitempty"`
+
+	// Set to true to enable BFD for ipv4 Bgp Peering, false to disable. If not set, default is false
+	IsBfdEnabled *bool `mandatory:"false" json:"isBfdEnabled"`
+
 	// Deprecated. Instead use `customerAsn`.
 	// If you specify values for both, the request will be rejected.
 	CustomerBgpAsn *int `mandatory:"false" json:"customerBgpAsn"`
@@ -180,6 +186,9 @@ func (m VirtualCircuit) ValidateEnumValue() (bool, error) {
 		}
 	}
 
+	if _, ok := GetMappingVirtualCircuitBgpAdminStateEnum(string(m.BgpAdminState)); !ok && m.BgpAdminState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BgpAdminState: %s. Supported values are: %s.", m.BgpAdminState, strings.Join(GetVirtualCircuitBgpAdminStateEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingVirtualCircuitLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVirtualCircuitLifecycleStateEnumStringValues(), ",")))
 	}
@@ -378,6 +387,48 @@ func GetVirtualCircuitRoutingPolicyEnumStringValues() []string {
 // GetMappingVirtualCircuitRoutingPolicyEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingVirtualCircuitRoutingPolicyEnum(val string) (VirtualCircuitRoutingPolicyEnum, bool) {
 	enum, ok := mappingVirtualCircuitRoutingPolicyEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VirtualCircuitBgpAdminStateEnum Enum with underlying type: string
+type VirtualCircuitBgpAdminStateEnum string
+
+// Set of constants representing the allowable values for VirtualCircuitBgpAdminStateEnum
+const (
+	VirtualCircuitBgpAdminStateEnabled  VirtualCircuitBgpAdminStateEnum = "ENABLED"
+	VirtualCircuitBgpAdminStateDisabled VirtualCircuitBgpAdminStateEnum = "DISABLED"
+)
+
+var mappingVirtualCircuitBgpAdminStateEnum = map[string]VirtualCircuitBgpAdminStateEnum{
+	"ENABLED":  VirtualCircuitBgpAdminStateEnabled,
+	"DISABLED": VirtualCircuitBgpAdminStateDisabled,
+}
+
+var mappingVirtualCircuitBgpAdminStateEnumLowerCase = map[string]VirtualCircuitBgpAdminStateEnum{
+	"enabled":  VirtualCircuitBgpAdminStateEnabled,
+	"disabled": VirtualCircuitBgpAdminStateDisabled,
+}
+
+// GetVirtualCircuitBgpAdminStateEnumValues Enumerates the set of values for VirtualCircuitBgpAdminStateEnum
+func GetVirtualCircuitBgpAdminStateEnumValues() []VirtualCircuitBgpAdminStateEnum {
+	values := make([]VirtualCircuitBgpAdminStateEnum, 0)
+	for _, v := range mappingVirtualCircuitBgpAdminStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVirtualCircuitBgpAdminStateEnumStringValues Enumerates the set of values in String for VirtualCircuitBgpAdminStateEnum
+func GetVirtualCircuitBgpAdminStateEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
+}
+
+// GetMappingVirtualCircuitBgpAdminStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVirtualCircuitBgpAdminStateEnum(val string) (VirtualCircuitBgpAdminStateEnum, bool) {
+	enum, ok := mappingVirtualCircuitBgpAdminStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 
