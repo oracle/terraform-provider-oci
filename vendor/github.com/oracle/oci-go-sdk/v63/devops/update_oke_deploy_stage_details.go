@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateOkeDeployStageDetails Specifies the Kubernetes cluster deployment stage.
+// UpdateOkeDeployStageDetails Specifies the Container Engine for Kubernetes (OKE) cluster deployment stage.
 type UpdateOkeDeployStageDetails struct {
 
 	// Optional description about the deployment stage.
@@ -36,7 +36,7 @@ type UpdateOkeDeployStageDetails struct {
 	// Kubernetes cluster environment OCID for deployment.
 	OkeClusterDeployEnvironmentId *string `mandatory:"false" json:"okeClusterDeployEnvironmentId"`
 
-	// List of Kubernetes manifest artifact OCIDs, the manifests should not include any job resource.
+	// List of Kubernetes manifest artifact OCIDs.
 	KubernetesManifestDeployArtifactIds []string `mandatory:"false" json:"kubernetesManifestDeployArtifactIds"`
 
 	// Default namespace to be used for Kubernetes deployment when not specified in the manifest.

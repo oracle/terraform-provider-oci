@@ -41,6 +41,9 @@ type ListingSummary struct {
 	// Summary of the pricing types available across all packages in the listing.
 	PricingTypes []ListingSummaryPricingTypesEnum `mandatory:"false" json:"pricingTypes,omitempty"`
 
+	// The list of compatible architectures supported by the listing
+	CompatibleArchitectures []ListingSummaryCompatibleArchitecturesEnum `mandatory:"false" json:"compatibleArchitectures,omitempty"`
+
 	// The regions where you can deploy the listing. (Some listings have restrictions that limit their deployment to United States regions only.)
 	Regions []Region `mandatory:"false" json:"regions"`
 
@@ -75,6 +78,12 @@ func (m ListingSummary) ValidateEnumValue() (bool, error) {
 	for _, val := range m.PricingTypes {
 		if _, ok := GetMappingListingSummaryPricingTypesEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PricingTypes: %s. Supported values are: %s.", val, strings.Join(GetListingSummaryPricingTypesEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range m.CompatibleArchitectures {
+		if _, ok := GetMappingListingSummaryCompatibleArchitecturesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CompatibleArchitectures: %s. Supported values are: %s.", val, strings.Join(GetListingSummaryCompatibleArchitecturesEnumStringValues(), ",")))
 		}
 	}
 
@@ -130,5 +139,47 @@ func GetListingSummaryPricingTypesEnumStringValues() []string {
 // GetMappingListingSummaryPricingTypesEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListingSummaryPricingTypesEnum(val string) (ListingSummaryPricingTypesEnum, bool) {
 	enum, ok := mappingListingSummaryPricingTypesEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListingSummaryCompatibleArchitecturesEnum Enum with underlying type: string
+type ListingSummaryCompatibleArchitecturesEnum string
+
+// Set of constants representing the allowable values for ListingSummaryCompatibleArchitecturesEnum
+const (
+	ListingSummaryCompatibleArchitecturesX86 ListingSummaryCompatibleArchitecturesEnum = "X86"
+	ListingSummaryCompatibleArchitecturesArm ListingSummaryCompatibleArchitecturesEnum = "ARM"
+)
+
+var mappingListingSummaryCompatibleArchitecturesEnum = map[string]ListingSummaryCompatibleArchitecturesEnum{
+	"X86": ListingSummaryCompatibleArchitecturesX86,
+	"ARM": ListingSummaryCompatibleArchitecturesArm,
+}
+
+var mappingListingSummaryCompatibleArchitecturesEnumLowerCase = map[string]ListingSummaryCompatibleArchitecturesEnum{
+	"x86": ListingSummaryCompatibleArchitecturesX86,
+	"arm": ListingSummaryCompatibleArchitecturesArm,
+}
+
+// GetListingSummaryCompatibleArchitecturesEnumValues Enumerates the set of values for ListingSummaryCompatibleArchitecturesEnum
+func GetListingSummaryCompatibleArchitecturesEnumValues() []ListingSummaryCompatibleArchitecturesEnum {
+	values := make([]ListingSummaryCompatibleArchitecturesEnum, 0)
+	for _, v := range mappingListingSummaryCompatibleArchitecturesEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListingSummaryCompatibleArchitecturesEnumStringValues Enumerates the set of values in String for ListingSummaryCompatibleArchitecturesEnum
+func GetListingSummaryCompatibleArchitecturesEnumStringValues() []string {
+	return []string{
+		"X86",
+		"ARM",
+	}
+}
+
+// GetMappingListingSummaryCompatibleArchitecturesEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListingSummaryCompatibleArchitecturesEnum(val string) (ListingSummaryCompatibleArchitecturesEnum, bool) {
+	enum, ok := mappingListingSummaryCompatibleArchitecturesEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

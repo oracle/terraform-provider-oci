@@ -33,6 +33,8 @@ type UpdateOkeClusterDeployEnvironmentDetails struct {
 
 	// The OCID of the Kubernetes cluster.
 	ClusterId *string `mandatory:"false" json:"clusterId"`
+
+	NetworkChannel NetworkChannel `mandatory:"false" json:"networkChannel"`
 }
 
 //GetDescription returns Description
@@ -83,4 +85,43 @@ func (m UpdateOkeClusterDeployEnvironmentDetails) MarshalJSON() (buff []byte, e 
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateOkeClusterDeployEnvironmentDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Description    *string                           `json:"description"`
+		DisplayName    *string                           `json:"displayName"`
+		FreeformTags   map[string]string                 `json:"freeformTags"`
+		DefinedTags    map[string]map[string]interface{} `json:"definedTags"`
+		ClusterId      *string                           `json:"clusterId"`
+		NetworkChannel networkchannel                    `json:"networkChannel"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Description = model.Description
+
+	m.DisplayName = model.DisplayName
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.ClusterId = model.ClusterId
+
+	nn, e = model.NetworkChannel.UnmarshalPolymorphicJSON(model.NetworkChannel.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NetworkChannel = nn.(NetworkChannel)
+	} else {
+		m.NetworkChannel = nil
+	}
+
+	return
 }

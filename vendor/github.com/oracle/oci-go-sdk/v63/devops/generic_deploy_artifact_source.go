@@ -19,7 +19,7 @@ import (
 // GenericDeployArtifactSource Specifies the Artifact Registry source details.
 type GenericDeployArtifactSource struct {
 
-	// The OCID of a repository
+	// The OCID of a repository.
 	RepositoryId *string `mandatory:"true" json:"repositoryId"`
 
 	// Specifies the artifact path in the repository.

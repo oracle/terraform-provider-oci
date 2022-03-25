@@ -17,7 +17,7 @@ import (
 )
 
 // BuildPipelineStage A single node in a build pipeline. A stage takes a specific designated action.
-// There are many types of stages such as 'Build' and 'Deliver Artifacts'.
+// There are many types of stages such as 'BUILD' and 'DELIVER_ARTIFACT'.
 type BuildPipelineStage interface {
 
 	// Unique identifier that is immutable on creation.

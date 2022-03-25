@@ -79,20 +79,32 @@ func (m *createdeploystagedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 
 	var err error
 	switch m.DeployStageType {
-	case "MANUAL_APPROVAL":
-		mm := CreateManualApprovalDeployStageDetails{}
+	case "OKE_CANARY_TRAFFIC_SHIFT":
+		mm := CreateOkeCanaryTrafficShiftDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_BLUE_GREEN_TRAFFIC_SHIFT":
+		mm := CreateOkeBlueGreenTrafficShiftDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT":
+		mm := CreateComputeInstanceGroupCanaryDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "WAIT":
 		mm := CreateWaitDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "OKE_DEPLOYMENT":
-		mm := CreateOkeDeployStageDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "LOAD_BALANCER_TRAFFIC_SHIFT":
 		mm := CreateLoadBalancerTrafficShiftDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT":
+		mm := CreateComputeInstanceGroupBlueGreenTrafficShiftDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_BLUE_GREEN_DEPLOYMENT":
+		mm := CreateOkeBlueGreenDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT":
@@ -105,6 +117,34 @@ func (m *createdeploystagedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		return mm, err
 	case "DEPLOY_FUNCTION":
 		mm := CreateFunctionDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_CANARY_DEPLOYMENT":
+		mm := CreateOkeCanaryDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT":
+		mm := CreateComputeInstanceGroupCanaryTrafficShiftDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL":
+		mm := CreateComputeInstanceGroupCanaryApprovalDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MANUAL_APPROVAL":
+		mm := CreateManualApprovalDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_DEPLOYMENT":
+		mm := CreateOkeDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT":
+		mm := CreateComputeInstanceGroupBlueGreenDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_CANARY_APPROVAL":
+		mm := CreateOkeCanaryApprovalDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

@@ -81,6 +81,9 @@ type GetWorkRequestResponse struct {
 
 	// A decimal number representing the number of seconds the client should wait before polling this endpoint again.
 	RetryAfter *float32 `presentIn:"header" name:"retry-after"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 }
 
 func (response GetWorkRequestResponse) String() string {

@@ -26,6 +26,9 @@ type LaunchEligibility struct {
 
 	// related meters for the PIC image
 	Meters *string `mandatory:"false" json:"meters"`
+
+	// Reason the account is ineligible to launch paid listings
+	IneligibilityReason IneligibilityReasonEnumEnum `mandatory:"false" json:"ineligibilityReason,omitempty"`
 }
 
 func (m LaunchEligibility) String() string {
@@ -38,6 +41,9 @@ func (m LaunchEligibility) String() string {
 func (m LaunchEligibility) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingIneligibilityReasonEnumEnum(string(m.IneligibilityReason)); !ok && m.IneligibilityReason != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IneligibilityReason: %s. Supported values are: %s.", m.IneligibilityReason, strings.Join(GetIneligibilityReasonEnumEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

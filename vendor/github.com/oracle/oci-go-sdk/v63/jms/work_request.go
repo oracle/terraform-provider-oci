@@ -47,6 +47,17 @@ type WorkRequest struct {
 
 	// The date and time the work request reached a terminal state, either _FAILED_ or _SUCCEEDED_ (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
+
+	CreatedBy *Principal `mandatory:"false" json:"createdBy"`
+
+	// The date and time the work request percentage was last updated. (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
+	TimeLastUpdated *common.SDKTime `mandatory:"false" json:"timeLastUpdated"`
+
+	// The total number of tasks to be executed for this work request.
+	TotalTaskCount *int `mandatory:"false" json:"totalTaskCount"`
+
+	// The number of tasks had been executed to a terminal state.
+	CompletedTaskCount *int `mandatory:"false" json:"completedTaskCount"`
 }
 
 func (m WorkRequest) String() string {

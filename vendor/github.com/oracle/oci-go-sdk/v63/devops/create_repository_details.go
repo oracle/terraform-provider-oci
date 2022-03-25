@@ -24,11 +24,11 @@ type CreateRepositoryDetails struct {
 	// The OCID of the DevOps project containing the repository.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
+	// Type of repository.
+	RepositoryType RepositoryRepositoryTypeEnum `mandatory:"true" json:"repositoryType"`
+
 	// The default branch of the repository.
 	DefaultBranch *string `mandatory:"false" json:"defaultBranch"`
-
-	// Type of repository.
-	RepositoryType RepositoryRepositoryTypeEnum `mandatory:"false" json:"repositoryType,omitempty"`
 
 	MirrorRepositoryConfig *MirrorRepositoryConfig `mandatory:"false" json:"mirrorRepositoryConfig"`
 
@@ -51,10 +51,10 @@ func (m CreateRepositoryDetails) String() string {
 // Not recommended for calling this function directly
 func (m CreateRepositoryDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-
 	if _, ok := GetMappingRepositoryRepositoryTypeEnum(string(m.RepositoryType)); !ok && m.RepositoryType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RepositoryType: %s. Supported values are: %s.", m.RepositoryType, strings.Join(GetRepositoryRepositoryTypeEnumStringValues(), ",")))
 	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

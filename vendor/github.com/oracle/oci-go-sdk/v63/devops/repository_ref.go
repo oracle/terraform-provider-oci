@@ -27,14 +27,22 @@ type RepositoryRef interface {
 
 	// The OCID of the repository containing the reference.
 	GetRepositoryId() *string
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
+	GetFreeformTags() map[string]string
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
+	GetDefinedTags() map[string]map[string]interface{}
 }
 
 type repositoryref struct {
 	JsonData     []byte
-	RefName      *string `mandatory:"true" json:"refName"`
-	FullRefName  *string `mandatory:"true" json:"fullRefName"`
-	RepositoryId *string `mandatory:"true" json:"repositoryId"`
-	RefType      string  `json:"refType"`
+	RefName      *string                           `mandatory:"true" json:"refName"`
+	FullRefName  *string                           `mandatory:"true" json:"fullRefName"`
+	RepositoryId *string                           `mandatory:"true" json:"repositoryId"`
+	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	RefType      string                            `json:"refType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -51,6 +59,8 @@ func (m *repositoryref) UnmarshalJSON(data []byte) error {
 	m.RefName = s.Model.RefName
 	m.FullRefName = s.Model.FullRefName
 	m.RepositoryId = s.Model.RepositoryId
+	m.FreeformTags = s.Model.FreeformTags
+	m.DefinedTags = s.Model.DefinedTags
 	m.RefType = s.Model.RefType
 
 	return err
@@ -91,6 +101,16 @@ func (m repositoryref) GetFullRefName() *string {
 //GetRepositoryId returns RepositoryId
 func (m repositoryref) GetRepositoryId() *string {
 	return m.RepositoryId
+}
+
+//GetFreeformTags returns FreeformTags
+func (m repositoryref) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m repositoryref) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
 }
 
 func (m repositoryref) String() string {

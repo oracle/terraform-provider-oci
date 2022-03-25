@@ -18,7 +18,8 @@ import (
 // BuildPipelineStagePredecessor Metadata for defining a stage's predecessor.
 type BuildPipelineStagePredecessor struct {
 
-	// The ID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's ID.
+	// The OCID of the predecessor stage. If a stage is the first stage in the pipeline, then
+	// the ID is the pipeline's OCID.
 	Id *string `mandatory:"true" json:"id"`
 }
 

@@ -18,24 +18,30 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeCreateFleet OperationTypeEnum = "CREATE_FLEET"
-	OperationTypeDeleteFleet OperationTypeEnum = "DELETE_FLEET"
-	OperationTypeMoveFleet   OperationTypeEnum = "MOVE_FLEET"
-	OperationTypeUpdateFleet OperationTypeEnum = "UPDATE_FLEET"
+	OperationTypeCreateFleet                   OperationTypeEnum = "CREATE_FLEET"
+	OperationTypeDeleteFleet                   OperationTypeEnum = "DELETE_FLEET"
+	OperationTypeMoveFleet                     OperationTypeEnum = "MOVE_FLEET"
+	OperationTypeUpdateFleet                   OperationTypeEnum = "UPDATE_FLEET"
+	OperationTypeUpdateFleetAgentConfiguration OperationTypeEnum = "UPDATE_FLEET_AGENT_CONFIGURATION"
+	OperationTypeDeleteJavaInstallation        OperationTypeEnum = "DELETE_JAVA_INSTALLATION"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
-	"CREATE_FLEET": OperationTypeCreateFleet,
-	"DELETE_FLEET": OperationTypeDeleteFleet,
-	"MOVE_FLEET":   OperationTypeMoveFleet,
-	"UPDATE_FLEET": OperationTypeUpdateFleet,
+	"CREATE_FLEET":                     OperationTypeCreateFleet,
+	"DELETE_FLEET":                     OperationTypeDeleteFleet,
+	"MOVE_FLEET":                       OperationTypeMoveFleet,
+	"UPDATE_FLEET":                     OperationTypeUpdateFleet,
+	"UPDATE_FLEET_AGENT_CONFIGURATION": OperationTypeUpdateFleetAgentConfiguration,
+	"DELETE_JAVA_INSTALLATION":         OperationTypeDeleteJavaInstallation,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
-	"create_fleet": OperationTypeCreateFleet,
-	"delete_fleet": OperationTypeDeleteFleet,
-	"move_fleet":   OperationTypeMoveFleet,
-	"update_fleet": OperationTypeUpdateFleet,
+	"create_fleet":                     OperationTypeCreateFleet,
+	"delete_fleet":                     OperationTypeDeleteFleet,
+	"move_fleet":                       OperationTypeMoveFleet,
+	"update_fleet":                     OperationTypeUpdateFleet,
+	"update_fleet_agent_configuration": OperationTypeUpdateFleetAgentConfiguration,
+	"delete_java_installation":         OperationTypeDeleteJavaInstallation,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -54,6 +60,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_FLEET",
 		"MOVE_FLEET",
 		"UPDATE_FLEET",
+		"UPDATE_FLEET_AGENT_CONFIGURATION",
+		"DELETE_JAVA_INSTALLATION",
 	}
 }
 

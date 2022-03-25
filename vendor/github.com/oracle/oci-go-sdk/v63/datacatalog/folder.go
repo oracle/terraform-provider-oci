@@ -93,6 +93,9 @@ type Folder struct {
 
 	// URI to the folder instance in the API.
 	Uri *string `mandatory:"false" json:"uri"`
+
+	// URL of the folder in the object store.
+	ObjectStorageUrl *string `mandatory:"false" json:"objectStorageUrl"`
 }
 
 func (m Folder) String() string {

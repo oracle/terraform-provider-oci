@@ -44,6 +44,9 @@ type Shape struct {
 	// The default amount of memory available for this shape, in gigabytes.
 	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
 
+	// The number of physical network interface card (NIC) ports available for this shape.
+	NetworkPorts *int `mandatory:"false" json:"networkPorts"`
+
 	// The networking bandwidth available for this shape, in gigabits per second.
 	NetworkingBandwidthInGbps *float32 `mandatory:"false" json:"networkingBandwidthInGbps"`
 
@@ -67,6 +70,15 @@ type Shape struct {
 	// A short description of the local disks available for this shape.
 	// If the shape does not have any local disks, this field is `null`.
 	LocalDiskDescription *string `mandatory:"false" json:"localDiskDescription"`
+
+	// The number of networking ports available for the remote direct memory access (RDMA) network between nodes in
+	// a high performance computing (HPC) cluster network. If the shape does not support cluster networks, this
+	// value is `0`.
+	RdmaPorts *int `mandatory:"false" json:"rdmaPorts"`
+
+	// The networking bandwidth available for the remote direct memory access (RDMA) network for this shape, in
+	// gigabits per second.
+	RdmaBandwidthInGbps *int `mandatory:"false" json:"rdmaBandwidthInGbps"`
 
 	// Whether live migration is supported for this shape.
 	IsLiveMigrationSupported *bool `mandatory:"false" json:"isLiveMigrationSupported"`

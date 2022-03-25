@@ -41,6 +41,12 @@ type UpdateVirtualCircuitDetails struct {
 	// By default, routing information is shared for all routes in the same market.
 	RoutingPolicy []UpdateVirtualCircuitDetailsRoutingPolicyEnum `mandatory:"false" json:"routingPolicy,omitempty"`
 
+	// Set to ENABLED to activate the bgp session of virtual circuit, DISABLED to deactivate.
+	BgpAdminState UpdateVirtualCircuitDetailsBgpAdminStateEnum `mandatory:"false" json:"bgpAdminState,omitempty"`
+
+	// Set to true to enable BFD for ipv4 Bgp Peering, false to disable. If not set, default is false
+	IsBfdEnabled *bool `mandatory:"false" json:"isBfdEnabled"`
+
 	// Deprecated. Instead use `customerAsn`.
 	// If you specify values for both, the request will be rejected.
 	CustomerBgpAsn *int `mandatory:"false" json:"customerBgpAsn"`
@@ -111,6 +117,9 @@ func (m UpdateVirtualCircuitDetails) ValidateEnumValue() (bool, error) {
 		}
 	}
 
+	if _, ok := GetMappingUpdateVirtualCircuitDetailsBgpAdminStateEnum(string(m.BgpAdminState)); !ok && m.BgpAdminState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BgpAdminState: %s. Supported values are: %s.", m.BgpAdminState, strings.Join(GetUpdateVirtualCircuitDetailsBgpAdminStateEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingUpdateVirtualCircuitDetailsProviderStateEnum(string(m.ProviderState)); !ok && m.ProviderState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProviderState: %s. Supported values are: %s.", m.ProviderState, strings.Join(GetUpdateVirtualCircuitDetailsProviderStateEnumStringValues(), ",")))
 	}
@@ -170,6 +179,48 @@ func GetUpdateVirtualCircuitDetailsRoutingPolicyEnumStringValues() []string {
 // GetMappingUpdateVirtualCircuitDetailsRoutingPolicyEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateVirtualCircuitDetailsRoutingPolicyEnum(val string) (UpdateVirtualCircuitDetailsRoutingPolicyEnum, bool) {
 	enum, ok := mappingUpdateVirtualCircuitDetailsRoutingPolicyEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateVirtualCircuitDetailsBgpAdminStateEnum Enum with underlying type: string
+type UpdateVirtualCircuitDetailsBgpAdminStateEnum string
+
+// Set of constants representing the allowable values for UpdateVirtualCircuitDetailsBgpAdminStateEnum
+const (
+	UpdateVirtualCircuitDetailsBgpAdminStateEnabled  UpdateVirtualCircuitDetailsBgpAdminStateEnum = "ENABLED"
+	UpdateVirtualCircuitDetailsBgpAdminStateDisabled UpdateVirtualCircuitDetailsBgpAdminStateEnum = "DISABLED"
+)
+
+var mappingUpdateVirtualCircuitDetailsBgpAdminStateEnum = map[string]UpdateVirtualCircuitDetailsBgpAdminStateEnum{
+	"ENABLED":  UpdateVirtualCircuitDetailsBgpAdminStateEnabled,
+	"DISABLED": UpdateVirtualCircuitDetailsBgpAdminStateDisabled,
+}
+
+var mappingUpdateVirtualCircuitDetailsBgpAdminStateEnumLowerCase = map[string]UpdateVirtualCircuitDetailsBgpAdminStateEnum{
+	"enabled":  UpdateVirtualCircuitDetailsBgpAdminStateEnabled,
+	"disabled": UpdateVirtualCircuitDetailsBgpAdminStateDisabled,
+}
+
+// GetUpdateVirtualCircuitDetailsBgpAdminStateEnumValues Enumerates the set of values for UpdateVirtualCircuitDetailsBgpAdminStateEnum
+func GetUpdateVirtualCircuitDetailsBgpAdminStateEnumValues() []UpdateVirtualCircuitDetailsBgpAdminStateEnum {
+	values := make([]UpdateVirtualCircuitDetailsBgpAdminStateEnum, 0)
+	for _, v := range mappingUpdateVirtualCircuitDetailsBgpAdminStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateVirtualCircuitDetailsBgpAdminStateEnumStringValues Enumerates the set of values in String for UpdateVirtualCircuitDetailsBgpAdminStateEnum
+func GetUpdateVirtualCircuitDetailsBgpAdminStateEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
+}
+
+// GetMappingUpdateVirtualCircuitDetailsBgpAdminStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateVirtualCircuitDetailsBgpAdminStateEnum(val string) (UpdateVirtualCircuitDetailsBgpAdminStateEnum, bool) {
+	enum, ok := mappingUpdateVirtualCircuitDetailsBgpAdminStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

@@ -34,10 +34,10 @@ type OkeDeployStage struct {
 	// Kubernetes cluster environment OCID for deployment.
 	OkeClusterDeployEnvironmentId *string `mandatory:"true" json:"okeClusterDeployEnvironmentId"`
 
-	// List of Kubernetes manifest artifact OCIDs, the manifests should not include any job resource.
+	// List of Kubernetes manifest artifact OCIDs.
 	KubernetesManifestDeployArtifactIds []string `mandatory:"true" json:"kubernetesManifestDeployArtifactIds"`
 
-	// Default Namespace to be used for Kubernetes deployment when not specified in the manifest.
+	// Default namespace to be used for Kubernetes deployment when not specified in the manifest.
 	Namespace *string `mandatory:"true" json:"namespace"`
 
 	// Optional description about the deployment stage.
