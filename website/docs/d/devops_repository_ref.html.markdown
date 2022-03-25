@@ -38,6 +38,7 @@ The following attributes are exported:
 * `full_ref_name` - Unique full reference name inside a repository.
 * `object_id` - SHA-1 hash value of the object pointed to by the tag.
 * `ref_name` - Unique reference name inside a repository.
-* `ref_type` - The type of reference (Branch or Tag).
+* `ref_type` - The type of reference (BRANCH or TAG).
 * `repository_id` - The OCID of the repository containing the reference.
-
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`

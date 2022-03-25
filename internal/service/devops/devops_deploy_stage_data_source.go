@@ -95,7 +95,7 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.GetLifecycleDetails() != nil {
-		s.D.Set("lifecyle_details", *s.Res.GetLifecycleDetails())
+		s.D.Set("lifecycle_details", *s.Res.GetLifecycleDetails())
 	}
 
 	if s.Res.GetProjectId() != nil {
@@ -117,6 +117,366 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 	}
 
 	switch v := (s.Res.DeployStage).(type) {
+	case oci_devops.ComputeInstanceGroupBlueGreenDeployStage:
+		s.D.Set("deploy_stage_type", "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT")
+
+		if v.DeployEnvironmentIdA != nil {
+			s.D.Set("deploy_environment_id_a", *v.DeployEnvironmentIdA)
+		}
+
+		if v.DeployEnvironmentIdB != nil {
+			s.D.Set("deploy_environment_id_b", *v.DeployEnvironmentIdB)
+		}
+
+		s.D.Set("deploy_artifact_ids", v.DeployArtifactIds)
+
+		if v.DeploymentSpecDeployArtifactId != nil {
+			s.D.Set("deployment_spec_deploy_artifact_id", *v.DeploymentSpecDeployArtifactId)
+		}
+
+		if v.RolloutPolicy != nil {
+			rolloutPolicyArray := []interface{}{}
+			if rolloutPolicyMap := ComputeInstanceGroupRolloutPolicyToMap(&v.RolloutPolicy); rolloutPolicyMap != nil {
+				rolloutPolicyArray = append(rolloutPolicyArray, rolloutPolicyMap)
+			}
+			s.D.Set("rollout_policy", rolloutPolicyArray)
+		} else {
+			s.D.Set("rollout_policy", nil)
+		}
+
+		if v.FailurePolicy != nil {
+			failurePolicyArray := []interface{}{}
+			if failurePolicyMap := ComputeInstanceGroupFailurePolicyToMap(&v.FailurePolicy); failurePolicyMap != nil {
+				failurePolicyArray = append(failurePolicyArray, failurePolicyMap)
+			}
+			s.D.Set("failure_policy", failurePolicyArray)
+		} else {
+			s.D.Set("failure_policy", nil)
+		}
+
+		if v.ProductionLoadBalancerConfig != nil {
+			s.D.Set("production_load_balancer_config", []interface{}{LoadBalancerConfigToMap(v.ProductionLoadBalancerConfig)})
+		} else {
+			s.D.Set("production_load_balancer_config", nil)
+		}
+
+		if v.TestLoadBalancerConfig != nil {
+			s.D.Set("test_load_balancer_config", []interface{}{LoadBalancerConfigToMap(v.TestLoadBalancerConfig)})
+		} else {
+			s.D.Set("test_load_balancer_config", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.ComputeInstanceGroupBlueGreenTrafficShiftDeployStage:
+		s.D.Set("deploy_stage_type", "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT")
+
+		if v.ComputeInstanceGroupBlueGreenDeploymentDeployStageId != nil {
+			s.D.Set("compute_instance_group_blue_green_deployment_deploy_stage_id", v.ComputeInstanceGroupBlueGreenDeploymentDeployStageId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.ComputeInstanceGroupCanaryDeployStage:
+		s.D.Set("deploy_stage_type", "COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT")
+
+		if v.ComputeInstanceGroupDeployEnvironmentId != nil {
+			s.D.Set("compute_instance_group_deploy_environment_id", *v.ComputeInstanceGroupDeployEnvironmentId)
+		}
+
+		s.D.Set("deploy_artifact_ids", v.DeployArtifactIds)
+
+		if v.DeploymentSpecDeployArtifactId != nil {
+			s.D.Set("deployment_spec_deploy_artifact_id", *v.DeploymentSpecDeployArtifactId)
+		}
+
+		if v.RolloutPolicy != nil {
+			rolloutPolicyArray := []interface{}{}
+			if rolloutPolicyMap := ComputeInstanceGroupRolloutPolicyToMap(&v.RolloutPolicy); rolloutPolicyMap != nil {
+				rolloutPolicyArray = append(rolloutPolicyArray, rolloutPolicyMap)
+			}
+			s.D.Set("rollout_policy", rolloutPolicyArray)
+		} else {
+			s.D.Set("rollout_policy", nil)
+		}
+
+		if v.ProductionLoadBalancerConfig != nil {
+			s.D.Set("production_load_balancer_config", []interface{}{LoadBalancerConfigToMap(v.ProductionLoadBalancerConfig)})
+		} else {
+			s.D.Set("production_load_balancer_config", nil)
+		}
+
+		if v.TestLoadBalancerConfig != nil {
+			s.D.Set("test_load_balancer_config", []interface{}{LoadBalancerConfigToMap(v.TestLoadBalancerConfig)})
+		} else {
+			s.D.Set("test_load_balancer_config", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.ComputeInstanceGroupCanaryTrafficShiftDeployStage:
+		s.D.Set("deploy_stage_type", "COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT")
+
+		if v.ComputeInstanceGroupCanaryDeployStageId != nil {
+			s.D.Set("compute_instance_group_canary_deploy_stage_id", v.ComputeInstanceGroupCanaryDeployStageId)
+		}
+
+		if v.RolloutPolicy != nil {
+			rolloutPolicyArray := []interface{}{}
+			if rolloutPolicyMap := LoadBalancerTrafficShiftRolloutPolicyToMap(v.RolloutPolicy); rolloutPolicyMap != nil {
+				rolloutPolicyArray = append(rolloutPolicyArray, rolloutPolicyMap)
+			}
+			s.D.Set("rollout_policy", rolloutPolicyArray)
+		} else {
+			s.D.Set("rollout_policy", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.ComputeInstanceGroupCanaryApprovalDeployStage:
+		s.D.Set("deploy_stage_type", "COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL")
+
+		if v.ComputeInstanceGroupCanaryTrafficShiftDeployStageId != nil {
+			s.D.Set("compute_instance_group_canary_traffic_shift_deploy_stage_id", *v.ComputeInstanceGroupCanaryTrafficShiftDeployStageId)
+		}
+
+		if v.ApprovalPolicy != nil {
+			approvalPolicyArray := []interface{}{}
+			if approvalPolicyMap := ApprovalPolicyToMap(&v.ApprovalPolicy); approvalPolicyMap != nil {
+				approvalPolicyArray = append(approvalPolicyArray, approvalPolicyMap)
+			}
+			s.D.Set("approval_policy", approvalPolicyArray)
+		} else {
+			s.D.Set("approval_policy", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_devops.ComputeInstanceGroupDeployStage:
 		s.D.Set("deploy_stage_type", "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT")
 
@@ -195,7 +555,7 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.LifecycleDetails != nil {
-			s.D.Set("lifecyle_details", *v.LifecycleDetails)
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
 		if v.ProjectId != nil {
@@ -265,7 +625,7 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.LifecycleDetails != nil {
-			s.D.Set("lifecyle_details", *v.LifecycleDetails)
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
 		if v.ProjectId != nil {
@@ -333,7 +693,7 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.LifecycleDetails != nil {
-			s.D.Set("lifecyle_details", *v.LifecycleDetails)
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
 		if v.ProjectId != nil {
@@ -421,7 +781,7 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.LifecycleDetails != nil {
-			s.D.Set("lifecyle_details", *v.LifecycleDetails)
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
 		if v.ProjectId != nil {
@@ -483,13 +843,329 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.LifecycleDetails != nil {
-			s.D.Set("lifecyle_details", *v.LifecycleDetails)
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
 		if v.ProjectId != nil {
 			s.D.Set("project_id", *v.ProjectId)
 		}
 
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.OkeBlueGreenDeployStage:
+		s.D.Set("deploy_stage_type", "OKE_BLUE_GREEN_DEPLOYMENT")
+
+		s.D.Set("kubernetes_manifest_deploy_artifact_ids", v.KubernetesManifestDeployArtifactIds)
+
+		if v.BlueGreenStrategy != nil {
+			blueGreenStrategyArray := []interface{}{}
+			if blueGreenStrategyMap := OkeBlueGreenStrategyToMap(&v.BlueGreenStrategy); blueGreenStrategyMap != nil {
+				blueGreenStrategyArray = append(blueGreenStrategyArray, blueGreenStrategyMap)
+			}
+			s.D.Set("blue_green_strategy", blueGreenStrategyArray)
+		} else {
+			s.D.Set("blue_green_strategy", nil)
+		}
+
+		if v.OkeClusterDeployEnvironmentId != nil {
+			s.D.Set("oke_cluster_deploy_environment_id", *v.OkeClusterDeployEnvironmentId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.OkeBlueGreenTrafficShiftDeployStage:
+		s.D.Set("deploy_stage_type", "OKE_BLUE_GREEN_TRAFFIC_SHIFT")
+
+		if v.OkeBlueGreenDeployStageId != nil {
+			s.D.Set("oke_blue_green_deploy_stage_id", *v.OkeBlueGreenDeployStageId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.OkeCanaryDeployStage:
+		s.D.Set("deploy_stage_type", "OKE_CANARY_DEPLOYMENT")
+
+		if v.OkeClusterDeployEnvironmentId != nil {
+			s.D.Set("oke_cluster_deploy_environment_id", *v.OkeClusterDeployEnvironmentId)
+		}
+
+		s.D.Set("kubernetes_manifest_deploy_artifact_ids", v.KubernetesManifestDeployArtifactIds)
+
+		if v.CanaryStrategy != nil {
+			canaryStrategyArray := []interface{}{}
+			if canaryStrategyMap := OkeCanaryStrategyToMap(&v.CanaryStrategy); canaryStrategyMap != nil {
+				canaryStrategyArray = append(canaryStrategyArray, canaryStrategyMap)
+			}
+			s.D.Set("canary_strategy", canaryStrategyArray)
+		} else {
+			s.D.Set("canary_strategy", nil)
+		}
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.OkeCanaryTrafficShiftDeployStage:
+		s.D.Set("deploy_stage_type", "OKE_CANARY_TRAFFIC_SHIFT")
+
+		if v.OkeCanaryDeployStageId != nil {
+			s.D.Set("oke_blue_green_deploy_stage_id", *v.OkeCanaryDeployStageId)
+		}
+
+		if v.RolloutPolicy != nil {
+			rolloutPolicyArray := []interface{}{}
+			if rolloutPolicyMap := LoadBalancerTrafficShiftRolloutPolicyToMap(v.RolloutPolicy); rolloutPolicyMap != nil {
+				rolloutPolicyArray = append(rolloutPolicyArray, rolloutPolicyMap)
+			}
+			s.D.Set("rollout_policy", rolloutPolicyArray)
+		} else {
+			s.D.Set("rollout_policy", nil)
+		}
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.OkeCanaryApprovalDeployStage:
+		s.D.Set("deploy_stage_type", "OKE_CANARY_APPROVAL")
+
+		if v.OkeCanaryTrafficShiftDeployStageId != nil {
+			s.D.Set("oke_canary_traffic_shift_deploy_stage_id", *v.OkeCanaryTrafficShiftDeployStageId)
+		}
+
+		if v.ApprovalPolicy != nil {
+			approvalPolicyArray := []interface{}{}
+			if approvalPolicyMap := ApprovalPolicyToMap(&v.ApprovalPolicy); approvalPolicyMap != nil {
+				approvalPolicyArray = append(approvalPolicyArray, approvalPolicyMap)
+			}
+			s.D.Set("approval_policy", approvalPolicyArray)
+		} else {
+			s.D.Set("approval_policy", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SystemTags != nil {
@@ -555,7 +1231,7 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.LifecycleDetails != nil {
-			s.D.Set("lifecyle_details", *v.LifecycleDetails)
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
 		if v.ProjectId != nil {
@@ -617,7 +1293,7 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.LifecycleDetails != nil {
-			s.D.Set("lifecyle_details", *v.LifecycleDetails)
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
 		if v.ProjectId != nil {

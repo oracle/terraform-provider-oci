@@ -1769,6 +1769,7 @@ var exportDevopsDeployEnvironmentHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_devops.DeployEnvironmentLifecycleStateActive),
+		string(oci_devops.DeployEnvironmentLifecycleStateNeedsAttention),
 	},
 }
 

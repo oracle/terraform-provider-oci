@@ -41,6 +41,10 @@ func DevopsRepositoryResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			"repository_type": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
 
 			// Optional
 			"default_branch": {
@@ -116,11 +120,6 @@ func DevopsRepositoryResource() *schema.Resource {
 						// Computed
 					},
 				},
-			},
-			"repository_type": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
 			},
 
 			// Computed

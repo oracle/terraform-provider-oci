@@ -65,6 +65,16 @@ func DevopsRepositoryRefResource() *schema.Resource {
 			},
 
 			// Computed
+			"defined_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"full_ref_name": {
 				Type:     schema.TypeString,
 				Computed: true,
