@@ -1,3 +1,18 @@
+## 4.70.0 (Unreleased)
+
+### Added
+- New APIs - GetRepoFileDiff and GetRepoFileLine
+- Compute List Shapes API returns number of network ports
+- Support for Marketplace Expansion
+- Support for KMS integration with VM
+- Support for JMS life cycle management
+- Support for private OKE environments and blue-green/canary stages
+- Support for BGP disable and BFD feature in Fastconnect service
+- Data Catalog 2.3 Release
+### Bug Fix
+- updating certificates in load balancer SSL configuration
+- Data Safe test failure and resource discovery fixes
+
 ## 4.69.0 (March 23, 2022)
 
 ### Added
