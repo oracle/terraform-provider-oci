@@ -33,7 +33,6 @@ type TerraformAdvancedOptions struct {
 	Parallelism *int `mandatory:"false" json:"parallelism"`
 
 	// Enables detailed logs at the specified verbosity for running the job (operation).
-	// Used with the following operations: `PLAN`, `APPLY`, `DESTROY`.
 	DetailedLogLevel TerraformAdvancedOptionsDetailedLogLevelEnum `mandatory:"false" json:"detailedLogLevel,omitempty"`
 }
 

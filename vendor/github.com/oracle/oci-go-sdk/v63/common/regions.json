@@ -286,5 +286,11 @@
         "realmDomainComponent": "oraclecloud.com", 
         "regionIdentifier": "us-chicago-1", 
         "realmKey": "oc1"
+    }, 
+    {
+        "regionKey": "ifp", 
+        "realmDomainComponent": "oraclecloud17.com", 
+        "regionIdentifier": "us-dcc-phoenix-1", 
+        "realmKey": "oc17"
     }
 ]

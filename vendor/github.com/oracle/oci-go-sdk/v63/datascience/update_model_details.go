@@ -38,6 +38,12 @@ type UpdateModelDetails struct {
 
 	// An array of defined metadata details for the model.
 	DefinedMetadataList []Metadata `mandatory:"false" json:"definedMetadataList"`
+
+	// The OCID of the model version set that the model is associated to.
+	ModelVersionSetId *string `mandatory:"false" json:"modelVersionSetId"`
+
+	// The version label can add an additional description of the lifecycle state of the model or the application using/training the model.
+	VersionLabel *string `mandatory:"false" json:"versionLabel"`
 }
 
 func (m UpdateModelDetails) String() string {

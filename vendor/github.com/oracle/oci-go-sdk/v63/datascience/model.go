@@ -40,6 +40,18 @@ type Model struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the model.
 	CreatedBy *string `mandatory:"true" json:"createdBy"`
 
+	// The OCID of the model version set that the model is associated to.
+	ModelVersionSetId *string `mandatory:"true" json:"modelVersionSetId"`
+
+	// The name of the model version set that the model is associated to.
+	ModelVersionSetName *string `mandatory:"true" json:"modelVersionSetName"`
+
+	// Unique identifier assigned to each version of the model.
+	VersionId *int64 `mandatory:"true" json:"versionId"`
+
+	// The version label can add an additional description of the lifecycle state of the model or the application using/training the model.
+	VersionLabel *string `mandatory:"true" json:"versionLabel"`
+
 	// A short description of the model.
 	Description *string `mandatory:"false" json:"description"`
 
