@@ -57,14 +57,14 @@ resource "oci_devops_deploy_environment" "test_deploy_private_oke_environment" {
   #Required
   deploy_environment_type = "OKE_CLUSTER"
   project_id              = oci_devops_project.test_project.id
-  cluster_id = "oci-cluster-ocid"
-  display_name = "Display_name"
+  cluster_id              = oci_containerengine_cluster.test_cluster.id
+  display_name            = "privateOkeDeployEnvironment"
   network_channel {
     #Required
     network_channel_type = "PRIVATE_ENDPOINT_CHANNEL"
-    subnet_id            = "oci-subnet-ocid"
+    subnet_id            = oci_core_subnet.clusterSubnet_1.id
 
     #Optional
-    nsg_ids = ["oci-network-security-group-ocid"]
+    nsg_ids = [oci_core_network_security_group.test_nsg.id]
   }
 }
