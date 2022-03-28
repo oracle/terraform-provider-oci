@@ -4,6 +4,7 @@
 package resourcediscovery
 
 import (
+	oci_adm "github.com/oracle/oci-go-sdk/v65/adm"
 	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v65/aianomalydetection"
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v65/aivision"
 	oci_analytics "github.com/oracle/oci-go-sdk/v65/analytics"
@@ -108,6 +109,29 @@ import (
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
+var exportAdmVulnerabilityAuditHints = &TerraformResourceHints{
+	resourceClass:          "oci_adm_vulnerability_audit",
+	datasourceClass:        "oci_adm_vulnerability_audits",
+	datasourceItemsAttr:    "vulnerability_audit_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "vulnerability_audit",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_adm.VulnerabilityAuditLifecycleStateActive),
+	},
+}
+
+var exportAdmKnowledgeBaseHints = &TerraformResourceHints{
+	resourceClass:          "oci_adm_knowledge_base",
+	datasourceClass:        "oci_adm_knowledge_bases",
+	datasourceItemsAttr:    "knowledge_base_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "knowledge_base",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_adm.KnowledgeBaseLifecycleStateActive),
+	},
+}
 
 var exportAiAnomalyDetectionDataAssetHints = &TerraformResourceHints{
 	resourceClass:          "oci_ai_anomaly_detection_data_asset",
