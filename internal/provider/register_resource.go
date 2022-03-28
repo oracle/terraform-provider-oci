@@ -4,6 +4,7 @@
 package provider
 
 import (
+	tf_adm "github.com/terraform-providers/terraform-provider-oci/internal/service/adm"
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	tf_ai_vision "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_vision"
 	tf_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
@@ -84,6 +85,9 @@ import (
 )
 
 func init() {
+	// adm service
+	RegisterResource("oci_adm_knowledge_base", tf_adm.AdmKnowledgeBaseResource())
+	RegisterResource("oci_adm_vulnerability_audit", tf_adm.AdmVulnerabilityAuditResource())
 	// ai_anomaly_detection service
 	RegisterResource("oci_ai_anomaly_detection_ai_private_endpoint", tf_ai_anomaly_detection.AiAnomalyDetectionAiPrivateEndpointResource())
 	RegisterResource("oci_ai_anomaly_detection_data_asset", tf_ai_anomaly_detection.AiAnomalyDetectionDataAssetResource())
