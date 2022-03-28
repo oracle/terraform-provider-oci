@@ -4,6 +4,7 @@
 package provider
 
 import (
+	tf_adm "github.com/terraform-providers/terraform-provider-oci/internal/service/adm"
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	tf_ai_vision "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_vision"
 	tf_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
@@ -91,6 +92,13 @@ import (
 )
 
 func init() {
+	// adm service
+	RegisterDatasource("oci_adm_knowledge_base", tf_adm.AdmKnowledgeBaseDataSource())
+	RegisterDatasource("oci_adm_knowledge_bases", tf_adm.AdmKnowledgeBasesDataSource())
+	RegisterDatasource("oci_adm_vulnerability_audit", tf_adm.AdmVulnerabilityAuditDataSource())
+	RegisterDatasource("oci_adm_vulnerability_audits", tf_adm.AdmVulnerabilityAuditsDataSource())
+	RegisterDatasource("oci_adm_vulnerability_audit_application_dependency_vulnerability", tf_adm.AdmVulnerabilityAuditApplicationDependencyVulnerabilityDataSource())
+	RegisterDatasource("oci_adm_vulnerability_audit_application_dependency_vulnerabilities", tf_adm.AdmVulnerabilityAuditApplicationDependencyVulnerabilitiesDataSource())
 	// ai_anomaly_detection service
 	RegisterDatasource("oci_ai_anomaly_detection_ai_private_endpoint", tf_ai_anomaly_detection.AiAnomalyDetectionAiPrivateEndpointDataSource())
 	RegisterDatasource("oci_ai_anomaly_detection_ai_private_endpoints", tf_ai_anomaly_detection.AiAnomalyDetectionAiPrivateEndpointsDataSource())
