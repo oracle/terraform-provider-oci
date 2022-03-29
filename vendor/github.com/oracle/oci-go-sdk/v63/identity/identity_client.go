@@ -90,10 +90,9 @@ func (client *IdentityClient) ConfigurationProvider() *common.ConfigurationProvi
 // `lifecycleDetails` is set to null and the `lifecycleState` of the identity domain is set to ACTIVE.
 // To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
 // the operation's status.
-// A default retry strategy applies to this operation ActivateDomain()
 func (client IdentityClient) ActivateDomain(ctx context.Context, request ActivateDomainRequest) (response ActivateDomainResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -150,10 +149,9 @@ func (client IdentityClient) activateDomain(ctx context.Context, request common.
 }
 
 // ActivateMfaTotpDevice Activates the specified MFA TOTP device for the user. Activation requires manual interaction with the Console.
-// A default retry strategy applies to this operation ActivateMfaTotpDevice()
 func (client IdentityClient) ActivateMfaTotpDevice(ctx context.Context, request ActivateMfaTotpDeviceRequest) (response ActivateMfaTotpDeviceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -210,10 +208,9 @@ func (client IdentityClient) activateMfaTotpDevice(ctx context.Context, request 
 }
 
 // AddTagDefaultLock Add a resource lock to a tag default.
-// A default retry strategy applies to this operation AddTagDefaultLock()
 func (client IdentityClient) AddTagDefaultLock(ctx context.Context, request AddTagDefaultLockRequest) (response AddTagDefaultLockResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -270,10 +267,9 @@ func (client IdentityClient) addTagDefaultLock(ctx context.Context, request comm
 }
 
 // AddTagNamespaceLock Add a resource lock to a tag namespace.
-// A default retry strategy applies to this operation AddTagNamespaceLock()
 func (client IdentityClient) AddTagNamespaceLock(ctx context.Context, request AddTagNamespaceLockRequest) (response AddTagNamespaceLockResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -332,10 +328,9 @@ func (client IdentityClient) addTagNamespaceLock(ctx context.Context, request co
 // AddUserToGroup Adds the specified user to the specified group and returns a `UserGroupMembership` object with its own OCID.
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
 // object, first make sure its `lifecycleState` has changed to ACTIVE.
-// A default retry strategy applies to this operation AddUserToGroup()
 func (client IdentityClient) AddUserToGroup(ctx context.Context, request AddUserToGroupRequest) (response AddUserToGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -395,10 +390,9 @@ func (client IdentityClient) addUserToGroup(ctx context.Context, request common.
 // the tags to apply. Tag defaults from parent compartments do not override tag defaults
 // referencing the same tag in a compartment lower down the hierarchy. This set of tag defaults
 // includes all tag defaults from the current compartment back to the root compartment.
-// A default retry strategy applies to this operation AssembleEffectiveTagSet()
 func (client IdentityClient) AssembleEffectiveTagSet(ctx context.Context, request AssembleEffectiveTagSetRequest) (response AssembleEffectiveTagSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -453,10 +447,9 @@ func (client IdentityClient) assembleEffectiveTagSet(ctx context.Context, reques
 // home region (https://docs.cloud.oracle.com/Content/Identity/regions/managingregions.htm#Home). This operation creates a
 // WorkRequest. Use the GetWorkRequest
 // API to monitor the status of the bulk action.
-// A default retry strategy applies to this operation BulkDeleteResources()
 func (client IdentityClient) BulkDeleteResources(ctx context.Context, request BulkDeleteResourcesRequest) (response BulkDeleteResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -528,10 +521,9 @@ func (client IdentityClient) bulkDeleteResources(ctx context.Context, request co
 // After you start this operation, you cannot start either the DeleteTag or the CascadeDeleteTagNamespace operation until this process completes.
 // In order to delete tags, you must first retire the tags. Use UpdateTag
 // to retire a tag.
-// A default retry strategy applies to this operation BulkDeleteTags()
 func (client IdentityClient) BulkDeleteTags(ctx context.Context, request BulkDeleteTagsRequest) (response BulkDeleteTagsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -598,10 +590,9 @@ func (client IdentityClient) bulkDeleteTags(ctx context.Context, request common.
 // However, multiple operations cannot apply to one key definition in the same request.
 // For example, if one request adds `tag set-1` to a resource and sets a tag value to `tag set-2`,
 // `tag set-1` and `tag set-2` cannot have any common tag definitions.
-// A default retry strategy applies to this operation BulkEditTags()
 func (client IdentityClient) BulkEditTags(ctx context.Context, request BulkEditTagsRequest) (response BulkEditTagsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -662,10 +653,9 @@ func (client IdentityClient) bulkEditTags(ctx context.Context, request common.OC
 // To move resources, you must have the appropriate permissions to move the resource in both the source and target
 // compartments. This operation creates a WorkRequest.
 // Use the GetWorkRequest API to monitor the status of the bulk action.
-// A default retry strategy applies to this operation BulkMoveResources()
 func (client IdentityClient) BulkMoveResources(ctx context.Context, request BulkMoveResourcesRequest) (response BulkMoveResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -734,10 +724,9 @@ func (client IdentityClient) bulkMoveResources(ctx context.Context, request comm
 // After you start this operation, you cannot start either the DeleteTag or the BulkDeleteTags operation until this process completes.
 // To delete a tag namespace, you must first retire it. Use UpdateTagNamespace
 // to retire a tag namespace.
-// A default retry strategy applies to this operation CascadeDeleteTagNamespace()
 func (client IdentityClient) CascadeDeleteTagNamespace(ctx context.Context, request CascadeDeleteTagNamespaceRequest) (response CascadeDeleteTagNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -796,10 +785,9 @@ func (client IdentityClient) cascadeDeleteTagNamespace(ctx context.Context, requ
 // ChangeDomainCompartment (For tenancies that support identity domains) Moves the identity domain to a different compartment in the tenancy.
 // To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
 // the operation's status.
-// A default retry strategy applies to this operation ChangeDomainCompartment()
 func (client IdentityClient) ChangeDomainCompartment(ctx context.Context, request ChangeDomainCompartmentRequest) (response ChangeDomainCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -862,10 +850,9 @@ func (client IdentityClient) changeDomainCompartment(ctx context.Context, reques
 // domain completes, then the `lifecycleDetails` is set to null.
 // To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
 // the operation's status.
-// A default retry strategy applies to this operation ChangeDomainLicenseType()
 func (client IdentityClient) ChangeDomainLicenseType(ctx context.Context, request ChangeDomainLicenseTypeRequest) (response ChangeDomainLicenseTypeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -925,10 +912,9 @@ func (client IdentityClient) changeDomainLicenseType(ctx context.Context, reques
 // To move the tag namespace, you must have the manage tag-namespaces permission on both compartments.
 // For more information about IAM policies, see Details for IAM (https://docs.cloud.oracle.com/Content/Identity/policyreference/iampolicyreference.htm).
 // Moving a tag namespace moves all the tag key definitions contained in the tag namespace.
-// A default retry strategy applies to this operation ChangeTagNamespaceCompartment()
 func (client IdentityClient) ChangeTagNamespaceCompartment(ctx context.Context, request ChangeTagNamespaceCompartmentRequest) (response ChangeTagNamespaceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -992,10 +978,9 @@ func (client IdentityClient) changeTagNamespaceCompartment(ctx context.Context, 
 // Every user has permission to create an auth token for *their own user ID*. An administrator in your organization
 // does not need to write a policy to give users this ability. To compare, administrators who have permission to the
 // tenancy can use this operation to create an auth token for any user, including themselves.
-// A default retry strategy applies to this operation CreateAuthToken()
 func (client IdentityClient) CreateAuthToken(ctx context.Context, request CreateAuthTokenRequest) (response CreateAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1064,10 +1049,9 @@ func (client IdentityClient) createAuthToken(ctx context.Context, request common
 // UpdateCompartment.
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
 // object, first make sure its `lifecycleState` has changed to ACTIVE.
-// A default retry strategy applies to this operation CreateCompartment()
 func (client IdentityClient) CreateCompartment(ctx context.Context, request CreateCompartmentRequest) (response CreateCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1132,10 +1116,9 @@ func (client IdentityClient) createCompartment(ctx context.Context, request comm
 // Every user has permission to create a secret key for *their own user ID*. An administrator in your organization
 // does not need to write a policy to give users this ability. To compare, administrators who have permission to the
 // tenancy can use this operation to create a secret key for any user, including themselves.
-// A default retry strategy applies to this operation CreateCustomerSecretKey()
 func (client IdentityClient) CreateCustomerSecretKey(ctx context.Context, request CreateCustomerSecretKeyRequest) (response CreateCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1192,10 +1175,9 @@ func (client IdentityClient) createCustomerSecretKey(ctx context.Context, reques
 }
 
 // CreateDbCredential Creates a new DB credential for the specified user.
-// A default retry strategy applies to this operation CreateDbCredential()
 func (client IdentityClient) CreateDbCredential(ctx context.Context, request CreateDbCredentialRequest) (response CreateDbCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1257,10 +1239,9 @@ func (client IdentityClient) createDbCredential(ctx context.Context, request com
 // To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
 // the operation's status.
 // After creating an `identity domain`, first make sure its `lifecycleState` changes from CREATING to ACTIVE before you use it.
-// A default retry strategy applies to this operation CreateDomain()
 func (client IdentityClient) CreateDomain(ctx context.Context, request CreateDomainRequest) (response CreateDomainResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1330,10 +1311,9 @@ func (client IdentityClient) createDomain(ctx context.Context, request common.OC
 // have to be unique, and you can change it anytime with UpdateDynamicGroup.
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
 // object, first make sure its `lifecycleState` has changed to ACTIVE.
-// A default retry strategy applies to this operation CreateDynamicGroup()
 func (client IdentityClient) CreateDynamicGroup(ctx context.Context, request CreateDynamicGroupRequest) (response CreateDynamicGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1405,10 +1385,9 @@ func (client IdentityClient) createDynamicGroup(ctx context.Context, request com
 // After creating the group, you need to put users in it and write policies for it.
 // See AddUserToGroup and
 // CreatePolicy.
-// A default retry strategy applies to this operation CreateGroup()
 func (client IdentityClient) CreateGroup(ctx context.Context, request CreateGroupRequest) (response CreateGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1479,10 +1458,9 @@ func (client IdentityClient) createGroup(ctx context.Context, request common.OCI
 // After you send your request, the new object's `lifecycleState` will temporarily
 // be CREATING. Before using the object, first make sure its `lifecycleState` has
 // changed to ACTIVE.
-// A default retry strategy applies to this operation CreateIdentityProvider()
 func (client IdentityClient) CreateIdentityProvider(ctx context.Context, request CreateIdentityProviderRequest) (response CreateIdentityProviderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1541,10 +1519,9 @@ func (client IdentityClient) createIdentityProvider(ctx context.Context, request
 // CreateIdpGroupMapping **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
 // Creates a single mapping between an IdP group and an IAM Service
 // Group.
-// A default retry strategy applies to this operation CreateIdpGroupMapping()
 func (client IdentityClient) CreateIdpGroupMapping(ctx context.Context, request CreateIdpGroupMappingRequest) (response CreateIdpGroupMappingResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1606,10 +1583,9 @@ func (client IdentityClient) createIdpGroupMapping(ctx context.Context, request 
 // You also must specify compartment name, description, service name and service entitlement id in the request object.
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
 // object, first make sure its `lifecycleState` has changed to ACTIVE.
-// A default retry strategy applies to this operation CreateManagedCompartment()
 func (client IdentityClient) CreateManagedCompartment(ctx context.Context, request CreateManagedCompartmentRequest) (response CreateManagedCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1666,10 +1642,9 @@ func (client IdentityClient) createManagedCompartment(ctx context.Context, reque
 }
 
 // CreateMfaTotpDevice Creates a new MFA TOTP device for the user. A user can have one MFA TOTP device.
-// A default retry strategy applies to this operation CreateMfaTotpDevice()
 func (client IdentityClient) CreateMfaTotpDevice(ctx context.Context, request CreateMfaTotpDeviceRequest) (response CreateMfaTotpDeviceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1741,10 +1716,9 @@ func (client IdentityClient) createMfaTotpDevice(ctx context.Context, request co
 // object, first make sure its `lifecycleState` has changed to ACTIVE.
 // After your network resource is created, you can use it in policy to restrict access to only requests made from an allowed
 // IP address specified in your network source. For more information, see Managing Network Sources (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingnetworksources.htm).
-// A default retry strategy applies to this operation CreateNetworkSource()
 func (client IdentityClient) CreateNetworkSource(ctx context.Context, request CreateNetworkSourceRequest) (response CreateNetworkSourceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1801,10 +1775,9 @@ func (client IdentityClient) createNetworkSource(ctx context.Context, request co
 }
 
 // CreateOAuthClientCredential Creates Oauth token for the user
-// A default retry strategy applies to this operation CreateOAuthClientCredential()
 func (client IdentityClient) CreateOAuthClientCredential(ctx context.Context, request CreateOAuthClientCredentialRequest) (response CreateOAuthClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1872,10 +1845,9 @@ func (client IdentityClient) createOAuthClientCredential(ctx context.Context, re
 // link expires, you'll need to reset the user's password again.
 // **Note:** The user's Console login is the unique name you specified when you created the user
 // (see CreateUser).
-// A default retry strategy applies to this operation CreateOrResetUIPassword()
 func (client IdentityClient) CreateOrResetUIPassword(ctx context.Context, request CreateOrResetUIPasswordRequest) (response CreateOrResetUIPasswordResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1943,10 +1915,9 @@ func (client IdentityClient) createOrResetUIPassword(ctx context.Context, reques
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
 // object, first make sure its `lifecycleState` has changed to ACTIVE.
 // New policies take effect typically within 10 seconds.
-// A default retry strategy applies to this operation CreatePolicy()
 func (client IdentityClient) CreatePolicy(ctx context.Context, request CreatePolicyRequest) (response CreatePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2003,10 +1974,9 @@ func (client IdentityClient) createPolicy(ctx context.Context, request common.OC
 }
 
 // CreateRegionSubscription Creates a subscription to a region for a tenancy.
-// A default retry strategy applies to this operation CreateRegionSubscription()
 func (client IdentityClient) CreateRegionSubscription(ctx context.Context, request CreateRegionSubscriptionRequest) (response CreateRegionSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2066,10 +2036,9 @@ func (client IdentityClient) createRegionSubscription(ctx context.Context, reque
 // You must specify a *description* for the SMTP credential (although it can be an empty string). It does not
 // have to be unique, and you can change it anytime with
 // UpdateSmtpCredential.
-// A default retry strategy applies to this operation CreateSmtpCredential()
 func (client IdentityClient) CreateSmtpCredential(ctx context.Context, request CreateSmtpCredentialRequest) (response CreateSmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2134,10 +2103,9 @@ func (client IdentityClient) createSmtpCredential(ctx context.Context, request c
 // Every user has permission to create a Swift password for *their own user ID*. An administrator in your organization
 // does not need to write a policy to give users this ability. To compare, administrators who have permission to the
 // tenancy can use this operation to create a Swift password for any user, including themselves.
-// A default retry strategy applies to this operation CreateSwiftPassword()
 func (client IdentityClient) CreateSwiftPassword(ctx context.Context, request CreateSwiftPasswordRequest) (response CreateSwiftPasswordResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2210,10 +2178,9 @@ func (client IdentityClient) createSwiftPassword(ctx context.Context, request co
 // value or leave the tag value empty.
 // * If a `validator` is set, the user applying the tag to a resource must select from a list
 // of values that you supply with EnumTagDefinitionValidator.
-// A default retry strategy applies to this operation CreateTag()
 func (client IdentityClient) CreateTag(ctx context.Context, request CreateTagRequest) (response CreateTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2275,10 +2242,9 @@ func (client IdentityClient) createTag(ctx context.Context, request common.OCIRe
 // is blocked.
 // * If the `isRequired` flag is set to "true", the value is set during resource creation.
 // * If the `isRequired` flag is set to "false", the value you enter is set during resource creation.
-// A default retry strategy applies to this operation CreateTagDefault()
 func (client IdentityClient) CreateTagDefault(ctx context.Context, request CreateTagDefaultRequest) (response CreateTagDefaultResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2345,10 +2311,9 @@ func (client IdentityClient) createTagDefault(ctx context.Context, request commo
 // You must also specify a *description* for the namespace.
 // It does not have to be unique, and you can change it with
 // UpdateTagNamespace.
-// A default retry strategy applies to this operation CreateTagNamespace()
 func (client IdentityClient) CreateTagNamespace(ctx context.Context, request CreateTagNamespaceRequest) (response CreateTagNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2413,10 +2378,9 @@ func (client IdentityClient) createTagNamespace(ctx context.Context, request com
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
 // object, first make sure its `lifecycleState` has changed to ACTIVE.
 // New tag rules take effect typically within 10 seconds.
-// A default retry strategy applies to this operation CreateTagRule()
 func (client IdentityClient) CreateTagRule(ctx context.Context, request CreateTagRuleRequest) (response CreateTagRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2501,10 +2465,9 @@ func (client IdentityClient) createTagRule(ctx context.Context, request common.O
 // Required Keys and OCIDs (https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm) and also
 // UploadApiKey).
 // **Important:** Make sure to inform the new user which compartment(s) they have access to.
-// A default retry strategy applies to this operation CreateUser()
 func (client IdentityClient) CreateUser(ctx context.Context, request CreateUserRequest) (response CreateUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2567,10 +2530,9 @@ func (client IdentityClient) createUser(ctx context.Context, request common.OCIR
 // then the `lifecycleDetails` is set to null and the `lifecycleState` is set to INACTIVE.
 // To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
 // the operation's status.
-// A default retry strategy applies to this operation DeactivateDomain()
 func (client IdentityClient) DeactivateDomain(ctx context.Context, request DeactivateDomainRequest) (response DeactivateDomainResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2631,10 +2593,9 @@ func (client IdentityClient) deactivateDomain(ctx context.Context, request commo
 // administrator in your organization does not need to write a policy to give users this ability.
 // To compare, administrators who have permission to the tenancy can use this operation to delete
 // a key for any user, including themselves.
-// A default retry strategy applies to this operation DeleteApiKey()
 func (client IdentityClient) DeleteApiKey(ctx context.Context, request DeleteApiKeyRequest) (response DeleteApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2685,10 +2646,9 @@ func (client IdentityClient) deleteApiKey(ctx context.Context, request common.OC
 }
 
 // DeleteAuthToken Deletes the specified auth token for the specified user.
-// A default retry strategy applies to this operation DeleteAuthToken()
 func (client IdentityClient) DeleteAuthToken(ctx context.Context, request DeleteAuthTokenRequest) (response DeleteAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2739,10 +2699,9 @@ func (client IdentityClient) deleteAuthToken(ctx context.Context, request common
 }
 
 // DeleteCompartment Deletes the specified compartment. The compartment must be empty.
-// A default retry strategy applies to this operation DeleteCompartment()
 func (client IdentityClient) DeleteCompartment(ctx context.Context, request DeleteCompartmentRequest) (response DeleteCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2793,10 +2752,9 @@ func (client IdentityClient) deleteCompartment(ctx context.Context, request comm
 }
 
 // DeleteCustomerSecretKey Deletes the specified secret key for the specified user.
-// A default retry strategy applies to this operation DeleteCustomerSecretKey()
 func (client IdentityClient) DeleteCustomerSecretKey(ctx context.Context, request DeleteCustomerSecretKeyRequest) (response DeleteCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2847,10 +2805,9 @@ func (client IdentityClient) deleteCustomerSecretKey(ctx context.Context, reques
 }
 
 // DeleteDbCredential Deletes the specified DB credential for the specified user.
-// A default retry strategy applies to this operation DeleteDbCredential()
 func (client IdentityClient) DeleteDbCredential(ctx context.Context, request DeleteDbCredentialRequest) (response DeleteDbCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2907,10 +2864,9 @@ func (client IdentityClient) deleteDbCredential(ctx context.Context, request com
 //
 // To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
 // the operation's status.
-// A default retry strategy applies to this operation DeleteDomain()
 func (client IdentityClient) DeleteDomain(ctx context.Context, request DeleteDomainRequest) (response DeleteDomainResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2961,10 +2917,9 @@ func (client IdentityClient) deleteDomain(ctx context.Context, request common.OC
 }
 
 // DeleteDynamicGroup Deletes the specified dynamic group.
-// A default retry strategy applies to this operation DeleteDynamicGroup()
 func (client IdentityClient) DeleteDynamicGroup(ctx context.Context, request DeleteDynamicGroupRequest) (response DeleteDynamicGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3015,10 +2970,9 @@ func (client IdentityClient) deleteDynamicGroup(ctx context.Context, request com
 }
 
 // DeleteGroup Deletes the specified group. The group must be empty.
-// A default retry strategy applies to this operation DeleteGroup()
 func (client IdentityClient) DeleteGroup(ctx context.Context, request DeleteGroupRequest) (response DeleteGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3071,10 +3025,9 @@ func (client IdentityClient) deleteGroup(ctx context.Context, request common.OCI
 // DeleteIdentityProvider **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
 // Deletes the specified identity provider. The identity provider must not have
 // any group mappings (see IdpGroupMapping).
-// A default retry strategy applies to this operation DeleteIdentityProvider()
 func (client IdentityClient) DeleteIdentityProvider(ctx context.Context, request DeleteIdentityProviderRequest) (response DeleteIdentityProviderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3126,10 +3079,9 @@ func (client IdentityClient) deleteIdentityProvider(ctx context.Context, request
 
 // DeleteIdpGroupMapping **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
 // Deletes the specified group mapping.
-// A default retry strategy applies to this operation DeleteIdpGroupMapping()
 func (client IdentityClient) DeleteIdpGroupMapping(ctx context.Context, request DeleteIdpGroupMappingRequest) (response DeleteIdpGroupMappingResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3180,10 +3132,9 @@ func (client IdentityClient) deleteIdpGroupMapping(ctx context.Context, request 
 }
 
 // DeleteMfaTotpDevice Deletes the specified MFA TOTP device for the specified user.
-// A default retry strategy applies to this operation DeleteMfaTotpDevice()
 func (client IdentityClient) DeleteMfaTotpDevice(ctx context.Context, request DeleteMfaTotpDeviceRequest) (response DeleteMfaTotpDeviceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3234,10 +3185,9 @@ func (client IdentityClient) deleteMfaTotpDevice(ctx context.Context, request co
 }
 
 // DeleteNetworkSource Deletes the specified network source.
-// A default retry strategy applies to this operation DeleteNetworkSource()
 func (client IdentityClient) DeleteNetworkSource(ctx context.Context, request DeleteNetworkSourceRequest) (response DeleteNetworkSourceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3288,10 +3238,9 @@ func (client IdentityClient) deleteNetworkSource(ctx context.Context, request co
 }
 
 // DeleteOAuthClientCredential Delete Oauth token for the user
-// A default retry strategy applies to this operation DeleteOAuthClientCredential()
 func (client IdentityClient) DeleteOAuthClientCredential(ctx context.Context, request DeleteOAuthClientCredentialRequest) (response DeleteOAuthClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3342,10 +3291,9 @@ func (client IdentityClient) deleteOAuthClientCredential(ctx context.Context, re
 }
 
 // DeletePolicy Deletes the specified policy. The deletion takes effect typically within 10 seconds.
-// A default retry strategy applies to this operation DeletePolicy()
 func (client IdentityClient) DeletePolicy(ctx context.Context, request DeletePolicyRequest) (response DeletePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3396,10 +3344,9 @@ func (client IdentityClient) deletePolicy(ctx context.Context, request common.OC
 }
 
 // DeleteSmtpCredential Deletes the specified SMTP credential for the specified user.
-// A default retry strategy applies to this operation DeleteSmtpCredential()
 func (client IdentityClient) DeleteSmtpCredential(ctx context.Context, request DeleteSmtpCredentialRequest) (response DeleteSmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3451,10 +3398,9 @@ func (client IdentityClient) deleteSmtpCredential(ctx context.Context, request c
 
 // DeleteSwiftPassword **Deprecated. Use DeleteAuthToken instead.**
 // Deletes the specified Swift password for the specified user.
-// A default retry strategy applies to this operation DeleteSwiftPassword()
 func (client IdentityClient) DeleteSwiftPassword(ctx context.Context, request DeleteSwiftPasswordRequest) (response DeleteSwiftPasswordResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3520,10 +3466,9 @@ func (client IdentityClient) deleteSwiftPassword(ctx context.Context, request co
 // After you start this operation, you cannot start either the BulkDeleteTags or the CascadeDeleteTagNamespace operation until this process completes.
 // To delete a tag, you must first retire it. Use UpdateTag
 // to retire a tag.
-// A default retry strategy applies to this operation DeleteTag()
 func (client IdentityClient) DeleteTag(ctx context.Context, request DeleteTagRequest) (response DeleteTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3574,10 +3519,9 @@ func (client IdentityClient) deleteTag(ctx context.Context, request common.OCIRe
 }
 
 // DeleteTagDefault Deletes the the specified tag default.
-// A default retry strategy applies to this operation DeleteTagDefault()
 func (client IdentityClient) DeleteTagDefault(ctx context.Context, request DeleteTagDefaultRequest) (response DeleteTagDefaultResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3632,10 +3576,9 @@ func (client IdentityClient) deleteTagDefault(ctx context.Context, request commo
 // Use CascadeDeleteTagNamespace to delete a tag namespace along with all of
 // the tag definitions contained within that namespace.
 // Use DeleteTag to delete a tag definition.
-// A default retry strategy applies to this operation DeleteTagNamespace()
 func (client IdentityClient) DeleteTagNamespace(ctx context.Context, request DeleteTagNamespaceRequest) (response DeleteTagNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3686,10 +3629,9 @@ func (client IdentityClient) deleteTagNamespace(ctx context.Context, request com
 }
 
 // DeleteTagRule Deletes the specified tag rule.
-// A default retry strategy applies to this operation DeleteTagRule()
 func (client IdentityClient) DeleteTagRule(ctx context.Context, request DeleteTagRuleRequest) (response DeleteTagRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3740,10 +3682,9 @@ func (client IdentityClient) deleteTagRule(ctx context.Context, request common.O
 }
 
 // DeleteUser Deletes the specified user. The user must not be in any groups.
-// A default retry strategy applies to this operation DeleteUser()
 func (client IdentityClient) DeleteUser(ctx context.Context, request DeleteUserRequest) (response DeleteUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3801,10 +3742,9 @@ func (client IdentityClient) deleteUser(ctx context.Context, request common.OCIR
 // completes, the `state` is set to REPLICATION_ENABLED.
 // To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
 // the operation's status.
-// A default retry strategy applies to this operation EnableReplicationToRegion()
 func (client IdentityClient) EnableReplicationToRegion(ctx context.Context, request EnableReplicationToRegionRequest) (response EnableReplicationToRegionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3861,10 +3801,9 @@ func (client IdentityClient) enableReplicationToRegion(ctx context.Context, requ
 }
 
 // GenerateTotpSeed Generate seed for the MFA TOTP device.
-// A default retry strategy applies to this operation GenerateTotpSeed()
 func (client IdentityClient) GenerateTotpSeed(ctx context.Context, request GenerateTotpSeedRequest) (response GenerateTotpSeedResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3916,10 +3855,9 @@ func (client IdentityClient) generateTotpSeed(ctx context.Context, request commo
 }
 
 // GetAccountByEntitlementId Get account information for a service entitlement ID
-// A default retry strategy applies to this operation GetAccountByEntitlementId()
 func (client IdentityClient) GetAccountByEntitlementId(ctx context.Context, request GetAccountByEntitlementIdRequest) (response GetAccountByEntitlementIdResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3971,10 +3909,9 @@ func (client IdentityClient) getAccountByEntitlementId(ctx context.Context, requ
 
 // GetAuthenticationPolicy Gets the authentication policy for the given tenancy. You must specify your tenant’s OCID as the value for
 // the compartment ID (remember that the tenancy is simply the root compartment).
-// A default retry strategy applies to this operation GetAuthenticationPolicy()
 func (client IdentityClient) GetAuthenticationPolicy(ctx context.Context, request GetAuthenticationPolicyRequest) (response GetAuthenticationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4031,10 +3968,9 @@ func (client IdentityClient) getAuthenticationPolicy(ctx context.Context, reques
 // each resource type and specify the compartment's OCID as a query parameter in the request. For example,
 // call the ListInstances operation in the Cloud Compute
 // Service or the ListVolumes operation in Cloud Block Storage.
-// A default retry strategy applies to this operation GetCompartment()
 func (client IdentityClient) GetCompartment(ctx context.Context, request GetCompartmentRequest) (response GetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4085,10 +4021,9 @@ func (client IdentityClient) getCompartment(ctx context.Context, request common.
 }
 
 // GetDomain (For tenancies that support identity domains) Gets the specified identity domain's information.
-// A default retry strategy applies to this operation GetDomain()
 func (client IdentityClient) GetDomain(ctx context.Context, request GetDomainRequest) (response GetDomainResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4139,10 +4074,9 @@ func (client IdentityClient) getDomain(ctx context.Context, request common.OCIRe
 }
 
 // GetDynamicGroup Gets the specified dynamic group's information.
-// A default retry strategy applies to this operation GetDynamicGroup()
 func (client IdentityClient) GetDynamicGroup(ctx context.Context, request GetDynamicGroupRequest) (response GetDynamicGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4196,10 +4130,9 @@ func (client IdentityClient) getDynamicGroup(ctx context.Context, request common
 // This operation does not return a list of all the users in the group. To do that, use
 // ListUserGroupMemberships and
 // provide the group's OCID as a query parameter in the request.
-// A default retry strategy applies to this operation GetGroup()
 func (client IdentityClient) GetGroup(ctx context.Context, request GetGroupRequest) (response GetGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4250,10 +4183,9 @@ func (client IdentityClient) getGroup(ctx context.Context, request common.OCIReq
 }
 
 // GetIamWorkRequest Gets the details of a specified IAM work request. The workRequestID is returned in the opc-workrequest-id header for any asynchronous operation in the Identity and Access Management service.
-// A default retry strategy applies to this operation GetIamWorkRequest()
 func (client IdentityClient) GetIamWorkRequest(ctx context.Context, request GetIamWorkRequestRequest) (response GetIamWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4305,10 +4237,9 @@ func (client IdentityClient) getIamWorkRequest(ctx context.Context, request comm
 
 // GetIdentityProvider **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
 // Gets the specified identity provider's information.
-// A default retry strategy applies to this operation GetIdentityProvider()
 func (client IdentityClient) GetIdentityProvider(ctx context.Context, request GetIdentityProviderRequest) (response GetIdentityProviderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4360,10 +4291,9 @@ func (client IdentityClient) getIdentityProvider(ctx context.Context, request co
 
 // GetIdpGroupMapping **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
 // Gets the specified group mapping.
-// A default retry strategy applies to this operation GetIdpGroupMapping()
 func (client IdentityClient) GetIdpGroupMapping(ctx context.Context, request GetIdpGroupMappingRequest) (response GetIdpGroupMappingResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4414,10 +4344,9 @@ func (client IdentityClient) getIdpGroupMapping(ctx context.Context, request com
 }
 
 // GetMfaTotpDevice Get the specified MFA TOTP device for the specified user.
-// A default retry strategy applies to this operation GetMfaTotpDevice()
 func (client IdentityClient) GetMfaTotpDevice(ctx context.Context, request GetMfaTotpDeviceRequest) (response GetMfaTotpDeviceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4468,10 +4397,9 @@ func (client IdentityClient) getMfaTotpDevice(ctx context.Context, request commo
 }
 
 // GetNetworkSource Gets the specified network source's information.
-// A default retry strategy applies to this operation GetNetworkSource()
 func (client IdentityClient) GetNetworkSource(ctx context.Context, request GetNetworkSourceRequest) (response GetNetworkSourceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4522,10 +4450,9 @@ func (client IdentityClient) getNetworkSource(ctx context.Context, request commo
 }
 
 // GetPolicy Gets the specified policy's information.
-// A default retry strategy applies to this operation GetPolicy()
 func (client IdentityClient) GetPolicy(ctx context.Context, request GetPolicyRequest) (response GetPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4576,10 +4503,9 @@ func (client IdentityClient) getPolicy(ctx context.Context, request common.OCIRe
 }
 
 // GetStandardTagTemplate Retrieve the standard tag namespace template given the standard tag namespace name.
-// A default retry strategy applies to this operation GetStandardTagTemplate()
 func (client IdentityClient) GetStandardTagTemplate(ctx context.Context, request GetStandardTagTemplateRequest) (response GetStandardTagTemplateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4630,10 +4556,9 @@ func (client IdentityClient) getStandardTagTemplate(ctx context.Context, request
 }
 
 // GetTag Gets the specified tag's information.
-// A default retry strategy applies to this operation GetTag()
 func (client IdentityClient) GetTag(ctx context.Context, request GetTagRequest) (response GetTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4684,10 +4609,9 @@ func (client IdentityClient) getTag(ctx context.Context, request common.OCIReque
 }
 
 // GetTagDefault Retrieves the specified tag default.
-// A default retry strategy applies to this operation GetTagDefault()
 func (client IdentityClient) GetTagDefault(ctx context.Context, request GetTagDefaultRequest) (response GetTagDefaultResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4738,10 +4662,9 @@ func (client IdentityClient) getTagDefault(ctx context.Context, request common.O
 }
 
 // GetTagNamespace Gets the specified tag namespace's information.
-// A default retry strategy applies to this operation GetTagNamespace()
 func (client IdentityClient) GetTagNamespace(ctx context.Context, request GetTagNamespaceRequest) (response GetTagNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4792,10 +4715,9 @@ func (client IdentityClient) getTagNamespace(ctx context.Context, request common
 }
 
 // GetTagRule Gets the information of the specified tag rule.
-// A default retry strategy applies to this operation GetTagRule()
 func (client IdentityClient) GetTagRule(ctx context.Context, request GetTagRuleRequest) (response GetTagRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4847,10 +4769,9 @@ func (client IdentityClient) getTagRule(ctx context.Context, request common.OCIR
 
 // GetTaggingWorkRequest Gets details on a specified work request. The workRequestID is returned in the opc-workrequest-id header
 // for any asynchronous operation in tagging service.
-// A default retry strategy applies to this operation GetTaggingWorkRequest()
 func (client IdentityClient) GetTaggingWorkRequest(ctx context.Context, request GetTaggingWorkRequestRequest) (response GetTaggingWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4901,10 +4822,9 @@ func (client IdentityClient) getTaggingWorkRequest(ctx context.Context, request 
 }
 
 // GetTenancy Get the specified tenancy's information.
-// A default retry strategy applies to this operation GetTenancy()
 func (client IdentityClient) GetTenancy(ctx context.Context, request GetTenancyRequest) (response GetTenancyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4955,10 +4875,9 @@ func (client IdentityClient) getTenancy(ctx context.Context, request common.OCIR
 }
 
 // GetUser Gets the specified user's information.
-// A default retry strategy applies to this operation GetUser()
 func (client IdentityClient) GetUser(ctx context.Context, request GetUserRequest) (response GetUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5009,10 +4928,9 @@ func (client IdentityClient) getUser(ctx context.Context, request common.OCIRequ
 }
 
 // GetUserGroupMembership Gets the specified UserGroupMembership's information.
-// A default retry strategy applies to this operation GetUserGroupMembership()
 func (client IdentityClient) GetUserGroupMembership(ctx context.Context, request GetUserGroupMembershipRequest) (response GetUserGroupMembershipResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5064,10 +4982,9 @@ func (client IdentityClient) getUserGroupMembership(ctx context.Context, request
 
 // GetUserUIPasswordInformation Gets the specified user's console password information. The returned object contains the user's OCID,
 // but not the password itself. The actual password is returned only when created or reset.
-// A default retry strategy applies to this operation GetUserUIPasswordInformation()
 func (client IdentityClient) GetUserUIPasswordInformation(ctx context.Context, request GetUserUIPasswordInformationRequest) (response GetUserUIPasswordInformationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5119,10 +5036,9 @@ func (client IdentityClient) getUserUIPasswordInformation(ctx context.Context, r
 
 // GetWorkRequest Gets details on a specified work request. The workRequestID is returned in the opc-workrequest-id header
 // for any asynchronous operation in the compartment service.
-// A default retry strategy applies to this operation GetWorkRequest()
 func (client IdentityClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5174,10 +5090,9 @@ func (client IdentityClient) getWorkRequest(ctx context.Context, request common.
 
 // ImportStandardTags OCI will release Tag Namespaces that our customers can import.
 // These Tag Namespaces will provide Tags for our customers and Partners to provide consistency and enable data reporting.
-// A default retry strategy applies to this operation ImportStandardTags()
 func (client IdentityClient) ImportStandardTags(ctx context.Context, request ImportStandardTagsRequest) (response ImportStandardTagsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5237,10 +5152,9 @@ func (client IdentityClient) importStandardTags(ctx context.Context, request com
 // (License types are also referred to as domain types.)
 // If `currentLicenseTypeName` is provided, then the request returns license types that the identity domain with the specified license
 // type name can change to. Otherwise, the request returns all valid license types currently supported.
-// A default retry strategy applies to this operation ListAllowedDomainLicenseTypes()
 func (client IdentityClient) ListAllowedDomainLicenseTypes(ctx context.Context, request ListAllowedDomainLicenseTypesRequest) (response ListAllowedDomainLicenseTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5293,10 +5207,9 @@ func (client IdentityClient) listAllowedDomainLicenseTypes(ctx context.Context, 
 // ListApiKeys Lists the API signing keys for the specified user. A user can have a maximum of three keys.
 // Every user has permission to use this API call for *their own user ID*.  An administrator in your
 // organization does not need to write a policy to give users this ability.
-// A default retry strategy applies to this operation ListApiKeys()
 func (client IdentityClient) ListApiKeys(ctx context.Context, request ListApiKeysRequest) (response ListApiKeysResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5348,10 +5261,9 @@ func (client IdentityClient) listApiKeys(ctx context.Context, request common.OCI
 
 // ListAuthTokens Lists the auth tokens for the specified user. The returned object contains the token's OCID, but not
 // the token itself. The actual token is returned only upon creation.
-// A default retry strategy applies to this operation ListAuthTokens()
 func (client IdentityClient) ListAuthTokens(ctx context.Context, request ListAuthTokensRequest) (response ListAuthTokensResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5406,10 +5318,9 @@ func (client IdentityClient) listAuthTokens(ctx context.Context, request common.
 // See Where to Get the Tenancy's OCID and User's OCID (https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#five).
 // Note that the order of the results returned can change if availability domains are added or removed; therefore, do not
 // create a dependency on the list order.
-// A default retry strategy applies to this operation ListAvailabilityDomains()
 func (client IdentityClient) ListAvailabilityDomains(ctx context.Context, request ListAvailabilityDomainsRequest) (response ListAvailabilityDomainsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5466,10 +5377,9 @@ func (client IdentityClient) listAvailabilityDomains(ctx context.Context, reques
 // the type of identifying information you'll need to provide for each resource-type. Most resource-types just
 // require an OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) to identify a specific resource, but some resource-types,
 // such as buckets, require you to provide other identifying information.
-// A default retry strategy applies to this operation ListBulkActionResourceTypes()
 func (client IdentityClient) ListBulkActionResourceTypes(ctx context.Context, request ListBulkActionResourceTypesRequest) (response ListBulkActionResourceTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5520,10 +5430,9 @@ func (client IdentityClient) listBulkActionResourceTypes(ctx context.Context, re
 }
 
 // ListBulkEditTagsResourceTypes Lists the resource types that support bulk tag editing.
-// A default retry strategy applies to this operation ListBulkEditTagsResourceTypes()
 func (client IdentityClient) ListBulkEditTagsResourceTypes(ctx context.Context, request ListBulkEditTagsResourceTypesRequest) (response ListBulkEditTagsResourceTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5587,10 +5496,9 @@ func (client IdentityClient) listBulkEditTagsResourceTypes(ctx context.Context, 
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ANY.
 // See Where to Get the Tenancy's OCID and User's OCID (https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#five).
-// A default retry strategy applies to this operation ListCompartments()
 func (client IdentityClient) ListCompartments(ctx context.Context, request ListCompartmentsRequest) (response ListCompartmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5642,10 +5550,9 @@ func (client IdentityClient) listCompartments(ctx context.Context, request commo
 
 // ListCostTrackingTags Lists all the tags enabled for cost-tracking in the specified tenancy. For information about
 // cost-tracking tags, see Using Cost-tracking Tags (https://docs.cloud.oracle.com/Content/Tagging/Tasks/usingcosttrackingtags.htm).
-// A default retry strategy applies to this operation ListCostTrackingTags()
 func (client IdentityClient) ListCostTrackingTags(ctx context.Context, request ListCostTrackingTagsRequest) (response ListCostTrackingTagsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5697,10 +5604,9 @@ func (client IdentityClient) listCostTrackingTags(ctx context.Context, request c
 
 // ListCustomerSecretKeys Lists the secret keys for the specified user. The returned object contains the secret key's OCID, but not
 // the secret key itself. The actual secret key is returned only upon creation.
-// A default retry strategy applies to this operation ListCustomerSecretKeys()
 func (client IdentityClient) ListCustomerSecretKeys(ctx context.Context, request ListCustomerSecretKeysRequest) (response ListCustomerSecretKeysResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5751,10 +5657,9 @@ func (client IdentityClient) listCustomerSecretKeys(ctx context.Context, request
 }
 
 // ListDbCredentials Lists the DB credentials for the specified user. The returned object contains the credential's OCID
-// A default retry strategy applies to this operation ListDbCredentials()
 func (client IdentityClient) ListDbCredentials(ctx context.Context, request ListDbCredentialsRequest) (response ListDbCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5805,10 +5710,9 @@ func (client IdentityClient) listDbCredentials(ctx context.Context, request comm
 }
 
 // ListDomains (For tenancies that support identity domains) Lists all identity domains within a tenancy.
-// A default retry strategy applies to this operation ListDomains()
 func (client IdentityClient) ListDomains(ctx context.Context, request ListDomainsRequest) (response ListDomainsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5861,10 +5765,9 @@ func (client IdentityClient) listDomains(ctx context.Context, request common.OCI
 // ListDynamicGroups Lists the dynamic groups in your tenancy. You must specify your tenancy's OCID as the value for
 // the compartment ID (remember that the tenancy is simply the root compartment).
 // See Where to Get the Tenancy's OCID and User's OCID (https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#five).
-// A default retry strategy applies to this operation ListDynamicGroups()
 func (client IdentityClient) ListDynamicGroups(ctx context.Context, request ListDynamicGroupsRequest) (response ListDynamicGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5917,10 +5820,9 @@ func (client IdentityClient) listDynamicGroups(ctx context.Context, request comm
 // ListFaultDomains Lists the Fault Domains in your tenancy. Specify the OCID of either the tenancy or another
 // of your compartments as the value for the compartment ID (remember that the tenancy is simply the root compartment).
 // See Where to Get the Tenancy's OCID and User's OCID (https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#five).
-// A default retry strategy applies to this operation ListFaultDomains()
 func (client IdentityClient) ListFaultDomains(ctx context.Context, request ListFaultDomainsRequest) (response ListFaultDomainsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5973,10 +5875,9 @@ func (client IdentityClient) listFaultDomains(ctx context.Context, request commo
 // ListGroups Lists the groups in your tenancy. You must specify your tenancy's OCID as the value for
 // the compartment ID (remember that the tenancy is simply the root compartment).
 // See Where to Get the Tenancy's OCID and User's OCID (https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#five).
-// A default retry strategy applies to this operation ListGroups()
 func (client IdentityClient) ListGroups(ctx context.Context, request ListGroupsRequest) (response ListGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6027,10 +5928,9 @@ func (client IdentityClient) listGroups(ctx context.Context, request common.OCIR
 }
 
 // ListIamWorkRequestErrors Gets error details for a specified IAM work request. The workRequestID is returned in the opc-workrequest-id header for any asynchronous operation in the Identity and Access Management service.
-// A default retry strategy applies to this operation ListIamWorkRequestErrors()
 func (client IdentityClient) ListIamWorkRequestErrors(ctx context.Context, request ListIamWorkRequestErrorsRequest) (response ListIamWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6081,10 +5981,9 @@ func (client IdentityClient) listIamWorkRequestErrors(ctx context.Context, reque
 }
 
 // ListIamWorkRequestLogs Gets logs for a specified IAM work request. The workRequestID is returned in the opc-workrequest-id header for any asynchronous operation in the Identity and Access Management service.
-// A default retry strategy applies to this operation ListIamWorkRequestLogs()
 func (client IdentityClient) ListIamWorkRequestLogs(ctx context.Context, request ListIamWorkRequestLogsRequest) (response ListIamWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6135,10 +6034,9 @@ func (client IdentityClient) listIamWorkRequestLogs(ctx context.Context, request
 }
 
 // ListIamWorkRequests Lists the IAM work requests in compartment. The workRequestID is returned in the opc-workrequest-id header for any asynchronous operation in the Identity and Access Management service.
-// A default retry strategy applies to this operation ListIamWorkRequests()
 func (client IdentityClient) ListIamWorkRequests(ctx context.Context, request ListIamWorkRequestsRequest) (response ListIamWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6190,10 +6088,9 @@ func (client IdentityClient) listIamWorkRequests(ctx context.Context, request co
 
 // ListIdentityProviderGroups **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
 // Lists the identity provider groups.
-// A default retry strategy applies to this operation ListIdentityProviderGroups()
 func (client IdentityClient) ListIdentityProviderGroups(ctx context.Context, request ListIdentityProviderGroupsRequest) (response ListIdentityProviderGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6264,10 +6161,9 @@ func (m *listidentityprovider) UnmarshalPolymorphicJSON(data []byte) (interface{
 // identity providers using the SAML2.0 protocol). You must specify your tenancy's OCID as the value for the
 // compartment ID (remember that the tenancy is simply the root compartment).
 // See Where to Get the Tenancy's OCID and User's OCID (https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#five).
-// A default retry strategy applies to this operation ListIdentityProviders()
 func (client IdentityClient) ListIdentityProviders(ctx context.Context, request ListIdentityProvidersRequest) (response ListIdentityProvidersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6319,10 +6215,9 @@ func (client IdentityClient) listIdentityProviders(ctx context.Context, request 
 
 // ListIdpGroupMappings **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
 // Lists the group mappings for the specified identity provider.
-// A default retry strategy applies to this operation ListIdpGroupMappings()
 func (client IdentityClient) ListIdpGroupMappings(ctx context.Context, request ListIdpGroupMappingsRequest) (response ListIdpGroupMappingsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6374,10 +6269,9 @@ func (client IdentityClient) listIdpGroupMappings(ctx context.Context, request c
 
 // ListManagedCompartments List the managed compartments under the specific tenancy and specific service name. You must specify tenancy's OCID
 // and service name as the value
-// A default retry strategy applies to this operation ListManagedCompartments()
 func (client IdentityClient) ListManagedCompartments(ctx context.Context, request ListManagedCompartmentsRequest) (response ListManagedCompartmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6429,10 +6323,9 @@ func (client IdentityClient) listManagedCompartments(ctx context.Context, reques
 
 // ListMfaTotpDevices Lists the MFA TOTP devices for the specified user. The returned object contains the device's OCID, but not
 // the seed. The seed is returned only upon creation or when the IAM service regenerates the MFA seed for the device.
-// A default retry strategy applies to this operation ListMfaTotpDevices()
 func (client IdentityClient) ListMfaTotpDevices(ctx context.Context, request ListMfaTotpDevicesRequest) (response ListMfaTotpDevicesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6485,10 +6378,9 @@ func (client IdentityClient) listMfaTotpDevices(ctx context.Context, request com
 // ListNetworkSources Lists the network sources in your tenancy. You must specify your tenancy's OCID as the value for
 // the compartment ID (remember that the tenancy is simply the root compartment).
 // See Where to Get the Tenancy's OCID and User's OCID (https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#five).
-// A default retry strategy applies to this operation ListNetworkSources()
 func (client IdentityClient) ListNetworkSources(ctx context.Context, request ListNetworkSourcesRequest) (response ListNetworkSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6539,10 +6431,9 @@ func (client IdentityClient) listNetworkSources(ctx context.Context, request com
 }
 
 // ListOAuthClientCredentials List of Oauth tokens for the user
-// A default retry strategy applies to this operation ListOAuthClientCredentials()
 func (client IdentityClient) ListOAuthClientCredentials(ctx context.Context, request ListOAuthClientCredentialsRequest) (response ListOAuthClientCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6596,10 +6487,9 @@ func (client IdentityClient) listOAuthClientCredentials(ctx context.Context, req
 // See Where to Get the Tenancy's OCID and User's OCID (https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#five).
 // To determine which policies apply to a particular group or compartment, you must view the individual
 // statements inside all your policies. There isn't a way to automatically obtain that information via the API.
-// A default retry strategy applies to this operation ListPolicies()
 func (client IdentityClient) ListPolicies(ctx context.Context, request ListPoliciesRequest) (response ListPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6650,10 +6540,9 @@ func (client IdentityClient) listPolicies(ctx context.Context, request common.OC
 }
 
 // ListRegionSubscriptions Lists the region subscriptions for the specified tenancy.
-// A default retry strategy applies to this operation ListRegionSubscriptions()
 func (client IdentityClient) ListRegionSubscriptions(ctx context.Context, request ListRegionSubscriptionsRequest) (response ListRegionSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6704,7 +6593,6 @@ func (client IdentityClient) listRegionSubscriptions(ctx context.Context, reques
 }
 
 // ListRegions Lists all the regions offered by Oracle Cloud Infrastructure.
-// A default retry strategy applies to this operation ListRegions()
 func (client IdentityClient) ListRegions(ctx context.Context) (response ListRegionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	ociResponse, err = client.listRegions(ctx)
@@ -6749,10 +6637,9 @@ func (client IdentityClient) listRegions(ctx context.Context) (common.OCIRespons
 
 // ListSmtpCredentials Lists the SMTP credentials for the specified user. The returned object contains the credential's OCID,
 // the SMTP user name but not the SMTP password. The SMTP password is returned only upon creation.
-// A default retry strategy applies to this operation ListSmtpCredentials()
 func (client IdentityClient) ListSmtpCredentials(ctx context.Context, request ListSmtpCredentialsRequest) (response ListSmtpCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6803,10 +6690,9 @@ func (client IdentityClient) listSmtpCredentials(ctx context.Context, request co
 }
 
 // ListStandardTagNamespaces Lists available standard tag namespaces that users can create.
-// A default retry strategy applies to this operation ListStandardTagNamespaces()
 func (client IdentityClient) ListStandardTagNamespaces(ctx context.Context, request ListStandardTagNamespacesRequest) (response ListStandardTagNamespacesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6859,10 +6745,9 @@ func (client IdentityClient) listStandardTagNamespaces(ctx context.Context, requ
 // ListSwiftPasswords **Deprecated. Use ListAuthTokens instead.**
 // Lists the Swift passwords for the specified user. The returned object contains the password's OCID, but not
 // the password itself. The actual password is returned only upon creation.
-// A default retry strategy applies to this operation ListSwiftPasswords()
 func (client IdentityClient) ListSwiftPasswords(ctx context.Context, request ListSwiftPasswordsRequest) (response ListSwiftPasswordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6913,10 +6798,9 @@ func (client IdentityClient) listSwiftPasswords(ctx context.Context, request com
 }
 
 // ListTagDefaults Lists the tag defaults for tag definitions in the specified compartment.
-// A default retry strategy applies to this operation ListTagDefaults()
 func (client IdentityClient) ListTagDefaults(ctx context.Context, request ListTagDefaultsRequest) (response ListTagDefaultsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6967,10 +6851,9 @@ func (client IdentityClient) listTagDefaults(ctx context.Context, request common
 }
 
 // ListTagNamespaces Lists the tag namespaces in the specified compartment.
-// A default retry strategy applies to this operation ListTagNamespaces()
 func (client IdentityClient) ListTagNamespaces(ctx context.Context, request ListTagNamespacesRequest) (response ListTagNamespacesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7025,10 +6908,9 @@ func (client IdentityClient) listTagNamespaces(ctx context.Context, request comm
 // To use this and other API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
 // Get Started with Policies (https://docs.cloud.oracle.com/Content/Identity/policiesgs/get-started-with-policies.htm).
-// A default retry strategy applies to this operation ListTagRules()
 func (client IdentityClient) ListTagRules(ctx context.Context, request ListTagRulesRequest) (response ListTagRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7079,10 +6961,9 @@ func (client IdentityClient) listTagRules(ctx context.Context, request common.OC
 }
 
 // ListTaggingWorkRequestErrors Gets the errors for a work request.
-// A default retry strategy applies to this operation ListTaggingWorkRequestErrors()
 func (client IdentityClient) ListTaggingWorkRequestErrors(ctx context.Context, request ListTaggingWorkRequestErrorsRequest) (response ListTaggingWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7133,10 +7014,9 @@ func (client IdentityClient) listTaggingWorkRequestErrors(ctx context.Context, r
 }
 
 // ListTaggingWorkRequestLogs Gets the logs for a work request.
-// A default retry strategy applies to this operation ListTaggingWorkRequestLogs()
 func (client IdentityClient) ListTaggingWorkRequestLogs(ctx context.Context, request ListTaggingWorkRequestLogsRequest) (response ListTaggingWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7187,10 +7067,9 @@ func (client IdentityClient) listTaggingWorkRequestLogs(ctx context.Context, req
 }
 
 // ListTaggingWorkRequests Lists the tagging work requests in compartment.
-// A default retry strategy applies to this operation ListTaggingWorkRequests()
 func (client IdentityClient) ListTaggingWorkRequests(ctx context.Context, request ListTaggingWorkRequestsRequest) (response ListTaggingWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7241,10 +7120,9 @@ func (client IdentityClient) listTaggingWorkRequests(ctx context.Context, reques
 }
 
 // ListTags Lists the tag definitions in the specified tag namespace.
-// A default retry strategy applies to this operation ListTags()
 func (client IdentityClient) ListTags(ctx context.Context, request ListTagsRequest) (response ListTagsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7295,10 +7173,9 @@ func (client IdentityClient) listTags(ctx context.Context, request common.OCIReq
 }
 
 // ListTenancies Get the specified tenancy's information with BareMetal service entitlement.
-// A default retry strategy applies to this operation ListTenancies()
 func (client IdentityClient) ListTenancies(ctx context.Context, request ListTenanciesRequest) (response ListTenanciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7357,10 +7234,9 @@ func (client IdentityClient) listTenancies(ctx context.Context, request common.O
 // - You can set both the `userId` and `groupId` to determine if the specified user is in the specified group.
 // If the answer is no, the response is an empty list.
 // - Although`userId` and `groupId` are not individually required, you must set one of them.
-// A default retry strategy applies to this operation ListUserGroupMemberships()
 func (client IdentityClient) ListUserGroupMemberships(ctx context.Context, request ListUserGroupMembershipsRequest) (response ListUserGroupMembershipsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7413,10 +7289,9 @@ func (client IdentityClient) listUserGroupMemberships(ctx context.Context, reque
 // ListUsers Lists the users in your tenancy. You must specify your tenancy's OCID as the value for the
 // compartment ID (remember that the tenancy is simply the root compartment).
 // See Where to Get the Tenancy's OCID and User's OCID (https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#five).
-// A default retry strategy applies to this operation ListUsers()
 func (client IdentityClient) ListUsers(ctx context.Context, request ListUsersRequest) (response ListUsersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7467,10 +7342,9 @@ func (client IdentityClient) listUsers(ctx context.Context, request common.OCIRe
 }
 
 // ListWorkRequests Lists the work requests in compartment.
-// A default retry strategy applies to this operation ListWorkRequests()
 func (client IdentityClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7527,10 +7401,9 @@ func (client IdentityClient) listWorkRequests(ctx context.Context, request commo
 // the new parent take effect and the policies of the previous parent no longer apply. Ensure that you
 // are aware of the implications for the compartment contents before you move it. For more
 // information, see Moving a Compartment (https://docs.cloud.oracle.com/Content/Identity/compartments/managingcompartments.htm#MoveCompartment).
-// A default retry strategy applies to this operation MoveCompartment()
 func (client IdentityClient) MoveCompartment(ctx context.Context, request MoveCompartmentRequest) (response MoveCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7587,10 +7460,9 @@ func (client IdentityClient) moveCompartment(ctx context.Context, request common
 }
 
 // RecoverCompartment Recover the compartment from DELETED state to ACTIVE state.
-// A default retry strategy applies to this operation RecoverCompartment()
 func (client IdentityClient) RecoverCompartment(ctx context.Context, request RecoverCompartmentRequest) (response RecoverCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7642,10 +7514,9 @@ func (client IdentityClient) recoverCompartment(ctx context.Context, request com
 }
 
 // RemoveTagDefaultLock Remove a resource lock from a tag default.
-// A default retry strategy applies to this operation RemoveTagDefaultLock()
 func (client IdentityClient) RemoveTagDefaultLock(ctx context.Context, request RemoveTagDefaultLockRequest) (response RemoveTagDefaultLockResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7702,10 +7573,9 @@ func (client IdentityClient) removeTagDefaultLock(ctx context.Context, request c
 }
 
 // RemoveTagNamespaceLock Remove a resource lock from a tag namespace.
-// A default retry strategy applies to this operation RemoveTagNamespaceLock()
 func (client IdentityClient) RemoveTagNamespaceLock(ctx context.Context, request RemoveTagNamespaceLockRequest) (response RemoveTagNamespaceLockResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7762,10 +7632,9 @@ func (client IdentityClient) removeTagNamespaceLock(ctx context.Context, request
 }
 
 // RemoveUserFromGroup Removes a user from a group by deleting the corresponding `UserGroupMembership`.
-// A default retry strategy applies to this operation RemoveUserFromGroup()
 func (client IdentityClient) RemoveUserFromGroup(ctx context.Context, request RemoveUserFromGroupRequest) (response RemoveUserFromGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7816,10 +7685,9 @@ func (client IdentityClient) removeUserFromGroup(ctx context.Context, request co
 }
 
 // ResetIdpScimClient Resets the OAuth2 client credentials for the SCIM client associated with this identity provider.
-// A default retry strategy applies to this operation ResetIdpScimClient()
 func (client IdentityClient) ResetIdpScimClient(ctx context.Context, request ResetIdpScimClientRequest) (response ResetIdpScimClientResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7871,10 +7739,9 @@ func (client IdentityClient) resetIdpScimClient(ctx context.Context, request com
 }
 
 // SetGovernanceFromChild Set the governing tenancy of child tenancy to be the parent (request originated from child)
-// A default retry strategy applies to this operation SetGovernanceFromChild()
 func (client IdentityClient) SetGovernanceFromChild(ctx context.Context, request SetGovernanceFromChildRequest) (response SetGovernanceFromChildResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7926,10 +7793,9 @@ func (client IdentityClient) setGovernanceFromChild(ctx context.Context, request
 }
 
 // SetGovernanceFromParent Set the governing tenancy of child tenancy to be the parent (request originated from parent)
-// A default retry strategy applies to this operation SetGovernanceFromParent()
 func (client IdentityClient) SetGovernanceFromParent(ctx context.Context, request SetGovernanceFromParentRequest) (response SetGovernanceFromParentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7981,10 +7847,9 @@ func (client IdentityClient) setGovernanceFromParent(ctx context.Context, reques
 }
 
 // UnsetGovernanceFromChild Remove the governing tenancy of child tenancy (request originated from child)
-// A default retry strategy applies to this operation UnsetGovernanceFromChild()
 func (client IdentityClient) UnsetGovernanceFromChild(ctx context.Context, request UnsetGovernanceFromChildRequest) (response UnsetGovernanceFromChildResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8036,10 +7901,9 @@ func (client IdentityClient) unsetGovernanceFromChild(ctx context.Context, reque
 }
 
 // UnsetGovernanceFromParent Remove the governing tenancy of child tenancy (request originated from parent)
-// A default retry strategy applies to this operation UnsetGovernanceFromParent()
 func (client IdentityClient) UnsetGovernanceFromParent(ctx context.Context, request UnsetGovernanceFromParentRequest) (response UnsetGovernanceFromParentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8091,10 +7955,9 @@ func (client IdentityClient) unsetGovernanceFromParent(ctx context.Context, requ
 }
 
 // UpdateAuthToken Updates the specified auth token's description.
-// A default retry strategy applies to this operation UpdateAuthToken()
 func (client IdentityClient) UpdateAuthToken(ctx context.Context, request UpdateAuthTokenRequest) (response UpdateAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8146,10 +8009,9 @@ func (client IdentityClient) updateAuthToken(ctx context.Context, request common
 }
 
 // UpdateAuthenticationPolicy Updates authentication policy for the specified tenancy.
-// A default retry strategy applies to this operation UpdateAuthenticationPolicy()
 func (client IdentityClient) UpdateAuthenticationPolicy(ctx context.Context, request UpdateAuthenticationPolicyRequest) (response UpdateAuthenticationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8201,10 +8063,9 @@ func (client IdentityClient) updateAuthenticationPolicy(ctx context.Context, req
 }
 
 // UpdateCompartment Updates the specified compartment's description or name. You can't update the root compartment.
-// A default retry strategy applies to this operation UpdateCompartment()
 func (client IdentityClient) UpdateCompartment(ctx context.Context, request UpdateCompartmentRequest) (response UpdateCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8256,10 +8117,9 @@ func (client IdentityClient) updateCompartment(ctx context.Context, request comm
 }
 
 // UpdateCustomerSecretKey Updates the specified secret key's description.
-// A default retry strategy applies to this operation UpdateCustomerSecretKey()
 func (client IdentityClient) UpdateCustomerSecretKey(ctx context.Context, request UpdateCustomerSecretKeyRequest) (response UpdateCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8313,10 +8173,9 @@ func (client IdentityClient) updateCustomerSecretKey(ctx context.Context, reques
 // UpdateDomain (For tenancies that support identity domains) Updates identity domain information and the associated Identity Cloud Service (IDCS) stripe.
 // To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
 // the operation's status.
-// A default retry strategy applies to this operation UpdateDomain()
 func (client IdentityClient) UpdateDomain(ctx context.Context, request UpdateDomainRequest) (response UpdateDomainResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8368,10 +8227,9 @@ func (client IdentityClient) updateDomain(ctx context.Context, request common.OC
 }
 
 // UpdateDynamicGroup Updates the specified dynamic group.
-// A default retry strategy applies to this operation UpdateDynamicGroup()
 func (client IdentityClient) UpdateDynamicGroup(ctx context.Context, request UpdateDynamicGroupRequest) (response UpdateDynamicGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8423,10 +8281,9 @@ func (client IdentityClient) updateDynamicGroup(ctx context.Context, request com
 }
 
 // UpdateGroup Updates the specified group.
-// A default retry strategy applies to this operation UpdateGroup()
 func (client IdentityClient) UpdateGroup(ctx context.Context, request UpdateGroupRequest) (response UpdateGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8479,10 +8336,9 @@ func (client IdentityClient) updateGroup(ctx context.Context, request common.OCI
 
 // UpdateIdentityProvider **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
 // Updates the specified identity provider.
-// A default retry strategy applies to this operation UpdateIdentityProvider()
 func (client IdentityClient) UpdateIdentityProvider(ctx context.Context, request UpdateIdentityProviderRequest) (response UpdateIdentityProviderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8535,10 +8391,9 @@ func (client IdentityClient) updateIdentityProvider(ctx context.Context, request
 
 // UpdateIdpGroupMapping **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
 // Updates the specified group mapping.
-// A default retry strategy applies to this operation UpdateIdpGroupMapping()
 func (client IdentityClient) UpdateIdpGroupMapping(ctx context.Context, request UpdateIdpGroupMappingRequest) (response UpdateIdpGroupMappingResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8590,10 +8445,9 @@ func (client IdentityClient) updateIdpGroupMapping(ctx context.Context, request 
 }
 
 // UpdateNetworkSource Updates the specified network source.
-// A default retry strategy applies to this operation UpdateNetworkSource()
 func (client IdentityClient) UpdateNetworkSource(ctx context.Context, request UpdateNetworkSourceRequest) (response UpdateNetworkSourceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8645,10 +8499,9 @@ func (client IdentityClient) updateNetworkSource(ctx context.Context, request co
 }
 
 // UpdateOAuthClientCredential Updates Oauth token for the user
-// A default retry strategy applies to this operation UpdateOAuthClientCredential()
 func (client IdentityClient) UpdateOAuthClientCredential(ctx context.Context, request UpdateOAuthClientCredentialRequest) (response UpdateOAuthClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8701,10 +8554,9 @@ func (client IdentityClient) updateOAuthClientCredential(ctx context.Context, re
 
 // UpdatePolicy Updates the specified policy. You can update the description or the policy statements themselves.
 // Policy changes take effect typically within 10 seconds.
-// A default retry strategy applies to this operation UpdatePolicy()
 func (client IdentityClient) UpdatePolicy(ctx context.Context, request UpdatePolicyRequest) (response UpdatePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8756,10 +8608,9 @@ func (client IdentityClient) updatePolicy(ctx context.Context, request common.OC
 }
 
 // UpdateSmtpCredential Updates the specified SMTP credential's description.
-// A default retry strategy applies to this operation UpdateSmtpCredential()
 func (client IdentityClient) UpdateSmtpCredential(ctx context.Context, request UpdateSmtpCredentialRequest) (response UpdateSmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8812,10 +8663,9 @@ func (client IdentityClient) updateSmtpCredential(ctx context.Context, request c
 
 // UpdateSwiftPassword **Deprecated. Use UpdateAuthToken instead.**
 // Updates the specified Swift password's description.
-// A default retry strategy applies to this operation UpdateSwiftPassword()
 func (client IdentityClient) UpdateSwiftPassword(ctx context.Context, request UpdateSwiftPasswordRequest) (response UpdateSwiftPasswordResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8874,10 +8724,9 @@ func (client IdentityClient) updateSwiftPassword(ctx context.Context, request co
 // already applied to a resource do not change.
 // You cannot remove list values that appear in a TagDefault. To remove a list value that
 // appears in a TagDefault, first update the TagDefault to use a different value.
-// A default retry strategy applies to this operation UpdateTag()
 func (client IdentityClient) UpdateTag(ctx context.Context, request UpdateTagRequest) (response UpdateTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8933,10 +8782,9 @@ func (client IdentityClient) updateTag(ctx context.Context, request common.OCIRe
 // If no value is set, resource creation is blocked.
 // * If the `isRequired` flag is set to "true", the value is set during resource creation.
 // * If the `isRequired` flag is set to "false", the value you enter is set during resource creation.
-// A default retry strategy applies to this operation UpdateTagDefault()
 func (client IdentityClient) UpdateTagDefault(ctx context.Context, request UpdateTagDefaultRequest) (response UpdateTagDefaultResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8994,10 +8842,9 @@ func (client IdentityClient) updateTagDefault(ctx context.Context, request commo
 // using UpdateTag. For more information about retiring tag namespaces, see
 // Retiring Key Definitions and Namespace Definitions (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm#retiringkeys).
 // You can't add a namespace with the same name as a retired namespace in the same tenancy.
-// A default retry strategy applies to this operation UpdateTagNamespace()
 func (client IdentityClient) UpdateTagNamespace(ctx context.Context, request UpdateTagNamespaceRequest) (response UpdateTagNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9050,10 +8897,9 @@ func (client IdentityClient) updateTagNamespace(ctx context.Context, request com
 
 // UpdateTagRule Updates the specified tag rule. You can update the description, activity state or the ruleText itself.
 // tag rule changes take effect typically within 10 seconds.
-// A default retry strategy applies to this operation UpdateTagRule()
 func (client IdentityClient) UpdateTagRule(ctx context.Context, request UpdateTagRuleRequest) (response UpdateTagRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9105,10 +8951,9 @@ func (client IdentityClient) updateTagRule(ctx context.Context, request common.O
 }
 
 // UpdateUser Updates the description of the specified user.
-// A default retry strategy applies to this operation UpdateUser()
 func (client IdentityClient) UpdateUser(ctx context.Context, request UpdateUserRequest) (response UpdateUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9160,10 +9005,9 @@ func (client IdentityClient) updateUser(ctx context.Context, request common.OCIR
 }
 
 // UpdateUserCapabilities Updates the capabilities of the specified user.
-// A default retry strategy applies to this operation UpdateUserCapabilities()
 func (client IdentityClient) UpdateUserCapabilities(ctx context.Context, request UpdateUserCapabilitiesRequest) (response UpdateUserCapabilitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9215,10 +9059,9 @@ func (client IdentityClient) updateUserCapabilities(ctx context.Context, request
 }
 
 // UpdateUserState Updates the state of the specified user.
-// A default retry strategy applies to this operation UpdateUserState()
 func (client IdentityClient) UpdateUserState(ctx context.Context, request UpdateUserStateRequest) (response UpdateUserStateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9281,10 +9124,9 @@ func (client IdentityClient) updateUserState(ctx context.Context, request common
 // you have. Also confirm you're working in the correct compartment.
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using
 // the object, first make sure its `lifecycleState` has changed to ACTIVE.
-// A default retry strategy applies to this operation UploadApiKey()
 func (client IdentityClient) UploadApiKey(ctx context.Context, request UploadApiKeyRequest) (response UploadApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

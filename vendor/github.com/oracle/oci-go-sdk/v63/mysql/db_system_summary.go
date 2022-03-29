@@ -88,13 +88,6 @@ type DbSystemSummary struct {
 
 	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
 
-	// The shape of the primary instances of the DB System. The shape
-	// determines resources allocated to a DB System - CPU cores
-	// and memory for VM shapes; CPU cores, memory and storage for non-VM
-	// (or bare metal) shapes. To get a list of shapes, use (the
-	// ListShapes operation.
-	ShapeName *string `mandatory:"false" json:"shapeName"`
-
 	// Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled,
 	// and whether to enable or disable syncing of the Binary Logs.
 	CrashRecovery CrashRecoveryStatusEnum `mandatory:"false" json:"crashRecovery,omitempty"`

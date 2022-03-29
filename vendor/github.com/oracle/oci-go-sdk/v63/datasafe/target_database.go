@@ -31,7 +31,7 @@ type TargetDatabase struct {
 	DatabaseDetails DatabaseDetails `mandatory:"true" json:"databaseDetails"`
 
 	// The current state of the target database in Data Safe.
-	LifecycleState TargetDatabaseLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The date and time of target database registration and creation in Data Safe.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
@@ -76,8 +76,8 @@ func (m TargetDatabase) String() string {
 // Not recommended for calling this function directly
 func (m TargetDatabase) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingTargetDatabaseLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetTargetDatabaseLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
@@ -103,7 +103,7 @@ func (m *TargetDatabase) UnmarshalJSON(data []byte) (e error) {
 		Id                    *string                           `json:"id"`
 		DisplayName           *string                           `json:"displayName"`
 		DatabaseDetails       databasedetails                   `json:"databaseDetails"`
-		LifecycleState        TargetDatabaseLifecycleStateEnum  `json:"lifecycleState"`
+		LifecycleState        LifecycleStateEnum                `json:"lifecycleState"`
 		TimeCreated           *common.SDKTime                   `json:"timeCreated"`
 	}{}
 

@@ -196,7 +196,6 @@ const (
 	ListAuditArchiveRetrievalsLifecycleStateFailed         ListAuditArchiveRetrievalsLifecycleStateEnum = "FAILED"
 	ListAuditArchiveRetrievalsLifecycleStateDeleting       ListAuditArchiveRetrievalsLifecycleStateEnum = "DELETING"
 	ListAuditArchiveRetrievalsLifecycleStateDeleted        ListAuditArchiveRetrievalsLifecycleStateEnum = "DELETED"
-	ListAuditArchiveRetrievalsLifecycleStateUpdating       ListAuditArchiveRetrievalsLifecycleStateEnum = "UPDATING"
 )
 
 var mappingListAuditArchiveRetrievalsLifecycleStateEnum = map[string]ListAuditArchiveRetrievalsLifecycleStateEnum{
@@ -206,7 +205,6 @@ var mappingListAuditArchiveRetrievalsLifecycleStateEnum = map[string]ListAuditAr
 	"FAILED":          ListAuditArchiveRetrievalsLifecycleStateFailed,
 	"DELETING":        ListAuditArchiveRetrievalsLifecycleStateDeleting,
 	"DELETED":         ListAuditArchiveRetrievalsLifecycleStateDeleted,
-	"UPDATING":        ListAuditArchiveRetrievalsLifecycleStateUpdating,
 }
 
 var mappingListAuditArchiveRetrievalsLifecycleStateEnumLowerCase = map[string]ListAuditArchiveRetrievalsLifecycleStateEnum{
@@ -216,7 +214,6 @@ var mappingListAuditArchiveRetrievalsLifecycleStateEnumLowerCase = map[string]Li
 	"failed":          ListAuditArchiveRetrievalsLifecycleStateFailed,
 	"deleting":        ListAuditArchiveRetrievalsLifecycleStateDeleting,
 	"deleted":         ListAuditArchiveRetrievalsLifecycleStateDeleted,
-	"updating":        ListAuditArchiveRetrievalsLifecycleStateUpdating,
 }
 
 // GetListAuditArchiveRetrievalsLifecycleStateEnumValues Enumerates the set of values for ListAuditArchiveRetrievalsLifecycleStateEnum
@@ -237,7 +234,6 @@ func GetListAuditArchiveRetrievalsLifecycleStateEnumStringValues() []string {
 		"FAILED",
 		"DELETING",
 		"DELETED",
-		"UPDATING",
 	}
 }
 

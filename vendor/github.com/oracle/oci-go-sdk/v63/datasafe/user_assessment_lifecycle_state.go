@@ -22,7 +22,6 @@ const (
 	UserAssessmentLifecycleStateSucceeded UserAssessmentLifecycleStateEnum = "SUCCEEDED"
 	UserAssessmentLifecycleStateUpdating  UserAssessmentLifecycleStateEnum = "UPDATING"
 	UserAssessmentLifecycleStateDeleting  UserAssessmentLifecycleStateEnum = "DELETING"
-	UserAssessmentLifecycleStateDeleted   UserAssessmentLifecycleStateEnum = "DELETED"
 	UserAssessmentLifecycleStateFailed    UserAssessmentLifecycleStateEnum = "FAILED"
 )
 
@@ -31,7 +30,6 @@ var mappingUserAssessmentLifecycleStateEnum = map[string]UserAssessmentLifecycle
 	"SUCCEEDED": UserAssessmentLifecycleStateSucceeded,
 	"UPDATING":  UserAssessmentLifecycleStateUpdating,
 	"DELETING":  UserAssessmentLifecycleStateDeleting,
-	"DELETED":   UserAssessmentLifecycleStateDeleted,
 	"FAILED":    UserAssessmentLifecycleStateFailed,
 }
 
@@ -40,7 +38,6 @@ var mappingUserAssessmentLifecycleStateEnumLowerCase = map[string]UserAssessment
 	"succeeded": UserAssessmentLifecycleStateSucceeded,
 	"updating":  UserAssessmentLifecycleStateUpdating,
 	"deleting":  UserAssessmentLifecycleStateDeleting,
-	"deleted":   UserAssessmentLifecycleStateDeleted,
 	"failed":    UserAssessmentLifecycleStateFailed,
 }
 
@@ -60,7 +57,6 @@ func GetUserAssessmentLifecycleStateEnumStringValues() []string {
 		"SUCCEEDED",
 		"UPDATING",
 		"DELETING",
-		"DELETED",
 		"FAILED",
 	}
 }

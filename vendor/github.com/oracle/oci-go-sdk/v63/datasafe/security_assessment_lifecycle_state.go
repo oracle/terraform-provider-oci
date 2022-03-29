@@ -22,7 +22,6 @@ const (
 	SecurityAssessmentLifecycleStateSucceeded SecurityAssessmentLifecycleStateEnum = "SUCCEEDED"
 	SecurityAssessmentLifecycleStateUpdating  SecurityAssessmentLifecycleStateEnum = "UPDATING"
 	SecurityAssessmentLifecycleStateDeleting  SecurityAssessmentLifecycleStateEnum = "DELETING"
-	SecurityAssessmentLifecycleStateDeleted   SecurityAssessmentLifecycleStateEnum = "DELETED"
 	SecurityAssessmentLifecycleStateFailed    SecurityAssessmentLifecycleStateEnum = "FAILED"
 )
 
@@ -31,7 +30,6 @@ var mappingSecurityAssessmentLifecycleStateEnum = map[string]SecurityAssessmentL
 	"SUCCEEDED": SecurityAssessmentLifecycleStateSucceeded,
 	"UPDATING":  SecurityAssessmentLifecycleStateUpdating,
 	"DELETING":  SecurityAssessmentLifecycleStateDeleting,
-	"DELETED":   SecurityAssessmentLifecycleStateDeleted,
 	"FAILED":    SecurityAssessmentLifecycleStateFailed,
 }
 
@@ -40,7 +38,6 @@ var mappingSecurityAssessmentLifecycleStateEnumLowerCase = map[string]SecurityAs
 	"succeeded": SecurityAssessmentLifecycleStateSucceeded,
 	"updating":  SecurityAssessmentLifecycleStateUpdating,
 	"deleting":  SecurityAssessmentLifecycleStateDeleting,
-	"deleted":   SecurityAssessmentLifecycleStateDeleted,
 	"failed":    SecurityAssessmentLifecycleStateFailed,
 }
 
@@ -60,7 +57,6 @@ func GetSecurityAssessmentLifecycleStateEnumStringValues() []string {
 		"SUCCEEDED",
 		"UPDATING",
 		"DELETING",
-		"DELETED",
 		"FAILED",
 	}
 }

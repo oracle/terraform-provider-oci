@@ -17,12 +17,6 @@ type ListModelsRequest struct {
 	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// <b>Filter</b> results by the name of the model version set.
-	ModelVersionSetName *string `mandatory:"false" contributesTo:"query" name:"modelVersionSetName"`
-
-	// <b>Filter</b> results by version label.
-	VersionLabel *string `mandatory:"false" contributesTo:"query" name:"versionLabel"`
-
 	// <b>Filter</b> results by OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for the resource type.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
