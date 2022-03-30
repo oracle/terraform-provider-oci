@@ -289,8 +289,8 @@ github.com/oklog/run v1.0.0/go.mod h1:dlhp/R75TPv97u0XWUtDeV/lRKWPKSdTuV0TZvrmrQ
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.7.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/gomega v1.4.3/go.mod h1:ex+gbHU/CVuBBDIJjb2X0qEXbFg53c61hWP/1CpauHY=
-github.com/oracle/oci-go-sdk/v63 v63.0.0 h1:OOGCUmaDzrd5zTG8pljcnkR1ZHxg/991uEiQJi95/4E=
-github.com/oracle/oci-go-sdk/v63 v63.0.0/go.mod h1:n6V9PcyRW5wtHaNd2TltbV3sWvbNy3PNqLmLrcT23Fg=
+github.com/oracle/oci-go-sdk/v64 v64.0.0 h1:ALQDxoKLeNfxLbbOkjnNxMf3/AyWhnHhMJxc8tZXRgI=
+github.com/oracle/oci-go-sdk/v64 v64.0.0/go.mod h1:eLqTg9MSXE/9naair0yFKqiP1RlYghuzBDvEgZvwjYs=
 github.com/pierrec/lz4 v2.0.5+incompatible/go.mod h1:pdkljMzZIN41W+lC3N2tnIh5sFi+IEE17M5jbnwPHcY=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=

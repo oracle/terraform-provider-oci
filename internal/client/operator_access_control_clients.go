@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_operator_access_control "github.com/oracle/oci-go-sdk/v63/operatoraccesscontrol"
+	oci_operator_access_control "github.com/oracle/oci-go-sdk/v64/operatoraccesscontrol"
 
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
+	oci_common "github.com/oracle/oci-go-sdk/v64/common"
 )
 
 func init() {

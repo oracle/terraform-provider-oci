@@ -17,8 +17,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v63/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v64/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v64/devops"
 )
 
 func DevopsTriggerResource() *schema.Resource {

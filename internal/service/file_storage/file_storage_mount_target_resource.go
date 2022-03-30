@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v63/core"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v63/filestorage"
+	oci_core "github.com/oracle/oci-go-sdk/v64/core"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v64/filestorage"
 )
 
 func FileStorageMountTargetResource() *schema.Resource {

@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v63/osmanagement"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v64/osmanagement"
 )
 
 func OsmanagementSoftwareSourceResource() *schema.Resource {
