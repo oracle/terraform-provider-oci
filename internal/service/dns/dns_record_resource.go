@@ -23,7 +23,7 @@ import (
 	"net"
 	"regexp"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v63/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v64/dns"
 )
 
 func DnsRecordResource() *schema.Resource {

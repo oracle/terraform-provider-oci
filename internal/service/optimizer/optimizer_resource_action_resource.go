@@ -9,8 +9,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v63/optimizer"
+	oci_common "github.com/oracle/oci-go-sdk/v64/common"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v64/optimizer"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

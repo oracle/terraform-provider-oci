@@ -1,6 +1,6 @@
 package resourcediscovery
 
-import oci_core "github.com/oracle/oci-go-sdk/v63/core"
+import oci_core "github.com/oracle/oci-go-sdk/v64/core"
 
 /*
  * exportRelatedResourcesGraph specify the related resources for a given resource type

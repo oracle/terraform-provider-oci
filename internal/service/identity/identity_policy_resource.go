@@ -15,8 +15,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v63/identity"
+	oci_common "github.com/oracle/oci-go-sdk/v64/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v64/identity"
 )
 
 func IdentityPolicyResource() *schema.Resource {

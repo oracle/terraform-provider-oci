@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_appmgmt_control "github.com/oracle/oci-go-sdk/v63/appmgmtcontrol"
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
+	oci_appmgmt_control "github.com/oracle/oci-go-sdk/v64/appmgmtcontrol"
+	oci_common "github.com/oracle/oci-go-sdk/v64/common"
 )
 
 func AppmgmtControlMonitorPluginManagementResource() *schema.Resource {

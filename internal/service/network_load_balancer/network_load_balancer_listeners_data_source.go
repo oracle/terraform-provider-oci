@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v63/networkloadbalancer"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v64/networkloadbalancer"
 )
 
 func NetworkLoadBalancerListenersDataSource() *schema.Resource {
