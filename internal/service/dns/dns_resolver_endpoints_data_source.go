@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_dns "github.com/oracle/oci-go-sdk/v63/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v64/dns"
 )
 
 func DnsResolverEndpointsDataSource() *schema.Resource {

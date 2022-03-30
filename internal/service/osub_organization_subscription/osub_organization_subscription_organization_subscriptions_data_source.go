@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_osub_organization_subscription "github.com/oracle/oci-go-sdk/v63/osuborganizationsubscription"
+	oci_osub_organization_subscription "github.com/oracle/oci-go-sdk/v64/osuborganizationsubscription"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

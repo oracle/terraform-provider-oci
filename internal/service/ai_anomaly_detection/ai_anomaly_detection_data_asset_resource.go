@@ -15,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v63/aianomalydetection"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v64/aianomalydetection"
 )
 
 func AiAnomalyDetectionDataAssetResource() *schema.Resource {

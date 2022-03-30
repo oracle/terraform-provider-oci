@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_datascience "github.com/oracle/oci-go-sdk/v63/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v64/datascience"
 )
 
 func DatascienceNotebookSessionResource() *schema.Resource {

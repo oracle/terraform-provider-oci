@@ -16,7 +16,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v63/apmsynthetics"
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v64/apmsynthetics"
 )
 
 func ApmSyntheticsScriptResource() *schema.Resource {

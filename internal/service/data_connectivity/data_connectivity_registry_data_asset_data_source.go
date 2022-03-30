@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_data_connectivity "github.com/oracle/oci-go-sdk/v63/dataconnectivity"
+	oci_data_connectivity "github.com/oracle/oci-go-sdk/v64/dataconnectivity"
 )
 
 func DataConnectivityRegistryDataAssetDataSource() *schema.Resource {

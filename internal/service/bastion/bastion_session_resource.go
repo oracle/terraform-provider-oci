@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_bastion "github.com/oracle/oci-go-sdk/v63/bastion"
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
+	oci_bastion "github.com/oracle/oci-go-sdk/v64/bastion"
+	oci_common "github.com/oracle/oci-go-sdk/v64/common"
 )
 
 func BastionSessionResource() *schema.Resource {
