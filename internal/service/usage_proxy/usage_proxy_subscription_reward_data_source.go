@@ -101,6 +101,10 @@ func UsageProxySubscriptionRewardDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"redemption_code": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"rewards_rate": {
 							Type:     schema.TypeFloat,
 							Computed: true,

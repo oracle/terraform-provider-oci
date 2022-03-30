@@ -10,7 +10,7 @@ description: |-
 # oci_usage_proxy_subscription_redeemable_user
 This resource provides the Subscription Redeemable User resource in Oracle Cloud Infrastructure Usage Proxy service.
 
-Add list of redeemable user email ids for a subscription Id
+Adds the list of redeemable user email IDs for a subscription ID.
 
 
 ## Example Usage
@@ -34,11 +34,11 @@ resource "oci_usage_proxy_subscription_redeemable_user" "test_subscription_redee
 
 The following arguments are supported:
 
-* `items` - (Optional) The list of email ids to be added to the redeemable users list.
-	* `email_id` - (Required) The Email Id for redeemable user.
-* `subscription_id` - (Required) The subscriptionId for which rewards information is requested for.
+* `items` - (Optional) The list of email IDs to be added to the list of users that can redeem rewards.
+	* `email_id` - (Required) The email ID for a user that can redeem rewards.
+* `subscription_id` - (Required) The subscription ID for which rewards information is requested for.
 * `tenancy_id` - (Required) The OCID of the tenancy.
-* `user_id` - (Optional) The user Id of the person whose email we cc
+* `user_id` - (Optional) The user ID of the person to send a copy of an email.
 
 
 ** IMPORTANT **
@@ -48,8 +48,8 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `items` - The list of redeemable users email Ids.
-	* `email_id` - The email Id of Redeemable User.
+* `items` - The list of user email IDs that can redeem rewards.
+	* `email_id` - The email ID of a user that can redeem rewards.
 
 ## Timeouts
 
