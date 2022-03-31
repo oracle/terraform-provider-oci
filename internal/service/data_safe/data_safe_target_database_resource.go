@@ -310,25 +310,25 @@ func (s *DataSafeTargetDatabaseResourceCrud) ID() string {
 
 func (s *DataSafeTargetDatabaseResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_data_safe.LifecycleStateCreating),
+		string(oci_data_safe.TargetDatabaseLifecycleStateCreating),
 	}
 }
 
 func (s *DataSafeTargetDatabaseResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_data_safe.LifecycleStateActive),
+		string(oci_data_safe.TargetDatabaseLifecycleStateActive),
 	}
 }
 
 func (s *DataSafeTargetDatabaseResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_data_safe.LifecycleStateDeleting),
+		string(oci_data_safe.TargetDatabaseLifecycleStateDeleting),
 	}
 }
 
 func (s *DataSafeTargetDatabaseResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_data_safe.LifecycleStateDeleted),
+		string(oci_data_safe.TargetDatabaseLifecycleStateDeleted),
 	}
 }
 
