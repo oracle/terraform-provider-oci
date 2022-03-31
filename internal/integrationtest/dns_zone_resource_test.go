@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"strconv"
 	"testing"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
@@ -20,6 +21,7 @@ import (
 )
 
 var (
+	zoneDataSourceTimeCreatedLessThanTime           = time.Now().Add(24 * time.Hour).Format(time.RFC3339)
 	zoneDataSourceRepresentationRequiredOnlyDefault = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
@@ -39,7 +41,7 @@ var (
 		"time_created_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2018-01-01T00:00:00.000Z`},
 	})
 	zoneDataSourceRepresentationWithTimeCreatedLessThanOptionalDefault = acctest.RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnlyDefault, map[string]interface{}{
-		"time_created_less_than": acctest.Representation{RepType: acctest.Optional, Create: `2022-04-10T19:01:09.000-00:00`},
+		"time_created_less_than": acctest.Representation{RepType: acctest.Optional, Create: zoneDataSourceTimeCreatedLessThanTime},
 	})
 	zoneDataSourceRepresentationWithZoneTypeOptionalDefault = acctest.RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnlyDefault, map[string]interface{}{
 		"zone_type": acctest.Representation{RepType: acctest.Optional, Create: `PRIMARY`},
@@ -295,14 +297,15 @@ func TestDnsZoneResource_default(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Required, acctest.Create, zoneRepresentationPrimaryDefault), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", "2022-04-10T19:01:09.000-00:00"),
+				resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", zoneDataSourceTimeCreatedLessThanTime),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
 				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
 			),
 		},
 		// verify resource import
 		{
-			Config:            tokenFn(config, nil),
+			Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependenciesDefault+
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Required, acctest.Create, zoneRepresentationPrimaryDefault), nil),
 			ImportState:       true,
 			ImportStateVerify: true,
 			ResourceName:      resourceName,

@@ -17,11 +17,11 @@ func DnsViewDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["scope"] = &schema.Schema{
 		Type:     schema.TypeString,
-		Required: true,
+		Optional: true,
 	}
 	fieldMap["view_id"] = &schema.Schema{
 		Type:     schema.TypeString,
-		Required: true,
+		Optional: true,
 	}
 	return tfresource.GetSingularDataSourceItemSchema(DnsViewResource(), fieldMap, readSingularDnsView)
 }

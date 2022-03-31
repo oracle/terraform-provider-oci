@@ -10,7 +10,7 @@ description: |-
 # oci_dns_resolver
 This resource provides the Resolver resource in Oracle Cloud Infrastructure DNS service.
 
-Updates the specified resolver with your new information. Requires a `PRIVATE` scope query parameter.
+Updates the specified resolver with your new information.
 
 Note: Resolvers are associated with VCNs and created when a VCN is created. Wait until created VCN's state shows as Available in OCI console before updating DNS resolver properties.
 Also a VCN cannot be deleted while its resolver has resolver endpoints. Additionally a resolver endpoint cannot be deleted if it is referenced in the resolver's rules. To remove the rules from a resolver user needs to update the resolver resource. Since DNS Resolver gets deleted when VCN is deleted there is no support for Delete for DNS Resolver.
@@ -21,9 +21,9 @@ Also a VCN cannot be deleted while its resolver has resolver endpoints. Addition
 resource "oci_dns_resolver" "test_resolver" {
 	#Required
 	resolver_id = oci_dns_resolver.test_resolver.id
-	scope = "PRIVATE"
 
 	#Optional
+	scope = "PRIVATE"
 	attached_views {
 		#Required
 		view_id = oci_dns_view.test_view.id
@@ -66,7 +66,7 @@ The following arguments are supported:
 	* `destination_addresses` - (Required) (Updatable) IP addresses to which queries should be forwarded. Currently limited to a single address. 
 	* `qname_cover_conditions` - (Optional) (Updatable) A list of domain names. The query must be covered by one of the domains in order for the rule action to apply. 
 	* `source_endpoint_name` - (Required) (Updatable) Name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true. 
-* `scope` - (Required) Value must be `PRIVATE` when creating private name resolvers. 
+* `scope` - (Optional) If specified, must be `PRIVATE` when creating private name resolvers. 
 
 
 ** IMPORTANT **
@@ -133,14 +133,8 @@ The `timeouts` block allows you to specify [timeouts](https://registry.terraform
 
 ## Import
 
-For legacy Resolvers that were created without using `scope`, these Resolvers can be imported using the `id`, e.g.
+Resolvers can be imported using their OCID, e.g.
 
 ```
 $ terraform import oci_dns_resolver.test_resolver "id"
-```
-
-For Resolvers created using `scope`, these Resolvers can be imported using the `id`, e.g.
-
-```
-$ terraform import oci_dns_resolver.test_resolver "resolverId/{resolverId}/scope/{scope}"
 ```
