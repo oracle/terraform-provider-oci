@@ -1093,6 +1093,7 @@ var exportDataSafeTargetDatabaseHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_data_safe.TargetDatabaseLifecycleStateActive),
+		string(oci_data_safe.TargetDatabaseLifecycleStateNeedsAttention),
 	},
 }
 
