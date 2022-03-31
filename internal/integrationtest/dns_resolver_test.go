@@ -27,14 +27,14 @@ var (
 
 	DnsDnsResolverSingularDataSourceRepresentation = map[string]interface{}{
 		"resolver_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_resolver.test_resolver.id}`},
-		"scope":       acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"scope":       acctest.Representation{RepType: acctest.Optional, Create: `PRIVATE`},
 	}
 
 	DnsDnsResolverDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_dns_resolver.test_resolver.id}`},
-		"scope":          acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"scope":          acctest.Representation{RepType: acctest.Optional, Create: `PRIVATE`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DnsResolverDataSourceFilterRepresentation}}
 
@@ -49,7 +49,7 @@ var (
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"scope":          acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"scope":          acctest.Representation{RepType: acctest.Optional, Create: `PRIVATE`},
 	}
 	DnsResolverAttachedViewsRepresentation = map[string]interface{}{
 		"view_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
@@ -160,7 +160,6 @@ func TestDnsResolverResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
 				resource.TestCheckResourceAttrSet(resourceName, "resolver_id"),
-				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "self"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -215,7 +214,6 @@ func TestDnsResolverResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
 				resource.TestCheckResourceAttrSet(resourceName, "resolver_id"),
-				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "self"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -259,7 +257,6 @@ func TestDnsResolverResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(datasourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttr(datasourceName, "resolvers.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resolvers.0.attached_vcn_id"),
 				resource.TestCheckResourceAttr(datasourceName, "resolvers.0.compartment_id", compartmentId),
@@ -282,7 +279,6 @@ func TestDnsResolverResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DnsResolverResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resolver_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "attached_vcn_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "attached_views.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -301,21 +297,10 @@ func TestDnsResolverResource_basic(t *testing.T) {
 			Config:            config + DnsResolverRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
-			ImportStateIdFunc: getDnsResolverImportId(resourceName),
 			ImportStateVerifyIgnore: []string{
 				"scope",
 			},
 			ResourceName: resourceName,
 		},
 	})
-}
-
-func getDnsResolverImportId(resourceName string) resource.ImportStateIdFunc {
-	return func(s *terraform.State) (string, error) {
-		rs, ok := s.RootModule().Resources[resourceName]
-		if !ok {
-			return "", fmt.Errorf("not found: %s", resourceName)
-		}
-		return fmt.Sprintf("resolverId/" + rs.Primary.Attributes["id"] + "/scope/" + rs.Primary.Attributes["scope"]), nil
-	}
 }
