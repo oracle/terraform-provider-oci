@@ -54,6 +54,7 @@ var (
 		"description":       acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreTargetDatabaseRep},
 	}
 	targetDatabaseDatabaseDetailsRepresentation = map[string]interface{}{
 		"database_type":          acctest.Representation{RepType: acctest.Required, Create: `AUTONOMOUS_DATABASE`, Update: `AUTONOMOUS_DATABASE`},
@@ -82,6 +83,10 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", acctest.Required, acctest.Create, dataSafePrivateEndpointRepresentation) +
 		DefinedTagsDependencies
+
+	ignoreTargetDatabaseRep = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `freeform_tags`}},
+	}
 )
 
 // issue-routing-tag: data_safe/default
@@ -230,14 +235,11 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 				compartmentIdVariableStr + TargetDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Update, targetDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
-				resource.TestCheckResourceAttrSet(datasourceName, "associated_resource_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_database_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "target_databases.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "target_databases.0.associated_resource_ids.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "target_databases.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "target_databases.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "target_databases.0.display_name", "displayName2"),
@@ -255,7 +257,6 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_database_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "associated_resource_ids.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_option.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_option.0.connection_type", "PRIVATE_ENDPOINT"),
@@ -279,6 +280,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 			ImportStateVerifyIgnore: []string{
 				"credentials",
 				"tls_config",
+				"defined_tags",
 			},
 			ResourceName: resourceName,
 		},
@@ -302,7 +304,7 @@ func testAccCheckDataSafeTargetDatabaseDestroy(s *terraform.State) error {
 
 			if err == nil {
 				deletedLifecycleStates := map[string]bool{
-					string(oci_data_safe.LifecycleStateDeleted): true,
+					string(oci_data_safe.TargetDatabaseLifecycleStateDeleted): true,
 				}
 				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.
