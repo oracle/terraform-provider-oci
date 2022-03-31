@@ -28,13 +28,13 @@ var (
 	DnsDnsResolverEndpointSingularDataSourceRepresentation = map[string]interface{}{
 		"resolver_endpoint_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_resolver_endpoint.test_resolver_endpoint.name}`},
 		"resolver_id":            acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_vcn_dns_resolver_association.test_vcn_dns_resolver_association.dns_resolver_id}`},
-		"scope":                  acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"scope":                  acctest.Representation{RepType: acctest.Optional, Create: `PRIVATE`},
 	}
 
 	DnsDnsResolverEndpointDataSourceRepresentation = map[string]interface{}{
 		"resolver_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_vcn_dns_resolver_association.test_vcn_dns_resolver_association.dns_resolver_id}`},
 		"name":        acctest.Representation{RepType: acctest.Optional, Create: `endpointName`},
-		"scope":       acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"scope":       acctest.Representation{RepType: acctest.Optional, Create: `PRIVATE`},
 		"state":       acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DnsResolverEndpointDataSourceFilterRepresentation}}
 
@@ -51,7 +51,7 @@ var (
 		"subnet_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"endpoint_type":      acctest.Representation{RepType: acctest.Optional, Create: `VNIC`},
 		"forwarding_address": acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
-		"scope":              acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"scope":              acctest.Representation{RepType: acctest.Optional, Create: `PRIVATE`},
 		"nsg_ids":            acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 	}
 
