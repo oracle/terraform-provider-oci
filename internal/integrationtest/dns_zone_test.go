@@ -7,11 +7,13 @@ import (
 	"context"
 	"fmt"
 	"regexp"
+	"strconv"
 	"testing"
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
@@ -48,7 +50,7 @@ var (
 		"time_created_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2018-01-01T00:00:00.000Z`},
 	})
 	DnsDnsZoneDataSourceRepresentationWithTimeCreatedLessThanOptional = acctest.RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
-		"time_created_less_than": acctest.Representation{RepType: acctest.Optional, Create: `2022-04-10T19:01:09.000-00:00`},
+		"time_created_less_than": acctest.Representation{RepType: acctest.Optional, Create: zoneDataSourceTimeCreatedLessThanTime},
 	})
 	DnsDnsZoneDataSourceRepresentationWithZoneTypeOptional = acctest.RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
 		"zone_type": acctest.Representation{RepType: acctest.Optional, Create: `PRIMARY`},
@@ -154,12 +156,11 @@ func TestDnsZoneResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					// Resource discovery is not supported for Zone resources created using scope field
-					//if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-					//	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-					//		return errExport
-					//	}
-					//}
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
 					return err
 				},
 			),
@@ -310,7 +311,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Required, acctest.Create, DnsDnsZoneRepresentationPrimary), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", "2022-04-10T19:01:09.000-00:00"),
+				resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", zoneDataSourceTimeCreatedLessThanTime),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
 				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
 			),
@@ -320,20 +321,9 @@ func TestDnsZoneResource_basic(t *testing.T) {
 			Config:            tokenFn(config+DnsZoneRequiredOnlyResource, nil),
 			ImportState:       true,
 			ImportStateVerify: true,
-			ImportStateIdFunc: getZoneImportId(resourceName),
 			ResourceName:      resourceName,
 		},
 	})
-}
-
-func getZoneImportId(resourceName string) resource.ImportStateIdFunc {
-	return func(s *terraform.State) (string, error) {
-		rs, ok := s.RootModule().Resources[resourceName]
-		if !ok {
-			return "", fmt.Errorf("not found: %s", resourceName)
-		}
-		return fmt.Sprintf("zoneNameOrId/" + rs.Primary.Attributes["id"] + "/scope/" + rs.Primary.Attributes["scope"] + "/viewId/" + rs.Primary.Attributes["view_id"]), nil
-	}
 }
 
 func testAccCheckDnsZoneDestroy(s *terraform.State) error {

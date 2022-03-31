@@ -579,6 +579,9 @@ dns
 * oci\_dns\_steering\_policy\_attachment
 * oci\_dns\_tsig\_key
 * oci\_dns\_rrset
+* oci\_dns\_resolver
+* oci\_dns\_resolver\_endpoint
+* oci\_dns\_view
 
 em_warehouse
     

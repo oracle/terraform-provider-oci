@@ -95,6 +95,7 @@ func DnsZoneResource() *schema.Resource {
 			"scope": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ForceNew: true,
 			},
 			"view_id": {
@@ -179,6 +180,16 @@ func deleteDnsZone(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*client.OracleClients).DnsClient()
 	sync.DisableNotFoundRetries = true
 
+	// Check if the zone is protected. If it is, attempting to delete it will fail,
+	// so don't do anything.
+	if isProtected := d.Get("is_protected"); isProtected != nil {
+		if isProtectedBool, ok := isProtected.(bool); ok && isProtectedBool {
+			log.Printf("[WARN] Not attempting to delete protected zone with ID %s", d.Id())
+			sync.VoidState()
+			return nil
+		}
+	}
+
 	return tfresource.DeleteResource(d, sync)
 }
 
@@ -191,6 +202,30 @@ type DnsZoneResourceCrud struct {
 
 func (s *DnsZoneResourceCrud) ID() string {
 	return *s.Res.Id
+}
+
+func (s *DnsZoneResourceCrud) CreatedPending() []string {
+	return []string{
+		string(oci_dns.ZoneLifecycleStateCreating),
+	}
+}
+
+func (s *DnsZoneResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_dns.ZoneLifecycleStateActive),
+	}
+}
+
+func (s *DnsZoneResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_dns.ZoneLifecycleStateDeleting),
+	}
+}
+
+func (s *DnsZoneResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_dns.ZoneLifecycleStateDeleted),
+	}
 }
 
 func (s *DnsZoneResourceCrud) Create() error {
@@ -420,6 +455,8 @@ func (s *DnsZoneResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	s.D.Set("scope", s.Res.Scope)
+
 	if s.Res.IsProtected != nil {
 		s.D.Set("is_protected", *s.Res.IsProtected)
 	}
@@ -453,6 +490,14 @@ func (s *DnsZoneResourceCrud) SetData() error {
 	}
 
 	s.D.Set("zone_type", s.Res.ZoneType)
+
+	if s.Res.ViewId != nil {
+		s.D.Set("view_id", *s.Res.ViewId)
+	}
+
+	if s.Res.IsProtected != nil {
+		s.D.Set("is_protected", *s.Res.IsProtected)
+	}
 
 	return nil
 }

@@ -16,6 +16,7 @@ import (
 	tf_datascience "github.com/oracle/terraform-provider-oci/internal/service/datascience"
 	"github.com/oracle/terraform-provider-oci/internal/service/devops"
 
+	tf_dns "github.com/oracle/terraform-provider-oci/internal/service/dns"
 	tf_identity "github.com/oracle/terraform-provider-oci/internal/service/identity"
 	tf_log_analytics "github.com/oracle/terraform-provider-oci/internal/service/log_analytics"
 
@@ -74,6 +75,7 @@ func init() {
 	exportDatascienceModelProvenanceHints.getIdFn = getDatascienceModelProvenanceId
 	exportDevopsRepositoryRefHints.getIdFn = getDevopsRepositoryRefId
 	exportDnsRrsetHints.getIdFn = getDnsRrsetId
+	exportDnsResolverEndpointHints.getIdFn = getDnsResolverEndpointId
 	exportFusionAppsFusionEnvironmentRefreshActivityHints.getIdFn = getFusionAppsFusionEnvironmentRefreshActivityId
 	exportFusionAppsFusionEnvironmentAdminUserHints.getIdFn = getFusionAppsFusionEnvironmentAdminUserId
 	exportFusionAppsFusionEnvironmentDataMaskingActivityHints.getIdFn = getFusionAppsFusionEnvironmentDataMaskingActivityId
@@ -390,6 +392,16 @@ func getRrsetCompositeId(domain string, rtype string, zoneNameOrId string) strin
 	zoneNameOrId = url.PathEscape(zoneNameOrId)
 	compositeId := "zoneNameOrId/" + zoneNameOrId + "/domain/" + domain + "/rtype/" + rtype
 	return compositeId
+}
+
+func getDnsResolverEndpointId(resource *OCIResource) (string, error) {
+
+	resolverEndpointName, ok := resource.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find resolverEndpointName for Dns ResolverEndpoint")
+	}
+	resolverId := resource.parent.id
+	return tf_dns.GetResolverEndpointCompositeId(resolverEndpointName, resolverId), nil
 }
 
 func getFusionAppsFusionEnvironmentRefreshActivityId(resource *OCIResource) (string, error) {

@@ -57,11 +57,6 @@ func DnsResolverEndpointResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"scope": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
 			"endpoint_type": {
@@ -93,6 +88,11 @@ func DnsResolverEndpointResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"scope": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -161,7 +161,7 @@ type DnsResolverEndpointResourceCrud struct {
 }
 
 func (s *DnsResolverEndpointResourceCrud) ID() string {
-	return getResolverEndpointCompositeId(s.D.Get("name").(string), s.D.Get("resolver_id").(string))
+	return GetResolverEndpointCompositeId(s.D.Get("name").(string), s.D.Get("resolver_id").(string))
 }
 
 func (s *DnsResolverEndpointResourceCrud) CreatedPending() []string {
@@ -304,7 +304,7 @@ func (s *DnsResolverEndpointResourceCrud) SetData() error {
 	if err == nil {
 		s.D.Set("name", &resolverEndpointName)
 		s.D.Set("resolver_id", &resolverId)
-		s.D.SetId(getResolverEndpointCompositeId(resolverEndpointName, resolverId))
+		s.D.SetId(GetResolverEndpointCompositeId(resolverEndpointName, resolverId))
 		if scope != "" {
 			s.D.Set("scope", scope)
 		}
@@ -370,7 +370,7 @@ func (s *DnsResolverEndpointResourceCrud) SetData() error {
 	return nil
 }
 
-func getResolverEndpointCompositeId(resolverEndpointName string, resolverId string) string {
+func GetResolverEndpointCompositeId(resolverEndpointName string, resolverId string) string {
 	resolverEndpointName = url.PathEscape(resolverEndpointName)
 	resolverId = url.PathEscape(resolverId)
 	compositeId := "resolverId/" + resolverId + "/name/" + resolverEndpointName
