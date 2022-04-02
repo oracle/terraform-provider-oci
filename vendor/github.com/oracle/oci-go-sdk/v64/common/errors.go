@@ -31,6 +31,31 @@ type ServiceError interface {
 	GetOpcRequestID() string
 }
 
+// ServiceErrorRichInfo models all potential errors generated the service call and contains rich info for debugging purpose
+type ServiceErrorRichInfo interface {
+	ServiceError
+	// The service this service call is sending to
+	GetTargetService() string
+
+	// The API name this service call is sending to
+	GetOperationName() string
+
+	// The timestamp when this request is made
+	GetTimestamp() SDKTime
+
+	// The endpoint and the Http method of this service call
+	GetRequestTarget() string
+
+	// The client version, in this case the oci go sdk version
+	GetClientVersion() string
+
+	// The API reference doc link for this API, optional and maybe empty
+	GetOperationReferenceLink() string
+
+	// Troubleshooting doc link
+	GetErrorTroubleshootingLink() string
+}
+
 type servicefailure struct {
 	StatusCode   int
 	Code         string `json:"code,omitempty"`
@@ -96,7 +121,7 @@ func PostProcessServiceError(err error, service string, method string, apiRefere
 	if serviceFailure.StatusCode == 401 && serviceFailure.Code == "NotAuthenticated" {
 		serviceFailure.TargetService = "Identity"
 	}
-	serviceFailure.ErrorTroubleshootingLink = fmt.Sprintf("https://docs.oracle.com/iaas/Content/API/References/apierrors.htm#apierrors_topic_API_Error_Status_%v__status_%v_%s", serviceFailure.StatusCode, serviceFailure.StatusCode, strings.ToLower(serviceFailure.Code))
+	serviceFailure.ErrorTroubleshootingLink = fmt.Sprintf("https://docs.oracle.com/iaas/Content/API/References/apierrors.htm#apierrors_%v__%v_%s", serviceFailure.StatusCode, serviceFailure.StatusCode, strings.ToLower(serviceFailure.Code))
 	serviceFailure.OperationReferenceLink = apiReferenceLink
 	return serviceFailure
 }
@@ -137,10 +162,45 @@ func (se servicefailure) GetOpcRequestID() string {
 	return se.OpcRequestID
 }
 
+func (se servicefailure) GetTargetService() string {
+	return se.TargetService
+}
+
+func (se servicefailure) GetOperationName() string {
+	return se.OperationName
+}
+
+func (se servicefailure) GetTimestamp() SDKTime {
+	return se.Timestamp
+}
+
+func (se servicefailure) GetRequestTarget() string {
+	return se.RequestTarget
+}
+
+func (se servicefailure) GetClientVersion() string {
+	return se.ClientVersion
+}
+
+func (se servicefailure) GetOperationReferenceLink() string {
+	return se.OperationReferenceLink
+}
+
+func (se servicefailure) GetErrorTroubleshootingLink() string {
+	return se.ErrorTroubleshootingLink
+}
+
 // IsServiceError returns false if the error is not service side, otherwise true
 // additionally it returns an interface representing the ServiceError
 func IsServiceError(err error) (failure ServiceError, ok bool) {
-	failure, ok = err.(servicefailure)
+	failure, ok = err.(ServiceError)
+	return
+}
+
+// IsServiceErrorRichInfo returns false if the error is not service side or is not containing rich info, otherwise true
+// additionally it returns an interface representing the ServiceErrorRichInfo
+func IsServiceErrorRichInfo(err error) (failure ServiceErrorRichInfo, ok bool) {
+	failure, ok = err.(ServiceErrorRichInfo)
 	return
 }
 

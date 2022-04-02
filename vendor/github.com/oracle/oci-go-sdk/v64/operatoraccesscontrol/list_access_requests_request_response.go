@@ -139,6 +139,7 @@ const (
 	ListAccessRequestsLifecycleStateApprovalwaiting   ListAccessRequestsLifecycleStateEnum = "APPROVALWAITING"
 	ListAccessRequestsLifecycleStatePreapproved       ListAccessRequestsLifecycleStateEnum = "PREAPPROVED"
 	ListAccessRequestsLifecycleStateApproved          ListAccessRequestsLifecycleStateEnum = "APPROVED"
+	ListAccessRequestsLifecycleStateMoreinfo          ListAccessRequestsLifecycleStateEnum = "MOREINFO"
 	ListAccessRequestsLifecycleStateRejected          ListAccessRequestsLifecycleStateEnum = "REJECTED"
 	ListAccessRequestsLifecycleStateDeployed          ListAccessRequestsLifecycleStateEnum = "DEPLOYED"
 	ListAccessRequestsLifecycleStateDeployfailed      ListAccessRequestsLifecycleStateEnum = "DEPLOYFAILED"
@@ -164,6 +165,7 @@ var mappingListAccessRequestsLifecycleStateEnum = map[string]ListAccessRequestsL
 	"APPROVALWAITING":   ListAccessRequestsLifecycleStateApprovalwaiting,
 	"PREAPPROVED":       ListAccessRequestsLifecycleStatePreapproved,
 	"APPROVED":          ListAccessRequestsLifecycleStateApproved,
+	"MOREINFO":          ListAccessRequestsLifecycleStateMoreinfo,
 	"REJECTED":          ListAccessRequestsLifecycleStateRejected,
 	"DEPLOYED":          ListAccessRequestsLifecycleStateDeployed,
 	"DEPLOYFAILED":      ListAccessRequestsLifecycleStateDeployfailed,
@@ -189,6 +191,7 @@ var mappingListAccessRequestsLifecycleStateEnumLowerCase = map[string]ListAccess
 	"approvalwaiting":   ListAccessRequestsLifecycleStateApprovalwaiting,
 	"preapproved":       ListAccessRequestsLifecycleStatePreapproved,
 	"approved":          ListAccessRequestsLifecycleStateApproved,
+	"moreinfo":          ListAccessRequestsLifecycleStateMoreinfo,
 	"rejected":          ListAccessRequestsLifecycleStateRejected,
 	"deployed":          ListAccessRequestsLifecycleStateDeployed,
 	"deployfailed":      ListAccessRequestsLifecycleStateDeployfailed,
@@ -225,6 +228,7 @@ func GetListAccessRequestsLifecycleStateEnumStringValues() []string {
 		"APPROVALWAITING",
 		"PREAPPROVED",
 		"APPROVED",
+		"MOREINFO",
 		"REJECTED",
 		"DEPLOYED",
 		"DEPLOYFAILED",

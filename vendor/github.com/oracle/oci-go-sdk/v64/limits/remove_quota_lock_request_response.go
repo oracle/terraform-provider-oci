@@ -11,8 +11,8 @@ import (
 	"strings"
 )
 
-// RemoveLockRequest wrapper for the RemoveLock operation
-type RemoveLockRequest struct {
+// RemoveQuotaLockRequest wrapper for the RemoveQuotaLock operation
+type RemoveQuotaLockRequest struct {
 
 	// The OCID of the quota.
 	QuotaId *string `mandatory:"true" contributesTo:"path" name:"quotaId"`
@@ -33,12 +33,12 @@ type RemoveLockRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request RemoveLockRequest) String() string {
+func (request RemoveQuotaLockRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request RemoveLockRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request RemoveQuotaLockRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -48,21 +48,21 @@ func (request RemoveLockRequest) HTTPRequest(method, path string, binaryRequestB
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request RemoveLockRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request RemoveQuotaLockRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveLockRequest) RetryPolicy() *common.RetryPolicy {
+func (request RemoveQuotaLockRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request RemoveLockRequest) ValidateEnumValue() (bool, error) {
+func (request RemoveQuotaLockRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -70,8 +70,8 @@ func (request RemoveLockRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// RemoveLockResponse wrapper for the RemoveLock operation
-type RemoveLockResponse struct {
+// RemoveQuotaLockResponse wrapper for the RemoveQuotaLock operation
+type RemoveQuotaLockResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
@@ -87,11 +87,11 @@ type RemoveLockResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response RemoveLockResponse) String() string {
+func (response RemoveQuotaLockResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response RemoveLockResponse) HTTPResponse() *http.Response {
+func (response RemoveQuotaLockResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

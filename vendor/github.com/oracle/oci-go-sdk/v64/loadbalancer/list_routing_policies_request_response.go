@@ -32,9 +32,11 @@ type ListRoutingPoliciesRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the if-match
-	// parameter to the value of the ETag from a previous GET or POST response for that resource. The
-	// resource is updated or deleted only if the ETag you provide matches the resource's current ETag
-	// value.
+	// parameter to the value of the ETag for the load balancer. This value can be obtained from a GET
+	// or POST response for any resource of that load balancer.
+	// For example, the eTag returned by getListener can be specified as the ifMatch for updateRuleSets.
+	// The resource is updated or deleted only if the ETag you provide matches the resource's current
+	// ETag value.
 	// Example: `example-etag`
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
@@ -98,6 +100,9 @@ type ListRoutingPoliciesResponse struct {
 	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
+	// Reflects the current version of the load balancer and the resources it contains.
+	// The value only changes when the load balancer or an associated resource is created,
+	// updated, or delete
 	// For optimistic concurrency control. See `if-match`.
 	ETag *string `presentIn:"header" name:"etag"`
 }

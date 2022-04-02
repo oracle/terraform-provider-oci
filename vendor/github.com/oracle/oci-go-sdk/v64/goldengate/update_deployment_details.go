@@ -27,7 +27,8 @@ type UpdateDeploymentDetails struct {
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
-	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
+	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists
+	// for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 

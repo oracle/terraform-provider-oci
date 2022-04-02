@@ -59,6 +59,9 @@ type ReplicationTarget struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
+	// Duration in minutes between replication snapshots.
+	ReplicationInterval *int64 `mandatory:"false" json:"replicationInterval"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the last snapshot snapshot which was completely applied to the target file system.
 	// Empty while the initial snapshot is being applied.
 	LastSnapshotId *string `mandatory:"false" json:"lastSnapshotId"`
@@ -71,9 +74,8 @@ type ReplicationTarget struct {
 	// The current state of the snapshot during replication operations.
 	DeltaStatus ReplicationTargetDeltaStatusEnum `mandatory:"false" json:"deltaStatus,omitempty"`
 
-	// Percentage progress of the snapshot which is currently being applied to the target region.
-	// If no application is in progress then this value is 100. Value is 0 before the initial snapshot is applied.
-	ApplyingReplicationProgress *int64 `mandatory:"false" json:"applyingReplicationProgress"`
+	// Percentage progress of the current replication cycle.
+	DeltaProgress *int64 `mandatory:"false" json:"deltaProgress"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
@@ -176,6 +178,7 @@ type ReplicationTargetDeltaStatusEnum string
 const (
 	ReplicationTargetDeltaStatusIdle         ReplicationTargetDeltaStatusEnum = "IDLE"
 	ReplicationTargetDeltaStatusCapturing    ReplicationTargetDeltaStatusEnum = "CAPTURING"
+	ReplicationTargetDeltaStatusTransferring ReplicationTargetDeltaStatusEnum = "TRANSFERRING"
 	ReplicationTargetDeltaStatusApplying     ReplicationTargetDeltaStatusEnum = "APPLYING"
 	ReplicationTargetDeltaStatusServiceError ReplicationTargetDeltaStatusEnum = "SERVICE_ERROR"
 	ReplicationTargetDeltaStatusUserError    ReplicationTargetDeltaStatusEnum = "USER_ERROR"
@@ -185,6 +188,7 @@ const (
 var mappingReplicationTargetDeltaStatusEnum = map[string]ReplicationTargetDeltaStatusEnum{
 	"IDLE":          ReplicationTargetDeltaStatusIdle,
 	"CAPTURING":     ReplicationTargetDeltaStatusCapturing,
+	"TRANSFERRING":  ReplicationTargetDeltaStatusTransferring,
 	"APPLYING":      ReplicationTargetDeltaStatusApplying,
 	"SERVICE_ERROR": ReplicationTargetDeltaStatusServiceError,
 	"USER_ERROR":    ReplicationTargetDeltaStatusUserError,
@@ -194,6 +198,7 @@ var mappingReplicationTargetDeltaStatusEnum = map[string]ReplicationTargetDeltaS
 var mappingReplicationTargetDeltaStatusEnumLowerCase = map[string]ReplicationTargetDeltaStatusEnum{
 	"idle":          ReplicationTargetDeltaStatusIdle,
 	"capturing":     ReplicationTargetDeltaStatusCapturing,
+	"transferring":  ReplicationTargetDeltaStatusTransferring,
 	"applying":      ReplicationTargetDeltaStatusApplying,
 	"service_error": ReplicationTargetDeltaStatusServiceError,
 	"user_error":    ReplicationTargetDeltaStatusUserError,
@@ -214,6 +219,7 @@ func GetReplicationTargetDeltaStatusEnumStringValues() []string {
 	return []string{
 		"IDLE",
 		"CAPTURING",
+		"TRANSFERRING",
 		"APPLYING",
 		"SERVICE_ERROR",
 		"USER_ERROR",

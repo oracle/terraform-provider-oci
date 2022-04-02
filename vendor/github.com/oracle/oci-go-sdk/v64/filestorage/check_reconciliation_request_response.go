@@ -72,8 +72,8 @@ type CheckReconciliationResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The ReconciliationDetails instance
-	ReconciliationDetails `presentIn:"body"`
+	// The bool instance
+	Value *bool `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`

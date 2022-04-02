@@ -21,7 +21,7 @@ type ReplicationFailRequest struct {
 	ReplicationTargetNum *string `mandatory:"false" contributesTo:"query" name:"replicationTargetNum"`
 
 	// The `deltaState` of the snapshot in-transit.
-	DeltaState ReplicationFailDeltaStateEnum `mandatory:"false" contributesTo:"query" name:"deltaState" omitEmpty:"true"`
+	DeltaState *int `mandatory:"false" contributesTo:"query" name:"deltaState"`
 
 	// The flag to represent if it is a replication failover message.
 	IsFailover *bool `mandatory:"false" contributesTo:"query" name:"isFailover"`
@@ -66,9 +66,6 @@ func (request ReplicationFailRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ReplicationFailRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingReplicationFailDeltaStateEnum(string(request.DeltaState)); !ok && request.DeltaState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeltaState: %s. Supported values are: %s.", request.DeltaState, strings.Join(GetReplicationFailDeltaStateEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -95,74 +92,4 @@ func (response ReplicationFailResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ReplicationFailResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
-}
-
-// ReplicationFailDeltaStateEnum Enum with underlying type: string
-type ReplicationFailDeltaStateEnum string
-
-// Set of constants representing the allowable values for ReplicationFailDeltaStateEnum
-const (
-	ReplicationFailDeltaStateReadyToReplicate     ReplicationFailDeltaStateEnum = "READY_TO_REPLICATE"
-	ReplicationFailDeltaStateReplicating          ReplicationFailDeltaStateEnum = "REPLICATING"
-	ReplicationFailDeltaStateReplicated           ReplicationFailDeltaStateEnum = "REPLICATED"
-	ReplicationFailDeltaStateReplicatingFailed    ReplicationFailDeltaStateEnum = "REPLICATING_FAILED"
-	ReplicationFailDeltaStateAbortReplication     ReplicationFailDeltaStateEnum = "ABORT_REPLICATION"
-	ReplicationFailDeltaStateAbortReplicationDone ReplicationFailDeltaStateEnum = "ABORT_REPLICATION_DONE"
-	ReplicationFailDeltaStateDone                 ReplicationFailDeltaStateEnum = "DONE"
-	ReplicationFailDeltaStateReadyToGc            ReplicationFailDeltaStateEnum = "READY_TO_GC"
-	ReplicationFailDeltaStateDeleted              ReplicationFailDeltaStateEnum = "DELETED"
-)
-
-var mappingReplicationFailDeltaStateEnum = map[string]ReplicationFailDeltaStateEnum{
-	"READY_TO_REPLICATE":     ReplicationFailDeltaStateReadyToReplicate,
-	"REPLICATING":            ReplicationFailDeltaStateReplicating,
-	"REPLICATED":             ReplicationFailDeltaStateReplicated,
-	"REPLICATING_FAILED":     ReplicationFailDeltaStateReplicatingFailed,
-	"ABORT_REPLICATION":      ReplicationFailDeltaStateAbortReplication,
-	"ABORT_REPLICATION_DONE": ReplicationFailDeltaStateAbortReplicationDone,
-	"DONE":                   ReplicationFailDeltaStateDone,
-	"READY_TO_GC":            ReplicationFailDeltaStateReadyToGc,
-	"DELETED":                ReplicationFailDeltaStateDeleted,
-}
-
-var mappingReplicationFailDeltaStateEnumLowerCase = map[string]ReplicationFailDeltaStateEnum{
-	"ready_to_replicate":     ReplicationFailDeltaStateReadyToReplicate,
-	"replicating":            ReplicationFailDeltaStateReplicating,
-	"replicated":             ReplicationFailDeltaStateReplicated,
-	"replicating_failed":     ReplicationFailDeltaStateReplicatingFailed,
-	"abort_replication":      ReplicationFailDeltaStateAbortReplication,
-	"abort_replication_done": ReplicationFailDeltaStateAbortReplicationDone,
-	"done":                   ReplicationFailDeltaStateDone,
-	"ready_to_gc":            ReplicationFailDeltaStateReadyToGc,
-	"deleted":                ReplicationFailDeltaStateDeleted,
-}
-
-// GetReplicationFailDeltaStateEnumValues Enumerates the set of values for ReplicationFailDeltaStateEnum
-func GetReplicationFailDeltaStateEnumValues() []ReplicationFailDeltaStateEnum {
-	values := make([]ReplicationFailDeltaStateEnum, 0)
-	for _, v := range mappingReplicationFailDeltaStateEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetReplicationFailDeltaStateEnumStringValues Enumerates the set of values in String for ReplicationFailDeltaStateEnum
-func GetReplicationFailDeltaStateEnumStringValues() []string {
-	return []string{
-		"READY_TO_REPLICATE",
-		"REPLICATING",
-		"REPLICATED",
-		"REPLICATING_FAILED",
-		"ABORT_REPLICATION",
-		"ABORT_REPLICATION_DONE",
-		"DONE",
-		"READY_TO_GC",
-		"DELETED",
-	}
-}
-
-// GetMappingReplicationFailDeltaStateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingReplicationFailDeltaStateEnum(val string) (ReplicationFailDeltaStateEnum, bool) {
-	enum, ok := mappingReplicationFailDeltaStateEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

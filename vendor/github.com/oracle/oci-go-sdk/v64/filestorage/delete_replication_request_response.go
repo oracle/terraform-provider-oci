@@ -30,8 +30,8 @@ type DeleteReplicationRequest struct {
 
 	// You can choose a mode for deleting the replication resource.
 	// - `FINISH_CYCLE_IF_CAPTURING_OR_APPLYING` Before deleting, complete the current delta cycle. If cycle is idle, delete immediately. Safest option.
-	// - `ONE_MORE_CYCLE` Before deleting, complete the current delta cycle, and initiate one more cycle. If cycle is idle, initiate one more cycle. Use for lossless failover.
 	// - `FINISH_CYCLE_IF_APPLYING` Before deleting, finish applying. If cycle is idle or capturing, delete immediately. Fastest option.
+	// - `ONE_MORE_CYCLE` Before deleting, complete the current delta cycle, and initiate one more cycle. If cycle is idle, initiate one more cycle. Use for lossless failover.
 	DeleteMode DeleteReplicationDeleteModeEnum `mandatory:"false" contributesTo:"query" name:"deleteMode" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -106,20 +106,20 @@ type DeleteReplicationDeleteModeEnum string
 // Set of constants representing the allowable values for DeleteReplicationDeleteModeEnum
 const (
 	DeleteReplicationDeleteModeFinishCycleIfCapturingOrApplying DeleteReplicationDeleteModeEnum = "FINISH_CYCLE_IF_CAPTURING_OR_APPLYING"
-	DeleteReplicationDeleteModeOneMoreCycle                     DeleteReplicationDeleteModeEnum = "ONE_MORE_CYCLE"
 	DeleteReplicationDeleteModeFinishCycleIfApplying            DeleteReplicationDeleteModeEnum = "FINISH_CYCLE_IF_APPLYING"
+	DeleteReplicationDeleteModeOneMoreCycle                     DeleteReplicationDeleteModeEnum = "ONE_MORE_CYCLE"
 )
 
 var mappingDeleteReplicationDeleteModeEnum = map[string]DeleteReplicationDeleteModeEnum{
 	"FINISH_CYCLE_IF_CAPTURING_OR_APPLYING": DeleteReplicationDeleteModeFinishCycleIfCapturingOrApplying,
-	"ONE_MORE_CYCLE":                        DeleteReplicationDeleteModeOneMoreCycle,
 	"FINISH_CYCLE_IF_APPLYING":              DeleteReplicationDeleteModeFinishCycleIfApplying,
+	"ONE_MORE_CYCLE":                        DeleteReplicationDeleteModeOneMoreCycle,
 }
 
 var mappingDeleteReplicationDeleteModeEnumLowerCase = map[string]DeleteReplicationDeleteModeEnum{
 	"finish_cycle_if_capturing_or_applying": DeleteReplicationDeleteModeFinishCycleIfCapturingOrApplying,
-	"one_more_cycle":                        DeleteReplicationDeleteModeOneMoreCycle,
 	"finish_cycle_if_applying":              DeleteReplicationDeleteModeFinishCycleIfApplying,
+	"one_more_cycle":                        DeleteReplicationDeleteModeOneMoreCycle,
 }
 
 // GetDeleteReplicationDeleteModeEnumValues Enumerates the set of values for DeleteReplicationDeleteModeEnum
@@ -135,8 +135,8 @@ func GetDeleteReplicationDeleteModeEnumValues() []DeleteReplicationDeleteModeEnu
 func GetDeleteReplicationDeleteModeEnumStringValues() []string {
 	return []string{
 		"FINISH_CYCLE_IF_CAPTURING_OR_APPLYING",
-		"ONE_MORE_CYCLE",
 		"FINISH_CYCLE_IF_APPLYING",
+		"ONE_MORE_CYCLE",
 	}
 }
 

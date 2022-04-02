@@ -36,7 +36,8 @@ type CreateDeploymentBackupDetails struct {
 	// Name of the object to be uploaded to object storage
 	ObjectName *string `mandatory:"true" json:"objectName"`
 
-	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
+	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists
+	// for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 

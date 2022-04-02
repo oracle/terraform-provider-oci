@@ -1656,6 +1656,59 @@ func (client FileStorageClient) getReplication(ctx context.Context, request comm
 	return response, err
 }
 
+// GetReplicationEstimator Provides estimates for replication created using specific file system.
+func (client FileStorageClient) GetReplicationEstimator(ctx context.Context, request GetReplicationEstimatorRequest) (response GetReplicationEstimatorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getReplicationEstimator, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetReplicationEstimatorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetReplicationEstimatorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetReplicationEstimatorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetReplicationEstimatorResponse")
+	}
+	return
+}
+
+// getReplicationEstimator implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) getReplicationEstimator(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fileSystems/{fileSystemId}/actions/replicationEstimator", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetReplicationEstimatorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/GetReplicationEstimator"
+		err = common.PostProcessServiceError(err, "FileStorage", "GetReplicationEstimator", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetReplicationTarget Gets the specified replication target's information.
 func (client FileStorageClient) GetReplicationTarget(ctx context.Context, request GetReplicationTargetRequest) (response GetReplicationTargetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1702,6 +1755,59 @@ func (client FileStorageClient) getReplicationTarget(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ReplicationTarget/GetReplicationTarget"
 		err = common.PostProcessServiceError(err, "FileStorage", "GetReplicationTarget", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetReplicationTargetProgress Get ReplicationTarget's progress in a remote region.
+func (client FileStorageClient) GetReplicationTargetProgress(ctx context.Context, request GetReplicationTargetProgressRequest) (response GetReplicationTargetProgressResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getReplicationTargetProgress, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetReplicationTargetProgressResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetReplicationTargetProgressResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetReplicationTargetProgressResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetReplicationTargetProgressResponse")
+	}
+	return
+}
+
+// getReplicationTargetProgress implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) getReplicationTargetProgress(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/replicationTargets/actions/replicationTargetProgress", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetReplicationTargetProgressResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ReplicationTarget/GetReplicationTargetProgress"
+		err = common.PostProcessServiceError(err, "FileStorage", "GetReplicationTargetProgress", apiReferenceLink)
 		return response, err
 	}
 
@@ -3365,6 +3471,61 @@ func (client FileStorageClient) uploadKerberosKeytab(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/UploadKerberosKeytab"
 		err = common.PostProcessServiceError(err, "FileStorage", "UploadKerberosKeytab", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ValidateKeyTabs Validates keytab contents for the secret details passed on the request or validte keytab contents associated with
+// the Mount Target passed in the request. The keytabs are deserialized, the contents are validated for compatibility
+// and the principal, key version number and encryption type of each entry is provided as part of the response.
+func (client FileStorageClient) ValidateKeyTabs(ctx context.Context, request ValidateKeyTabsRequest) (response ValidateKeyTabsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.validateKeyTabs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ValidateKeyTabsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ValidateKeyTabsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ValidateKeyTabsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ValidateKeyTabsResponse")
+	}
+	return
+}
+
+// validateKeyTabs implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) validateKeyTabs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets/actions/validateKeyTabs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ValidateKeyTabsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/ValidateKeyTabs"
+		err = common.PostProcessServiceError(err, "FileStorage", "ValidateKeyTabs", apiReferenceLink)
 		return response, err
 	}
 

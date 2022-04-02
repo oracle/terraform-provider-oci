@@ -14,7 +14,7 @@ import (
 // ChangeProjectCompartmentRequest wrapper for the ChangeProjectCompartment operation
 type ChangeProjectCompartmentRequest struct {
 
-	// unique project identifier.
+	// A unique project identifier.
 	ProjectId *string `mandatory:"true" contributesTo:"path" name:"projectId"`
 
 	// The deatils of the move.
@@ -78,7 +78,7 @@ type ChangeProjectCompartmentResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// A unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }

@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// VisionService API
+// Vision API
 //
-// A description of the VisionService API.
+// Using Vision, you can upload images to detect and classify objects in them. If you have lots of images, you can process them in batch using asynchronous API endpoints. Vision's features are thematically split between Document AI for document-centric images, and Image Analysis for object and scene-based images. Pretrained models and custom models are supported.
 //
 
 package aivision
@@ -16,19 +16,19 @@ import (
 	"strings"
 )
 
-// ImageJob Job details for a batch image analysis.
+// ImageJob The job details for a batch image analysis.
 type ImageJob struct {
 
-	// Job id
+	// The job id
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the compartment that starts the job.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// List of document analysis types requested.
+	// The list of requested document analysis types.
 	Features []ImageFeature `mandatory:"true" json:"features"`
 
-	// Job accepted time.
+	// The job acceptance time.
 	TimeAccepted *common.SDKTime `mandatory:"true" json:"timeAccepted"`
 
 	OutputLocation *OutputLocation `mandatory:"true" json:"outputLocation"`
@@ -36,24 +36,24 @@ type ImageJob struct {
 	// The current state of the batch image job.
 	LifecycleState ImageJobLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Image job display name.
+	// The image job display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	InputLocation InputLocation `mandatory:"false" json:"inputLocation"`
 
-	// Job started time.
+	// The job start time.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// Job finished time.
+	// The job finish time.
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 
-	// How much progress the operation has made, vs the total amount of work that must be performed.
+	// How much progress the operation has made, compared to the total amount of work to be performed.
 	PercentComplete *float32 `mandatory:"false" json:"percentComplete"`
 
-	// Detailed status of FAILED state.
+	// The detailed status of FAILED state.
 	LifecycleDetails ImageJobLifecycleDetailsEnum `mandatory:"false" json:"lifecycleDetails,omitempty"`
 
-	// Whether to generate a Zip file containing the results.
+	// Whether or not to generate a ZIP file containing the results.
 	IsZipOutputEnabled *bool `mandatory:"false" json:"isZipOutputEnabled"`
 }
 

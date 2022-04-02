@@ -87,10 +87,6 @@ func (m *instanceconfigurationlaunchinstanceplatformconfig) UnmarshalPolymorphic
 		mm := InstanceConfigurationIntelVmLaunchInstancePlatformConfig{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "AMD_MILAN_BM_GPU":
-		mm := InstanceConfigurationAmdMilanBmGpuLaunchInstancePlatformConfig{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "INTEL_ICELAKE_BM":
 		mm := InstanceConfigurationIntelIcelakeBmLaunchInstancePlatformConfig{}
 		err = json.Unmarshal(data, &mm)
@@ -158,7 +154,6 @@ type InstanceConfigurationLaunchInstancePlatformConfigTypeEnum string
 // Set of constants representing the allowable values for InstanceConfigurationLaunchInstancePlatformConfigTypeEnum
 const (
 	InstanceConfigurationLaunchInstancePlatformConfigTypeAmdMilanBm     InstanceConfigurationLaunchInstancePlatformConfigTypeEnum = "AMD_MILAN_BM"
-	InstanceConfigurationLaunchInstancePlatformConfigTypeAmdMilanBmGpu  InstanceConfigurationLaunchInstancePlatformConfigTypeEnum = "AMD_MILAN_BM_GPU"
 	InstanceConfigurationLaunchInstancePlatformConfigTypeAmdRomeBm      InstanceConfigurationLaunchInstancePlatformConfigTypeEnum = "AMD_ROME_BM"
 	InstanceConfigurationLaunchInstancePlatformConfigTypeAmdRomeBmGpu   InstanceConfigurationLaunchInstancePlatformConfigTypeEnum = "AMD_ROME_BM_GPU"
 	InstanceConfigurationLaunchInstancePlatformConfigTypeIntelIcelakeBm InstanceConfigurationLaunchInstancePlatformConfigTypeEnum = "INTEL_ICELAKE_BM"
@@ -169,7 +164,6 @@ const (
 
 var mappingInstanceConfigurationLaunchInstancePlatformConfigTypeEnum = map[string]InstanceConfigurationLaunchInstancePlatformConfigTypeEnum{
 	"AMD_MILAN_BM":     InstanceConfigurationLaunchInstancePlatformConfigTypeAmdMilanBm,
-	"AMD_MILAN_BM_GPU": InstanceConfigurationLaunchInstancePlatformConfigTypeAmdMilanBmGpu,
 	"AMD_ROME_BM":      InstanceConfigurationLaunchInstancePlatformConfigTypeAmdRomeBm,
 	"AMD_ROME_BM_GPU":  InstanceConfigurationLaunchInstancePlatformConfigTypeAmdRomeBmGpu,
 	"INTEL_ICELAKE_BM": InstanceConfigurationLaunchInstancePlatformConfigTypeIntelIcelakeBm,
@@ -180,7 +174,6 @@ var mappingInstanceConfigurationLaunchInstancePlatformConfigTypeEnum = map[strin
 
 var mappingInstanceConfigurationLaunchInstancePlatformConfigTypeEnumLowerCase = map[string]InstanceConfigurationLaunchInstancePlatformConfigTypeEnum{
 	"amd_milan_bm":     InstanceConfigurationLaunchInstancePlatformConfigTypeAmdMilanBm,
-	"amd_milan_bm_gpu": InstanceConfigurationLaunchInstancePlatformConfigTypeAmdMilanBmGpu,
 	"amd_rome_bm":      InstanceConfigurationLaunchInstancePlatformConfigTypeAmdRomeBm,
 	"amd_rome_bm_gpu":  InstanceConfigurationLaunchInstancePlatformConfigTypeAmdRomeBmGpu,
 	"intel_icelake_bm": InstanceConfigurationLaunchInstancePlatformConfigTypeIntelIcelakeBm,
@@ -202,7 +195,6 @@ func GetInstanceConfigurationLaunchInstancePlatformConfigTypeEnumValues() []Inst
 func GetInstanceConfigurationLaunchInstancePlatformConfigTypeEnumStringValues() []string {
 	return []string{
 		"AMD_MILAN_BM",
-		"AMD_MILAN_BM_GPU",
 		"AMD_ROME_BM",
 		"AMD_ROME_BM_GPU",
 		"INTEL_ICELAKE_BM",

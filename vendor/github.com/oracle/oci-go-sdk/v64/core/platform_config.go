@@ -102,10 +102,6 @@ func (m *platformconfig) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := IntelVmPlatformConfig{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "AMD_MILAN_BM_GPU":
-		mm := AmdMilanBmGpuPlatformConfig{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	default:
 		return *m, nil
 	}
@@ -153,7 +149,6 @@ type PlatformConfigTypeEnum string
 // Set of constants representing the allowable values for PlatformConfigTypeEnum
 const (
 	PlatformConfigTypeAmdMilanBm     PlatformConfigTypeEnum = "AMD_MILAN_BM"
-	PlatformConfigTypeAmdMilanBmGpu  PlatformConfigTypeEnum = "AMD_MILAN_BM_GPU"
 	PlatformConfigTypeAmdRomeBm      PlatformConfigTypeEnum = "AMD_ROME_BM"
 	PlatformConfigTypeAmdRomeBmGpu   PlatformConfigTypeEnum = "AMD_ROME_BM_GPU"
 	PlatformConfigTypeIntelIcelakeBm PlatformConfigTypeEnum = "INTEL_ICELAKE_BM"
@@ -164,7 +159,6 @@ const (
 
 var mappingPlatformConfigTypeEnum = map[string]PlatformConfigTypeEnum{
 	"AMD_MILAN_BM":     PlatformConfigTypeAmdMilanBm,
-	"AMD_MILAN_BM_GPU": PlatformConfigTypeAmdMilanBmGpu,
 	"AMD_ROME_BM":      PlatformConfigTypeAmdRomeBm,
 	"AMD_ROME_BM_GPU":  PlatformConfigTypeAmdRomeBmGpu,
 	"INTEL_ICELAKE_BM": PlatformConfigTypeIntelIcelakeBm,
@@ -175,7 +169,6 @@ var mappingPlatformConfigTypeEnum = map[string]PlatformConfigTypeEnum{
 
 var mappingPlatformConfigTypeEnumLowerCase = map[string]PlatformConfigTypeEnum{
 	"amd_milan_bm":     PlatformConfigTypeAmdMilanBm,
-	"amd_milan_bm_gpu": PlatformConfigTypeAmdMilanBmGpu,
 	"amd_rome_bm":      PlatformConfigTypeAmdRomeBm,
 	"amd_rome_bm_gpu":  PlatformConfigTypeAmdRomeBmGpu,
 	"intel_icelake_bm": PlatformConfigTypeIntelIcelakeBm,
@@ -197,7 +190,6 @@ func GetPlatformConfigTypeEnumValues() []PlatformConfigTypeEnum {
 func GetPlatformConfigTypeEnumStringValues() []string {
 	return []string{
 		"AMD_MILAN_BM",
-		"AMD_MILAN_BM_GPU",
 		"AMD_ROME_BM",
 		"AMD_ROME_BM_GPU",
 		"INTEL_ICELAKE_BM",

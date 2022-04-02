@@ -22,9 +22,6 @@ type Kerberos struct {
 	// The realm of the kerberos server a mount target interacts with.
 	KerberosRealm *string `mandatory:"true" json:"kerberosRealm"`
 
-	// An array of keytab entries (principal, encryptionType, keyVersionNumber and timeRotated).
-	KerberosKeytabEntries []KerberosKeytabEntry `mandatory:"true" json:"kerberosKeytabEntries"`
-
 	// Describes how long to keep keytab entries(in seconds) after they have been rotated.
 	KerberosKeyLifeSeconds *int `mandatory:"false" json:"kerberosKeyLifeSeconds"`
 
@@ -39,6 +36,10 @@ type Kerberos struct {
 
 	// Specifies whether to Enable or Disbale Kerberos.
 	IsKerberosEnabled *bool `mandatory:"false" json:"isKerberosEnabled"`
+
+	// Specifies to allow the use of weaker ciphers if true.
+	// If false only aes256-cts-hmac-sha384-192, aes128-cts-hmac-sha256-128 are allowed.
+	IsWeakCiphersAllowed *bool `mandatory:"false" json:"isWeakCiphersAllowed"`
 }
 
 func (m Kerberos) String() string {

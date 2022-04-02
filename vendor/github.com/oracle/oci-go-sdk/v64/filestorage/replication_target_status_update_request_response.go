@@ -22,7 +22,7 @@ type ReplicationTargetStatusUpdateRequest struct {
 	DeltaStatus ReplicationTargetStatusUpdateDeltaStatusEnum `mandatory:"false" contributesTo:"query" name:"deltaStatus" omitEmpty:"true"`
 
 	// The `deltaState` of the snapshot in-transit.
-	DeltaState ReplicationTargetStatusUpdateDeltaStateEnum `mandatory:"false" contributesTo:"query" name:"deltaState" omitEmpty:"true"`
+	DeltaState *int `mandatory:"false" contributesTo:"query" name:"deltaState"`
 
 	// The `objectNum` of the associated replication.
 	ReplicationNum *string `mandatory:"false" contributesTo:"query" name:"replicationNum"`
@@ -89,9 +89,6 @@ func (request ReplicationTargetStatusUpdateRequest) ValidateEnumValue() (bool, e
 	errMessage := []string{}
 	if _, ok := GetMappingReplicationTargetStatusUpdateDeltaStatusEnum(string(request.DeltaStatus)); !ok && request.DeltaStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeltaStatus: %s. Supported values are: %s.", request.DeltaStatus, strings.Join(GetReplicationTargetStatusUpdateDeltaStatusEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingReplicationTargetStatusUpdateDeltaStateEnum(string(request.DeltaState)); !ok && request.DeltaState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeltaState: %s. Supported values are: %s.", request.DeltaState, strings.Join(GetReplicationTargetStatusUpdateDeltaStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -176,75 +173,5 @@ func GetReplicationTargetStatusUpdateDeltaStatusEnumStringValues() []string {
 // GetMappingReplicationTargetStatusUpdateDeltaStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingReplicationTargetStatusUpdateDeltaStatusEnum(val string) (ReplicationTargetStatusUpdateDeltaStatusEnum, bool) {
 	enum, ok := mappingReplicationTargetStatusUpdateDeltaStatusEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// ReplicationTargetStatusUpdateDeltaStateEnum Enum with underlying type: string
-type ReplicationTargetStatusUpdateDeltaStateEnum string
-
-// Set of constants representing the allowable values for ReplicationTargetStatusUpdateDeltaStateEnum
-const (
-	ReplicationTargetStatusUpdateDeltaStateReadyToReplicate     ReplicationTargetStatusUpdateDeltaStateEnum = "READY_TO_REPLICATE"
-	ReplicationTargetStatusUpdateDeltaStateReplicating          ReplicationTargetStatusUpdateDeltaStateEnum = "REPLICATING"
-	ReplicationTargetStatusUpdateDeltaStateReplicated           ReplicationTargetStatusUpdateDeltaStateEnum = "REPLICATED"
-	ReplicationTargetStatusUpdateDeltaStateReplicatingFailed    ReplicationTargetStatusUpdateDeltaStateEnum = "REPLICATING_FAILED"
-	ReplicationTargetStatusUpdateDeltaStateAbortReplication     ReplicationTargetStatusUpdateDeltaStateEnum = "ABORT_REPLICATION"
-	ReplicationTargetStatusUpdateDeltaStateAbortReplicationDone ReplicationTargetStatusUpdateDeltaStateEnum = "ABORT_REPLICATION_DONE"
-	ReplicationTargetStatusUpdateDeltaStateDone                 ReplicationTargetStatusUpdateDeltaStateEnum = "DONE"
-	ReplicationTargetStatusUpdateDeltaStateReadyToGc            ReplicationTargetStatusUpdateDeltaStateEnum = "READY_TO_GC"
-	ReplicationTargetStatusUpdateDeltaStateDeleted              ReplicationTargetStatusUpdateDeltaStateEnum = "DELETED"
-)
-
-var mappingReplicationTargetStatusUpdateDeltaStateEnum = map[string]ReplicationTargetStatusUpdateDeltaStateEnum{
-	"READY_TO_REPLICATE":     ReplicationTargetStatusUpdateDeltaStateReadyToReplicate,
-	"REPLICATING":            ReplicationTargetStatusUpdateDeltaStateReplicating,
-	"REPLICATED":             ReplicationTargetStatusUpdateDeltaStateReplicated,
-	"REPLICATING_FAILED":     ReplicationTargetStatusUpdateDeltaStateReplicatingFailed,
-	"ABORT_REPLICATION":      ReplicationTargetStatusUpdateDeltaStateAbortReplication,
-	"ABORT_REPLICATION_DONE": ReplicationTargetStatusUpdateDeltaStateAbortReplicationDone,
-	"DONE":                   ReplicationTargetStatusUpdateDeltaStateDone,
-	"READY_TO_GC":            ReplicationTargetStatusUpdateDeltaStateReadyToGc,
-	"DELETED":                ReplicationTargetStatusUpdateDeltaStateDeleted,
-}
-
-var mappingReplicationTargetStatusUpdateDeltaStateEnumLowerCase = map[string]ReplicationTargetStatusUpdateDeltaStateEnum{
-	"ready_to_replicate":     ReplicationTargetStatusUpdateDeltaStateReadyToReplicate,
-	"replicating":            ReplicationTargetStatusUpdateDeltaStateReplicating,
-	"replicated":             ReplicationTargetStatusUpdateDeltaStateReplicated,
-	"replicating_failed":     ReplicationTargetStatusUpdateDeltaStateReplicatingFailed,
-	"abort_replication":      ReplicationTargetStatusUpdateDeltaStateAbortReplication,
-	"abort_replication_done": ReplicationTargetStatusUpdateDeltaStateAbortReplicationDone,
-	"done":                   ReplicationTargetStatusUpdateDeltaStateDone,
-	"ready_to_gc":            ReplicationTargetStatusUpdateDeltaStateReadyToGc,
-	"deleted":                ReplicationTargetStatusUpdateDeltaStateDeleted,
-}
-
-// GetReplicationTargetStatusUpdateDeltaStateEnumValues Enumerates the set of values for ReplicationTargetStatusUpdateDeltaStateEnum
-func GetReplicationTargetStatusUpdateDeltaStateEnumValues() []ReplicationTargetStatusUpdateDeltaStateEnum {
-	values := make([]ReplicationTargetStatusUpdateDeltaStateEnum, 0)
-	for _, v := range mappingReplicationTargetStatusUpdateDeltaStateEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetReplicationTargetStatusUpdateDeltaStateEnumStringValues Enumerates the set of values in String for ReplicationTargetStatusUpdateDeltaStateEnum
-func GetReplicationTargetStatusUpdateDeltaStateEnumStringValues() []string {
-	return []string{
-		"READY_TO_REPLICATE",
-		"REPLICATING",
-		"REPLICATED",
-		"REPLICATING_FAILED",
-		"ABORT_REPLICATION",
-		"ABORT_REPLICATION_DONE",
-		"DONE",
-		"READY_TO_GC",
-		"DELETED",
-	}
-}
-
-// GetMappingReplicationTargetStatusUpdateDeltaStateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingReplicationTargetStatusUpdateDeltaStateEnum(val string) (ReplicationTargetStatusUpdateDeltaStateEnum, bool) {
-	enum, ok := mappingReplicationTargetStatusUpdateDeltaStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

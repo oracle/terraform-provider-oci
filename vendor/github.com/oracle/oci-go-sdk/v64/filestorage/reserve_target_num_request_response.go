@@ -19,13 +19,11 @@ type ReserveTargetNumRequest struct {
 
 	// Filter results by OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for
 	// the resouce type.
+	SourceId *string `mandatory:"true" contributesTo:"query" name:"sourceId"`
+
+	// Filter results by OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for
+	// the resouce type.
 	TargetId *string `mandatory:"true" contributesTo:"query" name:"targetId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target file system.
-	FileSystemId *string `mandatory:"true" contributesTo:"query" name:"fileSystemId"`
 
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.

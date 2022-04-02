@@ -14,11 +14,11 @@ import (
 // CreateModelRequest wrapper for the CreateModel operation
 type CreateModelRequest struct {
 
-	// Metadata about the new model.
+	// The metadata about the new model.
 	CreateModelDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
-	// server error without risk of executing that same action again. Retry tokens expire after 24
+	// server error without the risk of executing that same action again. Retry tokens expire after 24
 	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource
 	// has been deleted and purged from the system, then a retry of the original creation request
 	// might be rejected.
@@ -78,10 +78,10 @@ type CreateModelResponse struct {
 	// The Model instance
 	Model `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
+	// A unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// A unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 

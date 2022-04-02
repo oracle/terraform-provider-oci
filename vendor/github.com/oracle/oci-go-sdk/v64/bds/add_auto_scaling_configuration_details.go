@@ -10,6 +10,7 @@
 package bds
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v64/common"
 	"strings"
@@ -18,7 +19,7 @@ import (
 // AddAutoScalingConfigurationDetails The information about the autoscale configuration.
 type AddAutoScalingConfigurationDetails struct {
 
-	// A node type that is managed by an autoscale configuration. The only supported type is WORKER.
+	// A node type that is managed by an autoscale configuration. The only supported types are WORKER and COMPUTE_ONLY_WORKER.
 	NodeType NodeNodeTypeEnum `mandatory:"true" json:"nodeType"`
 
 	// Whether the autoscale configuration is enabled.
@@ -27,10 +28,12 @@ type AddAutoScalingConfigurationDetails struct {
 	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
 	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
 
-	Policy *AutoScalePolicy `mandatory:"true" json:"policy"`
-
 	// A user-friendly name. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	Policy *AutoScalePolicy `mandatory:"false" json:"policy"`
+
+	PolicyDetails AddAutoScalePolicyDetails `mandatory:"false" json:"policyDetails"`
 }
 
 func (m AddAutoScalingConfigurationDetails) String() string {
@@ -50,4 +53,43 @@ func (m AddAutoScalingConfigurationDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *AddAutoScalingConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName          *string                   `json:"displayName"`
+		Policy               *AutoScalePolicy          `json:"policy"`
+		PolicyDetails        addautoscalepolicydetails `json:"policyDetails"`
+		NodeType             NodeNodeTypeEnum          `json:"nodeType"`
+		IsEnabled            *bool                     `json:"isEnabled"`
+		ClusterAdminPassword *string                   `json:"clusterAdminPassword"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.Policy = model.Policy
+
+	nn, e = model.PolicyDetails.UnmarshalPolymorphicJSON(model.PolicyDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PolicyDetails = nn.(AddAutoScalePolicyDetails)
+	} else {
+		m.PolicyDetails = nil
+	}
+
+	m.NodeType = model.NodeType
+
+	m.IsEnabled = model.IsEnabled
+
+	m.ClusterAdminPassword = model.ClusterAdminPassword
+
+	return
 }

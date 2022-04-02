@@ -20,13 +20,13 @@ type ListModelsRequest struct {
 	// The ID of the project for which to list the objects.
 	ProjectId *string `mandatory:"false" contributesTo:"query" name:"projectId"`
 
-	// Filter to match models with the given lifecycleState.
+	// The filter to match models with the given lifecycleState.
 	LifecycleState ModelLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// Filter to find the model with the given identifier.
+	// The filter to find the model with the given identifier.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The maximum number of items to return.
@@ -38,7 +38,7 @@ type ListModelsRequest struct {
 	// The sort order to use, either 'ASC' or 'DESC'.
 	SortOrder ListModelsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending.
+	// The field to sort by. Only one sort order may be provided. The default order for timeCreated is descending. The default order for displayName is ascending.
 	SortBy ListModelsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.
@@ -104,7 +104,7 @@ type ListModelsResponse struct {
 	// A list of ModelCollection instances
 	ModelCollection `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// A unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 

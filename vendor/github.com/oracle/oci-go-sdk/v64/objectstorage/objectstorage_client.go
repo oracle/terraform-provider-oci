@@ -130,7 +130,7 @@ func (client ObjectStorageClient) abortMultipartUpload(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//MultipartUpload/AbortMultipartUpload"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/MultipartUpload/AbortMultipartUpload"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "AbortMultipartUpload", apiReferenceLink)
 		return response, err
 	}
@@ -186,7 +186,7 @@ func (client ObjectStorageClient) bulkCopyObjects(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/BulkCopyObjects"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/BulkCopyObjects"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "BulkCopyObjects", apiReferenceLink)
 		return response, err
 	}
@@ -240,7 +240,7 @@ func (client ObjectStorageClient) cancelWorkRequest(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//WorkRequest/CancelWorkRequest"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -304,7 +304,7 @@ func (client ObjectStorageClient) checkObject(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/CheckObject"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/CheckObject"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "CheckObject", apiReferenceLink)
 		return response, err
 	}
@@ -358,7 +358,7 @@ func (client ObjectStorageClient) commitMultipartUpload(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//MultipartUpload/CommitMultipartUpload"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/MultipartUpload/CommitMultipartUpload"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "CommitMultipartUpload", apiReferenceLink)
 		return response, err
 	}
@@ -414,7 +414,7 @@ func (client ObjectStorageClient) copyObject(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/CopyObject"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/CopyObject"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "CopyObject", apiReferenceLink)
 		return response, err
 	}
@@ -468,7 +468,7 @@ func (client ObjectStorageClient) copyPart(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//MultipartUpload/CopyPart"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/MultipartUpload/CopyPart"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "CopyPart", apiReferenceLink)
 		return response, err
 	}
@@ -523,7 +523,7 @@ func (client ObjectStorageClient) createBucket(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Bucket/CreateBucket"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/CreateBucket"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "CreateBucket", apiReferenceLink)
 		return response, err
 	}
@@ -579,7 +579,7 @@ func (client ObjectStorageClient) createMultipartUpload(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//MultipartUpload/CreateMultipartUpload"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/MultipartUpload/CreateMultipartUpload"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "CreateMultipartUpload", apiReferenceLink)
 		return response, err
 	}
@@ -633,7 +633,7 @@ func (client ObjectStorageClient) createPreauthenticatedRequest(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//PreauthenticatedRequest/CreatePreauthenticatedRequest"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/PreauthenticatedRequest/CreatePreauthenticatedRequest"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "CreatePreauthenticatedRequest", apiReferenceLink)
 		return response, err
 	}
@@ -687,7 +687,7 @@ func (client ObjectStorageClient) createReplicationPolicy(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Replication/CreateReplicationPolicy"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Replication/CreateReplicationPolicy"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "CreateReplicationPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -742,7 +742,7 @@ func (client ObjectStorageClient) createRetentionRule(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//RetentionRule/CreateRetentionRule"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/RetentionRule/CreateRetentionRule"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "CreateRetentionRule", apiReferenceLink)
 		return response, err
 	}
@@ -799,7 +799,7 @@ func (client ObjectStorageClient) deleteBucket(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Bucket/DeleteBucket"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/DeleteBucket"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "DeleteBucket", apiReferenceLink)
 		return response, err
 	}
@@ -853,7 +853,7 @@ func (client ObjectStorageClient) deleteObject(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/DeleteObject"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/DeleteObject"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "DeleteObject", apiReferenceLink)
 		return response, err
 	}
@@ -907,7 +907,7 @@ func (client ObjectStorageClient) deleteObjectLifecyclePolicy(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//ObjectLifecyclePolicy/DeleteObjectLifecyclePolicy"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/ObjectLifecyclePolicy/DeleteObjectLifecyclePolicy"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "DeleteObjectLifecyclePolicy", apiReferenceLink)
 		return response, err
 	}
@@ -961,7 +961,7 @@ func (client ObjectStorageClient) deletePreauthenticatedRequest(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//PreauthenticatedRequest/DeletePreauthenticatedRequest"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/PreauthenticatedRequest/DeletePreauthenticatedRequest"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "DeletePreauthenticatedRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1015,7 +1015,7 @@ func (client ObjectStorageClient) deleteReplicationPolicy(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Replication/DeleteReplicationPolicy"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Replication/DeleteReplicationPolicy"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "DeleteReplicationPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -1069,7 +1069,7 @@ func (client ObjectStorageClient) deleteRetentionRule(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//RetentionRule/DeleteRetentionRule"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/RetentionRule/DeleteRetentionRule"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "DeleteRetentionRule", apiReferenceLink)
 		return response, err
 	}
@@ -1123,7 +1123,7 @@ func (client ObjectStorageClient) getBucket(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Bucket/GetBucket"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/GetBucket"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "GetBucket", apiReferenceLink)
 		return response, err
 	}
@@ -1178,7 +1178,7 @@ func (client ObjectStorageClient) getBucketOptions(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Bucket/GetBucketOptions"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/GetBucketOptions"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "GetBucketOptions", apiReferenceLink)
 		return response, err
 	}
@@ -1232,7 +1232,7 @@ func (client ObjectStorageClient) getNamespace(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Namespace/GetNamespace"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Namespace/GetNamespace"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "GetNamespace", apiReferenceLink)
 		return response, err
 	}
@@ -1291,7 +1291,7 @@ func (client ObjectStorageClient) getNamespaceMetadata(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Namespace/GetNamespaceMetadata"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Namespace/GetNamespaceMetadata"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "GetNamespaceMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -1344,7 +1344,7 @@ func (client ObjectStorageClient) getObject(ctx context.Context, request common.
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/GetObject"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/GetObject"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "GetObject", apiReferenceLink)
 		return response, err
 	}
@@ -1398,7 +1398,7 @@ func (client ObjectStorageClient) getObjectLifecyclePolicy(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//ObjectLifecyclePolicy/GetObjectLifecyclePolicy"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/ObjectLifecyclePolicy/GetObjectLifecyclePolicy"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "GetObjectLifecyclePolicy", apiReferenceLink)
 		return response, err
 	}
@@ -1452,7 +1452,7 @@ func (client ObjectStorageClient) getPreauthenticatedRequest(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//PreauthenticatedRequest/GetPreauthenticatedRequest"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/PreauthenticatedRequest/GetPreauthenticatedRequest"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "GetPreauthenticatedRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1506,7 +1506,7 @@ func (client ObjectStorageClient) getReplicationPolicy(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Replication/GetReplicationPolicy"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Replication/GetReplicationPolicy"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "GetReplicationPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -1560,7 +1560,7 @@ func (client ObjectStorageClient) getRetentionRule(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//RetentionRule/GetRetentionRule"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/RetentionRule/GetRetentionRule"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "GetRetentionRule", apiReferenceLink)
 		return response, err
 	}
@@ -1614,7 +1614,7 @@ func (client ObjectStorageClient) getWorkRequest(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//WorkRequest/GetWorkRequest"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1668,7 +1668,7 @@ func (client ObjectStorageClient) headBucket(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Bucket/HeadBucket"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/HeadBucket"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "HeadBucket", apiReferenceLink)
 		return response, err
 	}
@@ -1722,7 +1722,7 @@ func (client ObjectStorageClient) headObject(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/HeadObject"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/HeadObject"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "HeadObject", apiReferenceLink)
 		return response, err
 	}
@@ -1782,7 +1782,7 @@ func (client ObjectStorageClient) listBuckets(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Bucket/ListBuckets"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/ListBuckets"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ListBuckets", apiReferenceLink)
 		return response, err
 	}
@@ -1836,7 +1836,7 @@ func (client ObjectStorageClient) listMultipartUploadParts(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//MultipartUpload/ListMultipartUploadParts"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/MultipartUpload/ListMultipartUploadParts"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ListMultipartUploadParts", apiReferenceLink)
 		return response, err
 	}
@@ -1890,7 +1890,7 @@ func (client ObjectStorageClient) listMultipartUploads(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//MultipartUpload/ListMultipartUploads"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/MultipartUpload/ListMultipartUploads"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ListMultipartUploads", apiReferenceLink)
 		return response, err
 	}
@@ -1949,7 +1949,7 @@ func (client ObjectStorageClient) listObjectVersions(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/ListObjectVersions"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/ListObjectVersions"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ListObjectVersions", apiReferenceLink)
 		return response, err
 	}
@@ -2010,7 +2010,7 @@ func (client ObjectStorageClient) listObjects(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/ListObjects"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/ListObjects"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ListObjects", apiReferenceLink)
 		return response, err
 	}
@@ -2064,7 +2064,7 @@ func (client ObjectStorageClient) listPreauthenticatedRequests(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//PreauthenticatedRequest/ListPreauthenticatedRequests"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/PreauthenticatedRequest/ListPreauthenticatedRequests"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ListPreauthenticatedRequests", apiReferenceLink)
 		return response, err
 	}
@@ -2118,7 +2118,7 @@ func (client ObjectStorageClient) listReplicationPolicies(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Replication/ListReplicationPolicies"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Replication/ListReplicationPolicies"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ListReplicationPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -2172,7 +2172,7 @@ func (client ObjectStorageClient) listReplicationSources(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Replication/ListReplicationSources"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Replication/ListReplicationSources"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ListReplicationSources", apiReferenceLink)
 		return response, err
 	}
@@ -2227,7 +2227,7 @@ func (client ObjectStorageClient) listRetentionRules(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//RetentionRule/ListRetentionRules"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/RetentionRule/ListRetentionRules"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ListRetentionRules", apiReferenceLink)
 		return response, err
 	}
@@ -2281,7 +2281,7 @@ func (client ObjectStorageClient) listWorkRequestErrors(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -2335,7 +2335,7 @@ func (client ObjectStorageClient) listWorkRequestLogs(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -2389,7 +2389,7 @@ func (client ObjectStorageClient) listWorkRequests(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//WorkRequest/ListWorkRequests"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -2446,7 +2446,7 @@ func (client ObjectStorageClient) makeBucketWritable(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Replication/MakeBucketWritable"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Replication/MakeBucketWritable"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "MakeBucketWritable", apiReferenceLink)
 		return response, err
 	}
@@ -2500,7 +2500,7 @@ func (client ObjectStorageClient) mergeObjectMetadata(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/MergeObjectMetadata"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/MergeObjectMetadata"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "MergeObjectMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -2571,7 +2571,7 @@ func (client ObjectStorageClient) putObject(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/PutObject"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/PutObject"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "PutObject", apiReferenceLink)
 		return response, err
 	}
@@ -2625,7 +2625,7 @@ func (client ObjectStorageClient) putObjectLifecyclePolicy(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//ObjectLifecyclePolicy/PutObjectLifecyclePolicy"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/ObjectLifecyclePolicy/PutObjectLifecyclePolicy"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "PutObjectLifecyclePolicy", apiReferenceLink)
 		return response, err
 	}
@@ -2678,7 +2678,7 @@ func (client ObjectStorageClient) queryObject(ctx context.Context, request commo
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/QueryObject"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/QueryObject"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "QueryObject", apiReferenceLink)
 		return response, err
 	}
@@ -2745,7 +2745,7 @@ func (client ObjectStorageClient) reencryptBucket(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Bucket/ReencryptBucket"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/ReencryptBucket"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ReencryptBucket", apiReferenceLink)
 		return response, err
 	}
@@ -2804,7 +2804,7 @@ func (client ObjectStorageClient) reencryptObject(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/ReencryptObject"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/ReencryptObject"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ReencryptObject", apiReferenceLink)
 		return response, err
 	}
@@ -2860,7 +2860,7 @@ func (client ObjectStorageClient) renameObject(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/RenameObject"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/RenameObject"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "RenameObject", apiReferenceLink)
 		return response, err
 	}
@@ -2914,7 +2914,7 @@ func (client ObjectStorageClient) replaceObjectMetadata(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/ReplaceObjectMetadata"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/ReplaceObjectMetadata"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "ReplaceObjectMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -2969,7 +2969,7 @@ func (client ObjectStorageClient) restoreObjects(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/RestoreObjects"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/RestoreObjects"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "RestoreObjects", apiReferenceLink)
 		return response, err
 	}
@@ -3026,7 +3026,7 @@ func (client ObjectStorageClient) updateBucket(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Bucket/UpdateBucket"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/UpdateBucket"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "UpdateBucket", apiReferenceLink)
 		return response, err
 	}
@@ -3085,7 +3085,7 @@ func (client ObjectStorageClient) updateBucketOptions(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Bucket/UpdateBucketOptions"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/UpdateBucketOptions"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "UpdateBucketOptions", apiReferenceLink)
 		return response, err
 	}
@@ -3144,7 +3144,7 @@ func (client ObjectStorageClient) updateNamespaceMetadata(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Namespace/UpdateNamespaceMetadata"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Namespace/UpdateNamespaceMetadata"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "UpdateNamespaceMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -3198,7 +3198,7 @@ func (client ObjectStorageClient) updateObjectStorageTier(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//Object/UpdateObjectStorageTier"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/UpdateObjectStorageTier"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "UpdateObjectStorageTier", apiReferenceLink)
 		return response, err
 	}
@@ -3252,7 +3252,7 @@ func (client ObjectStorageClient) updateRetentionRule(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//RetentionRule/UpdateRetentionRule"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/RetentionRule/UpdateRetentionRule"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "UpdateRetentionRule", apiReferenceLink)
 		return response, err
 	}
@@ -3318,7 +3318,7 @@ func (client ObjectStorageClient) uploadPart(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage//MultipartUpload/UploadPart"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/MultipartUpload/UploadPart"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "UploadPart", apiReferenceLink)
 		return response, err
 	}

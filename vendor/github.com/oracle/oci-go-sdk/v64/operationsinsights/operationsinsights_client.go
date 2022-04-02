@@ -87,9 +87,10 @@ func (client *OperationsInsightsClient) ConfigurationProvider() *common.Configur
 }
 
 // AddExadataInsightMembers Add new members (e.g. databases and hosts) to an Exadata system in Operations Insights. Exadata-related metric collection and analysis will be started.
+// A default retry strategy applies to this operation AddExadataInsightMembers()
 func (client OperationsInsightsClient) AddExadataInsightMembers(ctx context.Context, request AddExadataInsightMembersRequest) (response AddExadataInsightMembersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -145,9 +146,10 @@ func (client OperationsInsightsClient) addExadataInsightMembers(ctx context.Cont
 }
 
 // ChangeDatabaseInsightCompartment Moves a DatabaseInsight resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeDatabaseInsightCompartment()
 func (client OperationsInsightsClient) ChangeDatabaseInsightCompartment(ctx context.Context, request ChangeDatabaseInsightCompartmentRequest) (response ChangeDatabaseInsightCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -203,9 +205,10 @@ func (client OperationsInsightsClient) changeDatabaseInsightCompartment(ctx cont
 }
 
 // ChangeEnterpriseManagerBridgeCompartment Moves a EnterpriseManagerBridge resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeEnterpriseManagerBridgeCompartment()
 func (client OperationsInsightsClient) ChangeEnterpriseManagerBridgeCompartment(ctx context.Context, request ChangeEnterpriseManagerBridgeCompartmentRequest) (response ChangeEnterpriseManagerBridgeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -256,9 +259,10 @@ func (client OperationsInsightsClient) changeEnterpriseManagerBridgeCompartment(
 }
 
 // ChangeExadataInsightCompartment Moves an Exadata insight resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeExadataInsightCompartment()
 func (client OperationsInsightsClient) ChangeExadataInsightCompartment(ctx context.Context, request ChangeExadataInsightCompartmentRequest) (response ChangeExadataInsightCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -314,9 +318,10 @@ func (client OperationsInsightsClient) changeExadataInsightCompartment(ctx conte
 }
 
 // ChangeHostInsightCompartment Moves a HostInsight resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeHostInsightCompartment()
 func (client OperationsInsightsClient) ChangeHostInsightCompartment(ctx context.Context, request ChangeHostInsightCompartmentRequest) (response ChangeHostInsightCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -372,9 +377,10 @@ func (client OperationsInsightsClient) changeHostInsightCompartment(ctx context.
 }
 
 // ChangeOperationsInsightsPrivateEndpointCompartment Moves a private endpoint from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeOperationsInsightsPrivateEndpointCompartment()
 func (client OperationsInsightsClient) ChangeOperationsInsightsPrivateEndpointCompartment(ctx context.Context, request ChangeOperationsInsightsPrivateEndpointCompartmentRequest) (response ChangeOperationsInsightsPrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -430,9 +436,10 @@ func (client OperationsInsightsClient) changeOperationsInsightsPrivateEndpointCo
 }
 
 // ChangePeComanagedDatabaseInsight Change the connection details of a co-managed  database insight. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangePeComanagedDatabaseInsight()
 func (client OperationsInsightsClient) ChangePeComanagedDatabaseInsight(ctx context.Context, request ChangePeComanagedDatabaseInsightRequest) (response ChangePeComanagedDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -489,9 +496,10 @@ func (client OperationsInsightsClient) changePeComanagedDatabaseInsight(ctx cont
 
 // CreateAwrHub Create a AWR hub resource for the tenant in Operations Insights.
 // This resource will be created in root compartment.
+// A default retry strategy applies to this operation CreateAwrHub()
 func (client OperationsInsightsClient) CreateAwrHub(ctx context.Context, request CreateAwrHubRequest) (response CreateAwrHubResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -547,9 +555,10 @@ func (client OperationsInsightsClient) createAwrHub(ctx context.Context, request
 }
 
 // CreateDatabaseInsight Create a Database Insight resource for a database in Operations Insights. The database will be enabled in Operations Insights. Database metric collection and analysis will be started.
+// A default retry strategy applies to this operation CreateDatabaseInsight()
 func (client OperationsInsightsClient) CreateDatabaseInsight(ctx context.Context, request CreateDatabaseInsightRequest) (response CreateDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -605,9 +614,10 @@ func (client OperationsInsightsClient) createDatabaseInsight(ctx context.Context
 }
 
 // CreateEnterpriseManagerBridge Create a Enterprise Manager bridge in Operations Insights.
+// A default retry strategy applies to this operation CreateEnterpriseManagerBridge()
 func (client OperationsInsightsClient) CreateEnterpriseManagerBridge(ctx context.Context, request CreateEnterpriseManagerBridgeRequest) (response CreateEnterpriseManagerBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -663,9 +673,10 @@ func (client OperationsInsightsClient) createEnterpriseManagerBridge(ctx context
 }
 
 // CreateExadataInsight Create an Exadata insight resource for an Exadata system in Operations Insights. The Exadata system will be enabled in Operations Insights. Exadata-related metric collection and analysis will be started.
+// A default retry strategy applies to this operation CreateExadataInsight()
 func (client OperationsInsightsClient) CreateExadataInsight(ctx context.Context, request CreateExadataInsightRequest) (response CreateExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -721,9 +732,10 @@ func (client OperationsInsightsClient) createExadataInsight(ctx context.Context,
 }
 
 // CreateHostInsight Create a Host Insight resource for a host in Operations Insights. The host will be enabled in Operations Insights. Host metric collection and analysis will be started.
+// A default retry strategy applies to this operation CreateHostInsight()
 func (client OperationsInsightsClient) CreateHostInsight(ctx context.Context, request CreateHostInsightRequest) (response CreateHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -780,9 +792,10 @@ func (client OperationsInsightsClient) createHostInsight(ctx context.Context, re
 
 // CreateOperationsInsightsPrivateEndpoint Create a private endpoint resource for the tenant in Operations Insights.
 // This resource will be created in customer compartment.
+// A default retry strategy applies to this operation CreateOperationsInsightsPrivateEndpoint()
 func (client OperationsInsightsClient) CreateOperationsInsightsPrivateEndpoint(ctx context.Context, request CreateOperationsInsightsPrivateEndpointRequest) (response CreateOperationsInsightsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -840,9 +853,10 @@ func (client OperationsInsightsClient) createOperationsInsightsPrivateEndpoint(c
 // CreateOperationsInsightsWarehouse Create a Operations Insights Warehouse resource for the tenant in Operations Insights. New ADW will be provisioned for this tenant.
 // There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment. If the 'opsi-warehouse-type'
 // header is passed to the API, a warehouse resource without ADW or Schema provisioning is created.
+// A default retry strategy applies to this operation CreateOperationsInsightsWarehouse()
 func (client OperationsInsightsClient) CreateOperationsInsightsWarehouse(ctx context.Context, request CreateOperationsInsightsWarehouseRequest) (response CreateOperationsInsightsWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -899,9 +913,10 @@ func (client OperationsInsightsClient) createOperationsInsightsWarehouse(ctx con
 
 // CreateOperationsInsightsWarehouseUser Create a Operations Insights Warehouse user resource for the tenant in Operations Insights.
 // This resource will be created in root compartment.
+// A default retry strategy applies to this operation CreateOperationsInsightsWarehouseUser()
 func (client OperationsInsightsClient) CreateOperationsInsightsWarehouseUser(ctx context.Context, request CreateOperationsInsightsWarehouseUserRequest) (response CreateOperationsInsightsWarehouseUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -957,9 +972,10 @@ func (client OperationsInsightsClient) createOperationsInsightsWarehouseUser(ctx
 }
 
 // DeleteAwrHub Deletes an AWR hub.
+// A default retry strategy applies to this operation DeleteAwrHub()
 func (client OperationsInsightsClient) DeleteAwrHub(ctx context.Context, request DeleteAwrHubRequest) (response DeleteAwrHubResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1010,9 +1026,10 @@ func (client OperationsInsightsClient) deleteAwrHub(ctx context.Context, request
 }
 
 // DeleteDatabaseInsight Deletes a database insight. The database insight will be deleted and cannot be enabled again.
+// A default retry strategy applies to this operation DeleteDatabaseInsight()
 func (client OperationsInsightsClient) DeleteDatabaseInsight(ctx context.Context, request DeleteDatabaseInsightRequest) (response DeleteDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1063,9 +1080,10 @@ func (client OperationsInsightsClient) deleteDatabaseInsight(ctx context.Context
 }
 
 // DeleteEnterpriseManagerBridge Deletes an Operations Insights Enterprise Manager bridge. If any database insight is still referencing this bridge, the operation will fail.
+// A default retry strategy applies to this operation DeleteEnterpriseManagerBridge()
 func (client OperationsInsightsClient) DeleteEnterpriseManagerBridge(ctx context.Context, request DeleteEnterpriseManagerBridgeRequest) (response DeleteEnterpriseManagerBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1116,9 +1134,10 @@ func (client OperationsInsightsClient) deleteEnterpriseManagerBridge(ctx context
 }
 
 // DeleteExadataInsight Deletes an Exadata insight. The Exadata insight will be deleted and cannot be enabled again.
+// A default retry strategy applies to this operation DeleteExadataInsight()
 func (client OperationsInsightsClient) DeleteExadataInsight(ctx context.Context, request DeleteExadataInsightRequest) (response DeleteExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1169,9 +1188,10 @@ func (client OperationsInsightsClient) deleteExadataInsight(ctx context.Context,
 }
 
 // DeleteHostInsight Deletes a host insight. The host insight will be deleted and cannot be enabled again.
+// A default retry strategy applies to this operation DeleteHostInsight()
 func (client OperationsInsightsClient) DeleteHostInsight(ctx context.Context, request DeleteHostInsightRequest) (response DeleteHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1222,9 +1242,10 @@ func (client OperationsInsightsClient) deleteHostInsight(ctx context.Context, re
 }
 
 // DeleteOperationsInsightsPrivateEndpoint Deletes a private endpoint.
+// A default retry strategy applies to this operation DeleteOperationsInsightsPrivateEndpoint()
 func (client OperationsInsightsClient) DeleteOperationsInsightsPrivateEndpoint(ctx context.Context, request DeleteOperationsInsightsPrivateEndpointRequest) (response DeleteOperationsInsightsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1278,9 +1299,10 @@ func (client OperationsInsightsClient) deleteOperationsInsightsPrivateEndpoint(c
 // The warehouse is expected to be in the root compartment.
 // User must delete AWR Hub resource for this warehouse before calling this operation.
 // User must delete the warehouse users before calling this operation.
+// A default retry strategy applies to this operation DeleteOperationsInsightsWarehouse()
 func (client OperationsInsightsClient) DeleteOperationsInsightsWarehouse(ctx context.Context, request DeleteOperationsInsightsWarehouseRequest) (response DeleteOperationsInsightsWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1331,9 +1353,10 @@ func (client OperationsInsightsClient) deleteOperationsInsightsWarehouse(ctx con
 }
 
 // DeleteOperationsInsightsWarehouseUser Deletes an Operations Insights Warehouse User.
+// A default retry strategy applies to this operation DeleteOperationsInsightsWarehouseUser()
 func (client OperationsInsightsClient) DeleteOperationsInsightsWarehouseUser(ctx context.Context, request DeleteOperationsInsightsWarehouseUserRequest) (response DeleteOperationsInsightsWarehouseUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1384,9 +1407,10 @@ func (client OperationsInsightsClient) deleteOperationsInsightsWarehouseUser(ctx
 }
 
 // DisableDatabaseInsight Disables a database in Operations Insights. Database metric collection and analysis will be stopped.
+// A default retry strategy applies to this operation DisableDatabaseInsight()
 func (client OperationsInsightsClient) DisableDatabaseInsight(ctx context.Context, request DisableDatabaseInsightRequest) (response DisableDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1442,9 +1466,10 @@ func (client OperationsInsightsClient) disableDatabaseInsight(ctx context.Contex
 }
 
 // DisableExadataInsight Disables an Exadata system in Operations Insights. Exadata-related metric collection and analysis will be stopped.
+// A default retry strategy applies to this operation DisableExadataInsight()
 func (client OperationsInsightsClient) DisableExadataInsight(ctx context.Context, request DisableExadataInsightRequest) (response DisableExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1500,9 +1525,10 @@ func (client OperationsInsightsClient) disableExadataInsight(ctx context.Context
 }
 
 // DisableHostInsight Disables a host in Operations Insights. Host metric collection and analysis will be stopped.
+// A default retry strategy applies to this operation DisableHostInsight()
 func (client OperationsInsightsClient) DisableHostInsight(ctx context.Context, request DisableHostInsightRequest) (response DisableHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1558,9 +1584,10 @@ func (client OperationsInsightsClient) disableHostInsight(ctx context.Context, r
 }
 
 // DownloadOperationsInsightsWarehouseWallet Download the ADW wallet for Operations Insights Warehouse using which the Hub data is exposed.
+// A default retry strategy applies to this operation DownloadOperationsInsightsWarehouseWallet()
 func (client OperationsInsightsClient) DownloadOperationsInsightsWarehouseWallet(ctx context.Context, request DownloadOperationsInsightsWarehouseWalletRequest) (response DownloadOperationsInsightsWarehouseWalletResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1615,9 +1642,10 @@ func (client OperationsInsightsClient) downloadOperationsInsightsWarehouseWallet
 }
 
 // EnableDatabaseInsight Enables a database in Operations Insights. Database metric collection and analysis will be started.
+// A default retry strategy applies to this operation EnableDatabaseInsight()
 func (client OperationsInsightsClient) EnableDatabaseInsight(ctx context.Context, request EnableDatabaseInsightRequest) (response EnableDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1673,9 +1701,10 @@ func (client OperationsInsightsClient) enableDatabaseInsight(ctx context.Context
 }
 
 // EnableExadataInsight Enables an Exadata system in Operations Insights. Exadata-related metric collection and analysis will be started.
+// A default retry strategy applies to this operation EnableExadataInsight()
 func (client OperationsInsightsClient) EnableExadataInsight(ctx context.Context, request EnableExadataInsightRequest) (response EnableExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1731,9 +1760,10 @@ func (client OperationsInsightsClient) enableExadataInsight(ctx context.Context,
 }
 
 // EnableHostInsight Enables a host in Operations Insights. Host metric collection and analysis will be started.
+// A default retry strategy applies to this operation EnableHostInsight()
 func (client OperationsInsightsClient) EnableHostInsight(ctx context.Context, request EnableHostInsightRequest) (response EnableHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1789,9 +1819,10 @@ func (client OperationsInsightsClient) enableHostInsight(ctx context.Context, re
 }
 
 // GetAwrHub Gets details of an AWR hub.
+// A default retry strategy applies to this operation GetAwrHub()
 func (client OperationsInsightsClient) GetAwrHub(ctx context.Context, request GetAwrHubRequest) (response GetAwrHubResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1843,9 +1874,10 @@ func (client OperationsInsightsClient) getAwrHub(ctx context.Context, request co
 
 // GetAwrReport Gets the AWR report for the specified source database in the AWR hub. The difference between the timeGreaterThanOrEqualTo and timeLessThanOrEqualTo should not be greater than 7 days.
 // Either beginSnapshotIdentifierGreaterThanOrEqualTo & endSnapshotIdentifierLessThanOrEqualTo params Or timeGreaterThanOrEqualTo & timeLessThanOrEqualTo params are required.
+// A default retry strategy applies to this operation GetAwrReport()
 func (client OperationsInsightsClient) GetAwrReport(ctx context.Context, request GetAwrReportRequest) (response GetAwrReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1896,9 +1928,10 @@ func (client OperationsInsightsClient) getAwrReport(ctx context.Context, request
 }
 
 // GetDatabaseInsight Gets details of a database insight.
+// A default retry strategy applies to this operation GetDatabaseInsight()
 func (client OperationsInsightsClient) GetDatabaseInsight(ctx context.Context, request GetDatabaseInsightRequest) (response GetDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1949,9 +1982,10 @@ func (client OperationsInsightsClient) getDatabaseInsight(ctx context.Context, r
 }
 
 // GetEnterpriseManagerBridge Gets details of an Operations Insights Enterprise Manager bridge.
+// A default retry strategy applies to this operation GetEnterpriseManagerBridge()
 func (client OperationsInsightsClient) GetEnterpriseManagerBridge(ctx context.Context, request GetEnterpriseManagerBridgeRequest) (response GetEnterpriseManagerBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2002,9 +2036,10 @@ func (client OperationsInsightsClient) getEnterpriseManagerBridge(ctx context.Co
 }
 
 // GetExadataInsight Gets details of an Exadata insight.
+// A default retry strategy applies to this operation GetExadataInsight()
 func (client OperationsInsightsClient) GetExadataInsight(ctx context.Context, request GetExadataInsightRequest) (response GetExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2055,9 +2090,10 @@ func (client OperationsInsightsClient) getExadataInsight(ctx context.Context, re
 }
 
 // GetHostInsight Gets details of a host insight.
+// A default retry strategy applies to this operation GetHostInsight()
 func (client OperationsInsightsClient) GetHostInsight(ctx context.Context, request GetHostInsightRequest) (response GetHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2108,9 +2144,10 @@ func (client OperationsInsightsClient) getHostInsight(ctx context.Context, reque
 }
 
 // GetOperationsInsightsPrivateEndpoint Gets the details of the specified private endpoint.
+// A default retry strategy applies to this operation GetOperationsInsightsPrivateEndpoint()
 func (client OperationsInsightsClient) GetOperationsInsightsPrivateEndpoint(ctx context.Context, request GetOperationsInsightsPrivateEndpointRequest) (response GetOperationsInsightsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2162,9 +2199,10 @@ func (client OperationsInsightsClient) getOperationsInsightsPrivateEndpoint(ctx 
 
 // GetOperationsInsightsWarehouse Gets details of an Operations Insights Warehouse.
 // There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment.
+// A default retry strategy applies to this operation GetOperationsInsightsWarehouse()
 func (client OperationsInsightsClient) GetOperationsInsightsWarehouse(ctx context.Context, request GetOperationsInsightsWarehouseRequest) (response GetOperationsInsightsWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2215,9 +2253,10 @@ func (client OperationsInsightsClient) getOperationsInsightsWarehouse(ctx contex
 }
 
 // GetOperationsInsightsWarehouseUser Gets details of an Operations Insights Warehouse User.
+// A default retry strategy applies to this operation GetOperationsInsightsWarehouseUser()
 func (client OperationsInsightsClient) GetOperationsInsightsWarehouseUser(ctx context.Context, request GetOperationsInsightsWarehouseUserRequest) (response GetOperationsInsightsWarehouseUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2268,9 +2307,10 @@ func (client OperationsInsightsClient) getOperationsInsightsWarehouseUser(ctx co
 }
 
 // GetOpsiDataObject Gets details of an OPSI data object.
+// A default retry strategy applies to this operation GetOpsiDataObject()
 func (client OperationsInsightsClient) GetOpsiDataObject(ctx context.Context, request GetOpsiDataObjectRequest) (response GetOpsiDataObjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2321,9 +2361,10 @@ func (client OperationsInsightsClient) getOpsiDataObject(ctx context.Context, re
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client OperationsInsightsClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2374,9 +2415,10 @@ func (client OperationsInsightsClient) getWorkRequest(ctx context.Context, reque
 }
 
 // IngestDatabaseConfiguration This is a generic ingest endpoint for all database configuration metrics.
+// A default retry strategy applies to this operation IngestDatabaseConfiguration()
 func (client OperationsInsightsClient) IngestDatabaseConfiguration(ctx context.Context, request IngestDatabaseConfigurationRequest) (response IngestDatabaseConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2432,9 +2474,10 @@ func (client OperationsInsightsClient) ingestDatabaseConfiguration(ctx context.C
 }
 
 // IngestHostConfiguration This is a generic ingest endpoint for all the host configuration metrics
+// A default retry strategy applies to this operation IngestHostConfiguration()
 func (client OperationsInsightsClient) IngestHostConfiguration(ctx context.Context, request IngestHostConfigurationRequest) (response IngestHostConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2490,9 +2533,10 @@ func (client OperationsInsightsClient) ingestHostConfiguration(ctx context.Conte
 }
 
 // IngestHostMetrics This is a generic ingest endpoint for all the host performance metrics
+// A default retry strategy applies to this operation IngestHostMetrics()
 func (client OperationsInsightsClient) IngestHostMetrics(ctx context.Context, request IngestHostMetricsRequest) (response IngestHostMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2549,9 +2593,10 @@ func (client OperationsInsightsClient) ingestHostMetrics(ctx context.Context, re
 
 // IngestSqlBucket The sqlbucket endpoint takes in a JSON payload, persists it in Operations Insights ingest pipeline.
 // Either databaseId or id must be specified.
+// A default retry strategy applies to this operation IngestSqlBucket()
 func (client OperationsInsightsClient) IngestSqlBucket(ctx context.Context, request IngestSqlBucketRequest) (response IngestSqlBucketResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2608,9 +2653,10 @@ func (client OperationsInsightsClient) ingestSqlBucket(ctx context.Context, requ
 
 // IngestSqlPlanLines The SqlPlanLines endpoint takes in a JSON payload, persists it in Operation Insights ingest pipeline.
 // Either databaseId or id must be specified.
+// A default retry strategy applies to this operation IngestSqlPlanLines()
 func (client OperationsInsightsClient) IngestSqlPlanLines(ctx context.Context, request IngestSqlPlanLinesRequest) (response IngestSqlPlanLinesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2667,9 +2713,10 @@ func (client OperationsInsightsClient) ingestSqlPlanLines(ctx context.Context, r
 
 // IngestSqlStats The SQL Stats endpoint takes in a JSON payload, persists it in Operations Insights ingest pipeline.
 // Either databaseId or id must be specified.
+// A default retry strategy applies to this operation IngestSqlStats()
 func (client OperationsInsightsClient) IngestSqlStats(ctx context.Context, request IngestSqlStatsRequest) (response IngestSqlStatsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2727,9 +2774,10 @@ func (client OperationsInsightsClient) ingestSqlStats(ctx context.Context, reque
 // IngestSqlText The SqlText endpoint takes in a JSON payload, persists it in Operation Insights ingest pipeline.
 // Either databaseId or id must be specified.
 // Disclaimer: SQL text being uploaded explicitly via APIs is not masked. Any sensitive literals contained in the sqlFullText column should be masked prior to ingestion.
+// A default retry strategy applies to this operation IngestSqlText()
 func (client OperationsInsightsClient) IngestSqlText(ctx context.Context, request IngestSqlTextRequest) (response IngestSqlTextResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2785,9 +2833,10 @@ func (client OperationsInsightsClient) ingestSqlText(ctx context.Context, reques
 }
 
 // ListAwrHubs Gets a list of AWR hubs. Either compartmentId or id must be specified. All these resources are expected to be in root compartment.
+// A default retry strategy applies to this operation ListAwrHubs()
 func (client OperationsInsightsClient) ListAwrHubs(ctx context.Context, request ListAwrHubsRequest) (response ListAwrHubsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2839,9 +2888,10 @@ func (client OperationsInsightsClient) listAwrHubs(ctx context.Context, request 
 
 // ListAwrSnapshots Lists AWR snapshots for the specified source database in the AWR hub. The difference between the timeGreaterThanOrEqualTo and timeLessThanOrEqualTo should not exceed an elapsed range of 1 day.
 // The timeGreaterThanOrEqualTo & timeLessThanOrEqualTo params are optional. If these params are not provided, by default last 1 day snapshots will be returned.
+// A default retry strategy applies to this operation ListAwrSnapshots()
 func (client OperationsInsightsClient) ListAwrSnapshots(ctx context.Context, request ListAwrSnapshotsRequest) (response ListAwrSnapshotsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2893,9 +2943,10 @@ func (client OperationsInsightsClient) listAwrSnapshots(ctx context.Context, req
 
 // ListDatabaseConfigurations Gets a list of database insight configurations based on the query parameters specified. Either compartmentId or databaseInsightId query parameter must be specified.
 // When both compartmentId and compartmentIdInSubtree are specified, a list of database insight configurations in that compartment and in all sub-compartments will be returned.
+// A default retry strategy applies to this operation ListDatabaseConfigurations()
 func (client OperationsInsightsClient) ListDatabaseConfigurations(ctx context.Context, request ListDatabaseConfigurationsRequest) (response ListDatabaseConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2947,9 +2998,10 @@ func (client OperationsInsightsClient) listDatabaseConfigurations(ctx context.Co
 
 // ListDatabaseInsights Gets a list of database insights based on the query parameters specified. Either compartmentId or id query parameter must be specified.
 // When both compartmentId and compartmentIdInSubtree are specified, a list of database insights in that compartment and in all sub-compartments will be returned.
+// A default retry strategy applies to this operation ListDatabaseInsights()
 func (client OperationsInsightsClient) ListDatabaseInsights(ctx context.Context, request ListDatabaseInsightsRequest) (response ListDatabaseInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3001,9 +3053,10 @@ func (client OperationsInsightsClient) listDatabaseInsights(ctx context.Context,
 
 // ListEnterpriseManagerBridges Gets a list of Operations Insights Enterprise Manager bridges. Either compartmentId or id must be specified.
 // When both compartmentId and compartmentIdInSubtree are specified, a list of bridges in that compartment and in all sub-compartments will be returned.
+// A default retry strategy applies to this operation ListEnterpriseManagerBridges()
 func (client OperationsInsightsClient) ListEnterpriseManagerBridges(ctx context.Context, request ListEnterpriseManagerBridgesRequest) (response ListEnterpriseManagerBridgesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3054,9 +3107,10 @@ func (client OperationsInsightsClient) listEnterpriseManagerBridges(ctx context.
 }
 
 // ListExadataConfigurations Gets a list of exadata insight configurations. Either compartmentId or exadataInsightsId query parameter must be specified.
+// A default retry strategy applies to this operation ListExadataConfigurations()
 func (client OperationsInsightsClient) ListExadataConfigurations(ctx context.Context, request ListExadataConfigurationsRequest) (response ListExadataConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3108,9 +3162,10 @@ func (client OperationsInsightsClient) listExadataConfigurations(ctx context.Con
 
 // ListExadataInsights Gets a list of Exadata insights based on the query parameters specified. Either compartmentId or id query parameter must be specified.
 // When both compartmentId and compartmentIdInSubtree are specified, a list of Exadata insights in that compartment and in all sub-compartments will be returned.
+// A default retry strategy applies to this operation ListExadataInsights()
 func (client OperationsInsightsClient) ListExadataInsights(ctx context.Context, request ListExadataInsightsRequest) (response ListExadataInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3162,9 +3217,10 @@ func (client OperationsInsightsClient) listExadataInsights(ctx context.Context, 
 
 // ListHostConfigurations Gets a list of host insight configurations based on the query parameters specified. Either compartmentId or hostInsightId query parameter must be specified.
 // When both compartmentId and compartmentIdInSubtree are specified, a list of host insight configurations in that compartment and in all sub-compartments will be returned.
+// A default retry strategy applies to this operation ListHostConfigurations()
 func (client OperationsInsightsClient) ListHostConfigurations(ctx context.Context, request ListHostConfigurationsRequest) (response ListHostConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3216,9 +3272,10 @@ func (client OperationsInsightsClient) listHostConfigurations(ctx context.Contex
 
 // ListHostInsights Gets a list of host insights based on the query parameters specified. Either compartmentId or id query parameter must be specified.
 // When both compartmentId and compartmentIdInSubtree are specified, a list of host insights in that compartment and in all sub-compartments will be returned.
+// A default retry strategy applies to this operation ListHostInsights()
 func (client OperationsInsightsClient) ListHostInsights(ctx context.Context, request ListHostInsightsRequest) (response ListHostInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3269,9 +3326,10 @@ func (client OperationsInsightsClient) listHostInsights(ctx context.Context, req
 }
 
 // ListHostedEntities Get a list of hosted entities details.
+// A default retry strategy applies to this operation ListHostedEntities()
 func (client OperationsInsightsClient) ListHostedEntities(ctx context.Context, request ListHostedEntitiesRequest) (response ListHostedEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3326,9 +3384,10 @@ func (client OperationsInsightsClient) listHostedEntities(ctx context.Context, r
 //    1.  The agent OCID is not already being used for an existing hostInsight.
 //    2.  The agent availabilityStatus = 'ACTIVE'
 //    3.  The agent lifecycleState = 'ACTIVE'
+// A default retry strategy applies to this operation ListImportableAgentEntities()
 func (client OperationsInsightsClient) ListImportableAgentEntities(ctx context.Context, request ListImportableAgentEntitiesRequest) (response ListImportableAgentEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3379,9 +3438,10 @@ func (client OperationsInsightsClient) listImportableAgentEntities(ctx context.C
 }
 
 // ListImportableEnterpriseManagerEntities Gets a list of importable entities for an Operations Insights Enterprise Manager bridge that have not been imported before.
+// A default retry strategy applies to this operation ListImportableEnterpriseManagerEntities()
 func (client OperationsInsightsClient) ListImportableEnterpriseManagerEntities(ctx context.Context, request ListImportableEnterpriseManagerEntitiesRequest) (response ListImportableEnterpriseManagerEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3432,9 +3492,10 @@ func (client OperationsInsightsClient) listImportableEnterpriseManagerEntities(c
 }
 
 // ListOperationsInsightsPrivateEndpoints Gets a list of Operation Insights private endpoints.
+// A default retry strategy applies to this operation ListOperationsInsightsPrivateEndpoints()
 func (client OperationsInsightsClient) ListOperationsInsightsPrivateEndpoints(ctx context.Context, request ListOperationsInsightsPrivateEndpointsRequest) (response ListOperationsInsightsPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3485,9 +3546,10 @@ func (client OperationsInsightsClient) listOperationsInsightsPrivateEndpoints(ct
 }
 
 // ListOperationsInsightsWarehouseUsers Gets a list of Operations Insights Warehouse users. Either compartmentId or id must be specified. All these resources are expected to be in root compartment.
+// A default retry strategy applies to this operation ListOperationsInsightsWarehouseUsers()
 func (client OperationsInsightsClient) ListOperationsInsightsWarehouseUsers(ctx context.Context, request ListOperationsInsightsWarehouseUsersRequest) (response ListOperationsInsightsWarehouseUsersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3539,9 +3601,10 @@ func (client OperationsInsightsClient) listOperationsInsightsWarehouseUsers(ctx 
 
 // ListOperationsInsightsWarehouses Gets a list of Operations Insights warehouses. Either compartmentId or id must be specified.
 // There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment.
+// A default retry strategy applies to this operation ListOperationsInsightsWarehouses()
 func (client OperationsInsightsClient) ListOperationsInsightsWarehouses(ctx context.Context, request ListOperationsInsightsWarehousesRequest) (response ListOperationsInsightsWarehousesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3592,9 +3655,10 @@ func (client OperationsInsightsClient) listOperationsInsightsWarehouses(ctx cont
 }
 
 // ListOpsiDataObjects Gets a list of OPSI data objects based on the query parameters specified. CompartmentId id query parameter must be specified.
+// A default retry strategy applies to this operation ListOpsiDataObjects()
 func (client OperationsInsightsClient) ListOpsiDataObjects(ctx context.Context, request ListOpsiDataObjectsRequest) (response ListOpsiDataObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3646,9 +3710,10 @@ func (client OperationsInsightsClient) listOpsiDataObjects(ctx context.Context, 
 
 // ListSqlPlans Query SQL Warehouse to list the plan xml for a given SQL execution plan. This returns a SqlPlanCollection object, but is currently limited to a single plan.
 // Either databaseId or id must be specified.
+// A default retry strategy applies to this operation ListSqlPlans()
 func (client OperationsInsightsClient) ListSqlPlans(ctx context.Context, request ListSqlPlansRequest) (response ListSqlPlansResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3700,9 +3765,10 @@ func (client OperationsInsightsClient) listSqlPlans(ctx context.Context, request
 
 // ListSqlSearches Search SQL by SQL Identifier across databases in a compartment and in all sub-compartments if specified.
 // And get the SQL Text and the details of the databases executing the SQL for a given time period.
+// A default retry strategy applies to this operation ListSqlSearches()
 func (client OperationsInsightsClient) ListSqlSearches(ctx context.Context, request ListSqlSearchesRequest) (response ListSqlSearchesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3753,9 +3819,10 @@ func (client OperationsInsightsClient) listSqlSearches(ctx context.Context, requ
 }
 
 // ListSqlTexts Query SQL Warehouse to get the full SQL Text for a SQL in a compartment and in all sub-compartments if specified.
+// A default retry strategy applies to this operation ListSqlTexts()
 func (client OperationsInsightsClient) ListSqlTexts(ctx context.Context, request ListSqlTextsRequest) (response ListSqlTextsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3806,9 +3873,10 @@ func (client OperationsInsightsClient) listSqlTexts(ctx context.Context, request
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client OperationsInsightsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3859,9 +3927,10 @@ func (client OperationsInsightsClient) listWorkRequestErrors(ctx context.Context
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client OperationsInsightsClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3912,9 +3981,10 @@ func (client OperationsInsightsClient) listWorkRequestLogs(ctx context.Context, 
 }
 
 // ListWorkRequests Lists the work requests in a compartment. Either compartmentId or id must be specified. Only one of id, resourceId or relatedResourceId can be specified optionally.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client OperationsInsightsClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3966,9 +4036,10 @@ func (client OperationsInsightsClient) listWorkRequests(ctx context.Context, req
 
 // QueryOpsiDataObjectData Queries an OPSI data object with the inputs provided and sends the result set back. Either analysisTimeInterval
 // or timeIntervalStart and timeIntervalEnd parameters need to be passed as well.
+// A default retry strategy applies to this operation QueryOpsiDataObjectData()
 func (client OperationsInsightsClient) QueryOpsiDataObjectData(ctx context.Context, request QueryOpsiDataObjectDataRequest) (response QueryOpsiDataObjectDataResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4019,9 +4090,10 @@ func (client OperationsInsightsClient) queryOpsiDataObjectData(ctx context.Conte
 }
 
 // RotateOperationsInsightsWarehouseWallet Rotate the ADW wallet for Operations Insights Warehouse using which the Hub data is exposed.
+// A default retry strategy applies to this operation RotateOperationsInsightsWarehouseWallet()
 func (client OperationsInsightsClient) RotateOperationsInsightsWarehouseWallet(ctx context.Context, request RotateOperationsInsightsWarehouseWalletRequest) (response RotateOperationsInsightsWarehouseWalletResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4072,9 +4144,10 @@ func (client OperationsInsightsClient) rotateOperationsInsightsWarehouseWallet(c
 }
 
 // SummarizeAwrSourcesSummaries Gets a list of summary of AWR Sources.
+// A default retry strategy applies to this operation SummarizeAwrSourcesSummaries()
 func (client OperationsInsightsClient) SummarizeAwrSourcesSummaries(ctx context.Context, request SummarizeAwrSourcesSummariesRequest) (response SummarizeAwrSourcesSummariesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4127,9 +4200,10 @@ func (client OperationsInsightsClient) summarizeAwrSourcesSummaries(ctx context.
 // SummarizeDatabaseInsightResourceCapacityTrend Returns response with time series data (endTimestamp, capacity, baseCapacity) for the time period specified.
 // The maximum time range for analysis is 2 years, hence this is intentionally not paginated.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
+// A default retry strategy applies to this operation SummarizeDatabaseInsightResourceCapacityTrend()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceCapacityTrend(ctx context.Context, request SummarizeDatabaseInsightResourceCapacityTrendRequest) (response SummarizeDatabaseInsightResourceCapacityTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4181,9 +4255,10 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceCapacityT
 
 // SummarizeDatabaseInsightResourceForecastTrend Get Forecast predictions for CPU and Storage resources since a time in the past.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
+// A default retry strategy applies to this operation SummarizeDatabaseInsightResourceForecastTrend()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceForecastTrend(ctx context.Context, request SummarizeDatabaseInsightResourceForecastTrendRequest) (response SummarizeDatabaseInsightResourceForecastTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4235,9 +4310,10 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceForecastT
 
 // SummarizeDatabaseInsightResourceStatistics Lists the Resource statistics (usage,capacity, usage change percent, utilization percent, base capacity, isAutoScalingEnabled)
 // for each database filtered by utilization level in a compartment and in all sub-compartments if specified.
+// A default retry strategy applies to this operation SummarizeDatabaseInsightResourceStatistics()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceStatistics(ctx context.Context, request SummarizeDatabaseInsightResourceStatisticsRequest) (response SummarizeDatabaseInsightResourceStatisticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4291,9 +4367,10 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceStatistic
 // For each database, the minimum data point with a ranking > the percentile value is included in the summation.
 // Linear regression functions are used to calculate the usage change percentage.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
+// A default retry strategy applies to this operation SummarizeDatabaseInsightResourceUsage()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceUsage(ctx context.Context, request SummarizeDatabaseInsightResourceUsageRequest) (response SummarizeDatabaseInsightResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4346,9 +4423,10 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUsage(ctx
 // SummarizeDatabaseInsightResourceUsageTrend Returns response with time series data (endTimestamp, usage, capacity) for the time period specified.
 // The maximum time range for analysis is 2 years, hence this is intentionally not paginated.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
+// A default retry strategy applies to this operation SummarizeDatabaseInsightResourceUsageTrend()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceUsageTrend(ctx context.Context, request SummarizeDatabaseInsightResourceUsageTrendRequest) (response SummarizeDatabaseInsightResourceUsageTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4400,9 +4478,10 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUsageTren
 
 // SummarizeDatabaseInsightResourceUtilizationInsight Gets resources with current utilization (high and low) and projected utilization (high and low) for a resource type over specified time period.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
+// A default retry strategy applies to this operation SummarizeDatabaseInsightResourceUtilizationInsight()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceUtilizationInsight(ctx context.Context, request SummarizeDatabaseInsightResourceUtilizationInsightRequest) (response SummarizeDatabaseInsightResourceUtilizationInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4455,9 +4534,10 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUtilizati
 // SummarizeDatabaseInsightTablespaceUsageTrend Returns response with usage time series data (endTimestamp, usage, capacity) with breakdown by tablespaceName for the time period specified.
 // The maximum time range for analysis is 2 years, hence this is intentionally not paginated.
 // Either databaseId or id must be specified.
+// A default retry strategy applies to this operation SummarizeDatabaseInsightTablespaceUsageTrend()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightTablespaceUsageTrend(ctx context.Context, request SummarizeDatabaseInsightTablespaceUsageTrendRequest) (response SummarizeDatabaseInsightTablespaceUsageTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4515,9 +4595,10 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightTablespaceUsageTr
 // Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS and THROUGHPUT. Storage server name is returned in name field for resourceMetric IOPS and THROUGHPUT
 // and asmName is returned in name field for resourceMetric STORAGE. StorageServerName query parameter applies to ResourceType STORAGE_SERVER.
 // Valid values for ResourceType DISKGROUP is STORAGE. Comma delimited (asmName,diskgroupName) is returned in name field.
+// A default retry strategy applies to this operation SummarizeExadataInsightResourceCapacityTrend()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceCapacityTrend(ctx context.Context, request SummarizeExadataInsightResourceCapacityTrendRequest) (response SummarizeExadataInsightResourceCapacityTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4572,9 +4653,10 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceCapacityTr
 // Valid values for ResourceType DATABASE are CPU,MEMORY,IO and STORAGE.
 // Valid values for ResourceType HOST are CPU and MEMORY.
 // Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS and THROUGHPUT.
+// A default retry strategy applies to this operation SummarizeExadataInsightResourceCapacityTrendAggregated()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceCapacityTrendAggregated(ctx context.Context, request SummarizeExadataInsightResourceCapacityTrendAggregatedRequest) (response SummarizeExadataInsightResourceCapacityTrendAggregatedResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4632,9 +4714,10 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceCapacityTr
 // Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS and THROUGHPUT. Storage server name is returned in name field for resourceMetric IOPS and THROUGHPUT
 // and asmName is returned in name field for resourceMetric STORAGE. StorageServerName query parameter applies to ResourceType STORAGE_SERVER.
 // Valid value for ResourceType DISKGROUP is STORAGE. Comma delimited (asmName,diskgroupName) is returned in name field.
+// A default retry strategy applies to this operation SummarizeExadataInsightResourceForecastTrend()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceForecastTrend(ctx context.Context, request SummarizeExadataInsightResourceForecastTrendRequest) (response SummarizeExadataInsightResourceForecastTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4688,9 +4771,10 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceForecastTr
 // Valid values for ResourceType DATABASE are CPU,MEMORY,IO and STORAGE.
 // Valid values for ResourceType HOST are CPU and MEMORY.
 // Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS and THROUGHPUT.
+// A default retry strategy applies to this operation SummarizeExadataInsightResourceForecastTrendAggregated()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceForecastTrendAggregated(ctx context.Context, request SummarizeExadataInsightResourceForecastTrendAggregatedRequest) (response SummarizeExadataInsightResourceForecastTrendAggregatedResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4745,9 +4829,10 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceForecastTr
 // Valid values for ResourceType HOST are CPU and MEMORY.
 // Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS, THROUGHPUT.
 // Valid value for ResourceType DISKGROUP is STORAGE.
+// A default retry strategy applies to this operation SummarizeExadataInsightResourceStatistics()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceStatistics(ctx context.Context, request SummarizeExadataInsightResourceStatisticsRequest) (response SummarizeExadataInsightResourceStatisticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4803,9 +4888,10 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceStatistics
 // Valid values for ResourceType DATABASE are CPU,MEMORY,IO and STORAGE.
 // Valid values for ResourceType HOST are CPU and MEMORY.
 // Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS and THROUGHPUT.
+// A default retry strategy applies to this operation SummarizeExadataInsightResourceUsage()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceUsage(ctx context.Context, request SummarizeExadataInsightResourceUsageRequest) (response SummarizeExadataInsightResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4861,9 +4947,10 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceUsage(ctx 
 // Valid values for ResourceType DATABASE are CPU,MEMORY,IO and STORAGE.
 // Valid values for ResourceType HOST are CPU and MEMORY.
 // Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS and THROUGHPUT.
+// A default retry strategy applies to this operation SummarizeExadataInsightResourceUsageAggregated()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceUsageAggregated(ctx context.Context, request SummarizeExadataInsightResourceUsageAggregatedRequest) (response SummarizeExadataInsightResourceUsageAggregatedResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4914,9 +5001,10 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceUsageAggre
 }
 
 // SummarizeExadataInsightResourceUtilizationInsight Gets current utilization, projected utilization and days to reach projectedUtilization for an exadata system over specified time period. Valid values for ResourceType DATABASE are CPU,MEMORY,IO and STORAGE. Valid values for ResourceType HOST are CPU and MEMORY. Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS and THROUGHPUT.
+// A default retry strategy applies to this operation SummarizeExadataInsightResourceUtilizationInsight()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceUtilizationInsight(ctx context.Context, request SummarizeExadataInsightResourceUtilizationInsightRequest) (response SummarizeExadataInsightResourceUtilizationInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4967,9 +5055,10 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceUtilizatio
 }
 
 // SummarizeExadataMembers Lists the software and hardware inventory of the Exadata System.
+// A default retry strategy applies to this operation SummarizeExadataMembers()
 func (client OperationsInsightsClient) SummarizeExadataMembers(ctx context.Context, request SummarizeExadataMembersRequest) (response SummarizeExadataMembersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5022,9 +5111,10 @@ func (client OperationsInsightsClient) summarizeExadataMembers(ctx context.Conte
 // SummarizeHostInsightResourceCapacityTrend Returns response with time series data (endTimestamp, capacity) for the time period specified.
 // The maximum time range for analysis is 2 years, hence this is intentionally not paginated.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
+// A default retry strategy applies to this operation SummarizeHostInsightResourceCapacityTrend()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceCapacityTrend(ctx context.Context, request SummarizeHostInsightResourceCapacityTrendRequest) (response SummarizeHostInsightResourceCapacityTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5076,9 +5166,10 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceCapacityTrend
 
 // SummarizeHostInsightResourceForecastTrend Get Forecast predictions for CPU or memory resources since a time in the past.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
+// A default retry strategy applies to this operation SummarizeHostInsightResourceForecastTrend()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceForecastTrend(ctx context.Context, request SummarizeHostInsightResourceForecastTrendRequest) (response SummarizeHostInsightResourceForecastTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5130,9 +5221,10 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceForecastTrend
 
 // SummarizeHostInsightResourceStatistics Lists the resource statistics (usage, capacity, usage change percent, utilization percent, load) for each host filtered
 // by utilization level in a compartment and in all sub-compartments if specified.
+// A default retry strategy applies to this operation SummarizeHostInsightResourceStatistics()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceStatistics(ctx context.Context, request SummarizeHostInsightResourceStatisticsRequest) (response SummarizeHostInsightResourceStatisticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5186,9 +5278,10 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceStatistics(ct
 // For each host, the minimum data point with a ranking > the percentile value is included in the summation.
 // Linear regression functions are used to calculate the usage change percentage.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
+// A default retry strategy applies to this operation SummarizeHostInsightResourceUsage()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceUsage(ctx context.Context, request SummarizeHostInsightResourceUsageRequest) (response SummarizeHostInsightResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5241,9 +5334,10 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUsage(ctx con
 // SummarizeHostInsightResourceUsageTrend Returns response with time series data (endTimestamp, usage, capacity) for the time period specified.
 // The maximum time range for analysis is 2 years, hence this is intentionally not paginated.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
+// A default retry strategy applies to this operation SummarizeHostInsightResourceUsageTrend()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceUsageTrend(ctx context.Context, request SummarizeHostInsightResourceUsageTrendRequest) (response SummarizeHostInsightResourceUsageTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5295,9 +5389,10 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUsageTrend(ct
 
 // SummarizeHostInsightResourceUtilizationInsight Gets resources with current utilization (high and low) and projected utilization (high and low) for a resource type over specified time period.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
+// A default retry strategy applies to this operation SummarizeHostInsightResourceUtilizationInsight()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceUtilizationInsight(ctx context.Context, request SummarizeHostInsightResourceUtilizationInsightRequest) (response SummarizeHostInsightResourceUtilizationInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5350,9 +5445,10 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUtilizationIn
 // SummarizeHostInsightTopProcessesUsageTrend Returns response with aggregated time series data (timeIntervalstart, timeIntervalEnd, commandArgs, usageData) for top processes.
 // Data is aggregated for the time period specified and proceses are sorted descendent by the proces metric specified (CPU, MEMORY, VIRTUAL_MEMORY).
 // HostInsight Id and Process metric must be specified
+// A default retry strategy applies to this operation SummarizeHostInsightTopProcessesUsageTrend()
 func (client OperationsInsightsClient) SummarizeHostInsightTopProcessesUsageTrend(ctx context.Context, request SummarizeHostInsightTopProcessesUsageTrendRequest) (response SummarizeHostInsightTopProcessesUsageTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5404,9 +5500,10 @@ func (client OperationsInsightsClient) summarizeHostInsightTopProcessesUsageTren
 
 // SummarizeOperationsInsightsWarehouseResourceUsage Gets the details of resources used by an Operations Insights Warehouse.
 // There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment.
+// A default retry strategy applies to this operation SummarizeOperationsInsightsWarehouseResourceUsage()
 func (client OperationsInsightsClient) SummarizeOperationsInsightsWarehouseResourceUsage(ctx context.Context, request SummarizeOperationsInsightsWarehouseResourceUsageRequest) (response SummarizeOperationsInsightsWarehouseResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5458,9 +5555,10 @@ func (client OperationsInsightsClient) summarizeOperationsInsightsWarehouseResou
 
 // SummarizeSqlInsights Query SQL Warehouse to get the performance insights for SQLs taking greater than X% database time for a given
 // time period across the given databases or database types in a compartment and in all sub-compartments if specified.
+// A default retry strategy applies to this operation SummarizeSqlInsights()
 func (client OperationsInsightsClient) SummarizeSqlInsights(ctx context.Context, request SummarizeSqlInsightsRequest) (response SummarizeSqlInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5512,9 +5610,10 @@ func (client OperationsInsightsClient) summarizeSqlInsights(ctx context.Context,
 
 // SummarizeSqlPlanInsights Query SQL Warehouse to get the performance insights on the execution plans for a given SQL for a given time period.
 // Either databaseId or id must be specified.
+// A default retry strategy applies to this operation SummarizeSqlPlanInsights()
 func (client OperationsInsightsClient) SummarizeSqlPlanInsights(ctx context.Context, request SummarizeSqlPlanInsightsRequest) (response SummarizeSqlPlanInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5566,9 +5665,10 @@ func (client OperationsInsightsClient) summarizeSqlPlanInsights(ctx context.Cont
 
 // SummarizeSqlResponseTimeDistributions Query SQL Warehouse to summarize the response time distribution of query executions for a given SQL for a given time period.
 // Either databaseId or id must be specified.
+// A default retry strategy applies to this operation SummarizeSqlResponseTimeDistributions()
 func (client OperationsInsightsClient) SummarizeSqlResponseTimeDistributions(ctx context.Context, request SummarizeSqlResponseTimeDistributionsRequest) (response SummarizeSqlResponseTimeDistributionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5620,9 +5720,10 @@ func (client OperationsInsightsClient) summarizeSqlResponseTimeDistributions(ctx
 
 // SummarizeSqlStatistics Query SQL Warehouse to get the performance statistics for SQLs taking greater than X% database time for a given
 // time period across the given databases or database types in a compartment and in all sub-compartments if specified.
+// A default retry strategy applies to this operation SummarizeSqlStatistics()
 func (client OperationsInsightsClient) SummarizeSqlStatistics(ctx context.Context, request SummarizeSqlStatisticsRequest) (response SummarizeSqlStatisticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5674,9 +5775,10 @@ func (client OperationsInsightsClient) summarizeSqlStatistics(ctx context.Contex
 
 // SummarizeSqlStatisticsTimeSeries Query SQL Warehouse to get the performance statistics time series for a given SQL across given databases for a
 // given time period in a compartment and in all sub-compartments if specified.
+// A default retry strategy applies to this operation SummarizeSqlStatisticsTimeSeries()
 func (client OperationsInsightsClient) SummarizeSqlStatisticsTimeSeries(ctx context.Context, request SummarizeSqlStatisticsTimeSeriesRequest) (response SummarizeSqlStatisticsTimeSeriesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5728,9 +5830,10 @@ func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeries(ctx cont
 
 // SummarizeSqlStatisticsTimeSeriesByPlan Query SQL Warehouse to get the performance statistics time series for a given SQL by execution plans for a given time period.
 // Either databaseId or id must be specified.
+// A default retry strategy applies to this operation SummarizeSqlStatisticsTimeSeriesByPlan()
 func (client OperationsInsightsClient) SummarizeSqlStatisticsTimeSeriesByPlan(ctx context.Context, request SummarizeSqlStatisticsTimeSeriesByPlanRequest) (response SummarizeSqlStatisticsTimeSeriesByPlanResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5781,9 +5884,10 @@ func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeriesByPlan(ct
 }
 
 // UpdateAwrHub Updates the configuration of a hub .
+// A default retry strategy applies to this operation UpdateAwrHub()
 func (client OperationsInsightsClient) UpdateAwrHub(ctx context.Context, request UpdateAwrHubRequest) (response UpdateAwrHubResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5834,9 +5938,10 @@ func (client OperationsInsightsClient) updateAwrHub(ctx context.Context, request
 }
 
 // UpdateDatabaseInsight Updates configuration of a database insight.
+// A default retry strategy applies to this operation UpdateDatabaseInsight()
 func (client OperationsInsightsClient) UpdateDatabaseInsight(ctx context.Context, request UpdateDatabaseInsightRequest) (response UpdateDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5887,9 +5992,10 @@ func (client OperationsInsightsClient) updateDatabaseInsight(ctx context.Context
 }
 
 // UpdateEnterpriseManagerBridge Updates configuration of an Operations Insights Enterprise Manager bridge.
+// A default retry strategy applies to this operation UpdateEnterpriseManagerBridge()
 func (client OperationsInsightsClient) UpdateEnterpriseManagerBridge(ctx context.Context, request UpdateEnterpriseManagerBridgeRequest) (response UpdateEnterpriseManagerBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5940,9 +6046,10 @@ func (client OperationsInsightsClient) updateEnterpriseManagerBridge(ctx context
 }
 
 // UpdateExadataInsight Updates configuration of an Exadata insight.
+// A default retry strategy applies to this operation UpdateExadataInsight()
 func (client OperationsInsightsClient) UpdateExadataInsight(ctx context.Context, request UpdateExadataInsightRequest) (response UpdateExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5993,9 +6100,10 @@ func (client OperationsInsightsClient) updateExadataInsight(ctx context.Context,
 }
 
 // UpdateHostInsight Updates configuration of a host insight.
+// A default retry strategy applies to this operation UpdateHostInsight()
 func (client OperationsInsightsClient) UpdateHostInsight(ctx context.Context, request UpdateHostInsightRequest) (response UpdateHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6046,9 +6154,10 @@ func (client OperationsInsightsClient) updateHostInsight(ctx context.Context, re
 }
 
 // UpdateOperationsInsightsPrivateEndpoint Updates one or more attributes of the specified private endpoint.
+// A default retry strategy applies to this operation UpdateOperationsInsightsPrivateEndpoint()
 func (client OperationsInsightsClient) UpdateOperationsInsightsPrivateEndpoint(ctx context.Context, request UpdateOperationsInsightsPrivateEndpointRequest) (response UpdateOperationsInsightsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6100,9 +6209,10 @@ func (client OperationsInsightsClient) updateOperationsInsightsPrivateEndpoint(c
 
 // UpdateOperationsInsightsWarehouse Updates the configuration of an Operations Insights Warehouse.
 // There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment.
+// A default retry strategy applies to this operation UpdateOperationsInsightsWarehouse()
 func (client OperationsInsightsClient) UpdateOperationsInsightsWarehouse(ctx context.Context, request UpdateOperationsInsightsWarehouseRequest) (response UpdateOperationsInsightsWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6153,9 +6263,10 @@ func (client OperationsInsightsClient) updateOperationsInsightsWarehouse(ctx con
 }
 
 // UpdateOperationsInsightsWarehouseUser Updates the configuration of an Operations Insights Warehouse User.
+// A default retry strategy applies to this operation UpdateOperationsInsightsWarehouseUser()
 func (client OperationsInsightsClient) UpdateOperationsInsightsWarehouseUser(ctx context.Context, request UpdateOperationsInsightsWarehouseUserRequest) (response UpdateOperationsInsightsWarehouseUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

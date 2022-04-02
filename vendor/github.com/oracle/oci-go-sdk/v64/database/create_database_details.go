@@ -70,6 +70,9 @@ type CreateDatabaseDetails struct {
 
 	// Specifies a prefix for the `Oracle SID` of the database to be created.
 	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
+
+	// If true, then the database creation request will be submitted even if the VM cluster memory may have been oversubscribed. If false, then the database creation request will be blocked if the VM cluster doesn't have enough memory left.
+	IsMemoryOversubscriptionAcknowledged *bool `mandatory:"false" json:"isMemoryOversubscriptionAcknowledged"`
 }
 
 func (m CreateDatabaseDetails) String() string {

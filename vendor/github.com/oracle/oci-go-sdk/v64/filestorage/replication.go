@@ -74,6 +74,9 @@ type Replication struct {
 	// Additional information about the current 'lifecycleState'.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Percentage progress of the current replication cycle.
+	DeltaProgress *int64 `mandatory:"false" json:"deltaProgress"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -172,6 +175,7 @@ type ReplicationDeltaStatusEnum string
 const (
 	ReplicationDeltaStatusIdle         ReplicationDeltaStatusEnum = "IDLE"
 	ReplicationDeltaStatusCapturing    ReplicationDeltaStatusEnum = "CAPTURING"
+	ReplicationDeltaStatusTransferring ReplicationDeltaStatusEnum = "TRANSFERRING"
 	ReplicationDeltaStatusApplying     ReplicationDeltaStatusEnum = "APPLYING"
 	ReplicationDeltaStatusServiceError ReplicationDeltaStatusEnum = "SERVICE_ERROR"
 	ReplicationDeltaStatusUserError    ReplicationDeltaStatusEnum = "USER_ERROR"
@@ -181,6 +185,7 @@ const (
 var mappingReplicationDeltaStatusEnum = map[string]ReplicationDeltaStatusEnum{
 	"IDLE":          ReplicationDeltaStatusIdle,
 	"CAPTURING":     ReplicationDeltaStatusCapturing,
+	"TRANSFERRING":  ReplicationDeltaStatusTransferring,
 	"APPLYING":      ReplicationDeltaStatusApplying,
 	"SERVICE_ERROR": ReplicationDeltaStatusServiceError,
 	"USER_ERROR":    ReplicationDeltaStatusUserError,
@@ -190,6 +195,7 @@ var mappingReplicationDeltaStatusEnum = map[string]ReplicationDeltaStatusEnum{
 var mappingReplicationDeltaStatusEnumLowerCase = map[string]ReplicationDeltaStatusEnum{
 	"idle":          ReplicationDeltaStatusIdle,
 	"capturing":     ReplicationDeltaStatusCapturing,
+	"transferring":  ReplicationDeltaStatusTransferring,
 	"applying":      ReplicationDeltaStatusApplying,
 	"service_error": ReplicationDeltaStatusServiceError,
 	"user_error":    ReplicationDeltaStatusUserError,
@@ -210,6 +216,7 @@ func GetReplicationDeltaStatusEnumStringValues() []string {
 	return []string{
 		"IDLE",
 		"CAPTURING",
+		"TRANSFERRING",
 		"APPLYING",
 		"SERVICE_ERROR",
 		"USER_ERROR",

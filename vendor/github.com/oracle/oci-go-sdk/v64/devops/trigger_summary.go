@@ -110,6 +110,10 @@ func (m *triggersummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 
 	var err error
 	switch m.TriggerSource {
+	case "BITBUCKET_CLOUD":
+		mm := BitbucketCloudTriggerSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITLAB":
 		mm := GitlabTriggerSummary{}
 		err = json.Unmarshal(data, &mm)

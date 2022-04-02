@@ -31,11 +31,6 @@ type KerberosKeytabEntry struct {
 
 	// Kerberos kvno (key version number) for key in keytab entry.
 	KeyVersionNumber *int64 `mandatory:"true" json:"keyVersionNumber"`
-
-	// The date and time the Keytab was rotated, expressed in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
-	// Example: `2016-08-25T21:10:29.600Z`
-	TimeRotated *common.SDKTime `mandatory:"false" json:"timeRotated"`
 }
 
 func (m KerberosKeytabEntry) String() string {

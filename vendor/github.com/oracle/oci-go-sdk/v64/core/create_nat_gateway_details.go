@@ -52,6 +52,12 @@ type CreateNatGatewayDetails struct {
 
 	// The name of the Oracle managed public IP Pool from which the IP address associated with the NAT gateway is allocated.
 	InternalPublicIpPoolName CreateNatGatewayDetailsInternalPublicIpPoolNameEnum `mandatory:"false" json:"internalPublicIpPoolName,omitempty"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table used by the NAT gateway.
+	// If you don't specify a route table here, the NAT gateway is created without an associated route
+	// table. The Networking service does NOT automatically associate the attached VCN's default route table
+	// with the NAT gateway.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m CreateNatGatewayDetails) String() string {

@@ -87,9 +87,10 @@ func (client *WafClient) ConfigurationProvider() *common.ConfigurationProvider {
 
 // ChangeNetworkAddressListCompartment Moves a NetworkAddressList resource from one compartment to another.
 // When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeNetworkAddressListCompartment()
 func (client WafClient) ChangeNetworkAddressListCompartment(ctx context.Context, request ChangeNetworkAddressListCompartmentRequest) (response ChangeNetworkAddressListCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -141,9 +142,10 @@ func (client WafClient) changeNetworkAddressListCompartment(ctx context.Context,
 
 // ChangeWebAppFirewallCompartment Moves a Web App Firewall resource from one compartment to another.
 // When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeWebAppFirewallCompartment()
 func (client WafClient) ChangeWebAppFirewallCompartment(ctx context.Context, request ChangeWebAppFirewallCompartmentRequest) (response ChangeWebAppFirewallCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -195,9 +197,10 @@ func (client WafClient) changeWebAppFirewallCompartment(ctx context.Context, req
 
 // ChangeWebAppFirewallPolicyCompartment Moves a WebAppFirewallfPolicy resource from one compartment to another.
 // When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeWebAppFirewallPolicyCompartment()
 func (client WafClient) ChangeWebAppFirewallPolicyCompartment(ctx context.Context, request ChangeWebAppFirewallPolicyCompartmentRequest) (response ChangeWebAppFirewallPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -248,9 +251,10 @@ func (client WafClient) changeWebAppFirewallPolicyCompartment(ctx context.Contex
 }
 
 // CreateNetworkAddressList Creates a new NetworkAddressList.
+// A default retry strategy applies to this operation CreateNetworkAddressList()
 func (client WafClient) CreateNetworkAddressList(ctx context.Context, request CreateNetworkAddressListRequest) (response CreateNetworkAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -306,9 +310,10 @@ func (client WafClient) createNetworkAddressList(ctx context.Context, request co
 }
 
 // CreateWebAppFirewall Creates a new WebAppFirewall.
+// A default retry strategy applies to this operation CreateWebAppFirewall()
 func (client WafClient) CreateWebAppFirewall(ctx context.Context, request CreateWebAppFirewallRequest) (response CreateWebAppFirewallResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -364,9 +369,10 @@ func (client WafClient) createWebAppFirewall(ctx context.Context, request common
 }
 
 // CreateWebAppFirewallPolicy Creates a new WebAppFirewallPolicy.
+// A default retry strategy applies to this operation CreateWebAppFirewallPolicy()
 func (client WafClient) CreateWebAppFirewallPolicy(ctx context.Context, request CreateWebAppFirewallPolicyRequest) (response CreateWebAppFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -422,9 +428,10 @@ func (client WafClient) createWebAppFirewallPolicy(ctx context.Context, request 
 }
 
 // DeleteNetworkAddressList Deletes a NetworkAddressList resource identified by the OCID.
+// A default retry strategy applies to this operation DeleteNetworkAddressList()
 func (client WafClient) DeleteNetworkAddressList(ctx context.Context, request DeleteNetworkAddressListRequest) (response DeleteNetworkAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -475,9 +482,10 @@ func (client WafClient) deleteNetworkAddressList(ctx context.Context, request co
 }
 
 // DeleteWebAppFirewall Deletes a WebAppFirewall resource identified by the OCID.
+// A default retry strategy applies to this operation DeleteWebAppFirewall()
 func (client WafClient) DeleteWebAppFirewall(ctx context.Context, request DeleteWebAppFirewallRequest) (response DeleteWebAppFirewallResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -528,9 +536,10 @@ func (client WafClient) deleteWebAppFirewall(ctx context.Context, request common
 }
 
 // DeleteWebAppFirewallPolicy Deletes a WebAppFirewallPolicy resource identified by the OCID.
+// A default retry strategy applies to this operation DeleteWebAppFirewallPolicy()
 func (client WafClient) DeleteWebAppFirewallPolicy(ctx context.Context, request DeleteWebAppFirewallPolicyRequest) (response DeleteWebAppFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -581,9 +590,10 @@ func (client WafClient) deleteWebAppFirewallPolicy(ctx context.Context, request 
 }
 
 // GetNetworkAddressList Gets a NetworkAddressList by OCID.
+// A default retry strategy applies to this operation GetNetworkAddressList()
 func (client WafClient) GetNetworkAddressList(ctx context.Context, request GetNetworkAddressListRequest) (response GetNetworkAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -634,9 +644,10 @@ func (client WafClient) getNetworkAddressList(ctx context.Context, request commo
 }
 
 // GetWebAppFirewall Gets a WebAppFirewall by OCID.
+// A default retry strategy applies to this operation GetWebAppFirewall()
 func (client WafClient) GetWebAppFirewall(ctx context.Context, request GetWebAppFirewallRequest) (response GetWebAppFirewallResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -687,9 +698,10 @@ func (client WafClient) getWebAppFirewall(ctx context.Context, request common.OC
 }
 
 // GetWebAppFirewallPolicy Gets a WebAppFirewallPolicy with the given OCID.
+// A default retry strategy applies to this operation GetWebAppFirewallPolicy()
 func (client WafClient) GetWebAppFirewallPolicy(ctx context.Context, request GetWebAppFirewallPolicyRequest) (response GetWebAppFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -740,9 +752,10 @@ func (client WafClient) getWebAppFirewallPolicy(ctx context.Context, request com
 }
 
 // GetWorkRequest Gets the status of the WorkRequest with the given OCID.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client WafClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -793,9 +806,10 @@ func (client WafClient) getWorkRequest(ctx context.Context, request common.OCIRe
 }
 
 // ListNetworkAddressLists Gets a list of all NetworkAddressLists in a compartment.
+// A default retry strategy applies to this operation ListNetworkAddressLists()
 func (client WafClient) ListNetworkAddressLists(ctx context.Context, request ListNetworkAddressListsRequest) (response ListNetworkAddressListsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -846,9 +860,10 @@ func (client WafClient) listNetworkAddressLists(ctx context.Context, request com
 }
 
 // ListProtectionCapabilities Lists of protection capabilities filtered by query parameters.
+// A default retry strategy applies to this operation ListProtectionCapabilities()
 func (client WafClient) ListProtectionCapabilities(ctx context.Context, request ListProtectionCapabilitiesRequest) (response ListProtectionCapabilitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -899,9 +914,10 @@ func (client WafClient) listProtectionCapabilities(ctx context.Context, request 
 }
 
 // ListProtectionCapabilityGroupTags Lists of available group tags filtered by query parameters.
+// A default retry strategy applies to this operation ListProtectionCapabilityGroupTags()
 func (client WafClient) ListProtectionCapabilityGroupTags(ctx context.Context, request ListProtectionCapabilityGroupTagsRequest) (response ListProtectionCapabilityGroupTagsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -952,9 +968,10 @@ func (client WafClient) listProtectionCapabilityGroupTags(ctx context.Context, r
 }
 
 // ListWebAppFirewallPolicies Gets a list of all WebAppFirewallPolicies in a compartment.
+// A default retry strategy applies to this operation ListWebAppFirewallPolicies()
 func (client WafClient) ListWebAppFirewallPolicies(ctx context.Context, request ListWebAppFirewallPoliciesRequest) (response ListWebAppFirewallPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1005,9 +1022,10 @@ func (client WafClient) listWebAppFirewallPolicies(ctx context.Context, request 
 }
 
 // ListWebAppFirewalls Gets a list of all WebAppFirewalls in a compartment.
+// A default retry strategy applies to this operation ListWebAppFirewalls()
 func (client WafClient) ListWebAppFirewalls(ctx context.Context, request ListWebAppFirewallsRequest) (response ListWebAppFirewallsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1058,9 +1076,10 @@ func (client WafClient) listWebAppFirewalls(ctx context.Context, request common.
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given WorkRequest.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client WafClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1111,9 +1130,10 @@ func (client WafClient) listWorkRequestErrors(ctx context.Context, request commo
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given WorkRequest.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client WafClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1164,9 +1184,10 @@ func (client WafClient) listWorkRequestLogs(ctx context.Context, request common.
 }
 
 // ListWorkRequests Lists the WorkRequests in a compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client WafClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1217,9 +1238,10 @@ func (client WafClient) listWorkRequests(ctx context.Context, request common.OCI
 }
 
 // UpdateNetworkAddressList Update the NetworkAddressList identified by the OCID.
+// A default retry strategy applies to this operation UpdateNetworkAddressList()
 func (client WafClient) UpdateNetworkAddressList(ctx context.Context, request UpdateNetworkAddressListRequest) (response UpdateNetworkAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1270,9 +1292,10 @@ func (client WafClient) updateNetworkAddressList(ctx context.Context, request co
 }
 
 // UpdateWebAppFirewall Updates the WebAppFirewall identified by the OCID.
+// A default retry strategy applies to this operation UpdateWebAppFirewall()
 func (client WafClient) UpdateWebAppFirewall(ctx context.Context, request UpdateWebAppFirewallRequest) (response UpdateWebAppFirewallResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1323,9 +1346,10 @@ func (client WafClient) updateWebAppFirewall(ctx context.Context, request common
 }
 
 // UpdateWebAppFirewallPolicy Update the WebAppFirewallPolicy identified by the OCID.
+// A default retry strategy applies to this operation UpdateWebAppFirewallPolicy()
 func (client WafClient) UpdateWebAppFirewallPolicy(ctx context.Context, request UpdateWebAppFirewallPolicyRequest) (response UpdateWebAppFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// Endpoint Combination of server dns or ip and port
+// Endpoint Combination of server dns and port
 type Endpoint struct {
 
 	// String consisting of domain name server for endpoint

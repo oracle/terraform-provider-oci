@@ -20,7 +20,7 @@ import (
 type ReserveTargetNumDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication target id.
-	ReplicationTargetId *string `mandatory:"false" json:"replicationTargetId"`
+	ReplicationId *string `mandatory:"false" json:"replicationId"`
 
 	// The resume snapshot num which represents point of replication continuinity.
 	ResumeSnapshotNum *int64 `mandatory:"false" json:"resumeSnapshotNum"`

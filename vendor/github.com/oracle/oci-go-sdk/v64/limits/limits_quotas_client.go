@@ -84,8 +84,8 @@ func (client *QuotasClient) ConfigurationProvider() *common.ConfigurationProvide
 	return client.config
 }
 
-// AddLock Adds a lock to a resource.
-func (client QuotasClient) AddLock(ctx context.Context, request AddLockRequest) (response AddLockResponse, err error) {
+// AddQuotaLock Adds a lock to a resource.
+func (client QuotasClient) AddQuotaLock(ctx context.Context, request AddQuotaLockRequest) (response AddQuotaLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -94,42 +94,42 @@ func (client QuotasClient) AddLock(ctx context.Context, request AddLockRequest) 
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-	ociResponse, err = common.Retry(ctx, request, client.addLock, policy)
+	ociResponse, err = common.Retry(ctx, request, client.addQuotaLock, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = AddLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = AddQuotaLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = AddLockResponse{}
+				response = AddQuotaLockResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(AddLockResponse); ok {
+	if convertedResponse, ok := ociResponse.(AddQuotaLockResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into AddLockResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into AddQuotaLockResponse")
 	}
 	return
 }
 
-// addLock implements the OCIOperation interface (enables retrying operations)
-func (client QuotasClient) addLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// addQuotaLock implements the OCIOperation interface (enables retrying operations)
+func (client QuotasClient) addQuotaLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20181025/quotas/{quotaId}/actions/addLock", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response AddLockResponse
+	var response AddQuotaLockResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//Quota/AddLock"
-		err = common.PostProcessServiceError(err, "Quotas", "AddLock", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/Quota/AddQuotaLock"
+		err = common.PostProcessServiceError(err, "Quotas", "AddQuotaLock", apiReferenceLink)
 		return response, err
 	}
 
@@ -186,7 +186,7 @@ func (client QuotasClient) createQuota(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//Quota/CreateQuota"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/Quota/CreateQuota"
 		err = common.PostProcessServiceError(err, "Quotas", "CreateQuota", apiReferenceLink)
 		return response, err
 	}
@@ -239,7 +239,7 @@ func (client QuotasClient) deleteQuota(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//Quota/DeleteQuota"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/Quota/DeleteQuota"
 		err = common.PostProcessServiceError(err, "Quotas", "DeleteQuota", apiReferenceLink)
 		return response, err
 	}
@@ -292,7 +292,7 @@ func (client QuotasClient) getQuota(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//Quota/GetQuota"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/Quota/GetQuota"
 		err = common.PostProcessServiceError(err, "Quotas", "GetQuota", apiReferenceLink)
 		return response, err
 	}
@@ -345,7 +345,7 @@ func (client QuotasClient) listQuotas(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//QuotaSummary/ListQuotas"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/QuotaSummary/ListQuotas"
 		err = common.PostProcessServiceError(err, "Quotas", "ListQuotas", apiReferenceLink)
 		return response, err
 	}
@@ -354,8 +354,8 @@ func (client QuotasClient) listQuotas(ctx context.Context, request common.OCIReq
 	return response, err
 }
 
-// RemoveLock Remove a lock from a resource.
-func (client QuotasClient) RemoveLock(ctx context.Context, request RemoveLockRequest) (response RemoveLockResponse, err error) {
+// RemoveQuotaLock Remove a lock from a resource.
+func (client QuotasClient) RemoveQuotaLock(ctx context.Context, request RemoveQuotaLockRequest) (response RemoveQuotaLockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -364,42 +364,42 @@ func (client QuotasClient) RemoveLock(ctx context.Context, request RemoveLockReq
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-	ociResponse, err = common.Retry(ctx, request, client.removeLock, policy)
+	ociResponse, err = common.Retry(ctx, request, client.removeQuotaLock, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = RemoveLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = RemoveQuotaLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = RemoveLockResponse{}
+				response = RemoveQuotaLockResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(RemoveLockResponse); ok {
+	if convertedResponse, ok := ociResponse.(RemoveQuotaLockResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into RemoveLockResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveQuotaLockResponse")
 	}
 	return
 }
 
-// removeLock implements the OCIOperation interface (enables retrying operations)
-func (client QuotasClient) removeLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// removeQuotaLock implements the OCIOperation interface (enables retrying operations)
+func (client QuotasClient) removeQuotaLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20181025/quotas/{quotaId}/actions/removeLock", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response RemoveLockResponse
+	var response RemoveQuotaLockResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//Quota/RemoveLock"
-		err = common.PostProcessServiceError(err, "Quotas", "RemoveLock", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/Quota/RemoveQuotaLock"
+		err = common.PostProcessServiceError(err, "Quotas", "RemoveQuotaLock", apiReferenceLink)
 		return response, err
 	}
 
@@ -451,7 +451,7 @@ func (client QuotasClient) updateQuota(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//Quota/UpdateQuota"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/Quota/UpdateQuota"
 		err = common.PostProcessServiceError(err, "Quotas", "UpdateQuota", apiReferenceLink)
 		return response, err
 	}

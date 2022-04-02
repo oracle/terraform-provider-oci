@@ -69,6 +69,10 @@ func (m *buildsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		mm := GithubBuildSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BITBUCKET_CLOUD":
+		mm := BitbucketCloudBuildSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DEVOPS_CODE_REPOSITORY":
 		mm := DevopsCodeRepositoryBuildSource{}
 		err = json.Unmarshal(data, &mm)
@@ -120,18 +124,21 @@ type BuildSourceConnectionTypeEnum string
 const (
 	BuildSourceConnectionTypeGithub               BuildSourceConnectionTypeEnum = "GITHUB"
 	BuildSourceConnectionTypeGitlab               BuildSourceConnectionTypeEnum = "GITLAB"
+	BuildSourceConnectionTypeBitbucketCloud       BuildSourceConnectionTypeEnum = "BITBUCKET_CLOUD"
 	BuildSourceConnectionTypeDevopsCodeRepository BuildSourceConnectionTypeEnum = "DEVOPS_CODE_REPOSITORY"
 )
 
 var mappingBuildSourceConnectionTypeEnum = map[string]BuildSourceConnectionTypeEnum{
 	"GITHUB":                 BuildSourceConnectionTypeGithub,
 	"GITLAB":                 BuildSourceConnectionTypeGitlab,
+	"BITBUCKET_CLOUD":        BuildSourceConnectionTypeBitbucketCloud,
 	"DEVOPS_CODE_REPOSITORY": BuildSourceConnectionTypeDevopsCodeRepository,
 }
 
 var mappingBuildSourceConnectionTypeEnumLowerCase = map[string]BuildSourceConnectionTypeEnum{
 	"github":                 BuildSourceConnectionTypeGithub,
 	"gitlab":                 BuildSourceConnectionTypeGitlab,
+	"bitbucket_cloud":        BuildSourceConnectionTypeBitbucketCloud,
 	"devops_code_repository": BuildSourceConnectionTypeDevopsCodeRepository,
 }
 
@@ -149,6 +156,7 @@ func GetBuildSourceConnectionTypeEnumStringValues() []string {
 	return []string{
 		"GITHUB",
 		"GITLAB",
+		"BITBUCKET_CLOUD",
 		"DEVOPS_CODE_REPOSITORY",
 	}
 }

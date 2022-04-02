@@ -14,7 +14,7 @@ import (
 // AnalyzeDocumentRequest wrapper for the AnalyzeDocument operation
 type AnalyzeDocumentRequest struct {
 
-	// Details about how to analyze a document.
+	// The details of how to analyze a document.
 	AnalyzeDocumentDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.
@@ -74,7 +74,7 @@ type AnalyzeDocumentResponse struct {
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// A unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }

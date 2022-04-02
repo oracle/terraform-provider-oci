@@ -2822,6 +2822,59 @@ func (client ComputeClient) getInstanceConsoleConnection(ctx context.Context, re
 	return response, err
 }
 
+// GetInstanceMaintenanceReboot Gets the maximum possible date that a maintenance reboot can be extended.
+func (client ComputeClient) GetInstanceMaintenanceReboot(ctx context.Context, request GetInstanceMaintenanceRebootRequest) (response GetInstanceMaintenanceRebootResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getInstanceMaintenanceReboot, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInstanceMaintenanceRebootResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInstanceMaintenanceRebootResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInstanceMaintenanceRebootResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInstanceMaintenanceRebootResponse")
+	}
+	return
+}
+
+// getInstanceMaintenanceReboot implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) getInstanceMaintenanceReboot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/maintenanceReboot", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetInstanceMaintenanceRebootResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceMaintenanceReboot/GetInstanceMaintenanceReboot"
+		err = common.PostProcessServiceError(err, "Compute", "GetInstanceMaintenanceReboot", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetInstanceScreenshot Retrieves the metadata of the specified screenshot taken for the specified instance.
 func (client ComputeClient) GetInstanceScreenshot(ctx context.Context, request GetInstanceScreenshotRequest) (response GetInstanceScreenshotResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3152,6 +3205,7 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // - **SOFTRESET** - Gracefully reboots the instance by sending a shutdown command to the operating system.
 // After waiting 15 minutes for the OS to shut down, the instance is powered off and
 // then powered back on.
+//
 // - **SENDDIAGNOSTICINTERRUPT** - For advanced users. **Warning: Sending a diagnostic interrupt to a live system can
 // cause data corruption or system failure.** Sends a diagnostic interrupt that causes the instance's
 // OS to crash and then reboot. Before you send a diagnostic interrupt, you must configure the instance to generate a
@@ -3167,7 +3221,6 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // correctly, and try other troubleshooting steps (https://docs.cloud.oracle.com/iaas/Content/Compute/References/troubleshooting-compute-instances.htm).
 // Use diagnostic reboot as a final attempt to troubleshoot an unreachable instance. For virtual machine (VM) instances only.
 // For more information, see Performing a Diagnostic Reboot (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/diagnostic-reboot.htm).
-//
 // For more information about managing instance lifecycle states, see
 // Stopping and Starting an Instance (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/restartinginstance.htm).
 func (client ComputeClient) InstanceAction(ctx context.Context, request InstanceActionRequest) (response InstanceActionResponse, err error) {

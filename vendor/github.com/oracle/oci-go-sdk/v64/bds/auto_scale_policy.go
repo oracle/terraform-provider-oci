@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AutoScalePolicy Policy definitions for the autoscale configuration.
+// AutoScalePolicy This model for autoscaling policy is deprecated and not supported for ODH clusters. Use the `AutoScalePolicyDetails` model to manage autoscale policy details for ODH clusters.
 type AutoScalePolicy struct {
 
 	// Types of autoscale policies. Options are SCHEDULE-BASED or THRESHOLD-BASED. (Only THRESHOLD-BASED is supported in this release.)
@@ -51,16 +51,19 @@ type AutoScalePolicyPolicyTypeEnum string
 const (
 	AutoScalePolicyPolicyTypeThresholdBased AutoScalePolicyPolicyTypeEnum = "THRESHOLD_BASED"
 	AutoScalePolicyPolicyTypeScheduleBased  AutoScalePolicyPolicyTypeEnum = "SCHEDULE_BASED"
+	AutoScalePolicyPolicyTypeNone           AutoScalePolicyPolicyTypeEnum = "NONE"
 )
 
 var mappingAutoScalePolicyPolicyTypeEnum = map[string]AutoScalePolicyPolicyTypeEnum{
 	"THRESHOLD_BASED": AutoScalePolicyPolicyTypeThresholdBased,
 	"SCHEDULE_BASED":  AutoScalePolicyPolicyTypeScheduleBased,
+	"NONE":            AutoScalePolicyPolicyTypeNone,
 }
 
 var mappingAutoScalePolicyPolicyTypeEnumLowerCase = map[string]AutoScalePolicyPolicyTypeEnum{
 	"threshold_based": AutoScalePolicyPolicyTypeThresholdBased,
 	"schedule_based":  AutoScalePolicyPolicyTypeScheduleBased,
+	"none":            AutoScalePolicyPolicyTypeNone,
 }
 
 // GetAutoScalePolicyPolicyTypeEnumValues Enumerates the set of values for AutoScalePolicyPolicyTypeEnum
@@ -77,6 +80,7 @@ func GetAutoScalePolicyPolicyTypeEnumStringValues() []string {
 	return []string{
 		"THRESHOLD_BASED",
 		"SCHEDULE_BASED",
+		"NONE",
 	}
 }
 
