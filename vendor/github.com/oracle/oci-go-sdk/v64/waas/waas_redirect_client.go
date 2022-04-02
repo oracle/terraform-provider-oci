@@ -51,7 +51,7 @@ func NewRedirectClientWithOboToken(configProvider common.ConfigurationProvider, 
 
 func newRedirectClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client RedirectClient, err error) {
 	// Redirect service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("Redirect"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

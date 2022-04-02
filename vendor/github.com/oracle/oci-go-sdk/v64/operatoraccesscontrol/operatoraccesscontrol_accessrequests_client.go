@@ -53,7 +53,7 @@ func NewAccessRequestsClientWithOboToken(configProvider common.ConfigurationProv
 
 func newAccessRequestsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client AccessRequestsClient, err error) {
 	// AccessRequests service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("AccessRequests"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

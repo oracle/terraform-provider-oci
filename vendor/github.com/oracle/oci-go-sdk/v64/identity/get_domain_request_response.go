@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetDomain.go.html to see an example of how to use GetDomainRequest.
 type GetDomainRequest struct {
 
-	// The OCID of the domain
+	// The OCID of the identity domain.
 	DomainId *string `mandatory:"true" contributesTo:"path" name:"domainId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

@@ -45,6 +45,23 @@ const (
 	File
 )
 
+var (
+	affectedByEventualConsistencyRetryStatusCodeMap = map[StatErrCode]bool{
+		{400, "RelatedResourceNotAuthorizedOrNotFound"}: true,
+		{404, "NotAuthorizedOrNotFound"}:                true,
+		{409, "NotAuthorizedOrResourceAlreadyExists"}:   true,
+		{400, "InsufficientServicePermissions"}:         true,
+	}
+)
+
+// IsErrorAffectedByEventualConsistency returns true if the error is affected by eventual consistency.
+func IsErrorAffectedByEventualConsistency(Error error) bool {
+	if err, ok := IsServiceError(Error); ok {
+		return affectedByEventualConsistencyRetryStatusCodeMap[StatErrCode{err.GetHTTPStatusCode(), err.GetCode()}]
+	}
+	return false
+}
+
 func getEcMode(mode string) EcMode {
 	var lmode = strings.ToLower(mode)
 	switch lmode {

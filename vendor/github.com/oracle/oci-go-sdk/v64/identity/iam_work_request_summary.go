@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// IamWorkRequestSummary The IAM work request summary. Tracks the status of the asynchronous operations.
+// IamWorkRequestSummary (For tenancies that support identity domains) The IAM work request summary. Tracks the status of asynchronous operations.
 type IamWorkRequestSummary struct {
 
 	// The OCID of the work request.
@@ -24,7 +24,7 @@ type IamWorkRequestSummary struct {
 	// The asynchronous operation tracked by this IAM work request.
 	OperationType IamWorkRequestSummaryOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Status of the work request
+	// The status of the work request.
 	Status IamWorkRequestSummaryStatusEnum `mandatory:"true" json:"status"`
 
 	// The OCID of the compartment containing this IAM work request.

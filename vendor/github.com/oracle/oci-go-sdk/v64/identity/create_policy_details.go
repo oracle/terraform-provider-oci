@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -26,8 +26,8 @@ type CreatePolicyDetails struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// An array of policy statements written in the policy language. See
-	// How Policies Work (https://docs.cloud.oracle.com/Content/Identity/Concepts/policies.htm) and
-	// Common Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/commonpolicies.htm).
+	// How Policies Work (https://docs.cloud.oracle.com/Content/Identity/policieshow/how-policies-work.htm) and
+	// Common Policies (https://docs.cloud.oracle.com/Content/Identity/policiescommon/commonpolicies.htm).
 	Statements []string `mandatory:"true" json:"statements"`
 
 	// The description you assign to the policy during creation. Does not have to be unique, and it's changeable.

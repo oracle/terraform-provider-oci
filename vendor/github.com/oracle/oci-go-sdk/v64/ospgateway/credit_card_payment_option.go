@@ -24,6 +24,18 @@ type CreditCardPaymentOption struct {
 
 	// Wallet transaction id.
 	WalletTransactionId *string `mandatory:"false" json:"walletTransactionId"`
+
+	// Last four digits of the card.
+	LastDigits *string `mandatory:"false" json:"lastDigits"`
+
+	// Name on the credit card.
+	NameOnCard *string `mandatory:"false" json:"nameOnCard"`
+
+	// Expired date of the credit card.
+	TimeExpiration *common.SDKTime `mandatory:"false" json:"timeExpiration"`
+
+	// Credit card type.
+	CreditCardType CreditCardTypeEnum `mandatory:"false" json:"creditCardType,omitempty"`
 }
 
 //GetWalletInstrumentId returns WalletInstrumentId
@@ -46,6 +58,9 @@ func (m CreditCardPaymentOption) String() string {
 func (m CreditCardPaymentOption) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreditCardTypeEnum(string(m.CreditCardType)); !ok && m.CreditCardType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CreditCardType: %s. Supported values are: %s.", m.CreditCardType, strings.Join(GetCreditCardTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

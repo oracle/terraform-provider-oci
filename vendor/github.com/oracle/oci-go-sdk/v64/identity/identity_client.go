@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -52,7 +52,7 @@ func NewIdentityClientWithOboToken(configProvider common.ConfigurationProvider, 
 
 func newIdentityClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client IdentityClient, err error) {
 	// Identity service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("Identity"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
@@ -85,21 +85,11 @@ func (client *IdentityClient) ConfigurationProvider() *common.ConfigurationProvi
 	return client.config
 }
 
-// ActivateDomain If the domain's {@code lifecycleState} is INACTIVE,
-// 1. Set the {@code lifecycleDetails} to ACTIVATING and asynchronously starts enabling
-//    the domain and return 202 ACCEPTED.
-//     1.1 Sets the domain status to ENABLED and set specified domain's
-//         {@code lifecycleState} to ACTIVE and set the {@code lifecycleDetails} to null.
-// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
-// the async operation's status. Deactivate a domain can be done using HTTP POST
-// /domains/{domainId}/actions/deactivate.
-// - If the domain's {@code lifecycleState} is ACTIVE, returns 202 ACCEPTED with no action
-//   taken on service side.
-// - If domain is of {@code type} DEFAULT or DEFAULT_LIGHTWEIGHT or domain's {@code lifecycleState} is not INACTIVE,
-//   returns 400 BAD REQUEST.
-// - If the domain doesn't exists, returns 404 NOT FOUND.
-// - If the authenticated user is part of the domain to be activated, returns 400 BAD REQUEST
-// - If error occurs while activating domain, returns 500 INTERNAL SERVER ERROR.
+// ActivateDomain (For tenancies that support identity domains) Activates a deactivated identity domain. You can only activate identity domains that your user account is not a part of.
+// After you send the request, the `lifecycleDetails` of the identity domain is set to ACTIVATING. When the operation completes, the
+// `lifecycleDetails` is set to null and the `lifecycleState` of the identity domain is set to ACTIVE.
+// To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
+// the operation's status.
 //
 // See also
 //
@@ -352,7 +342,7 @@ func (client IdentityClient) assembleEffectiveTagSet(ctx context.Context, reques
 
 // BulkDeleteResources Deletes multiple resources in the compartment. All resources must be in the same compartment. You must have the appropriate
 // permissions to delete the resources in the request. This API can only be invoked from the tenancy's
-// home region (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingregions.htm#Home). This operation creates a
+// home region (https://docs.cloud.oracle.com/Content/Identity/regions/managingregions.htm#Home). This operation creates a
 // WorkRequest. Use the GetWorkRequest
 // API to monitor the status of the bulk action.
 //
@@ -569,7 +559,7 @@ func (client IdentityClient) bulkEditTags(ctx context.Context, request common.OC
 }
 
 // BulkMoveResources Moves multiple resources from one compartment to another. All resources must be in the same compartment.
-// This API can only be invoked from the tenancy's home region (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingregions.htm#Home).
+// This API can only be invoked from the tenancy's home region (https://docs.cloud.oracle.com/Content/Identity/regions/managingregions.htm#Home).
 // To move resources, you must have the appropriate permissions to move the resource in both the source and target
 // compartments. This operation creates a WorkRequest.
 // Use the GetWorkRequest API to monitor the status of the bulk action.
@@ -710,16 +700,9 @@ func (client IdentityClient) cascadeDeleteTagNamespace(ctx context.Context, requ
 	return response, err
 }
 
-// ChangeDomainCompartment Change the containing compartment for a domain.
-// This is an asynchronous call where the Domain's compartment is changed and is updated with the new compartment information.
-// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
-// the async operation's status.
-// The compartment change is complete when accessed via domain URL and
-// also returns new compartment OCID.
-// - If the domain doesn't exists, returns 404 NOT FOUND.
-// - If Domain {@code type} is DEFAULT or DEFAULT_LIGHTWEIGHT, return 400 BAD Request
-// - If Domain is not active or being updated, returns 400 BAD REQUEST.
-// - If error occurs while changing compartment for domain, return 500 INTERNAL SERVER ERROR.
+// ChangeDomainCompartment (For tenancies that support identity domains) Moves the identity domain to a different compartment in the tenancy.
+// To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
+// the operation's status.
 //
 // See also
 //
@@ -782,20 +765,13 @@ func (client IdentityClient) changeDomainCompartment(ctx context.Context, reques
 	return response, err
 }
 
-// ChangeDomainLicenseType If the domain's {@code lifecycleState} is ACTIVE, validates the requested {@code licenseType} update
-// is allowed and
-// 1. Set the {@code lifecycleDetails} to UPDATING
-// 2. Asynchronously starts updating the domain and return 202 ACCEPTED.
-//     2.1 Successfully updates specified domain's {@code licenseType}.
-// 3. On completion set the {@code lifecycleDetails} to null.
-// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
-// the async operation's status.
-// - If license type update is successful, return 202 ACCEPTED
-// - If requested {@code licenseType} validation fails, returns 400 Bad request.
-// - If Domain is not active or being updated, returns 400 BAD REQUEST.
-// - If Domain {@code type} is DEFAULT or DEFAULT_LIGHTWEIGHT, return 400 BAD Request
-// - If the domain doesn't exists, returns 404 NOT FOUND
-// - If any internal error occurs, returns 500 INTERNAL SERVER ERROR.
+// ChangeDomainLicenseType (For tenancies that support identity domains) Changes the license type of the given identity domain. The identity domain's
+// `lifecycleState` must be set to ACTIVE and the requested `licenseType` must be allowed. To retrieve the allowed `licenseType` for
+// the identity domain, use ListAllowedDomainLicenseTypes.
+// After you send your request, the `lifecycleDetails` of this identity domain is set to UPDATING. When the update of the identity
+// domain completes, then the `lifecycleDetails` is set to null.
+// To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
+// the operation's status.
 //
 // See also
 //
@@ -860,7 +836,7 @@ func (client IdentityClient) changeDomainLicenseType(ctx context.Context, reques
 
 // ChangeTagNamespaceCompartment Moves the specified tag namespace to the specified compartment within the same tenancy.
 // To move the tag namespace, you must have the manage tag-namespaces permission on both compartments.
-// For more information about IAM policies, see Details for IAM (https://docs.cloud.oracle.com/Content/Identity/Reference/iampolicyreference.htm).
+// For more information about IAM policies, see Details for IAM (https://docs.cloud.oracle.com/Content/Identity/policyreference/iampolicyreference.htm).
 // Moving a tag namespace moves all the tag key definitions contained in the tag namespace.
 //
 // See also
@@ -925,7 +901,7 @@ func (client IdentityClient) changeTagNamespaceCompartment(ctx context.Context, 
 }
 
 // CreateAuthToken Creates a new auth token for the specified user. For information about what auth tokens are for, see
-// Managing User Credentials (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcredentials.htm).
+// Managing User Credentials (https://docs.cloud.oracle.com/Content/Identity/access/managing-user-credentials.htm).
 // You must specify a *description* for the auth token (although it can be an empty string). It does not
 // have to be unique, and you can change it anytime with
 // UpdateAuthToken.
@@ -1002,7 +978,7 @@ func (client IdentityClient) createAuthToken(ctx context.Context, request common
 // You must also specify a *name* for the compartment, which must be unique across all compartments in
 // your tenancy. You can use this name or the OCID when writing policies that apply
 // to the compartment. For more information about policies, see
-// How Policies Work (https://docs.cloud.oracle.com/Content/Identity/Concepts/policies.htm).
+// How Policies Work (https://docs.cloud.oracle.com/Content/Identity/policieshow/how-policies-work.htm).
 // You must also specify a *description* for the compartment (although it can be an empty string). It does
 // not have to be unique, and you can change it anytime with
 // UpdateCompartment.
@@ -1072,7 +1048,7 @@ func (client IdentityClient) createCompartment(ctx context.Context, request comm
 
 // CreateCustomerSecretKey Creates a new secret key for the specified user. Secret keys are used for authentication with the Object Storage Service's Amazon S3
 // compatible API. The secret key consists of an Access Key/Secret Key pair. For information, see
-// Managing User Credentials (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcredentials.htm).
+// Managing User Credentials (https://docs.cloud.oracle.com/Content/Identity/access/managing-user-credentials.htm).
 // You must specify a *description* for the secret key (although it can be an empty string). It does not
 // have to be unique, and you can change it anytime with
 // UpdateCustomerSecretKey.
@@ -1204,20 +1180,12 @@ func (client IdentityClient) createDbCredential(ctx context.Context, request com
 	return response, err
 }
 
-// CreateDomain Creates a new domain in the tenancy with domain home in {@code homeRegion}. This is an asynchronous call - where, at start,
-// {@code lifecycleState} of this domain is set to CREATING and {@code lifecycleDetails} to UPDATING. On domain creation completion
-// this Domain's {@code lifecycleState} will be set to ACTIVE and {@code lifecycleDetails} to null.
-// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
-// the async operation's status.
-// After creating a `Domain`, make sure its `lifecycleState` changes from CREATING to ACTIVE
-// before using it.
-// If the domain's {@code displayName} already exists, returns 400 BAD REQUEST.
-// If any one of admin related fields are provided and one of the following 3 fields
-// - {@code adminEmail}, {@code adminLastName} and {@code adminUserName} - is not provided,
-// returns 400 BAD REQUEST.
-// - If {@code isNotificationBypassed} is NOT provided when admin information is provided,
-// returns 400 BAD REQUEST.
-// - If any internal error occurs, return 500 INTERNAL SERVER ERROR.
+// CreateDomain (For tenancies that support identity domains) Creates a new identity domain in the tenancy with the identity domain home in `homeRegion`.
+// After you send your request, the temporary `lifecycleState` of this identity domain is set to CREATING and `lifecycleDetails` to UPDATING.
+// When creation of the identity domain completes, this identity domain's `lifecycleState` is set to ACTIVE and `lifecycleDetails` to null.
+// To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
+// the operation's status.
+// After creating an `identity domain`, first make sure its `lifecycleState` changes from CREATING to ACTIVE before you use it.
 //
 // See also
 //
@@ -1289,7 +1257,7 @@ func (client IdentityClient) createDomain(ctx context.Context, request common.OC
 // You must also specify a *name* for the dynamic group, which must be unique across all dynamic groups in your
 // tenancy, and cannot be changed. Note that this name has to be also unique across all groups in your tenancy.
 // You can use this name or the OCID when writing policies that apply to the dynamic group. For more information
-// about policies, see How Policies Work (https://docs.cloud.oracle.com/Content/Identity/Concepts/policies.htm).
+// about policies, see How Policies Work (https://docs.cloud.oracle.com/Content/Identity/policieshow/how-policies-work.htm).
 // You must also specify a *description* for the dynamic group (although it can be an empty string). It does not
 // have to be unique, and you can change it anytime with UpdateDynamicGroup.
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
@@ -1364,7 +1332,7 @@ func (client IdentityClient) createDynamicGroup(ctx context.Context, request com
 // Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // You must also specify a *name* for the group, which must be unique across all groups in your tenancy and
 // cannot be changed. You can use this name or the OCID when writing policies that apply to the group. For more
-// information about policies, see How Policies Work (https://docs.cloud.oracle.com/Content/Identity/Concepts/policies.htm).
+// information about policies, see How Policies Work (https://docs.cloud.oracle.com/Content/Identity/policieshow/how-policies-work.htm).
 // You must also specify a *description* for the group (although it can be an empty string). It does not
 // have to be unique, and you can change it anytime with UpdateGroup.
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
@@ -1648,7 +1616,7 @@ func (client IdentityClient) createMfaTotpDevice(ctx context.Context, request co
 // You must also specify a *name* for the network source, which must be unique across all network sources in your
 // tenancy, and cannot be changed.
 // You can use this name or the OCID when writing policies that apply to the network source. For more information
-// about policies, see How Policies Work (https://docs.cloud.oracle.com/Content/Identity/Concepts/policies.htm).
+// about policies, see How Policies Work (https://docs.cloud.oracle.com/Content/Identity/policieshow/how-policies-work.htm).
 // You must also specify a *description* for the network source (although it can be an empty string). It does not
 // have to be unique, and you can change it anytime with UpdateNetworkSource.
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
@@ -1781,12 +1749,15 @@ func (client IdentityClient) createOAuthClientCredential(ctx context.Context, re
 }
 
 // CreateOrResetUIPassword Creates a new Console one-time password for the specified user. For more information about user
-// credentials, see User Credentials (https://docs.cloud.oracle.com/Content/Identity/Concepts/usercredentials.htm).
+// credentials, see User Credentials (https://docs.cloud.oracle.com/Content/Identity/usercred/usercredentials.htm).
 // Use this operation after creating a new user, or if a user forgets their password. The new one-time
 // password is returned to you in the response, and you must securely deliver it to the user. They'll
 // be prompted to change this password the next time they sign in to the Console. If they don't change
 // it within 7 days, the password will expire and you'll need to create a new one-time password for the
 // user.
+// (For tenancies that support identity domains) Resetting a user's password generates a reset password email
+// with a link that the user must follow to reset their password. If the user does not reset their password before the
+// link expires, you'll need to reset the user's password again.
 // **Note:** The user's Console login is the unique name you specified when you created the user
 // (see CreateUser).
 //
@@ -1852,14 +1823,14 @@ func (client IdentityClient) createOrResetUIPassword(ctx context.Context, reques
 }
 
 // CreatePolicy Creates a new policy in the specified compartment (either the tenancy or another of your compartments).
-// If you're new to policies, see Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// If you're new to policies, see Get Started with Policies (https://docs.cloud.oracle.com/Content/Identity/policiesgs/get-started-with-policies.htm).
 // You must specify a *name* for the policy, which must be unique across all policies in your tenancy
 // and cannot be changed.
 // You must also specify a *description* for the policy (although it can be an empty string). It does not
 // have to be unique, and you can change it anytime with UpdatePolicy.
 // You must specify one or more policy statements in the statements array. For information about writing
-// policies, see How Policies Work (https://docs.cloud.oracle.com/Content/Identity/Concepts/policies.htm) and
-// Common Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/commonpolicies.htm).
+// policies, see How Policies Work (https://docs.cloud.oracle.com/Content/Identity/policieshow/how-policies-work.htm) and
+// Common Policies (https://docs.cloud.oracle.com/Content/Identity/policiescommon/commonpolicies.htm).
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
 // object, first make sure its `lifecycleState` has changed to ACTIVE.
 // New policies take effect typically within 10 seconds.
@@ -2346,7 +2317,7 @@ func (client IdentityClient) createTagNamespace(ctx context.Context, request com
 }
 
 // CreateUser Creates a new user in your tenancy. For conceptual information about users, your tenancy, and other
-// IAM Service components, see Overview of the IAM Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// IAM Service components, see Overview of IAM (https://docs.cloud.oracle.com/Content/Identity/getstarted/identity-domains.htm).
 // You must specify your tenancy's OCID as the compartment ID in the request object (remember that the
 // tenancy is simply the root compartment). Notice that IAM resources (users, groups, compartments, and
 // some policies) reside within the tenancy itself, unlike cloud resources such as compute instances,
@@ -2436,22 +2407,13 @@ func (client IdentityClient) createUser(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// DeactivateDomain If the domain's {@code lifecycleState} is ACTIVE and no active Apps are present in domain,
-// 1. Set the {@code lifecycleDetails} to DEACTIVATING and asynchronously starts disabling
-//    the domain and return 202 ACCEPTED.
-//     1.1 Sets the domain status to DISABLED and set specified domain's
-//         {@code lifecycleState} to INACTIVE and set the {@code lifecycleDetails} to null.
-// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
-// the async operation's status. Activate a domain can be done using HTTP POST
-// /domains/{domainId}/actions/activate.
-// - If the domain's {@code lifecycleState} is INACTIVE, returns 202 ACCEPTED with no action
-//   taken on service side.
-// - If domain is of {@code type} DEFAULT or DEFAULT_LIGHTWEIGHT or domain's {@code lifecycleState}
-//   is not ACTIVE, returns 400 BAD REQUEST.
-// - If the domain doesn't exists, returns 404 NOT FOUND.
-// - If any active Apps in domain, returns 400 BAD REQUEST.
-// - If the authenticated user is part of the domain to be activated, returns 400 BAD REQUEST
-// - If error occurs while deactivating domain, returns 500 INTERNAL SERVER ERROR.
+// DeactivateDomain (For tenancies that support identity domains) Deactivates the specified identity domain. Identity domains must be in an ACTIVE
+// `lifecycleState` and have no active apps present in the domain or underlying Identity Cloud Service stripe. You cannot deactivate
+// the default identity domain.
+// After you send your request, the `lifecycleDetails` of this identity domain is set to DEACTIVATING. When the operation completes,
+// then the `lifecycleDetails` is set to null and the `lifecycleState` is set to INACTIVE.
+// To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
+// the operation's status.
 //
 // See also
 //
@@ -2803,21 +2765,13 @@ func (client IdentityClient) deleteDbCredential(ctx context.Context, request com
 	return response, err
 }
 
-// DeleteDomain Soft Deletes a domain.
-// This is an asynchronous API, where, if the domain's {@code lifecycleState} is INACTIVE and
-// no active Apps are present in underlying stripe,
-//   1. Sets the specified domain's {@code lifecycleState} to DELETING.
-//   2. Domains marked as DELETING will be cleaned up by a periodic task unless customer request it to be undo via ticket.
-//   3. Work request is created and returned as opc-work-request-id along with 202 ACCEPTED.
-// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
-// the async operation's status.
-// - If the domain's {@code lifecycleState} is DELETING, returns 202 Accepted as a deletion
-//   is already in progress for this domain.
-// - If the domain doesn't exists, returns 404 NOT FOUND.
-// - If domain is of {@code type} DEFAULT or DEFAULT_LIGHTWEIGHT, returns 400 BAD REQUEST.
-// - If any active Apps in domain, returns 400 BAD REQUEST.
-// - If the authenticated user is part of the domain to be deleted, returns 400 BAD REQUEST.
-// - If any internal error occurs, return 500 INTERNAL SERVER ERROR.
+// DeleteDomain (For tenancies that support identity domains) Deletes an identity domain. The identity domain must have no active apps present in
+// the underlying IDCS stripe. You must also deactivate the identity domain, rendering the `lifecycleState` of the identity domain INACTIVE.
+// Furthermore, as the authenticated user performing the operation, you cannot be a member of the identity domain you are deleting.
+// Lastly, you cannot delete the default identity domain. A tenancy must always have at least the default identity domain.
+//
+// To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
+// the operation's status.
 //
 // See also
 //
@@ -3162,7 +3116,7 @@ func (client IdentityClient) deleteMfaTotpDevice(ctx context.Context, request co
 	return response, err
 }
 
-// DeleteNetworkSource Deletes the specified network source
+// DeleteNetworkSource Deletes the specified network source.
 //
 // See also
 //
@@ -3695,17 +3649,14 @@ func (client IdentityClient) deleteUser(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// EnableReplicationToRegion Replicate domain to a new region. This is an asynchronous call - where, at start,
-// {@code state} of this domain in replica region is set to ENABLING_REPLICATION.
-// On domain replication completion the {@code state} will be set to REPLICATION_ENABLED.
-// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
-// the async operation's status.
-// If the replica region's {@code state} is already ENABLING_REPLICATION or REPLICATION_ENABLED,
-// returns 409 CONFLICT.
-// - If the domain doesn't exists, returns 404 NOT FOUND.
-// - If home region is same as replication region, return 400 BAD REQUEST.
-// - If Domain is not active or being updated, returns 400 BAD REQUEST.
-// - If any internal error occurs, return 500 INTERNAL SERVER ERROR.
+// EnableReplicationToRegion (For tenancies that support identity domains) Replicates the identity domain to a new region (provided that the region is the
+// tenancy home region or other region that the tenancy subscribes to). You can only replicate identity domains that are in an ACTIVE
+// `lifecycleState` and not currently updating or already replicating. You also can only trigger the replication of secondary identity domains.
+// The default identity domain is automatically replicated to all regions that the tenancy subscribes to.
+// After you send the request, the `state` of the identity domain in the replica region is set to ENABLING_REPLICATION. When the operation
+// completes, the `state` is set to REPLICATION_ENABLED.
+// To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
+// the operation's status.
 //
 // See also
 //
@@ -3947,9 +3898,7 @@ func (client IdentityClient) getCompartment(ctx context.Context, request common.
 	return response, err
 }
 
-// GetDomain Get the specified domain's information.
-// - If the domain doesn't exists, returns 404 NOT FOUND.
-// - If any internal error occurs, returns 500 INTERNAL SERVER ERROR.
+// GetDomain (For tenancies that support identity domains) Gets the specified identity domain's information.
 //
 // See also
 //
@@ -4123,10 +4072,7 @@ func (client IdentityClient) getGroup(ctx context.Context, request common.OCIReq
 	return response, err
 }
 
-// GetIamWorkRequest Gets details on a specified IAM work request. For asynchronous operations in Identity and Access Management service, opc-work-request-id header values contains
-// iam work request id that can be provided in this API to track the current status of the operation.
-// - If workrequest exists, returns 202 ACCEPTED
-// - If workrequest does not exist, returns 404 NOT FOUND
+// GetIamWorkRequest Gets the details of a specified IAM work request. The workRequestID is returned in the opc-workrequest-id header for any asynchronous operation in the Identity and Access Management service.
 //
 // See also
 //
@@ -5107,12 +5053,10 @@ func (client IdentityClient) importStandardTags(ctx context.Context, request com
 	return response, err
 }
 
-// ListAllowedDomainLicenseTypes List the allowed domain license types supported by OCI
-// If {@code currentLicenseTypeName} provided, returns allowed license types a domain with the specified license type name can migrate to.
-// If {@code name} is provided, it filters and returns resources that match the given license type name.
-// Otherwise, returns all valid license types that are currently supported.
-// - If license type details are retrieved sucessfully, return 202 ACCEPTED.
-// - If any internal error occurs, return 500 INTERNAL SERVER ERROR.
+// ListAllowedDomainLicenseTypes (For tenancies that support identity domains) Lists the license types for identity domains supported by Oracle Cloud Infrastructure.
+// (License types are also referred to as domain types.)
+// If `currentLicenseTypeName` is provided, then the request returns license types that the identity domain with the specified license
+// type name can change to. Otherwise, the request returns all valid license types currently supported.
 //
 // See also
 //
@@ -5538,7 +5482,7 @@ func (client IdentityClient) listCompartments(ctx context.Context, request commo
 }
 
 // ListCostTrackingTags Lists all the tags enabled for cost-tracking in the specified tenancy. For information about
-// cost-tracking tags, see Using Cost-tracking Tags (https://docs.cloud.oracle.com/Content/Identity/Concepts/taggingoverview.htm#costs).
+// cost-tracking tags, see Using Cost-tracking Tags (https://docs.cloud.oracle.com/Content/Tagging/Tasks/usingcosttrackingtags.htm).
 //
 // See also
 //
@@ -5710,8 +5654,7 @@ func (client IdentityClient) listDbCredentials(ctx context.Context, request comm
 	return response, err
 }
 
-// ListDomains List all domains that are homed or have a replica region in current region.
-// - If any internal error occurs, return 500 INTERNAL SERVER ERROR.
+// ListDomains (For tenancies that support identity domains) Lists all identity domains within a tenancy.
 //
 // See also
 //
@@ -5945,10 +5888,7 @@ func (client IdentityClient) listGroups(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// ListIamWorkRequestErrors Gets error details for a specified IAM work request. For asynchronous operations in Identity and Access Management service, opc-work-request-id header values contains
-// iam work request id that can be provided in this API to track the current status of the operation.
-// - If workrequest exists, returns 202 ACCEPTED
-// - If workrequest does not exist, returns 404 NOT FOUND
+// ListIamWorkRequestErrors Gets error details for a specified IAM work request. The workRequestID is returned in the opc-workrequest-id header for any asynchronous operation in the Identity and Access Management service.
 //
 // See also
 //
@@ -6005,10 +5945,7 @@ func (client IdentityClient) listIamWorkRequestErrors(ctx context.Context, reque
 	return response, err
 }
 
-// ListIamWorkRequestLogs Gets logs for a specified IAM work request. For asynchronous operations in Identity and Access Management service, opc-work-request-id header values contains
-// iam work request id that can be provided in this API to track the current status of the operation.
-// - If workrequest exists, returns 202 ACCEPTED
-// - If workrequest does not exist, returns 404 NOT FOUND
+// ListIamWorkRequestLogs Gets logs for a specified IAM work request. The workRequestID is returned in the opc-workrequest-id header for any asynchronous operation in the Identity and Access Management service.
 //
 // See also
 //
@@ -6065,9 +6002,7 @@ func (client IdentityClient) listIamWorkRequestLogs(ctx context.Context, request
 	return response, err
 }
 
-// ListIamWorkRequests List the IAM work requests in compartment
-// - If IAM workrequest  details are retrieved sucessfully, return 202 ACCEPTED.
-// - If any internal error occurs, return 500 INTERNAL SERVER ERROR.
+// ListIamWorkRequests Lists the IAM work requests in compartment. The workRequestID is returned in the opc-workrequest-id header for any asynchronous operation in the Identity and Access Management service.
 //
 // See also
 //
@@ -7358,7 +7293,7 @@ func (client IdentityClient) listWorkRequests(ctx context.Context, request commo
 // **IMPORTANT**: After you move a compartment to a new parent compartment, the access policies of
 // the new parent take effect and the policies of the previous parent no longer apply. Ensure that you
 // are aware of the implications for the compartment contents before you move it. For more
-// information, see Moving a Compartment (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcompartments.htm#MoveCompartment).
+// information, see Moving a Compartment (https://docs.cloud.oracle.com/Content/Identity/compartments/managingcompartments.htm#MoveCompartment).
 //
 // See also
 //
@@ -7652,7 +7587,7 @@ func (client IdentityClient) updateAuthToken(ctx context.Context, request common
 	return response, err
 }
 
-// UpdateAuthenticationPolicy Updates authentication policy for the specified tenancy
+// UpdateAuthenticationPolicy Updates authentication policy for the specified tenancy.
 //
 // See also
 //
@@ -7826,16 +7761,9 @@ func (client IdentityClient) updateCustomerSecretKey(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateDomain Updates domain information and associated stripe. This is an asynchronous call where
-// the associated stripe and domain are updated.
-// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
-// the async operation's status.
-// - If the {@code displayName} is not unique within the tenancy, returns 400 BAD REQUEST.
-// - If any field other than {@code description} is requested to be updated for DEFAULT domain,
-// returns 400 BAD REQUEST.
-// - If Domain is not active or being updated, returns 400 BAD REQUEST.
-// - If Domain {@code type} is DEFAULT or DEFAULT_LIGHTWEIGHT, return 400 BAD Request
-// - If the domain doesn't exists, returns 404 NOT FOUND.
+// UpdateDomain (For tenancies that support identity domains) Updates identity domain information and the associated Identity Cloud Service (IDCS) stripe.
+// To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
+// the operation's status.
 //
 // See also
 //
@@ -8551,7 +8479,7 @@ func (client IdentityClient) updateTagDefault(ctx context.Context, request commo
 // namespace (changing `isRetired` from 'true' to 'false') does not reactivate tag definitions.
 // To reactivate the tag definitions, you must reactivate each one individually *after* you reactivate the namespace,
 // using UpdateTag. For more information about retiring tag namespaces, see
-// Retiring Key Definitions and Namespace Definitions (https://docs.cloud.oracle.com/Content/Identity/Concepts/taggingoverview.htm#Retiring).
+// Retiring Key Definitions and Namespace Definitions (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm#retiringkeys).
 // You can't add a namespace with the same name as a retired namespace in the same tenancy.
 //
 // See also

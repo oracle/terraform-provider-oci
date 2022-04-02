@@ -62,6 +62,10 @@ func (m *hostperformancemetricgroup) UnmarshalPolymorphicJSON(data []byte) (inte
 		mm := HostMemoryUsage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "HOST_TOP_PROCESSES":
+		mm := HostTopProcesses{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "HOST_CPU_USAGE":
 		mm := HostCpuUsage{}
 		err = json.Unmarshal(data, &mm)
@@ -104,18 +108,21 @@ const (
 	HostPerformanceMetricGroupMetricNameCpuUsage               HostPerformanceMetricGroupMetricNameEnum = "HOST_CPU_USAGE"
 	HostPerformanceMetricGroupMetricNameMemoryUsage            HostPerformanceMetricGroupMetricNameEnum = "HOST_MEMORY_USAGE"
 	HostPerformanceMetricGroupMetricNameNetworkActivitySummary HostPerformanceMetricGroupMetricNameEnum = "HOST_NETWORK_ACTIVITY_SUMMARY"
+	HostPerformanceMetricGroupMetricNameTopProcesses           HostPerformanceMetricGroupMetricNameEnum = "HOST_TOP_PROCESSES"
 )
 
 var mappingHostPerformanceMetricGroupMetricNameEnum = map[string]HostPerformanceMetricGroupMetricNameEnum{
 	"HOST_CPU_USAGE":                HostPerformanceMetricGroupMetricNameCpuUsage,
 	"HOST_MEMORY_USAGE":             HostPerformanceMetricGroupMetricNameMemoryUsage,
 	"HOST_NETWORK_ACTIVITY_SUMMARY": HostPerformanceMetricGroupMetricNameNetworkActivitySummary,
+	"HOST_TOP_PROCESSES":            HostPerformanceMetricGroupMetricNameTopProcesses,
 }
 
 var mappingHostPerformanceMetricGroupMetricNameEnumLowerCase = map[string]HostPerformanceMetricGroupMetricNameEnum{
 	"host_cpu_usage":                HostPerformanceMetricGroupMetricNameCpuUsage,
 	"host_memory_usage":             HostPerformanceMetricGroupMetricNameMemoryUsage,
 	"host_network_activity_summary": HostPerformanceMetricGroupMetricNameNetworkActivitySummary,
+	"host_top_processes":            HostPerformanceMetricGroupMetricNameTopProcesses,
 }
 
 // GetHostPerformanceMetricGroupMetricNameEnumValues Enumerates the set of values for HostPerformanceMetricGroupMetricNameEnum
@@ -133,6 +140,7 @@ func GetHostPerformanceMetricGroupMetricNameEnumStringValues() []string {
 		"HOST_CPU_USAGE",
 		"HOST_MEMORY_USAGE",
 		"HOST_NETWORK_ACTIVITY_SUMMARY",
+		"HOST_TOP_PROCESSES",
 	}
 }
 

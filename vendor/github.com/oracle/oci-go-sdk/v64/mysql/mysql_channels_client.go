@@ -51,7 +51,7 @@ func NewChannelsClientWithOboToken(configProvider common.ConfigurationProvider, 
 
 func newChannelsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ChannelsClient, err error) {
 	// Channels service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("Channels"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

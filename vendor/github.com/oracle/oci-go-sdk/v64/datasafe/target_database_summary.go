@@ -34,7 +34,7 @@ type TargetDatabaseSummary struct {
 	DatabaseType DatabaseTypeEnum `mandatory:"true" json:"databaseType"`
 
 	// The current state of the target database in Data Safe.
-	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState TargetDatabaseLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The date and time the database was registered in Data Safe and created as a target database in Data Safe.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
@@ -72,8 +72,8 @@ func (m TargetDatabaseSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingDatabaseTypeEnum(string(m.DatabaseType)); !ok && m.DatabaseType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", m.DatabaseType, strings.Join(GetDatabaseTypeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingTargetDatabaseLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetTargetDatabaseLifecycleStateEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

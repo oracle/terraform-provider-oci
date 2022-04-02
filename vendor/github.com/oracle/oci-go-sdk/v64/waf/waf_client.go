@@ -52,7 +52,7 @@ func NewWafClientWithOboToken(configProvider common.ConfigurationProvider, oboTo
 
 func newWafClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client WafClient, err error) {
 	// Waf service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("Waf"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

@@ -51,7 +51,7 @@ func NewDataplaneClientWithOboToken(configProvider common.ConfigurationProvider,
 
 func newDataplaneClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DataplaneClient, err error) {
 	// Dataplane service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("Dataplane"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

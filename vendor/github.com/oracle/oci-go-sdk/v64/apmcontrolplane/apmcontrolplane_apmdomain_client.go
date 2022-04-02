@@ -52,7 +52,7 @@ func NewApmDomainClientWithOboToken(configProvider common.ConfigurationProvider,
 
 func newApmDomainClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ApmDomainClient, err error) {
 	// ApmDomain service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("ApmDomain"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

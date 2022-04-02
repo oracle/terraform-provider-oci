@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -22,7 +22,7 @@ import (
 // based on the permissions granted in policies written for the dynamic groups.
 // This works like regular user/group membership. But in that case, the membership is a static relationship, whereas
 // in a dynamic group, the membership of an instance certificate to a dynamic group is determined during runtime.
-// For more information, see Managing Dynamic Groups (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingdynamicgroups.htm).
+// For more information, see Managing Dynamic Groups (https://docs.cloud.oracle.com/Content/Identity/dynamicgroups/managingdynamicgroups.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using
 // the API.
 type DynamicGroup struct {
@@ -38,10 +38,11 @@ type DynamicGroup struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// The description you assign to the group. Does not have to be unique, and it's changeable.
+	// (For tenancies that support identity domains) You can have an empty description.
 	Description *string `mandatory:"true" json:"description"`
 
 	// A rule string that defines which instance certificates will be matched.
-	// For syntax, see Managing Dynamic Groups (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingdynamicgroups.htm).
+	// For syntax, see Managing Dynamic Groups (https://docs.cloud.oracle.com/Content/Identity/dynamicgroups/managingdynamicgroups.htm).
 	MatchingRule *string `mandatory:"true" json:"matchingRule"`
 
 	// Date and time the group was created, in the format defined by RFC3339.

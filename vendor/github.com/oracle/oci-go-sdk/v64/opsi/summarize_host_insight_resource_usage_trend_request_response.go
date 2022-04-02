@@ -46,7 +46,7 @@ type SummarizeHostInsightResourceUsageTrendRequest struct {
 
 	// Filter by one or more platform types.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
 	PlatformType []SummarizeHostInsightResourceUsageTrendPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Optional list of host insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -188,18 +188,21 @@ const (
 	SummarizeHostInsightResourceUsageTrendPlatformTypeLinux   SummarizeHostInsightResourceUsageTrendPlatformTypeEnum = "LINUX"
 	SummarizeHostInsightResourceUsageTrendPlatformTypeSolaris SummarizeHostInsightResourceUsageTrendPlatformTypeEnum = "SOLARIS"
 	SummarizeHostInsightResourceUsageTrendPlatformTypeSunos   SummarizeHostInsightResourceUsageTrendPlatformTypeEnum = "SUNOS"
+	SummarizeHostInsightResourceUsageTrendPlatformTypeZlinux  SummarizeHostInsightResourceUsageTrendPlatformTypeEnum = "ZLINUX"
 )
 
 var mappingSummarizeHostInsightResourceUsageTrendPlatformTypeEnum = map[string]SummarizeHostInsightResourceUsageTrendPlatformTypeEnum{
 	"LINUX":   SummarizeHostInsightResourceUsageTrendPlatformTypeLinux,
 	"SOLARIS": SummarizeHostInsightResourceUsageTrendPlatformTypeSolaris,
 	"SUNOS":   SummarizeHostInsightResourceUsageTrendPlatformTypeSunos,
+	"ZLINUX":  SummarizeHostInsightResourceUsageTrendPlatformTypeZlinux,
 }
 
 var mappingSummarizeHostInsightResourceUsageTrendPlatformTypeEnumLowerCase = map[string]SummarizeHostInsightResourceUsageTrendPlatformTypeEnum{
 	"linux":   SummarizeHostInsightResourceUsageTrendPlatformTypeLinux,
 	"solaris": SummarizeHostInsightResourceUsageTrendPlatformTypeSolaris,
 	"sunos":   SummarizeHostInsightResourceUsageTrendPlatformTypeSunos,
+	"zlinux":  SummarizeHostInsightResourceUsageTrendPlatformTypeZlinux,
 }
 
 // GetSummarizeHostInsightResourceUsageTrendPlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceUsageTrendPlatformTypeEnum
@@ -217,6 +220,7 @@ func GetSummarizeHostInsightResourceUsageTrendPlatformTypeEnumStringValues() []s
 		"LINUX",
 		"SOLARIS",
 		"SUNOS",
+		"ZLINUX",
 	}
 }
 

@@ -51,7 +51,7 @@ func NewLimitsClientWithOboToken(configProvider common.ConfigurationProvider, ob
 
 func newLimitsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client LimitsClient, err error) {
 	// Limits service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("Limits"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
@@ -135,7 +135,7 @@ func (client LimitsClient) getResourceAvailability(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//ResourceAvailability/GetResourceAvailability"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/ResourceAvailability/GetResourceAvailability"
 		err = common.PostProcessServiceError(err, "Limits", "GetResourceAvailability", apiReferenceLink)
 		return response, err
 	}
@@ -194,7 +194,7 @@ func (client LimitsClient) listLimitDefinitions(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//LimitDefinitionSummary/ListLimitDefinitions"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/LimitDefinitionSummary/ListLimitDefinitions"
 		err = common.PostProcessServiceError(err, "Limits", "ListLimitDefinitions", apiReferenceLink)
 		return response, err
 	}
@@ -251,7 +251,7 @@ func (client LimitsClient) listLimitValues(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//LimitValueSummary/ListLimitValues"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/LimitValueSummary/ListLimitValues"
 		err = common.PostProcessServiceError(err, "Limits", "ListLimitValues", apiReferenceLink)
 		return response, err
 	}
@@ -309,7 +309,7 @@ func (client LimitsClient) listServices(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//ServiceSummary/ListServices"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/ServiceSummary/ListServices"
 		err = common.PostProcessServiceError(err, "Limits", "ListServices", apiReferenceLink)
 		return response, err
 	}

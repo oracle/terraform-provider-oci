@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -21,7 +21,7 @@ import (
 // The auth token is associated with the user's Console login. Auth tokens never expire. A user can have up to two
 // auth tokens at a time.
 // **Note:** The token is always an Oracle-generated string; you can't change it to a string of your choice.
-// For more information, see Managing User Credentials (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcredentials.htm).
+// For more information, see Managing User Credentials (https://docs.cloud.oracle.com/Content/Identity/access/managing-user-credentials.htm).
 type AuthToken struct {
 
 	// The auth token. The value is available only in the response for `CreateAuthToken`, and not
@@ -35,6 +35,7 @@ type AuthToken struct {
 	UserId *string `mandatory:"false" json:"userId"`
 
 	// The description you assign to the auth token. Does not have to be unique, and it's changeable.
+	// (For tenancies that support identity domains) You can have an empty description.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Date and time the `AuthToken` object was created, in the format defined by RFC3339.

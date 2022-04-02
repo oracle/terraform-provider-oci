@@ -25,7 +25,7 @@ type ListWorkRequestsRequest struct {
 	OperationType *string `mandatory:"false" contributesTo:"query" name:"operationType"`
 
 	// The field used for sorting. Only one sorting order (sortOrder) can be specified.
-	// The default order for STARTTIME and FINISHTIME is descending.
+	// The default order is descending.
 	SortBy ListWorkRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either ascending (ASC) or descending (DESC).
@@ -124,18 +124,21 @@ type ListWorkRequestsSortByEnum string
 
 // Set of constants representing the allowable values for ListWorkRequestsSortByEnum
 const (
-	ListWorkRequestsSortByStarttime  ListWorkRequestsSortByEnum = "STARTTIME"
-	ListWorkRequestsSortByFinishtime ListWorkRequestsSortByEnum = "FINISHTIME"
+	ListWorkRequestsSortByStarttime    ListWorkRequestsSortByEnum = "STARTTIME"
+	ListWorkRequestsSortByFinishtime   ListWorkRequestsSortByEnum = "FINISHTIME"
+	ListWorkRequestsSortByAcceptedtime ListWorkRequestsSortByEnum = "ACCEPTEDTIME"
 )
 
 var mappingListWorkRequestsSortByEnum = map[string]ListWorkRequestsSortByEnum{
-	"STARTTIME":  ListWorkRequestsSortByStarttime,
-	"FINISHTIME": ListWorkRequestsSortByFinishtime,
+	"STARTTIME":    ListWorkRequestsSortByStarttime,
+	"FINISHTIME":   ListWorkRequestsSortByFinishtime,
+	"ACCEPTEDTIME": ListWorkRequestsSortByAcceptedtime,
 }
 
 var mappingListWorkRequestsSortByEnumLowerCase = map[string]ListWorkRequestsSortByEnum{
-	"starttime":  ListWorkRequestsSortByStarttime,
-	"finishtime": ListWorkRequestsSortByFinishtime,
+	"starttime":    ListWorkRequestsSortByStarttime,
+	"finishtime":   ListWorkRequestsSortByFinishtime,
+	"acceptedtime": ListWorkRequestsSortByAcceptedtime,
 }
 
 // GetListWorkRequestsSortByEnumValues Enumerates the set of values for ListWorkRequestsSortByEnum
@@ -152,6 +155,7 @@ func GetListWorkRequestsSortByEnumStringValues() []string {
 	return []string{
 		"STARTTIME",
 		"FINISHTIME",
+		"ACCEPTEDTIME",
 	}
 }
 

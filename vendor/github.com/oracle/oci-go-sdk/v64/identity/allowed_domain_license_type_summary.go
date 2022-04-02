@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AllowedDomainLicenseTypeSummary The 'AllowedDomainLicenseTypeSummary' object contains information about the 'Domain License type'.
+// AllowedDomainLicenseTypeSummary (For tenancies that support identity domains) The 'AllowedDomainLicenseTypeSummary' object contains information about the license type of the identity domain.
 type AllowedDomainLicenseTypeSummary struct {
 
 	// The license type name.

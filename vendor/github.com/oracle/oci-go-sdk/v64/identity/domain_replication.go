@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// DomainReplication Domain replication states.
+// DomainReplication (For tenancies that support identity domains) Identity domain replication states.
 type DomainReplication struct {
 
-	// Version number indicating the value of kievTxnId, starting from which, the domain replication events need to be returned.
+	// The version number indicating the value of kievTxnId, starting from which the identity domain replication events need to be returned.
 	OpcWaterMark *float32 `mandatory:"true" json:"opcWaterMark"`
 
-	// Custom value defining the order of records with same kievTxnId
+	// A custom value defining the order of records with the same kievTxnId.
 	TxnSeqNumber *float32 `mandatory:"true" json:"txnSeqNumber"`
 
-	// The domain's replication state
+	// The identity domain's replication state.
 	DomainReplicationStates []DomainReplicationStates `mandatory:"true" json:"domainReplicationStates"`
 }
 

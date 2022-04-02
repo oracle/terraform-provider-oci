@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListAllowedDomainLicenseTypes.go.html to see an example of how to use ListAllowedDomainLicenseTypesRequest.
 type ListAllowedDomainLicenseTypesRequest struct {
 
-	// The domain license type
+	// The license type of the identity domain.
 	CurrentLicenseTypeName *string `mandatory:"false" contributesTo:"query" name:"currentLicenseTypeName"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

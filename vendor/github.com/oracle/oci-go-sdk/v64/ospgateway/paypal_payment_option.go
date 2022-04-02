@@ -24,6 +24,18 @@ type PaypalPaymentOption struct {
 
 	// Wallet transaction id.
 	WalletTransactionId *string `mandatory:"false" json:"walletTransactionId"`
+
+	// The email address of the paypal user.
+	EmailAddress *string `mandatory:"false" json:"emailAddress"`
+
+	// First name of the paypal user.
+	FirstName *string `mandatory:"false" json:"firstName"`
+
+	// Last name of the paypal user.
+	LastName *string `mandatory:"false" json:"lastName"`
+
+	// Agreement id for the paypal account.
+	ExtBillingAgreementId *string `mandatory:"false" json:"extBillingAgreementId"`
 }
 
 //GetWalletInstrumentId returns WalletInstrumentId

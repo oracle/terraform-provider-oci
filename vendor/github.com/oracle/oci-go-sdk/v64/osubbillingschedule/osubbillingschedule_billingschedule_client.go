@@ -51,7 +51,7 @@ func NewBillingScheduleClientWithOboToken(configProvider common.ConfigurationPro
 
 func newBillingScheduleClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client BillingScheduleClient, err error) {
 	// BillingSchedule service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("BillingSchedule"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

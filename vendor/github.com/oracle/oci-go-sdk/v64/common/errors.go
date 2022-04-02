@@ -31,6 +31,31 @@ type ServiceError interface {
 	GetOpcRequestID() string
 }
 
+// ServiceErrorRichInfo models all potential errors generated the service call and contains rich info for debugging purpose
+type ServiceErrorRichInfo interface {
+	ServiceError
+	// The service this service call is sending to
+	GetTargetService() string
+
+	// The API name this service call is sending to
+	GetOperationName() string
+
+	// The timestamp when this request is made
+	GetTimestamp() SDKTime
+
+	// The endpoint and the Http method of this service call
+	GetRequestTarget() string
+
+	// The client version, in this case the oci go sdk version
+	GetClientVersion() string
+
+	// The API reference doc link for this API, optional and maybe empty
+	GetOperationReferenceLink() string
+
+	// Troubleshooting doc link
+	GetErrorTroubleshootingLink() string
+}
+
 type servicefailure struct {
 	StatusCode   int
 	Code         string `json:"code,omitempty"`
@@ -96,7 +121,7 @@ func PostProcessServiceError(err error, service string, method string, apiRefere
 	if serviceFailure.StatusCode == 401 && serviceFailure.Code == "NotAuthenticated" {
 		serviceFailure.TargetService = "Identity"
 	}
-	serviceFailure.ErrorTroubleshootingLink = fmt.Sprintf("https://docs.oracle.com/iaas/Content/API/References/apierrors.htm#apierrors_topic_API_Error_Status_%v__status_%v_%s", serviceFailure.StatusCode, serviceFailure.StatusCode, strings.ToLower(serviceFailure.Code))
+	serviceFailure.ErrorTroubleshootingLink = fmt.Sprintf("https://docs.oracle.com/iaas/Content/API/References/apierrors.htm#apierrors_%v__%v_%s", serviceFailure.StatusCode, serviceFailure.StatusCode, strings.ToLower(serviceFailure.Code))
 	serviceFailure.OperationReferenceLink = apiReferenceLink
 	return serviceFailure
 }
@@ -137,10 +162,45 @@ func (se servicefailure) GetOpcRequestID() string {
 	return se.OpcRequestID
 }
 
+func (se servicefailure) GetTargetService() string {
+	return se.TargetService
+}
+
+func (se servicefailure) GetOperationName() string {
+	return se.OperationName
+}
+
+func (se servicefailure) GetTimestamp() SDKTime {
+	return se.Timestamp
+}
+
+func (se servicefailure) GetRequestTarget() string {
+	return se.RequestTarget
+}
+
+func (se servicefailure) GetClientVersion() string {
+	return se.ClientVersion
+}
+
+func (se servicefailure) GetOperationReferenceLink() string {
+	return se.OperationReferenceLink
+}
+
+func (se servicefailure) GetErrorTroubleshootingLink() string {
+	return se.ErrorTroubleshootingLink
+}
+
 // IsServiceError returns false if the error is not service side, otherwise true
 // additionally it returns an interface representing the ServiceError
 func IsServiceError(err error) (failure ServiceError, ok bool) {
-	failure, ok = err.(servicefailure)
+	failure, ok = err.(ServiceError)
+	return
+}
+
+// IsServiceErrorRichInfo returns false if the error is not service side or is not containing rich info, otherwise true
+// additionally it returns an interface representing the ServiceErrorRichInfo
+func IsServiceErrorRichInfo(err error) (failure ServiceErrorRichInfo, ok bool) {
+	failure, ok = err.(ServiceErrorRichInfo)
 	return
 }
 
@@ -185,10 +245,10 @@ func IsCircuitBreakerError(err error) bool {
 }
 
 func getCircuitBreakerError(request *http.Request, err error, cbr *OciCircuitBreaker) error {
-	cbErr := fmt.Errorf(" %s, so this request was not sent to the %s service.\n\n The circuit breaker was opened because the %s service failed too many times recently. "+
+	cbErr := fmt.Errorf("%s, so this request was not sent to the %s service.\n\n The circuit breaker was opened because the %s service failed too many times recently. "+
 		"Because the circuit breaker has been opened, requests within a %.2f second window of when the circuit breaker opened will not be sent to the %s service.\n\n"+
-		"URL which circuit breaker prevented request to - %s \n Circuit Breaker Info \n Name - %s \n State - %s \n Number of requests - %d \n Number of success - %d \n Number of failures - %d \n\n Errors from %s service which opened the circuit breaker:\n\n%s \n",
-		err, cbr.Cbst.serviceName, cbr.Cbst.serviceName, cbr.Cbst.openStateWindow.Seconds(), cbr.Cbst.serviceName, request.URL.Host+request.URL.Path, cbr.Cbst.name, cbr.Cb.State().String(), cbr.Cb.Counts().Requests, cbr.Cb.Counts().TotalSuccesses, cbr.Cb.Counts().TotalFailures, cbr.Cbst.serviceName, cbr.GetHistory())
+		"URL which circuit breaker prevented request to - %s \n Circuit Breaker Info \n Name - %s \n State - %s \n\n Errors from %s service which opened the circuit breaker:\n\n%s \n",
+		err, cbr.Cbst.serviceName, cbr.Cbst.serviceName, cbr.Cbst.openStateWindow.Seconds(), cbr.Cbst.serviceName, request.URL.Host+request.URL.Path, cbr.Cbst.name, cbr.Cb.State().String(), cbr.Cbst.serviceName, cbr.GetHistory())
 	return cbErr
 }
 

@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -17,7 +17,7 @@ import (
 
 // Group A collection of users who all need the same type of access to a particular set of resources or compartment.
 // For conceptual information about groups and other IAM Service components, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// Overview of IAM (https://docs.cloud.oracle.com/Content/Identity/getstarted/identity-domains.htm).
 // If you're federating with an identity provider (IdP), you need to create mappings between the groups
 // defined in the IdP and groups you define in the IAM service. For more information, see
 // Identity Providers and Federation (https://docs.cloud.oracle.com/Content/Identity/Concepts/federation.htm). Also see
@@ -25,7 +25,7 @@ import (
 // IdpGroupMapping.
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access,
-// see Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// see Get Started with Policies (https://docs.cloud.oracle.com/Content/Identity/policiesgs/get-started-with-policies.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values
 // using the API.
 type Group struct {
@@ -41,6 +41,7 @@ type Group struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// The description you assign to the group. Does not have to be unique, and it's changeable.
+	// (For tenancies that support identity domains) You can have an empty description.
 	Description *string `mandatory:"true" json:"description"`
 
 	// Date and time the group was created, in the format defined by RFC3339.
