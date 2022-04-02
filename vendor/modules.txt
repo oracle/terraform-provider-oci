@@ -248,9 +248,7 @@ github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 ## explicit
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v63 v63.0.0
-## explicit; go 1.13
-# github.com/oracle/oci-go-sdk/v64 v64.0.0
+# github.com/oracle/oci-go-sdk/v64 v64.0.0 => ./vendor/github.com/oracle/oci-go-sdk
 ## explicit; go 1.13
 github.com/oracle/oci-go-sdk/v64/aianomalydetection
 github.com/oracle/oci-go-sdk/v64/aivision

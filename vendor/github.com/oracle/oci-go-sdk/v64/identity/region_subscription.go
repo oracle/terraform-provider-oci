@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -16,10 +16,10 @@ import (
 )
 
 // RegionSubscription An object that represents your tenancy's access to a particular region (i.e., a subscription), the status of that
-// access, and whether that region is the home region. For more information, see Managing Regions (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingregions.htm).
+// access, and whether that region is the home region. For more information, see Managing Regions (https://docs.cloud.oracle.com/Content/Identity/regions/managingregions.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access,
-// see Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// see Get Started with Policies (https://docs.cloud.oracle.com/Content/Identity/policiesgs/get-started-with-policies.htm).
 type RegionSubscription struct {
 
 	// The region's key. See Regions and Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm)

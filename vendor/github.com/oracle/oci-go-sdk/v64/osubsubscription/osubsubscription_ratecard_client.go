@@ -51,7 +51,7 @@ func NewRatecardClientWithOboToken(configProvider common.ConfigurationProvider, 
 
 func newRatecardClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client RatecardClient, err error) {
 	// Ratecard service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("Ratecard"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

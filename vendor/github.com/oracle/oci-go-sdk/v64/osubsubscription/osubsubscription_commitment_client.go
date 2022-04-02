@@ -51,7 +51,7 @@ func NewCommitmentClientWithOboToken(configProvider common.ConfigurationProvider
 
 func newCommitmentClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client CommitmentClient, err error) {
 	// Commitment service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("Commitment"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

@@ -27,6 +27,12 @@ type PaypalPaymentDetail struct {
 
 	// Amount that paid
 	AmountPaid *float32 `mandatory:"false" json:"amountPaid"`
+
+	// The id (email address) of the paypal payment
+	PaypalId *string `mandatory:"false" json:"paypalId"`
+
+	// paypal payment reference
+	PaypalReference *string `mandatory:"false" json:"paypalReference"`
 }
 
 //GetTimePaidOn returns TimePaidOn

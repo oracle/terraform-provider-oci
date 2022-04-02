@@ -66,7 +66,6 @@ type CreateVcnDetails struct {
 
 	// Whether IPv6 is enabled for the VCN. Default is `false`.
 	// If enabled, Oracle will assign the VCN a IPv6 /56 CIDR block.
-	// You may skip having Oracle allocate the VCN a IPv6 /56 CIDR block by setting isOracleGuaAllocationEnabled to `false`.
 	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `true`
 	IsIpv6Enabled *bool `mandatory:"false" json:"isIpv6Enabled"`

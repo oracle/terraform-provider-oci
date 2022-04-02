@@ -32,7 +32,7 @@ type HostImportableAgentEntitySummary struct {
 
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
 	PlatformType HostImportableAgentEntitySummaryPlatformTypeEnum `mandatory:"true" json:"platformType"`
 }
 
@@ -87,18 +87,21 @@ const (
 	HostImportableAgentEntitySummaryPlatformTypeLinux   HostImportableAgentEntitySummaryPlatformTypeEnum = "LINUX"
 	HostImportableAgentEntitySummaryPlatformTypeSolaris HostImportableAgentEntitySummaryPlatformTypeEnum = "SOLARIS"
 	HostImportableAgentEntitySummaryPlatformTypeSunos   HostImportableAgentEntitySummaryPlatformTypeEnum = "SUNOS"
+	HostImportableAgentEntitySummaryPlatformTypeZlinux  HostImportableAgentEntitySummaryPlatformTypeEnum = "ZLINUX"
 )
 
 var mappingHostImportableAgentEntitySummaryPlatformTypeEnum = map[string]HostImportableAgentEntitySummaryPlatformTypeEnum{
 	"LINUX":   HostImportableAgentEntitySummaryPlatformTypeLinux,
 	"SOLARIS": HostImportableAgentEntitySummaryPlatformTypeSolaris,
 	"SUNOS":   HostImportableAgentEntitySummaryPlatformTypeSunos,
+	"ZLINUX":  HostImportableAgentEntitySummaryPlatformTypeZlinux,
 }
 
 var mappingHostImportableAgentEntitySummaryPlatformTypeEnumLowerCase = map[string]HostImportableAgentEntitySummaryPlatformTypeEnum{
 	"linux":   HostImportableAgentEntitySummaryPlatformTypeLinux,
 	"solaris": HostImportableAgentEntitySummaryPlatformTypeSolaris,
 	"sunos":   HostImportableAgentEntitySummaryPlatformTypeSunos,
+	"zlinux":  HostImportableAgentEntitySummaryPlatformTypeZlinux,
 }
 
 // GetHostImportableAgentEntitySummaryPlatformTypeEnumValues Enumerates the set of values for HostImportableAgentEntitySummaryPlatformTypeEnum
@@ -116,6 +119,7 @@ func GetHostImportableAgentEntitySummaryPlatformTypeEnumStringValues() []string 
 		"LINUX",
 		"SOLARIS",
 		"SUNOS",
+		"ZLINUX",
 	}
 }
 

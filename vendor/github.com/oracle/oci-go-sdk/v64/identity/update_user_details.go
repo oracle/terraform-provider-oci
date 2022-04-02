@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -19,6 +19,7 @@ import (
 type UpdateUserDetails struct {
 
 	// The description you assign to the user. Does not have to be unique, and it's changeable.
+	// (For tenancies that support identity domains) You can have an empty description.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The email address you assign to the user. Has to be unique across the tenancy.

@@ -52,7 +52,7 @@ func NewComputeInstanceAgentClientWithOboToken(configProvider common.Configurati
 
 func newComputeInstanceAgentClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ComputeInstanceAgentClient, err error) {
 	// ComputeInstanceAgent service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("ComputeInstanceAgent"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

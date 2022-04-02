@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// IamWorkRequestLogSummary The log entity for a IAM work request.
+// IamWorkRequestLogSummary (For tenancies that support identity domains) The log entity for a IAM work request.
 type IamWorkRequestLogSummary struct {
 
 	// A human-readable error string.

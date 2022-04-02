@@ -75,15 +75,13 @@ type BootVolume struct {
 	// from the source boot volume or boot volume backup.
 	IsHydrated *bool `mandatory:"false" json:"isHydrated"`
 
-	// The number of volume performance units (VPUs) that will be applied to this boot volume per GB,
+	// The number of volume performance units (VPUs) that will be applied to this volume per GB,
 	// representing the Block Volume service's elastic performance options.
 	// See Block Volume Performance Levels (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 	// Allowed values:
 	//   * `10`: Represents Balanced option.
 	//   * `20`: Represents Higher Performance option.
-	//
 	//   * `30`-`120`: Represents the Ultra High Performance option.
-	// For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB.
 	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 
 	// The size of the boot volume in GBs.
@@ -97,11 +95,10 @@ type BootVolume struct {
 	// The OCID of the Key Management master encryption key assigned to the boot volume.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
-	// Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated.
-	// Use the `DetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune.
+	// Specifies whether the auto-tune performance is enabled for this boot volume.
 	IsAutoTuneEnabled *bool `mandatory:"false" json:"isAutoTuneEnabled"`
 
-	// The number of Volume Performance Units per GB that this boot volume is effectively tuned to.
+	// The number of Volume Performance Units per GB that this volume is effectively tuned to when it's idle.
 	AutoTunedVpusPerGB *int64 `mandatory:"false" json:"autoTunedVpusPerGB"`
 
 	// The list of boot volume replicas of this boot volume

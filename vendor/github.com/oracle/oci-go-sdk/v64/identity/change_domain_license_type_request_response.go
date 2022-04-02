@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ChangeDomainLicenseType.go.html to see an example of how to use ChangeDomainLicenseTypeRequest.
 type ChangeDomainLicenseTypeRequest struct {
 
-	// The OCID of the domain
+	// The OCID of the identity domain.
 	DomainId *string `mandatory:"true" contributesTo:"path" name:"domainId"`
 
-	// the request object for domain license type update
+	// The request object for an update to the license type of the identity domain.
 	ChangeDomainLicenseTypeDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/EnableReplicationToRegion.go.html to see an example of how to use EnableReplicationToRegionRequest.
 type EnableReplicationToRegionRequest struct {
 
-	// The OCID of the domain
+	// The OCID of the identity domain.
 	DomainId *string `mandatory:"true" contributesTo:"path" name:"domainId"`
 
-	// the request object for region we are replicating domain region
+	// The request object for replicating the identity domain to another region.
 	EnableReplicationToRegionDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

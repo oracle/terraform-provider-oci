@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -21,7 +21,7 @@ import (
 // specifies the tag and compartment details.
 // Tag defaults are inherited by child compartments. This means that if you set a tag default on the root compartment
 // for a tenancy, all resources that are created in the tenancy are tagged. For more information about
-// using tag defaults, see Managing Tag Defaults (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingtagdefaults.htm).
+// using tag defaults, see Managing Tag Defaults (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagdefaults.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator.
 type TagDefault struct {

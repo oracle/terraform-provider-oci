@@ -45,13 +45,10 @@ type UpdateBootVolumeDetails struct {
 	// Allowed values:
 	//   * `10`: Represents Balanced option.
 	//   * `20`: Represents Higher Performance option.
-	//
 	//   * `30`-`120`: Represents the Ultra High Performance option.
-	// For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB.
 	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 
-	// Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated.
-	// Use the `DetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune.
+	// Specifies whether the auto-tune performance is enabled for this boot volume.
 	IsAutoTuneEnabled *bool `mandatory:"false" json:"isAutoTuneEnabled"`
 
 	// The list of boot volume replicas that this boot volume will be updated to have

@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// DomainReplicationStates Domain replication replication log for all domains for a given region
+// DomainReplicationStates (For tenancies that support identity domains) The identity domain replication log for all identity domains for a given region.
 type DomainReplicationStates struct {
 
-	// The OCID of the domain
+	// The OCID of the identity domain.
 	DomainId *string `mandatory:"true" json:"domainId"`
 
-	// The IDCS replicated region state
+	// The IDCS-replicated region state.
 	State ReplicatedRegionDetailsStateEnum `mandatory:"true" json:"state"`
 
-	// The replica region for domain.
+	// The replica region for the identity domain.
 	ReplicaRegion *string `mandatory:"true" json:"replicaRegion"`
 }
 

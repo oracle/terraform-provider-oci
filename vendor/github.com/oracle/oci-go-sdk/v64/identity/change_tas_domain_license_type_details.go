@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ChangeTasDomainLicenseTypeDetails Update domain license type
+// ChangeTasDomainLicenseTypeDetails (For tenancies that support identity domains) Update the identity domain license type.
 type ChangeTasDomainLicenseTypeDetails struct {
 
-	// The License type of Domain
+	// The license type of the identity domain.
 	LicenseType *string `mandatory:"false" json:"licenseType"`
 }
 

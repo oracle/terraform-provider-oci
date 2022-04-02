@@ -52,7 +52,7 @@ func NewSddcClientWithOboToken(configProvider common.ConfigurationProvider, oboT
 
 func newSddcClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client SddcClient, err error) {
 	// Sddc service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("Sddc"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

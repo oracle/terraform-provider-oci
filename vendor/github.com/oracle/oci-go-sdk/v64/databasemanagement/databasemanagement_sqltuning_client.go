@@ -53,7 +53,7 @@ func NewSqlTuningClientWithOboToken(configProvider common.ConfigurationProvider,
 
 func newSqlTuningClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client SqlTuningClient, err error) {
 	// SqlTuning service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("SqlTuning"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

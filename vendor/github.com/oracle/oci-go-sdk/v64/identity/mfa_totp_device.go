@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -20,7 +20,7 @@ import (
 // Console. To enable multi-factor authentication, the user must register a mobile device with a TOTP authenticator app
 // installed. The registration process creates the `MfaTotpDevice` object. The registration process requires
 // interaction with the Console and cannot be completed programmatically. For more information, see
-// Managing Multi-Factor Authentication (https://docs.cloud.oracle.com/Content/Identity/Tasks/usingmfa.htm).
+// Managing Multi-Factor Authentication (https://docs.cloud.oracle.com/Content/Identity/mfa/understand-multi-factor-authentication.htm).
 type MfaTotpDevice struct {
 
 	// The OCID of the MFA TOTP device.

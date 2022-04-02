@@ -51,7 +51,7 @@ func NewQuotasClientWithOboToken(configProvider common.ConfigurationProvider, ob
 
 func newQuotasClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client QuotasClient, err error) {
 	// Quotas service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("Quotas"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
@@ -137,7 +137,7 @@ func (client QuotasClient) createQuota(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//Quota/CreateQuota"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/Quota/CreateQuota"
 		err = common.PostProcessServiceError(err, "Quotas", "CreateQuota", apiReferenceLink)
 		return response, err
 	}
@@ -194,7 +194,7 @@ func (client QuotasClient) deleteQuota(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//Quota/DeleteQuota"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/Quota/DeleteQuota"
 		err = common.PostProcessServiceError(err, "Quotas", "DeleteQuota", apiReferenceLink)
 		return response, err
 	}
@@ -251,7 +251,7 @@ func (client QuotasClient) getQuota(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//Quota/GetQuota"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/Quota/GetQuota"
 		err = common.PostProcessServiceError(err, "Quotas", "GetQuota", apiReferenceLink)
 		return response, err
 	}
@@ -308,7 +308,7 @@ func (client QuotasClient) listQuotas(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//QuotaSummary/ListQuotas"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/QuotaSummary/ListQuotas"
 		err = common.PostProcessServiceError(err, "Quotas", "ListQuotas", apiReferenceLink)
 		return response, err
 	}
@@ -365,7 +365,7 @@ func (client QuotasClient) updateQuota(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//Quota/UpdateQuota"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/Quota/UpdateQuota"
 		err = common.PostProcessServiceError(err, "Quotas", "UpdateQuota", apiReferenceLink)
 		return response, err
 	}

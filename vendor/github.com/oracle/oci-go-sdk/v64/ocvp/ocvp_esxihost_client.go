@@ -52,7 +52,7 @@ func NewEsxiHostClientWithOboToken(configProvider common.ConfigurationProvider, 
 
 func newEsxiHostClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client EsxiHostClient, err error) {
 	// EsxiHost service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("EsxiHost"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

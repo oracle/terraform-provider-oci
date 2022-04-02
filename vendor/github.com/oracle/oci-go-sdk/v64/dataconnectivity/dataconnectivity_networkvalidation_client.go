@@ -51,7 +51,7 @@ func NewNetworkValidationClientWithOboToken(configProvider common.ConfigurationP
 
 func newNetworkValidationClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client NetworkValidationClient, err error) {
 	// NetworkValidation service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("NetworkValidation"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

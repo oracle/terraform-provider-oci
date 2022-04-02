@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AuthenticationPolicy Authentication policy, currently set for the given compartment
+// AuthenticationPolicy Authentication policy, currently set for the given compartment.
 type AuthenticationPolicy struct {
 	PasswordPolicy *PasswordPolicy `mandatory:"false" json:"passwordPolicy"`
 

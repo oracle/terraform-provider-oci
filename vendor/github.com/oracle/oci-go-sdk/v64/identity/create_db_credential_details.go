@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -22,6 +22,7 @@ type CreateDbCredentialDetails struct {
 	Password *string `mandatory:"true" json:"password"`
 
 	// The description you assign to the DB credentials during creation.
+	// (For tenancies that support identity domains) You can have an empty description.
 	Description *string `mandatory:"true" json:"description"`
 }
 

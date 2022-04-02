@@ -65,7 +65,7 @@ type MacsManagedExternalHostInsightSummary struct {
 
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
 	PlatformType MacsManagedExternalHostInsightSummaryPlatformTypeEnum `mandatory:"false" json:"platformType,omitempty"`
 
 	// Indicates the status of a host insight in Operations Insights
@@ -192,18 +192,21 @@ const (
 	MacsManagedExternalHostInsightSummaryPlatformTypeLinux   MacsManagedExternalHostInsightSummaryPlatformTypeEnum = "LINUX"
 	MacsManagedExternalHostInsightSummaryPlatformTypeSolaris MacsManagedExternalHostInsightSummaryPlatformTypeEnum = "SOLARIS"
 	MacsManagedExternalHostInsightSummaryPlatformTypeSunos   MacsManagedExternalHostInsightSummaryPlatformTypeEnum = "SUNOS"
+	MacsManagedExternalHostInsightSummaryPlatformTypeZlinux  MacsManagedExternalHostInsightSummaryPlatformTypeEnum = "ZLINUX"
 )
 
 var mappingMacsManagedExternalHostInsightSummaryPlatformTypeEnum = map[string]MacsManagedExternalHostInsightSummaryPlatformTypeEnum{
 	"LINUX":   MacsManagedExternalHostInsightSummaryPlatformTypeLinux,
 	"SOLARIS": MacsManagedExternalHostInsightSummaryPlatformTypeSolaris,
 	"SUNOS":   MacsManagedExternalHostInsightSummaryPlatformTypeSunos,
+	"ZLINUX":  MacsManagedExternalHostInsightSummaryPlatformTypeZlinux,
 }
 
 var mappingMacsManagedExternalHostInsightSummaryPlatformTypeEnumLowerCase = map[string]MacsManagedExternalHostInsightSummaryPlatformTypeEnum{
 	"linux":   MacsManagedExternalHostInsightSummaryPlatformTypeLinux,
 	"solaris": MacsManagedExternalHostInsightSummaryPlatformTypeSolaris,
 	"sunos":   MacsManagedExternalHostInsightSummaryPlatformTypeSunos,
+	"zlinux":  MacsManagedExternalHostInsightSummaryPlatformTypeZlinux,
 }
 
 // GetMacsManagedExternalHostInsightSummaryPlatformTypeEnumValues Enumerates the set of values for MacsManagedExternalHostInsightSummaryPlatformTypeEnum
@@ -221,6 +224,7 @@ func GetMacsManagedExternalHostInsightSummaryPlatformTypeEnumStringValues() []st
 		"LINUX",
 		"SOLARIS",
 		"SUNOS",
+		"ZLINUX",
 	}
 }
 

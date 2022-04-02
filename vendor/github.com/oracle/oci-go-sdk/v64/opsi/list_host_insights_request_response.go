@@ -36,7 +36,7 @@ type ListHostInsightsRequest struct {
 
 	// Filter by one or more platform types.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
 	PlatformType []ListHostInsightsPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// For list pagination. The maximum number of results per page, or items to
@@ -175,18 +175,21 @@ const (
 	ListHostInsightsPlatformTypeLinux   ListHostInsightsPlatformTypeEnum = "LINUX"
 	ListHostInsightsPlatformTypeSolaris ListHostInsightsPlatformTypeEnum = "SOLARIS"
 	ListHostInsightsPlatformTypeSunos   ListHostInsightsPlatformTypeEnum = "SUNOS"
+	ListHostInsightsPlatformTypeZlinux  ListHostInsightsPlatformTypeEnum = "ZLINUX"
 )
 
 var mappingListHostInsightsPlatformTypeEnum = map[string]ListHostInsightsPlatformTypeEnum{
 	"LINUX":   ListHostInsightsPlatformTypeLinux,
 	"SOLARIS": ListHostInsightsPlatformTypeSolaris,
 	"SUNOS":   ListHostInsightsPlatformTypeSunos,
+	"ZLINUX":  ListHostInsightsPlatformTypeZlinux,
 }
 
 var mappingListHostInsightsPlatformTypeEnumLowerCase = map[string]ListHostInsightsPlatformTypeEnum{
 	"linux":   ListHostInsightsPlatformTypeLinux,
 	"solaris": ListHostInsightsPlatformTypeSolaris,
 	"sunos":   ListHostInsightsPlatformTypeSunos,
+	"zlinux":  ListHostInsightsPlatformTypeZlinux,
 }
 
 // GetListHostInsightsPlatformTypeEnumValues Enumerates the set of values for ListHostInsightsPlatformTypeEnum
@@ -204,6 +207,7 @@ func GetListHostInsightsPlatformTypeEnumStringValues() []string {
 		"LINUX",
 		"SOLARIS",
 		"SUNOS",
+		"ZLINUX",
 	}
 }
 

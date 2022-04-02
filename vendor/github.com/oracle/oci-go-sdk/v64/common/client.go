@@ -561,7 +561,7 @@ type ClientCallDetails struct {
 // Call executes the http request with the given context
 func (client BaseClient) Call(ctx context.Context, request *http.Request) (response *http.Response, err error) {
 	if client.IsRefreshableAuthType() {
-		client.RefreshableTokenWrappedCallWithDetails(ctx, request, ClientCallDetails{Signer: client.Signer})
+		return client.RefreshableTokenWrappedCallWithDetails(ctx, request, ClientCallDetails{Signer: client.Signer})
 	}
 	return client.CallWithDetails(ctx, request, ClientCallDetails{Signer: client.Signer})
 }
@@ -574,6 +574,7 @@ func (client BaseClient) RefreshableTokenWrappedCallWithDetails(ctx context.Cont
 		if response != nil && response.StatusCode != 401 {
 			return response, err
 		}
+		time.Sleep(1 * time.Second)
 	}
 	return
 }

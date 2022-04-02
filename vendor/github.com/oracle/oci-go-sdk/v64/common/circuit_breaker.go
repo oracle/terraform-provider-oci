@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/sony/gobreaker"
@@ -89,8 +90,9 @@ func (ocb *OciCircuitBreaker) AddToHistory(resp *http.Response, err ServiceError
 	respHist.errorMessage = err.GetMessage()
 	respHist.statusCode = err.GetHTTPStatusCode()
 	respHist.timestamp, _ = time.Parse(time.RFC1123, resp.Header.Get("Date"))
+	ocb.historyQueueMutex.Lock()
+	defer ocb.historyQueueMutex.Unlock()
 	ocb.historyQueue = append(ocb.historyQueue, *respHist)
-
 	// cleaning up older values
 	if len(ocb.historyQueue) > ocb.Cbst.numberOfRecordedHistoryResponse {
 		// We have reached the capacity. Clean up the oldest value
@@ -110,6 +112,8 @@ func (ocb *OciCircuitBreaker) AddToHistory(resp *http.Response, err ServiceError
 // GetHistory processes the rsponse in queue to construct a String
 func (ocb *OciCircuitBreaker) GetHistory() string {
 	getHistoryString := ""
+	ocb.historyQueueMutex.Lock()
+	defer ocb.historyQueueMutex.Unlock()
 	for _, value := range ocb.historyQueue {
 		getHistoryString += value.String()
 	}
@@ -118,9 +122,10 @@ func (ocb *OciCircuitBreaker) GetHistory() string {
 
 // OciCircuitBreaker wraps all exposed configurable params of circuit breaker and 3P gobreaker CircuirBreaker
 type OciCircuitBreaker struct {
-	Cbst         *CircuitBreakerSetting
-	Cb           *gobreaker.CircuitBreaker
-	historyQueue []ResponseHistory
+	Cbst              *CircuitBreakerSetting
+	Cb                *gobreaker.CircuitBreaker
+	historyQueue      []ResponseHistory
+	historyQueueMutex sync.Mutex
 }
 
 // NewOciCircuitBreaker is used for initializing specified oci circuit breaker configuration with circuit breaker settings
@@ -171,7 +176,7 @@ func DefaultCircuitBreakerSetting() *CircuitBreakerSetting {
 }
 
 // DefaultCircuitBreakerSettingWithServiceName is used for set circuit breaker with default config
-func DefaultCircuitBreakerSettingWithServiceName() *CircuitBreakerSetting {
+func DefaultCircuitBreakerSettingWithServiceName(servicename string) *CircuitBreakerSetting {
 	successStatErrCodeMap := map[StatErrCode]bool{
 		{409, "IncorrectState"}: false,
 	}
@@ -191,7 +196,7 @@ func DefaultCircuitBreakerSettingWithServiceName() *CircuitBreakerSetting {
 		WithMinimumRequests(CircuitBreakerDefaultVolumeThreshold),
 		WithSuccessStatErrCodeMap(successStatErrCodeMap),
 		WithSuccessStatCodeMap(successStatCodeMap),
-		WithServiceName(DefaultCircuitBreakerServiceName),
+		WithServiceName(servicename),
 		WithHistoryCount(getDefaultNumHistoryCount()))
 }
 
@@ -203,7 +208,7 @@ func NoCircuitBreakerSetting() *CircuitBreakerSetting {
 // NewCircuitBreakerSettingWithOptions is a helper method to assemble a CircuitBreakerSetting object.
 // It starts out with the values returned by defaultCircuitBreakerSetting().
 func NewCircuitBreakerSettingWithOptions(opts ...CircuitBreakerOption) *CircuitBreakerSetting {
-	cbst := DefaultCircuitBreakerSettingWithServiceName()
+	cbst := DefaultCircuitBreakerSettingWithServiceName(DefaultCircuitBreakerServiceName)
 	// allow changing values
 	for _, opt := range opts {
 		opt(cbst)

@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// NetworkPolicy Network policy, Consists of a list of Network Source ids.
+// NetworkPolicy Network policy, which consists of a list of network source IDs.
 type NetworkPolicy struct {
 
 	// Network Source ids

@@ -52,7 +52,7 @@ func NewDashxApisClientWithOboToken(configProvider common.ConfigurationProvider,
 
 func newDashxApisClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DashxApisClient, err error) {
 	// DashxApis service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("DashxApis"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

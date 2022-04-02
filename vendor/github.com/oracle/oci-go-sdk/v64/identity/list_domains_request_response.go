@@ -21,22 +21,22 @@ type ListDomainsRequest struct {
 	// The OCID of the compartment (remember that the tenancy is simply the root compartment).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The mutable display name of the domain
+	// The mutable display name of the identity domain.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// The region agnostic domain URL
+	// The region-agnostic identity domain URL.
 	Url *string `mandatory:"false" contributesTo:"query" name:"url"`
 
-	// The region specific domain URL
+	// The region-specific identity domain URL.
 	HomeRegionUrl *string `mandatory:"false" contributesTo:"query" name:"homeRegionUrl"`
 
-	// The domain type
+	// The identity domain type.
 	Type *string `mandatory:"false" contributesTo:"query" name:"type"`
 
-	// The domain license type
+	// The license type of the identity domain.
 	LicenseType *string `mandatory:"false" contributesTo:"query" name:"licenseType"`
 
-	// Indicate if the domain is visible at login screen or not
+	// Indicates whether or not the identity domain is visible at the sign-in screen.
 	IsHiddenOnLogin *bool `mandatory:"false" contributesTo:"query" name:"isHiddenOnLogin"`
 
 	// The value of the `opc-next-page` response header from the previous "List" call.
@@ -65,7 +65,7 @@ type ListDomainsRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive.
+	// A filter to only return resources that match the given lifecycle state. The state value is case-insensitive.
 	LifecycleState DomainLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

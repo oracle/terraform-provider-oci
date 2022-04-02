@@ -89,6 +89,12 @@ type DownloadPdfContentResponse struct {
 
 	// Set content to download
 	ContentDisposition *string `presentIn:"header" name:"content-disposition"`
+
+	// Set the content type to download
+	ContentType *string `presentIn:"header" name:"content-type"`
+
+	// Set the content length to download
+	ContentLength *int `presentIn:"header" name:"content-length"`
 }
 
 func (response DownloadPdfContentResponse) String() string {

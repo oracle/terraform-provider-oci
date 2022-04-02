@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-// DrgAttachmentMatchAllDrgRouteDistributionMatchCriteria No match criteria is applied.
+// DrgAttachmentMatchAllDrgRouteDistributionMatchCriteria All routes are imported or exported.
 type DrgAttachmentMatchAllDrgRouteDistributionMatchCriteria struct {
 }
 

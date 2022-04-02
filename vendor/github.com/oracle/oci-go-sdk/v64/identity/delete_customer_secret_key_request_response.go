@@ -21,7 +21,7 @@ type DeleteCustomerSecretKeyRequest struct {
 	// The OCID of the user.
 	UserId *string `mandatory:"true" contributesTo:"path" name:"userId"`
 
-	// The OCID of the secret key.
+	// The access token of the secret key.
 	CustomerSecretKeyId *string `mandatory:"true" contributesTo:"path" name:"customerSecretKeyId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/CreateDomain.go.html to see an example of how to use CreateDomainRequest.
 type CreateDomainRequest struct {
 
-	// The request object for creating a new domain
+	// The request object for creating a new identity domain.
 	CreateDomainDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

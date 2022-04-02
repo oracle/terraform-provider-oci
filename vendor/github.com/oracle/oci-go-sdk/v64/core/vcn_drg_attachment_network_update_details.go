@@ -29,8 +29,8 @@ type VcnDrgAttachmentNetworkUpdateDetails struct {
 	//   * Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm)
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 
-	// Indicates whether the VCN CIDR(s) or the individual Subnet CIDR(s) are imported from the attachment.
-	// Routes from the VCN Ingress Route Table are always imported.
+	// Indicates whether the VCN CIDRs or the individual subnet CIDRs are imported from the attachment.
+	// Routes from the VCN ingress route table are always imported.
 	VcnRouteType VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum `mandatory:"false" json:"vcnRouteType,omitempty"`
 }
 

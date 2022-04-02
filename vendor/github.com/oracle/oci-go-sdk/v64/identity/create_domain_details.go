@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// CreateDomainDetails Create a domain details
+// CreateDomainDetails (For tenancies that support identity domains) Details for creating an identity domain.
 type CreateDomainDetails struct {
 
-	// The OCID of the Compartment where domain is created
+	// The OCID of the compartment where the identity domain is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The mutable display name of the domain.
+	// The mutable display name of the identity domain.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Domain entity description
+	// The identity domain description. You can have an empty description.
 	Description *string `mandatory:"true" json:"description"`
 
 	// The region's name identifier. See Regions and Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm)
@@ -32,31 +32,29 @@ type CreateDomainDetails struct {
 	// Example: `us-phoenix-1`
 	HomeRegion *string `mandatory:"true" json:"homeRegion"`
 
-	// The License type of Domain
+	// The license type of the identity domain.
 	LicenseType *string `mandatory:"true" json:"licenseType"`
 
-	// Indicates whether domain is hidden on login screen or not.
+	// Indicates whether the identity domain is hidden on the sign-in screen or not.
 	IsHiddenOnLogin *bool `mandatory:"false" json:"isHiddenOnLogin"`
 
-	// The admin first name
+	// The administrator's first name.
 	AdminFirstName *string `mandatory:"false" json:"adminFirstName"`
 
-	// The admin last name
+	// The administrator's last name.
 	AdminLastName *string `mandatory:"false" json:"adminLastName"`
 
-	// The admin user name
+	// The administrator's user name.
 	AdminUserName *string `mandatory:"false" json:"adminUserName"`
 
-	// The admin email address
+	// The administrator's email address.
 	AdminEmail *string `mandatory:"false" json:"adminEmail"`
 
-	// Indicates if admin user created in IDCS stripe would like to receive notification like welcome email
-	// or not.
-	// Required field only if admin information is provided, otherwise optional.
+	// Indicates whether or not the administrator user created in the IDCS stripe would like to receive notifications like a welcome email.
+	// This field is required only if admin information is provided. This field is otherwise optional.
 	IsNotificationBypassed *bool `mandatory:"false" json:"isNotificationBypassed"`
 
-	// Optional field to indicate whether users in the domain are required to have a primary email address or not
-	// Defaults to true
+	// Optional field to indicate whether users in the identity domain are required to have a primary email address or not. The default is true.
 	IsPrimaryEmailRequired *bool `mandatory:"false" json:"isPrimaryEmailRequired"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

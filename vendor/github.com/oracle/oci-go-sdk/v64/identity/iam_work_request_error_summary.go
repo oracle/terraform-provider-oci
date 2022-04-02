@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// IamWorkRequestErrorSummary An error encountered while executing an operation that is tracked by a IAM work request.
+// IamWorkRequestErrorSummary (For tenancies that support identity domains) An error encountered while executing an operation that is tracked by a IAM work request.
 type IamWorkRequestErrorSummary struct {
 
 	// A machine-usable code for the error that occured.
