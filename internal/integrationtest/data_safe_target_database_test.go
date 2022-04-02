@@ -391,7 +391,7 @@ func getTargetDatabaseIds(compartment string) ([]string, error) {
 func targetDatabaseSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if targetDatabaseResponse, ok := response.Response.(oci_data_safe.GetTargetDatabaseResponse); ok {
-		return targetDatabaseResponse.LifecycleState != oci_data_safe.LifecycleStateDeleted
+		return string(targetDatabaseResponse.LifecycleState) != string(oci_data_safe.LifecycleStateDeleted)
 	}
 	return false
 }
