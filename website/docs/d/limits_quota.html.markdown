@@ -37,8 +37,14 @@ The following attributes are exported:
 * `description` - The description you assign to the quota.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the quota.
+* `locks` - Locks associated with this resource.
+	* `message` - A message added by the lock creator. The message typically gives an indication of why the resource is locked. 
+	* `related_resource_id` - The resource ID that is locking this resource. Indicates that deleting this resource removes the lock. 
+	* `time_created` - Indicates when the lock was created, in the format defined by RFC 3339.
+	* `type` - Lock type.
 * `name` - The name you assign to the quota during creation. The name must be unique across all quotas in the tenancy and cannot be changed. 
 * `state` - The quota's current state.
 * `statements` - An array of one or more quota statements written in the declarative quota statement language.
 * `time_created` - Date and time the quota was created, in the format defined by RFC 3339. Example: `2016-08-25T21:10:29.600Z` 
+
 

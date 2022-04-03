@@ -125,6 +125,12 @@ func (s *LimitsQuotasDataSourceCrud) SetData() error {
 			quota["id"] = *r.Id
 		}
 
+		locks := []interface{}{}
+		for _, item := range r.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		quota["locks"] = locks
+
 		if r.Name != nil {
 			quota["name"] = *r.Name
 		}
