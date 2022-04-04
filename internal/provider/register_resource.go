@@ -14,7 +14,7 @@ import (
 	tf_appmgmt_control "github.com/terraform-providers/terraform-provider-oci/internal/service/appmgmt_control"
 	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
 	tf_audit "github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
-	tf_auto_scaling "github.com/terraform-providers/terraform-provider-oci/internal/service/autoscaling"
+	tf_autoscaling "github.com/terraform-providers/terraform-provider-oci/internal/service/autoscaling"
 	tf_bastion "github.com/terraform-providers/terraform-provider-oci/internal/service/bastion"
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	tf_blockchain "github.com/terraform-providers/terraform-provider-oci/internal/service/blockchain"
@@ -60,7 +60,7 @@ import (
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_network_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/network_load_balancer"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
-	tf_object_storage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
+	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
 	tf_oce "github.com/terraform-providers/terraform-provider-oci/internal/service/oce"
 	tf_ocvp "github.com/terraform-providers/terraform-provider-oci/internal/service/ocvp"
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
@@ -112,8 +112,8 @@ func init() {
 	RegisterResource("oci_artifacts_repository", tf_artifacts.ArtifactsRepositoryResource())
 	// audit service
 	RegisterResource("oci_audit_configuration", tf_audit.AuditConfigurationResource())
-	// auto_scaling service
-	RegisterResource("oci_autoscaling_auto_scaling_configuration", tf_auto_scaling.AutoScalingAutoScalingConfigurationResource())
+	// autoscaling service
+	RegisterResource("oci_autoscaling_auto_scaling_configuration", tf_autoscaling.AutoScalingAutoScalingConfigurationResource())
 	// bastion service
 	RegisterResource("oci_bastion_bastion", tf_bastion.BastionBastionResource())
 	RegisterResource("oci_bastion_session", tf_bastion.BastionSessionResource())
@@ -484,13 +484,13 @@ func init() {
 	// nosql service
 	RegisterResource("oci_nosql_index", tf_nosql.NosqlIndexResource())
 	RegisterResource("oci_nosql_table", tf_nosql.NosqlTableResource())
-	// object_storage service
-	RegisterResource("oci_objectstorage_bucket", tf_object_storage.ObjectStorageBucketResource())
-	RegisterResource("oci_objectstorage_namespace_metadata", tf_object_storage.ObjectStorageNamespaceMetadataResource())
-	RegisterResource("oci_objectstorage_object", tf_object_storage.ObjectStorageObjectResource())
-	RegisterResource("oci_objectstorage_object_lifecycle_policy", tf_object_storage.ObjectStorageObjectLifecyclePolicyResource())
-	RegisterResource("oci_objectstorage_preauthrequest", tf_object_storage.ObjectStoragePreauthenticatedRequestResource())
-	RegisterResource("oci_objectstorage_replication_policy", tf_object_storage.ObjectStorageReplicationPolicyResource())
+	// objectstorage service
+	RegisterResource("oci_objectstorage_bucket", tf_objectstorage.ObjectStorageBucketResource())
+	RegisterResource("oci_objectstorage_namespace_metadata", tf_objectstorage.ObjectStorageNamespaceMetadataResource())
+	RegisterResource("oci_objectstorage_object", tf_objectstorage.ObjectStorageObjectResource())
+	RegisterResource("oci_objectstorage_object_lifecycle_policy", tf_objectstorage.ObjectStorageObjectLifecyclePolicyResource())
+	RegisterResource("oci_objectstorage_preauthrequest", tf_objectstorage.ObjectStoragePreauthenticatedRequestResource())
+	RegisterResource("oci_objectstorage_replication_policy", tf_objectstorage.ObjectStorageReplicationPolicyResource())
 	// oce service
 	RegisterResource("oci_oce_oce_instance", tf_oce.OceOceInstanceResource())
 	// ocvp service
