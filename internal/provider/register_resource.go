@@ -184,6 +184,7 @@ func init() {
 	RegisterResource("oci_core_app_catalog_subscription", tf_core.CoreAppCatalogSubscriptionResource())
 	RegisterResource("oci_core_boot_volume", tf_core.CoreBootVolumeResource())
 	RegisterResource("oci_core_boot_volume_backup", tf_core.CoreBootVolumeBackupResource())
+	RegisterResource("oci_core_capture_filter", tf_core.CoreCaptureFilterResource())
 	RegisterResource("oci_core_cluster_network", tf_core.CoreClusterNetworkResource())
 	RegisterResource("oci_core_compute_capacity_reservation", tf_core.CoreComputeCapacityReservationResource())
 	RegisterResource("oci_core_compute_image_capability_schema", tf_core.CoreComputeImageCapabilitySchemaResource())
@@ -241,6 +242,7 @@ func init() {
 	RegisterResource("oci_core_volume_backup_policy_assignment", tf_core.CoreVolumeBackupPolicyAssignmentResource())
 	RegisterResource("oci_core_volume_group", tf_core.CoreVolumeGroupResource())
 	RegisterResource("oci_core_volume_group_backup", tf_core.CoreVolumeGroupBackupResource())
+	RegisterResource("oci_core_vtap", tf_core.CoreVtapResource())
 	// data_connectivity service
 	RegisterResource("oci_data_connectivity_registry", tf_data_connectivity.DataConnectivityRegistryResource())
 	RegisterResource("oci_data_connectivity_registry_connection", tf_data_connectivity.DataConnectivityRegistryConnectionResource())

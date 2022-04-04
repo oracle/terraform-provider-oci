@@ -248,6 +248,8 @@ func init() {
 	RegisterDatasource("oci_core_byoip_allocated_ranges", tf_core.CoreByoipAllocatedRangesDataSource())
 	RegisterDatasource("oci_core_byoip_range", tf_core.CoreByoipRangeDataSource())
 	RegisterDatasource("oci_core_byoip_ranges", tf_core.CoreByoipRangesDataSource())
+	RegisterDatasource("oci_core_capture_filter", tf_core.CoreCaptureFilterDataSource())
+	RegisterDatasource("oci_core_capture_filters", tf_core.CoreCaptureFiltersDataSource())
 	RegisterDatasource("oci_core_cluster_network", tf_core.CoreClusterNetworkDataSource())
 	RegisterDatasource("oci_core_cluster_network_instances", tf_core.CoreClusterNetworkInstancesDataSource())
 	RegisterDatasource("oci_core_cluster_networks", tf_core.CoreClusterNetworksDataSource())
@@ -362,6 +364,8 @@ func init() {
 	RegisterDatasource("oci_core_volume_group_replicas", tf_core.CoreVolumeGroupReplicasDataSource())
 	RegisterDatasource("oci_core_volume_groups", tf_core.CoreVolumeGroupsDataSource())
 	RegisterDatasource("oci_core_volumes", tf_core.CoreVolumesDataSource())
+	RegisterDatasource("oci_core_vtap", tf_core.CoreVtapDataSource())
+	RegisterDatasource("oci_core_vtaps", tf_core.CoreVtapsDataSource())
 	// data_connectivity service
 	RegisterDatasource("oci_data_connectivity_registries", tf_data_connectivity.DataConnectivityRegistriesDataSource())
 	RegisterDatasource("oci_data_connectivity_registry", tf_data_connectivity.DataConnectivityRegistryDataSource())
