@@ -330,6 +330,7 @@ func init() {
 	RegisterDatasource("oci_core_instance_console_connections", tf_core.CoreInstanceConsoleConnectionsDataSource())
 	RegisterDatasource("oci_core_instance_credentials", tf_core.CoreInstanceCredentialDataSource())
 	RegisterDatasource("oci_core_instance_devices", tf_core.CoreInstanceDevicesDataSource())
+	RegisterDatasource("oci_core_instance_maintenance_reboot", tf_core.CoreInstanceMaintenanceRebootDataSource())
 	RegisterDatasource("oci_core_instance_measured_boot_report", tf_core.CoreInstanceMeasuredBootReportDataSource())
 	RegisterDatasource("oci_core_instance_pool", tf_core.CoreInstancePoolDataSource())
 	RegisterDatasource("oci_core_instance_pool_instances", tf_core.CoreInstancePoolInstancesDataSource())
