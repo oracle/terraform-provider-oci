@@ -116,7 +116,7 @@ var (
 
 // issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
-	t.Skip("Skip this test as AEI and its api no longer exists.")
+	//t.Skip("Skip this test as AEI and its api no longer exists.")
 
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabaseResource_basic")
 	defer httpreplay.SaveScenario()
@@ -132,6 +132,13 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 	resourceName := "oci_database_autonomous_container_database.test_autonomous_container_database"
 	datasourceName := "data.oci_database_autonomous_container_databases.test_autonomous_container_databases"
 	singularDatasourceName := "data.oci_database_autonomous_container_database.test_autonomous_container_database"
+
+	AutonomousContainerDatabaseDedicatedMaintenanceWindowDetailsRepresentation := acctest.RepresentationCopyWithRemovedProperties(
+		acctest.GetUpdatedRepresentationCopy("months",
+			[]acctest.RepresentationGroup{{RepType: acctest.Optional, Group: autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation}, {RepType: acctest.Optional, Group: autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation2}, {RepType: acctest.Optional, Group: autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation3}, {RepType: acctest.Optional, Group: autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation4}},
+			autonomousContainerDatabaseMaintenanceWindowDetailsRepresentation), []string{"lead_time_in_weeks"})
+
+	AutonomousContainerDatabaseDedicatedRepresentation := acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: AutonomousContainerDatabaseDedicatedMaintenanceWindowDetailsRepresentation}, autonomousContainerDatabaseRepresentation)
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
@@ -174,19 +181,19 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "kms_key_version_id"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.custom_action_timeout_in_mins", "10"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.0.name", "MONDAY"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.hours_of_day.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.is_custom_action_timeout_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.lead_time_in_weeks", "10"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.0.name", "APRIL"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.patching_mode", "ROLLING"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "CUSTOM_PREFERENCE"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.weeks_of_month.#", "1"),
+				//resource.TestCheckResourceAttrSet(resourceName, "kms_key_version_id"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.custom_action_timeout_in_mins", "10"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.0.name", "MONDAY"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.hours_of_day.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.is_custom_action_timeout_enabled", "false"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.lead_time_in_weeks", "10"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.0.name", "APRIL"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.patching_mode", "ROLLING"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "CUSTOM_PREFERENCE"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.weeks_of_month.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
 				// all peer related properties are not returned in GET, hence commented check on the below peer related properties
 				//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.#", "1"),
@@ -219,7 +226,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(autonomousContainerDatabaseRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(AutonomousContainerDatabaseDedicatedRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -232,19 +239,19 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "kms_key_version_id"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.custom_action_timeout_in_mins", "10"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.0.name", "MONDAY"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.hours_of_day.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.is_custom_action_timeout_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.lead_time_in_weeks", "10"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.0.name", "APRIL"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.patching_mode", "ROLLING"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "CUSTOM_PREFERENCE"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.weeks_of_month.#", "1"),
+				//resource.TestCheckResourceAttrSet(resourceName, "kms_key_version_id"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.custom_action_timeout_in_mins", "10"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.0.name", "MONDAY"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.hours_of_day.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.is_custom_action_timeout_enabled", "false"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.lead_time_in_weeks", "10"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.0.name", "APRIL"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.patching_mode", "ROLLING"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "CUSTOM_PREFERENCE"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.weeks_of_month.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
 				// all peer related properties are not returned in GET, hence commented check on the below peer related properties
 				//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.#", "1"),
@@ -274,7 +281,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, autonomousContainerDatabaseRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, AutonomousContainerDatabaseDedicatedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
@@ -285,19 +292,19 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "kms_key_version_id"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.custom_action_timeout_in_mins", "11"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.0.name", "TUESDAY"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.hours_of_day.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.is_custom_action_timeout_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.lead_time_in_weeks", "11"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.0.name", "MAY"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.patching_mode", "NONROLLING"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "CUSTOM_PREFERENCE"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.weeks_of_month.#", "1"),
+				//resource.TestCheckResourceAttrSet(resourceName, "kms_key_version_id"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.custom_action_timeout_in_mins", "11"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.0.name", "TUESDAY"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.hours_of_day.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.is_custom_action_timeout_enabled", "true"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.lead_time_in_weeks", "11"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.0.name", "MAY"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.patching_mode", "NONROLLING"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "CUSTOM_PREFERENCE"),
+				//resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.weeks_of_month.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
 				// all peer related properties are not returned in GET, hence commented check on the below peer related properties
 				//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.#", "1"),
@@ -328,7 +335,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_databases", "test_autonomous_container_databases", acctest.Optional, acctest.Update, autonomousContainerDatabaseDataSourceRepresentation) +
 				compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, autonomousContainerDatabaseRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, AutonomousContainerDatabaseDedicatedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
@@ -339,6 +346,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.available_cpus"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.0.recovery_window_in_days", "11"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.compartment_id", compartmentId),
@@ -358,9 +366,12 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.weeks_of_month.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.patch_model", "RELEASE_UPDATE_REVISIONS"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.provisionable_cpus.#", "109"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.reclaimable_cpus"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.service_level_agreement_type", "STANDARD"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.total_cpus"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.vault_id"),
 			),
 		},
@@ -368,11 +379,13 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, autonomousContainerDatabaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AutonomousContainerDatabaseResourceConfig,
+				compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, AutonomousContainerDatabaseDedicatedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_container_database_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_cpus"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.0.recovery_window_in_days", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -390,16 +403,19 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "provisionable_cpus.#", "109"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "reclaimable_cpus"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_level_agreement_type", "STANDARD"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_cpus"),
 			),
 		},
 
 		{
 			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update,
-					acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, autonomousContainerDatabaseRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, AutonomousContainerDatabaseDedicatedRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),

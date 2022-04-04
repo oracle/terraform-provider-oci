@@ -34,8 +34,10 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `autonomous_data_storage_size_in_tbs` - The data disk group size allocated for Autonomous Databases, in TBs.
+* `available_autonomous_data_storage_size_in_tbs` - The data disk group size available for Autonomous Databases, in TBs.
+* `available_container_databases` - The number of Autonomous Container Databases that can be created with the currently available local storage.
 * `available_cpus` - The numnber of CPU cores available.
-* `available_data_storage_size_in_tbs` - The data storage available in TBs
+* `available_data_storage_size_in_tbs` - **Deprecated.** Use `availableAutonomousDataStorageSizeInTBs` for Autonomous Databases data storage available, in TBs. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `cpu_core_count_per_node` - The number of OCPU cores enabled per VM cluster node.
 * `cpus_enabled` - The number of enabled CPU cores.
@@ -65,6 +67,7 @@ The following attributes are exported:
 * `memory_size_in_gbs` - The memory allocated in GBs.
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 * `ocpus_enabled` - The number of enabled OCPU cores.
+* `reclaimable_cpus` - CPU cores that are not released to available pool after an Autonomous Database is terminated (Requires Autonomous Container Database restart).
 * `state` - The current state of the Autonomous VM cluster.
 * `time_created` - The date and time that the Autonomous VM cluster was created.
 * `time_zone` - The time zone to use for the Autonomous VM cluster. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).

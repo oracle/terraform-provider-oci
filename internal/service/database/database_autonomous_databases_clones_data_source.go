@@ -451,6 +451,13 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"provisionable_cpus": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeFloat,
+							},
+						},
 						"refreshable_mode": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -920,6 +927,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		if r.PrivateEndpointLabel != nil {
 			autonomousDatabasesClone["private_endpoint_label"] = *r.PrivateEndpointLabel
 		}
+
+		autonomousDatabasesClone["provisionable_cpus"] = r.ProvisionableCpus
 
 		autonomousDatabasesClone["refreshable_mode"] = r.RefreshableMode
 

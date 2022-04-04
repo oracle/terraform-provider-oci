@@ -70,6 +70,14 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("autonomous_data_storage_size_in_tbs", *s.Res.AutonomousDataStorageSizeInTBs)
 	}
 
+	if s.Res.AvailableAutonomousDataStorageSizeInTBs != nil {
+		s.D.Set("available_autonomous_data_storage_size_in_tbs", *s.Res.AvailableAutonomousDataStorageSizeInTBs)
+	}
+
+	if s.Res.AvailableContainerDatabases != nil {
+		s.D.Set("available_container_databases", *s.Res.AvailableContainerDatabases)
+	}
+
 	if s.Res.AvailableCpus != nil {
 		s.D.Set("available_cpus", *s.Res.AvailableCpus)
 	}
@@ -150,6 +158,10 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.OcpusEnabled != nil {
 		s.D.Set("ocpus_enabled", *s.Res.OcpusEnabled)
+	}
+
+	if s.Res.ReclaimableCpus != nil {
+		s.D.Set("reclaimable_cpus", *s.Res.ReclaimableCpus)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
