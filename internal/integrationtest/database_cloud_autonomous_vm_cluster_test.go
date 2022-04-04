@@ -69,6 +69,8 @@ var (
 
 	CloudAutonomousVmClusterResourceDependencies = DefinedTagsDependencies + AvailabilityDomainConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create, cloudExadataInfrastructureRepresentation) +
 		`
 	#dataguard requires the port to be open on the subnet
@@ -364,6 +366,14 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.time_created"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.available_cpus", "100"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.reclaimable_cpus", "0"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.available_container_databases", "12"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.total_container_databases", "12"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.available_autonomous_data_storage_size_in_tbs", "149.7"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.autonomous_data_storage_size_in_tbs", "149.7"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.db_node_storage_size_in_gbs", "149.7"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.memory_per_oracle_compute_unit_in_gbs", "13"),
 				),
 			},
 			// verify singular datasource

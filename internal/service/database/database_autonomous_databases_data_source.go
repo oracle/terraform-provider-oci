@@ -376,6 +376,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["private_endpoint_label"] = *r.PrivateEndpointLabel
 		}
 
+		autonomousDatabase["provisionable_cpus"] = r.ProvisionableCpus
+
 		autonomousDatabase["refreshable_mode"] = r.RefreshableMode
 
 		autonomousDatabase["refreshable_status"] = r.RefreshableStatus
