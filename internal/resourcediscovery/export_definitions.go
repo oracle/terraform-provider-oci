@@ -1013,6 +1013,26 @@ var exportCoreDrgRouteTableRouteRuleHints = &TerraformResourceHints{
 	resourceAbbreviation: "drg_route_table_route_rule",
 }
 
+var exportCoreCaptureFilterHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_capture_filter",
+	datasourceClass:      "oci_core_capture_filters",
+	datasourceItemsAttr:  "capture_filters",
+	resourceAbbreviation: "capture_filter",
+	discoverableLifecycleStates: []string{
+		string(oci_core.CaptureFilterLifecycleStateAvailable),
+	},
+}
+
+var exportCoreVtapHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_vtap",
+	datasourceClass:      "oci_core_vtaps",
+	datasourceItemsAttr:  "vtaps",
+	resourceAbbreviation: "vtap",
+	discoverableLifecycleStates: []string{
+		string(oci_core.VtapLifecycleStateAvailable),
+	},
+}
+
 var exportDataConnectivityRegistryHints = &TerraformResourceHints{
 	resourceClass:          "oci_data_connectivity_registry",
 	datasourceClass:        "oci_data_connectivity_registries",

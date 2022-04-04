@@ -60,7 +60,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the volume.
-* `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this boot volume. 
+* `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this volume. 
 * `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup. 
 * `kms_key_id` - The OCID of the Key Management key which is the master encryption key for the volume. 
 * `size_in_gbs` - The size of the volume in GBs.
@@ -75,6 +75,7 @@ The following attributes are exported:
 * `vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 
 	Allowed values:
+	* `0`: Represents Lower Cost option.
 	* `10`: Represents Balanced option.
 	* `20`: Represents Higher Performance option.
 	* `30`-`120`: Represents the Ultra High Performance option. 

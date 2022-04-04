@@ -335,6 +335,8 @@ var coreResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreVolumeGroupBackupHints},
 		{TerraformResourceHints: exportCoreVolumeHints},
 		{TerraformResourceHints: exportCorePublicIpPoolHints},
+		{TerraformResourceHints: exportCoreCaptureFilterHints},
+		{TerraformResourceHints: exportCoreVtapHints},
 	},
 	"oci_core_boot_volume": {
 		{
