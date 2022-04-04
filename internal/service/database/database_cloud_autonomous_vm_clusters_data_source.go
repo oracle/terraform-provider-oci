@@ -128,8 +128,24 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.AutonomousDataStorageSizeInTBs != nil {
+			cloudAutonomousVmCluster["autonomous_data_storage_size_in_tbs"] = *r.AutonomousDataStorageSizeInTBs
+		}
+
 		if r.AvailabilityDomain != nil {
 			cloudAutonomousVmCluster["availability_domain"] = *r.AvailabilityDomain
+		}
+
+		if r.AvailableAutonomousDataStorageSizeInTBs != nil {
+			cloudAutonomousVmCluster["available_autonomous_data_storage_size_in_tbs"] = *r.AvailableAutonomousDataStorageSizeInTBs
+		}
+
+		if r.AvailableContainerDatabases != nil {
+			cloudAutonomousVmCluster["available_container_databases"] = *r.AvailableContainerDatabases
+		}
+
+		if r.AvailableCpus != nil {
+			cloudAutonomousVmCluster["available_cpus"] = *r.AvailableCpus
 		}
 
 		if r.CloudExadataInfrastructureId != nil {
@@ -146,6 +162,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		if r.DataStorageSizeInTBs != nil {
 			cloudAutonomousVmCluster["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
+		}
+
+		if r.DbNodeStorageSizeInGBs != nil {
+			cloudAutonomousVmCluster["db_node_storage_size_in_gbs"] = *r.DbNodeStorageSizeInGBs
 		}
 
 		if r.DefinedTags != nil {
@@ -188,6 +208,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.MemoryPerOracleComputeUnitInGBs != nil {
+			cloudAutonomousVmCluster["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
+		}
+
 		if r.MemorySizeInGBs != nil {
 			cloudAutonomousVmCluster["memory_size_in_gbs"] = *r.MemorySizeInGBs
 		}
@@ -206,6 +230,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["ocpu_count"] = *r.OcpuCount
 		}
 
+		if r.ReclaimableCpus != nil {
+			cloudAutonomousVmCluster["reclaimable_cpus"] = *r.ReclaimableCpus
+		}
+
 		if r.Shape != nil {
 			cloudAutonomousVmCluster["shape"] = *r.Shape
 		}
@@ -222,6 +250,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		if r.TimeUpdated != nil {
 			cloudAutonomousVmCluster["time_updated"] = r.TimeUpdated.String()
+		}
+
+		if r.TotalContainerDatabases != nil {
+			cloudAutonomousVmCluster["total_container_databases"] = *r.TotalContainerDatabases
 		}
 
 		resources = append(resources, cloudAutonomousVmCluster)

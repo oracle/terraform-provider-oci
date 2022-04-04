@@ -175,6 +175,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		if r.AvailableCpus != nil {
+			autonomousContainerDatabase["available_cpus"] = *r.AvailableCpus
+		}
+
 		if r.BackupConfig != nil {
 			autonomousContainerDatabase["backup_config"] = []interface{}{AutonomousContainerDatabaseBackupConfigToMap(r.BackupConfig, nil, true)}
 		} else {
@@ -259,6 +263,12 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		autonomousContainerDatabase["patch_model"] = r.PatchModel
 
+		autonomousContainerDatabase["provisionable_cpus"] = r.ProvisionableCpus
+
+		if r.ReclaimableCpus != nil {
+			autonomousContainerDatabase["reclaimable_cpus"] = *r.ReclaimableCpus
+		}
+
 		autonomousContainerDatabase["role"] = r.Role
 
 		autonomousContainerDatabase["service_level_agreement_type"] = r.ServiceLevelAgreementType
@@ -271,6 +281,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			autonomousContainerDatabase["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.TotalCpus != nil {
+			autonomousContainerDatabase["total_cpus"] = *r.TotalCpus
 		}
 
 		if r.VaultId != nil {

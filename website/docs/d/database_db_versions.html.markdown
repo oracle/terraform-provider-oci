@@ -37,9 +37,9 @@ The following arguments are supported:
 * `db_system_shape` - (Optional) If provided, filters the results to the set of database versions which are supported for the given shape.
 * `is_database_software_image_supported` - (Optional) If true, filters the results to the set of Oracle Database versions that are supported for Oracle Cloud Infrastructure database software images.
 * `is_upgrade_supported` - (Optional) If provided, filters the results to the set of database versions which are supported for Upgrade.
-* `storage_management` - (Optional) The DB system storage management option. Used to list database versions available for that storage manager. Valid values are:
-	* ASM - Automatic storage management
-	* LVM - Logical volume management 
+* `storage_management` - (Optional) The DB system storage management option. Used to list database versions available for that storage manager. Valid values are `ASM` and `LVM`.
+	* ASM specifies Oracle Automatic Storage Management
+	* LVM specifies logical volume manager, sometimes called logical disk manager. 
 
 
 ## Attributes Reference

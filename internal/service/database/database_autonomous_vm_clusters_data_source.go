@@ -123,6 +123,14 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 			autonomousVmCluster["autonomous_data_storage_size_in_tbs"] = *r.AutonomousDataStorageSizeInTBs
 		}
 
+		if r.AvailableAutonomousDataStorageSizeInTBs != nil {
+			autonomousVmCluster["available_autonomous_data_storage_size_in_tbs"] = *r.AvailableAutonomousDataStorageSizeInTBs
+		}
+
+		if r.AvailableContainerDatabases != nil {
+			autonomousVmCluster["available_container_databases"] = *r.AvailableContainerDatabases
+		}
+
 		if r.AvailableCpus != nil {
 			autonomousVmCluster["available_cpus"] = *r.AvailableCpus
 		}
@@ -203,6 +211,10 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		if r.OcpusEnabled != nil {
 			autonomousVmCluster["ocpus_enabled"] = *r.OcpusEnabled
+		}
+
+		if r.ReclaimableCpus != nil {
+			autonomousVmCluster["reclaimable_cpus"] = *r.ReclaimableCpus
 		}
 
 		autonomousVmCluster["state"] = r.LifecycleState
