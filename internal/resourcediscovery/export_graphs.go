@@ -1012,6 +1012,7 @@ var marketplaceResourceGraph = TerraformResourceGraph{
 var meteringComputationResourceGraph = TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{TerraformResourceHints: exportMeteringComputationQueryHints},
+		{TerraformResourceHints: exportMeteringComputationScheduleHints},
 	},
 }
 
