@@ -673,6 +673,7 @@ metering_computation
     
 * oci\_metering\_computation\_query
 * oci\_metering\_computation\_custom\_table
+* oci\_metering\_computation\_schedule
 
 monitoring
     
