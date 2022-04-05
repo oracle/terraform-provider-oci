@@ -1,8 +1,5 @@
 ## 4.70.0 (Unreleased)
 
-
-## 4.70.0 (Unreleased)
-
 ### Added
 - TF Samples for devops deployment service realated to B/G and Private Oke
 - Support for osp_gateway saas invoices
@@ -15,6 +12,7 @@
 - Support for BGP disable and BFD feature in Fastconnect service
 - Support for diagnostic reboot for compute VM instances
 - Alarms, Top Processes, zLinux support
+
 ### Bug Fix
 - updating certificates in load balancer SSL configuration
 - Data Safe test failure and resource discovery fixes
