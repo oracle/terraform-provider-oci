@@ -40,6 +40,7 @@ import (
 	oci_sch "github.com/oracle/oci-go-sdk/v65/sch"
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 	oci_streaming "github.com/oracle/oci-go-sdk/v65/streaming"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v65/usageapi"
 	oci_vault "github.com/oracle/oci-go-sdk/v65/vault"
 	oci_visual_builder "github.com/oracle/oci-go-sdk/v65/visualbuilder"
 	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v65/vulnerabilityscanning"
@@ -2654,6 +2655,18 @@ var exportMeteringComputationCustomTableHints = &TerraformResourceHints{
 	isDatasourceCollection: true,
 	resourceAbbreviation:   "custom_table",
 	requireResourceRefresh: true,
+}
+
+var exportMeteringComputationScheduleHints = &TerraformResourceHints{
+	resourceClass:          "oci_metering_computation_schedule",
+	datasourceClass:        "oci_metering_computation_schedules",
+	datasourceItemsAttr:    "schedule_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "schedule",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_metering_computation.ScheduleLifecycleStateActive),
+	},
 }
 
 var exportMonitoringAlarmHints = &TerraformResourceHints{

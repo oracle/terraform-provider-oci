@@ -474,6 +474,7 @@ func init() {
 	// metering_computation service
 	RegisterResource("oci_metering_computation_custom_table", tf_metering_computation.MeteringComputationCustomTableResource())
 	RegisterResource("oci_metering_computation_query", tf_metering_computation.MeteringComputationQueryResource())
+	RegisterResource("oci_metering_computation_schedule", tf_metering_computation.MeteringComputationScheduleResource())
 	RegisterResource("oci_metering_computation_usage", tf_metering_computation.MeteringComputationUsageResource())
 	// monitoring service
 	RegisterResource("oci_monitoring_alarm", tf_monitoring.MonitoringAlarmResource())

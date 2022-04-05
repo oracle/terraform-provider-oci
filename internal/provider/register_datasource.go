@@ -925,6 +925,10 @@ func init() {
 	RegisterDatasource("oci_metering_computation_custom_tables", tf_metering_computation.MeteringComputationCustomTablesDataSource())
 	RegisterDatasource("oci_metering_computation_queries", tf_metering_computation.MeteringComputationQueriesDataSource())
 	RegisterDatasource("oci_metering_computation_query", tf_metering_computation.MeteringComputationQueryDataSource())
+	RegisterDatasource("oci_metering_computation_schedule", tf_metering_computation.MeteringComputationScheduleDataSource())
+	RegisterDatasource("oci_metering_computation_scheduled_run", tf_metering_computation.MeteringComputationScheduledRunDataSource())
+	RegisterDatasource("oci_metering_computation_scheduled_runs", tf_metering_computation.MeteringComputationScheduledRunsDataSource())
+	RegisterDatasource("oci_metering_computation_schedules", tf_metering_computation.MeteringComputationSchedulesDataSource())
 	// monitoring service
 	RegisterDatasource("oci_monitoring_alarm", tf_monitoring.MonitoringAlarmDataSource())
 	RegisterDatasource("oci_monitoring_alarm_history_collection", tf_monitoring.MonitoringAlarmHistoryCollectionDataSource())
