@@ -12,8 +12,6 @@ This resource provides the Secret resource in Oracle Cloud Infrastructure Vault 
 
 Creates a new secret according to the details of the request.
 
-This operation is not supported by the Oracle Cloud Infrastructure Terraform Provider.
-
 
 ## Example Usage
 
@@ -64,7 +62,7 @@ The following arguments are supported:
 * `metadata` - (Optional) (Updatable) Additional metadata that you can use to provide context about how to use the secret during rotation or other administrative tasks. For example, for a secret that you use to connect to a database, the additional metadata might specify the connection endpoint and the connection string. Provide additional metadata as key-value pairs. 
 * `secret_content` - (Required) (Updatable) The content of the secret and metadata to help identify it.
 	* `content` - (Optional) (Updatable) The base64-encoded content of the secret.
-	* `content_type` - (Required) (Updatable) The base64-encoded content of the secret.
+	* `content_type` - (Required) (Updatable) content type . Example `BASE64` .
 	* `name` - (Optional) (Updatable) Names should be unique within a secret. Valid characters are uppercase or lowercase letters, numbers, hyphens, underscores, and periods.
 	* `stage` - (Optional) (Updatable) The rotation state of the secret content. The default is `CURRENT`, meaning that the secret is currently in use. A secret version that you mark as `PENDING` is staged and available for use, but you don't yet want to rotate it into current, active use. For example, you might create or update a secret and mark its rotation state as `PENDING` if you haven't yet updated the secret on the target system. When creating a secret, only the value `CURRENT` is applicable, although the value `LATEST` is also automatically applied. When updating  a secret, you can specify a version's rotation state as either `CURRENT` or `PENDING`. 
 * `secret_name` - (Required) A user-friendly name for the secret. Secret names should be unique within a vault. Avoid entering confidential information. Valid characters are uppercase or lowercase letters, numbers, hyphens, underscores, and periods. 
