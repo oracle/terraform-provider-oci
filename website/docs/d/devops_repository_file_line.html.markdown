@@ -31,7 +31,7 @@ data "oci_devops_repository_file_line" "test_repository_file_line" {
 
 The following arguments are supported:
 
-* `file_path` - (Required) A filter to return only commits that affect any of the specified paths.
+* `file_path` - (Required) Path to a file within a repository.
 * `repository_id` - (Required) Unique repository identifier.
 * `revision` - (Required) Retrieve file lines from specific revision.
 * `start_line_number` - (Optional) Line number from where to start returning file lines.

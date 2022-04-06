@@ -668,7 +668,6 @@ func init() {
 	RegisterDatasource("oci_devops_repository_diffs", tf_devops.DevopsRepositoryDiffsDataSource())
 	RegisterDatasource("oci_devops_repository_file_diff", tf_devops.DevopsRepositoryFileDiffDataSource())
 	RegisterDatasource("oci_devops_repository_file_line", tf_devops.DevopsRepositoryFileLineDataSource())
-	RegisterDatasource("oci_devops_repository_file_line", tf_devops.DevopsRepositoryFileLineDataSource())
 	RegisterDatasource("oci_devops_repository_mirror_record", tf_devops.DevopsRepositoryMirrorRecordDataSource())
 	RegisterDatasource("oci_devops_repository_mirror_records", tf_devops.DevopsRepositoryMirrorRecordsDataSource())
 	RegisterDatasource("oci_devops_repository_mirrorrecord", tf_devops.DevopsRepositoryMirrorrecordDataSource())
