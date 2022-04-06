@@ -18,7 +18,9 @@ import (
 
 type errorTypeEnum string
 
-var serviceErrorCheck = func(err error) (failure oci_common.ServiceError, ok bool) { return oci_common.IsServiceError(err) }
+var serviceErrorCheck = func(err error) (failure oci_common.ServiceErrorRichInfo, ok bool) {
+	return oci_common.IsServiceErrorRichInfo(err)
+}
 
 const (
 	ServiceError         errorTypeEnum = "ServiceError"
@@ -35,6 +37,8 @@ type customError struct {
 	Message       string
 	OpcRequestID  string
 	ResourceOCID  string
+	OperationName string
+	RequestTarget string
 	Suggestion    string
 	VersionError  string
 }
@@ -52,6 +56,8 @@ func newCustomError(sync interface{}, err error) error {
 			ErrorCodeName: failure.GetCode(),
 			Message:       failure.GetMessage(),
 			OpcRequestID:  failure.GetOpcRequestID(),
+			OperationName: failure.GetOperationName(),
+			RequestTarget: failure.GetRequestTarget(),
 			Service:       getServiceName(sync),
 		}
 	} else if strings.Contains(errorMessage, "timeout while waiting for state") {
@@ -95,10 +101,12 @@ func (tfE customError) Error() error {
 		return fmt.Errorf("%d-%s \n"+
 			"%s \n"+
 			"Service: %s \n"+
+			"Operation Name: %s \n"+
+			"Request Target: %s \n"+
 			"Error Message: %s \n"+
 			"OPC request ID: %s \n"+
 			"Suggestion: %s\n",
-			tfE.ErrorCode, tfE.ErrorCodeName, tfE.VersionError, tfE.Service, tfE.Message, tfE.OpcRequestID, tfE.Suggestion)
+			tfE.ErrorCode, tfE.ErrorCodeName, tfE.VersionError, tfE.Service, tfE.OperationName, tfE.RequestTarget, tfE.Message, tfE.OpcRequestID, tfE.Suggestion)
 	case TimeoutError:
 		return fmt.Errorf("%s \n"+
 			"%s \n"+
