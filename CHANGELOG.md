@@ -9,6 +9,8 @@ quota resource locking
 - ADBD time zone for database service
 ### Bug Fix
 - Mysql - Add return body to UpdateBackup api call
+### Notes
+- Current customers need to update to latest provider if they are seeing the diff in terraform plan for route-rules without making any change.
 
 ## 4.80.0 (Unreleased)
 
