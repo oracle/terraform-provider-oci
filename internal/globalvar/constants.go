@@ -23,6 +23,7 @@ const (
 	ClientHostOverridesEnv                = "CLIENT_HOST_OVERRIDES"
 	CustomCertLocationEnv                 = "custom_cert_location"
 	AcceptLocalCerts                      = "accept_local_certs"
+	JobOCID                               = "job-ocid"
 
 	AuthAttrName                 = "auth"
 	TenancyOcidAttrName          = "tenancy_ocid"

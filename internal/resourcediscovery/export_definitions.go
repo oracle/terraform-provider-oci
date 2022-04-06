@@ -37,6 +37,7 @@ import (
 	oci_oce "github.com/oracle/oci-go-sdk/v65/oce"
 	oci_ons "github.com/oracle/oci-go-sdk/v65/ons"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v65/resourcemanager"
 	oci_sch "github.com/oracle/oci-go-sdk/v65/sch"
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 	oci_streaming "github.com/oracle/oci-go-sdk/v65/streaming"
@@ -3079,6 +3080,18 @@ var exportOspGatewaySubscriptionHints = &TerraformResourceHints{
 	datasourceItemsAttr:    "subscription_collection",
 	isDatasourceCollection: true,
 	resourceAbbreviation:   "subscription",
+}
+
+var exportResourcemanagerPrivateEndpointHints = &TerraformResourceHints{
+	resourceClass:          "oci_resourcemanager_private_endpoint",
+	datasourceClass:        "oci_resourcemanager_private_endpoints",
+	datasourceItemsAttr:    "private_endpoint_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "private_endpoint",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_resourcemanager.PrivateEndpointLifecycleStateActive),
+	},
 }
 
 var exportSchServiceConnectorHints = &TerraformResourceHints{
