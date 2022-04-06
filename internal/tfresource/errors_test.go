@@ -107,6 +107,44 @@ type MockServiceFailure struct {
 	Code         string
 	Message      string
 	OpcRequestID string
+	// debugging information
+	TargetService string             `json:"target-service"`
+	OperationName string             `json:"operation-name"`
+	Timestamp     oci_common.SDKTime `json:"timestamp"`
+	RequestTarget string             `json:"request-target"`
+	ClientVersion string             `json:"client-version"`
+
+	// troubleshooting guidance
+	OperationReferenceLink   string `json:"operation-reference-link"`
+	ErrorTroubleshootingLink string `json:"error-troubleshooting-link"`
+}
+
+func (err *MockServiceFailure) GetTargetService() string {
+	return err.TargetService
+}
+
+func (err *MockServiceFailure) GetOperationName() string {
+	return err.OperationName
+}
+
+func (err *MockServiceFailure) GetTimestamp() oci_common.SDKTime {
+	return err.Timestamp
+}
+
+func (err *MockServiceFailure) GetRequestTarget() string {
+	return err.RequestTarget
+}
+
+func (err *MockServiceFailure) GetClientVersion() string {
+	return err.ClientVersion
+}
+
+func (err *MockServiceFailure) GetOperationReferenceLink() string {
+	return err.OperationReferenceLink
+}
+
+func (err *MockServiceFailure) GetErrorTroubleshootingLink() string {
+	return err.ErrorTroubleshootingLink
 }
 
 func (err *MockServiceFailure) Error() string {
@@ -163,7 +201,7 @@ func TestUnitHandleError(t *testing.T) {
 		Message:      "LimitExceeded",
 		OpcRequestID: "Not Applicable",
 	}
-	serviceErrorCheck = func(err error) (failure oci_common.ServiceError, ok bool) { return mockServiceFailure, true }
+	serviceErrorCheck = func(err error) (failure oci_common.ServiceErrorRichInfo, ok bool) { return mockServiceFailure, true }
 	response = HandleError(temp, mockServiceFailure)
 	assert.Contains(t, response.Error(), "Request a service limit increase for this resource")
 
