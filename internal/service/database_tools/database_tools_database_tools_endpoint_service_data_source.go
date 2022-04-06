@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_database_tools "github.com/oracle/oci-go-sdk/v64/databasetools"
+	oci_database_tools "github.com/oracle/oci-go-sdk/v65/databasetools"
 )
 
 func DatabaseToolsDatabaseToolsEndpointServiceDataSource() *schema.Resource {

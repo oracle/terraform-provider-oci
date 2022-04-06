@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_apm "github.com/oracle/oci-go-sdk/v64/apmcontrolplane"
+	oci_apm "github.com/oracle/oci-go-sdk/v65/apmcontrolplane"
 
-	oci_common "github.com/oracle/oci-go-sdk/v64/common"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
 
 func init() {

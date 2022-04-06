@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_health_checks "github.com/oracle/oci-go-sdk/v64/healthchecks"
+	oci_health_checks "github.com/oracle/oci-go-sdk/v65/healthchecks"
 
-	oci_common "github.com/oracle/oci-go-sdk/v64/common"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
 
 func init() {

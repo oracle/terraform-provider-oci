@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_events "github.com/oracle/oci-go-sdk/v64/events"
+	oci_events "github.com/oracle/oci-go-sdk/v65/events"
 )
 
 func EventsRuleDataSource() *schema.Resource {
