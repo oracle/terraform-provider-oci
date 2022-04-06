@@ -70,6 +70,7 @@ import (
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_osmanagement "github.com/terraform-providers/terraform-provider-oci/internal/service/osmanagement"
 	tf_osp_gateway "github.com/terraform-providers/terraform-provider-oci/internal/service/osp_gateway"
+	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
 	tf_sch "github.com/terraform-providers/terraform-provider-oci/internal/service/sch"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 	tf_stack_monitoring "github.com/terraform-providers/terraform-provider-oci/internal/service/stack_monitoring"
@@ -543,6 +544,7 @@ func init() {
 	// osub_organization_subscription service
 	// osub_billing_schedule service
 	// resourcemanager service
+	RegisterResource("oci_resourcemanager_private_endpoint", tf_resourcemanager.ResourcemanagerPrivateEndpointResource())
 	// sch service
 	RegisterResource("oci_sch_service_connector", tf_sch.SchServiceConnectorResource())
 	// secrets service

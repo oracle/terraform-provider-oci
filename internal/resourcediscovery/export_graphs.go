@@ -69,6 +69,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"opsi":                    opsiResourceGraph,
 	"osmanagement":            osmanagementResourceGraph,
 	"osp_gateway":             ospGatewayResourceGraph,
+	"resourcemanager":         resourcemanagerResourceGraph,
 	"sch":                     schResourceGraph,
 	"stack_monitoring":        stackMonitoringResourceGraph,
 	"vault":                   vaultResourceGraph,
@@ -1196,6 +1197,12 @@ var osmanagementResourceGraph = TerraformResourceGraph{
 
 var ospGatewayResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {},
+}
+
+var resourcemanagerResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportResourcemanagerPrivateEndpointHints},
+	},
 }
 
 var schResourceGraph = TerraformResourceGraph{

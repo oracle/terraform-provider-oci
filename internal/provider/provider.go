@@ -624,6 +624,11 @@ func BuildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 				}
 			}
 
+			if strings.Contains(r.URL.Path, "/reachableIp") {
+				log.Printf("[DEBUG] Setting JOB_ID for Terraformer: %v ", os.Getenv("JOB_ID"))
+				r.Header.Set(globalvar.JobOCID, os.Getenv("JOB_ID"))
+			}
+
 			if simulateDbForDbSystemUpgrade {
 				if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/dbSystems")) {
 					r.Header.Set(globalvar.RequestHeaderOpcHostSerial, "FAKEHOSTSERIALFAKEOL6")
