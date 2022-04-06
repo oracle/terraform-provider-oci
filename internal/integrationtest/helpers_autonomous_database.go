@@ -14,9 +14,9 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_common "github.com/oracle/oci-go-sdk/v64/common"
-	oci_database "github.com/oracle/oci-go-sdk/v64/database"
-	oci_identity "github.com/oracle/oci-go-sdk/v64/identity"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_database "github.com/oracle/oci-go-sdk/v65/database"
+	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 )
 
 func createAdbInRegion(clients *tf_client.OracleClients, region string) (string, error) {

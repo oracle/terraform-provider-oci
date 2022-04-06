@@ -12,7 +12,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_certificates_management "github.com/oracle/oci-go-sdk/v64/certificatesmanagement"
+	oci_certificates_management "github.com/oracle/oci-go-sdk/v65/certificatesmanagement"
 )
 
 func CertificatesManagementCertificateVersionsDataSource() *schema.Resource {

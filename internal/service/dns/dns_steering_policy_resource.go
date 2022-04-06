@@ -15,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v64/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v65/dns"
 )
 
 func DnsSteeringPolicyResource() *schema.Resource {
