@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v64/loadbalancer"
+	"github.com/oracle/oci-go-sdk/v65/loadbalancer"
 	"github.com/stretchr/testify/suite"
 )
 

@@ -16,9 +16,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v64/common"
-	oci_vault "github.com/oracle/oci-go-sdk/v64/vault"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v64/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_vault "github.com/oracle/oci-go-sdk/v65/vault"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 )
 
 type extraWaitPostCreateDelete interface {

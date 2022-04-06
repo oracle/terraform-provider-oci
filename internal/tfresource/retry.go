@@ -15,7 +15,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_common "github.com/oracle/oci-go-sdk/v64/common"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

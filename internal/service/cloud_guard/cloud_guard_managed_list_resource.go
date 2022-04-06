@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v64/cloudguard"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

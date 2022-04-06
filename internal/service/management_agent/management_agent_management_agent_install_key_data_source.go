@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v64/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v65/managementagent"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

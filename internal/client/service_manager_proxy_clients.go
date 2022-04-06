@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_service_manager_proxy "github.com/oracle/oci-go-sdk/v64/servicemanagerproxy"
+	oci_service_manager_proxy "github.com/oracle/oci-go-sdk/v65/servicemanagerproxy"
 
-	oci_common "github.com/oracle/oci-go-sdk/v64/common"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
 
 func init() {

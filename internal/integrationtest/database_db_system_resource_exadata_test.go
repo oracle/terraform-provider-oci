@@ -14,7 +14,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/oracle/oci-go-sdk/v64/database"
+	"github.com/oracle/oci-go-sdk/v65/database"
 )
 
 // TestAccResourceDatabaseDBSystem_Exadata tests DBsystems using Exadata

@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_jms "github.com/oracle/oci-go-sdk/v64/jms"
+	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
 )
 
 func JmsFleetsDataSource() *schema.Resource {

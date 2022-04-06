@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_osp_gateway "github.com/oracle/oci-go-sdk/v64/ospgateway"
+	oci_osp_gateway "github.com/oracle/oci-go-sdk/v65/ospgateway"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

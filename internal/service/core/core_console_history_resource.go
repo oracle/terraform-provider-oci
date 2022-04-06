@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_core "github.com/oracle/oci-go-sdk/v64/core"
+	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 )
 
 func CoreConsoleHistoryResource() *schema.Resource {

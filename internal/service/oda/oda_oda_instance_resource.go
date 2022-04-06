@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v64/common"
-	oci_oda "github.com/oracle/oci-go-sdk/v64/oda"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

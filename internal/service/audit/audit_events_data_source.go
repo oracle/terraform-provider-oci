@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_audit "github.com/oracle/oci-go-sdk/v64/audit"
-	oci_common "github.com/oracle/oci-go-sdk/v64/common"
+	oci_audit "github.com/oracle/oci-go-sdk/v65/audit"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

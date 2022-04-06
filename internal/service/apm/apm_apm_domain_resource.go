@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_apm "github.com/oracle/oci-go-sdk/v64/apmcontrolplane"
-	oci_common "github.com/oracle/oci-go-sdk/v64/common"
+	oci_apm "github.com/oracle/oci-go-sdk/v65/apmcontrolplane"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
 
 func ApmApmDomainResource() *schema.Resource {

@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strconv"
 
-	oci_data_safe "github.com/oracle/oci-go-sdk/v64/datasafe"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 

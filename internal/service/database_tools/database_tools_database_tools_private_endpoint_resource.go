@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v64/common"
-	oci_database_tools "github.com/oracle/oci-go-sdk/v64/databasetools"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_database_tools "github.com/oracle/oci-go-sdk/v65/databasetools"
 )
 
 func DatabaseToolsDatabaseToolsPrivateEndpointResource() *schema.Resource {

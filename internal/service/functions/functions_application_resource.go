@@ -16,7 +16,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_functions "github.com/oracle/oci-go-sdk/v64/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v65/functions"
 )
 
 func FunctionsApplicationResource() *schema.Resource {

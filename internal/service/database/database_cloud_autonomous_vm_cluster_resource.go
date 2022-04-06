@@ -11,8 +11,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_database "github.com/oracle/oci-go-sdk/v64/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v64/workrequests"
+	oci_database "github.com/oracle/oci-go-sdk/v65/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 )
 
 func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {

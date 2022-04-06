@@ -18,8 +18,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v64/apmsynthetics"
-	"github.com/oracle/oci-go-sdk/v64/common"
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v65/apmsynthetics"
+	"github.com/oracle/oci-go-sdk/v65/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
