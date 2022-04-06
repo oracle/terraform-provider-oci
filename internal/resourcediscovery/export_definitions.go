@@ -37,6 +37,10 @@ import (
 	oci_oce "github.com/oracle/oci-go-sdk/v65/oce"
 	oci_ons "github.com/oracle/oci-go-sdk/v65/ons"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/operationsinsights"
+	oci_operator_access_control "github.com/oracle/oci-go-sdk/v65/operatoraccesscontrol"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v65/optimizer"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v65/osmanagement"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v65/resourcemanager"
 	oci_sch "github.com/oracle/oci-go-sdk/v65/sch"
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 	oci_streaming "github.com/oracle/oci-go-sdk/v65/streaming"
@@ -77,7 +81,6 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/v65/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v65/osmanagement"
 
 	//oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 	//oci_integration "github.com/oracle/oci-go-sdk/v65/integration"
@@ -94,10 +97,6 @@ import (
 	//oci_oce "github.com/oracle/oci-go-sdk/v65/oce"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
-	oci_operator_access_control "github.com/oracle/oci-go-sdk/v65/operatoraccesscontrol"
-
-	//oci_opsi "github.com/oracle/oci-go-sdk/v65/operationsinsights"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v65/optimizer"
 	//oci_osmanagement "github.com/oracle/oci-go-sdk/v65/osmanagement"
 	//oci_sch "github.com/oracle/oci-go-sdk/v65/sch"
 	//oci_streaming "github.com/oracle/oci-go-sdk/v65/streaming"
@@ -3079,6 +3078,18 @@ var exportOspGatewaySubscriptionHints = &TerraformResourceHints{
 	datasourceItemsAttr:    "subscription_collection",
 	isDatasourceCollection: true,
 	resourceAbbreviation:   "subscription",
+}
+
+var exportResourcemanagerPrivateEndpointHints = &TerraformResourceHints{
+	resourceClass:          "oci_resourcemanager_private_endpoint",
+	datasourceClass:        "oci_resourcemanager_private_endpoints",
+	datasourceItemsAttr:    "private_endpoint_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "private_endpoint",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_resourcemanager.PrivateEndpointLifecycleStateActive),
+	},
 }
 
 var exportSchServiceConnectorHints = &TerraformResourceHints{
