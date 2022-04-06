@@ -345,9 +345,14 @@ func (s *CoreRouteTableResourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	routeRules := []interface{}{}
+	readOnlyRule := "Local VCN Route created by OCI"
 	for _, item := range s.Res.RouteRules {
-		routeRules = append(routeRules, RouteRuleToMap(item))
+		if *item.Description == readOnlyRule {
+			continue
+		}
+		routeRules = append(routeRules, CustomRouteRuleMap(item))
 	}
+
 	s.D.Set("route_rules", schema.NewSet(routeRulesHashCodeForSets, routeRules))
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -414,28 +419,33 @@ func (s *CoreRouteTableResourceCrud) mapToRouteRule(fieldKeyFormat string) (oci_
 	return result, nil
 }
 
-func RouteRuleToMap(obj oci_core.RouteRule) map[string]interface{} {
+func CustomRouteRuleMap(obj oci_core.RouteRule) map[string]interface{} {
 	result := map[string]interface{}{}
+	readOnlyRule := "Local VCN Route created by OCI"
 
-	if obj.CidrBlock != nil {
-		result["cidr_block"] = string(*obj.CidrBlock)
+	if *obj.Description != readOnlyRule {
+
+		if obj.CidrBlock != nil {
+			result["cidr_block"] = string(*obj.CidrBlock)
+		}
+
+		if obj.Description != nil {
+			result["description"] = string(*obj.Description)
+		}
+
+		if obj.Destination != nil {
+			result["destination"] = string(*obj.Destination)
+		}
+
+		result["destination_type"] = string(obj.DestinationType)
+
+		if obj.NetworkEntityId != nil {
+			result["network_entity_id"] = string(*obj.NetworkEntityId)
+		}
+		return result
 	}
 
-	if obj.Description != nil {
-		result["description"] = string(*obj.Description)
-	}
-
-	if obj.Destination != nil {
-		result["destination"] = string(*obj.Destination)
-	}
-
-	result["destination_type"] = string(obj.DestinationType)
-
-	if obj.NetworkEntityId != nil {
-		result["network_entity_id"] = string(*obj.NetworkEntityId)
-	}
-
-	return result
+	return nil
 }
 
 func routeRulesHashCodeForSets(v interface{}) int {
@@ -472,6 +482,7 @@ func routeRulesHashCodeForSets(v interface{}) int {
 	}
 	return utils.GetStringHashcode(buf.String())
 }
+
 func (s *CoreRouteTableResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeRouteTableCompartmentRequest{}
 

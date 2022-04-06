@@ -56,4 +56,3 @@ resource "oci_core_route_table" "example_route_table" {
     network_entity_id = oci_core_internet_gateway.example_ig.id
   }
 }
-
