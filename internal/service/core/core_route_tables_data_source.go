@@ -134,9 +134,14 @@ func (s *CoreRouteTablesDataSourceCrud) SetData() error {
 		}
 
 		routeRules := []interface{}{}
+		readOnlyRule := "Local VCN Route created by OCI"
 		for _, item := range r.RouteRules {
-			routeRules = append(routeRules, RouteRuleToMap(item))
+			if *item.Description == readOnlyRule {
+				continue
+			}
+			routeRules = append(routeRules, CustomRouteRuleMap(item))
 		}
+
 		routeTable["route_rules"] = routeRules
 
 		routeTable["state"] = r.LifecycleState
