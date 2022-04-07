@@ -32,8 +32,15 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 	}
+	byoipv6RangeSingularDataSouorceRepresentation = map[string]interface{}{
+		"byoip_range_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("byoipv6_range_ocid")},
+	}
 
-	ByoipRangeResourceConfig = byoipRangeIdVariableStr
+	byoipv6RangeId            = utils.GetEnvSettingWithBlankDefault("byoipv6_range_ocid")
+	byoipv6RangeIdVariableStr = fmt.Sprintf("variable \"byoipv6_range_id\" { default = \"%s\" }\n", byoipv6RangeId)
+
+	ByoipRangeResourceConfig   = byoipRangeIdVariableStr
+	Byoipv6RangeResourceConfig = byoipv6RangeIdVariableStr
 )
 
 // issue-routing-tag: core/vcnip
@@ -70,10 +77,27 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 				compartmentIdVariableStr + ByoipRangeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "byoip_range_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "cidr_block", publicIpPoolCidrBlock),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "test_BYOIP_range_do_not_delete"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "validation_token"),
+			),
+		},
+
+		// verify byoipv6 singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_byoip_range", "test_byoip_range", acctest.Required, acctest.Create, byoipv6RangeSingularDataSouorceRepresentation) +
+				compartmentIdVariableStr + Byoipv6RangeResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "byoip_range_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				// resource.TestCheckResourceAttr(singularDatasourceName, "cidr_block", publicIpPoolCidrBlock),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "test_BYOIP_range_do_not_delete"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ipv6cidr_block", "2000:1000::/48"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "validation_token"),

@@ -60,6 +60,7 @@ resource "oci_core_subnet" "test_subnet" {
 	dns_label = var.subnet_dns_label
 	freeform_tags = {"Department"= "Finance"}
 	ipv6cidr_block = var.subnet_ipv6cidr_block
+	ipv6cidr_blocks = var.subnet_ipv6cidr_blocks
 	prohibit_internet_ingress = var.subnet_prohibit_internet_ingress
 	prohibit_public_ip_on_vnic = var.subnet_prohibit_public_ip_on_vnic
 	route_table_id = oci_core_route_table.test_route_table.id
@@ -100,6 +101,10 @@ The following arguments are supported:
 	For important details about IPv6 addressing in a VCN, see [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 
 	Example: `2001:0db8:0123:1111::/64` 
+* `ipv6cidr_blocks` - (Optional) (Updatable) The list of all IPv6 CIDR blocks (Oracle allocated IPv6 GUA, ULA or private IPv6 CIDR blocks, BYOIPv6 CIDR blocks) for the subnet that meets the following criteria:
+	* The CIDR blocks must be valid.
+	* Multiple CIDR blocks must not overlap each other or the on-premises network CIDR block.
+	* The number of CIDR blocks must not exceed the limit of IPv6 CIDR blocks allowed to a subnet. 
 * `prohibit_internet_ingress` - (Optional) Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
 
 	For IPv6, if `prohibitInternetIngress` is set to `true`, internet access is not allowed for any IPv6s assigned to VNICs in the subnet. Otherwise, ingress internet traffic is allowed by default.
@@ -140,6 +145,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The subnet's Oracle ID ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 * `ipv6cidr_block` - For an IPv6-enabled subnet, this is the IPv6 CIDR block for the subnet's IP address space. The subnet size is always /64. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).  Example: `2001:0db8:0123:1111::/64` 
+* `ipv6cidr_blocks` - The list of all IPv6 CIDR blocks (Oracle allocated IPv6 GUA, ULA or private IPv6 CIDR blocks, BYOIPv6 CIDR blocks) for the subnet. 
 * `ipv6virtual_router_ip` - For an IPv6-enabled subnet, this is the IPv6 address of the virtual router.  Example: `2001:0db8:0123:1111:89ab:cdef:1234:5678` 
 * `prohibit_internet_ingress` - Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
 
