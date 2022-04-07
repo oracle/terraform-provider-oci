@@ -13,14 +13,14 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v63/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v63/common"
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
-	oci_database "github.com/oracle/oci-go-sdk/v63/database"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseDbHomeResource() *schema.Resource {
@@ -168,6 +168,18 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"kms_key_version_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"ncharacter_set": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -192,6 +204,12 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Computed:         true,
 							ForceNew:         true,
 							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+						"vault_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 
 						// Computed
@@ -763,6 +781,16 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat s
 		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+		tmp := kmsKeyId.(string)
+		result.KmsKeyId = &tmp
+	}
+
+	if kmsKeyVersionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_version_id")); ok {
+		tmp := kmsKeyVersionId.(string)
+		result.KmsKeyVersionId = &tmp
+	}
+
 	if ncharacterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ncharacter_set")); ok {
 		tmp := ncharacterSet.(string)
 		result.NcharacterSet = &tmp
@@ -776,6 +804,11 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat s
 	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok {
 		tmp := tdeWalletPassword.(string)
 		result.TdeWalletPassword = &tmp
+	}
+
+	if vaultId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_id")); ok {
+		tmp := vaultId.(string)
+		result.VaultId = &tmp
 	}
 
 	return result, nil
@@ -1049,9 +1082,19 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			tmp := databaseSoftwareImageId.(string)
 			details.DatabaseSoftwareImageId = &tmp
 		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
 			tmp := isDesupportedVersion.(bool)
@@ -1228,6 +1271,18 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 
 	if adminPassword, ok := s.D.GetOkExists("database.0.admin_password"); ok && adminPassword != nil {
 		result["admin_password"] = adminPassword.(string)
+	}
+
+	if kmsKeyId, ok := s.D.GetOkExists("db_home.0.database.0.kms_key_id"); ok && kmsKeyId != nil {
+		result["kms_key_id"] = kmsKeyId.(string)
+	}
+
+	if kmsKeyVersionId, ok := s.D.GetOkExists("db_home.0.database.0.kms_key_version_id"); ok && kmsKeyVersionId != nil {
+		result["kms_key_version_id"] = kmsKeyVersionId.(string)
+	}
+
+	if vaultId, ok := s.D.GetOkExists("db_home.0.database.0.vault_id"); ok && vaultId != nil {
+		result["vault_id"] = vaultId.(string)
 	}
 
 	if tdeWalletPassword, ok := s.D.GetOkExists("database.0.tde_wallet_password"); ok && tdeWalletPassword != nil {

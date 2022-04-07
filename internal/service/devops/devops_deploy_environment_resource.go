@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v63/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
 
 func DevopsDeployEnvironmentResource() *schema.Resource {
@@ -140,6 +140,42 @@ func DevopsDeployEnvironmentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"network_channel": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"network_channel_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"PRIVATE_ENDPOINT_CHANNEL",
+							}, true),
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"nsg_ids": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
 			"compartment_id": {
@@ -225,6 +261,7 @@ func (s *DevopsDeployEnvironmentResourceCrud) CreatedPending() []string {
 func (s *DevopsDeployEnvironmentResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_devops.DeployEnvironmentLifecycleStateActive),
+		string(oci_devops.DeployEnvironmentLifecycleStateNeedsAttention),
 	}
 }
 
@@ -531,6 +568,16 @@ func (s *DevopsDeployEnvironmentResourceCrud) SetData() error {
 			s.D.Set("cluster_id", *v.ClusterId)
 		}
 
+		if v.NetworkChannel != nil {
+			networkChannelArray := []interface{}{}
+			if networkChannelMap := NetworkChannelToMap(&v.NetworkChannel); networkChannelMap != nil {
+				networkChannelArray = append(networkChannelArray, networkChannelMap)
+			}
+			s.D.Set("network_channel", networkChannelArray)
+		} else {
+			s.D.Set("network_channel", nil)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -701,6 +748,14 @@ func DeployEnvironmentSummaryToMap(obj oci_devops.DeployEnvironmentSummary) map[
 		if v.ClusterId != nil {
 			result["cluster_id"] = string(*v.ClusterId)
 		}
+
+		if v.NetworkChannel != nil {
+			networkChannelArray := []interface{}{}
+			if networkChannelMap := NetworkChannelToMap(&v.NetworkChannel); networkChannelMap != nil {
+				networkChannelArray = append(networkChannelArray, networkChannelMap)
+			}
+			result["network_channel"] = networkChannelArray
+		}
 	default:
 		log.Printf("[WARN] Received 'deploy_environment_type' of unknown type %v", obj)
 		return nil
@@ -744,6 +799,65 @@ func DeployEnvironmentSummaryToMap(obj oci_devops.DeployEnvironmentSummary) map[
 
 	if obj.GetSystemTags() != nil {
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.GetSystemTags())
+	}
+
+	return result
+}
+
+func (s *DevopsDeployEnvironmentResourceCrud) mapToNetworkChannel(fieldKeyFormat string) (oci_devops.NetworkChannel, error) {
+	var baseObject oci_devops.NetworkChannel
+	//discriminator
+	networkChannelTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_channel_type"))
+	var networkChannelType string
+	if ok {
+		networkChannelType = networkChannelTypeRaw.(string)
+	} else {
+		networkChannelType = "" // default value
+	}
+	switch strings.ToLower(networkChannelType) {
+	case strings.ToLower("PRIVATE_ENDPOINT_CHANNEL"):
+		details := oci_devops.PrivateEndpointChannel{}
+		if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+			interfaces := nsgIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+				details.NsgIds = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown network_channel_type '%v' was specified", networkChannelType)
+	}
+	return baseObject, nil
+}
+
+func NetworkChannelToMap(obj *oci_devops.NetworkChannel) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_devops.PrivateEndpointChannel:
+		result["network_channel_type"] = "PRIVATE_ENDPOINT_CHANNEL"
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		result["nsg_ids"] = nsgIds
+
+		if v.SubnetId != nil {
+			result["subnet_id"] = string(*v.SubnetId)
+		}
+	default:
+		log.Printf("[WARN] Received 'network_channel_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
@@ -828,6 +942,16 @@ func (s *DevopsDeployEnvironmentResourceCrud) populateTopLevelPolymorphicCreateD
 		if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
 			tmp := clusterId.(string)
 			details.ClusterId = &tmp
+		}
+		if networkChannel, ok := s.D.GetOkExists("network_channel"); ok {
+			if tmpList := networkChannel.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_channel", 0)
+				tmp, err := s.mapToNetworkChannel(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.NetworkChannel = tmp
+			}
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -933,6 +1057,16 @@ func (s *DevopsDeployEnvironmentResourceCrud) populateTopLevelPolymorphicUpdateD
 		if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
 			tmp := clusterId.(string)
 			details.ClusterId = &tmp
+		}
+		if networkChannel, ok := s.D.GetOkExists("network_channel"); ok {
+			if tmpList := networkChannel.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_channel", 0)
+				tmp, err := s.mapToNetworkChannel(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.NetworkChannel = tmp
+			}
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))

@@ -18,8 +18,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v63/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
 
 func DevopsDeployStageResource() *schema.Resource {
@@ -76,11 +76,21 @@ func DevopsDeployStageResource() *schema.Resource {
 				Required:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
+					"COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT",
+					"COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT",
+					"COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL",
+					"COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT",
+					"COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT",
 					"COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT",
 					"DEPLOY_FUNCTION",
 					"INVOKE_FUNCTION",
 					"LOAD_BALANCER_TRAFFIC_SHIFT",
 					"MANUAL_APPROVAL",
+					"OKE_BLUE_GREEN_DEPLOYMENT",
+					"OKE_BLUE_GREEN_TRAFFIC_SHIFT",
+					"OKE_CANARY_APPROVAL",
+					"OKE_CANARY_DEPLOYMENT",
+					"OKE_CANARY_TRAFFIC_SHIFT",
 					"OKE_DEPLOYMENT",
 					"WAIT",
 				}, true),
@@ -139,6 +149,101 @@ func DevopsDeployStageResource() *schema.Resource {
 					},
 				},
 			},
+			"blue_green_strategy": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"ingress_name": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"namespace_a": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"namespace_b": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"strategy_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"NGINX_BLUE_GREEN_STRATEGY",
+							}, true),
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
+			"canary_strategy": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"ingress_name": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"strategy_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"NGINX_CANARY_STRATEGY",
+							}, true),
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
+			"compute_instance_group_blue_green_deployment_deploy_stage_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"compute_instance_group_canary_deploy_stage_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"compute_instance_group_canary_traffic_shift_deploy_stage_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"compute_instance_group_deploy_environment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -166,6 +271,18 @@ func DevopsDeployStageResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"deploy_environment_id_a": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"deploy_environment_id_b": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"deployment_spec_deploy_artifact_id": {
 				Type:     schema.TypeString,
@@ -327,10 +444,68 @@ func DevopsDeployStageResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"oke_blue_green_deploy_stage_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"oke_canary_deploy_stage_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"oke_canary_traffic_shift_deploy_stage_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"oke_cluster_deploy_environment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"production_load_balancer_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"backend_port": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"listener_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"load_balancer_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+						// internal for work request access
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"rollback_policy": {
 				Type:     schema.TypeList,
@@ -364,7 +539,7 @@ func DevopsDeployStageResource() *schema.Resource {
 						// Required
 						"policy_type": {
 							Type:             schema.TypeString,
-							Required:         true,
+							Optional:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_COUNT",
@@ -395,6 +570,42 @@ func DevopsDeployStageResource() *schema.Resource {
 						},
 
 						// Computed
+					},
+				},
+			},
+			"test_load_balancer_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"backend_port": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"listener_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"load_balancer_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						// internal for work request access
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -725,6 +936,372 @@ func (s *DevopsDeployStageResourceCrud) Delete() error {
 
 func (s *DevopsDeployStageResourceCrud) SetData() error {
 	switch v := (*s.Res).(type) {
+	case oci_devops.ComputeInstanceGroupBlueGreenDeployStage:
+		s.D.Set("deploy_stage_type", "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT")
+
+		s.D.Set("deploy_artifact_ids", v.DeployArtifactIds)
+
+		if v.DeployEnvironmentIdA != nil {
+			s.D.Set("deploy_environment_id_a", *v.DeployEnvironmentIdA)
+		}
+
+		if v.DeployEnvironmentIdB != nil {
+			s.D.Set("deploy_environment_id_b", *v.DeployEnvironmentIdB)
+		}
+
+		if v.DeploymentSpecDeployArtifactId != nil {
+			s.D.Set("deployment_spec_deploy_artifact_id", *v.DeploymentSpecDeployArtifactId)
+		}
+
+		if v.FailurePolicy != nil {
+			failurePolicyArray := []interface{}{}
+			if failurePolicyMap := ComputeInstanceGroupFailurePolicyToMap(&v.FailurePolicy); failurePolicyMap != nil {
+				failurePolicyArray = append(failurePolicyArray, failurePolicyMap)
+			}
+			s.D.Set("failure_policy", failurePolicyArray)
+		} else {
+			s.D.Set("failure_policy", nil)
+		}
+
+		if v.ProductionLoadBalancerConfig != nil {
+			s.D.Set("production_load_balancer_config", []interface{}{LoadBalancerConfigToMap(v.ProductionLoadBalancerConfig)})
+		} else {
+			s.D.Set("production_load_balancer_config", nil)
+		}
+
+		if v.RolloutPolicy != nil {
+			rolloutPolicyArray := []interface{}{}
+			if rolloutPolicyMap := ComputeInstanceGroupRolloutPolicyToMap(&v.RolloutPolicy); rolloutPolicyMap != nil {
+				rolloutPolicyArray = append(rolloutPolicyArray, rolloutPolicyMap)
+			}
+			s.D.Set("rollout_policy", rolloutPolicyArray)
+		} else {
+			s.D.Set("rollout_policy", nil)
+		}
+
+		if v.TestLoadBalancerConfig != nil {
+			s.D.Set("test_load_balancer_config", []interface{}{LoadBalancerConfigToMap(v.TestLoadBalancerConfig)})
+		} else {
+			s.D.Set("test_load_balancer_config", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.ComputeInstanceGroupBlueGreenTrafficShiftDeployStage:
+		s.D.Set("deploy_stage_type", "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT")
+
+		if v.ComputeInstanceGroupBlueGreenDeploymentDeployStageId != nil {
+			s.D.Set("compute_instance_group_blue_green_deployment_deploy_stage_id", *v.ComputeInstanceGroupBlueGreenDeploymentDeployStageId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.ComputeInstanceGroupCanaryApprovalDeployStage:
+		s.D.Set("deploy_stage_type", "COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL")
+
+		if v.ApprovalPolicy != nil {
+			approvalPolicyArray := []interface{}{}
+			if approvalPolicyMap := ApprovalPolicyToMap(&v.ApprovalPolicy); approvalPolicyMap != nil {
+				approvalPolicyArray = append(approvalPolicyArray, approvalPolicyMap)
+			}
+			s.D.Set("approval_policy", approvalPolicyArray)
+		} else {
+			s.D.Set("approval_policy", nil)
+		}
+
+		if v.ComputeInstanceGroupCanaryTrafficShiftDeployStageId != nil {
+			s.D.Set("compute_instance_group_canary_traffic_shift_deploy_stage_id", *v.ComputeInstanceGroupCanaryTrafficShiftDeployStageId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.ComputeInstanceGroupCanaryDeployStage:
+		s.D.Set("deploy_stage_type", "COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT")
+
+		if v.ComputeInstanceGroupDeployEnvironmentId != nil {
+			s.D.Set("compute_instance_group_deploy_environment_id", *v.ComputeInstanceGroupDeployEnvironmentId)
+		}
+
+		s.D.Set("deploy_artifact_ids", v.DeployArtifactIds)
+
+		if v.DeploymentSpecDeployArtifactId != nil {
+			s.D.Set("deployment_spec_deploy_artifact_id", *v.DeploymentSpecDeployArtifactId)
+		}
+
+		if v.ProductionLoadBalancerConfig != nil {
+			s.D.Set("production_load_balancer_config", []interface{}{LoadBalancerConfigToMap(v.ProductionLoadBalancerConfig)})
+		} else {
+			s.D.Set("production_load_balancer_config", nil)
+		}
+
+		if v.RolloutPolicy != nil {
+			rolloutPolicyArray := []interface{}{}
+			if rolloutPolicyMap := ComputeInstanceGroupRolloutPolicyToMap(&v.RolloutPolicy); rolloutPolicyMap != nil {
+				rolloutPolicyArray = append(rolloutPolicyArray, rolloutPolicyMap)
+			}
+			s.D.Set("rollout_policy", rolloutPolicyArray)
+		} else {
+			s.D.Set("rollout_policy", nil)
+		}
+
+		if v.TestLoadBalancerConfig != nil {
+			s.D.Set("test_load_balancer_config", []interface{}{LoadBalancerConfigToMap(v.TestLoadBalancerConfig)})
+		} else {
+			s.D.Set("test_load_balancer_config", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.ComputeInstanceGroupCanaryTrafficShiftDeployStage:
+		s.D.Set("deploy_stage_type", "COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT")
+
+		if v.ComputeInstanceGroupCanaryDeployStageId != nil {
+			s.D.Set("compute_instance_group_canary_deploy_stage_id", *v.ComputeInstanceGroupCanaryDeployStageId)
+		}
+
+		if v.RolloutPolicy != nil {
+			s.D.Set("rollout_policy", []interface{}{LoadBalancerTrafficShiftRolloutPolicyToMap(v.RolloutPolicy)})
+		} else {
+			s.D.Set("rollout_policy", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_devops.ComputeInstanceGroupDeployStage:
 		s.D.Set("deploy_stage_type", "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT")
 
@@ -1060,6 +1637,326 @@ func (s *DevopsDeployStageResourceCrud) SetData() error {
 			s.D.Set("approval_policy", approvalPolicyArray)
 		} else {
 			s.D.Set("approval_policy", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.OkeBlueGreenDeployStage:
+		s.D.Set("deploy_stage_type", "OKE_BLUE_GREEN_DEPLOYMENT")
+
+		if v.BlueGreenStrategy != nil {
+			blueGreenStrategyArray := []interface{}{}
+			if blueGreenStrategyMap := OkeBlueGreenStrategyToMap(&v.BlueGreenStrategy); blueGreenStrategyMap != nil {
+				blueGreenStrategyArray = append(blueGreenStrategyArray, blueGreenStrategyMap)
+			}
+			s.D.Set("blue_green_strategy", blueGreenStrategyArray)
+		} else {
+			s.D.Set("blue_green_strategy", nil)
+		}
+
+		s.D.Set("kubernetes_manifest_deploy_artifact_ids", v.KubernetesManifestDeployArtifactIds)
+
+		if v.OkeClusterDeployEnvironmentId != nil {
+			s.D.Set("oke_cluster_deploy_environment_id", *v.OkeClusterDeployEnvironmentId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.OkeBlueGreenTrafficShiftDeployStage:
+		s.D.Set("deploy_stage_type", "OKE_BLUE_GREEN_TRAFFIC_SHIFT")
+
+		if v.OkeBlueGreenDeployStageId != nil {
+			s.D.Set("oke_blue_green_deploy_stage_id", *v.OkeBlueGreenDeployStageId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.OkeCanaryApprovalDeployStage:
+		s.D.Set("deploy_stage_type", "OKE_CANARY_APPROVAL")
+
+		if v.ApprovalPolicy != nil {
+			approvalPolicyArray := []interface{}{}
+			if approvalPolicyMap := ApprovalPolicyToMap(&v.ApprovalPolicy); approvalPolicyMap != nil {
+				approvalPolicyArray = append(approvalPolicyArray, approvalPolicyMap)
+			}
+			s.D.Set("approval_policy", approvalPolicyArray)
+		} else {
+			s.D.Set("approval_policy", nil)
+		}
+
+		if v.OkeCanaryTrafficShiftDeployStageId != nil {
+			s.D.Set("oke_canary_traffic_shift_deploy_stage_id", *v.OkeCanaryTrafficShiftDeployStageId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.OkeCanaryDeployStage:
+		s.D.Set("deploy_stage_type", "OKE_CANARY_DEPLOYMENT")
+
+		if v.CanaryStrategy != nil {
+			canaryStrategyArray := []interface{}{}
+			if canaryStrategyMap := OkeCanaryStrategyToMap(&v.CanaryStrategy); canaryStrategyMap != nil {
+				canaryStrategyArray = append(canaryStrategyArray, canaryStrategyMap)
+			}
+			s.D.Set("canary_strategy", canaryStrategyArray)
+		} else {
+			s.D.Set("canary_strategy", nil)
+		}
+
+		s.D.Set("kubernetes_manifest_deploy_artifact_ids", v.KubernetesManifestDeployArtifactIds)
+
+		if v.OkeClusterDeployEnvironmentId != nil {
+			s.D.Set("oke_cluster_deploy_environment_id", *v.OkeClusterDeployEnvironmentId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.OkeCanaryTrafficShiftDeployStage:
+		s.D.Set("deploy_stage_type", "OKE_CANARY_TRAFFIC_SHIFT")
+
+		if v.OkeCanaryDeployStageId != nil {
+			s.D.Set("oke_canary_deploy_stage_id", *v.OkeCanaryDeployStageId)
+		}
+
+		if v.RolloutPolicy != nil {
+			s.D.Set("rollout_policy", []interface{}{LoadBalancerTrafficShiftRolloutPolicyToMap(v.RolloutPolicy)})
+		} else {
+			s.D.Set("rollout_policy", nil)
 		}
 
 		if v.CompartmentId != nil {
@@ -1539,6 +2436,104 @@ func DeployStageRollbackPolicyToMap(obj *oci_devops.DeployStageRollbackPolicy) m
 func DeployStageSummaryToMap(obj oci_devops.DeployStageSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
+	case oci_devops.ComputeInstanceGroupBlueGreenDeployStageSummary:
+		result["deploy_stage_type"] = "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT"
+
+		result["deploy_artifact_ids"] = v.DeployArtifactIds
+
+		if v.DeployEnvironmentIdA != nil {
+			result["deploy_environment_id_a"] = string(*v.DeployEnvironmentIdA)
+		}
+
+		if v.DeployEnvironmentIdB != nil {
+			result["deploy_environment_id_b"] = string(*v.DeployEnvironmentIdB)
+		}
+
+		if v.DeploymentSpecDeployArtifactId != nil {
+			result["deployment_spec_deploy_artifact_id"] = string(*v.DeploymentSpecDeployArtifactId)
+		}
+
+		if v.FailurePolicy != nil {
+			failurePolicyArray := []interface{}{}
+			if failurePolicyMap := ComputeInstanceGroupFailurePolicyToMap(&v.FailurePolicy); failurePolicyMap != nil {
+				failurePolicyArray = append(failurePolicyArray, failurePolicyMap)
+			}
+			result["failure_policy"] = failurePolicyArray
+		}
+
+		if v.ProductionLoadBalancerConfig != nil {
+			result["production_load_balancer_config"] = []interface{}{LoadBalancerConfigToMap(v.ProductionLoadBalancerConfig)}
+		}
+
+		if v.RolloutPolicy != nil {
+			rolloutPolicyArray := []interface{}{}
+			if rolloutPolicyMap := ComputeInstanceGroupRolloutPolicyToMap(&v.RolloutPolicy); rolloutPolicyMap != nil {
+				rolloutPolicyArray = append(rolloutPolicyArray, rolloutPolicyMap)
+			}
+			result["rollout_policy"] = rolloutPolicyArray
+		}
+
+		if v.TestLoadBalancerConfig != nil {
+			result["test_load_balancer_config"] = []interface{}{LoadBalancerConfigToMap(v.TestLoadBalancerConfig)}
+		}
+	case oci_devops.ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary:
+		result["deploy_stage_type"] = "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT"
+
+		if v.ComputeInstanceGroupBlueGreenDeploymentDeployStageId != nil {
+			result["compute_instance_group_blue_green_deployment_deploy_stage_id"] = string(*v.ComputeInstanceGroupBlueGreenDeploymentDeployStageId)
+		}
+	case oci_devops.ComputeInstanceGroupCanaryApprovalDeployStageSummary:
+		result["deploy_stage_type"] = "COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL"
+
+		if v.ApprovalPolicy != nil {
+			approvalPolicyArray := []interface{}{}
+			if approvalPolicyMap := ApprovalPolicyToMap(&v.ApprovalPolicy); approvalPolicyMap != nil {
+				approvalPolicyArray = append(approvalPolicyArray, approvalPolicyMap)
+			}
+			result["approval_policy"] = approvalPolicyArray
+		}
+
+		if v.ComputeInstanceGroupCanaryTrafficShiftDeployStageId != nil {
+			result["compute_instance_group_canary_traffic_shift_deploy_stage_id"] = string(*v.ComputeInstanceGroupCanaryTrafficShiftDeployStageId)
+		}
+	case oci_devops.ComputeInstanceGroupCanaryDeployStageSummary:
+		result["deploy_stage_type"] = "COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT"
+
+		if v.ComputeInstanceGroupDeployEnvironmentId != nil {
+			result["compute_instance_group_deploy_environment_id"] = string(*v.ComputeInstanceGroupDeployEnvironmentId)
+		}
+
+		result["deploy_artifact_ids"] = v.DeployArtifactIds
+
+		if v.DeploymentSpecDeployArtifactId != nil {
+			result["deployment_spec_deploy_artifact_id"] = string(*v.DeploymentSpecDeployArtifactId)
+		}
+
+		if v.ProductionLoadBalancerConfig != nil {
+			result["production_load_balancer_config"] = []interface{}{LoadBalancerConfigToMap(v.ProductionLoadBalancerConfig)}
+		}
+
+		if v.RolloutPolicy != nil {
+			rolloutPolicyArray := []interface{}{}
+			if rolloutPolicyMap := ComputeInstanceGroupRolloutPolicyToMap(&v.RolloutPolicy); rolloutPolicyMap != nil {
+				rolloutPolicyArray = append(rolloutPolicyArray, rolloutPolicyMap)
+			}
+			result["rollout_policy"] = rolloutPolicyArray
+		}
+
+		if v.TestLoadBalancerConfig != nil {
+			result["test_load_balancer_config"] = []interface{}{LoadBalancerConfigToMap(v.TestLoadBalancerConfig)}
+		}
+	case oci_devops.ComputeInstanceGroupCanaryTrafficShiftDeployStageSummary:
+		result["deploy_stage_type"] = "COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT"
+
+		if v.ComputeInstanceGroupCanaryDeployStageId != nil {
+			result["compute_instance_group_canary_deploy_stage_id"] = string(*v.ComputeInstanceGroupCanaryDeployStageId)
+		}
+
+		if v.RolloutPolicy != nil {
+			result["rollout_policy"] = []interface{}{LoadBalancerTrafficShiftRolloutPolicyToMap(v.RolloutPolicy)}
+		}
 	case oci_devops.ComputeInstanceGroupDeployStageSummary:
 		result["deploy_stage_type"] = "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT"
 
@@ -1654,6 +2649,68 @@ func DeployStageSummaryToMap(obj oci_devops.DeployStageSummary) map[string]inter
 				approvalPolicyArray = append(approvalPolicyArray, approvalPolicyMap)
 			}
 			result["approval_policy"] = approvalPolicyArray
+		}
+	case oci_devops.OkeBlueGreenDeployStageSummary:
+		result["deploy_stage_type"] = "OKE_BLUE_GREEN_DEPLOYMENT"
+
+		if v.BlueGreenStrategy != nil {
+			blueGreenStrategyArray := []interface{}{}
+			if blueGreenStrategyMap := OkeBlueGreenStrategyToMap(&v.BlueGreenStrategy); blueGreenStrategyMap != nil {
+				blueGreenStrategyArray = append(blueGreenStrategyArray, blueGreenStrategyMap)
+			}
+			result["blue_green_strategy"] = blueGreenStrategyArray
+		}
+
+		result["kubernetes_manifest_deploy_artifact_ids"] = v.KubernetesManifestDeployArtifactIds
+
+		if v.OkeClusterDeployEnvironmentId != nil {
+			result["oke_cluster_deploy_environment_id"] = string(*v.OkeClusterDeployEnvironmentId)
+		}
+	case oci_devops.OkeBlueGreenTrafficShiftDeployStageSummary:
+		result["deploy_stage_type"] = "OKE_BLUE_GREEN_TRAFFIC_SHIFT"
+
+		if v.OkeBlueGreenDeployStageId != nil {
+			result["oke_blue_green_deploy_stage_id"] = string(*v.OkeBlueGreenDeployStageId)
+		}
+	case oci_devops.OkeCanaryApprovalDeployStageSummary:
+		result["deploy_stage_type"] = "OKE_CANARY_APPROVAL"
+
+		if v.ApprovalPolicy != nil {
+			approvalPolicyArray := []interface{}{}
+			if approvalPolicyMap := ApprovalPolicyToMap(&v.ApprovalPolicy); approvalPolicyMap != nil {
+				approvalPolicyArray = append(approvalPolicyArray, approvalPolicyMap)
+			}
+			result["approval_policy"] = approvalPolicyArray
+		}
+
+		if v.OkeCanaryTrafficShiftDeployStageId != nil {
+			result["oke_canary_traffic_shift_deploy_stage_id"] = string(*v.OkeCanaryTrafficShiftDeployStageId)
+		}
+	case oci_devops.OkeCanaryDeployStageSummary:
+		result["deploy_stage_type"] = "OKE_CANARY_DEPLOYMENT"
+
+		if v.CanaryStrategy != nil {
+			canaryStrategyArray := []interface{}{}
+			if canaryStrategyMap := OkeCanaryStrategyToMap(&v.CanaryStrategy); canaryStrategyMap != nil {
+				canaryStrategyArray = append(canaryStrategyArray, canaryStrategyMap)
+			}
+			result["canary_strategy"] = canaryStrategyArray
+		}
+
+		result["kubernetes_manifest_deploy_artifact_ids"] = v.KubernetesManifestDeployArtifactIds
+
+		if v.OkeClusterDeployEnvironmentId != nil {
+			result["oke_cluster_deploy_environment_id"] = string(*v.OkeClusterDeployEnvironmentId)
+		}
+	case oci_devops.OkeCanaryTrafficShiftDeployStageSummary:
+		result["deploy_stage_type"] = "OKE_CANARY_TRAFFIC_SHIFT"
+
+		if v.OkeCanaryDeployStageId != nil {
+			result["oke_canary_deploy_stage_id"] = string(*v.OkeCanaryDeployStageId)
+		}
+
+		if v.RolloutPolicy != nil {
+			result["rollout_policy"] = []interface{}{LoadBalancerTrafficShiftRolloutPolicyToMap(v.RolloutPolicy)}
 		}
 	case oci_devops.OkeDeployStageSummary:
 		result["deploy_stage_type"] = "OKE_DEPLOYMENT"
@@ -1786,7 +2843,7 @@ func (s *DevopsDeployStageResourceCrud) mapToLoadBalancerTrafficShiftRolloutPoli
 	}
 
 	if rampLimitPercent, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ramp_limit_percent")); ok {
-		tmp := rampLimitPercent.(float32)
+		tmp := float32(rampLimitPercent.(float64))
 		result.RampLimitPercent = &tmp
 	}
 
@@ -1806,6 +2863,112 @@ func LoadBalancerTrafficShiftRolloutPolicyToMap(obj *oci_devops.LoadBalancerTraf
 
 	if obj.RampLimitPercent != nil {
 		result["ramp_limit_percent"] = float32(*obj.RampLimitPercent)
+	}
+
+	return result
+}
+
+func (s *DevopsDeployStageResourceCrud) mapToOkeBlueGreenStrategy(fieldKeyFormat string) (oci_devops.OkeBlueGreenStrategy, error) {
+	var baseObject oci_devops.OkeBlueGreenStrategy
+	//discriminator
+	strategyTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "strategy_type"))
+	var strategyType string
+	if ok {
+		strategyType = strategyTypeRaw.(string)
+	} else {
+		strategyType = "" // default value
+	}
+	switch strings.ToLower(strategyType) {
+	case strings.ToLower("NGINX_BLUE_GREEN_STRATEGY"):
+		details := oci_devops.NginxBlueGreenStrategy{}
+		if ingressName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ingress_name")); ok {
+			tmp := ingressName.(string)
+			details.IngressName = &tmp
+		}
+		if namespaceA, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace_a")); ok {
+			tmp := namespaceA.(string)
+			details.NamespaceA = &tmp
+		}
+		if namespaceB, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace_b")); ok {
+			tmp := namespaceB.(string)
+			details.NamespaceB = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown strategy_type '%v' was specified", strategyType)
+	}
+	return baseObject, nil
+}
+
+func OkeBlueGreenStrategyToMap(obj *oci_devops.OkeBlueGreenStrategy) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_devops.NginxBlueGreenStrategy:
+		result["strategy_type"] = "NGINX_BLUE_GREEN_STRATEGY"
+
+		if v.IngressName != nil {
+			result["ingress_name"] = string(*v.IngressName)
+		}
+
+		if v.NamespaceA != nil {
+			result["namespace_a"] = string(*v.NamespaceA)
+		}
+
+		if v.NamespaceB != nil {
+			result["namespace_b"] = string(*v.NamespaceB)
+		}
+	default:
+		log.Printf("[WARN] Received 'strategy_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *DevopsDeployStageResourceCrud) mapToOkeCanaryStrategy(fieldKeyFormat string) (oci_devops.OkeCanaryStrategy, error) {
+	var baseObject oci_devops.OkeCanaryStrategy
+	//discriminator
+	strategyTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "strategy_type"))
+	var strategyType string
+	if ok {
+		strategyType = strategyTypeRaw.(string)
+	} else {
+		strategyType = "" // default value
+	}
+	switch strings.ToLower(strategyType) {
+	case strings.ToLower("NGINX_CANARY_STRATEGY"):
+		details := oci_devops.NginxCanaryStrategy{}
+		if ingressName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ingress_name")); ok {
+			tmp := ingressName.(string)
+			details.IngressName = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown strategy_type '%v' was specified", strategyType)
+	}
+	return baseObject, nil
+}
+
+func OkeCanaryStrategyToMap(obj *oci_devops.OkeCanaryStrategy) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_devops.NginxCanaryStrategy:
+		result["strategy_type"] = "NGINX_CANARY_STRATEGY"
+
+		if v.IngressName != nil {
+			result["ingress_name"] = string(*v.IngressName)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+	default:
+		log.Printf("[WARN] Received 'strategy_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
@@ -1886,6 +3049,327 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 		deployStageType = "" // default value
 	}
 	switch strings.ToLower(deployStageType) {
+	case strings.ToLower("COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT"):
+		details := oci_devops.CreateComputeInstanceGroupBlueGreenDeployStageDetails{}
+		if deployArtifactIds, ok := s.D.GetOkExists("deploy_artifact_ids"); ok {
+			interfaces := deployArtifactIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("deploy_artifact_ids") {
+				details.DeployArtifactIds = tmp
+			}
+		}
+		if deployEnvironmentIdA, ok := s.D.GetOkExists("deploy_environment_id_a"); ok {
+			tmp := deployEnvironmentIdA.(string)
+			details.DeployEnvironmentIdA = &tmp
+		}
+		if deployEnvironmentIdB, ok := s.D.GetOkExists("deploy_environment_id_b"); ok {
+			tmp := deployEnvironmentIdB.(string)
+			details.DeployEnvironmentIdB = &tmp
+		}
+		if deploymentSpecDeployArtifactId, ok := s.D.GetOkExists("deployment_spec_deploy_artifact_id"); ok {
+			tmp := deploymentSpecDeployArtifactId.(string)
+			details.DeploymentSpecDeployArtifactId = &tmp
+		}
+		if failurePolicy, ok := s.D.GetOkExists("failure_policy"); ok {
+			if tmpList := failurePolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "failure_policy", 0)
+				tmp, err := s.mapToComputeInstanceGroupFailurePolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.FailurePolicy = tmp
+			}
+		}
+		if productionLoadBalancerConfig, ok := s.D.GetOkExists("production_load_balancer_config"); ok {
+			if tmpList := productionLoadBalancerConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "production_load_balancer_config", 0)
+				tmp, err := s.mapToLoadBalancerConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ProductionLoadBalancerConfig = &tmp
+			}
+		}
+		if rolloutPolicy, ok := s.D.GetOkExists("rollout_policy"); ok {
+			if tmpList := rolloutPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rollout_policy", 0)
+				tmp, err := s.mapToComputeInstanceGroupRolloutPolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.RolloutPolicy = tmp
+			}
+		}
+		if testLoadBalancerConfig, ok := s.D.GetOkExists("test_load_balancer_config"); ok {
+			if tmpList := testLoadBalancerConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "test_load_balancer_config", 0)
+				tmp, err := s.mapToLoadBalancerConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TestLoadBalancerConfig = &tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDeployStageDetails = details
+	case strings.ToLower("COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT"):
+		details := oci_devops.CreateComputeInstanceGroupBlueGreenTrafficShiftDeployStageDetails{}
+		if computeInstanceGroupBlueGreenDeploymentDeployStageId, ok := s.D.GetOkExists("compute_instance_group_blue_green_deployment_deploy_stage_id"); ok {
+			tmp := computeInstanceGroupBlueGreenDeploymentDeployStageId.(string)
+			details.ComputeInstanceGroupBlueGreenDeploymentDeployStageId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDeployStageDetails = details
+	case strings.ToLower("COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL"):
+		details := oci_devops.CreateComputeInstanceGroupCanaryApprovalDeployStageDetails{}
+		if approvalPolicy, ok := s.D.GetOkExists("approval_policy"); ok {
+			if tmpList := approvalPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "approval_policy", 0)
+				tmp, err := s.mapToApprovalPolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ApprovalPolicy = tmp
+			}
+		}
+		if computeInstanceGroupCanaryTrafficShiftDeployStageId, ok := s.D.GetOkExists("compute_instance_group_canary_traffic_shift_deploy_stage_id"); ok {
+			tmp := computeInstanceGroupCanaryTrafficShiftDeployStageId.(string)
+			details.ComputeInstanceGroupCanaryTrafficShiftDeployStageId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDeployStageDetails = details
+	case strings.ToLower("COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT"):
+		details := oci_devops.CreateComputeInstanceGroupCanaryDeployStageDetails{}
+		if computeInstanceGroupDeployEnvironmentId, ok := s.D.GetOkExists("compute_instance_group_deploy_environment_id"); ok {
+			tmp := computeInstanceGroupDeployEnvironmentId.(string)
+			details.ComputeInstanceGroupDeployEnvironmentId = &tmp
+		}
+		if deployArtifactIds, ok := s.D.GetOkExists("deploy_artifact_ids"); ok {
+			interfaces := deployArtifactIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("deploy_artifact_ids") {
+				details.DeployArtifactIds = tmp
+			}
+		}
+		if deploymentSpecDeployArtifactId, ok := s.D.GetOkExists("deployment_spec_deploy_artifact_id"); ok {
+			tmp := deploymentSpecDeployArtifactId.(string)
+			details.DeploymentSpecDeployArtifactId = &tmp
+		}
+		if productionLoadBalancerConfig, ok := s.D.GetOkExists("production_load_balancer_config"); ok {
+			if tmpList := productionLoadBalancerConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "production_load_balancer_config", 0)
+				tmp, err := s.mapToLoadBalancerConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ProductionLoadBalancerConfig = &tmp
+			}
+		}
+		if rolloutPolicy, ok := s.D.GetOkExists("rollout_policy"); ok {
+			if tmpList := rolloutPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rollout_policy", 0)
+				tmp, err := s.mapToComputeInstanceGroupRolloutPolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.RolloutPolicy = tmp
+			}
+		}
+		if testLoadBalancerConfig, ok := s.D.GetOkExists("test_load_balancer_config"); ok {
+			if tmpList := testLoadBalancerConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "test_load_balancer_config", 0)
+				tmp, err := s.mapToLoadBalancerConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TestLoadBalancerConfig = &tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDeployStageDetails = details
+	case strings.ToLower("COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT"):
+		details := oci_devops.CreateComputeInstanceGroupCanaryTrafficShiftDeployStageDetails{}
+		if computeInstanceGroupCanaryDeployStageId, ok := s.D.GetOkExists("compute_instance_group_canary_deploy_stage_id"); ok {
+			tmp := computeInstanceGroupCanaryDeployStageId.(string)
+			details.ComputeInstanceGroupCanaryDeployStageId = &tmp
+		}
+		if rolloutPolicy, ok := s.D.GetOkExists("rollout_policy"); ok {
+			if tmpList := rolloutPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rollout_policy", 0)
+				tmp, err := s.mapToLoadBalancerTrafficShiftRolloutPolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.RolloutPolicy = &tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDeployStageDetails = details
 	case strings.ToLower("COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT"):
 		details := oci_devops.CreateComputeInstanceGroupDeployStageDetails{}
 		if computeInstanceGroupDeployEnvironmentId, ok := s.D.GetOkExists("compute_instance_group_deploy_environment_id"); ok {
@@ -2223,6 +3707,165 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeployStageDetails = details
+	case strings.ToLower("OKE_CANARY_DEPLOYMENT"):
+		details := oci_devops.CreateOkeCanaryDeployStageDetails{}
+		if okeClusterDeployEnvironmentId, ok := s.D.GetOkExists("oke_cluster_deploy_environment_id"); ok {
+			tmp := okeClusterDeployEnvironmentId.(string)
+			details.OkeClusterDeployEnvironmentId = &tmp
+		}
+		if kubernetesManifestDeployArtifactIds, ok := s.D.GetOkExists("kubernetes_manifest_deploy_artifact_ids"); ok {
+			interfaces := kubernetesManifestDeployArtifactIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("kubernetes_manifest_deploy_artifact_ids") {
+				details.KubernetesManifestDeployArtifactIds = tmp
+			}
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if canaryStrategy, ok := s.D.GetOkExists("canary_strategy"); ok {
+			if tmpList := canaryStrategy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "canary_strategy", 0)
+				tmp, err := s.mapToOkeCanaryStrategy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.CanaryStrategy = tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDeployStageDetails = details
+	case strings.ToLower("OKE_CANARY_TRAFFIC_SHIFT"):
+		details := oci_devops.CreateOkeCanaryTrafficShiftDeployStageDetails{}
+		if okeCanaryDeployStageId, ok := s.D.GetOkExists("oke_canary_deploy_stage_id"); ok {
+			tmp := okeCanaryDeployStageId.(string)
+			details.OkeCanaryDeployStageId = &tmp
+		}
+		if rolloutPolicy, ok := s.D.GetOkExists("rollout_policy"); ok {
+			if tmpList := rolloutPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rollout_policy", 0)
+				tmp, err := s.mapToLoadBalancerTrafficShiftRolloutPolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.RolloutPolicy = &tmp
+			}
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDeployStageDetails = details
+	case strings.ToLower("OKE_CANARY_APPROVAL"):
+		details := oci_devops.CreateOkeCanaryApprovalDeployStageDetails{}
+		if okeCanaryTrafficShiftDeployStageId, ok := s.D.GetOkExists("oke_canary_traffic_shift_deploy_stage_id"); ok {
+			tmp := okeCanaryTrafficShiftDeployStageId.(string)
+			details.OkeCanaryTrafficShiftDeployStageId = &tmp
+		}
+		if approvalPolicy, ok := s.D.GetOkExists("approval_policy"); ok {
+			if tmpList := approvalPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "approval_policy", 0)
+				tmp, err := s.mapToApprovalPolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ApprovalPolicy = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDeployStageDetails = details
 	case strings.ToLower("OKE_DEPLOYMENT"):
 		details := oci_devops.CreateOkeDeployStageDetails{}
 		if kubernetesManifestDeployArtifactIds, ok := s.D.GetOkExists("kubernetes_manifest_deploy_artifact_ids"); ok {
@@ -2254,6 +3897,106 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 				}
 				details.RollbackPolicy = tmp
 			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDeployStageDetails = details
+	case strings.ToLower("OKE_BLUE_GREEN_DEPLOYMENT"):
+		details := oci_devops.CreateOkeBlueGreenDeployStageDetails{}
+		if kubernetesManifestDeployArtifactIds, ok := s.D.GetOkExists("kubernetes_manifest_deploy_artifact_ids"); ok {
+			interfaces := kubernetesManifestDeployArtifactIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("kubernetes_manifest_deploy_artifact_ids") {
+				details.KubernetesManifestDeployArtifactIds = tmp
+			}
+		}
+		if okeClusterDeployEnvironmentId, ok := s.D.GetOkExists("oke_cluster_deploy_environment_id"); ok {
+			tmp := okeClusterDeployEnvironmentId.(string)
+			details.OkeClusterDeployEnvironmentId = &tmp
+		}
+		if blueGreenStrategy, ok := s.D.GetOkExists("blue_green_strategy"); ok {
+			if tmpList := blueGreenStrategy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "blue_green_strategy", 0)
+				tmp, err := s.mapToOkeBlueGreenStrategy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.BlueGreenStrategy = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDeployStageDetails = details
+	case strings.ToLower("OKE_BLUE_GREEN_TRAFFIC_SHIFT"):
+		details := oci_devops.CreateOkeBlueGreenTrafficShiftDeployStageDetails{}
+		if okeBlueGreenDeployStageId, ok := s.D.GetOkExists("oke_blue_green_deploy_stage_id"); ok {
+			tmp := okeBlueGreenDeployStageId.(string)
+			details.OkeBlueGreenDeployStageId = &tmp
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -2349,6 +4092,273 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 		deployStageType = "" // default value
 	}
 	switch strings.ToLower(deployStageType) {
+	case strings.ToLower("COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT"):
+		details := oci_devops.UpdateComputeInstanceGroupBlueGreenDeployStageDetails{}
+		if deployArtifactIds, ok := s.D.GetOkExists("deploy_artifact_ids"); ok {
+			interfaces := deployArtifactIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("deploy_artifact_ids") {
+				details.DeployArtifactIds = tmp
+			}
+		}
+		if deploymentSpecDeployArtifactId, ok := s.D.GetOkExists("deployment_spec_deploy_artifact_id"); ok {
+			tmp := deploymentSpecDeployArtifactId.(string)
+			details.DeploymentSpecDeployArtifactId = &tmp
+		}
+		if failurePolicy, ok := s.D.GetOkExists("failure_policy"); ok {
+			if tmpList := failurePolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "failure_policy", 0)
+				tmp, err := s.mapToComputeInstanceGroupFailurePolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.FailurePolicy = tmp
+			}
+		}
+		if rolloutPolicy, ok := s.D.GetOkExists("rollout_policy"); ok {
+			if tmpList := rolloutPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rollout_policy", 0)
+				tmp, err := s.mapToComputeInstanceGroupRolloutPolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.RolloutPolicy = tmp
+			}
+		}
+		if testLoadBalancerConfig, ok := s.D.GetOkExists("test_load_balancer_config"); ok {
+			if tmpList := testLoadBalancerConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "test_load_balancer_config", 0)
+				tmp, err := s.mapToLoadBalancerConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TestLoadBalancerConfig = &tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.DeployStageId = &tmp
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDeployStageDetails = details
+	case strings.ToLower("COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT"):
+		details := oci_devops.UpdateComputeInstanceGroupBlueGreenTrafficShiftDeployStageDetails{}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.DeployStageId = &tmp
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDeployStageDetails = details
+	case strings.ToLower("COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL"):
+		details := oci_devops.UpdateComputeInstanceGroupCanaryApprovalDeployStageDetails{}
+		if approvalPolicy, ok := s.D.GetOkExists("approval_policy"); ok {
+			if tmpList := approvalPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "approval_policy", 0)
+				tmp, err := s.mapToApprovalPolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ApprovalPolicy = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.DeployStageId = &tmp
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDeployStageDetails = details
+	case strings.ToLower("COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT"):
+		details := oci_devops.UpdateComputeInstanceGroupCanaryDeployStageDetails{}
+		if deployArtifactIds, ok := s.D.GetOkExists("deploy_artifact_ids"); ok {
+			interfaces := deployArtifactIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("deploy_artifact_ids") {
+				details.DeployArtifactIds = tmp
+			}
+		}
+		if deploymentSpecDeployArtifactId, ok := s.D.GetOkExists("deployment_spec_deploy_artifact_id"); ok {
+			tmp := deploymentSpecDeployArtifactId.(string)
+			details.DeploymentSpecDeployArtifactId = &tmp
+		}
+		if rolloutPolicy, ok := s.D.GetOkExists("rollout_policy"); ok {
+			if tmpList := rolloutPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rollout_policy", 0)
+				tmp, err := s.mapToComputeInstanceGroupRolloutPolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.RolloutPolicy = tmp
+			}
+		}
+		if testLoadBalancerConfig, ok := s.D.GetOkExists("test_load_balancer_config"); ok {
+			if tmpList := testLoadBalancerConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "test_load_balancer_config", 0)
+				tmp, err := s.mapToLoadBalancerConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TestLoadBalancerConfig = &tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.DeployStageId = &tmp
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDeployStageDetails = details
+	case strings.ToLower("COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT"):
+		details := oci_devops.UpdateComputeInstanceGroupCanaryTrafficShiftDeployStageDetails{}
+		if rolloutPolicy, ok := s.D.GetOkExists("rollout_policy"); ok {
+			if tmpList := rolloutPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rollout_policy", 0)
+				tmp, err := s.mapToLoadBalancerTrafficShiftRolloutPolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.RolloutPolicy = &tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.DeployStageId = &tmp
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDeployStageDetails = details
 	case strings.ToLower("COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT"):
 		details := oci_devops.UpdateComputeInstanceGroupDeployStageDetails{}
 		if computeInstanceGroupDeployEnvironmentId, ok := s.D.GetOkExists("compute_instance_group_deploy_environment_id"); ok {
@@ -2643,6 +4653,215 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 					return err
 				}
 				details.ApprovalPolicy = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.DeployStageId = &tmp
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDeployStageDetails = details
+	case strings.ToLower("OKE_BLUE_GREEN_DEPLOYMENT"):
+		details := oci_devops.UpdateOkeBlueGreenDeployStageDetails{}
+		if kubernetesManifestDeployArtifactIds, ok := s.D.GetOkExists("kubernetes_manifest_deploy_artifact_ids"); ok {
+			interfaces := kubernetesManifestDeployArtifactIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("kubernetes_manifest_deploy_artifact_ids") {
+				details.KubernetesManifestDeployArtifactIds = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.DeployStageId = &tmp
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDeployStageDetails = details
+	case strings.ToLower("OKE_BLUE_GREEN_TRAFFIC_SHIFT"):
+		details := oci_devops.UpdateOkeBlueGreenTrafficShiftDeployStageDetails{}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.DeployStageId = &tmp
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDeployStageDetails = details
+	case strings.ToLower("OKE_CANARY_APPROVAL"):
+		details := oci_devops.UpdateOkeCanaryApprovalDeployStageDetails{}
+		if approvalPolicy, ok := s.D.GetOkExists("approval_policy"); ok {
+			if tmpList := approvalPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "approval_policy", 0)
+				tmp, err := s.mapToApprovalPolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ApprovalPolicy = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.DeployStageId = &tmp
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDeployStageDetails = details
+	case strings.ToLower("OKE_CANARY_DEPLOYMENT"):
+		details := oci_devops.UpdateOkeCanaryDeployStageDetails{}
+		if kubernetesManifestDeployArtifactIds, ok := s.D.GetOkExists("kubernetes_manifest_deploy_artifact_ids"); ok {
+			interfaces := kubernetesManifestDeployArtifactIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("kubernetes_manifest_deploy_artifact_ids") {
+				details.KubernetesManifestDeployArtifactIds = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.DeployStageId = &tmp
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDeployStageDetails = details
+	case strings.ToLower("OKE_CANARY_TRAFFIC_SHIFT"):
+		details := oci_devops.UpdateOkeCanaryTrafficShiftDeployStageDetails{}
+		if rolloutPolicy, ok := s.D.GetOkExists("rollout_policy"); ok {
+			if tmpList := rolloutPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rollout_policy", 0)
+				tmp, err := s.mapToLoadBalancerTrafficShiftRolloutPolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.RolloutPolicy = &tmp
 			}
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {

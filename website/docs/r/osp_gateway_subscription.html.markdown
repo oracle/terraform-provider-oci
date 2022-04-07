@@ -62,6 +62,14 @@ resource "oci_osp_gateway_subscription" "test_subscription" {
 			payment_method = var.subscription_subscription_payment_options_payment_method
 
 			#Optional
+			credit_card_type = var.subscription_subscription_payment_options_credit_card_type
+			email_address = var.subscription_subscription_payment_options_email_address
+			ext_billing_agreement_id = oci_osp_gateway_ext_billing_agreement.test_ext_billing_agreement.id
+			first_name = var.subscription_subscription_payment_options_first_name
+			last_digits = var.subscription_subscription_payment_options_last_digits
+			last_name = var.subscription_subscription_payment_options_last_name
+			name_on_card = var.subscription_subscription_payment_options_name_on_card
+			time_expiration = var.subscription_subscription_payment_options_time_expiration
 			wallet_instrument_id = oci_osp_gateway_wallet_instrument.test_wallet_instrument.id
 			wallet_transaction_id = oci_osp_gateway_wallet_transaction.test_wallet_transaction.id
 		}
@@ -118,7 +126,15 @@ The following arguments are supported:
 			* `cloud_account_name` - (Optional) (Updatable) Cloud account name.
 			* `promo_type` - (Optional) (Updatable) Promotion type code.
 	* `payment_options` - (Optional) (Updatable) Payment option list of a subscription.
+		* `credit_card_type` - (Applicable when payment_method=CREDIT_CARD) (Updatable) Credit card type.
+		* `email_address` - (Applicable when payment_method=PAYPAL) (Updatable) The email address of the paypal user.
+		* `ext_billing_agreement_id` - (Applicable when payment_method=PAYPAL) (Updatable) Agreement id for the paypal account.
+		* `first_name` - (Applicable when payment_method=PAYPAL) (Updatable) First name of the paypal user.
+		* `last_digits` - (Applicable when payment_method=CREDIT_CARD) (Updatable) Last four digits of the card.
+		* `last_name` - (Applicable when payment_method=PAYPAL) (Updatable) Last name of the paypal user.
+		* `name_on_card` - (Applicable when payment_method=CREDIT_CARD) (Updatable) Name on the credit card.
 		* `payment_method` - (Required) (Updatable) Payment method
+		* `time_expiration` - (Applicable when payment_method=CREDIT_CARD) (Updatable) Expired date of the credit card.
 		* `wallet_instrument_id` - (Optional) (Updatable) Wallet instrument internal id.
 		* `wallet_transaction_id` - (Optional) (Updatable) Wallet transaction id.
 	* `plan_type` - (Optional) (Updatable) Subscription plan type.
@@ -169,7 +185,15 @@ The following attributes are exported:
 		* `cloud_account_name` - Cloud account name.
 		* `promo_type` - Promotion type code.
 * `payment_options` - Payment option list of a subscription.
+	* `credit_card_type` - Credit card type.
+	* `email_address` - The email address of the paypal user.
+	* `ext_billing_agreement_id` - Agreement id for the paypal account.
+	* `first_name` - First name of the paypal user.
+	* `last_digits` - Last four digits of the card.
+	* `last_name` - Last name of the paypal user.
+	* `name_on_card` - Name on the credit card.
 	* `payment_method` - Payment method
+	* `time_expiration` - Expired date of the credit card.
 	* `wallet_instrument_id` - Wallet instrument internal id.
 	* `wallet_transaction_id` - Wallet transaction id.
 * `plan_type` - Subscription plan type.

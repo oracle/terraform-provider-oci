@@ -20,7 +20,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v63/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 )
 
 func LoadBalancerBackendSetResource() *schema.Resource {
@@ -198,7 +198,6 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 						"certificate_ids": {
 							Type:     schema.TypeList,
 							Optional: true,
-							Computed: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -206,7 +205,6 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 						"certificate_name": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
 						},
 						"cipher_suite_name": {
 							Type:     schema.TypeString,
@@ -229,7 +227,6 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 						"trusted_certificate_authority_ids": {
 							Type:     schema.TypeList,
 							Optional: true,
-							Computed: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -1009,7 +1006,11 @@ func (s *LoadBalancerBackendSetResourceCrud) mapToSSLConfigurationDetails(fieldK
 	if certificateName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_name")); ok {
 		tmp := certificateName.(string)
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "certificate_name")) {
-			result.CertificateName = &tmp
+			if tmp == "" {
+				result.CertificateName = nil
+			} else {
+				result.CertificateName = &tmp
+			}
 		}
 	}
 

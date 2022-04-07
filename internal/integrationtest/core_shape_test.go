@@ -150,9 +150,12 @@ func TestCoreShapeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "shapes.0.memory_options.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.min_total_baseline_ocpus_required"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.network_ports"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.networking_bandwidth_in_gbps"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.ocpus"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.processor_description"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.rdma_bandwidth_in_gbps"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.rdma_ports"),
 			),
 		},
 	})

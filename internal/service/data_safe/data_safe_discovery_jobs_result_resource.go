@@ -17,7 +17,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_data_safe "github.com/oracle/oci-go-sdk/v63/datasafe"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 )
 
 func DataSafeDiscoveryJobsResultResource() *schema.Resource {

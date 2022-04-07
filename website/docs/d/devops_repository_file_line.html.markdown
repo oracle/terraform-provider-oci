@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_devops_repository_file_line
 This data source provides details about a specific Repository File Line resource in Oracle Cloud Infrastructure Devops service.
 
-Retrieve lines of a specified file. Supports starting line number and limit.
+Retrieve lines of a specified file. Supports starting line number and limit. This API will be deprecated on Wed, 29 Mar 2023 01:00:00 GMT as it does not get recognized when filePath has '/'. This will be replaced by "/repositories/{repositoryId}/file/lines"
 
 
 ## Example Usage
@@ -18,9 +18,9 @@ Retrieve lines of a specified file. Supports starting line number and limit.
 ```hcl
 data "oci_devops_repository_file_line" "test_repository_file_line" {
 	#Required
-	file_path = var.repository_file_line_file_path
 	repository_id = oci_devops_repository.test_repository.id
 	revision = var.repository_file_line_revision
+	file_path = var.repository_file_line_file_path
 
 	#Optional
 	start_line_number = var.repository_file_line_start_line_number
@@ -44,4 +44,3 @@ The following attributes are exported:
 * `lines` - The list of lines in the file.
 	* `line_content` - The content of the line.
 	* `line_number` - The line number.
-

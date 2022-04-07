@@ -20,7 +20,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-exec/tfexec"
-	oci_identity "github.com/oracle/oci-go-sdk/v63/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 

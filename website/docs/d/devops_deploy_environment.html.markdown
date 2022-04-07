@@ -48,6 +48,10 @@ The following attributes are exported:
 * `function_id` - The OCID of the Function.
 * `id` - Unique identifier that is immutable on creation.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `network_channel` - Specifies the configuration needed when the target Oracle Cloud Infrastructure resource, i.e., OKE cluster, resides in customer's private network. 
+	* `network_channel_type` - Network channel type.
+	* `nsg_ids` - An array of network security group OCIDs.
+	* `subnet_id` - The OCID of the subnet where VNIC resources will be created for private endpoint.
 * `project_id` - The OCID of a project.
 * `state` - The current state of the deployment environment.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}`

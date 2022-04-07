@@ -5,6 +5,7 @@ package devops
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"strings"
@@ -15,7 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_devops "github.com/oracle/oci-go-sdk/v63/devops"
+	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
 
 func DevopsDeploymentResource() *schema.Resource {
@@ -43,6 +44,7 @@ func DevopsDeploymentResource() *schema.Resource {
 					"PIPELINE_DEPLOYMENT",
 					"PIPELINE_REDEPLOYMENT",
 					"SINGLE_STAGE_DEPLOYMENT",
+					"SINGLE_STAGE_REDEPLOYMENT",
 				}, true),
 			},
 
@@ -708,6 +710,86 @@ func (s *DevopsDeploymentResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_devops.SingleDeployStageRedeployment:
+		s.D.Set("deployment_type", "SINGLE_STAGE_REDEPLOYMENT")
+
+		if v.DeployStageId != nil {
+			s.D.Set("deploy_stage_id", *v.DeployStageId)
+		}
+
+		if v.PreviousDeploymentId != nil {
+			s.D.Set("previous_deployment_id", *v.PreviousDeploymentId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployArtifactOverrideArguments != nil {
+			s.D.Set("deploy_artifact_override_arguments", []interface{}{DeployArtifactOverrideArgumentCollectionToMap(v.DeployArtifactOverrideArguments)})
+		} else {
+			s.D.Set("deploy_artifact_override_arguments", nil)
+		}
+
+		if v.DeployPipelineArtifacts != nil {
+			s.D.Set("deploy_pipeline_artifacts", []interface{}{DeployPipelineArtifactCollectionToMap(v.DeployPipelineArtifacts)})
+		} else {
+			s.D.Set("deploy_pipeline_artifacts", nil)
+		}
+
+		if v.DeployPipelineEnvironments != nil {
+			s.D.Set("deploy_pipeline_environments", []interface{}{DeployPipelineEnvironmentCollectionToMap(v.DeployPipelineEnvironments)})
+		} else {
+			s.D.Set("deploy_pipeline_environments", nil)
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeploymentArguments != nil {
+			s.D.Set("deployment_arguments", []interface{}{DeploymentArgumentCollectionToMap(v.DeploymentArguments)})
+		} else {
+			s.D.Set("deployment_arguments", nil)
+		}
+
+		if v.DeploymentExecutionProgress != nil {
+			s.D.Set("deployment_execution_progress", []interface{}{DeploymentExecutionProgressToMap(v.DeploymentExecutionProgress)})
+		} else {
+			s.D.Set("deployment_execution_progress", nil)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	default:
 		log.Printf("[WARN] Received 'deployment_type' of unknown type %v", *s.Res)
 		return nil
@@ -722,6 +804,11 @@ func (s *DevopsDeploymentResourceCrud) mapToApprovalAction(fieldKeyFormat string
 		result.Action = oci_devops.ApprovalActionActionEnum(action.(string))
 	}
 
+	if reason, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "reason")); ok {
+		tmp := reason.(string)
+		result.Reason = &tmp
+	}
+
 	if subjectId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subject_id")); ok {
 		tmp := subjectId.(string)
 		result.SubjectId = &tmp
@@ -734,6 +821,10 @@ func ApprovalActionToMap(obj oci_devops.ApprovalAction) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["action"] = string(obj.Action)
+
+	if obj.Reason != nil {
+		result["reason"] = string(*obj.Reason)
+	}
 
 	if obj.SubjectId != nil {
 		result["subject_id"] = string(*obj.SubjectId)
@@ -900,7 +991,15 @@ func DeploymentArgumentCollectionToMap(obj *oci_devops.DeploymentArgumentCollect
 func DeploymentExecutionProgressToMap(obj *oci_devops.DeploymentExecutionProgress) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["deploy_stage_execution_progress"] = obj.DeployStageExecutionProgress
+	deployStageExecutionProgress := map[string]interface{}{}
+	for key, value := range obj.DeployStageExecutionProgress {
+		bytes, err := json.Marshal(value)
+		if err != nil {
+			continue
+		}
+		deployStageExecutionProgress[key] = string(bytes)
+	}
+	result["deploy_stage_execution_progress"] = deployStageExecutionProgress
 
 	if obj.TimeFinished != nil {
 		result["time_finished"] = obj.TimeFinished.String()
@@ -930,6 +1029,16 @@ func DevopsDeploymentSummaryToMap(obj oci_devops.DeploymentSummary) map[string]i
 		if v.DeployStageId != nil {
 			result["deploy_stage_id"] = string(*v.DeployStageId)
 		}
+	case oci_devops.SingleDeployStageRedeploymentSummary:
+		result["deployment_type"] = "SINGLE_STAGE_REDEPLOYMENT"
+
+		if v.DeployStageId != nil {
+			result["deploy_stage_id"] = string(*v.DeployStageId)
+		}
+
+		if v.PreviousDeploymentId != nil {
+			result["previous_deployment_id"] = string(*v.PreviousDeploymentId)
+		}
 	default:
 		log.Printf("[WARN] Received 'deployment_type' of unknown type %v", obj)
 		return nil
@@ -937,6 +1046,10 @@ func DevopsDeploymentSummaryToMap(obj oci_devops.DeploymentSummary) map[string]i
 
 	if obj.GetId() != nil {
 		result["id"] = obj.GetId()
+	}
+
+	if obj.GetDisplayName() != nil {
+		result["display_name"] = obj.GetDisplayName()
 	}
 
 	if obj.GetDefinedTags() != nil {
@@ -1151,6 +1264,35 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicCreateDeployme
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeploymentDetails = details
+	case strings.ToLower("SINGLE_STAGE_REDEPLOYMENT"):
+		details := oci_devops.CreateSingleDeployStageRedeploymentDetails{}
+		if deployStageId, ok := s.D.GetOkExists("deploy_stage_id"); ok {
+			tmp := deployStageId.(string)
+			details.DeployStageId = &tmp
+		}
+		if previousDeploymentId, ok := s.D.GetOkExists("previous_deployment_id"); ok {
+			tmp := previousDeploymentId.(string)
+			details.PreviousDeploymentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDeploymentDetails = details
 	default:
 		return fmt.Errorf("unknown deployment_type '%v' was specified", deploymentType)
 	}
@@ -1207,6 +1349,25 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicUpdateDeployme
 		request.UpdateDeploymentDetails = details
 	case strings.ToLower("SINGLE_STAGE_DEPLOYMENT"):
 		details := oci_devops.UpdateSingleDeployStageDeploymentDetails{}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.DeploymentId = &tmp
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDeploymentDetails = details
+	case strings.ToLower("SINGLE_STAGE_REDEPLOYMENT"):
+		details := oci_devops.UpdateSingleDeployStageRedeploymentDetails{}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 			if err != nil {

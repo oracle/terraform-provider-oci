@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_osub_billing_schedule "github.com/oracle/oci-go-sdk/v63/osubbillingschedule"
+	oci_osub_billing_schedule "github.com/oracle/oci-go-sdk/v65/osubbillingschedule"
 
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
 
 func init() {

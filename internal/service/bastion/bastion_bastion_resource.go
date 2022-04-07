@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_bastion "github.com/oracle/oci-go-sdk/v63/bastion"
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
+	oci_bastion "github.com/oracle/oci-go-sdk/v65/bastion"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
 
 func BastionBastionResource() *schema.Resource {

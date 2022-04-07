@@ -5,6 +5,7 @@ package integrationtest
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"testing"
 	"time"
@@ -16,8 +17,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
-	"github.com/oracle/oci-go-sdk/v63/database"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	"github.com/oracle/oci-go-sdk/v65/database"
 )
 
 // issue-routing-tag: database/default
@@ -25,6 +26,15 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 	if strings.Contains(utils.GetEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_basic") {
 		t.Skip("Skipping suppressed DBSystem_basic")
 	}
+
+	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
+	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
+
+	kmsKeyVersionId := utils.GetEnvSettingWithBlankDefault("kms_key_version_id")
+	kmsKeyVersionIdVariableStr := fmt.Sprintf("variable \"kms_key_version_id\" { default = \"%s\" }\n", kmsKeyVersionId)
+
+	vaultId := utils.GetEnvSettingWithBlankDefault("vault_id")
+	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
 
 	httpreplay.SetScenario("TestResourceDatabaseDBSystemFromBackup")
 	defer httpreplay.SaveScenario()
@@ -51,6 +61,9 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 			display_name = "dbHome1"
 			database {
 				admin_password = "BEstrO0ng_#11"
+				kms_key_id = "${var.kms_key_id}"
+                vault_id = "${var.vault_id}"
+                kms_key_version_id = "${var.kms_key_version_id}"
 				db_name = "aTFdb"
 				character_set = "AL32UTF8"
 				ncharacter_set = "AL16UTF16"
@@ -80,7 +93,7 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Create
 		{
-			Config: ResourceDatabaseBaseConfig + DbSystemResourceDependencies + DataBaseSystemWithBackup + AvailabilityDomainConfig + `
+			Config: ResourceDatabaseBaseConfig + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr + DbSystemResourceDependencies + DataBaseSystemWithBackup + AvailabilityDomainConfig + `
 				data "oci_database_databases" "t" {
   					compartment_id = "${var.compartment_id}"
   					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
@@ -96,7 +109,7 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 		{
 			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId, dbBackupAvailableWaitCondition, DBWaitConditionDuration,
 				listBackupsFetchOperation, "core", false),
-			Config: ResourceDatabaseBaseConfig + DbSystemResourceDependencies + DataBaseSystemWithBackup + AvailabilityDomainConfig + `
+			Config: ResourceDatabaseBaseConfig + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr + DbSystemResourceDependencies + DataBaseSystemWithBackup + AvailabilityDomainConfig + `
 				data "oci_database_databases" "t" {
   					compartment_id = "${var.compartment_id}"
   					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
@@ -126,7 +139,10 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 						db_version = "12.1.0.2"
 						database {
 							admin_password = "BEstrO0ng_#11"
-							backup_tde_password = "BEstrO0ng_#11"
+				            kms_key_id = "${var.kms_key_id}"
+                            vault_id = "${var.vault_id}"
+                            kms_key_version_id = "${var.kms_key_version_id}"
+							//backup_tde_password = "BEstrO0ng_#11"
 							backup_id = "${data.oci_database_backups.test_backups.backups.0.id}"
 							db_name = "dbback"
 						}
@@ -151,6 +167,9 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "db_home.0.database.0.kms_key_id"),
+				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "db_home.0.database.0.kms_key_version_id"),
+				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "db_home.0.database.0.vault_id"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "dbback"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "1"),
@@ -158,7 +177,7 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 		},
 
 		{
-			Config: ResourceDatabaseBaseConfig + DbSystemResourceDependencies + DataBaseSystemWithBackup + AvailabilityDomainConfig +
+			Config: ResourceDatabaseBaseConfig + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr + DbSystemResourceDependencies + DataBaseSystemWithBackup + AvailabilityDomainConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Required, acctest.Create, databaseSoftwareImageDataSourceRepresentationForVmBmShape) + `
                 data "oci_database_databases" "t" {
                     compartment_id = "${var.compartment_id}"
@@ -190,7 +209,7 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
                         database_software_image_id = "${oci_database_database_software_image.test_database_software_image.id}"
                         database {
                             admin_password = "BEstrO0ng_#11"
-                            backup_tde_password = "BEstrO0ng_#11"
+                            //backup_tde_password = "BEstrO0ng_#11"
                             backup_id = "${data.oci_database_backups.test_backups.backups.0.id}"
                             db_name = "dbback"
                         }

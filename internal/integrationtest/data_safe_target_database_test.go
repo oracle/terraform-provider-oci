@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v63/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v63/datasafe"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -86,6 +86,7 @@ var (
 
 // issue-routing-tag: data_safe/default
 func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
+	t.Skip("Needs real ADB, not a fake resource. Skipping due to resource and maintainability constraints")
 	httpreplay.SetScenario("TestDataSafeTargetDatabaseResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -390,7 +391,7 @@ func getTargetDatabaseIds(compartment string) ([]string, error) {
 func targetDatabaseSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if targetDatabaseResponse, ok := response.Response.(oci_data_safe.GetTargetDatabaseResponse); ok {
-		return targetDatabaseResponse.LifecycleState != oci_data_safe.LifecycleStateDeleted
+		return string(targetDatabaseResponse.LifecycleState) != string(oci_data_safe.LifecycleStateDeleted)
 	}
 	return false
 }

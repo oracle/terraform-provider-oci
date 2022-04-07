@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v63/common"
-	oci_jms "github.com/oracle/oci-go-sdk/v63/jms"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -53,6 +53,16 @@ var (
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet`, Update: `description2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"inventory_log":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: fleetInventoryLogRepresentation},
+		"operation_log":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: fleetOperationLogRepresentation},
+	}
+	fleetInventoryLogRepresentation = map[string]interface{}{
+		"log_group_id": acctest.Representation{RepType: acctest.Required, Create: `test-inventory-log-group-id`, Update: `update-inventory-log-group-id`},
+		"log_id":       acctest.Representation{RepType: acctest.Required, Create: `test-inventory-log-id`, Update: `update-inventory-log-id`},
+	}
+	fleetOperationLogRepresentation = map[string]interface{}{
+		"log_group_id": acctest.Representation{RepType: acctest.Required, Create: `test-operation-log-group-id`, Update: `update-operation-log-group-id`},
+		"log_id":       acctest.Representation{RepType: acctest.Required, Create: `test-operation-log-id`, Update: `update-operation-log-id`},
 	}
 
 	FleetResourceDependencies = DefinedTagsDependencies
@@ -114,6 +124,12 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "inventory_log.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_id"),
+				resource.TestCheckResourceAttr(resourceName, "operation_log.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "operation_log.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "operation_log.0.log_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -146,6 +162,12 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "inventory_log.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_id"),
+				resource.TestCheckResourceAttr(resourceName, "operation_log.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "operation_log.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "operation_log.0.log_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -173,6 +195,12 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "inventory_log.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_id"),
+				resource.TestCheckResourceAttr(resourceName, "operation_log.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "operation_log.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "operation_log.0.log_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -218,6 +246,8 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "inventory_log.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "operation_log.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),

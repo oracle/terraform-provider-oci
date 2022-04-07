@@ -18,7 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v63/dataflow"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

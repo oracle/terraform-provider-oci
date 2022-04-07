@@ -68,8 +68,8 @@ var (
 )
 
 // issue-routing-tag: devops/default
-func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
-	httpreplay.SetScenario("TestDevopsDeployStageResource_computeInstanceGroup")
+func TestDevopsDeployStageResource_computeInstanceGroupDeploy(t *testing.T) {
+	httpreplay.SetScenario("TestDevopsDeployStageResource_computeInstanceGroupDeploy")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()

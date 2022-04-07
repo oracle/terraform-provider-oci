@@ -1,3 +1,22 @@
+## 4.70.0 (April 07, 2022)
+
+### Added
+- TF Samples for devops deployment service realated to B/G and Private Oke
+- Support for osp_gateway saas invoices
+- New APIs - GetRepoFileDiff and GetRepoFileLine
+- Compute List Shapes API returns number of network ports
+- Support for Marketplace Expansion
+- Support for KMS integration with VM
+- Support for JMS life cycle management
+- Support for private OKE environments and blue-green/canary stages
+- Support for BGP disable and BFD feature in Fastconnect service
+- Support for diagnostic reboot for compute VM instances
+- Alarms, Top Processes, zLinux support
+
+### Bug Fix
+- updating certificates in load balancer SSL configuration
+- Data Safe test failure and resource discovery fixes
+
 ## 4.69.0 (March 23, 2022)
 
 ### Added

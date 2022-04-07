@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v63/database"
+	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseBackupResource() *schema.Resource {
@@ -64,6 +64,10 @@ func DatabaseBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"kms_key_version_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -85,6 +89,10 @@ func DatabaseBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"vault_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -237,6 +245,10 @@ func (s *DatabaseBackupResourceCrud) SetData() error {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
 
+	if s.Res.KmsKeyVersionId != nil {
+		s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -256,6 +268,10 @@ func (s *DatabaseBackupResourceCrud) SetData() error {
 	}
 
 	s.D.Set("type", s.Res.Type)
+
+	if s.Res.VaultId != nil {
+		s.D.Set("vault_id", *s.Res.VaultId)
+	}
 
 	if s.Res.Version != nil {
 		s.D.Set("version", *s.Res.Version)

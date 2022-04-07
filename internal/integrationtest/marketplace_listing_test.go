@@ -65,6 +65,7 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(datasourceName, "listings.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "listings.0.categories.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "listings.0.compatible_architectures.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "listings.0.icon.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "listings.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "listings.0.is_featured"),
@@ -85,7 +86,9 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
 
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "banner.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "categories.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compatible_architectures.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "default_package_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "documentation_links.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "icon.#"),

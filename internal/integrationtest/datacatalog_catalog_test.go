@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v63/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v63/datacatalog"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v65/datacatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -51,6 +51,12 @@ var (
 		"display_name":                       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"attached_catalog_private_endpoints": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id}`}},
+		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDatacatalogDefinedTagsChangesRepresentation},
+	}
+
+	// need to ignore the defined tags created by the OCI service tenancy
+	ignoreDatacatalogDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
 	CatalogResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", acctest.Required, acctest.Create, catalogPrivateEndpointRepresentation) +

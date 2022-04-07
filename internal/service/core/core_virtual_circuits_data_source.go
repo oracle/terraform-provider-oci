@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v63/core"
+	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -115,6 +115,8 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 			virtualCircuit["bandwidth_shape_name"] = *r.BandwidthShapeName
 		}
 
+		virtualCircuit["bgp_admin_state"] = r.BgpAdminState
+
 		virtualCircuit["bgp_ipv6session_state"] = r.BgpIpv6SessionState
 
 		virtualCircuit["bgp_management"] = r.BgpManagement
@@ -154,6 +156,10 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 		}
 
 		virtualCircuit["ip_mtu"] = r.IpMtu
+
+		if r.IsBfdEnabled != nil {
+			virtualCircuit["is_bfd_enabled"] = *r.IsBfdEnabled
+		}
 
 		if r.OracleBgpAsn != nil {
 			virtualCircuit["oracle_bgp_asn"] = *r.OracleBgpAsn

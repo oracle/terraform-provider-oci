@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v63/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 )
 
 func DataSafeSetUserAssessmentBaselineResource() *schema.Resource {
@@ -146,7 +146,7 @@ func (s *DataSafeSetUserAssessmentBaselineResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSetUserAssessmentBaselineFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutCreate))
+	return s.getSetUserAssessmentBaselineFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataSafeSetUserAssessmentBaselineResourceCrud) getSetUserAssessmentBaselineFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,

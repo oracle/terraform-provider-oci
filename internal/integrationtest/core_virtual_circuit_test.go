@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v63/common"
-	oci_core "github.com/oracle/oci-go-sdk/v63/core"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -74,6 +74,8 @@ var (
 		"gateway_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg.test_drg.id}`},
 		"region":                 acctest.Representation{RepType: acctest.Optional, Create: `us-phoenix-1`},
 		"routing_policy":         acctest.Representation{RepType: acctest.Optional, Create: []string{`REGIONAL`}, Update: []string{`GLOBAL`}},
+		"bgp_admin_state":        acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"is_bfd_enabled":         acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
 	virtualCircuitWithProviderRepresentation = map[string]interface{}{
@@ -380,6 +382,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create, virtualCircuitRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "10 Gbps"),
+				resource.TestCheckResourceAttr(resourceName, "bgp_admin_state", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
@@ -391,6 +394,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 				resource.TestCheckResourceAttr(resourceName, "ip_mtu", "MTU_1500"),
+				resource.TestCheckResourceAttr(resourceName, "is_bfd_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
 				resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
@@ -416,6 +420,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "10 Gbps"),
+				resource.TestCheckResourceAttr(resourceName, "bgp_admin_state", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
@@ -426,6 +431,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 				resource.TestCheckResourceAttr(resourceName, "ip_mtu", "MTU_1500"),
+				resource.TestCheckResourceAttr(resourceName, "is_bfd_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
 				resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
@@ -446,6 +452,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, virtualCircuitRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "20 Gbps"),
+				resource.TestCheckResourceAttr(resourceName, "bgp_admin_state", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
@@ -457,6 +464,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 				resource.TestCheckResourceAttr(resourceName, "ip_mtu", "MTU_9000"),
+				resource.TestCheckResourceAttr(resourceName, "is_bfd_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
 				resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
@@ -481,6 +489,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.bandwidth_shape_name", "20 Gbps"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.bgp_admin_state", "DISABLED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.bgp_ipv6session_state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.bgp_management"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.bgp_session_state"),
@@ -496,6 +505,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.gateway_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.ip_mtu", "MTU_9000"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.is_bfd_enabled", "true"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.oracle_bgp_asn"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.routing_policy.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.service_type"),
@@ -515,6 +525,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_circuit_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "bandwidth_shape_name", "20 Gbps"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "bgp_admin_state", "DISABLED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bgp_ipv6session_state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bgp_management"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bgp_session_state"),
@@ -528,6 +539,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ip_mtu", "MTU_9000"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_bfd_enabled", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "oracle_bgp_asn"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "routing_policy.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_type"),

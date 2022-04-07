@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_osub_usage "github.com/oracle/oci-go-sdk/v63/osubusage"
+	oci_osub_usage "github.com/oracle/oci-go-sdk/v65/osubusage"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
