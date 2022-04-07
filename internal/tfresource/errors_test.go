@@ -6,7 +6,7 @@ package tfresource
 import (
 	"testing"
 
-	oci_common "github.com/oracle/oci-go-sdk/v64/common"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"

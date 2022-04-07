@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_devops "github.com/oracle/oci-go-sdk/v64/devops"
+	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -70,7 +70,7 @@ func readSingularDevopsRepositoryFileLine(d *schema.ResourceData, m interface{})
 type DevopsRepositoryFileLineDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_devops.DevopsClient
-	Res    *oci_devops.GetRepoFileLinesResponse
+	Res    *oci_devops.GetRepositoryFileLinesResponse
 }
 
 func (s *DevopsRepositoryFileLineDataSourceCrud) VoidState() {
@@ -78,7 +78,7 @@ func (s *DevopsRepositoryFileLineDataSourceCrud) VoidState() {
 }
 
 func (s *DevopsRepositoryFileLineDataSourceCrud) Get() error {
-	request := oci_devops.GetRepoFileLinesRequest{}
+	request := oci_devops.GetRepositoryFileLinesRequest{}
 
 	if filePath, ok := s.D.GetOkExists("file_path"); ok {
 		tmp := filePath.(string)
@@ -102,7 +102,7 @@ func (s *DevopsRepositoryFileLineDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "devops")
 
-	response, err := s.Client.GetRepoFileLines(context.Background(), request)
+	response, err := s.Client.GetRepositoryFileLines(context.Background(), request)
 	if err != nil {
 		return err
 	}

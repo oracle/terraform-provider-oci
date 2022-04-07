@@ -19,9 +19,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v64/common"
-	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v64/datalabelingservice"
-	"github.com/oracle/oci-go-sdk/v64/objectstorage"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v65/datalabelingservice"
+	"github.com/oracle/oci-go-sdk/v65/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

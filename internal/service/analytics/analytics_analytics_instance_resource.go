@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_analytics "github.com/oracle/oci-go-sdk/v64/analytics"
-	oci_common "github.com/oracle/oci-go-sdk/v64/common"
+	oci_analytics "github.com/oracle/oci-go-sdk/v65/analytics"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
 
 func AnalyticsAnalyticsInstanceResource() *schema.Resource {

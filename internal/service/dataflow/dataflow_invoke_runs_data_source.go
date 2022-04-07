@@ -12,8 +12,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v64/common"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v64/dataflow"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
 )
 
 func DataflowInvokeRunsDataSource() *schema.Resource {
