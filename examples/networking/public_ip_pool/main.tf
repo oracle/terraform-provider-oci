@@ -19,6 +19,8 @@ variable "ssh_public_key" {}
 
 variable "byoip_range_id" {}
 
+variable "byoipv6_range_id" {}
+
 variable "public_ip_pool_cidr_block" {}
 
 resource "oci_core_public_ip" "test_public_ip" {
@@ -31,6 +33,7 @@ resource "oci_core_public_ip_pool_capacity" "test_public_ip_pool_capacity" {
   public_ip_pool_id = "${oci_core_public_ip_pool.test_public_ip_pool.id}"
   cidr_block        = "${var.public_ip_pool_cidr_block}"
   byoip_id          = "${var.byoip_range_id}"
+  byoipv6_id        = "${var.byoipv6_range_id}"
 }
 
 resource "oci_core_public_ip_pool" "test_public_ip_pool" {

@@ -197,11 +197,13 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + Ipv6RequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
+			Config:            config + Ipv6RequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"ipv6subnet_cidr",
+			},
+			ResourceName: resourceName,
 		},
 	})
 }

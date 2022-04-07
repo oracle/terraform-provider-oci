@@ -153,6 +153,8 @@ func (s *CoreSubnetsDataSourceCrud) SetData() error {
 			subnet["ipv6cidr_block"] = *r.Ipv6CidrBlock
 		}
 
+		subnet["ipv6cidr_blocks"] = r.Ipv6CidrBlocks
+
 		if r.Ipv6VirtualRouterIp != nil {
 			subnet["ipv6virtual_router_ip"] = *r.Ipv6VirtualRouterIp
 		}
