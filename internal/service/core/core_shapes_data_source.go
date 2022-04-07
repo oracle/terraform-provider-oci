@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v63/core"
+	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -159,6 +159,10 @@ func CoreShapesDataSource() *schema.Resource {
 						},
 						"name": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"network_ports": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"networking_bandwidth_in_gbps": {
@@ -339,6 +343,14 @@ func CoreShapesDataSource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"rdma_bandwidth_in_gbps": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"rdma_ports": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"recommended_alternatives": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -513,6 +525,10 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 			shape["name"] = *r.Shape
 		}
 
+		if r.NetworkPorts != nil {
+			shape["network_ports"] = *r.NetworkPorts
+		}
+
 		if r.NetworkingBandwidthInGbps != nil {
 			shape["networking_bandwidth_in_gbps"] = *r.NetworkingBandwidthInGbps
 		}
@@ -544,6 +560,14 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 		}
 
 		shape["quota_names"] = r.QuotaNames
+
+		if r.RdmaBandwidthInGbps != nil {
+			shape["rdma_bandwidth_in_gbps"] = *r.RdmaBandwidthInGbps
+		}
+
+		if r.RdmaPorts != nil {
+			shape["rdma_ports"] = *r.RdmaPorts
+		}
 
 		recommendedAlternatives := []interface{}{}
 		for _, item := range r.RecommendedAlternatives {

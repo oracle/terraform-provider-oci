@@ -20,8 +20,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v63/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v63/devops"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -91,6 +91,7 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, devopsRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "repository_type", "HOSTED"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {

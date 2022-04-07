@@ -76,10 +76,9 @@ var (
 	devopsSingleStageDeploymentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"deploy_pipeline_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_deploy_pipeline.test_deploy_pipeline.id}`},
-		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_deployment.test_deployment.id}`},
 		"project_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_project.test_project.id}`},
-		"state":              acctest.Representation{RepType: acctest.Optional, Create: `Accepted`},
 		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: devopsSingleStageDeploymentDataSourceFilterRepresentation}}
 	devopsSingleStageDeploymentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -217,7 +216,7 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deployments", "test_deployments", acctest.Optional, acctest.Update, devopsDeploymentDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deployments", "test_deployments", acctest.Optional, acctest.Update, devopsSingleStageDeploymentDataSourceRepresentation) +
 				compartmentIdVariableStr + DevopsSingleStageDeploymentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", acctest.Optional, acctest.Update, devopsSingleStageDeploymentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -253,7 +252,7 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DeploymentRequiredOnlyResource,
+			Config:                  config + DevopsSingleStageDeploymentRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

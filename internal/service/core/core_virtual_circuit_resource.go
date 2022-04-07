@@ -16,7 +16,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v63/core"
+	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 )
 
 func CoreVirtualCircuitResource() *schema.Resource {
@@ -43,6 +43,11 @@ func CoreVirtualCircuitResource() *schema.Resource {
 
 			// Optional
 			"bandwidth_shape_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"bgp_admin_state": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -138,6 +143,11 @@ func CoreVirtualCircuitResource() *schema.Resource {
 			},
 			"ip_mtu": {
 				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"is_bfd_enabled": {
+				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 			},
@@ -318,6 +328,10 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 		request.BandwidthShapeName = &tmp
 	}
 
+	if bgpAdminState, ok := s.D.GetOkExists("bgp_admin_state"); ok {
+		request.BgpAdminState = oci_core.CreateVirtualCircuitDetailsBgpAdminStateEnum(bgpAdminState.(string))
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -378,6 +392,11 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 
 	if ipMtu, ok := s.D.GetOkExists("ip_mtu"); ok {
 		request.IpMtu = oci_core.VirtualCircuitIpMtuEnum(ipMtu.(string))
+	}
+
+	if isBfdEnabled, ok := s.D.GetOkExists("is_bfd_enabled"); ok {
+		tmp := isBfdEnabled.(bool)
+		request.IsBfdEnabled = &tmp
 	}
 
 	if providerServiceId, ok := s.D.GetOkExists("provider_service_id"); ok {
@@ -510,6 +529,10 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 		request.BandwidthShapeName = &tmp
 	}
 
+	if bgpAdminState, ok := s.D.GetOkExists("bgp_admin_state"); ok {
+		request.BgpAdminState = oci_core.UpdateVirtualCircuitDetailsBgpAdminStateEnum(bgpAdminState.(string))
+	}
+
 	if crossConnectMappings, ok := s.D.GetOkExists("cross_connect_mappings"); ok && s.D.HasChange("cross_connect_mappings") {
 		interfaces := crossConnectMappings.([]interface{})
 		tmp := make([]oci_core.CrossConnectMapping, len(interfaces))
@@ -565,6 +588,11 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 
 	if ipMtu, ok := s.D.GetOkExists("ip_mtu"); ok && s.D.HasChange("ip_mtu") {
 		request.IpMtu = oci_core.VirtualCircuitIpMtuEnum(ipMtu.(string))
+	}
+
+	if isBfdEnabled, ok := s.D.GetOkExists("is_bfd_enabled"); ok {
+		tmp := isBfdEnabled.(bool)
+		request.IsBfdEnabled = &tmp
 	}
 
 	if providerServiceKeyName, ok := s.D.GetOkExists("provider_service_key_name"); ok && s.D.HasChange("provider_service_key_name") {
@@ -691,6 +719,8 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 		s.D.Set("bandwidth_shape_name", *s.Res.BandwidthShapeName)
 	}
 
+	s.D.Set("bgp_admin_state", s.Res.BgpAdminState)
+
 	s.D.Set("bgp_ipv6session_state", s.Res.BgpIpv6SessionState)
 
 	s.D.Set("bgp_management", s.Res.BgpManagement)
@@ -726,6 +756,10 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 	}
 
 	s.D.Set("ip_mtu", s.Res.IpMtu)
+
+	if s.Res.IsBfdEnabled != nil {
+		s.D.Set("is_bfd_enabled", *s.Res.IsBfdEnabled)
+	}
 
 	if s.Res.OracleBgpAsn != nil {
 		s.D.Set("oracle_bgp_asn", *s.Res.OracleBgpAsn)

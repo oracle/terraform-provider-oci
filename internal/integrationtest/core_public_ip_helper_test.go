@@ -8,7 +8,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v63/core"
+	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 )

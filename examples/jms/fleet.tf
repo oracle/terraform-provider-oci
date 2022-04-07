@@ -72,3 +72,11 @@ data "oci_jms_list_jre_usage" "example_jms_list_jre_usage" {
 data "oci_jms_summarize_resource_inventory" "example_oci_jms_summarize_resource_inventory" {
   compartment_id = var.compartment_ocid
 }
+
+data "oci_jms_fleet_installation_sites" "test_fleet_installation_sites" {
+  fleet_id = oci_jms_fleet.example_fleet.id
+}
+
+data "oci_jms_fleet_blocklists" "test_fleet_blocklists" {
+  fleet_id = oci_jms_fleet.example_fleet.id
+}

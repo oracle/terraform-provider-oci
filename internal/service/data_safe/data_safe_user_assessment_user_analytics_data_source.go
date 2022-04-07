@@ -12,8 +12,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v63/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 )
 
 func DataSafeUserAssessmentUserAnalyticsDataSource() *schema.Resource {
@@ -92,21 +92,11 @@ func DataSafeUserAssessmentUserAnalyticsDataSource() *schema.Resource {
 
 						// Computed
 						"items": {
-							Type:     schema.TypeString,
+							Type:     schema.TypeList,
 							Computed: true,
-							//Elem: &schema.Resource{
-							// Schema: map[string]*schema.Schema{
-							//    "count": {
-							//       Type:     schema.TypeInt,
-							//       Computed: true,
-							//    },
-							//    "grant_count": {
-							//       Type:     schema.TypeInt,
-							//       Computed: true,
-							//    },
-							// },
-							//},
-
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{},
+							},
 						},
 					},
 				},
@@ -261,11 +251,10 @@ func (s *DataSafeUserAssessmentUserAnalyticsDataSourceCrud) SetData() error {
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("DataSafeUserAssessmentUserAnalyticsDataSource-", DataSafeUserAssessmentUserAnalyticsDataSource(), s.D))
 	resources := []map[string]interface{}{}
+	userAssessmentUserAnalytic := map[string]interface{}{}
+	items := []interface{}{}
 
 	for _, r := range s.Res.Items {
-		userAssessmentUserAnalytic := map[string]interface{}{}
-
-		items := []interface{}{}
 		for _, item := range r.Items {
 			items = append(items, objectToMap(item))
 		}
@@ -276,6 +265,7 @@ func (s *DataSafeUserAssessmentUserAnalyticsDataSourceCrud) SetData() error {
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, DataSafeUserAssessmentUserAnalyticsDataSource().Schema["user_aggregations"].Elem.(*schema.Resource).Schema)
+		userAssessmentUserAnalytic["items"] = items
 	}
 
 	if err := s.D.Set("user_aggregations", resources); err != nil {

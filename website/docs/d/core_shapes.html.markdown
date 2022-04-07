@@ -81,6 +81,7 @@ The following attributes are exported:
 	* `min_per_ocpu_in_gbs` - The minimum amount of memory per OCPU available for this shape, in gigabytes. 
 * `min_total_baseline_ocpus_required` - For a subcore burstable VM, the minimum total baseline OCPUs required. The total baseline OCPUs is equal to baselineOcpuUtilization chosen multiplied by the number of OCPUs chosen. 
 * `name` - The name of the shape. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
+* `network_ports` - The number of physical network interface card (NIC) ports available for this shape. 
 * `networking_bandwidth_in_gbps` - The networking bandwidth available for this shape, in gigabits per second. 
 * `networking_bandwidth_options` - For a flexible shape, the amount of networking bandwidth available for instances that use this shape.
 
@@ -110,6 +111,8 @@ The following attributes are exported:
 	* `type` - The type of platform being configured. (Supported types=[INTEL_VM, AMD_MILAN_BM, AMD_ROME_BM, INTEL_SKYLAKE_BM]) 
 * `processor_description` - A short description of the shape's processor (CPU). 
 * `quota_names` - The list of of compartment quotas for the shape. 
+* `rdma_bandwidth_in_gbps` - The networking bandwidth available for the remote direct memory access (RDMA) network for this shape, in gigabits per second. 
+* `rdma_ports` - The number of networking ports available for the remote direct memory access (RDMA) network between nodes in a high performance computing (HPC) cluster network. If the shape does not support cluster networks, this value is `0`. 
 * `recommended_alternatives` - The list of shapes and shape details (if applicable) that Oracle recommends that you use as an alternative to the current shape. 
 	* `shape_name` - The name of the shape. 
 * `resize_compatible_shapes` - The list of compatible shapes that this shape can be changed to. For more information, see [Changing the Shape of an Instance](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/resizinginstances.htm). 

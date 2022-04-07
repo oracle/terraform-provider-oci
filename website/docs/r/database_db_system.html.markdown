@@ -60,11 +60,14 @@ resource "oci_database_db_system" "test_db_system" {
 			db_workload = var.db_system_db_home_database_db_workload
 			defined_tags = var.db_system_db_home_database_defined_tags
 			freeform_tags = var.db_system_db_home_database_freeform_tags
+			kms_key_id = oci_kms_key.test_key.id
+			kms_key_version_id = oci_kms_key_version.test_key_version.id
 			ncharacter_set = var.db_system_db_home_database_ncharacter_set
 			pdb_name = var.db_system_db_home_database_pdb_name
 			sid_prefix = var.db_system_db_home_database_sid_prefix
 			tde_wallet_password = var.db_system_db_home_database_tde_wallet_password
 			time_stamp_for_point_in_time_recovery = var.db_system_db_home_database_time_stamp_for_point_in_time_recovery
+			vault_id = oci_kms_vault.test_vault.id
 		}
 
 		#Optional
@@ -184,11 +187,14 @@ The following arguments are supported:
 		* `db_workload` - (Applicable when source=NONE) The database workload type.
 		* `defined_tags` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 		* `freeform_tags` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+		* `kms_key_id` - (Applicable when source=NONE) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+		* `kms_key_version_id` - (Applicable when source=NONE) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. 
 		* `ncharacter_set` - (Applicable when source=NONE) The national character set for the database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8. 
 		* `pdb_name` - (Applicable when source=NONE) The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 		* `sid_prefix` - (Applicable when source=DB_BACKUP | NONE) Specifies a prefix for the `Oracle SID` of the database to be created. 
 		* `tde_wallet_password` - (Applicable when source=NONE) The optional password to open the TDE wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
 		* `time_stamp_for_point_in_time_recovery` - (Applicable when source=DATABASE) The point in time of the original database from which the new database is created. If not specifed, the latest backup is used to create the database.
+		* `vault_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	* `database_software_image_id` - (Applicable when source=DB_BACKUP | NONE) The database software image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image to be used to restore a database.
 	* `db_version` - (Required when source=NONE) A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
 	* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 

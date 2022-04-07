@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v63/common"
-	oci_database "github.com/oracle/oci-go-sdk/v63/database"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -55,6 +55,15 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
+	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
+	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
+
+	kmsKeyVersionId := utils.GetEnvSettingWithBlankDefault("kms_key_version_id")
+	kmsKeyVersionIdVariableStr := fmt.Sprintf("variable \"kms_key_version_id\" { default = \"%s\" }\n", kmsKeyVersionId)
+
+	vaultId := utils.GetEnvSettingWithBlankDefault("vault_id")
+	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
+
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
@@ -69,7 +78,7 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckDatabaseBackupDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + BackupResourceDependencies +
+			Config: config + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr + compartmentIdVariableStr + BackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, backupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
@@ -89,7 +98,7 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 
 		// verify datasource
 		{
-			Config: config +
+			Config: config + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_backups", "test_backups", acctest.Optional, acctest.Update, backupDataSourceRepresentation) +
 				compartmentIdVariableStr + BackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Optional, acctest.Update, backupRepresentation),
@@ -104,12 +113,14 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_size_in_gbs"),
 				resource.TestCheckResourceAttr(datasourceName, "backups.0.display_name", "Monthly Backup"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.id"),
-				//resource.TestCheckResourceAttrSet(datasourceName, "backups.0.kms_key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.kms_key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.kms_key_version_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.shape"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_ended"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_started"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.vault_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.version"),
 			),
 		},

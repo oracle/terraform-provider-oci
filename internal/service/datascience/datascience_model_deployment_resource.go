@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v63/datascience"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 )
 
 func DatascienceModelDeploymentResource() *schema.Resource {

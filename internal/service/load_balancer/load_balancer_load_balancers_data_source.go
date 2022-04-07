@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v63/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -144,10 +144,10 @@ func (s *LoadBalancerLoadBalancersDataSourceCrud) SetData() error {
 		for _, ad := range r.IpAddresses {
 			if ad.IpAddress != nil {
 				ipAddresses = append(ipAddresses, *ad.IpAddress)
-			}
-			tmp := *ad.IpAddress
-			if !isIPV4(tmp) {
-				ipMode = "IPV6"
+				tmp := *ad.IpAddress
+				if !isIPV4(tmp) {
+					ipMode = "IPV6"
+				}
 			}
 		}
 		loadBalancer["ip_mode"] = ipMode

@@ -16,8 +16,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v63/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
 
 func DevopsRepositoryResource() *schema.Resource {
@@ -40,6 +40,10 @@ func DevopsRepositoryResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
+			},
+			"repository_type": {
+				Type:     schema.TypeString,
+				Required: true,
 			},
 
 			// Optional
@@ -116,11 +120,6 @@ func DevopsRepositoryResource() *schema.Resource {
 						// Computed
 					},
 				},
-			},
-			"repository_type": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
 			},
 
 			// Computed

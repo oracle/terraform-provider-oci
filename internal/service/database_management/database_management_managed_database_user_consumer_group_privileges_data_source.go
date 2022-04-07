@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_database_management "github.com/oracle/oci-go-sdk/v63/databasemanagement"
+	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 )
 
 func DatabaseManagementManagedDatabaseUserConsumerGroupPrivilegesDataSource() *schema.Resource {

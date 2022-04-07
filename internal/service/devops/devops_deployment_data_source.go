@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_devops "github.com/oracle/oci-go-sdk/v63/devops"
+	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
 
 func DevopsDeploymentDataSource() *schema.Resource {
@@ -101,12 +101,6 @@ func (s *DevopsDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("deployment_arguments", []interface{}{DeploymentArgumentCollectionToMap(s.Res.GetDeploymentArguments())})
 	} else {
 		s.D.Set("deployment_arguments", nil)
-	}
-
-	if s.Res.GetDeploymentExecutionProgress() != nil {
-		s.D.Set("deployment_execution_progress", []interface{}{DeploymentExecutionProgressToMap(s.Res.GetDeploymentExecutionProgress())})
-	} else {
-		s.D.Set("deployment_execution_progress", nil)
 	}
 
 	if s.Res.GetDisplayName() != nil {

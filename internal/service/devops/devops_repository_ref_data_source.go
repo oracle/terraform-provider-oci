@@ -8,7 +8,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_devops "github.com/oracle/oci-go-sdk/v63/devops"
+	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -97,6 +97,12 @@ func (s *DevopsRepositoryRefDataSourceCrud) SetData() error {
 			s.D.Set("repository_id", *v.RepositoryId)
 		}
 
+		s.D.Set("freeform_tags", s.Res.GetFreeformTags())
+
+		if s.Res.GetDefinedTags() != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.GetDefinedTags()))
+		}
+
 	case oci_devops.RepositoryTag:
 
 		s.D.Set("ref_type", "TAG")
@@ -115,6 +121,12 @@ func (s *DevopsRepositoryRefDataSourceCrud) SetData() error {
 
 		if v.RepositoryId != nil {
 			s.D.Set("repository_id", *v.RepositoryId)
+		}
+
+		s.D.Set("freeform_tags", s.Res.GetFreeformTags())
+
+		if s.Res.GetDefinedTags() != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.GetDefinedTags()))
 		}
 
 	default:

@@ -29,6 +29,15 @@ func TestResourceDatabaseDBSystemClone(t *testing.T) {
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
+	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
+	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
+
+	kmsKeyVersionId := utils.GetEnvSettingWithBlankDefault("kms_key_version_id")
+	kmsKeyVersionIdVariableStr := fmt.Sprintf("variable \"kms_key_version_id\" { default = \"%s\" }\n", kmsKeyVersionId)
+
+	vaultId := utils.GetEnvSettingWithBlankDefault("vault_id")
+	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
+
 	cloneDatabaseDbSystemResourceName := "oci_database_db_system.clone"
 
 	provider := acctest.TestAccProvider
@@ -41,7 +50,7 @@ func TestResourceDatabaseDBSystemClone(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify clone VM DbSystem launch
 			{
-				Config: ResourceDatabaseBaseConfig + compartmentIdUVariableStr + ResourceDatabaseTokenFn(`
+				Config: ResourceDatabaseBaseConfig + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr + compartmentIdUVariableStr + ResourceDatabaseTokenFn(`
 				resource "oci_database_db_system" "source" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
@@ -61,6 +70,9 @@ func TestResourceDatabaseDBSystemClone(t *testing.T) {
 						display_name = "-tf-db-home"
 						database {
 							admin_password = "BEstrO0ng_#11"
+							kms_key_version_id = "${var.kms_key_version_id}"
+                            vault_id = "${var.vault_id}"
+                            kms_key_id = "${var.kms_key_id}"
 							db_name = "aTFdb"
 							freeform_tags = {"Department" = "Finance"}
 						}
@@ -89,6 +101,9 @@ func TestResourceDatabaseDBSystemClone(t *testing.T) {
 						display_name = "-tf-db-home"
 						database {
 							admin_password = "BEstrO0ng_#11"
+							kms_key_version_id = "${var.kms_key_version_id}"
+                            vault_id = "${var.vault_id}"
+                            kms_key_id = "${var.kms_key_id}"
 							db_name = "aTFdb"
 							freeform_tags = {"Department" = "Finance"}
 						}
@@ -106,6 +121,9 @@ func TestResourceDatabaseDBSystemClone(t *testing.T) {
 					resource.TestCheckResourceAttr(cloneDatabaseDbSystemResourceName, "source", "DB_SYSTEM"),
 					resource.TestCheckResourceAttr(cloneDatabaseDbSystemResourceName, "shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(cloneDatabaseDbSystemResourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttrSet(cloneDatabaseDbSystemResourceName, "db_home.0.database.0.kms_key_id"),
+					resource.TestCheckResourceAttrSet(cloneDatabaseDbSystemResourceName, "db_home.0.database.0.kms_key_version_id"),
+					resource.TestCheckResourceAttrSet(cloneDatabaseDbSystemResourceName, "db_home.0.database.0.vault_id"),
 				),
 			},
 		},

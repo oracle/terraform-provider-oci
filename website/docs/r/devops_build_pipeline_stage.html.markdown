@@ -79,8 +79,8 @@ The following arguments are supported:
 * `build_pipeline_id` - (Required) The OCID of the build pipeline.
 * `build_pipeline_stage_predecessor_collection` - (Required) (Updatable) The collection containing the predecessors of a stage.
 	* `items` - (Required) (Updatable) A list of build pipeline stage predecessors for a stage.
-		* `id` - (Required) (Updatable) The ID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's ID.
-* `build_pipeline_stage_type` - (Required) (Updatable) Defines the stage type, which is one of the following: Build, Deliver Artifacts, Wait, and Trigger Deployment. 
+		* `id` - (Required) (Updatable) The OCID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's OCID. 
+* `build_pipeline_stage_type` - (Required) (Updatable) Defines the stage type, which is one of the following: BUILD, DELIVER_ARTIFACT, WAIT, and TRIGGER_DEPLOYMENT_PIPELINE. 
 * `build_source_collection` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Collection of build sources.
 	* `items` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Collection of build sources. In case of UPDATE operation, replaces existing build sources list. Merging with existing build sources is not supported.
 		* `branch` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Branch name.
@@ -118,8 +118,8 @@ The following attributes are exported:
 * `build_pipeline_id` - The OCID of the build pipeline.
 * `build_pipeline_stage_predecessor_collection` - The collection containing the predecessors of a stage.
 	* `items` - A list of build pipeline stage predecessors for a stage.
-		* `id` - The ID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's ID.
-* `build_pipeline_stage_type` - Defines the stage type, which is one of the following: Build, Deliver Artifacts, Wait, and Trigger Deployment. 
+		* `id` - The OCID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's OCID. 
+* `build_pipeline_stage_type` - Defines the stage type, which is one of the following: BUILD, DELIVER_ARTIFACT, WAIT, and TRIGGER_DEPLOYMENT_PIPELINE. 
 * `build_source_collection` - Collection of build sources.
 	* `items` - Collection of build sources. In case of UPDATE operation, replaces existing build sources list. Merging with existing build sources is not supported.
 		* `branch` - Branch name.

@@ -48,7 +48,7 @@ var (
 		"deployment_arguments": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentDeploymentArgumentsRepresentation},
 		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
-		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreExecutionProgressDifferencesRepresentation},
 	}
 	deploymentDeploymentArgumentsRepresentation = map[string]interface{}{
 		"items": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentDeploymentArgumentsItemsRepresentation},

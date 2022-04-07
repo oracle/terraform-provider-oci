@@ -34,14 +34,17 @@ func TestDataSafeUnsetUserAssessmentBaselineResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	targetId := utils.GetEnvSettingWithBlankDefault("data_safe_target_ocid")
+	targetIdVariableStr := fmt.Sprintf("variable \"target_id\" { default = \"%s\" }\n", targetId)
+
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+UnsetUserAssessmentBaselineResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+UnsetUserAssessmentBaselineResourceDependencies+targetIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_unset_user_assessment_baseline", "test_unset_user_assessment_baseline", acctest.Required, acctest.Create, unsetUserAssessmentBaselineRepresentation), "datasafe", "unsetUserAssessmentBaseline", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + UnsetUserAssessmentBaselineResourceDependencies +
+			Config: config + compartmentIdVariableStr + UnsetUserAssessmentBaselineResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_unset_user_assessment_baseline", "test_unset_user_assessment_baseline", acctest.Required, acctest.Create, unsetUserAssessmentBaselineRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {

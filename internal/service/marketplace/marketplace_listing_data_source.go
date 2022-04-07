@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v63/marketplace"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v65/marketplace"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -57,6 +57,13 @@ func MarketplaceListingDataSource() *schema.Resource {
 				},
 			},
 			"categories": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"compatible_architectures": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Schema{
@@ -537,6 +544,8 @@ func (s *MarketplaceListingDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("categories", s.Res.Categories)
+
+	s.D.Set("compatible_architectures", s.Res.CompatibleArchitectures)
 
 	if s.Res.DefaultPackageVersion != nil {
 		s.D.Set("default_package_version", *s.Res.DefaultPackageVersion)

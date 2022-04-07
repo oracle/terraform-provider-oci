@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
-	"github.com/oracle/oci-go-sdk/v63/ospgateway"
-	oci_osp_gateway "github.com/oracle/oci-go-sdk/v63/ospgateway"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	"github.com/oracle/oci-go-sdk/v65/ospgateway"
+	oci_osp_gateway "github.com/oracle/oci-go-sdk/v65/ospgateway"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -307,11 +307,39 @@ func OspGatewayInvoicesDataSource() *schema.Resource {
 													Type:     schema.TypeFloat,
 													Computed: true,
 												},
+												"credit_card_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"echeck_routing": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"last_digits": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"name_on_card": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"paid_by": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
 												"payment_method": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"paypal_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"paypal_reference": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_expiration": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},

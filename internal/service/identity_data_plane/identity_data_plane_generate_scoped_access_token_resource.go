@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_identity_data_plane "github.com/oracle/oci-go-sdk/v63/identitydataplane"
+	oci_identity_data_plane "github.com/oracle/oci-go-sdk/v65/identitydataplane"
 )
 
 func IdentityDataPlaneGenerateScopedAccessTokenResource() *schema.Resource {

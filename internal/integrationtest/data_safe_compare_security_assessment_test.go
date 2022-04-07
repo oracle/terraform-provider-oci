@@ -24,9 +24,7 @@ var (
 		"security_assessment_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_security_assessment.test_security_assessment2.id}`},
 	}
 
-	CompareSecurityAssessmentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment1", acctest.Required, acctest.Create, securityAssessmentRepresentation) +
+	CompareSecurityAssessmentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment1", acctest.Required, acctest.Create, securityAssessmentRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment2", acctest.Required, acctest.Create, securityAssessmentRepresentation)
 )
 
@@ -40,17 +38,20 @@ func TestDataSafeCompareSecurityAssessmentResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	targetId := utils.GetEnvSettingWithBlankDefault("data_safe_target_ocid")
+	targetIdVariableStr := fmt.Sprintf("variable \"target_id\" { default = \"%s\" }\n", targetId)
+
 	resourceName := "oci_data_safe_compare_security_assessment.test_compare_security_assessment"
 
 	var resId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CompareSecurityAssessmentResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CompareSecurityAssessmentResourceDependencies+targetIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_compare_security_assessment", "test_compare_security_assessment", acctest.Required, acctest.Create, compareSecurityAssessmentRepresentation), "datasafe", "compareSecurityAssessment", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CompareSecurityAssessmentResourceDependencies +
+			Config: config + compartmentIdVariableStr + CompareSecurityAssessmentResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_compare_security_assessment", "test_compare_security_assessment", acctest.Required, acctest.Create, compareSecurityAssessmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "comparison_security_assessment_id"),

@@ -12,13 +12,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v63/common"
+	"github.com/oracle/oci-go-sdk/v65/common"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v63/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
@@ -355,9 +354,213 @@ func TestLoadBalancerListenerResourceLBCert_basic(t *testing.T) {
 	})
 }
 
+func TestLoadBalancerListenerResourceLBCertToOciCerts_combo(t *testing.T) {
+	httpreplay.SetScenario("TestLoadBalancerListenerResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_load_balancer_listener.test_listener_with_lb_cert_to_oci_certs"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ListenerResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_listener",
+			"test_listener_with_lb_cert_to_oci_certs", acctest.Optional, acctest.Create, listenerRepresentationLBCert), "loadbalancer", "listener", t)
+
+	acctest.ResourceTest(t, testAccCheckLoadBalancerListenerDestroy, []resource.TestStep{
+		// verify Create with optionals with LB cert
+		{
+			Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener_with_lb_cert_to_oci_certs", acctest.Optional, acctest.Create,
+					acctest.GetUpdatedRepresentationCopy("hostname_names", acctest.Representation{RepType: acctest.Optional,
+						Create: []string{"${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"},
+						Update: []string{"${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"}}, listenerRepresentationLBCert)),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "backendSet1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_names.1", "example_hostname_012"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "myListener1"),
+				resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+				resource.TestCheckResourceAttrSet(resourceName, "routing_policy_name"),
+				resource.TestCheckResourceAttr(resourceName, "rule_set_names.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.cipher_suite_name", "oci-default-ssl-cipher-suite-v1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.protocols.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.server_order_preference", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "10"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_listener",
+					"test_listener_with_lb_cert_to_oci_certs", acctest.Optional, acctest.Update, listenerRepresentationOciCerts),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "11"),
+				resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "backendSet1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "myListener1"),
+				resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "port", "11"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+				resource.TestCheckResourceAttrSet(resourceName, "routing_policy_name"),
+				resource.TestCheckResourceAttr(resourceName, "rule_set_names.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.cipher_suite_name", "oci-default-ssl-cipher-suite-v1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.protocols.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.server_order_preference", "DISABLED"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.trusted_certificate_authority_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "11"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "true"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+func TestLoadBalancerListenerResourceOciCertToLBCert_combo(t *testing.T) {
+	httpreplay.SetScenario("TestLoadBalancerListenerResourceOciCertToLBCert_combo")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_load_balancer_listener.test_listener_with_oci_cert_to_lb_cert"
+
+	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ListenerResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_listener",
+			"test_listener_with_oci_cert_to_lb_cert", acctest.Optional, acctest.Create, listenerRepresentationOciCerts), "loadbalancer", "listener", t)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { acctest.PreCheck(t) },
+		CheckDestroy: testAccCheckLoadBalancerListenerDestroy,
+		Steps: []resource.TestStep{
+			// verify create with optionals
+			{
+				Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener_with_oci_cert_to_lb_cert", acctest.Optional, acctest.Create,
+						acctest.GetUpdatedRepresentationCopy("hostname_names", acctest.Representation{RepType: acctest.Optional,
+							Create: []string{"${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"},
+							Update: []string{"${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"}}, listenerRepresentationOciCerts)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
+					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "backendSet1"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "2"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.1", "example_hostname_012"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(resourceName, "name", "myListener1"),
+					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
+					resource.TestCheckResourceAttr(resourceName, "port", "10"),
+					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+					resource.TestCheckResourceAttrSet(resourceName, "routing_policy_name"),
+					resource.TestCheckResourceAttr(resourceName, "rule_set_names.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.cipher_suite_name", "oci-default-ssl-cipher-suite-v1"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.protocols.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.server_order_preference", "ENABLED"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.trusted_certificate_authority_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "10"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
+				),
+			},
+
+			// verify updates to updatable parameters
+			{
+				Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener_with_oci_cert_to_lb_cert",
+						acctest.Optional, acctest.Update, listenerRepresentationLBCert),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "11"),
+					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "backendSet1"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(resourceName, "name", "myListener1"),
+					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
+					resource.TestCheckResourceAttr(resourceName, "port", "11"),
+					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+					resource.TestCheckResourceAttrSet(resourceName, "routing_policy_name"),
+					resource.TestCheckResourceAttr(resourceName, "rule_set_names.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.cipher_suite_name", "oci-default-ssl-cipher-suite-v1"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_ids.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.protocols.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.server_order_preference", "DISABLED"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.trusted_certificate_authority_ids.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "11"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "true"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+		},
+	})
+}
+
 func testAccCheckLoadBalancerListenerDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).LoadBalancerClient()
+	client := acctest.GetTestClients(&schema.ResourceData{}).LoadBalancerClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_load_balancer_listener" {
 			noResourceFound = false

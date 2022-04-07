@@ -17,7 +17,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v63/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 )
 
 func LoadBalancerListenerResource() *schema.Resource {
@@ -119,7 +119,6 @@ func LoadBalancerListenerResource() *schema.Resource {
 						"certificate_ids": {
 							Type:     schema.TypeList,
 							Optional: true,
-							Computed: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -149,7 +148,6 @@ func LoadBalancerListenerResource() *schema.Resource {
 						"trusted_certificate_authority_ids": {
 							Type:     schema.TypeList,
 							Optional: true,
-							Computed: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -688,7 +686,11 @@ func (s *LoadBalancerListenerResourceCrud) mapToSSLConfigurationDetails(fieldKey
 	if certificateName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_name")); ok {
 		tmp := certificateName.(string)
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "certificate_name")) {
-			result.CertificateName = &tmp
+			if tmp == "" {
+				result.CertificateName = nil
+			} else {
+				result.CertificateName = &tmp
+			}
 		}
 	}
 

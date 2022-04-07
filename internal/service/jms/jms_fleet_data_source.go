@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_jms "github.com/oracle/oci-go-sdk/v63/jms"
+	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -99,6 +99,18 @@ func (s *JmsFleetDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.InventoryLog != nil {
+		s.D.Set("inventory_log", []interface{}{CustomLogToMap(s.Res.InventoryLog)})
+	} else {
+		s.D.Set("inventory_log", nil)
+	}
+
+	if s.Res.OperationLog != nil {
+		s.D.Set("operation_log", []interface{}{CustomLogToMap(s.Res.OperationLog)})
+	} else {
+		s.D.Set("operation_log", nil)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

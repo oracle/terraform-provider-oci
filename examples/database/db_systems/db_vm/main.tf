@@ -15,6 +15,15 @@ variable "private_key_path" {
 variable "region" {
 }
 
+variable "kms_key_id" {
+}
+
+variable "kms_key_version_id" {
+}
+
+variable "vault_id" {
+}
+
 variable "compartment_ocid" {
 }
 
@@ -24,7 +33,7 @@ variable "ssh_public_key" {
 variable "ssh_private_key" {
 }
 
-# DBSystem specific 
+# DBSystem specific
 variable "db_system_shape" {
   default = "VM.Standard2.1"
 }
@@ -277,6 +286,9 @@ resource "oci_database_db_system" "test_db_system" {
   db_home {
     database {
       admin_password = var.db_admin_password
+      kms_key_version_id    = var.kms_key_version_id
+      kms_key_id     = var.kms_key_id
+      vault_id       = var.vault_id
       db_name        = "aTFdbVm"
       character_set  = var.character_set
       ncharacter_set = var.n_character_set

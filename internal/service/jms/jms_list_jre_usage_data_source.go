@@ -11,8 +11,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
-	oci_jms "github.com/oracle/oci-go-sdk/v63/jms"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
 )
 
 func JmsListJreUsageDataSource() *schema.Resource {
@@ -63,6 +63,10 @@ func JmsListJreUsageDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"approximate_managed_instance_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"approximate_pending_work_request_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -251,6 +255,10 @@ func JreUsageToMap(obj oci_jms.JreUsage) map[string]interface{} {
 
 	if obj.ApproximateManagedInstanceCount != nil {
 		result["approximate_managed_instance_count"] = int(*obj.ApproximateManagedInstanceCount)
+	}
+
+	if obj.ApproximatePendingWorkRequestCount != nil {
+		result["approximate_pending_work_request_count"] = int(*obj.ApproximatePendingWorkRequestCount)
 	}
 
 	if obj.Distribution != nil {

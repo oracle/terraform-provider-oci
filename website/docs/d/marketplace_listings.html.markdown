@@ -53,7 +53,7 @@ The following arguments are supported:
 
 * `category` - (Optional) Name of the product category or categories. If you specify multiple categories, then Marketplace returns any listing with one or more matching categories. 
 * `compartment_id` - (Optional) The unique identifier for the compartment.
-* `image_id` - (Optional) Image ID of the listing
+* `image_id` - (Optional) The image identifier of the listing.
 * `is_featured` - (Optional) Indicates whether to show only featured listings. If this is set to `false` or is omitted, then all listings will be returned. 
 * `listing_id` - (Optional) The unique identifier for the listing.
 * `listing_types` - (Optional) The type of the listing.
@@ -80,6 +80,7 @@ The following attributes are exported:
 	* `mime_type` - The MIME type of the upload data.
 	* `name` - The name used to refer to the upload data.
 * `categories` - Product categories that the listing belongs to.
+* `compatible_architectures` - The list of compatible architectures supported by the listing
 * `default_package_version` - The default package version.
 * `documentation_links` - Links to additional documentation provided by the publisher specifically for the listing.
 	* `document_category` - The category that the document belongs to.

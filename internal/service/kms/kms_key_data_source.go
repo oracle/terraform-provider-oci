@@ -12,7 +12,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_kms "github.com/oracle/oci-go-sdk/v63/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v65/keymanagement"
 )
 
 func KmsKeyDataSource() *schema.Resource {

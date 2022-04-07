@@ -224,14 +224,12 @@ The following arguments are supported:
 			* `source_details` - (Optional) 
 				* `id` - (Optional) The OCID of the volume backup.
 				* `type` - (Required) The type can be one of these values: `volume`, `volumeBackup`
-			* `vpus_per_gb` - (Optional) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Elastic Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
+			* `vpus_per_gb` - (Optional) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 
 				Allowed values:
-				* `0`: Represents Lower Cost option.
 				* `10`: Represents Balanced option.
 				* `20`: Represents Higher Performance option.
-
-				For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB. 
+				* `30`-`120`: Represents the Ultra High Performance option. 
 		* `volume_id` - (Optional) The OCID of the volume.
 	* `instance_type` - (Required) The type of instance details. Supported instanceType is compute 
 	* `launch_details` - (Optional) Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
@@ -463,14 +461,12 @@ The following attributes are exported:
 			* `source_details` - 
 				* `id` - The OCID of the volume backup.
 				* `type` - The type can be one of these values: `volume`, `volumeBackup`
-			* `vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Elastic Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
+			* `vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 
 				Allowed values:
-				* `0`: Represents Lower Cost option.
 				* `10`: Represents Balanced option.
 				* `20`: Represents Higher Performance option.
-
-				For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB. 
+				* `30`-`120`: Represents the Ultra High Performance option. 
 		* `volume_id` - The OCID of the volume.
 	* `instance_type` - The type of instance details. Supported instanceType is compute 
 	* `launch_details` - Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.

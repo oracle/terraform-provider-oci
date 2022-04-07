@@ -41,7 +41,7 @@ The following arguments are supported:
 * `exadata_insight_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_HOST) [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource. 
 * `host_type` - (Optional) Filter by one or more host types. Possible value is EXTERNAL-HOST.
 * `id` - (Optional) Optional list of host insight resource [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
-* `platform_type` - (Optional) Filter by one or more platform types. Supported platformType(s) for MACS-managed external host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
+* `platform_type` - (Optional) Filter by one or more platform types. Supported platformType(s) for MACS-managed external host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
 * `state` - (Optional) Lifecycle states
 * `status` - (Optional) Resource Status
 
@@ -74,7 +74,7 @@ The following attributes are exported:
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `management_agent_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
 * `platform_name` - Platform name.
-* `platform_type` - Platform type. Supported platformType(s) for MACS-managed external host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS]. 
+* `platform_type` - Platform type. Supported platformType(s) for MACS-managed external host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX]. 
 * `platform_version` - Platform version.
 * `processor_count` - Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.
 * `state` - The current state of the host.

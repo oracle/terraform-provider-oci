@@ -17,7 +17,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_devops "github.com/oracle/oci-go-sdk/v63/devops"
+	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
 
 func DevopsRepositoryRefResource() *schema.Resource {
@@ -65,6 +65,16 @@ func DevopsRepositoryRefResource() *schema.Resource {
 			},
 
 			// Computed
+			"defined_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"full_ref_name": {
 				Type:     schema.TypeString,
 				Computed: true,

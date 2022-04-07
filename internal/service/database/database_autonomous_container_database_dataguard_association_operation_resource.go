@@ -9,10 +9,10 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v63/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v63/database"
+	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResource() *schema.Resource {

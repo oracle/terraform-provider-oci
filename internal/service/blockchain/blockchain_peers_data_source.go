@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v63/blockchain"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v65/blockchain"
 )
 
 func BlockchainPeersDataSource() *schema.Resource {

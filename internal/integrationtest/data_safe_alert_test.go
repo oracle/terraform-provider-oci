@@ -10,7 +10,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
 
-	oci_data_safe "github.com/oracle/oci-go-sdk/v63/datasafe"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"

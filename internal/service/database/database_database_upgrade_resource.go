@@ -16,8 +16,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_database "github.com/oracle/oci-go-sdk/v63/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v63/workrequests"
+	oci_database "github.com/oracle/oci-go-sdk/v65/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 )
 
 func DatabaseDatabaseUpgradeResource() *schema.Resource {
@@ -218,7 +218,14 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
-
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"kms_key_version_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"last_backup_timestamp": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -248,6 +255,10 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"vault_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -409,6 +420,14 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) SetData() error {
 		s.D.Set("is_cdb", *s.Res.IsCdb)
 	}
 
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
+	if s.Res.KmsKeyVersionId != nil {
+		s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
+	}
+
 	if s.Res.LastBackupTimestamp != nil {
 		s.D.Set("last_backup_timestamp", s.Res.LastBackupTimestamp.String())
 	}
@@ -437,6 +456,10 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.VaultId != nil {
+		s.D.Set("vault_id", *s.Res.VaultId)
 	}
 
 	if s.Res.VmClusterId != nil {

@@ -17,14 +17,14 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v63/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
-	oci_common "github.com/oracle/oci-go-sdk/v63/common"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_database "github.com/oracle/oci-go-sdk/v63/database"
+	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 type expectedRetryDurationFn func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, optionals ...interface{}) time.Duration
@@ -174,6 +174,18 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"kms_key_version_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"ncharacter_set": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -197,6 +209,12 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Optional:  true,
 							Computed:  true,
 							Sensitive: true,
+						},
+						"vault_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 
 						// Computed
@@ -417,6 +435,11 @@ func DatabaseDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"vault_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"vm_cluster_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -632,6 +655,10 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
 
+	if s.Res.KmsKeyVersionId != nil {
+		s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
+	}
+
 	if s.Res.LastBackupTimestamp != nil {
 		s.D.Set("last_backup_timestamp", s.Res.LastBackupTimestamp.String())
 	}
@@ -660,6 +687,10 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.VaultId != nil {
+		s.D.Set("vault_id", *s.Res.VaultId)
 	}
 
 	if s.Res.VmClusterId != nil {
@@ -779,6 +810,16 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+		tmp := kmsKeyId.(string)
+		result.KmsKeyId = &tmp
+	}
+
+	if kmsKeyVersionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_version_id")); ok {
+		tmp := kmsKeyVersionId.(string)
+		result.KmsKeyVersionId = &tmp
+	}
+
 	if ncharacterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ncharacter_set")); ok {
 		tmp := ncharacterSet.(string)
 		result.NcharacterSet = &tmp
@@ -797,6 +838,11 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok {
 		tmp := tdeWalletPassword.(string)
 		result.TdeWalletPassword = &tmp
+	}
+
+	if vaultId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_id")); ok {
+		tmp := vaultId.(string)
+		result.VaultId = &tmp
 	}
 
 	return result, nil

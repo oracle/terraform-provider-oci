@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v63/database"
+	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseDatabaseDataSource() *schema.Resource {
@@ -130,6 +130,10 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
 
+	if s.Res.KmsKeyVersionId != nil {
+		s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
+	}
+
 	if s.Res.LastBackupTimestamp != nil {
 		s.D.Set("last_backup_timestamp", s.Res.LastBackupTimestamp.String())
 	}
@@ -158,6 +162,10 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.VaultId != nil {
+		s.D.Set("vault_id", *s.Res.VaultId)
 	}
 
 	if s.Res.VmClusterId != nil {
