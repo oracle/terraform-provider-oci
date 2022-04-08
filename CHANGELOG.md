@@ -1,4 +1,4 @@
-## 4.70.0 (Unreleased)
+## 4.70.0 (April 07, 2022)
 
 ### Added
 - TF Samples for devops deployment service realated to B/G and Private Oke
