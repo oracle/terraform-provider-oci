@@ -70,9 +70,11 @@ type UpdateDbSystemDetails struct {
 	// 1 special (nonalphanumeric) character.
 	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 
-	// New size of the data volume in GBs that will be created and attached.
-	// Increases in data storage size will happen asynchronously and will require DB System downtime.
-	// Decreases in data storage size are not supported.
+	// Expands the DB System's storage to the specified value. Only supports values larger than the current DB System's
+	// storage size.
+	// DB Systems with initial storage of 400 GB or less can be expanded up to 32 TB. DB Systems with initial storage
+	// larger than 400 GB can be expanded up to 64 TB.
+	// It is not possible to decrease data storage size.
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 
 	// The hostname for the primary endpoint of the DB System. Used for DNS.

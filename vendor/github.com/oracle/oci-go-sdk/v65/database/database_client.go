@@ -12911,7 +12911,7 @@ func (client DatabaseClient) rotateVaultKey(ctx context.Context, request common.
 }
 
 // ScanExternalContainerDatabasePluggableDatabases Scans for pluggable databases in the specified external container database.
-// This operation will return un-registered pluggable databases in the `GetWorkRequest` operation.
+// This operation will return un-registered pluggable databases in the GetWorkRequest operation.
 //
 // See also
 //

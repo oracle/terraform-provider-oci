@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// VisionService API
+// Vision API
 //
-// A description of the VisionService API.
+// Using Vision, you can upload images to detect and classify objects in them. If you have lots of images, you can process them in batch using asynchronous API endpoints. Vision's features are thematically split between Document AI for document-centric images, and Image Analysis for object and scene-based images. Pretrained models and custom models are supported.
 //
 
 package aivision
@@ -15,30 +15,30 @@ import (
 	"strings"
 )
 
-// AnalyzeImageResult Image analysis results.
+// AnalyzeImageResult The image analysis results.
 type AnalyzeImageResult struct {
 
-	// Detected objects.
+	// The detected objects.
 	ImageObjects []ImageObject `mandatory:"false" json:"imageObjects"`
 
-	// Image classification labels.
+	// The image classification labels.
 	Labels []Label `mandatory:"false" json:"labels"`
 
-	// ontologyClasses of image labels.
+	// The ontologyClasses of image labels.
 	OntologyClasses []OntologyClass `mandatory:"false" json:"ontologyClasses"`
 
 	ImageText *ImageText `mandatory:"false" json:"imageText"`
 
-	// Image classification model version.
+	// The image classification model version.
 	ImageClassificationModelVersion *string `mandatory:"false" json:"imageClassificationModelVersion"`
 
-	// Object detection model version.
+	// The object detection model version.
 	ObjectDetectionModelVersion *string `mandatory:"false" json:"objectDetectionModelVersion"`
 
-	// Text detection model version.
+	// The text detection model version.
 	TextDetectionModelVersion *string `mandatory:"false" json:"textDetectionModelVersion"`
 
-	// Errors encountered during image analysis.
+	// The errors encountered during image analysis.
 	Errors []ProcessingError `mandatory:"false" json:"errors"`
 }
 

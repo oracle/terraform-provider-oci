@@ -22,12 +22,15 @@ import (
 // CreateByoipRangeDetails The information used to create a `ByoipRange` resource.
 type CreateByoipRangeDetails struct {
 
-	// The BYOIP CIDR block. You can assign some or all of it to a public IP pool after it is validated.
-	// Example: `10.0.1.0/24`
-	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
-
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the BYOIP CIDR block.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// The BYOIP CIDR block. You can assign some or all of it to a public IP pool after it is validated.
+	// Example: `10.0.1.0/24`
+	CidrBlock *string `mandatory:"false" json:"cidrBlock"`
+
+	// The BYOIPv6 CIDR block. You can assign some or all of it to a VCN after it is validated.
+	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
