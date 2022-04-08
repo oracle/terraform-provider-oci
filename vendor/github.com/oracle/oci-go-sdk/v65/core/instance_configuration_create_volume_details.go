@@ -56,6 +56,7 @@ type InstanceConfigurationCreateVolumeDetails struct {
 	// representing the Block Volume service's elastic performance options.
 	// See Block Volume Performance Levels (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 	// Allowed values:
+	//   * `0`: Represents Lower Cost option.
 	//   * `10`: Represents Balanced option.
 	//   * `20`: Represents Higher Performance option.
 	//   * `30`-`120`: Represents the Ultra High Performance option.

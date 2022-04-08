@@ -207,6 +207,68 @@ func (client VirtualNetworkClient) addDrgRouteRules(ctx context.Context, request
 	return response, err
 }
 
+// AddIpv6SubnetCidr Add an IPv6 CIDR to a subnet.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AddIpv6SubnetCidr.go.html to see an example of how to use AddIpv6SubnetCidr API.
+func (client VirtualNetworkClient) AddIpv6SubnetCidr(ctx context.Context, request AddIpv6SubnetCidrRequest) (response AddIpv6SubnetCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addIpv6SubnetCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddIpv6SubnetCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddIpv6SubnetCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddIpv6SubnetCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddIpv6SubnetCidrResponse")
+	}
+	return
+}
+
+// addIpv6SubnetCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) addIpv6SubnetCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subnets/{subnetId}/actions/addIpv6Cidr", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddIpv6SubnetCidrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/AddIpv6SubnetCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AddIpv6SubnetCidr", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddIpv6VcnCidr Add an IPv6 CIDR to a VCN. The VCN size is always /56 and assigned by Oracle.
 // Once added the IPv6 CIDR block cannot be removed or modified.
 //
@@ -11550,6 +11612,130 @@ func (client VirtualNetworkClient) removeImportDrgRouteDistribution(ctx context.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteTable/RemoveImportDrgRouteDistribution"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveImportDrgRouteDistribution", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveIpv6SubnetCidr Remove an IPv6 CIDR from a subnet. At least one IPv6 CIDR should remain.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/RemoveIpv6SubnetCidr.go.html to see an example of how to use RemoveIpv6SubnetCidr API.
+func (client VirtualNetworkClient) RemoveIpv6SubnetCidr(ctx context.Context, request RemoveIpv6SubnetCidrRequest) (response RemoveIpv6SubnetCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeIpv6SubnetCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveIpv6SubnetCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveIpv6SubnetCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveIpv6SubnetCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveIpv6SubnetCidrResponse")
+	}
+	return
+}
+
+// removeIpv6SubnetCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) removeIpv6SubnetCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subnets/{subnetId}/actions/removeIpv6Cidr", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveIpv6SubnetCidrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/RemoveIpv6SubnetCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveIpv6SubnetCidr", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveIpv6VcnCidr Removing an existing IPv6 CIDR from a VCN.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/RemoveIpv6VcnCidr.go.html to see an example of how to use RemoveIpv6VcnCidr API.
+func (client VirtualNetworkClient) RemoveIpv6VcnCidr(ctx context.Context, request RemoveIpv6VcnCidrRequest) (response RemoveIpv6VcnCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeIpv6VcnCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveIpv6VcnCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveIpv6VcnCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveIpv6VcnCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveIpv6VcnCidrResponse")
+	}
+	return
+}
+
+// removeIpv6VcnCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) removeIpv6VcnCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vcns/{vcnId}/actions/removeIpv6Cidr", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveIpv6VcnCidrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/RemoveIpv6VcnCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveIpv6VcnCidr", apiReferenceLink)
 		return response, err
 	}
 

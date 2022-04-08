@@ -36,11 +36,15 @@ type DbNode struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup VNIC.
 	BackupVnicId *string `mandatory:"false" json:"backupVnicId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the host IP address associated with the database node.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the host IP address associated with the database node. Use this OCID with either the
+	// GetPrivateIp or the GetPublicIpByPrivateIpId API to get the IP address
+	// needed to make a database connection.
 	// **Note:** Applies only to Exadata Cloud Service.
 	HostIpId *string `mandatory:"false" json:"hostIpId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup IP address associated with the database node.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup IP address associated with the database node. Use this OCID with either the
+	// GetPrivateIp or the GetPublicIpByPrivateIpId API to get the IP address
+	// needed to make a database connection.
 	// **Note:** Applies only to Exadata Cloud Service.
 	BackupIpId *string `mandatory:"false" json:"backupIpId"`
 

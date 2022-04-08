@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// VisionService API
+// Vision API
 //
-// A description of the VisionService API.
+// Using Vision, you can upload images to detect and classify objects in them. If you have lots of images, you can process them in batch using asynchronous API endpoints. Vision's features are thematically split between Document AI for document-centric images, and Image Analysis for object and scene-based images. Pretrained models and custom models are supported.
 //
 
 package aivision
@@ -15,24 +15,24 @@ import (
 	"strings"
 )
 
-// CreateProjectDetails Information needed to create a new project.
+// CreateProjectDetails The information needed to create a new project.
 type CreateProjectDetails struct {
 
-	// Compartment identifier.
+	// The compartment identifier.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Human-friendly name for the project, which can be changed.
+	// A human-friendly name for the project, that can be changed.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Optional description of the project.
+	// An optional description of the project.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
+	// A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only.
+	// For example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	// For example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 

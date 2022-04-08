@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ChangeModelCompartment.go.html to see an example of how to use ChangeModelCompartmentRequest.
 type ChangeModelCompartmentRequest struct {
 
-	// unique model identifier.
+	// A unique model identifier.
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
-	// The deatils of the move.
+	// The details of the move.
 	ChangeModelCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
@@ -82,7 +82,7 @@ type ChangeModelCompartmentResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// A unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }

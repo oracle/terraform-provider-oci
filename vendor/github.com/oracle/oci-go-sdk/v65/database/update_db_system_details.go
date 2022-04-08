@@ -19,7 +19,7 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type UpdateDbSystemDetails struct {
 
-	// The new number of CPU cores to set for the DB system. Not applicable for virtual machine DB systems.
+	// The new number of CPU cores to set for the DB system. Not applicable for INTEL based virtual machine DB systems.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
 	Version *PatchDetails `mandatory:"false" json:"version"`

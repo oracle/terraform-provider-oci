@@ -57,6 +57,7 @@ type CreateVolumeDetails struct {
 	// representing the Block Volume service's elastic performance options.
 	// See Block Volume Performance Levels (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 	// Allowed values:
+	//   * `0`: Represents Lower Cost option.
 	//   * `10`: Represents Balanced option.
 	//   * `20`: Represents Higher Performance option.
 	//   * `30`-`120`: Represents the Ultra High Performance option.
@@ -76,7 +77,7 @@ type CreateVolumeDetails struct {
 	// backup for the volume.
 	VolumeBackupId *string `mandatory:"false" json:"volumeBackupId"`
 
-	// Specifies whether the auto-tune performance is enabled for this boot volume.
+	// Specifies whether the auto-tune performance is enabled for this volume.
 	IsAutoTuneEnabled *bool `mandatory:"false" json:"isAutoTuneEnabled"`
 
 	// The list of block volume replicas to be enabled for this volume
