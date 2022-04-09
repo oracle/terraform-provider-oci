@@ -1,3 +1,14 @@
+## 4.71.0 (Unreleased)
+
+### Added
+- Support for cross region ADG on ADB-Shared Databases
+- Support for BYOIPv6
+- Support for OCPU limit for BYOL
+
+### Bug Fix
+- updated vcn_route_type documentation in drg attachment
+- Data Safe Target Database lifecycle state``
+
 ## 4.70.0 (Unreleased)
 
 ### Added
