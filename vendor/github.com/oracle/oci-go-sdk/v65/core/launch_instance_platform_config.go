@@ -26,6 +26,10 @@ import (
 // specify. If you don't provide the parameter, the default values for the `shape` are used.
 // Each shape only supports certain configurable values. If the values that you provide are not valid for the
 // specified `shape`, an error is returned.
+// For more information about shielded instances, see
+// Shielded Instances (https://docs.cloud.oracle.com/iaas/Content/Compute/References/shielded-instances.htm).
+// For more information about BIOS settings for bare metal instances, see
+// BIOS Settings for Bare Metal Instances (https://docs.cloud.oracle.com/iaas/Content/Compute/References/bios-settings.htm).
 type LaunchInstancePlatformConfig interface {
 
 	// Whether Secure Boot is enabled on the instance.

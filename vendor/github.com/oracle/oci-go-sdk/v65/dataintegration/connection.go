@@ -132,6 +132,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := ConnectionFromAmazonS3{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BIP_CONNECTION":
+		mm := ConnectionFromBip{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MYSQL_CONNECTION":
 		mm := ConnectionFromMySql{}
 		err = json.Unmarshal(data, &mm)
@@ -243,6 +247,7 @@ const (
 	ConnectionModelTypeGenericJdbcConnection         ConnectionModelTypeEnum = "GENERIC_JDBC_CONNECTION"
 	ConnectionModelTypeBiccConnection                ConnectionModelTypeEnum = "BICC_CONNECTION"
 	ConnectionModelTypeAmazonS3Connection            ConnectionModelTypeEnum = "AMAZON_S3_CONNECTION"
+	ConnectionModelTypeBipConnection                 ConnectionModelTypeEnum = "BIP_CONNECTION"
 )
 
 var mappingConnectionModelTypeEnum = map[string]ConnectionModelTypeEnum{
@@ -254,6 +259,7 @@ var mappingConnectionModelTypeEnum = map[string]ConnectionModelTypeEnum{
 	"GENERIC_JDBC_CONNECTION":          ConnectionModelTypeGenericJdbcConnection,
 	"BICC_CONNECTION":                  ConnectionModelTypeBiccConnection,
 	"AMAZON_S3_CONNECTION":             ConnectionModelTypeAmazonS3Connection,
+	"BIP_CONNECTION":                   ConnectionModelTypeBipConnection,
 }
 
 var mappingConnectionModelTypeEnumLowerCase = map[string]ConnectionModelTypeEnum{
@@ -265,6 +271,7 @@ var mappingConnectionModelTypeEnumLowerCase = map[string]ConnectionModelTypeEnum
 	"generic_jdbc_connection":          ConnectionModelTypeGenericJdbcConnection,
 	"bicc_connection":                  ConnectionModelTypeBiccConnection,
 	"amazon_s3_connection":             ConnectionModelTypeAmazonS3Connection,
+	"bip_connection":                   ConnectionModelTypeBipConnection,
 }
 
 // GetConnectionModelTypeEnumValues Enumerates the set of values for ConnectionModelTypeEnum
@@ -287,6 +294,7 @@ func GetConnectionModelTypeEnumStringValues() []string {
 		"GENERIC_JDBC_CONNECTION",
 		"BICC_CONNECTION",
 		"AMAZON_S3_CONNECTION",
+		"BIP_CONNECTION",
 	}
 }
 

@@ -19,13 +19,13 @@ import (
 	"strings"
 )
 
-// ShapeSymmetricMultiThreadingEnabledPlatformOptions Configuration options for symmetric multi-threading.
+// ShapeSymmetricMultiThreadingEnabledPlatformOptions Configuration options for symmetric multithreading (also called simultaneous multithreading or SMT).
 type ShapeSymmetricMultiThreadingEnabledPlatformOptions struct {
 
-	// Whether symmetric multi-threading can be enabled.
+	// Whether symmetric multithreading can be enabled.
 	AllowedValues []bool `mandatory:"false" json:"allowedValues"`
 
-	// Whether symmetric multi-threading is enabled by default.
+	// Whether symmetric multithreading is enabled by default.
 	IsDefaultEnabled *bool `mandatory:"false" json:"isDefaultEnabled"`
 }
 

@@ -293,8 +293,8 @@ const (
 	InternalVnicAttachmentVnicShapeFixed3900E450g                  InternalVnicAttachmentVnicShapeEnum = "FIXED3900_E4_50G"
 	InternalVnicAttachmentVnicShapeFixed4000E450g                  InternalVnicAttachmentVnicShapeEnum = "FIXED4000_E4_50G"
 	InternalVnicAttachmentVnicShapeEntirehostE450g                 InternalVnicAttachmentVnicShapeEnum = "ENTIREHOST_E4_50G"
-	InternalVnicAttachmentVnicShapeMicroVmFixed0050E350g           InternalVnicAttachmentVnicShapeEnum = "MICRO_VM_FIXED0050_E3_50G"
-	InternalVnicAttachmentVnicShapeMicroVmFixed0050E450g           InternalVnicAttachmentVnicShapeEnum = "MICRO_VM_FIXED0050_E4_50G"
+	InternalVnicAttachmentVnicShapeMicroVmFixed0050E350g           InternalVnicAttachmentVnicShapeEnum = "Micro_VM_Fixed0050_E3_50G"
+	InternalVnicAttachmentVnicShapeMicroVmFixed0050E450g           InternalVnicAttachmentVnicShapeEnum = "Micro_VM_Fixed0050_E4_50G"
 	InternalVnicAttachmentVnicShapeSubcoreVmFixed0025E350g         InternalVnicAttachmentVnicShapeEnum = "SUBCORE_VM_FIXED0025_E3_50G"
 	InternalVnicAttachmentVnicShapeSubcoreVmFixed0050E350g         InternalVnicAttachmentVnicShapeEnum = "SUBCORE_VM_FIXED0050_E3_50G"
 	InternalVnicAttachmentVnicShapeSubcoreVmFixed0075E350g         InternalVnicAttachmentVnicShapeEnum = "SUBCORE_VM_FIXED0075_E3_50G"
@@ -1335,8 +1335,8 @@ var mappingInternalVnicAttachmentVnicShapeEnum = map[string]InternalVnicAttachme
 	"FIXED3900_E4_50G":                     InternalVnicAttachmentVnicShapeFixed3900E450g,
 	"FIXED4000_E4_50G":                     InternalVnicAttachmentVnicShapeFixed4000E450g,
 	"ENTIREHOST_E4_50G":                    InternalVnicAttachmentVnicShapeEntirehostE450g,
-	"MICRO_VM_FIXED0050_E3_50G":            InternalVnicAttachmentVnicShapeMicroVmFixed0050E350g,
-	"MICRO_VM_FIXED0050_E4_50G":            InternalVnicAttachmentVnicShapeMicroVmFixed0050E450g,
+	"Micro_VM_Fixed0050_E3_50G":            InternalVnicAttachmentVnicShapeMicroVmFixed0050E350g,
+	"Micro_VM_Fixed0050_E4_50G":            InternalVnicAttachmentVnicShapeMicroVmFixed0050E450g,
 	"SUBCORE_VM_FIXED0025_E3_50G":          InternalVnicAttachmentVnicShapeSubcoreVmFixed0025E350g,
 	"SUBCORE_VM_FIXED0050_E3_50G":          InternalVnicAttachmentVnicShapeSubcoreVmFixed0050E350g,
 	"SUBCORE_VM_FIXED0075_E3_50G":          InternalVnicAttachmentVnicShapeSubcoreVmFixed0075E350g,
@@ -3430,8 +3430,8 @@ func GetInternalVnicAttachmentVnicShapeEnumStringValues() []string {
 		"FIXED3900_E4_50G",
 		"FIXED4000_E4_50G",
 		"ENTIREHOST_E4_50G",
-		"MICRO_VM_FIXED0050_E3_50G",
-		"MICRO_VM_FIXED0050_E4_50G",
+		"Micro_VM_Fixed0050_E3_50G",
+		"Micro_VM_Fixed0050_E4_50G",
 		"SUBCORE_VM_FIXED0025_E3_50G",
 		"SUBCORE_VM_FIXED0050_E3_50G",
 		"SUBCORE_VM_FIXED0075_E3_50G",

@@ -79,6 +79,7 @@ const (
 	ReferenceTypeOracleAdwcDataAsset          ReferenceTypeEnum = "ORACLE_ADWC_DATA_ASSET"
 	ReferenceTypeMysqlDataAsset               ReferenceTypeEnum = "MYSQL_DATA_ASSET"
 	ReferenceTypeGenericJdbcDataAsset         ReferenceTypeEnum = "GENERIC_JDBC_DATA_ASSET"
+	ReferenceTypeBipConnection                ReferenceTypeEnum = "BIP_CONNECTION"
 )
 
 var mappingReferenceTypeEnum = map[string]ReferenceTypeEnum{
@@ -88,6 +89,7 @@ var mappingReferenceTypeEnum = map[string]ReferenceTypeEnum{
 	"ORACLE_ADWC_DATA_ASSET":           ReferenceTypeOracleAdwcDataAsset,
 	"MYSQL_DATA_ASSET":                 ReferenceTypeMysqlDataAsset,
 	"GENERIC_JDBC_DATA_ASSET":          ReferenceTypeGenericJdbcDataAsset,
+	"BIP_CONNECTION":                   ReferenceTypeBipConnection,
 }
 
 var mappingReferenceTypeEnumLowerCase = map[string]ReferenceTypeEnum{
@@ -97,6 +99,7 @@ var mappingReferenceTypeEnumLowerCase = map[string]ReferenceTypeEnum{
 	"oracle_adwc_data_asset":           ReferenceTypeOracleAdwcDataAsset,
 	"mysql_data_asset":                 ReferenceTypeMysqlDataAsset,
 	"generic_jdbc_data_asset":          ReferenceTypeGenericJdbcDataAsset,
+	"bip_connection":                   ReferenceTypeBipConnection,
 }
 
 // GetReferenceTypeEnumValues Enumerates the set of values for ReferenceTypeEnum
@@ -117,6 +120,7 @@ func GetReferenceTypeEnumStringValues() []string {
 		"ORACLE_ADWC_DATA_ASSET",
 		"MYSQL_DATA_ASSET",
 		"GENERIC_JDBC_DATA_ASSET",
+		"BIP_CONNECTION",
 	}
 }
 

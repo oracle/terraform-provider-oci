@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// MlJobStepRun Detail of each MLJobStepRun
+// MlJobStepRun Detail of each MLJobStepRun.
 type MlJobStepRun struct {
 
 	// The date and time the pipeline step run was started in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeStarted *common.SDKTime `mandatory:"true" json:"timeStarted"`
 
-	// The name of the step being run
+	// The name of the step.
 	StepName *string `mandatory:"true" json:"stepName"`
 
 	// The date and time the pipeline step run finshed executing in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
@@ -31,7 +31,7 @@ type MlJobStepRun struct {
 	// Details of the state of the step run.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job run triggered for this step run
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job run triggered for this step run.
 	JobRunId *string `mandatory:"false" json:"jobRunId"`
 
 	// The state of the step run.

@@ -20,7 +20,8 @@ import (
 	"strings"
 )
 
-// AmdRomeBmGpuPlatformConfig The platform configuration of a bare metal instance that uses a GPU shape on the AMD Rome platform.
+// AmdRomeBmGpuPlatformConfig The platform configuration of a bare metal GPU instance that uses the BM.GPU4.8 shape
+// (the AMD Rome platform).
 type AmdRomeBmGpuPlatformConfig struct {
 
 	// Whether Secure Boot is enabled on the instance.
@@ -35,14 +36,20 @@ type AmdRomeBmGpuPlatformConfig struct {
 	// Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`.
 	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
 
-	// Whether symmetric multi-threading is enabled on the instance.
+	// Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also
+	// called simultaneous multithreading (SMT) or Intel Hyper-Threading.
+	// Intel and AMD processors have two hardware execution threads per core (OCPU). SMT permits multiple
+	// independent threads of execution, to better use the resources and increase the efficiency
+	// of the CPU. When multithreading is disabled, only one thread is permitted to run on each core, which
+	// can provide higher or more predictable performance for some workloads.
 	IsSymmetricMultiThreadingEnabled *bool `mandatory:"false" json:"isSymmetricMultiThreadingEnabled"`
 
 	// Whether the Access Control Service is enabled on the instance. When enabled,
-	// the platform can enforce PCIe device isolation, required for VFIO device passthrough.
+	// the platform can enforce PCIe device isolation, required for VFIO device pass-through.
 	IsAccessControlServiceEnabled *bool `mandatory:"false" json:"isAccessControlServiceEnabled"`
 
-	// Whether virtualization instructions are available.
+	// Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes
+	// or VT-x for Intel shapes.
 	AreVirtualInstructionsEnabled *bool `mandatory:"false" json:"areVirtualInstructionsEnabled"`
 
 	// Whether the input-output memory management unit is enabled.

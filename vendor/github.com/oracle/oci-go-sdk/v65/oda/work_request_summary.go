@@ -72,10 +72,29 @@ const (
 	WorkRequestSummaryRequestActionStopOdaInstance              WorkRequestSummaryRequestActionEnum = "STOP_ODA_INSTANCE"
 	WorkRequestSummaryRequestActionStartOdaInstance             WorkRequestSummaryRequestActionEnum = "START_ODA_INSTANCE"
 	WorkRequestSummaryRequestActionChangeOdaInstanceCompartment WorkRequestSummaryRequestActionEnum = "CHANGE_ODA_INSTANCE_COMPARTMENT"
+	WorkRequestSummaryRequestActionChangeCustEncKey             WorkRequestSummaryRequestActionEnum = "CHANGE_CUST_ENC_KEY"
+	WorkRequestSummaryRequestActionDeactCustEncKey              WorkRequestSummaryRequestActionEnum = "DEACT_CUST_ENC_KEY"
 	WorkRequestSummaryRequestActionCreateAssociation            WorkRequestSummaryRequestActionEnum = "CREATE_ASSOCIATION"
 	WorkRequestSummaryRequestActionDeleteAssociation            WorkRequestSummaryRequestActionEnum = "DELETE_ASSOCIATION"
 	WorkRequestSummaryRequestActionUpdateEntitlementsForCacct   WorkRequestSummaryRequestActionEnum = "UPDATE_ENTITLEMENTS_FOR_CACCT"
 	WorkRequestSummaryRequestActionLookupOdaInstancesForCacct   WorkRequestSummaryRequestActionEnum = "LOOKUP_ODA_INSTANCES_FOR_CACCT"
+	WorkRequestSummaryRequestActionCreateOdaInstanceAttachment  WorkRequestSummaryRequestActionEnum = "CREATE_ODA_INSTANCE_ATTACHMENT"
+	WorkRequestSummaryRequestActionUpdateOdaInstanceAttachment  WorkRequestSummaryRequestActionEnum = "UPDATE_ODA_INSTANCE_ATTACHMENT"
+	WorkRequestSummaryRequestActionDeleteOdaInstanceAttachment  WorkRequestSummaryRequestActionEnum = "DELETE_ODA_INSTANCE_ATTACHMENT"
+	WorkRequestSummaryRequestActionCreateImportedPackage        WorkRequestSummaryRequestActionEnum = "CREATE_IMPORTED_PACKAGE"
+	WorkRequestSummaryRequestActionUpdateImportedPackage        WorkRequestSummaryRequestActionEnum = "UPDATE_IMPORTED_PACKAGE"
+	WorkRequestSummaryRequestActionDeleteImportedPackage        WorkRequestSummaryRequestActionEnum = "DELETE_IMPORTED_PACKAGE"
+	WorkRequestSummaryRequestActionImportBot                    WorkRequestSummaryRequestActionEnum = "IMPORT_BOT"
+	WorkRequestSummaryRequestActionCreateSkill                  WorkRequestSummaryRequestActionEnum = "CREATE_SKILL"
+	WorkRequestSummaryRequestActionCloneSkill                   WorkRequestSummaryRequestActionEnum = "CLONE_SKILL"
+	WorkRequestSummaryRequestActionExtendSkill                  WorkRequestSummaryRequestActionEnum = "EXTEND_SKILL"
+	WorkRequestSummaryRequestActionVersionSkill                 WorkRequestSummaryRequestActionEnum = "VERSION_SKILL"
+	WorkRequestSummaryRequestActionExportSkill                  WorkRequestSummaryRequestActionEnum = "EXPORT_SKILL"
+	WorkRequestSummaryRequestActionCreateDigitalAssistant       WorkRequestSummaryRequestActionEnum = "CREATE_DIGITAL_ASSISTANT"
+	WorkRequestSummaryRequestActionCloneDigitalAssistant        WorkRequestSummaryRequestActionEnum = "CLONE_DIGITAL_ASSISTANT"
+	WorkRequestSummaryRequestActionExtendDigitalAssistant       WorkRequestSummaryRequestActionEnum = "EXTEND_DIGITAL_ASSISTANT"
+	WorkRequestSummaryRequestActionVersionDigitalAssistant      WorkRequestSummaryRequestActionEnum = "VERSION_DIGITAL_ASSISTANT"
+	WorkRequestSummaryRequestActionExportDigitalAssistant       WorkRequestSummaryRequestActionEnum = "EXPORT_DIGITAL_ASSISTANT"
 )
 
 var mappingWorkRequestSummaryRequestActionEnum = map[string]WorkRequestSummaryRequestActionEnum{
@@ -87,10 +106,29 @@ var mappingWorkRequestSummaryRequestActionEnum = map[string]WorkRequestSummaryRe
 	"STOP_ODA_INSTANCE":               WorkRequestSummaryRequestActionStopOdaInstance,
 	"START_ODA_INSTANCE":              WorkRequestSummaryRequestActionStartOdaInstance,
 	"CHANGE_ODA_INSTANCE_COMPARTMENT": WorkRequestSummaryRequestActionChangeOdaInstanceCompartment,
+	"CHANGE_CUST_ENC_KEY":             WorkRequestSummaryRequestActionChangeCustEncKey,
+	"DEACT_CUST_ENC_KEY":              WorkRequestSummaryRequestActionDeactCustEncKey,
 	"CREATE_ASSOCIATION":              WorkRequestSummaryRequestActionCreateAssociation,
 	"DELETE_ASSOCIATION":              WorkRequestSummaryRequestActionDeleteAssociation,
 	"UPDATE_ENTITLEMENTS_FOR_CACCT":   WorkRequestSummaryRequestActionUpdateEntitlementsForCacct,
 	"LOOKUP_ODA_INSTANCES_FOR_CACCT":  WorkRequestSummaryRequestActionLookupOdaInstancesForCacct,
+	"CREATE_ODA_INSTANCE_ATTACHMENT":  WorkRequestSummaryRequestActionCreateOdaInstanceAttachment,
+	"UPDATE_ODA_INSTANCE_ATTACHMENT":  WorkRequestSummaryRequestActionUpdateOdaInstanceAttachment,
+	"DELETE_ODA_INSTANCE_ATTACHMENT":  WorkRequestSummaryRequestActionDeleteOdaInstanceAttachment,
+	"CREATE_IMPORTED_PACKAGE":         WorkRequestSummaryRequestActionCreateImportedPackage,
+	"UPDATE_IMPORTED_PACKAGE":         WorkRequestSummaryRequestActionUpdateImportedPackage,
+	"DELETE_IMPORTED_PACKAGE":         WorkRequestSummaryRequestActionDeleteImportedPackage,
+	"IMPORT_BOT":                      WorkRequestSummaryRequestActionImportBot,
+	"CREATE_SKILL":                    WorkRequestSummaryRequestActionCreateSkill,
+	"CLONE_SKILL":                     WorkRequestSummaryRequestActionCloneSkill,
+	"EXTEND_SKILL":                    WorkRequestSummaryRequestActionExtendSkill,
+	"VERSION_SKILL":                   WorkRequestSummaryRequestActionVersionSkill,
+	"EXPORT_SKILL":                    WorkRequestSummaryRequestActionExportSkill,
+	"CREATE_DIGITAL_ASSISTANT":        WorkRequestSummaryRequestActionCreateDigitalAssistant,
+	"CLONE_DIGITAL_ASSISTANT":         WorkRequestSummaryRequestActionCloneDigitalAssistant,
+	"EXTEND_DIGITAL_ASSISTANT":        WorkRequestSummaryRequestActionExtendDigitalAssistant,
+	"VERSION_DIGITAL_ASSISTANT":       WorkRequestSummaryRequestActionVersionDigitalAssistant,
+	"EXPORT_DIGITAL_ASSISTANT":        WorkRequestSummaryRequestActionExportDigitalAssistant,
 }
 
 var mappingWorkRequestSummaryRequestActionEnumLowerCase = map[string]WorkRequestSummaryRequestActionEnum{
@@ -102,10 +140,29 @@ var mappingWorkRequestSummaryRequestActionEnumLowerCase = map[string]WorkRequest
 	"stop_oda_instance":               WorkRequestSummaryRequestActionStopOdaInstance,
 	"start_oda_instance":              WorkRequestSummaryRequestActionStartOdaInstance,
 	"change_oda_instance_compartment": WorkRequestSummaryRequestActionChangeOdaInstanceCompartment,
+	"change_cust_enc_key":             WorkRequestSummaryRequestActionChangeCustEncKey,
+	"deact_cust_enc_key":              WorkRequestSummaryRequestActionDeactCustEncKey,
 	"create_association":              WorkRequestSummaryRequestActionCreateAssociation,
 	"delete_association":              WorkRequestSummaryRequestActionDeleteAssociation,
 	"update_entitlements_for_cacct":   WorkRequestSummaryRequestActionUpdateEntitlementsForCacct,
 	"lookup_oda_instances_for_cacct":  WorkRequestSummaryRequestActionLookupOdaInstancesForCacct,
+	"create_oda_instance_attachment":  WorkRequestSummaryRequestActionCreateOdaInstanceAttachment,
+	"update_oda_instance_attachment":  WorkRequestSummaryRequestActionUpdateOdaInstanceAttachment,
+	"delete_oda_instance_attachment":  WorkRequestSummaryRequestActionDeleteOdaInstanceAttachment,
+	"create_imported_package":         WorkRequestSummaryRequestActionCreateImportedPackage,
+	"update_imported_package":         WorkRequestSummaryRequestActionUpdateImportedPackage,
+	"delete_imported_package":         WorkRequestSummaryRequestActionDeleteImportedPackage,
+	"import_bot":                      WorkRequestSummaryRequestActionImportBot,
+	"create_skill":                    WorkRequestSummaryRequestActionCreateSkill,
+	"clone_skill":                     WorkRequestSummaryRequestActionCloneSkill,
+	"extend_skill":                    WorkRequestSummaryRequestActionExtendSkill,
+	"version_skill":                   WorkRequestSummaryRequestActionVersionSkill,
+	"export_skill":                    WorkRequestSummaryRequestActionExportSkill,
+	"create_digital_assistant":        WorkRequestSummaryRequestActionCreateDigitalAssistant,
+	"clone_digital_assistant":         WorkRequestSummaryRequestActionCloneDigitalAssistant,
+	"extend_digital_assistant":        WorkRequestSummaryRequestActionExtendDigitalAssistant,
+	"version_digital_assistant":       WorkRequestSummaryRequestActionVersionDigitalAssistant,
+	"export_digital_assistant":        WorkRequestSummaryRequestActionExportDigitalAssistant,
 }
 
 // GetWorkRequestSummaryRequestActionEnumValues Enumerates the set of values for WorkRequestSummaryRequestActionEnum
@@ -128,10 +185,29 @@ func GetWorkRequestSummaryRequestActionEnumStringValues() []string {
 		"STOP_ODA_INSTANCE",
 		"START_ODA_INSTANCE",
 		"CHANGE_ODA_INSTANCE_COMPARTMENT",
+		"CHANGE_CUST_ENC_KEY",
+		"DEACT_CUST_ENC_KEY",
 		"CREATE_ASSOCIATION",
 		"DELETE_ASSOCIATION",
 		"UPDATE_ENTITLEMENTS_FOR_CACCT",
 		"LOOKUP_ODA_INSTANCES_FOR_CACCT",
+		"CREATE_ODA_INSTANCE_ATTACHMENT",
+		"UPDATE_ODA_INSTANCE_ATTACHMENT",
+		"DELETE_ODA_INSTANCE_ATTACHMENT",
+		"CREATE_IMPORTED_PACKAGE",
+		"UPDATE_IMPORTED_PACKAGE",
+		"DELETE_IMPORTED_PACKAGE",
+		"IMPORT_BOT",
+		"CREATE_SKILL",
+		"CLONE_SKILL",
+		"EXTEND_SKILL",
+		"VERSION_SKILL",
+		"EXPORT_SKILL",
+		"CREATE_DIGITAL_ASSISTANT",
+		"CLONE_DIGITAL_ASSISTANT",
+		"EXTEND_DIGITAL_ASSISTANT",
+		"VERSION_DIGITAL_ASSISTANT",
+		"EXPORT_DIGITAL_ASSISTANT",
 	}
 }
 

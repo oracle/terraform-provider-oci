@@ -18,7 +18,7 @@ import (
 // UpdatePipelineRunDetails The information to be updated.
 type UpdatePipelineRunDetails struct {
 
-	// Name of the pipeline run
+	// Name of the pipeline run.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

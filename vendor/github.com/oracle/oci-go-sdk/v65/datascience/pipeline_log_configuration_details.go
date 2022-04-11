@@ -15,19 +15,19 @@ import (
 	"strings"
 )
 
-// PipelineLogConfigurationDetails The pipeline log configuration details
+// PipelineLogConfigurationDetails The pipeline log configuration details.
 type PipelineLogConfigurationDetails struct {
 
-	// Enable or disable logging
+	// If customer logging is enabled for pipeline.
 	EnableLogging *bool `mandatory:"false" json:"enableLogging"`
 
 	// If automatic on-behalf-of log object creation is enabled for pipeline runs.
 	EnableAutoLogCreation *bool `mandatory:"false" json:"enableAutoLogCreation"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	LogGroupId *string `mandatory:"false" json:"logGroupId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
 	LogId *string `mandatory:"false" json:"logId"`
 }
 

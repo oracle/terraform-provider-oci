@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// StepRun Detail of each StepRun
+// StepRun Detail of each StepRun.
 type StepRun interface {
 
 	// The date and time the pipeline step run was started in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	GetTimeStarted() *common.SDKTime
 
-	// The name of the step being run
+	// The name of the step.
 	GetStepName() *string
 
 	// The date and time the pipeline step run finshed executing in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
@@ -75,6 +75,10 @@ func (m *steprun) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.StepType {
+	case "CUSTOM_SCRIPT":
+		mm := CustomScriptStepRun{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ML_JOB":
 		mm := MlJobStepRun{}
 		err = json.Unmarshal(data, &mm)
@@ -203,15 +207,18 @@ type StepRunStepTypeEnum string
 
 // Set of constants representing the allowable values for StepRunStepTypeEnum
 const (
-	StepRunStepTypeMlJob StepRunStepTypeEnum = "ML_JOB"
+	StepRunStepTypeMlJob        StepRunStepTypeEnum = "ML_JOB"
+	StepRunStepTypeCustomScript StepRunStepTypeEnum = "CUSTOM_SCRIPT"
 )
 
 var mappingStepRunStepTypeEnum = map[string]StepRunStepTypeEnum{
-	"ML_JOB": StepRunStepTypeMlJob,
+	"ML_JOB":        StepRunStepTypeMlJob,
+	"CUSTOM_SCRIPT": StepRunStepTypeCustomScript,
 }
 
 var mappingStepRunStepTypeEnumLowerCase = map[string]StepRunStepTypeEnum{
-	"ml_job": StepRunStepTypeMlJob,
+	"ml_job":        StepRunStepTypeMlJob,
+	"custom_script": StepRunStepTypeCustomScript,
 }
 
 // GetStepRunStepTypeEnumValues Enumerates the set of values for StepRunStepTypeEnum
@@ -227,6 +234,7 @@ func GetStepRunStepTypeEnumValues() []StepRunStepTypeEnum {
 func GetStepRunStepTypeEnumStringValues() []string {
 	return []string{
 		"ML_JOB",
+		"CUSTOM_SCRIPT",
 	}
 }
 

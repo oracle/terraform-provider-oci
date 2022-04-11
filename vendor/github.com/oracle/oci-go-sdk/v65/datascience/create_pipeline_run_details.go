@@ -35,6 +35,9 @@ type CreatePipelineRunDetails struct {
 
 	PipelineLogConfigurationOverrideDetails *PipelineLogConfigurationDetails `mandatory:"false" json:"pipelineLogConfigurationOverrideDetails"`
 
+	// The configuration override details for each step.
+	StepConfigurationOverrideDetails []StepConfigurationDetails `mandatory:"false" json:"stepConfigurationOverrideDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -70,6 +73,7 @@ func (m *CreatePipelineRunDetails) UnmarshalJSON(data []byte) (e error) {
 		DisplayName                             *string                           `json:"displayName"`
 		PipelineConfigurationOverrideDetails    pipelineconfigurationdetails      `json:"pipelineConfigurationOverrideDetails"`
 		PipelineLogConfigurationOverrideDetails *PipelineLogConfigurationDetails  `json:"pipelineLogConfigurationOverrideDetails"`
+		StepConfigurationOverrideDetails        []StepConfigurationDetails        `json:"stepConfigurationOverrideDetails"`
 		FreeformTags                            map[string]string                 `json:"freeformTags"`
 		DefinedTags                             map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags                              map[string]map[string]interface{} `json:"systemTags"`
@@ -96,6 +100,11 @@ func (m *CreatePipelineRunDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.PipelineLogConfigurationOverrideDetails = model.PipelineLogConfigurationOverrideDetails
+
+	m.StepConfigurationOverrideDetails = make([]StepConfigurationDetails, len(model.StepConfigurationOverrideDetails))
+	for i, n := range model.StepConfigurationOverrideDetails {
+		m.StepConfigurationOverrideDetails[i] = n
+	}
 
 	m.FreeformTags = model.FreeformTags
 

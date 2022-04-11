@@ -80,10 +80,6 @@ type CreatePipelineRunResponse struct {
 	// The URI that identifies the entity described in the response body.
 	Location *string `presentIn:"header" name:"location"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the work request. Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
-	// with this ID to track the status of the request.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
-
 	// Unique Oracle assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, then provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`

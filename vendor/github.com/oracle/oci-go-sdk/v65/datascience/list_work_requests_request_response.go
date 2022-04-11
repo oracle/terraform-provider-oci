@@ -140,6 +140,8 @@ const (
 	ListWorkRequestsOperationTypeNotebookSessionActivate   ListWorkRequestsOperationTypeEnum = "NOTEBOOK_SESSION_ACTIVATE"
 	ListWorkRequestsOperationTypeNotebookSessionDeactivate ListWorkRequestsOperationTypeEnum = "NOTEBOOK_SESSION_DEACTIVATE"
 	ListWorkRequestsOperationTypeModelversionsetDelete     ListWorkRequestsOperationTypeEnum = "MODELVERSIONSET_DELETE"
+	ListWorkRequestsOperationTypeExportModelArtifact       ListWorkRequestsOperationTypeEnum = "EXPORT_MODEL_ARTIFACT"
+	ListWorkRequestsOperationTypeImportModelArtifact       ListWorkRequestsOperationTypeEnum = "IMPORT_MODEL_ARTIFACT"
 	ListWorkRequestsOperationTypeModelDeploymentCreate     ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_CREATE"
 	ListWorkRequestsOperationTypeModelDeploymentDelete     ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_DELETE"
 	ListWorkRequestsOperationTypeModelDeploymentActivate   ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_ACTIVATE"
@@ -153,7 +155,6 @@ const (
 	ListWorkRequestsOperationTypePipelineRunCreate         ListWorkRequestsOperationTypeEnum = "PIPELINE_RUN_CREATE"
 	ListWorkRequestsOperationTypePipelineRunCancel         ListWorkRequestsOperationTypeEnum = "PIPELINE_RUN_CANCEL"
 	ListWorkRequestsOperationTypePipelineRunDelete         ListWorkRequestsOperationTypeEnum = "PIPELINE_RUN_DELETE"
-	ListWorkRequestsOperationTypeCopyModelArtifact         ListWorkRequestsOperationTypeEnum = "COPY_MODEL_ARTIFACT"
 )
 
 var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperationTypeEnum{
@@ -162,6 +163,8 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"NOTEBOOK_SESSION_ACTIVATE":   ListWorkRequestsOperationTypeNotebookSessionActivate,
 	"NOTEBOOK_SESSION_DEACTIVATE": ListWorkRequestsOperationTypeNotebookSessionDeactivate,
 	"MODELVERSIONSET_DELETE":      ListWorkRequestsOperationTypeModelversionsetDelete,
+	"EXPORT_MODEL_ARTIFACT":       ListWorkRequestsOperationTypeExportModelArtifact,
+	"IMPORT_MODEL_ARTIFACT":       ListWorkRequestsOperationTypeImportModelArtifact,
 	"MODEL_DEPLOYMENT_CREATE":     ListWorkRequestsOperationTypeModelDeploymentCreate,
 	"MODEL_DEPLOYMENT_DELETE":     ListWorkRequestsOperationTypeModelDeploymentDelete,
 	"MODEL_DEPLOYMENT_ACTIVATE":   ListWorkRequestsOperationTypeModelDeploymentActivate,
@@ -175,7 +178,6 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"PIPELINE_RUN_CREATE":         ListWorkRequestsOperationTypePipelineRunCreate,
 	"PIPELINE_RUN_CANCEL":         ListWorkRequestsOperationTypePipelineRunCancel,
 	"PIPELINE_RUN_DELETE":         ListWorkRequestsOperationTypePipelineRunDelete,
-	"COPY_MODEL_ARTIFACT":         ListWorkRequestsOperationTypeCopyModelArtifact,
 }
 
 var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkRequestsOperationTypeEnum{
@@ -184,6 +186,8 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"notebook_session_activate":   ListWorkRequestsOperationTypeNotebookSessionActivate,
 	"notebook_session_deactivate": ListWorkRequestsOperationTypeNotebookSessionDeactivate,
 	"modelversionset_delete":      ListWorkRequestsOperationTypeModelversionsetDelete,
+	"export_model_artifact":       ListWorkRequestsOperationTypeExportModelArtifact,
+	"import_model_artifact":       ListWorkRequestsOperationTypeImportModelArtifact,
 	"model_deployment_create":     ListWorkRequestsOperationTypeModelDeploymentCreate,
 	"model_deployment_delete":     ListWorkRequestsOperationTypeModelDeploymentDelete,
 	"model_deployment_activate":   ListWorkRequestsOperationTypeModelDeploymentActivate,
@@ -197,7 +201,6 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"pipeline_run_create":         ListWorkRequestsOperationTypePipelineRunCreate,
 	"pipeline_run_cancel":         ListWorkRequestsOperationTypePipelineRunCancel,
 	"pipeline_run_delete":         ListWorkRequestsOperationTypePipelineRunDelete,
-	"copy_model_artifact":         ListWorkRequestsOperationTypeCopyModelArtifact,
 }
 
 // GetListWorkRequestsOperationTypeEnumValues Enumerates the set of values for ListWorkRequestsOperationTypeEnum
@@ -217,6 +220,8 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"NOTEBOOK_SESSION_ACTIVATE",
 		"NOTEBOOK_SESSION_DEACTIVATE",
 		"MODELVERSIONSET_DELETE",
+		"EXPORT_MODEL_ARTIFACT",
+		"IMPORT_MODEL_ARTIFACT",
 		"MODEL_DEPLOYMENT_CREATE",
 		"MODEL_DEPLOYMENT_DELETE",
 		"MODEL_DEPLOYMENT_ACTIVATE",
@@ -230,7 +235,6 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"PIPELINE_RUN_CREATE",
 		"PIPELINE_RUN_CANCEL",
 		"PIPELINE_RUN_DELETE",
-		"COPY_MODEL_ARTIFACT",
 	}
 }
 

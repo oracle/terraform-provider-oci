@@ -16,33 +16,33 @@ import (
 	"strings"
 )
 
-// ReplicationEstimator Details for response from replication estimation.
-type ReplicationEstimator struct {
+// ReplicationEstimate Details for response from replication estimation.
+type ReplicationEstimate struct {
 
 	// The rate of change on source filesystem which was used to provide the estimate in MegaBytes per second.
-	ChangeRate *int `mandatory:"true" json:"changeRate"`
+	ChangeRateInMbps *int `mandatory:"true" json:"changeRateInMbps"`
 
 	// Specifies whether replication can be enabled on the file system.
 	IsReplicationSupported *bool `mandatory:"true" json:"isReplicationSupported"`
 
 	// The minimum supported replication interval for specified file system in minutes.
-	MinimumSupportedInterval *int `mandatory:"true" json:"minimumSupportedInterval"`
+	MinimumSupportedIntervalInMinutes *int `mandatory:"true" json:"minimumSupportedIntervalInMinutes"`
 
 	// The approximate time required for the base sync between source and target to finish.
-	EstimatedBaseCopyTime *string `mandatory:"true" json:"estimatedBaseCopyTime"`
+	EstimatedBaseCopyTimeInMinutes *int `mandatory:"true" json:"estimatedBaseCopyTimeInMinutes"`
 
 	// Array of allowed target region names which can be paired with source file system.
 	AllowedTargetRegions []string `mandatory:"true" json:"allowedTargetRegions"`
 }
 
-func (m ReplicationEstimator) String() string {
+func (m ReplicationEstimate) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ReplicationEstimator) ValidateEnumValue() (bool, error) {
+func (m ReplicationEstimate) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -78,6 +78,8 @@ type CreateNodePoolDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings `mandatory:"false" json:"nodeEvictionNodePoolSettings"`
 }
 
 func (m CreateNodePoolDetails) String() string {
@@ -99,22 +101,23 @@ func (m CreateNodePoolDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		NodeMetadata      map[string]string                 `json:"nodeMetadata"`
-		NodeImageName     *string                           `json:"nodeImageName"`
-		NodeSourceDetails nodesourcedetails                 `json:"nodeSourceDetails"`
-		NodeShapeConfig   *CreateNodeShapeConfigDetails     `json:"nodeShapeConfig"`
-		InitialNodeLabels []KeyValue                        `json:"initialNodeLabels"`
-		SshPublicKey      *string                           `json:"sshPublicKey"`
-		QuantityPerSubnet *int                              `json:"quantityPerSubnet"`
-		SubnetIds         []string                          `json:"subnetIds"`
-		NodeConfigDetails *CreateNodePoolNodeConfigDetails  `json:"nodeConfigDetails"`
-		FreeformTags      map[string]string                 `json:"freeformTags"`
-		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
-		CompartmentId     *string                           `json:"compartmentId"`
-		ClusterId         *string                           `json:"clusterId"`
-		Name              *string                           `json:"name"`
-		KubernetesVersion *string                           `json:"kubernetesVersion"`
-		NodeShape         *string                           `json:"nodeShape"`
+		NodeMetadata                 map[string]string                 `json:"nodeMetadata"`
+		NodeImageName                *string                           `json:"nodeImageName"`
+		NodeSourceDetails            nodesourcedetails                 `json:"nodeSourceDetails"`
+		NodeShapeConfig              *CreateNodeShapeConfigDetails     `json:"nodeShapeConfig"`
+		InitialNodeLabels            []KeyValue                        `json:"initialNodeLabels"`
+		SshPublicKey                 *string                           `json:"sshPublicKey"`
+		QuantityPerSubnet            *int                              `json:"quantityPerSubnet"`
+		SubnetIds                    []string                          `json:"subnetIds"`
+		NodeConfigDetails            *CreateNodePoolNodeConfigDetails  `json:"nodeConfigDetails"`
+		FreeformTags                 map[string]string                 `json:"freeformTags"`
+		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
+		NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings     `json:"nodeEvictionNodePoolSettings"`
+		CompartmentId                *string                           `json:"compartmentId"`
+		ClusterId                    *string                           `json:"clusterId"`
+		Name                         *string                           `json:"name"`
+		KubernetesVersion            *string                           `json:"kubernetesVersion"`
+		NodeShape                    *string                           `json:"nodeShape"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -157,6 +160,8 @@ func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.NodeEvictionNodePoolSettings = model.NodeEvictionNodePoolSettings
 
 	m.CompartmentId = model.CompartmentId
 

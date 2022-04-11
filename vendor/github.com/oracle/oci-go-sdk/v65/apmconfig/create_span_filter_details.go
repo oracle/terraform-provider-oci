@@ -20,7 +20,7 @@ import (
 // CreateSpanFilterDetails A named setting that specifies the filter criteria to match a subset of the spans.
 type CreateSpanFilterDetails struct {
 
-	// The name by which the span filter can be displayed in the UI.
+	// The name by which a configuration entity is displayed to the end user.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The string that defines the Span Filter expression.

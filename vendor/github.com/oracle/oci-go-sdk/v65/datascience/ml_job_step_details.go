@@ -16,17 +16,19 @@ import (
 	"strings"
 )
 
-// MlJobStepDetails The type of step where the job is pre-created by the user
+// MlJobStepDetails The type of step where the job is pre-created by the user.
 type MlJobStepDetails struct {
 
 	// The name of the step. It must be unique within the pipeline. This is used to create the pipeline DAG.
 	StepName *string `mandatory:"true" json:"stepName"`
 
-	// The list of step names this current step depends on for execution
-	DependsOn []string `mandatory:"true" json:"dependsOn"`
-
-	// A short description of the step
+	// A short description of the step.
 	Description *string `mandatory:"false" json:"description"`
+
+	// The list of step names this current step depends on for execution.
+	DependsOn []string `mandatory:"false" json:"dependsOn"`
+
+	StepConfigurationDetails PipelineConfigurationDetails `mandatory:"false" json:"stepConfigurationDetails"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job to be used as a step.
 	JobId *string `mandatory:"false" json:"jobId"`
@@ -45,6 +47,11 @@ func (m MlJobStepDetails) GetDescription() *string {
 //GetDependsOn returns DependsOn
 func (m MlJobStepDetails) GetDependsOn() []string {
 	return m.DependsOn
+}
+
+//GetStepConfigurationDetails returns StepConfigurationDetails
+func (m MlJobStepDetails) GetStepConfigurationDetails() PipelineConfigurationDetails {
+	return m.StepConfigurationDetails
 }
 
 func (m MlJobStepDetails) String() string {
@@ -75,4 +82,43 @@ func (m MlJobStepDetails) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *MlJobStepDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Description              *string                      `json:"description"`
+		DependsOn                []string                     `json:"dependsOn"`
+		StepConfigurationDetails pipelineconfigurationdetails `json:"stepConfigurationDetails"`
+		JobId                    *string                      `json:"jobId"`
+		StepName                 *string                      `json:"stepName"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Description = model.Description
+
+	m.DependsOn = make([]string, len(model.DependsOn))
+	for i, n := range model.DependsOn {
+		m.DependsOn[i] = n
+	}
+
+	nn, e = model.StepConfigurationDetails.UnmarshalPolymorphicJSON(model.StepConfigurationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.StepConfigurationDetails = nn.(PipelineConfigurationDetails)
+	} else {
+		m.StepConfigurationDetails = nil
+	}
+
+	m.JobId = model.JobId
+
+	m.StepName = model.StepName
+
+	return
 }

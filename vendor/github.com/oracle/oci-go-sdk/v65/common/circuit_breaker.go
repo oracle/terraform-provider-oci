@@ -355,8 +355,8 @@ func getDefaultNumHistoryCount() int {
 		if err == nil && count > 0 {
 			return count
 		}
+		Debugf("Invalid history count specified. Resetting to default value")
 	}
-	Debugf("Invalid history count specified. Resetting to default value")
 	return DefaultCircuitBreakerHistoryCount
 }
 

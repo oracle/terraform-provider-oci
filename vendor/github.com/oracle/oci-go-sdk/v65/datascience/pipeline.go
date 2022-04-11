@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// Pipeline A Pipeline to orchestrate and execute machine learning workflows
+// Pipeline A Pipeline to orchestrate and execute machine learning workflows.
 type Pipeline struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline.
@@ -54,6 +54,8 @@ type Pipeline struct {
 	PipelineConfigurationDetails PipelineConfigurationDetails `mandatory:"false" json:"pipelineConfigurationDetails"`
 
 	PipelineLogConfigurationDetails *PipelineLogConfigurationDetails `mandatory:"false" json:"pipelineLogConfigurationDetails"`
+
+	PipelineInfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `mandatory:"false" json:"pipelineInfrastructureConfigurationDetails"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in 'Failed' state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -93,22 +95,23 @@ func (m Pipeline) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Pipeline) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		TimeUpdated                     *common.SDKTime                   `json:"timeUpdated"`
-		Description                     *string                           `json:"description"`
-		PipelineConfigurationDetails    pipelineconfigurationdetails      `json:"pipelineConfigurationDetails"`
-		PipelineLogConfigurationDetails *PipelineLogConfigurationDetails  `json:"pipelineLogConfigurationDetails"`
-		LifecycleDetails                *string                           `json:"lifecycleDetails"`
-		FreeformTags                    map[string]string                 `json:"freeformTags"`
-		DefinedTags                     map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags                      map[string]map[string]interface{} `json:"systemTags"`
-		Id                              *string                           `json:"id"`
-		TimeCreated                     *common.SDKTime                   `json:"timeCreated"`
-		CreatedBy                       *string                           `json:"createdBy"`
-		ProjectId                       *string                           `json:"projectId"`
-		CompartmentId                   *string                           `json:"compartmentId"`
-		DisplayName                     *string                           `json:"displayName"`
-		StepDetails                     []stepdetails                     `json:"stepDetails"`
-		LifecycleState                  PipelineLifecycleStateEnum        `json:"lifecycleState"`
+		TimeUpdated                                *common.SDKTime                             `json:"timeUpdated"`
+		Description                                *string                                     `json:"description"`
+		PipelineConfigurationDetails               pipelineconfigurationdetails                `json:"pipelineConfigurationDetails"`
+		PipelineLogConfigurationDetails            *PipelineLogConfigurationDetails            `json:"pipelineLogConfigurationDetails"`
+		PipelineInfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `json:"pipelineInfrastructureConfigurationDetails"`
+		LifecycleDetails                           *string                                     `json:"lifecycleDetails"`
+		FreeformTags                               map[string]string                           `json:"freeformTags"`
+		DefinedTags                                map[string]map[string]interface{}           `json:"definedTags"`
+		SystemTags                                 map[string]map[string]interface{}           `json:"systemTags"`
+		Id                                         *string                                     `json:"id"`
+		TimeCreated                                *common.SDKTime                             `json:"timeCreated"`
+		CreatedBy                                  *string                                     `json:"createdBy"`
+		ProjectId                                  *string                                     `json:"projectId"`
+		CompartmentId                              *string                                     `json:"compartmentId"`
+		DisplayName                                *string                                     `json:"displayName"`
+		StepDetails                                []stepdetails                               `json:"stepDetails"`
+		LifecycleState                             PipelineLifecycleStateEnum                  `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -131,6 +134,8 @@ func (m *Pipeline) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.PipelineLogConfigurationDetails = model.PipelineLogConfigurationDetails
+
+	m.PipelineInfrastructureConfigurationDetails = model.PipelineInfrastructureConfigurationDetails
 
 	m.LifecycleDetails = model.LifecycleDetails
 

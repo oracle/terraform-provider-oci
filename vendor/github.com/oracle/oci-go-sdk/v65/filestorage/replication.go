@@ -175,31 +175,31 @@ type ReplicationDeltaStatusEnum string
 const (
 	ReplicationDeltaStatusIdle         ReplicationDeltaStatusEnum = "IDLE"
 	ReplicationDeltaStatusCapturing    ReplicationDeltaStatusEnum = "CAPTURING"
-	ReplicationDeltaStatusTransferring ReplicationDeltaStatusEnum = "TRANSFERRING"
 	ReplicationDeltaStatusApplying     ReplicationDeltaStatusEnum = "APPLYING"
 	ReplicationDeltaStatusServiceError ReplicationDeltaStatusEnum = "SERVICE_ERROR"
 	ReplicationDeltaStatusUserError    ReplicationDeltaStatusEnum = "USER_ERROR"
 	ReplicationDeltaStatusFailed       ReplicationDeltaStatusEnum = "FAILED"
+	ReplicationDeltaStatusTransferring ReplicationDeltaStatusEnum = "TRANSFERRING"
 )
 
 var mappingReplicationDeltaStatusEnum = map[string]ReplicationDeltaStatusEnum{
 	"IDLE":          ReplicationDeltaStatusIdle,
 	"CAPTURING":     ReplicationDeltaStatusCapturing,
-	"TRANSFERRING":  ReplicationDeltaStatusTransferring,
 	"APPLYING":      ReplicationDeltaStatusApplying,
 	"SERVICE_ERROR": ReplicationDeltaStatusServiceError,
 	"USER_ERROR":    ReplicationDeltaStatusUserError,
 	"FAILED":        ReplicationDeltaStatusFailed,
+	"TRANSFERRING":  ReplicationDeltaStatusTransferring,
 }
 
 var mappingReplicationDeltaStatusEnumLowerCase = map[string]ReplicationDeltaStatusEnum{
 	"idle":          ReplicationDeltaStatusIdle,
 	"capturing":     ReplicationDeltaStatusCapturing,
-	"transferring":  ReplicationDeltaStatusTransferring,
 	"applying":      ReplicationDeltaStatusApplying,
 	"service_error": ReplicationDeltaStatusServiceError,
 	"user_error":    ReplicationDeltaStatusUserError,
 	"failed":        ReplicationDeltaStatusFailed,
+	"transferring":  ReplicationDeltaStatusTransferring,
 }
 
 // GetReplicationDeltaStatusEnumValues Enumerates the set of values for ReplicationDeltaStatusEnum
@@ -216,11 +216,11 @@ func GetReplicationDeltaStatusEnumStringValues() []string {
 	return []string{
 		"IDLE",
 		"CAPTURING",
-		"TRANSFERRING",
 		"APPLYING",
 		"SERVICE_ERROR",
 		"USER_ERROR",
 		"FAILED",
+		"TRANSFERRING",
 	}
 }
 

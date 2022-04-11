@@ -16,25 +16,28 @@ import (
 	"strings"
 )
 
-// StepDetails A step in the pipeline
+// StepDetails A step in the pipeline.
 type StepDetails interface {
 
 	// The name of the step. It must be unique within the pipeline. This is used to create the pipeline DAG.
 	GetStepName() *string
 
-	// The list of step names this current step depends on for execution
+	// A short description of the step.
+	GetDescription() *string
+
+	// The list of step names this current step depends on for execution.
 	GetDependsOn() []string
 
-	// A short description of the step
-	GetDescription() *string
+	GetStepConfigurationDetails() PipelineConfigurationDetails
 }
 
 type stepdetails struct {
-	JsonData    []byte
-	StepName    *string  `mandatory:"true" json:"stepName"`
-	DependsOn   []string `mandatory:"true" json:"dependsOn"`
-	Description *string  `mandatory:"false" json:"description"`
-	StepType    string   `json:"stepType"`
+	JsonData                 []byte
+	StepName                 *string                      `mandatory:"true" json:"stepName"`
+	Description              *string                      `mandatory:"false" json:"description"`
+	DependsOn                []string                     `mandatory:"false" json:"dependsOn"`
+	StepConfigurationDetails PipelineConfigurationDetails `mandatory:"false" json:"stepConfigurationDetails"`
+	StepType                 string                       `json:"stepType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -49,8 +52,9 @@ func (m *stepdetails) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.StepName = s.Model.StepName
-	m.DependsOn = s.Model.DependsOn
 	m.Description = s.Model.Description
+	m.DependsOn = s.Model.DependsOn
+	m.StepConfigurationDetails = s.Model.StepConfigurationDetails
 	m.StepType = s.Model.StepType
 
 	return err
@@ -65,6 +69,10 @@ func (m *stepdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 
 	var err error
 	switch m.StepType {
+	case "CUSTOM_SCRIPT":
+		mm := CustomScriptStepDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ML_JOB":
 		mm := MlJobStepDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -79,14 +87,19 @@ func (m stepdetails) GetStepName() *string {
 	return m.StepName
 }
 
+//GetDescription returns Description
+func (m stepdetails) GetDescription() *string {
+	return m.Description
+}
+
 //GetDependsOn returns DependsOn
 func (m stepdetails) GetDependsOn() []string {
 	return m.DependsOn
 }
 
-//GetDescription returns Description
-func (m stepdetails) GetDescription() *string {
-	return m.Description
+//GetStepConfigurationDetails returns StepConfigurationDetails
+func (m stepdetails) GetStepConfigurationDetails() PipelineConfigurationDetails {
+	return m.StepConfigurationDetails
 }
 
 func (m stepdetails) String() string {
@@ -110,15 +123,18 @@ type StepDetailsStepTypeEnum string
 
 // Set of constants representing the allowable values for StepDetailsStepTypeEnum
 const (
-	StepDetailsStepTypeMlJob StepDetailsStepTypeEnum = "ML_JOB"
+	StepDetailsStepTypeMlJob        StepDetailsStepTypeEnum = "ML_JOB"
+	StepDetailsStepTypeCustomScript StepDetailsStepTypeEnum = "CUSTOM_SCRIPT"
 )
 
 var mappingStepDetailsStepTypeEnum = map[string]StepDetailsStepTypeEnum{
-	"ML_JOB": StepDetailsStepTypeMlJob,
+	"ML_JOB":        StepDetailsStepTypeMlJob,
+	"CUSTOM_SCRIPT": StepDetailsStepTypeCustomScript,
 }
 
 var mappingStepDetailsStepTypeEnumLowerCase = map[string]StepDetailsStepTypeEnum{
-	"ml_job": StepDetailsStepTypeMlJob,
+	"ml_job":        StepDetailsStepTypeMlJob,
+	"custom_script": StepDetailsStepTypeCustomScript,
 }
 
 // GetStepDetailsStepTypeEnumValues Enumerates the set of values for StepDetailsStepTypeEnum
@@ -134,6 +150,7 @@ func GetStepDetailsStepTypeEnumValues() []StepDetailsStepTypeEnum {
 func GetStepDetailsStepTypeEnumStringValues() []string {
 	return []string{
 		"ML_JOB",
+		"CUSTOM_SCRIPT",
 	}
 }
 

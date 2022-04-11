@@ -106,6 +106,7 @@ const (
 	GetSqlExecutionPlanAttributeOriginalWithAdjustedCost GetSqlExecutionPlanAttributeEnum = "ORIGINAL_WITH_ADJUSTED_COST"
 	GetSqlExecutionPlanAttributeUsingSqlProfile          GetSqlExecutionPlanAttributeEnum = "USING_SQL_PROFILE"
 	GetSqlExecutionPlanAttributeUsingNewIndices          GetSqlExecutionPlanAttributeEnum = "USING_NEW_INDICES"
+	GetSqlExecutionPlanAttributeUsingParallelExecution   GetSqlExecutionPlanAttributeEnum = "USING_PARALLEL_EXECUTION"
 )
 
 var mappingGetSqlExecutionPlanAttributeEnum = map[string]GetSqlExecutionPlanAttributeEnum{
@@ -113,6 +114,7 @@ var mappingGetSqlExecutionPlanAttributeEnum = map[string]GetSqlExecutionPlanAttr
 	"ORIGINAL_WITH_ADJUSTED_COST": GetSqlExecutionPlanAttributeOriginalWithAdjustedCost,
 	"USING_SQL_PROFILE":           GetSqlExecutionPlanAttributeUsingSqlProfile,
 	"USING_NEW_INDICES":           GetSqlExecutionPlanAttributeUsingNewIndices,
+	"USING_PARALLEL_EXECUTION":    GetSqlExecutionPlanAttributeUsingParallelExecution,
 }
 
 var mappingGetSqlExecutionPlanAttributeEnumLowerCase = map[string]GetSqlExecutionPlanAttributeEnum{
@@ -120,6 +122,7 @@ var mappingGetSqlExecutionPlanAttributeEnumLowerCase = map[string]GetSqlExecutio
 	"original_with_adjusted_cost": GetSqlExecutionPlanAttributeOriginalWithAdjustedCost,
 	"using_sql_profile":           GetSqlExecutionPlanAttributeUsingSqlProfile,
 	"using_new_indices":           GetSqlExecutionPlanAttributeUsingNewIndices,
+	"using_parallel_execution":    GetSqlExecutionPlanAttributeUsingParallelExecution,
 }
 
 // GetGetSqlExecutionPlanAttributeEnumValues Enumerates the set of values for GetSqlExecutionPlanAttributeEnum
@@ -138,6 +141,7 @@ func GetGetSqlExecutionPlanAttributeEnumStringValues() []string {
 		"ORIGINAL_WITH_ADJUSTED_COST",
 		"USING_SQL_PROFILE",
 		"USING_NEW_INDICES",
+		"USING_PARALLEL_EXECUTION",
 	}
 }
 

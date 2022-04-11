@@ -23,6 +23,8 @@ const (
 	WorkRequestOperationTypeNotebookSessionActivate   WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_ACTIVATE"
 	WorkRequestOperationTypeNotebookSessionDeactivate WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_DEACTIVATE"
 	WorkRequestOperationTypeModelversionsetDelete     WorkRequestOperationTypeEnum = "MODELVERSIONSET_DELETE"
+	WorkRequestOperationTypeExportModelArtifact       WorkRequestOperationTypeEnum = "EXPORT_MODEL_ARTIFACT"
+	WorkRequestOperationTypeImportModelArtifact       WorkRequestOperationTypeEnum = "IMPORT_MODEL_ARTIFACT"
 	WorkRequestOperationTypeModelDeploymentCreate     WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_CREATE"
 	WorkRequestOperationTypeModelDeploymentDelete     WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_DELETE"
 	WorkRequestOperationTypeModelDeploymentActivate   WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_ACTIVATE"
@@ -36,7 +38,6 @@ const (
 	WorkRequestOperationTypePipelineRunCreate         WorkRequestOperationTypeEnum = "PIPELINE_RUN_CREATE"
 	WorkRequestOperationTypePipelineRunCancel         WorkRequestOperationTypeEnum = "PIPELINE_RUN_CANCEL"
 	WorkRequestOperationTypePipelineRunDelete         WorkRequestOperationTypeEnum = "PIPELINE_RUN_DELETE"
-	WorkRequestOperationTypeCopyModelArtifact         WorkRequestOperationTypeEnum = "COPY_MODEL_ARTIFACT"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -45,6 +46,8 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"NOTEBOOK_SESSION_ACTIVATE":   WorkRequestOperationTypeNotebookSessionActivate,
 	"NOTEBOOK_SESSION_DEACTIVATE": WorkRequestOperationTypeNotebookSessionDeactivate,
 	"MODELVERSIONSET_DELETE":      WorkRequestOperationTypeModelversionsetDelete,
+	"EXPORT_MODEL_ARTIFACT":       WorkRequestOperationTypeExportModelArtifact,
+	"IMPORT_MODEL_ARTIFACT":       WorkRequestOperationTypeImportModelArtifact,
 	"MODEL_DEPLOYMENT_CREATE":     WorkRequestOperationTypeModelDeploymentCreate,
 	"MODEL_DEPLOYMENT_DELETE":     WorkRequestOperationTypeModelDeploymentDelete,
 	"MODEL_DEPLOYMENT_ACTIVATE":   WorkRequestOperationTypeModelDeploymentActivate,
@@ -58,7 +61,6 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"PIPELINE_RUN_CREATE":         WorkRequestOperationTypePipelineRunCreate,
 	"PIPELINE_RUN_CANCEL":         WorkRequestOperationTypePipelineRunCancel,
 	"PIPELINE_RUN_DELETE":         WorkRequestOperationTypePipelineRunDelete,
-	"COPY_MODEL_ARTIFACT":         WorkRequestOperationTypeCopyModelArtifact,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -67,6 +69,8 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"notebook_session_activate":   WorkRequestOperationTypeNotebookSessionActivate,
 	"notebook_session_deactivate": WorkRequestOperationTypeNotebookSessionDeactivate,
 	"modelversionset_delete":      WorkRequestOperationTypeModelversionsetDelete,
+	"export_model_artifact":       WorkRequestOperationTypeExportModelArtifact,
+	"import_model_artifact":       WorkRequestOperationTypeImportModelArtifact,
 	"model_deployment_create":     WorkRequestOperationTypeModelDeploymentCreate,
 	"model_deployment_delete":     WorkRequestOperationTypeModelDeploymentDelete,
 	"model_deployment_activate":   WorkRequestOperationTypeModelDeploymentActivate,
@@ -80,7 +84,6 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"pipeline_run_create":         WorkRequestOperationTypePipelineRunCreate,
 	"pipeline_run_cancel":         WorkRequestOperationTypePipelineRunCancel,
 	"pipeline_run_delete":         WorkRequestOperationTypePipelineRunDelete,
-	"copy_model_artifact":         WorkRequestOperationTypeCopyModelArtifact,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -100,6 +103,8 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"NOTEBOOK_SESSION_ACTIVATE",
 		"NOTEBOOK_SESSION_DEACTIVATE",
 		"MODELVERSIONSET_DELETE",
+		"EXPORT_MODEL_ARTIFACT",
+		"IMPORT_MODEL_ARTIFACT",
 		"MODEL_DEPLOYMENT_CREATE",
 		"MODEL_DEPLOYMENT_DELETE",
 		"MODEL_DEPLOYMENT_ACTIVATE",
@@ -113,7 +118,6 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"PIPELINE_RUN_CREATE",
 		"PIPELINE_RUN_CANCEL",
 		"PIPELINE_RUN_DELETE",
-		"COPY_MODEL_ARTIFACT",
 	}
 }
 

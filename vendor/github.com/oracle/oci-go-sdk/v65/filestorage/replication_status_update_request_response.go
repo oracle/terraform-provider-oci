@@ -114,6 +114,7 @@ const (
 	ReplicationStatusUpdateDeltaStatusServiceError ReplicationStatusUpdateDeltaStatusEnum = "SERVICE_ERROR"
 	ReplicationStatusUpdateDeltaStatusUserError    ReplicationStatusUpdateDeltaStatusEnum = "USER_ERROR"
 	ReplicationStatusUpdateDeltaStatusFailed       ReplicationStatusUpdateDeltaStatusEnum = "FAILED"
+	ReplicationStatusUpdateDeltaStatusTransferring ReplicationStatusUpdateDeltaStatusEnum = "TRANSFERRING"
 )
 
 var mappingReplicationStatusUpdateDeltaStatusEnum = map[string]ReplicationStatusUpdateDeltaStatusEnum{
@@ -123,6 +124,7 @@ var mappingReplicationStatusUpdateDeltaStatusEnum = map[string]ReplicationStatus
 	"SERVICE_ERROR": ReplicationStatusUpdateDeltaStatusServiceError,
 	"USER_ERROR":    ReplicationStatusUpdateDeltaStatusUserError,
 	"FAILED":        ReplicationStatusUpdateDeltaStatusFailed,
+	"TRANSFERRING":  ReplicationStatusUpdateDeltaStatusTransferring,
 }
 
 var mappingReplicationStatusUpdateDeltaStatusEnumLowerCase = map[string]ReplicationStatusUpdateDeltaStatusEnum{
@@ -132,6 +134,7 @@ var mappingReplicationStatusUpdateDeltaStatusEnumLowerCase = map[string]Replicat
 	"service_error": ReplicationStatusUpdateDeltaStatusServiceError,
 	"user_error":    ReplicationStatusUpdateDeltaStatusUserError,
 	"failed":        ReplicationStatusUpdateDeltaStatusFailed,
+	"transferring":  ReplicationStatusUpdateDeltaStatusTransferring,
 }
 
 // GetReplicationStatusUpdateDeltaStatusEnumValues Enumerates the set of values for ReplicationStatusUpdateDeltaStatusEnum
@@ -152,6 +155,7 @@ func GetReplicationStatusUpdateDeltaStatusEnumStringValues() []string {
 		"SERVICE_ERROR",
 		"USER_ERROR",
 		"FAILED",
+		"TRANSFERRING",
 	}
 }
 

@@ -76,6 +76,9 @@ func (client *FileStorageClient) setConfigurationProvider(configProvider common.
 	// Error has been checked already
 	region, _ := configProvider.Region()
 	client.SetRegion(region)
+	if client.Host == "" {
+		return fmt.Errorf("Invalid region or Host. Endpoint cannot be constructed without endpointServiceName or serviceEndpointTemplate for a dotted region")
+	}
 	client.config = &configProvider
 	return nil
 }
@@ -1338,6 +1341,59 @@ func (client FileStorageClient) discardKerberosKeytab(ctx context.Context, reque
 	return response, err
 }
 
+// EstimateReplication Provides estimates for replication created using specific file system.
+func (client FileStorageClient) EstimateReplication(ctx context.Context, request EstimateReplicationRequest) (response EstimateReplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.estimateReplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EstimateReplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EstimateReplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EstimateReplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EstimateReplicationResponse")
+	}
+	return
+}
+
+// estimateReplication implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) estimateReplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems/{fileSystemId}/actions/estimateReplication", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EstimateReplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/EstimateReplication"
+		err = common.PostProcessServiceError(err, "FileStorage", "EstimateReplication", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetExport Gets the specified export's information.
 func (client FileStorageClient) GetExport(ctx context.Context, request GetExportRequest) (response GetExportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1649,59 +1705,6 @@ func (client FileStorageClient) getReplication(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Replication/GetReplication"
 		err = common.PostProcessServiceError(err, "FileStorage", "GetReplication", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetReplicationEstimator Provides estimates for replication created using specific file system.
-func (client FileStorageClient) GetReplicationEstimator(ctx context.Context, request GetReplicationEstimatorRequest) (response GetReplicationEstimatorResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getReplicationEstimator, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetReplicationEstimatorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetReplicationEstimatorResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetReplicationEstimatorResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetReplicationEstimatorResponse")
-	}
-	return
-}
-
-// getReplicationEstimator implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) getReplicationEstimator(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fileSystems/{fileSystemId}/actions/replicationEstimator", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetReplicationEstimatorResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/GetReplicationEstimator"
-		err = common.PostProcessServiceError(err, "FileStorage", "GetReplicationEstimator", apiReferenceLink)
 		return response, err
 	}
 
@@ -2833,6 +2836,59 @@ func (client FileStorageClient) reserveTargetNum(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ReplicationTarget/ReserveTargetNum"
 		err = common.PostProcessServiceError(err, "FileStorage", "ReserveTargetNum", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RestartStuckDelta Restarts a failed delta job for the specified replication id.
+func (client FileStorageClient) RestartStuckDelta(ctx context.Context, request RestartStuckDeltaRequest) (response RestartStuckDeltaResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.restartStuckDelta, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RestartStuckDeltaResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RestartStuckDeltaResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RestartStuckDeltaResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RestartStuckDeltaResponse")
+	}
+	return
+}
+
+// restartStuckDelta implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) restartStuckDelta(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/replications/{replicationId}/actions/restartStuckDelta", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RestartStuckDeltaResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Replication/RestartStuckDelta"
+		err = common.PostProcessServiceError(err, "FileStorage", "RestartStuckDelta", apiReferenceLink)
 		return response, err
 	}
 

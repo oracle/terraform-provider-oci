@@ -54,6 +54,15 @@ func (region Region) Endpoint(service string) string {
 
 // EndpointForTemplate returns a endpoint for a service based on template, only unknown region name can fall back to "oc1", but not short code region name.
 func (region Region) EndpointForTemplate(service string, serviceEndpointTemplate string) string {
+	if strings.Contains(string(region), ".") {
+		endpoint, error := region.EndpointForTemplateDottedRegion(service, serviceEndpointTemplate, "")
+		if error != nil {
+			Debugf("%v", error)
+			return ""
+		}
+		return endpoint
+	}
+
 	if serviceEndpointTemplate == "" {
 		return region.Endpoint(service)
 	}
@@ -80,19 +89,18 @@ func (region Region) EndpointForTemplateDottedRegion(service string, serviceEndp
 		res := strings.Split(serviceEndpointTemplate, "//")
 		if len(res) > 1 {
 			res = strings.Split(res[1], ".")
-			if len(res) > 0 {
+			if len(res) > 1 {
 				endpoint = strings.Replace(EndpointTemplateForRegionWithDot, "{endpoint_service_name}", res[0], 1)
 				endpoint = strings.Replace(endpoint, "{region}", string(region), 1)
 			} else {
 				return endpoint, fmt.Errorf("Endpoint service name not present in endpoint template")
 			}
 		} else {
-			return endpoint, fmt.Errorf("Invalid serviceEndpointTemplates")
+			return endpoint, fmt.Errorf("Invalid serviceEndpointTemplates. ServiceEndpointTemplate should start with https://")
 		}
-		Debugf("Constructing endpoint by extracting service name from endpoint template %s", serviceEndpointTemplate)
 		return endpoint, nil
 	}
-	return "", fmt.Errorf("EndpointForTemplateDottedRegion function require endpointServiceName or serviceEndpointTemplate, no endpointServiceName or serviceEndpointTemplate provided")
+	return "", fmt.Errorf("EndpointForTemplateDottedRegion function requires endpointServiceName or serviceEndpointTemplate, no endpointServiceName or serviceEndpointTemplate provided")
 }
 
 func (region Region) secondLevelDomain() string {

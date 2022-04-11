@@ -20,7 +20,8 @@ import (
 	"strings"
 )
 
-// IntelIcelakeBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance with the Intel Icelake platform.
+// IntelIcelakeBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance with the BM.Standard3.64 shape
+// or the BM.Optimized3.36 shape (the Intel Ice Lake platform).
 type IntelIcelakeBmLaunchInstancePlatformConfig struct {
 
 	// Whether Secure Boot is enabled on the instance.
@@ -35,13 +36,23 @@ type IntelIcelakeBmLaunchInstancePlatformConfig struct {
 	// Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`.
 	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
 
-	// Whether symmetric multi-threading is enabled on the instance.
+	// Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also
+	// called simultaneous multithreading (SMT) or Intel Hyper-Threading.
+	// Intel and AMD processors have two hardware execution threads per core (OCPU). SMT permits multiple
+	// independent threads of execution, to better use the resources and increase the efficiency
+	// of the CPU. When multithreading is disabled, only one thread is permitted to run on each core, which
+	// can provide higher or more predictable performance for some workloads.
 	IsSymmetricMultiThreadingEnabled *bool `mandatory:"false" json:"isSymmetricMultiThreadingEnabled"`
 
 	// Whether the input-output memory management unit is enabled.
 	IsInputOutputMemoryManagementUnitEnabled *bool `mandatory:"false" json:"isInputOutputMemoryManagementUnitEnabled"`
 
-	// The percentage of cores enabled.
+	// The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage
+	// results in a fractional number of cores, the system rounds up the number of cores across processors
+	// and provisions an instance with a whole number of cores.
+	// If the applications that you run on the instance use a core-based licensing model and need fewer cores
+	// than the full size of the shape, you can disable cores to reduce your licensing costs. The instance
+	// itself is billed for the full shape, regardless of whether all cores are enabled.
 	PercentageOfCoresEnabled *int `mandatory:"false" json:"percentageOfCoresEnabled"`
 
 	// The number of NUMA nodes per socket (NPS).

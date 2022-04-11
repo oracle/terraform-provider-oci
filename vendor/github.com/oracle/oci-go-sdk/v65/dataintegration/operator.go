@@ -116,6 +116,10 @@ func (m *operator) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := TaskOperator{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "FLATTEN_OPERATOR":
+		mm := Flatten{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AGGREGATOR_OPERATOR":
 		mm := Aggregator{}
 		err = json.Unmarshal(data, &mm)
@@ -144,6 +148,10 @@ func (m *operator) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := ExpressionOperator{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "FUNCTION_OPERATOR":
+		mm := Function{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "INTERSECT_OPERATOR":
 		mm := Intersect{}
 		err = json.Unmarshal(data, &mm)
@@ -162,6 +170,10 @@ func (m *operator) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		return mm, err
 	case "LOOKUP_OPERATOR":
 		mm := Lookup{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "PIVOT_OPERATOR":
+		mm := Pivot{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "START_OPERATOR":
@@ -268,18 +280,21 @@ const (
 	OperatorModelTypeAggregatorOperator OperatorModelTypeEnum = "AGGREGATOR_OPERATOR"
 	OperatorModelTypeProjectionOperator OperatorModelTypeEnum = "PROJECTION_OPERATOR"
 	OperatorModelTypeTargetOperator     OperatorModelTypeEnum = "TARGET_OPERATOR"
+	OperatorModelTypeFlattenOperator    OperatorModelTypeEnum = "FLATTEN_OPERATOR"
 	OperatorModelTypeDistinctOperator   OperatorModelTypeEnum = "DISTINCT_OPERATOR"
 	OperatorModelTypeSortOperator       OperatorModelTypeEnum = "SORT_OPERATOR"
 	OperatorModelTypeUnionOperator      OperatorModelTypeEnum = "UNION_OPERATOR"
 	OperatorModelTypeIntersectOperator  OperatorModelTypeEnum = "INTERSECT_OPERATOR"
 	OperatorModelTypeMinusOperator      OperatorModelTypeEnum = "MINUS_OPERATOR"
 	OperatorModelTypeMergeOperator      OperatorModelTypeEnum = "MERGE_OPERATOR"
+	OperatorModelTypeFunctionOperator   OperatorModelTypeEnum = "FUNCTION_OPERATOR"
 	OperatorModelTypeStartOperator      OperatorModelTypeEnum = "START_OPERATOR"
 	OperatorModelTypeEndOperator        OperatorModelTypeEnum = "END_OPERATOR"
 	OperatorModelTypePipelineOperator   OperatorModelTypeEnum = "PIPELINE_OPERATOR"
 	OperatorModelTypeTaskOperator       OperatorModelTypeEnum = "TASK_OPERATOR"
 	OperatorModelTypeExpressionOperator OperatorModelTypeEnum = "EXPRESSION_OPERATOR"
 	OperatorModelTypeLookupOperator     OperatorModelTypeEnum = "LOOKUP_OPERATOR"
+	OperatorModelTypePivotOperator      OperatorModelTypeEnum = "PIVOT_OPERATOR"
 )
 
 var mappingOperatorModelTypeEnum = map[string]OperatorModelTypeEnum{
@@ -289,18 +304,21 @@ var mappingOperatorModelTypeEnum = map[string]OperatorModelTypeEnum{
 	"AGGREGATOR_OPERATOR": OperatorModelTypeAggregatorOperator,
 	"PROJECTION_OPERATOR": OperatorModelTypeProjectionOperator,
 	"TARGET_OPERATOR":     OperatorModelTypeTargetOperator,
+	"FLATTEN_OPERATOR":    OperatorModelTypeFlattenOperator,
 	"DISTINCT_OPERATOR":   OperatorModelTypeDistinctOperator,
 	"SORT_OPERATOR":       OperatorModelTypeSortOperator,
 	"UNION_OPERATOR":      OperatorModelTypeUnionOperator,
 	"INTERSECT_OPERATOR":  OperatorModelTypeIntersectOperator,
 	"MINUS_OPERATOR":      OperatorModelTypeMinusOperator,
 	"MERGE_OPERATOR":      OperatorModelTypeMergeOperator,
+	"FUNCTION_OPERATOR":   OperatorModelTypeFunctionOperator,
 	"START_OPERATOR":      OperatorModelTypeStartOperator,
 	"END_OPERATOR":        OperatorModelTypeEndOperator,
 	"PIPELINE_OPERATOR":   OperatorModelTypePipelineOperator,
 	"TASK_OPERATOR":       OperatorModelTypeTaskOperator,
 	"EXPRESSION_OPERATOR": OperatorModelTypeExpressionOperator,
 	"LOOKUP_OPERATOR":     OperatorModelTypeLookupOperator,
+	"PIVOT_OPERATOR":      OperatorModelTypePivotOperator,
 }
 
 var mappingOperatorModelTypeEnumLowerCase = map[string]OperatorModelTypeEnum{
@@ -310,18 +328,21 @@ var mappingOperatorModelTypeEnumLowerCase = map[string]OperatorModelTypeEnum{
 	"aggregator_operator": OperatorModelTypeAggregatorOperator,
 	"projection_operator": OperatorModelTypeProjectionOperator,
 	"target_operator":     OperatorModelTypeTargetOperator,
+	"flatten_operator":    OperatorModelTypeFlattenOperator,
 	"distinct_operator":   OperatorModelTypeDistinctOperator,
 	"sort_operator":       OperatorModelTypeSortOperator,
 	"union_operator":      OperatorModelTypeUnionOperator,
 	"intersect_operator":  OperatorModelTypeIntersectOperator,
 	"minus_operator":      OperatorModelTypeMinusOperator,
 	"merge_operator":      OperatorModelTypeMergeOperator,
+	"function_operator":   OperatorModelTypeFunctionOperator,
 	"start_operator":      OperatorModelTypeStartOperator,
 	"end_operator":        OperatorModelTypeEndOperator,
 	"pipeline_operator":   OperatorModelTypePipelineOperator,
 	"task_operator":       OperatorModelTypeTaskOperator,
 	"expression_operator": OperatorModelTypeExpressionOperator,
 	"lookup_operator":     OperatorModelTypeLookupOperator,
+	"pivot_operator":      OperatorModelTypePivotOperator,
 }
 
 // GetOperatorModelTypeEnumValues Enumerates the set of values for OperatorModelTypeEnum
@@ -342,18 +363,21 @@ func GetOperatorModelTypeEnumStringValues() []string {
 		"AGGREGATOR_OPERATOR",
 		"PROJECTION_OPERATOR",
 		"TARGET_OPERATOR",
+		"FLATTEN_OPERATOR",
 		"DISTINCT_OPERATOR",
 		"SORT_OPERATOR",
 		"UNION_OPERATOR",
 		"INTERSECT_OPERATOR",
 		"MINUS_OPERATOR",
 		"MERGE_OPERATOR",
+		"FUNCTION_OPERATOR",
 		"START_OPERATOR",
 		"END_OPERATOR",
 		"PIPELINE_OPERATOR",
 		"TASK_OPERATOR",
 		"EXPRESSION_OPERATOR",
 		"LOOKUP_OPERATOR",
+		"PIVOT_OPERATOR",
 	}
 }
 

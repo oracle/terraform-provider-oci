@@ -22,18 +22,21 @@ const (
 	ConfigTypesSpanFilter  ConfigTypesEnum = "SPAN_FILTER"
 	ConfigTypesMetricGroup ConfigTypesEnum = "METRIC_GROUP"
 	ConfigTypesApdex       ConfigTypesEnum = "APDEX"
+	ConfigTypesOptions     ConfigTypesEnum = "OPTIONS"
 )
 
 var mappingConfigTypesEnum = map[string]ConfigTypesEnum{
 	"SPAN_FILTER":  ConfigTypesSpanFilter,
 	"METRIC_GROUP": ConfigTypesMetricGroup,
 	"APDEX":        ConfigTypesApdex,
+	"OPTIONS":      ConfigTypesOptions,
 }
 
 var mappingConfigTypesEnumLowerCase = map[string]ConfigTypesEnum{
 	"span_filter":  ConfigTypesSpanFilter,
 	"metric_group": ConfigTypesMetricGroup,
 	"apdex":        ConfigTypesApdex,
+	"options":      ConfigTypesOptions,
 }
 
 // GetConfigTypesEnumValues Enumerates the set of values for ConfigTypesEnum
@@ -51,6 +54,7 @@ func GetConfigTypesEnumStringValues() []string {
 		"SPAN_FILTER",
 		"METRIC_GROUP",
 		"APDEX",
+		"OPTIONS",
 	}
 }
 

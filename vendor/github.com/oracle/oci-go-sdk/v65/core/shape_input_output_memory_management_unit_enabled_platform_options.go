@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// ShapeInputOutputMemoryManagementUnitEnabledPlatformOptions Configuration options for the input-output memory management unit.
+// ShapeInputOutputMemoryManagementUnitEnabledPlatformOptions Configuration options for the input-output memory management unit (IOMMU).
 type ShapeInputOutputMemoryManagementUnitEnabledPlatformOptions struct {
 
 	// Whether the input-output memory management unit can be enabled.

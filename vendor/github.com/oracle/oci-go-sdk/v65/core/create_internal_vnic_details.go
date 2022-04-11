@@ -467,8 +467,8 @@ const (
 	CreateInternalVnicDetailsVnicShapeFixed3900E450g                  CreateInternalVnicDetailsVnicShapeEnum = "FIXED3900_E4_50G"
 	CreateInternalVnicDetailsVnicShapeFixed4000E450g                  CreateInternalVnicDetailsVnicShapeEnum = "FIXED4000_E4_50G"
 	CreateInternalVnicDetailsVnicShapeEntirehostE450g                 CreateInternalVnicDetailsVnicShapeEnum = "ENTIREHOST_E4_50G"
-	CreateInternalVnicDetailsVnicShapeMicroVmFixed0050E350g           CreateInternalVnicDetailsVnicShapeEnum = "MICRO_VM_FIXED0050_E3_50G"
-	CreateInternalVnicDetailsVnicShapeMicroVmFixed0050E450g           CreateInternalVnicDetailsVnicShapeEnum = "MICRO_VM_FIXED0050_E4_50G"
+	CreateInternalVnicDetailsVnicShapeMicroVmFixed0050E350g           CreateInternalVnicDetailsVnicShapeEnum = "Micro_VM_Fixed0050_E3_50G"
+	CreateInternalVnicDetailsVnicShapeMicroVmFixed0050E450g           CreateInternalVnicDetailsVnicShapeEnum = "Micro_VM_Fixed0050_E4_50G"
 	CreateInternalVnicDetailsVnicShapeSubcoreVmFixed0025E350g         CreateInternalVnicDetailsVnicShapeEnum = "SUBCORE_VM_FIXED0025_E3_50G"
 	CreateInternalVnicDetailsVnicShapeSubcoreVmFixed0050E350g         CreateInternalVnicDetailsVnicShapeEnum = "SUBCORE_VM_FIXED0050_E3_50G"
 	CreateInternalVnicDetailsVnicShapeSubcoreVmFixed0075E350g         CreateInternalVnicDetailsVnicShapeEnum = "SUBCORE_VM_FIXED0075_E3_50G"
@@ -1509,8 +1509,8 @@ var mappingCreateInternalVnicDetailsVnicShapeEnum = map[string]CreateInternalVni
 	"FIXED3900_E4_50G":                     CreateInternalVnicDetailsVnicShapeFixed3900E450g,
 	"FIXED4000_E4_50G":                     CreateInternalVnicDetailsVnicShapeFixed4000E450g,
 	"ENTIREHOST_E4_50G":                    CreateInternalVnicDetailsVnicShapeEntirehostE450g,
-	"MICRO_VM_FIXED0050_E3_50G":            CreateInternalVnicDetailsVnicShapeMicroVmFixed0050E350g,
-	"MICRO_VM_FIXED0050_E4_50G":            CreateInternalVnicDetailsVnicShapeMicroVmFixed0050E450g,
+	"Micro_VM_Fixed0050_E3_50G":            CreateInternalVnicDetailsVnicShapeMicroVmFixed0050E350g,
+	"Micro_VM_Fixed0050_E4_50G":            CreateInternalVnicDetailsVnicShapeMicroVmFixed0050E450g,
 	"SUBCORE_VM_FIXED0025_E3_50G":          CreateInternalVnicDetailsVnicShapeSubcoreVmFixed0025E350g,
 	"SUBCORE_VM_FIXED0050_E3_50G":          CreateInternalVnicDetailsVnicShapeSubcoreVmFixed0050E350g,
 	"SUBCORE_VM_FIXED0075_E3_50G":          CreateInternalVnicDetailsVnicShapeSubcoreVmFixed0075E350g,
@@ -3604,8 +3604,8 @@ func GetCreateInternalVnicDetailsVnicShapeEnumStringValues() []string {
 		"FIXED3900_E4_50G",
 		"FIXED4000_E4_50G",
 		"ENTIREHOST_E4_50G",
-		"MICRO_VM_FIXED0050_E3_50G",
-		"MICRO_VM_FIXED0050_E4_50G",
+		"Micro_VM_Fixed0050_E3_50G",
+		"Micro_VM_Fixed0050_E4_50G",
 		"SUBCORE_VM_FIXED0025_E3_50G",
 		"SUBCORE_VM_FIXED0050_E3_50G",
 		"SUBCORE_VM_FIXED0075_E3_50G",

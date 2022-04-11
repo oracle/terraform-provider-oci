@@ -59,12 +59,24 @@ func (m *fieldmap) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := RuleBasedFieldMap{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "RULE_BASED_ENTITY_MAP":
+		mm := RuleBasedEntityMap{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "NAMED_ENTITY_MAP":
+		mm := NamedEntityMap{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DIRECT_FIELD_MAP":
 		mm := DirectFieldMap{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "COMPOSITE_FIELD_MAP":
 		mm := CompositeFieldMap{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CONDITIONAL_COMPOSITE_FIELD_MAP":
+		mm := ConditionalCompositeFieldMap{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DIRECT_NAMED_FIELD_MAP":
@@ -102,24 +114,33 @@ type FieldMapModelTypeEnum string
 
 // Set of constants representing the allowable values for FieldMapModelTypeEnum
 const (
-	FieldMapModelTypeDirectNamedFieldMap FieldMapModelTypeEnum = "DIRECT_NAMED_FIELD_MAP"
-	FieldMapModelTypeCompositeFieldMap   FieldMapModelTypeEnum = "COMPOSITE_FIELD_MAP"
-	FieldMapModelTypeDirectFieldMap      FieldMapModelTypeEnum = "DIRECT_FIELD_MAP"
-	FieldMapModelTypeRuleBasedFieldMap   FieldMapModelTypeEnum = "RULE_BASED_FIELD_MAP"
+	FieldMapModelTypeDirectNamedFieldMap          FieldMapModelTypeEnum = "DIRECT_NAMED_FIELD_MAP"
+	FieldMapModelTypeCompositeFieldMap            FieldMapModelTypeEnum = "COMPOSITE_FIELD_MAP"
+	FieldMapModelTypeDirectFieldMap               FieldMapModelTypeEnum = "DIRECT_FIELD_MAP"
+	FieldMapModelTypeRuleBasedFieldMap            FieldMapModelTypeEnum = "RULE_BASED_FIELD_MAP"
+	FieldMapModelTypeConditionalCompositeFieldMap FieldMapModelTypeEnum = "CONDITIONAL_COMPOSITE_FIELD_MAP"
+	FieldMapModelTypeNamedEntityMap               FieldMapModelTypeEnum = "NAMED_ENTITY_MAP"
+	FieldMapModelTypeRuleBasedEntityMap           FieldMapModelTypeEnum = "RULE_BASED_ENTITY_MAP"
 )
 
 var mappingFieldMapModelTypeEnum = map[string]FieldMapModelTypeEnum{
-	"DIRECT_NAMED_FIELD_MAP": FieldMapModelTypeDirectNamedFieldMap,
-	"COMPOSITE_FIELD_MAP":    FieldMapModelTypeCompositeFieldMap,
-	"DIRECT_FIELD_MAP":       FieldMapModelTypeDirectFieldMap,
-	"RULE_BASED_FIELD_MAP":   FieldMapModelTypeRuleBasedFieldMap,
+	"DIRECT_NAMED_FIELD_MAP":          FieldMapModelTypeDirectNamedFieldMap,
+	"COMPOSITE_FIELD_MAP":             FieldMapModelTypeCompositeFieldMap,
+	"DIRECT_FIELD_MAP":                FieldMapModelTypeDirectFieldMap,
+	"RULE_BASED_FIELD_MAP":            FieldMapModelTypeRuleBasedFieldMap,
+	"CONDITIONAL_COMPOSITE_FIELD_MAP": FieldMapModelTypeConditionalCompositeFieldMap,
+	"NAMED_ENTITY_MAP":                FieldMapModelTypeNamedEntityMap,
+	"RULE_BASED_ENTITY_MAP":           FieldMapModelTypeRuleBasedEntityMap,
 }
 
 var mappingFieldMapModelTypeEnumLowerCase = map[string]FieldMapModelTypeEnum{
-	"direct_named_field_map": FieldMapModelTypeDirectNamedFieldMap,
-	"composite_field_map":    FieldMapModelTypeCompositeFieldMap,
-	"direct_field_map":       FieldMapModelTypeDirectFieldMap,
-	"rule_based_field_map":   FieldMapModelTypeRuleBasedFieldMap,
+	"direct_named_field_map":          FieldMapModelTypeDirectNamedFieldMap,
+	"composite_field_map":             FieldMapModelTypeCompositeFieldMap,
+	"direct_field_map":                FieldMapModelTypeDirectFieldMap,
+	"rule_based_field_map":            FieldMapModelTypeRuleBasedFieldMap,
+	"conditional_composite_field_map": FieldMapModelTypeConditionalCompositeFieldMap,
+	"named_entity_map":                FieldMapModelTypeNamedEntityMap,
+	"rule_based_entity_map":           FieldMapModelTypeRuleBasedEntityMap,
 }
 
 // GetFieldMapModelTypeEnumValues Enumerates the set of values for FieldMapModelTypeEnum
@@ -138,6 +159,9 @@ func GetFieldMapModelTypeEnumStringValues() []string {
 		"COMPOSITE_FIELD_MAP",
 		"DIRECT_FIELD_MAP",
 		"RULE_BASED_FIELD_MAP",
+		"CONDITIONAL_COMPOSITE_FIELD_MAP",
+		"NAMED_ENTITY_MAP",
+		"RULE_BASED_ENTITY_MAP",
 	}
 }
 

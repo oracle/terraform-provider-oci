@@ -319,6 +319,9 @@ type Sddc struct {
 
 	// Indicates whether shielded instance is enabled at the SDDC level.
 	IsShieldedInstanceEnabled *bool `mandatory:"false" json:"isShieldedInstanceEnabled"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 }
 
 func (m Sddc) String() string {

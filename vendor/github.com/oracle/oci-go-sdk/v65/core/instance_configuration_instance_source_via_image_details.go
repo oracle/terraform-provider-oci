@@ -32,6 +32,16 @@ type InstanceConfigurationInstanceSourceViaImageDetails struct {
 
 	// The OCID of the Key Management key to assign as the master encryption key for the boot volume.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The number of volume performance units (VPUs) that will be applied to this volume per GB,
+	// representing the Block Volume service's elastic performance options.
+	// See Block Volume Performance Levels (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
+	// Allowed values:
+	//   * `10`: Represents Balanced option.
+	//   * `20`: Represents Higher Performance option.
+	//   * `30`-`120`: Represents the Ultra High Performance option.
+	// For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB.
+	BootVolumeVpusPerGB *int64 `mandatory:"false" json:"bootVolumeVpusPerGB"`
 }
 
 func (m InstanceConfigurationInstanceSourceViaImageDetails) String() string {

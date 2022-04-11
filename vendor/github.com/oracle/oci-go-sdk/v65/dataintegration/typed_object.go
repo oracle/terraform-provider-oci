@@ -123,6 +123,10 @@ func (m *typedobject) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		mm := Parameter{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PIVOT_FIELD":
+		mm := PivotField{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OUTPUT_FIELD":
 		mm := OutputField{}
 		err = json.Unmarshal(data, &mm)
@@ -216,6 +220,8 @@ const (
 	TypedObjectModelTypeDynamicInputField TypedObjectModelTypeEnum = "DYNAMIC_INPUT_FIELD"
 	TypedObjectModelTypeProxyField        TypedObjectModelTypeEnum = "PROXY_FIELD"
 	TypedObjectModelTypeParameter         TypedObjectModelTypeEnum = "PARAMETER"
+	TypedObjectModelTypePivotField        TypedObjectModelTypeEnum = "PIVOT_FIELD"
+	TypedObjectModelTypeMacroPivotField   TypedObjectModelTypeEnum = "MACRO_PIVOT_FIELD"
 )
 
 var mappingTypedObjectModelTypeEnum = map[string]TypedObjectModelTypeEnum{
@@ -231,6 +237,8 @@ var mappingTypedObjectModelTypeEnum = map[string]TypedObjectModelTypeEnum{
 	"DYNAMIC_INPUT_FIELD": TypedObjectModelTypeDynamicInputField,
 	"PROXY_FIELD":         TypedObjectModelTypeProxyField,
 	"PARAMETER":           TypedObjectModelTypeParameter,
+	"PIVOT_FIELD":         TypedObjectModelTypePivotField,
+	"MACRO_PIVOT_FIELD":   TypedObjectModelTypeMacroPivotField,
 }
 
 var mappingTypedObjectModelTypeEnumLowerCase = map[string]TypedObjectModelTypeEnum{
@@ -246,6 +254,8 @@ var mappingTypedObjectModelTypeEnumLowerCase = map[string]TypedObjectModelTypeEn
 	"dynamic_input_field": TypedObjectModelTypeDynamicInputField,
 	"proxy_field":         TypedObjectModelTypeProxyField,
 	"parameter":           TypedObjectModelTypeParameter,
+	"pivot_field":         TypedObjectModelTypePivotField,
+	"macro_pivot_field":   TypedObjectModelTypeMacroPivotField,
 }
 
 // GetTypedObjectModelTypeEnumValues Enumerates the set of values for TypedObjectModelTypeEnum
@@ -272,6 +282,8 @@ func GetTypedObjectModelTypeEnumStringValues() []string {
 		"DYNAMIC_INPUT_FIELD",
 		"PROXY_FIELD",
 		"PARAMETER",
+		"PIVOT_FIELD",
+		"MACRO_PIVOT_FIELD",
 	}
 }
 

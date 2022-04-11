@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// PipelineConfigurationDetails The configuration details of a pipeline or a step
+// PipelineConfigurationDetails The configuration details of a pipeline or a step.
 type PipelineConfigurationDetails interface {
 }
 

@@ -38,6 +38,8 @@ type CreatePipelineDetails struct {
 
 	PipelineLogConfigurationDetails *PipelineLogConfigurationDetails `mandatory:"false" json:"pipelineLogConfigurationDetails"`
 
+	PipelineInfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `mandatory:"false" json:"pipelineInfrastructureConfigurationDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -66,15 +68,16 @@ func (m CreatePipelineDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreatePipelineDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName                     *string                           `json:"displayName"`
-		Description                     *string                           `json:"description"`
-		PipelineConfigurationDetails    pipelineconfigurationdetails      `json:"pipelineConfigurationDetails"`
-		PipelineLogConfigurationDetails *PipelineLogConfigurationDetails  `json:"pipelineLogConfigurationDetails"`
-		FreeformTags                    map[string]string                 `json:"freeformTags"`
-		DefinedTags                     map[string]map[string]interface{} `json:"definedTags"`
-		ProjectId                       *string                           `json:"projectId"`
-		CompartmentId                   *string                           `json:"compartmentId"`
-		StepDetails                     []stepdetails                     `json:"stepDetails"`
+		DisplayName                                *string                                     `json:"displayName"`
+		Description                                *string                                     `json:"description"`
+		PipelineConfigurationDetails               pipelineconfigurationdetails                `json:"pipelineConfigurationDetails"`
+		PipelineLogConfigurationDetails            *PipelineLogConfigurationDetails            `json:"pipelineLogConfigurationDetails"`
+		PipelineInfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `json:"pipelineInfrastructureConfigurationDetails"`
+		FreeformTags                               map[string]string                           `json:"freeformTags"`
+		DefinedTags                                map[string]map[string]interface{}           `json:"definedTags"`
+		ProjectId                                  *string                                     `json:"projectId"`
+		CompartmentId                              *string                                     `json:"compartmentId"`
+		StepDetails                                []stepdetails                               `json:"stepDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -97,6 +100,8 @@ func (m *CreatePipelineDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.PipelineLogConfigurationDetails = model.PipelineLogConfigurationDetails
+
+	m.PipelineInfrastructureConfigurationDetails = model.PipelineInfrastructureConfigurationDetails
 
 	m.FreeformTags = model.FreeformTags
 

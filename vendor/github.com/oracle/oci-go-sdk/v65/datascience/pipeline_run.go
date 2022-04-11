@@ -61,6 +61,9 @@ type PipelineRun struct {
 
 	PipelineLogConfigurationOverrideDetails *PipelineLogConfigurationDetails `mandatory:"false" json:"pipelineLogConfigurationOverrideDetails"`
 
+	// The configuration override details for each step.
+	StepConfigurationOverrideDetails []StepConfigurationDetails `mandatory:"false" json:"stepConfigurationOverrideDetails"`
+
 	LogDetails *PipelineRunLogDetails `mandatory:"false" json:"logDetails"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in 'Failed' state.
@@ -107,6 +110,7 @@ func (m *PipelineRun) UnmarshalJSON(data []byte) (e error) {
 		PipelineConfigurationDetails            pipelineconfigurationdetails      `json:"pipelineConfigurationDetails"`
 		PipelineConfigurationOverrideDetails    pipelineconfigurationdetails      `json:"pipelineConfigurationOverrideDetails"`
 		PipelineLogConfigurationOverrideDetails *PipelineLogConfigurationDetails  `json:"pipelineLogConfigurationOverrideDetails"`
+		StepConfigurationOverrideDetails        []StepConfigurationDetails        `json:"stepConfigurationOverrideDetails"`
 		LogDetails                              *PipelineRunLogDetails            `json:"logDetails"`
 		LifecycleDetails                        *string                           `json:"lifecycleDetails"`
 		FreeformTags                            map[string]string                 `json:"freeformTags"`
@@ -155,6 +159,11 @@ func (m *PipelineRun) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.PipelineLogConfigurationOverrideDetails = model.PipelineLogConfigurationOverrideDetails
+
+	m.StepConfigurationOverrideDetails = make([]StepConfigurationDetails, len(model.StepConfigurationOverrideDetails))
+	for i, n := range model.StepConfigurationOverrideDetails {
+		m.StepConfigurationOverrideDetails[i] = n
+	}
 
 	m.LogDetails = model.LogDetails
 

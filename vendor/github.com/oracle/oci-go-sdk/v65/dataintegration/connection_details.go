@@ -139,6 +139,10 @@ func (m *connectiondetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := ConnectionFromOracleDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BIP_CONNECTION":
+		mm := ConnectionFromBipDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -233,6 +237,7 @@ const (
 	ConnectionDetailsModelTypeGenericJdbcConnection         ConnectionDetailsModelTypeEnum = "GENERIC_JDBC_CONNECTION"
 	ConnectionDetailsModelTypeBiccConnection                ConnectionDetailsModelTypeEnum = "BICC_CONNECTION"
 	ConnectionDetailsModelTypeAmazonS3Connection            ConnectionDetailsModelTypeEnum = "AMAZON_S3_CONNECTION"
+	ConnectionDetailsModelTypeBipConnection                 ConnectionDetailsModelTypeEnum = "BIP_CONNECTION"
 )
 
 var mappingConnectionDetailsModelTypeEnum = map[string]ConnectionDetailsModelTypeEnum{
@@ -244,6 +249,7 @@ var mappingConnectionDetailsModelTypeEnum = map[string]ConnectionDetailsModelTyp
 	"GENERIC_JDBC_CONNECTION":          ConnectionDetailsModelTypeGenericJdbcConnection,
 	"BICC_CONNECTION":                  ConnectionDetailsModelTypeBiccConnection,
 	"AMAZON_S3_CONNECTION":             ConnectionDetailsModelTypeAmazonS3Connection,
+	"BIP_CONNECTION":                   ConnectionDetailsModelTypeBipConnection,
 }
 
 var mappingConnectionDetailsModelTypeEnumLowerCase = map[string]ConnectionDetailsModelTypeEnum{
@@ -255,6 +261,7 @@ var mappingConnectionDetailsModelTypeEnumLowerCase = map[string]ConnectionDetail
 	"generic_jdbc_connection":          ConnectionDetailsModelTypeGenericJdbcConnection,
 	"bicc_connection":                  ConnectionDetailsModelTypeBiccConnection,
 	"amazon_s3_connection":             ConnectionDetailsModelTypeAmazonS3Connection,
+	"bip_connection":                   ConnectionDetailsModelTypeBipConnection,
 }
 
 // GetConnectionDetailsModelTypeEnumValues Enumerates the set of values for ConnectionDetailsModelTypeEnum
@@ -277,6 +284,7 @@ func GetConnectionDetailsModelTypeEnumStringValues() []string {
 		"GENERIC_JDBC_CONNECTION",
 		"BICC_CONNECTION",
 		"AMAZON_S3_CONNECTION",
+		"BIP_CONNECTION",
 	}
 }
 

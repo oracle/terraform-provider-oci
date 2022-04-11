@@ -173,6 +173,8 @@ type CloudVmCluster struct {
 	// The private zone id in which DNS records needs to be created.
 	PrivateZoneId *string `mandatory:"false" json:"privateZoneId"`
 
+	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
+
 	IormConfigCache *ExadataIormConfig `mandatory:"false" json:"iormConfigCache"`
 }
 
