@@ -41,6 +41,7 @@ type customError struct {
 	RequestTarget string
 	Suggestion    string
 	VersionError  string
+	ResourceDocs  string
 }
 
 // Create new error format for Terraform output
@@ -59,6 +60,7 @@ func newCustomError(sync interface{}, err error) error {
 			OperationName: failure.GetOperationName(),
 			RequestTarget: failure.GetRequestTarget(),
 			Service:       getServiceName(sync),
+			ResourceDocs:  getResourceDocsURL(sync),
 		}
 	} else if strings.Contains(errorMessage, "timeout while waiting for state") {
 		// Timeout error
@@ -98,15 +100,16 @@ func newCustomError(sync interface{}, err error) error {
 func (tfE customError) Error() error {
 	switch tfE.TypeOfError {
 	case ServiceError:
-		return fmt.Errorf("%d-%s \n"+
+		return fmt.Errorf("%d-%s, %s \n"+
+			"Suggestion: %s\n"+
+			"Documentation: %s \n"+
+			"Request Target: %s \n"+
 			"%s \n"+
 			"Service: %s \n"+
 			"Operation Name: %s \n"+
-			"Request Target: %s \n"+
-			"Error Message: %s \n"+
-			"OPC request ID: %s \n"+
-			"Suggestion: %s\n",
-			tfE.ErrorCode, tfE.ErrorCodeName, tfE.VersionError, tfE.Service, tfE.OperationName, tfE.RequestTarget, tfE.Message, tfE.OpcRequestID, tfE.Suggestion)
+			"OPC request ID: %s \n",
+			tfE.ErrorCode, tfE.ErrorCodeName, tfE.Message, tfE.Suggestion, tfE.ResourceDocs, tfE.RequestTarget,
+			tfE.VersionError, tfE.Service, tfE.OperationName, tfE.OpcRequestID)
 	case TimeoutError:
 		return fmt.Errorf("%s \n"+
 			"%s \n"+
@@ -181,6 +184,42 @@ func getServiceName(sync interface{}) string {
 	}
 	log.Printf("[DEBUG] Can't get the service name for: %v", syncTypeName)
 	return ""
+}
+
+// Return the Terraform document for the resource/datasource
+func getResourceDocsURL(sync interface{}) string {
+	baseURL := globalvar.TerraformDocumentLink
+	var result = baseURL
+	syncTypeName := reflect.TypeOf(sync).String()
+	if strings.Contains(syncTypeName, "ResourceCrud") {
+		result += "resources/"
+		resourceName := syncTypeName[strings.Index(syncTypeName, ".")+1 : strings.Index(syncTypeName, "ResourceCrud")]
+		result += toSnakeCase(resourceName)
+		return result
+	}
+	if strings.Contains(syncTypeName, "DataSourcesCrud") {
+		result += "data-sources/"
+		datasourceName := syncTypeName[strings.Index(syncTypeName, ".")+1 : strings.Index(syncTypeName, "DataSourcesCrud")]
+		result += toSnakeCase(datasourceName)
+		return result
+	}
+	if strings.Contains(syncTypeName, "DataSourceCrud") {
+		result += "data-sources/"
+		datasourceName := syncTypeName[strings.Index(syncTypeName, ".")+1 : strings.Index(syncTypeName, "DataSourceCrud")]
+		result += toSnakeCase(datasourceName)
+		return result
+	}
+	log.Printf("[DEBUG] Can't get the resource name for: %v", syncTypeName)
+	return ""
+}
+
+// CoreBootVolume -> core_boot_volume
+func toSnakeCase(name string) string {
+	var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
+	var matchAllCap = regexp.MustCompile("([a-z0-9])([A-Z])")
+	snake := matchFirstCap.ReplaceAllString(name, "${1}_${2}")
+	snake = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
+	return strings.ToLower(snake)
 }
 
 func removeDuplicate(name string) string {
