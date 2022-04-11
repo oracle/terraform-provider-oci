@@ -31,7 +31,7 @@ data "oci_devops_repository_file_line" "test_repository_file_line" {
 
 The following arguments are supported:
 
-* `file_path` - (Required) Path to a file within a repository.
+* `file_path` - (Required) A filter to return file contents of the specified paths.
 * `repository_id` - (Required) Unique repository identifier.
 * `revision` - (Required) Retrieve file lines from specific revision.
 * `start_line_number` - (Optional) Line number from where to start returning file lines.
