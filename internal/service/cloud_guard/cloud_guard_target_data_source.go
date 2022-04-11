@@ -101,6 +101,16 @@ func (s *CloudGuardTargetDataSourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	if s.Res.TargetDetails != nil {
+		targetDetailsArray := []interface{}{}
+		if targetDetailsMap := TargetDetailsToMap(&s.Res.TargetDetails); targetDetailsMap != nil {
+			targetDetailsArray = append(targetDetailsArray, targetDetailsMap)
+		}
+		s.D.Set("target_details", targetDetailsArray)
+	} else {
+		s.D.Set("target_details", nil)
+	}
+
 	targetDetectorRecipes := []interface{}{}
 	for _, item := range s.Res.TargetDetectorRecipes {
 		targetDetectorRecipes = append(targetDetectorRecipes, TargetDetectorRecipeToMap(item))
@@ -111,7 +121,7 @@ func (s *CloudGuardTargetDataSourceCrud) SetData() error {
 		s.D.Set("target_resource_id", *s.Res.TargetResourceId)
 	}
 
-	//s.D.Set("target_resource_type", s.Res.TargetResourceType())
+	s.D.Set("target_resource_type", response.TargetResourceType)
 
 	targetResponderRecipes := []interface{}{}
 	for _, item := range s.Res.TargetResponderRecipes {

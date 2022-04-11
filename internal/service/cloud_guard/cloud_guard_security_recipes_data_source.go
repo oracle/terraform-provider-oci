@@ -13,36 +13,28 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
-func CloudGuardTargetsDataSource() *schema.Resource {
+func CloudGuardSecurityRecipesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCloudGuardTargets,
+		Read: readCloudGuardSecurityRecipes,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
-			"access_level": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-			},
-			"compartment_id_in_subtree": {
-				Type:     schema.TypeBool,
-				Optional: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"is_non_security_zone_targets_only_query": {
-				Type:     schema.TypeBool,
+			"id": {
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"target_collection": {
+			"security_recipe_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -51,7 +43,7 @@ func CloudGuardTargetsDataSource() *schema.Resource {
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem:     tfresource.GetDataSourceItemSchema(CloudGuardTargetResource()),
+							Elem:     tfresource.GetDataSourceItemSchema(CloudGuardSecurityRecipeResource()),
 						},
 					},
 				},
@@ -60,39 +52,30 @@ func CloudGuardTargetsDataSource() *schema.Resource {
 	}
 }
 
-func readCloudGuardTargets(d *schema.ResourceData, m interface{}) error {
-	sync := &CloudGuardTargetsDataSourceCrud{}
+func readCloudGuardSecurityRecipes(d *schema.ResourceData, m interface{}) error {
+	sync := &CloudGuardSecurityRecipesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
 	return tfresource.ReadResource(sync)
 }
 
-type CloudGuardTargetsDataSourceCrud struct {
+type CloudGuardSecurityRecipesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_cloud_guard.CloudGuardClient
-	Res    *oci_cloud_guard.ListTargetsResponse
+	Res    *oci_cloud_guard.ListSecurityRecipesResponse
 }
 
-func (s *CloudGuardTargetsDataSourceCrud) VoidState() {
+func (s *CloudGuardSecurityRecipesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardTargetsDataSourceCrud) Get() error {
-	request := oci_cloud_guard.ListTargetsRequest{}
-
-	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
-		request.AccessLevel = oci_cloud_guard.ListTargetsAccessLevelEnum(accessLevel.(string))
-	}
+func (s *CloudGuardSecurityRecipesDataSourceCrud) Get() error {
+	request := oci_cloud_guard.ListSecurityRecipesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
-	}
-
-	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
-		tmp := compartmentIdInSubtree.(bool)
-		request.CompartmentIdInSubtree = &tmp
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -100,18 +83,18 @@ func (s *CloudGuardTargetsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	if isNonSecurityZoneTargetsOnlyQuery, ok := s.D.GetOkExists("is_non_security_zone_targets_only_query"); ok {
-		tmp := isNonSecurityZoneTargetsOnlyQuery.(bool)
-		request.IsNonSecurityZoneTargetsOnlyQuery = &tmp
+	if id, ok := s.D.GetOkExists("id"); ok {
+		tmp := id.(string)
+		request.Id = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_cloud_guard.ListTargetsLifecycleStateEnum(state.(string))
+		request.LifecycleState = oci_cloud_guard.ListSecurityRecipesLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.ListTargets(context.Background(), request)
+	response, err := s.Client.ListSecurityRecipes(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -120,7 +103,7 @@ func (s *CloudGuardTargetsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListTargets(context.Background(), request)
+		listResponse, err := s.Client.ListSecurityRecipes(context.Background(), request)
 		if err != nil {
 			return err
 		}
@@ -132,28 +115,28 @@ func (s *CloudGuardTargetsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CloudGuardTargetsDataSourceCrud) SetData() error {
+func (s *CloudGuardSecurityRecipesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(tfresource.GenerateDataSourceHashID("CloudGuardTargetsDataSource-", CloudGuardTargetsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("CloudGuardSecurityRecipesDataSource-", CloudGuardSecurityRecipesDataSource(), s.D))
 	resources := []map[string]interface{}{}
-	target := map[string]interface{}{}
+	securityRecipe := map[string]interface{}{}
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, TargetSummaryToMap(item))
+		items = append(items, SecurityRecipeSummaryToMap(item))
 	}
-	target["items"] = items
+	securityRecipe["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, CloudGuardTargetsDataSource().Schema["target_collection"].Elem.(*schema.Resource).Schema)
-		target["items"] = items
+		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, CloudGuardSecurityRecipesDataSource().Schema["security_recipe_collection"].Elem.(*schema.Resource).Schema)
+		securityRecipe["items"] = items
 	}
 
-	resources = append(resources, target)
-	if err := s.D.Set("target_collection", resources); err != nil {
+	resources = append(resources, securityRecipe)
+	if err := s.D.Set("security_recipe_collection", resources); err != nil {
 		return err
 	}
 
