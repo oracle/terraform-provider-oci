@@ -92,6 +92,7 @@ func DevopsDeployStageResource() *schema.Resource {
 					"OKE_CANARY_DEPLOYMENT",
 					"OKE_CANARY_TRAFFIC_SHIFT",
 					"OKE_DEPLOYMENT",
+					"OKE_HELM_CHART_DEPLOYMENT",
 					"WAIT",
 				}, true),
 			},
@@ -379,6 +380,11 @@ func DevopsDeployStageResource() *schema.Resource {
 					},
 				},
 			},
+			"helm_chart_deploy_artifact_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"is_async": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -507,6 +513,11 @@ func DevopsDeployStageResource() *schema.Resource {
 					},
 				},
 			},
+			"release_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"rollback_policy": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -609,10 +620,23 @@ func DevopsDeployStageResource() *schema.Resource {
 					},
 				},
 			},
+			"timeout_in_seconds": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"traffic_shift_target": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"values_artifact_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"wait_criteria": {
 				Type:     schema.TypeList,
@@ -2080,6 +2104,92 @@ func (s *DevopsDeployStageResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_devops.OkeHelmChartDeployStage:
+		s.D.Set("deploy_stage_type", "OKE_HELM_CHART_DEPLOYMENT")
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.HelmChartDeployArtifactId != nil {
+			s.D.Set("helm_chart_deploy_artifact_id", *v.HelmChartDeployArtifactId)
+		}
+
+		if v.Namespace != nil {
+			s.D.Set("namespace", *v.Namespace)
+		}
+
+		if v.OkeClusterDeployEnvironmentId != nil {
+			s.D.Set("oke_cluster_deploy_environment_id", *v.OkeClusterDeployEnvironmentId)
+		}
+
+		if v.ReleaseName != nil {
+			s.D.Set("release_name", *v.ReleaseName)
+		}
+
+		if v.RollbackPolicy != nil {
+			rollbackPolicyArray := []interface{}{}
+			if rollbackPolicyMap := DeployStageRollbackPolicyToMap(&v.RollbackPolicy); rollbackPolicyMap != nil {
+				rollbackPolicyArray = append(rollbackPolicyArray, rollbackPolicyMap)
+			}
+			s.D.Set("rollback_policy", rollbackPolicyArray)
+		} else {
+			s.D.Set("rollback_policy", nil)
+		}
+
+		if v.TimeoutInSeconds != nil {
+			s.D.Set("timeout_in_seconds", *v.TimeoutInSeconds)
+		}
+
+		if v.ValuesArtifactIds != nil {
+			s.D.Set("values_artifact_ids", v.ValuesArtifactIds)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_devops.WaitDeployStage:
 		s.D.Set("deploy_stage_type", "WAIT")
 
@@ -2120,6 +2230,10 @@ func (s *DevopsDeployStageResourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.Set("id", *v.Id)
+		}
 
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
@@ -2732,6 +2846,38 @@ func DeployStageSummaryToMap(obj oci_devops.DeployStageSummary) map[string]inter
 			}
 			result["rollback_policy"] = rollbackPolicyArray
 		}
+	case oci_devops.OkeHelmChartDeployStageSummary:
+		result["deploy_stage_type"] = "OKE_HELM_CHART_DEPLOYMENT"
+
+		if v.HelmChartDeployArtifactId != nil {
+			result["helm_chart_deploy_artifact_id"] = string(*v.HelmChartDeployArtifactId)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.OkeClusterDeployEnvironmentId != nil {
+			result["oke_cluster_deploy_environment_id"] = string(*v.OkeClusterDeployEnvironmentId)
+		}
+
+		if v.ReleaseName != nil {
+			result["release_name"] = string(*v.ReleaseName)
+		}
+
+		if v.RollbackPolicy != nil {
+			rollbackPolicyArray := []interface{}{}
+			if rollbackPolicyMap := DeployStageRollbackPolicyToMap(&v.RollbackPolicy); rollbackPolicyMap != nil {
+				rollbackPolicyArray = append(rollbackPolicyArray, rollbackPolicyMap)
+			}
+			result["rollback_policy"] = rollbackPolicyArray
+		}
+
+		if v.TimeoutInSeconds != nil {
+			result["timeout_in_seconds"] = int(*v.TimeoutInSeconds)
+		}
+
+		result["values_artifact_ids"] = v.ValuesArtifactIds
 	case oci_devops.WaitDeployStageSummary:
 		result["deploy_stage_type"] = "WAIT"
 
@@ -3636,10 +3782,6 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			}
 			details.DefinedTags = convertedDefinedTags
 		}
-		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
-			tmp := deployPipelineId.(string)
-			details.DeployPipelineId = &tmp
-		}
 		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
 			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
@@ -3681,10 +3823,6 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			}
 			details.DefinedTags = convertedDefinedTags
 		}
-		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
-			tmp := deployPipelineId.(string)
-			details.DeployPipelineId = &tmp
-		}
 		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
 			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
@@ -3694,6 +3832,10 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 				}
 				details.DeployStagePredecessorCollection = &tmp
 			}
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
 		}
 		if description, ok := s.D.GetOkExists("description"); ok {
 			tmp := description.(string)
@@ -3746,16 +3888,6 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 				details.DeployStagePredecessorCollection = &tmp
 			}
 		}
-		if canaryStrategy, ok := s.D.GetOkExists("canary_strategy"); ok {
-			if tmpList := canaryStrategy.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "canary_strategy", 0)
-				tmp, err := s.mapToOkeCanaryStrategy(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				details.CanaryStrategy = tmp
-			}
-		}
 		if description, ok := s.D.GetOkExists("description"); ok {
 			tmp := description.(string)
 			details.Description = &tmp
@@ -3794,6 +3926,10 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 				return err
 			}
 			details.DefinedTags = convertedDefinedTags
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
 		}
 		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
 			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
@@ -3840,6 +3976,10 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			}
 			details.DefinedTags = convertedDefinedTags
 		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
 		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
 			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
@@ -3849,10 +3989,6 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 				}
 				details.DeployStagePredecessorCollection = &tmp
 			}
-		}
-		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
-			tmp := deployPipelineId.(string)
-			details.DeployPipelineId = &tmp
 		}
 		if description, ok := s.D.GetOkExists("description"); ok {
 			tmp := description.(string)
@@ -3997,6 +4133,83 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 		if okeBlueGreenDeployStageId, ok := s.D.GetOkExists("oke_blue_green_deploy_stage_id"); ok {
 			tmp := okeBlueGreenDeployStageId.(string)
 			details.OkeBlueGreenDeployStageId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDeployStageDetails = details
+	case strings.ToLower("OKE_HELM_CHART_DEPLOYMENT"):
+		details := oci_devops.CreateOkeHelmChartDeployStageDetails{}
+		if helmChartDeployArtifactId, ok := s.D.GetOkExists("helm_chart_deploy_artifact_id"); ok {
+			tmp := helmChartDeployArtifactId.(string)
+			details.HelmChartDeployArtifactId = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists("namespace"); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if okeClusterDeployEnvironmentId, ok := s.D.GetOkExists("oke_cluster_deploy_environment_id"); ok {
+			tmp := okeClusterDeployEnvironmentId.(string)
+			details.OkeClusterDeployEnvironmentId = &tmp
+		}
+		if releaseName, ok := s.D.GetOkExists("release_name"); ok {
+			tmp := releaseName.(string)
+			details.ReleaseName = &tmp
+		}
+		if rollbackPolicy, ok := s.D.GetOkExists("rollback_policy"); ok {
+			if tmpList := rollbackPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rollback_policy", 0)
+				tmp, err := s.mapToDeployStageRollbackPolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.RollbackPolicy = tmp
+			}
+		}
+		if timeoutInSeconds, ok := s.D.GetOkExists("timeout_in_seconds"); ok {
+			tmp := timeoutInSeconds.(int)
+			details.TimeoutInSeconds = &tmp
+		}
+		if valuesArtifactIds, ok := s.D.GetOkExists("values_artifact_ids"); ok {
+			interfaces := valuesArtifactIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("values_artifact_ids") {
+				details.ValuesArtifactIds = tmp
+			}
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -4925,6 +5138,81 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 					return err
 				}
 				details.RollbackPolicy = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.DeployStageId = &tmp
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDeployStageDetails = details
+	case strings.ToLower("OKE_HELM_CHART_DEPLOYMENT"):
+		details := oci_devops.UpdateOkeHelmChartDeployStageDetails{}
+		if helmChartDeployArtifactId, ok := s.D.GetOkExists("helm_chart_deploy_artifact_id"); ok {
+			tmp := helmChartDeployArtifactId.(string)
+			details.HelmChartDeployArtifactId = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists("namespace"); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if okeClusterDeployEnvironmentId, ok := s.D.GetOkExists("oke_cluster_deploy_environment_id"); ok {
+			tmp := okeClusterDeployEnvironmentId.(string)
+			details.OkeClusterDeployEnvironmentId = &tmp
+		}
+		if releaseName, ok := s.D.GetOkExists("release_name"); ok {
+			tmp := releaseName.(string)
+			details.ReleaseName = &tmp
+		}
+		if rollbackPolicy, ok := s.D.GetOkExists("rollback_policy"); ok {
+			if tmpList := rollbackPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rollback_policy", 0)
+				tmp, err := s.mapToDeployStageRollbackPolicy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.RollbackPolicy = tmp
+			}
+		}
+		if timeoutInSeconds, ok := s.D.GetOkExists("timeout_in_seconds"); ok {
+			tmp := timeoutInSeconds.(int)
+			details.TimeoutInSeconds = &tmp
+		}
+		if valuesArtifactIds, ok := s.D.GetOkExists("values_artifact_ids"); ok {
+			interfaces := valuesArtifactIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("values_artifact_ids") {
+				details.ValuesArtifactIds = tmp
 			}
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
