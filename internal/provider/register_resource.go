@@ -181,6 +181,8 @@ func init() {
 	RegisterResource("oci_cloud_guard_detector_recipe", tf_cloud_guard.CloudGuardDetectorRecipeResource())
 	RegisterResource("oci_cloud_guard_managed_list", tf_cloud_guard.CloudGuardManagedListResource())
 	RegisterResource("oci_cloud_guard_responder_recipe", tf_cloud_guard.CloudGuardResponderRecipeResource())
+	RegisterResource("oci_cloud_guard_security_recipe", tf_cloud_guard.CloudGuardSecurityRecipeResource())
+	RegisterResource("oci_cloud_guard_security_zone", tf_cloud_guard.CloudGuardSecurityZoneResource())
 	RegisterResource("oci_cloud_guard_target", tf_cloud_guard.CloudGuardTargetResource())
 	// computeinstanceagent service
 	// containerengine service

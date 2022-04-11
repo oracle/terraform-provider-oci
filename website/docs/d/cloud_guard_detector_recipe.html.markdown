@@ -34,14 +34,14 @@ The following attributes are exported:
 
 * `compartment_id` - compartmentId of detector recipe
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `description` - Detector recipe description
+* `description` - Detector recipe description.
 * `detector` - Type of detector
 * `detector_rules` - List of detector rules for the detector type for recipe - user input
 	* `candidate_responder_rules` - List of CandidateResponderRule related to this rule
 		* `display_name` - The display name of the Responder rule
 		* `id` - The unique identifier of the Responder rule
 		* `is_preferred` - Preferred state
-	* `description` - Description for DetectorRecipeDetectorRule
+	* `description` - Description for DetectorRecipeDetectorRule.
 	* `details` - Details of a Detector Rule
 		* `condition` - 
 		* `configurations` - Configuration details
@@ -58,8 +58,8 @@ The following attributes are exported:
 		* `labels` - user defined labels for a detector rule
 		* `risk_level` - The Risk Level
 	* `detector` - detector for the rule
-	* `detector_rule_id` - The unique identifier of the detector rule
-	* `display_name` - displayName
+	* `detector_rule_id` - The unique identifier of the detector rule.
+	* `display_name` - Display name for DetectorRecipeDetectorRule.
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	* `managed_list_types` - List of cloudguard managed list types related to this rule
 	* `recommendation` - Recommendation for DetectorRecipeDetectorRule
@@ -68,13 +68,13 @@ The following attributes are exported:
 	* `state` - The current state of the DetectorRule.
 	* `time_created` - The date and time the detector recipe rule was created. Format defined by RFC3339.
 	* `time_updated` - The date and time the detector recipe rule was updated. Format defined by RFC3339.
-* `display_name` - DisplayName of detector recipe
+* `display_name` - DisplayName of detector recipe.
 * `effective_detector_rules` - List of effective detector rules for the detector type for recipe after applying defaults
 	* `candidate_responder_rules` - List of CandidateResponderRule related to this rule
 		* `display_name` - The display name of the Responder rule
 		* `id` - The unique identifier of the Responder rule
 		* `is_preferred` - Preferred state
-	* `description` - Description for DetectorRecipeDetectorRule
+	* `description` - Description for DetectorRecipeDetectorRule.
 	* `details` - Details of a Detector Rule
 		* `condition` - 
 		* `configurations` - Configuration details
@@ -91,8 +91,8 @@ The following attributes are exported:
 		* `labels` - user defined labels for a detector rule
 		* `risk_level` - The Risk Level
 	* `detector` - detector for the rule
-	* `detector_rule_id` - The unique identifier of the detector rule
-	* `display_name` - displayName
+	* `detector_rule_id` - The unique identifier of the detector rule.
+	* `display_name` - Display name for DetectorRecipeDetectorRule.
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	* `managed_list_types` - List of cloudguard managed list types related to this rule
 	* `recommendation` - Recommendation for DetectorRecipeDetectorRule
@@ -101,7 +101,9 @@ The following attributes are exported:
 	* `state` - The current state of the DetectorRule.
 	* `time_created` - The date and time the detector recipe rule was created. Format defined by RFC3339.
 	* `time_updated` - The date and time the detector recipe rule was updated. Format defined by RFC3339.
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
+
+	Avoid entering confidential information. 
 * `id` - Ocid for detector recipe
 * `owner` - Owner of detector recipe
 * `source_detector_recipe_id` - Recipe Ocid of the Source Recipe to be cloned

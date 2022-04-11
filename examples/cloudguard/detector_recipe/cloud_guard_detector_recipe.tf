@@ -39,29 +39,15 @@ variable "detector_recipe_detector_rules_details_configurations_config_key" {
 }
 
 variable "detector_recipe_detector_rules_details_configurations_data_type" {
-  default = "multiList"
+  default = "int"
 }
 
 variable "detector_recipe_detector_rules_details_configurations_name" {
-  default = "Days before expiring - Setting 1"
+  default = "Days before expiring"
 }
 
 variable "detector_recipe_detector_rules_details_configurations_value" {
   default = "30"
-}
-
-//Acceptable values come from ConfigurationListItemTypeEnum
-variable "detector_recipe_detector_rules_details_configurations_values_list_type" {
-  default = "CUSTOM"
-}
-
-//Has some specific acceptable managed list types values, picking one for testing purposes
-variable "detector_recipe_detector_rules_details_configurations_values_managed_list_type" {
-  default = "RESOURCE_OCID"
-}
-
-variable "detector_recipe_detector_rules_details_configurations_values_value" {
-  default = "ocid.detectectorrecipe.test1"
 }
 
 variable "detector_recipe_detector_rules_details_is_enabled" {
@@ -106,7 +92,9 @@ data "oci_cloud_guard_detector_recipes" "test_detector_recipes" {
   compartment_id = "${var.tenancy_ocid}"
 
   #Optional
-  state                     = "${var.detector_recipe_state}"
+  state        = "${var.detector_recipe_state}"
+  # Adding this to make sure the detector_rule_id we use later on is valid against the returned recipes
+  display_name = "OCI Configuration Detector Recipe"
 }
 
 resource "oci_cloud_guard_detector_recipe" "test_detector_recipe" {
@@ -148,18 +136,11 @@ resource "oci_cloud_guard_detector_recipe" "test_detector_recipe" {
         #Optional
         data_type = "${var.detector_recipe_detector_rules_details_configurations_data_type}"
         value     = "${var.detector_recipe_detector_rules_details_configurations_value}"
-
-        values {
-          #Required
-          list_type         = "${var.detector_recipe_detector_rules_details_configurations_values_list_type}"
-          managed_list_type = "${var.detector_recipe_detector_rules_details_configurations_values_managed_list_type}"
-          value             = "${var.detector_recipe_detector_rules_details_configurations_values_value}"
-        }
       }
 
       labels = "${var.detector_recipe_detector_rules_details_labels}"
     }
-
+    // Make sure the detector rule id is valid for the detector recipe being cloned.
     detector_rule_id = "LB_CERTIFICATE_EXPIRING_SOON"
   }
 
