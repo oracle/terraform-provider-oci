@@ -67,6 +67,7 @@ The following attributes are exported:
 			* `action` - The action of the user on the DevOps deployment stage.
 			* `reason` - The reason for approving or rejecting the deployment.
 			* `subject_id` - The subject ID of the user who approves or disapproves a DevOps deployment stage.
+		* `chart_url` - The URL of an OCIR repository. 
 		* `deploy_stage_display_name` - Stage display name. Avoid entering confidential information.
 		* `deploy_stage_execution_progress_details` - Details about stage execution for all the target environments.
 			* `rollback_steps` - Details about all the rollback steps for one target environment.
@@ -86,11 +87,13 @@ The following attributes are exported:
 			* `items` - A list of stage predecessors for a stage.
 				* `id` - The OCID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's OCID.
 		* `deploy_stage_type` - Deployment stage type.
-		* `environment_id` - The OCID of either the blue or green Environment where the artifacts were deployed.
-		* `namespace` - Namespace either blue or green where artifacts were deployed.
+		* `environment_id` - The OCID of the environment where the artifacts were deployed.
+		* `namespace` - Default namespace to be used for Kubernetes deployment when not specified in the manifest.
+		* `release_name` - Release name of the Helm chart.
 		* `status` - The current state of the stage.
 		* `time_finished` - Time the stage finished executing. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 		* `time_started` - Time the stage started executing. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
+		* `version` - The version of the helm chart stored in OCIR repository.
 	* `time_finished` - Time the deployment is finished. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 	* `time_started` - Time the deployment is started. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `deployment_type` - Specifies type of Deployment
