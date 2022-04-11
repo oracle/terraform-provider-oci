@@ -49,7 +49,9 @@ var (
 	}
 
 	//Making a list call and getting a source detectorRecipeId
-	detectorRecipeId             = `${data.oci_cloud_guard_detector_recipes.oracle_detector_recipe.detector_recipe_collection.0.items.0.id}`
+	// Filtering to get the 1st Configuration detector recipe. This will make sure detector recipe is compatible with the returned detector recipes.
+	detectorRecipeId = `${[for recipe in data.oci_cloud_guard_detector_recipes.oracle_detector_recipe.detector_recipe_collection.0.items : recipe.id if recipe.display_name=="OCI Configuration Detector Recipe"][0]}`
+
 	detectorRecipeRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
@@ -58,7 +60,12 @@ var (
 		"description":               acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"detector_rules":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: detectorRecipeDetectorRulesRepresentation},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		// 		"lifecycle":                 acctest.RepresentationGroup{acctest.Required, ignoreDetectorRecipeDefinedTagsChangesRep},
 	}
+
+	// 	ignoreDetectorRecipeDefinedTagsChangesRep = map[string]interface{}{
+	// 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	// 	}
 	//Configurations and Conditions are dependent on the detectorRuleId selected, hence hardcoding one for testing purposes
 	detectorRecipeDetectorRulesRepresentation = map[string]interface{}{
 		"details":          acctest.RepresentationGroup{RepType: acctest.Required, Group: detectorRecipeDetectorRulesDetailsRepresentation},
@@ -76,16 +83,9 @@ var (
 	//Making a valid configuration Object
 	detectorRecipeDetectorRulesDetailsConfigurationsRepresentation = map[string]interface{}{
 		"config_key": acctest.Representation{RepType: acctest.Required, Create: `lbCertificateExpiringSoonConfig`, Update: `lbCertificateExpiringSoonConfig`},
-		"name":       acctest.Representation{RepType: acctest.Required, Create: `Days before expiring - 1`, Update: `Days before expiring - 2`},
-		"data_type":  acctest.Representation{RepType: acctest.Optional, Create: `multiList`, Update: `multiList`},
+		"name":       acctest.Representation{RepType: acctest.Required, Create: `Days before expiring`, Update: `Days before expiring`},
+		"data_type":  acctest.Representation{RepType: acctest.Optional, Create: `int`, Update: `int`},
 		"value":      acctest.Representation{RepType: acctest.Optional, Create: `30`, Update: `20`},
-		"values":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: detectorRecipeDetectorRulesDetailsConfigurationsValuesRepresentation},
-	}
-	//Making a valid configuration values object
-	detectorRecipeDetectorRulesDetailsConfigurationsValuesRepresentation = map[string]interface{}{
-		"list_type":         acctest.Representation{RepType: acctest.Required, Create: `CUSTOM`, Update: `MANAGED`},
-		"managed_list_type": acctest.Representation{RepType: acctest.Required, Create: `RESOURCE_OCID`, Update: `RESOURCE_OCID`},
-		"value":             acctest.Representation{RepType: acctest.Required, Create: `resourceOcid1`, Update: `resourceOcid2`},
 	}
 	//Make a representation for plural datasource
 	detectorRecipeDataSourceRepresentationPluralDataSource = map[string]interface{}{
@@ -107,9 +107,6 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
-	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
-	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_cloud_guard_detector_recipe.test_detector_recipe"
 	datasourceName := "data.oci_cloud_guard_detector_recipes.test_detector_recipes"
@@ -155,13 +152,13 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.details.0.condition"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.config_key", "lbCertificateExpiringSoonConfig"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.data_type", "multiList"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.name", "Days before expiring - 1"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.data_type", "int"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.name", "Days before expiring"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.value", "30"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.list_type", "CUSTOM"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.managed_list_type", "RESOURCE_OCID"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.value", "resourceOcid1"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.#", "0"),
+				// 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.list_type", "CUSTOM"),
+				// 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.managed_list_type", "RESOURCE_OCID"),
+				// 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.value", "resourceOcid1"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.is_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.labels.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.risk_level", "CRITICAL"),
@@ -189,13 +186,13 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DetectorRecipeResourceDependencies +
+			Config: config + compartmentIdVariableStr + DetectorRecipeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(detectorRecipeRepresentation, map[string]interface{}{
-						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "detector"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.#", "1"),
@@ -203,13 +200,13 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.details.0.condition"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.config_key", "lbCertificateExpiringSoonConfig"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.data_type", "multiList"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.name", "Days before expiring - 1"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.data_type", "int"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.name", "Days before expiring"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.value", "30"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.list_type", "CUSTOM"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.managed_list_type", "RESOURCE_OCID"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.value", "resourceOcid1"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.#", "0"),
+				// 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.list_type", "CUSTOM"),
+				// 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.managed_list_type", "RESOURCE_OCID"),
+				// 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.value", "resourceOcid1"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.is_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.labels.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.risk_level", "CRITICAL"),
@@ -246,13 +243,13 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.details.0.condition"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.config_key", "lbCertificateExpiringSoonConfig"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.data_type", "multiList"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.name", "Days before expiring - 2"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.data_type", "int"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.name", "Days before expiring"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.value", "20"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.list_type", "MANAGED"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.managed_list_type", "RESOURCE_OCID"),
-				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.value", "resourceOcid2"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.#", "0"),
+				// 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.list_type", "MANAGED"),
+				// 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.managed_list_type", "RESOURCE_OCID"),
+				// 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.value", "resourceOcid2"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.is_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.labels.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.risk_level", "LOW"),
@@ -311,13 +308,13 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "detector_rules.0.details.0.condition"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.0.config_key", "lbCertificateExpiringSoonConfig"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.0.data_type", "multiList"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.0.name", "Days before expiring - 2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.0.data_type", "int"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.0.name", "Days before expiring"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.0.value", "20"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.0.values.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.0.values.0.list_type", "MANAGED"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.0.values.0.managed_list_type", "RESOURCE_OCID"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.0.values.0.value", "resourceOcid2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.0.values.#", "0"),
+				// 				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.0.values.0.list_type", "MANAGED"),
+				// 				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.0.values.0.managed_list_type", "RESOURCE_OCID"),
+				// 				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.configurations.0.values.0.value", "resourceOcid2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "detector_rules.0.details.0.is_configuration_allowed"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.is_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.0.details.0.labels.#", "1"),

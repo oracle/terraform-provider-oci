@@ -36,12 +36,13 @@ var (
 	}
 
 	targetDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
-		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`, Update: `ACTIVE`},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: targetDataSourceFilterRepresentation}}
+		"compartment_id":                          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"access_level":                            acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
+		"compartment_id_in_subtree":               acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"display_name":                            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"is_non_security_zone_targets_only_query": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"state":  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`, Update: `ACTIVE`},
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: targetDataSourceFilterRepresentation}}
 	targetDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_cloud_guard_target.test_target.id}`}},
@@ -60,7 +61,14 @@ var (
 		"state":                    acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`, Update: `ACTIVE`},
 		"target_detector_recipes":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: targetTargetDetectorRecipesRepresentation},
 		"target_responder_recipes": acctest.RepresentationGroup{RepType: acctest.Optional, Group: targetTargetResponderRecipesRepresentation},
+		//todo: remove this before raising the PR
+		// 		"lifecycle": acctest.RepresentationGroup{acctest.Required, ignoreTargetDefinedTagsChangesRep},
 	}
+
+	// 	ignoreTargetDefinedTagsChangesRep = map[string]interface{}{
+	// 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	// 	}
+
 	//Getting detectorRecipeId and responderRecipeId from a plural datasource call same as in detectorRecipeTest and responderRecipeTest
 	targetTargetDetectorRecipesRepresentation = map[string]interface{}{
 		"detector_recipe_id": acctest.Representation{RepType: acctest.Required, Create: detectorRecipeId},
@@ -278,8 +286,8 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "is_non_security_zone_targets_only_query", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
 				resource.TestCheckResourceAttr(datasourceName, "target_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "target_collection.0.items.#", "1"),
 			),
@@ -301,6 +309,8 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "inherited_by_compartments.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "recipe_count"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
+				//This value only set for SZ targets. We dont allow any CRUD on SZ targets as of now.
+				//resource.TestCheckResourceAttr(singularDatasourceName, "target_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.description"),
@@ -315,7 +325,9 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 				//This will be in effective detector rules after applying defaults.
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.is_configuration_allowed"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.is_enabled"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.labels.#", "1"),
+				//We cannot be certain how many labels an effective detector rule will have. Don't want the test to fail because of that.
+				//"CIS_OCI_V1.0_MONITORING", "CIS_OCI_V1.1_MONITORING" were newly added.
+				//resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.labels.#", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.risk_level"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.detector"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.display_name"),

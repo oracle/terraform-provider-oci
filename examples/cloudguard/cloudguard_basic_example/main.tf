@@ -126,10 +126,10 @@ variable "detector_recipe_detector_rules_details_configurations_config_key" {
   default = "lbCertificateExpiringSoonConfig"
 }
 variable "detector_recipe_detector_rules_details_configurations_data_type" {
-  default = "multiList"
+  default = "int"
 }
 variable "detector_recipe_detector_rules_details_configurations_name" {
-  default = "Days before expiring - Checkpoint 1"
+  default = "Days before expiring"
 }
 variable "detector_recipe_detector_rules_details_configurations_value" {
   default = "30"
