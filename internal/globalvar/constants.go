@@ -73,3 +73,5 @@ const (
 	TfEnvPrefix    = "TF_VAR_"
 	OciEnvPrefix   = "OCI_"
 )
+
+const TerraformDocumentLink = "https://registry.terraform.io/providers/oracle/oci/latest/docs/"

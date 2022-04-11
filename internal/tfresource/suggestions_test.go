@@ -20,7 +20,7 @@ func TestUnit_getSuggestionFor400(t *testing.T) {
 					Message:       "testMessage",
 				},
 			},
-			want: "Please Update the parameter(s) in the Terraform config as per error message testMessage",
+			want: "Please update the parameter(s) in the Terraform config as per error message testMessage",
 		},
 		{
 			name: "Test returned value is as expected for LimitExceeded",
@@ -85,7 +85,7 @@ func TestUnit_getSuggestionForServiceError(t *testing.T) {
 					Message:       "testMessage",
 				},
 			},
-			want: "Please Update the parameter(s) in the Terraform config as per error message testMessage",
+			want: "Please update the parameter(s) in the Terraform config as per error message testMessage",
 		},
 		{
 			name: "Test returned value is as expected for 404 code",
@@ -168,7 +168,7 @@ func TestUnit_getSuggestionFromError(t *testing.T) {
 					Message:       "testMessage",
 				},
 			},
-			want: "Please Update the parameter(s) in the Terraform config as per error message testMessage",
+			want: "Please update the parameter(s) in the Terraform config as per error message testMessage",
 		},
 		{
 			name: "Test returned value is as expected for TimeoutError",
