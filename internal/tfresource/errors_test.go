@@ -85,6 +85,19 @@ func TestUnitGetServiceName(t *testing.T) {
 	assert.EqualValues(t, expectedOutput, getServiceName(test))
 }
 
+func TestUnitGetResourceDocsURL(t *testing.T) {
+	expectedOutput := globalvar.TerraformDocumentLink
+	resourceCrud := TestResourceCrud{}
+	assert.EqualValues(t, expectedOutput+"resources/test", getResourceDocsURL(resourceCrud))
+	dataSourceCrud := TestDataSourceCrud{}
+	assert.EqualValues(t, expectedOutput+"data-sources/test", getResourceDocsURL(dataSourceCrud))
+	dataSourcesCrud := TestDataSourcesCrud{}
+	assert.EqualValues(t, expectedOutput+"data-sources/test", getResourceDocsURL(dataSourcesCrud))
+	test := Test{}
+	expectedOutput = ""
+	assert.EqualValues(t, expectedOutput, getResourceDocsURL(test))
+}
+
 func TestUnitGetResourceOCID(t *testing.T) {
 	temp := &MockStatefulResource{false}
 	assert.EqualValues(t, "dummyId", getResourceOCID(temp))
