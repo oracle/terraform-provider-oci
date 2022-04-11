@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	repositoryFileLineSingularDataSourceRepresentation = map[string]interface{}{
+	repoFileLineSingularDataSourceRepresentation = map[string]interface{}{
 		"file_path":     acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("test_file_for_static_resource")},
 		"repository_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("repository_id_for_static_resource")},
 		"revision":      acctest.Representation{RepType: acctest.Required, Create: `main`},
@@ -24,8 +24,8 @@ var (
 )
 
 // issue-routing-tag: devops/default
-func TestDevopsRepositoryFileLineResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestDevopsRepositoryFileLineResource_basic")
+func TestDevopsRepoFileLineResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDevopsRepoFileLineResource_basic")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -33,7 +33,7 @@ func TestDevopsRepositoryFileLineResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_id_for_static_resource")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	singularDatasourceName := "data.oci_devops_repository_file_line.test_repository_file_line"
+	singularDatasourceName := "data.oci_devops_repo_file_line.test_repo_file_line"
 
 	acctest.SaveConfigContent("", "", "", t)
 
@@ -41,7 +41,7 @@ func TestDevopsRepositoryFileLineResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_file_line", "test_repository_file_line", acctest.Required, acctest.Create, repositoryFileLineSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repo_file_line", "test_repo_file_line", acctest.Required, acctest.Create, repoFileLineSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "file_path", "testfile"),
