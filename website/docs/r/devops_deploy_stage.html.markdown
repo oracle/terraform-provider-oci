@@ -81,6 +81,7 @@ resource "oci_devops_deploy_stage" "test_deploy_stage" {
 		#Optional
 		items = var.deploy_stage_green_backend_ips_items
 	}
+	helm_chart_deploy_artifact_id = oci_devops_deploy_artifact.test_deploy_artifact.id
 	is_async = var.deploy_stage_is_async
 	is_validation_enabled = var.deploy_stage_is_validation_enabled
 	kubernetes_manifest_deploy_artifact_ids = var.deploy_stage_kubernetes_manifest_deploy_artifact_ids
@@ -104,6 +105,7 @@ resource "oci_devops_deploy_stage" "test_deploy_stage" {
 		listener_name = oci_load_balancer_listener.test_listener.name
 		load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 	}
+	release_name = var.deploy_stage_release_name
 	rollback_policy {
 
 		#Optional
@@ -126,7 +128,9 @@ resource "oci_devops_deploy_stage" "test_deploy_stage" {
 		listener_name = oci_load_balancer_listener.test_listener.name
 		load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 	}
+	timeout_in_seconds = var.deploy_stage_timeout_in_seconds
 	traffic_shift_target = var.deploy_stage_traffic_shift_target
+	values_artifact_ids = var.deploy_stage_values_artifact_ids
 	wait_criteria {
 		#Required
 		wait_duration = var.deploy_stage_wait_criteria_wait_duration
@@ -181,6 +185,7 @@ The following arguments are supported:
 * `function_timeout_in_seconds` - (Applicable when deploy_stage_type=DEPLOY_FUNCTION) (Updatable) Timeout for execution of the Function. Value in seconds.
 * `green_backend_ips` - (Required when deploy_stage_type=LOAD_BALANCER_TRAFFIC_SHIFT) (Updatable) Collection of backend environment IP addresses.
 	* `items` - (Applicable when deploy_stage_type=LOAD_BALANCER_TRAFFIC_SHIFT) (Updatable) The IP address of the backend server. A server could be a compute instance or a load balancer.
+* `helm_chart_deploy_artifact_id` - (Required when deploy_stage_type=OKE_HELM_CHART_DEPLOYMENT) (Updatable) Helm chart artifact OCID.
 * `is_async` - (Required when deploy_stage_type=INVOKE_FUNCTION) (Updatable) A boolean flag specifies whether this stage executes asynchronously.
 * `is_validation_enabled` - (Required when deploy_stage_type=INVOKE_FUNCTION) (Updatable) A boolean flag specifies whether the invoked function should be validated.
 * `kubernetes_manifest_deploy_artifact_ids` - (Required when deploy_stage_type=OKE_BLUE_GREEN_DEPLOYMENT | OKE_CANARY_DEPLOYMENT | OKE_DEPLOYMENT) (Updatable) List of Kubernetes manifest artifact OCIDs.
@@ -189,17 +194,18 @@ The following arguments are supported:
 	* `listener_name` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT | LOAD_BALANCER_TRAFFIC_SHIFT) (Updatable) Name of the load balancer listener.
 	* `load_balancer_id` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT | LOAD_BALANCER_TRAFFIC_SHIFT) (Updatable) The OCID of the load balancer.
 * `max_memory_in_mbs` - (Applicable when deploy_stage_type=DEPLOY_FUNCTION) (Updatable) Maximum usable memory for the Function (in MB).
-* `namespace` - (Applicable when deploy_stage_type=OKE_DEPLOYMENT) (Updatable) Default namespace to be used for Kubernetes deployment when not specified in the manifest.
+* `namespace` - (Applicable when deploy_stage_type=OKE_DEPLOYMENT | OKE_HELM_CHART_DEPLOYMENT) (Updatable) Default namespace to be used for Kubernetes deployment when not specified in the manifest.
 * `oke_blue_green_deploy_stage_id` - (Required when deploy_stage_type=OKE_BLUE_GREEN_TRAFFIC_SHIFT) The OCID of the upstream OKE blue-green deployment stage in this pipeline.
 * `oke_canary_deploy_stage_id` - (Required when deploy_stage_type=OKE_CANARY_TRAFFIC_SHIFT) The OCID of an upstream OKE canary deployment stage in this pipeline.
 * `oke_canary_traffic_shift_deploy_stage_id` - (Required when deploy_stage_type=OKE_CANARY_APPROVAL) The OCID of an upstream OKE canary deployment traffic shift stage in this pipeline.
-* `oke_cluster_deploy_environment_id` - (Required when deploy_stage_type=OKE_BLUE_GREEN_DEPLOYMENT | OKE_CANARY_DEPLOYMENT | OKE_DEPLOYMENT) (Updatable) Kubernetes cluster environment OCID for deployment.
-* `production_load_balancer_config` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT) Specifies config for load balancer traffic shift stages. The Load Balancer specified here should be an Application Load Balancer type. Network Load Balancers are not supported. 
+* `oke_cluster_deploy_environment_id` - (Required when deploy_stage_type=OKE_BLUE_GREEN_DEPLOYMENT | OKE_CANARY_DEPLOYMENT | OKE_DEPLOYMENT | OKE_HELM_CHART_DEPLOYMENT) (Updatable) Kubernetes cluster environment OCID for deployment.
+* `production_load_balancer_config` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT) Specifies configuration for load balancer traffic shift stages. The load balancer specified here should be an Application load balancer type. Network load balancers are not supported.
 	* `backend_port` - (Applicable when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT) Listen port for the backend server.
 	* `listener_name` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT) Name of the load balancer listener.
 	* `load_balancer_id` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT) The OCID of the load balancer.
-* `rollback_policy` - (Applicable when deploy_stage_type=COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT | LOAD_BALANCER_TRAFFIC_SHIFT | OKE_DEPLOYMENT) (Updatable) Specifies the rollback policy. This is initiated on the failure of certain stage types.
-	* `policy_type` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT | LOAD_BALANCER_TRAFFIC_SHIFT | OKE_DEPLOYMENT) (Updatable) Specifies type of the deployment stage rollback policy.
+* `release_name` - (Required when deploy_stage_type=OKE_HELM_CHART_DEPLOYMENT) (Updatable) Default name of the chart instance. Must be unique within a Kubernetes namespace.
+* `rollback_policy` - (Applicable when deploy_stage_type=COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT | LOAD_BALANCER_TRAFFIC_SHIFT | OKE_DEPLOYMENT | OKE_HELM_CHART_DEPLOYMENT) (Updatable) Specifies the rollback policy. This is initiated on the failure of certain stage types.
+	* `policy_type` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT | LOAD_BALANCER_TRAFFIC_SHIFT | OKE_DEPLOYMENT | OKE_HELM_CHART_DEPLOYMENT) (Updatable) Specifies type of the deployment stage rollback policy.
 * `rollout_policy` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT | COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT | LOAD_BALANCER_TRAFFIC_SHIFT | OKE_CANARY_TRAFFIC_SHIFT) (Updatable) Description of rollout policy for load balancer traffic shift stage.
 	* `batch_count` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT | COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_COUNT | LOAD_BALANCER_TRAFFIC_SHIFT | OKE_CANARY_TRAFFIC_SHIFT) (Updatable) The number that will be used to determine how many instances will be deployed concurrently.
 	* `batch_delay_in_seconds` - (Applicable when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT | COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT | LOAD_BALANCER_TRAFFIC_SHIFT | OKE_CANARY_TRAFFIC_SHIFT) (Updatable) The duration of delay between batch rollout. The default delay is 1 minute.
@@ -210,7 +216,9 @@ The following arguments are supported:
 	* `backend_port` - (Applicable when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT) (Updatable) Listen port for the backend server.
 	* `listener_name` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT) (Updatable) Name of the load balancer listener.
 	* `load_balancer_id` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT) (Updatable) The OCID of the load balancer.
+* `timeout_in_seconds` - (Applicable when deploy_stage_type=OKE_HELM_CHART_DEPLOYMENT) (Updatable) Time to wait for execution of a helm stage. Defaults to 300 seconds.
 * `traffic_shift_target` - (Required when deploy_stage_type=LOAD_BALANCER_TRAFFIC_SHIFT) (Updatable) Specifies the target or destination backend set.
+* `values_artifact_ids` - (Applicable when deploy_stage_type=OKE_HELM_CHART_DEPLOYMENT) (Updatable) List of values.yaml file artifact OCIDs.
 * `wait_criteria` - (Required when deploy_stage_type=WAIT) (Updatable) Specifies wait criteria for the Wait stage.
 	* `wait_duration` - (Required) (Updatable) The absolute wait duration. An ISO 8601 formatted duration string. Minimum waitDuration should be 5 seconds. Maximum waitDuration can be up to 2 days.
 	* `wait_type` - (Required) (Updatable) Wait criteria type.
@@ -266,6 +274,7 @@ The following attributes are exported:
 * `function_timeout_in_seconds` - Timeout for execution of the Function. Value in seconds.
 * `green_backend_ips` - Collection of backend environment IP addresses.
 	* `items` - The IP address of the backend server. A server could be a compute instance or a load balancer.
+* `helm_chart_deploy_artifact_id` - Helm chart artifact OCID. 
 * `id` - Unique identifier that is immutable on creation.
 * `is_async` - A boolean flag specifies whether this stage executes asynchronously.
 * `is_validation_enabled` - A boolean flag specifies whether the invoked function must be validated.
@@ -286,6 +295,7 @@ The following attributes are exported:
 	* `listener_name` - Name of the load balancer listener.
 	* `load_balancer_id` - The OCID of the load balancer.
 * `project_id` - The OCID of a project.
+* `release_name` - Release name of the Helm chart.
 * `rollback_policy` - Specifies the rollback policy. This is initiated on the failure of certain stage types.
 	* `policy_type` - Specifies type of the deployment stage rollback policy.
 * `rollout_policy` - Description of rollout policy for load balancer traffic shift stage.
@@ -302,7 +312,9 @@ The following attributes are exported:
 	* `load_balancer_id` - The OCID of the load balancer.
 * `time_created` - Time the deployment stage was created. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `time_updated` - Time the deployment stage was updated. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
+* `timeout_in_seconds` - Time to wait for execution of a helm stage. Defaults to 300 seconds.
 * `traffic_shift_target` - Specifies the target or destination backend set.
+* `values_artifact_ids` - List of values.yaml file artifact OCIDs.
 * `wait_criteria` - Specifies wait criteria for the Wait stage.
 	* `wait_duration` - The absolute wait duration. An ISO 8601 formatted duration string. Minimum waitDuration should be 5 seconds. Maximum waitDuration can be up to 2 days.
 	* `wait_type` - Wait criteria type.

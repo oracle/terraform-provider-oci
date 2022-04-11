@@ -51,6 +51,7 @@ func DevopsDeployArtifactResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"GENERIC_ARTIFACT",
+								"HELM_CHART",
 								"INLINE",
 								"OCIR",
 							}, true),
@@ -58,6 +59,11 @@ func DevopsDeployArtifactResource() *schema.Resource {
 
 						// Optional
 						"base64encoded_content": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"chart_url": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -573,6 +579,17 @@ func (s *DevopsDeployArtifactResourceCrud) mapToDeployArtifactSource(fieldKeyFor
 				result.DeployArtifactVersion = &tmp
 			}
 			return result, nil
+		case "HELM_CHART":
+			result := oci_devops.HelmRepositoryDeployArtifactSource{}
+			if chartUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "chart_url")); ok {
+				tmp := chartUrl.(string)
+				result.ChartUrl = &tmp
+			}
+			if deployArtifactVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "deploy_artifact_version")); ok {
+				tmp := deployArtifactVersion.(string)
+				result.DeployArtifactVersion = &tmp
+			}
+			return result, nil
 		case "INLINE":
 			result := oci_devops.InlineDeployArtifactSource{}
 			if content, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "base64encoded_content")); ok {
@@ -614,6 +631,17 @@ func DeployArtifactSourceToMap(obj *oci_devops.DeployArtifactSource) map[string]
 
 		if v.RepositoryId != nil {
 			result["repository_id"] = string(*v.RepositoryId)
+		}
+	case oci_devops.HelmRepositoryDeployArtifactSource:
+
+		result["deploy_artifact_source_type"] = "HELM_CHART"
+
+		if v.ChartUrl != nil {
+			result["chart_url"] = string(*v.ChartUrl)
+		}
+
+		if v.DeployArtifactVersion != nil {
+			result["deploy_artifact_version"] = string(*v.DeployArtifactVersion)
 		}
 	case oci_devops.InlineDeployArtifactSource:
 		result["deploy_artifact_source_type"] = "INLINE"

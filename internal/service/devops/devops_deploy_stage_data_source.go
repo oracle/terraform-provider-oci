@@ -1251,6 +1251,85 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_devops.OkeHelmChartDeployStage:
+		s.D.Set("deploy_stage_type", "HELM_CHART")
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.ReleaseName != nil {
+			s.D.Set("release_name", v.ReleaseName)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.ValuesArtifactIds != nil {
+			s.D.Set("values_artifact_ids", v.ValuesArtifactIds)
+		}
+
+		if v.Namespace != nil {
+			s.D.Set("namespace", *v.Namespace)
+		}
+
+		if v.TimeoutInSeconds != nil {
+			s.D.Set("timeout_in_seconds", v.TimeoutInSeconds)
+		}
+
+		if v.RollbackPolicy != nil {
+			rollbackPolicyArray := []interface{}{}
+			if rollbackPolicyMap := DeployStageRollbackPolicyToMap(&v.RollbackPolicy); rollbackPolicyMap != nil {
+				rollbackPolicyArray = append(rollbackPolicyArray, rollbackPolicyMap)
+			}
+			s.D.Set("rollback_policy", rollbackPolicyArray)
+		} else {
+			s.D.Set("rollback_policy", nil)
+		}
+
+		if v.OkeClusterDeployEnvironmentId != nil {
+			s.D.Set("oke_cluster_deploy_environment_id", *v.OkeClusterDeployEnvironmentId)
+		}
+
+		if v.HelmChartDeployArtifactId != nil {
+			s.D.Set("helm_chart_deploy_artifact_id", v.HelmChartDeployArtifactId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
 	case oci_devops.WaitDeployStage:
 		s.D.Set("deploy_stage_type", "WAIT")
 
