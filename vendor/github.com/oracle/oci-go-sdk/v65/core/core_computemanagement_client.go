@@ -79,6 +79,9 @@ func (client *ComputeManagementClient) setConfigurationProvider(configProvider c
 	// Error has been checked already
 	region, _ := configProvider.Region()
 	client.SetRegion(region)
+	if client.Host == "" {
+		return fmt.Errorf("Invalid region or Host. Endpoint cannot be constructed without endpointServiceName or serviceEndpointTemplate for a dotted region")
+	}
 	client.config = &configProvider
 	return nil
 }
