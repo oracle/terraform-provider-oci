@@ -124,6 +124,7 @@ const (
 	InstanceActionActionSenddiagnosticinterrupt InstanceActionActionEnum = "SENDDIAGNOSTICINTERRUPT"
 	InstanceActionActionExtendscheduledstop     InstanceActionActionEnum = "EXTENDSCHEDULEDSTOP"
 	InstanceActionActionDiagnosticreboot        InstanceActionActionEnum = "DIAGNOSTICREBOOT"
+	InstanceActionActionSuspend                 InstanceActionActionEnum = "SUSPEND"
 )
 
 var mappingInstanceActionActionEnum = map[string]InstanceActionActionEnum{
@@ -136,6 +137,7 @@ var mappingInstanceActionActionEnum = map[string]InstanceActionActionEnum{
 	"SENDDIAGNOSTICINTERRUPT": InstanceActionActionSenddiagnosticinterrupt,
 	"EXTENDSCHEDULEDSTOP":     InstanceActionActionExtendscheduledstop,
 	"DIAGNOSTICREBOOT":        InstanceActionActionDiagnosticreboot,
+	"SUSPEND":                 InstanceActionActionSuspend,
 }
 
 var mappingInstanceActionActionEnumLowerCase = map[string]InstanceActionActionEnum{
@@ -148,6 +150,7 @@ var mappingInstanceActionActionEnumLowerCase = map[string]InstanceActionActionEn
 	"senddiagnosticinterrupt": InstanceActionActionSenddiagnosticinterrupt,
 	"extendscheduledstop":     InstanceActionActionExtendscheduledstop,
 	"diagnosticreboot":        InstanceActionActionDiagnosticreboot,
+	"suspend":                 InstanceActionActionSuspend,
 }
 
 // GetInstanceActionActionEnumValues Enumerates the set of values for InstanceActionActionEnum
@@ -171,6 +174,7 @@ func GetInstanceActionActionEnumStringValues() []string {
 		"SENDDIAGNOSTICINTERRUPT",
 		"EXTENDSCHEDULEDSTOP",
 		"DIAGNOSTICREBOOT",
+		"SUSPEND",
 	}
 }
 

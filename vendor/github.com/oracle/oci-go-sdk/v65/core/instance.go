@@ -378,6 +378,8 @@ const (
 	InstanceLifecycleStateStarting      InstanceLifecycleStateEnum = "STARTING"
 	InstanceLifecycleStateStopping      InstanceLifecycleStateEnum = "STOPPING"
 	InstanceLifecycleStateStopped       InstanceLifecycleStateEnum = "STOPPED"
+	InstanceLifecycleStateSuspending    InstanceLifecycleStateEnum = "SUSPENDING"
+	InstanceLifecycleStateSuspended     InstanceLifecycleStateEnum = "SUSPENDED"
 	InstanceLifecycleStateCreatingImage InstanceLifecycleStateEnum = "CREATING_IMAGE"
 	InstanceLifecycleStateTerminating   InstanceLifecycleStateEnum = "TERMINATING"
 	InstanceLifecycleStateTerminated    InstanceLifecycleStateEnum = "TERMINATED"
@@ -390,6 +392,8 @@ var mappingInstanceLifecycleStateEnum = map[string]InstanceLifecycleStateEnum{
 	"STARTING":       InstanceLifecycleStateStarting,
 	"STOPPING":       InstanceLifecycleStateStopping,
 	"STOPPED":        InstanceLifecycleStateStopped,
+	"SUSPENDING":     InstanceLifecycleStateSuspending,
+	"SUSPENDED":      InstanceLifecycleStateSuspended,
 	"CREATING_IMAGE": InstanceLifecycleStateCreatingImage,
 	"TERMINATING":    InstanceLifecycleStateTerminating,
 	"TERMINATED":     InstanceLifecycleStateTerminated,
@@ -402,6 +406,8 @@ var mappingInstanceLifecycleStateEnumLowerCase = map[string]InstanceLifecycleSta
 	"starting":       InstanceLifecycleStateStarting,
 	"stopping":       InstanceLifecycleStateStopping,
 	"stopped":        InstanceLifecycleStateStopped,
+	"suspending":     InstanceLifecycleStateSuspending,
+	"suspended":      InstanceLifecycleStateSuspended,
 	"creating_image": InstanceLifecycleStateCreatingImage,
 	"terminating":    InstanceLifecycleStateTerminating,
 	"terminated":     InstanceLifecycleStateTerminated,
@@ -425,6 +431,8 @@ func GetInstanceLifecycleStateEnumStringValues() []string {
 		"STARTING",
 		"STOPPING",
 		"STOPPED",
+		"SUSPENDING",
+		"SUSPENDED",
 		"CREATING_IMAGE",
 		"TERMINATING",
 		"TERMINATED",

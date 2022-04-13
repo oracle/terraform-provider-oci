@@ -3208,7 +3208,7 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // - **SOFTRESET** - Gracefully reboots the instance by sending a shutdown command to the operating system.
 // After waiting 15 minutes for the OS to shut down, the instance is powered off and
 // then powered back on.
-//
+// - **SUSPEND** - Powers off the instance and saves the contents from the instance's memory.
 // - **SENDDIAGNOSTICINTERRUPT** - For advanced users. **Warning: Sending a diagnostic interrupt to a live system can
 // cause data corruption or system failure.** Sends a diagnostic interrupt that causes the instance's
 // OS to crash and then reboot. Before you send a diagnostic interrupt, you must configure the instance to generate a
