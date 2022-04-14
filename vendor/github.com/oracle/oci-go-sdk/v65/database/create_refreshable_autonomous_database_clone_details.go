@@ -59,7 +59,7 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
+	// **Important** The `adminPassword` must be specified for all Autonomous Databases except for refreshable clones. The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
 	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
@@ -110,8 +110,7 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
 	StandbyWhitelistedIps []string `mandatory:"false" json:"standbyWhitelistedIps"`
 
-	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to
-	// Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
+	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 	IsDataGuardEnabled *bool `mandatory:"false" json:"isDataGuardEnabled"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
@@ -156,8 +155,14 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
 	IsAutoScalingForStorageEnabled *bool `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
 
+	// The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
+	MaxCpuCoreCount *int `mandatory:"false" json:"maxCpuCoreCount"`
+
 	// The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
 	RefreshableMode CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum `mandatory:"false" json:"refreshableMode,omitempty"`
+
+	// The Oracle Database Edition that applies to the Autonomous databases.
+	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
@@ -342,6 +347,16 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsAutoScalingForStor
 	return m.IsAutoScalingForStorageEnabled
 }
 
+//GetMaxCpuCoreCount returns MaxCpuCoreCount
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetMaxCpuCoreCount() *int {
+	return m.MaxCpuCoreCount
+}
+
+//GetDatabaseEdition returns DatabaseEdition
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
+	return m.DatabaseEdition
+}
+
 func (m CreateRefreshableAutonomousDatabaseCloneDetails) String() string {
 	return common.PointerString(m)
 }
@@ -355,6 +370,9 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) ValidateEnumValue() (bo
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RefreshableMode: %s. Supported values are: %s.", m.RefreshableMode, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingCreateAutonomousDatabaseBaseDbWorkloadEnum(string(m.DbWorkload)); !ok && m.DbWorkload != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues(), ",")))
 	}

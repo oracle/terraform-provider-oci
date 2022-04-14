@@ -22,6 +22,36 @@ func CoreByoipRangeDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"byoip_range_vcn_ipv6allocations": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"byoip_range_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ipv6cidr_block": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"vcn_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"cidr_block": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -43,6 +73,10 @@ func CoreByoipRangeDataSource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"ipv6cidr_block": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -120,6 +154,12 @@ func (s *CoreByoipRangeDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	byoipRangeVcnIpv6Allocations := []interface{}{}
+	for _, item := range s.Res.ByoipRangeVcnIpv6Allocations {
+		byoipRangeVcnIpv6Allocations = append(byoipRangeVcnIpv6Allocations, ByoipRangeVcnIpv6AllocationSummaryToMap(item))
+	}
+	s.D.Set("byoip_range_vcn_ipv6allocations", byoipRangeVcnIpv6Allocations)
+
 	if s.Res.CidrBlock != nil {
 		s.D.Set("cidr_block", *s.Res.CidrBlock)
 	}
@@ -137,6 +177,10 @@ func (s *CoreByoipRangeDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.Ipv6CidrBlock != nil {
+		s.D.Set("ipv6cidr_block", *s.Res.Ipv6CidrBlock)
+	}
 
 	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
 
@@ -163,4 +207,26 @@ func (s *CoreByoipRangeDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func ByoipRangeVcnIpv6AllocationSummaryToMap(obj oci_core.ByoipRangeVcnIpv6AllocationSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ByoipRangeId != nil {
+		result["byoip_range_id"] = string(*obj.ByoipRangeId)
+	}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.Ipv6CidrBlock != nil {
+		result["ipv6cidr_block"] = string(*obj.Ipv6CidrBlock)
+	}
+
+	if obj.VcnId != nil {
+		result["vcn_id"] = string(*obj.VcnId)
+	}
+
+	return result
 }

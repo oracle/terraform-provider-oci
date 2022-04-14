@@ -37,6 +37,9 @@ type AddIpv6VcnCidrRequest struct {
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
+	// Details object for adding an IPv6 VCN CIDR.
+	AddVcnIpv6CidrDetails `contributesTo:"body"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

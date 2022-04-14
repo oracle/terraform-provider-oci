@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// VisionService API
+// Vision API
 //
-// A description of the VisionService API.
+// Using Vision, you can upload images to detect and classify objects in them. If you have lots of images, you can process them in batch using asynchronous API endpoints. Vision's features are thematically split between Document AI for document-centric images, and Image Analysis for object and scene-based images. Pretrained models and custom models are supported.
 //
 
 package aivision
@@ -18,13 +18,13 @@ import (
 // ObjectLocation A location in Object Storage that is uniquely identified by namespace name, bucket name and object name.
 type ObjectLocation struct {
 
-	// Object Storage namespace name.
+	// The Object Storage namespace name.
 	NamespaceName *string `mandatory:"true" json:"namespaceName"`
 
-	// Object Storage bucket name.
+	// The Object Storage bucket name.
 	BucketName *string `mandatory:"true" json:"bucketName"`
 
-	// Object Storage object name.
+	// The Object Storage object name.
 	ObjectName *string `mandatory:"true" json:"objectName"`
 }
 

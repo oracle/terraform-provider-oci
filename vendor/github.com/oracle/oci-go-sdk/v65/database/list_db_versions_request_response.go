@@ -33,9 +33,9 @@ type ListDbVersionsRequest struct {
 	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). If provided, filters the results to the set of database versions which are supported for the DB system.
 	DbSystemId *string `mandatory:"false" contributesTo:"query" name:"dbSystemId"`
 
-	// The DB system storage management option. Used to list database versions available for that storage manager. Valid values are:
-	// * ASM - Automatic storage management
-	// * LVM - Logical volume management
+	// The DB system storage management option. Used to list database versions available for that storage manager. Valid values are `ASM` and `LVM`.
+	// * ASM specifies Oracle Automatic Storage Management
+	// * LVM specifies logical volume manager, sometimes called logical disk manager.
 	StorageManagement DbSystemOptionsStorageManagementEnum `mandatory:"false" contributesTo:"query" name:"storageManagement" omitEmpty:"true"`
 
 	// If provided, filters the results to the set of database versions which are supported for Upgrade.

@@ -68,7 +68,7 @@ type CreateAutonomousDatabaseBase interface {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	GetVaultId() *string
 
-	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
+	// **Important** The `adminPassword` must be specified for all Autonomous Databases except for refreshable clones. The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
 	GetAdminPassword() *string
 
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
@@ -125,8 +125,7 @@ type CreateAutonomousDatabaseBase interface {
 	// For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
 	GetStandbyWhitelistedIps() []string
 
-	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to
-	// Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
+	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 	GetIsDataGuardEnabled() *bool
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
@@ -174,6 +173,12 @@ type CreateAutonomousDatabaseBase interface {
 
 	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
 	GetIsAutoScalingForStorageEnabled() *bool
+
+	// The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
+	GetMaxCpuCoreCount() *int
+
+	// The Oracle Database Edition that applies to the Autonomous databases.
+	GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum
 }
 
 type createautonomousdatabasebase struct {
@@ -211,6 +216,8 @@ type createautonomousdatabasebase struct {
 	AutonomousMaintenanceScheduleType        CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 	ScheduledOperations                      []ScheduledOperationDetails                                       `mandatory:"false" json:"scheduledOperations"`
 	IsAutoScalingForStorageEnabled           *bool                                                             `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
+	MaxCpuCoreCount                          *int                                                              `mandatory:"false" json:"maxCpuCoreCount"`
+	DatabaseEdition                          AutonomousDatabaseSummaryDatabaseEditionEnum                      `mandatory:"false" json:"databaseEdition,omitempty"`
 	Source                                   string                                                            `json:"source"`
 }
 
@@ -258,6 +265,8 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.AutonomousMaintenanceScheduleType = s.Model.AutonomousMaintenanceScheduleType
 	m.ScheduledOperations = s.Model.ScheduledOperations
 	m.IsAutoScalingForStorageEnabled = s.Model.IsAutoScalingForStorageEnabled
+	m.MaxCpuCoreCount = s.Model.MaxCpuCoreCount
+	m.DatabaseEdition = s.Model.DatabaseEdition
 	m.Source = s.Model.Source
 
 	return err
@@ -466,6 +475,16 @@ func (m createautonomousdatabasebase) GetIsAutoScalingForStorageEnabled() *bool 
 	return m.IsAutoScalingForStorageEnabled
 }
 
+//GetMaxCpuCoreCount returns MaxCpuCoreCount
+func (m createautonomousdatabasebase) GetMaxCpuCoreCount() *int {
+	return m.MaxCpuCoreCount
+}
+
+//GetDatabaseEdition returns DatabaseEdition
+func (m createautonomousdatabasebase) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
+	return m.DatabaseEdition
+}
+
 func (m createautonomousdatabasebase) String() string {
 	return common.PointerString(m)
 }
@@ -484,6 +503,9 @@ func (m createautonomousdatabasebase) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(string(m.AutonomousMaintenanceScheduleType)); !ok && m.AutonomousMaintenanceScheduleType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

@@ -227,7 +227,9 @@ func (s *DataSafeUserAssessmentResourceCrud) DeletedPending() []string {
 }
 
 func (s *DataSafeUserAssessmentResourceCrud) DeletedTarget() []string {
-	return []string{}
+	return []string{
+		string(oci_data_safe.UserAssessmentLifecycleStateDeleted),
+	}
 }
 
 func (s *DataSafeUserAssessmentResourceCrud) Create() error {

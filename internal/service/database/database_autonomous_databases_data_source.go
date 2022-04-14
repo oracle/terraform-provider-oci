@@ -234,7 +234,11 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
 		}
 
+		autonomousDatabase["database_edition"] = r.DatabaseEdition
+
 		autonomousDatabase["database_management_status"] = r.DatabaseManagementStatus
+
+		autonomousDatabase["dataguard_region_type"] = r.DataguardRegionType
 
 		if r.DbName != nil {
 			autonomousDatabase["db_name"] = *r.DbName
@@ -342,6 +346,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
 		}
 
+		if r.MaxCpuCoreCount != nil {
+			autonomousDatabase["max_cpu_core_count"] = *r.MaxCpuCoreCount
+		}
+
 		autonomousDatabase["nsg_ids"] = r.NsgIds
 
 		if r.OcpuCount != nil {
@@ -351,6 +359,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 		autonomousDatabase["open_mode"] = r.OpenMode
 
 		autonomousDatabase["operations_insights_status"] = r.OperationsInsightsStatus
+
+		autonomousDatabase["peer_db_ids"] = r.PeerDbIds
 
 		autonomousDatabase["permission_level"] = r.PermissionLevel
 
@@ -410,8 +420,16 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.TimeDataGuardRoleChanged != nil {
+			autonomousDatabase["time_data_guard_role_changed"] = r.TimeDataGuardRoleChanged.String()
+		}
+
 		if r.TimeDeletionOfFreeAutonomousDatabase != nil {
 			autonomousDatabase["time_deletion_of_free_autonomous_database"] = r.TimeDeletionOfFreeAutonomousDatabase.String()
+		}
+
+		if r.TimeLocalDataGuardEnabled != nil {
+			autonomousDatabase["time_local_data_guard_enabled"] = r.TimeLocalDataGuardEnabled.String()
 		}
 
 		if r.TimeMaintenanceBegin != nil {

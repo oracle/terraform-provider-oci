@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ChangeProjectCompartment.go.html to see an example of how to use ChangeProjectCompartmentRequest.
 type ChangeProjectCompartmentRequest struct {
 
-	// unique project identifier.
+	// A unique project identifier.
 	ProjectId *string `mandatory:"true" contributesTo:"path" name:"projectId"`
 
 	// The deatils of the move.
@@ -82,7 +82,7 @@ type ChangeProjectCompartmentResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// A unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }

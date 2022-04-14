@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// VisionService API
+// Vision API
 //
-// A description of the VisionService API.
+// Using Vision, you can upload images to detect and classify objects in them. If you have lots of images, you can process them in batch using asynchronous API endpoints. Vision's features are thematically split between Document AI for document-centric images, and Image Analysis for object and scene-based images. Pretrained models and custom models are supported.
 //
 
 package aivision
@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// Label A label describing an image. Every label returned by the pre-deployed model will be in English.
+// Label A label describing an image. Every label returned by the pre-deployed model is in English.
 type Label struct {
 
-	// Classification catagory label name.
+	// The classification catagory label name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Confidence score between 0 to 1.
+	// The confidence score between 0 and 1.
 	Confidence *float32 `mandatory:"true" json:"confidence"`
 }
 

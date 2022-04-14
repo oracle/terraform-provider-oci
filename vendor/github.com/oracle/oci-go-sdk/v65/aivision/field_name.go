@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// VisionService API
+// Vision API
 //
-// A description of the VisionService API.
+// Using Vision, you can upload images to detect and classify objects in them. If you have lots of images, you can process them in batch using asynchronous API endpoints. Vision's features are thematically split between Document AI for document-centric images, and Image Analysis for object and scene-based images. Pretrained models and custom models are supported.
 //
 
 package aivision
@@ -15,18 +15,18 @@ import (
 	"strings"
 )
 
-// FieldName Name of a form field.
+// FieldName The name of a form field.
 type FieldName struct {
 
-	// Name of the field.
+	// The name of the field.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Confidence score between 0 to 1.
+	// The confidence score between 0 and 1.
 	Confidence *float32 `mandatory:"false" json:"confidence"`
 
 	BoundingPolygon *BoundingPolygon `mandatory:"false" json:"boundingPolygon"`
 
-	// Indexes of the words in the field name.
+	// The indexes of the words in the field name.
 	WordIndexes []int `mandatory:"false" json:"wordIndexes"`
 }
 

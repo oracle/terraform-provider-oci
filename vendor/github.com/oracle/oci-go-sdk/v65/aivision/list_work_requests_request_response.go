@@ -24,7 +24,7 @@ type ListWorkRequestsRequest struct {
 	// The ID of the asynchronous work request.
 	WorkRequestId *string `mandatory:"false" contributesTo:"query" name:"workRequestId"`
 
-	// A filter to return only resources their lifecycleState matches the given OperationStatus.
+	// A filter to return only resources whose lifecycleState matches the given OperationStatus.
 	Status ListWorkRequestsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
 
 	// The ID of the resource affected by the work request.
@@ -42,7 +42,7 @@ type ListWorkRequestsRequest struct {
 	// The sort order to use, either 'ASC' or 'DESC'.
 	SortOrder ListWorkRequestsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for timeAccepted is descending.
+	// The field to sort by. Only one sort order may be provided. The default order for timeAccepted is descending.
 	SortBy ListWorkRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -105,7 +105,7 @@ type ListWorkRequestsResponse struct {
 	// A list of WorkRequestSummaryCollection instances
 	WorkRequestSummaryCollection `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// A unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 

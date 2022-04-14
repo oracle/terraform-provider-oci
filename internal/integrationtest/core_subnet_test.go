@@ -102,7 +102,6 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+SubnetResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, subnetRepresentation), "core", "subnet", t)
-
 	acctest.ResourceTest(t, testAccCheckCoreSubnetDestroy, []resource.TestStep{
 		// verify Create
 		{

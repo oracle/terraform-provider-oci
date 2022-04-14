@@ -504,7 +504,9 @@ func (s *DataSafeSecurityAssessmentResourceCrud) DeletedPending() []string {
 }
 
 func (s *DataSafeSecurityAssessmentResourceCrud) DeletedTarget() []string {
-	return []string{}
+	return []string{
+		string(oci_data_safe.SecurityAssessmentLifecycleStateDeleted),
+	}
 }
 
 func (s *DataSafeSecurityAssessmentResourceCrud) Create() error {
