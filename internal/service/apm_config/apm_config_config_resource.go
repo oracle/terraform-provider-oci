@@ -5,6 +5,7 @@ package apm_config
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/url"
@@ -43,6 +44,7 @@ func ApmConfigConfigResource() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{
 					"APDEX",
 					"METRIC_GROUP",
+					"OPTIONS",
 					"SPAN_FILTER",
 				}, true),
 			},
@@ -104,6 +106,11 @@ func ApmConfigConfigResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"group": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"metrics": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -147,6 +154,12 @@ func ApmConfigConfigResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"options": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
 			},
 			"rules": {
 				Type:     schema.TypeList,
@@ -385,12 +398,50 @@ func (s *ApmConfigConfigResourceCrud) SetData() error {
 
 		metrics := []interface{}{}
 		for _, item := range v.Metrics {
-			metrics = append(metrics, ApmConfigMetricToMap(item))
+			metrics = append(metrics, MetricToMap(item))
 		}
 		s.D.Set("metrics", metrics)
 
 		if v.Namespace != nil {
 			s.D.Set("namespace", *v.Namespace)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_apm_config.Options:
+		s.D.Set("config_type", "OPTIONS")
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.Group != nil {
+			s.D.Set("group", *v.Group)
+		}
+
+		if v.Options != nil {
+			s.D.Set("options", optionsToMap(v.Options))
+		} else {
+			s.D.Set("options", nil)
 		}
 
 		if v.DefinedTags != nil {
@@ -598,12 +649,30 @@ func ConfigSummaryToMap(obj oci_apm_config.ConfigSummary) map[string]interface{}
 
 		metrics := []interface{}{}
 		for _, item := range v.Metrics {
-			metrics = append(metrics, ApmConfigMetricToMap(item))
+			metrics = append(metrics, MetricToMap(item))
 		}
 		result["metrics"] = metrics
 
 		if v.Namespace != nil {
 			result["namespace"] = string(*v.Namespace)
+		}
+	case oci_apm_config.OptionsSummary:
+		result["config_type"] = "OPTIONS"
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
+		}
+
+		if v.DisplayName != nil {
+			result["display_name"] = string(*v.DisplayName)
+		}
+
+		if v.Group != nil {
+			result["group"] = string(*v.Group)
+		}
+
+		if v.Options != nil {
+			result["options"] = optionsToMap(v.Options)
 		}
 	case oci_apm_config.SpanFilterSummary:
 		result["config_type"] = "SPAN_FILTER"
@@ -683,7 +752,7 @@ func (s *ApmConfigConfigResourceCrud) mapToMetric(fieldKeyFormat string) (oci_ap
 	return result, nil
 }
 
-func ApmConfigMetricToMap(obj oci_apm_config.Metric) map[string]interface{} {
+func MetricToMap(obj oci_apm_config.Metric) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Description != nil {
@@ -700,6 +769,28 @@ func ApmConfigMetricToMap(obj oci_apm_config.Metric) map[string]interface{} {
 
 	if obj.ValueSource != nil {
 		result["value_source"] = string(*obj.ValueSource)
+	}
+
+	return result
+}
+
+func mapToOptions(options string) (*interface{}, error) {
+	var result interface{}
+	var err error
+
+	var obj interface{}
+	err = json.Unmarshal([]byte(options), &obj)
+	result = &obj
+
+	return &result, err
+}
+
+func optionsToMap(obj *interface{}) string {
+	var result string
+
+	if obj != nil {
+		var bytes, _ = json.Marshal(obj)
+		result = string(bytes)
 	}
 
 	return result
@@ -806,6 +897,60 @@ func (s *ApmConfigConfigResourceCrud) populateTopLevelPolymorphicCreateConfigReq
 			tmp := namespace.(string)
 			details.Namespace = &tmp
 		}
+		if apmDomainId, ok := s.D.GetOkExists("apm_domain_id"); ok {
+			tmp := apmDomainId.(string)
+			request.ApmDomainId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
+			tmp := opcDryRun.(string)
+			request.OpcDryRun = &tmp
+		}
+		request.CreateConfigDetails = details
+	case strings.ToLower("OPTIONS"):
+		details := oci_apm_config.CreateOptionsDetails{}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if group, ok := s.D.GetOkExists("group"); ok {
+			tmp := group.(string)
+			details.Group = &tmp
+		}
+		if options, ok := s.D.GetOkExists("options"); ok {
+			tmp, err := mapToOptions(options.(string))
+			if err != nil {
+				return err
+			}
+			details.Options = tmp
+		}
+		/*if options, ok := s.D.GetOkExists("options"); ok {
+			if tmpList := options.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "options", 0)
+				tmp, err := s.mapToOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.Options = tmp
+			}
+		}*/
 		if apmDomainId, ok := s.D.GetOkExists("apm_domain_id"); ok {
 			tmp := apmDomainId.(string)
 			request.ApmDomainId = &tmp
@@ -976,6 +1121,64 @@ func (s *ApmConfigConfigResourceCrud) populateTopLevelPolymorphicUpdateConfigReq
 			tmp := namespace.(string)
 			details.Namespace = &tmp
 		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
+			tmp := opcDryRun.(string)
+			request.OpcDryRun = &tmp
+		}
+		request.UpdateConfigDetails = details
+	case strings.ToLower("OPTIONS"):
+		details := oci_apm_config.UpdateOptionsDetails{}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if group, ok := s.D.GetOkExists("group"); ok {
+			tmp := group.(string)
+			details.Group = &tmp
+		}
+		if options, ok := s.D.GetOkExists("options"); ok {
+			tmp, err := mapToOptions(options.(string))
+			if err != nil {
+				return err
+			}
+			details.Options = tmp
+		}
+		/*
+			if options, ok := s.D.GetOkExists("options"); ok {
+				if tmpList := options.([]interface{}); len(tmpList) > 0 {
+					fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "options", 0)
+					tmp, err := s.mapToOptions(fieldKeyFormat)
+					if err != nil {
+						return err
+					}
+					details.Options = tmp
+				}
+			}
+		*/
+		if apmDomainId, ok := s.D.GetOkExists("apm_domain_id"); ok {
+			tmp := apmDomainId.(string)
+			request.ApmDomainId = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConfigId = &tmp
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 			if err != nil {
