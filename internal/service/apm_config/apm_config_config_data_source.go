@@ -135,7 +135,7 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 
 		metrics := []interface{}{}
 		for _, item := range v.Metrics {
-			metrics = append(metrics, ApmConfigMetricToMap(item))
+			metrics = append(metrics, MetricToMap(item))
 		}
 		s.D.Set("metrics", metrics)
 
@@ -174,6 +174,49 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 
 		if v.FilterText != nil {
 			s.D.Set("filter_text", *v.FilterText)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+	case oci_apm_config.Options:
+		s.D.Set("config_type", "OPTIONS")
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.Options != nil {
+			s.D.Set("options", optionsToMap(v.Options))
+		} else {
+			s.D.Set("options", nil)
+		}
+
+		if v.Group != nil {
+			s.D.Set("group", *v.Group)
+		}
+
+		if v.Group != nil {
+			s.D.Set("filter_text", *v.Group)
 		}
 
 		if v.DefinedTags != nil {
