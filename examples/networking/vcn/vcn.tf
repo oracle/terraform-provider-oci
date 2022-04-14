@@ -20,6 +20,7 @@ variable "region" {
 }
 
 provider "oci" {
+
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
@@ -33,7 +34,6 @@ resource "oci_core_vcn" "vcn" {
   dns_label      = "vcn"
   compartment_id = var.compartment_ocid
   display_name   = "vcn"
-  defined_tags   = {"sampleTest": 1}
 }
 
 output "vcn_id" {

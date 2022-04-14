@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// VisionService API
+// Vision API
 //
-// A description of the VisionService API.
+// Using Vision, you can upload images to detect and classify objects in them. If you have lots of images, you can process them in batch using asynchronous API endpoints. Vision's features are thematically split between Document AI for document-centric images, and Image Analysis for object and scene-based images. Pretrained models and custom models are supported.
 //
 
 package aivision
@@ -19,10 +19,10 @@ import (
 // Model Machine-learned Model.
 type Model struct {
 
-	// Unique identifier that is immutable after creation.
+	// A unique identifier that is immutable after creation.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment identifier.
+	// The compartment identifier.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// What type of Vision model this is.
@@ -33,28 +33,28 @@ type Model struct {
 	// The version of the model.
 	ModelVersion *string `mandatory:"true" json:"modelVersion"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project which contains the model.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project that contains the model.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
 	// When the model was created, as an RFC3339 datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// Current state of the model.
+	// The current state of the model.
 	LifecycleState ModelLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Human-friendly name for the model, which can be changed.
+	// A human-friendly name for the model, which can be changed.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Optional description of the model.
+	// An optional description of the model.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Set to true when experimenting with a new model type or dataset so model training is quick, with a predefined low number of passes through the training data.
+	// Set to true when experimenting with a new model type or dataset, so model training is quick, with a predefined low number of passes through the training data.
 	IsQuickMode *bool `mandatory:"false" json:"isQuickMode"`
 
-	// Maximum model training duration in hours, expressed as a decimal fraction.
+	// The maximum model training duration in hours, expressed as a decimal fraction.
 	MaxTrainingDurationInHours *float64 `mandatory:"false" json:"maxTrainingDurationInHours"`
 
-	// Total hours actually used for model training.
+	// The total hours actually used for model training.
 	TrainedDurationInHours *float64 `mandatory:"false" json:"trainedDurationInHours"`
 
 	TestingDataset Dataset `mandatory:"false" json:"testingDataset"`
@@ -64,40 +64,40 @@ type Model struct {
 	// When the model was updated, as an RFC3339 datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// A message describing the current state in more detail which can provide actionable information if training failed.
+	// A message describing the current state in more detail, that can provide actionable information if training failed.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Precision of the trained model.
+	// The precision of the trained model.
 	Precision *float32 `mandatory:"false" json:"precision"`
 
 	// Recall of the trained model.
 	Recall *float32 `mandatory:"false" json:"recall"`
 
-	// Mean average precision of the trained model.
+	// The mean average precision of the trained model.
 	AveragePrecision *float32 `mandatory:"false" json:"averagePrecision"`
 
-	// Intersection over union threshold used for calculating precision and recall.
+	// The intersection over the union threshold used for calculating precision and recall.
 	ConfidenceThreshold *float32 `mandatory:"false" json:"confidenceThreshold"`
 
-	// Number of images in the dataset used to train, validate, and test the model.
+	// The number of images in the dataset used to train, validate, and test the model.
 	TotalImageCount *int `mandatory:"false" json:"totalImageCount"`
 
-	// Number of images set aside for evaluating model performance metrics after training.
+	// The number of images set aside for evaluating model performance metrics after training.
 	TestImageCount *int `mandatory:"false" json:"testImageCount"`
 
-	// Complete set of per-label metrics for successfully trained model.
+	// The complete set of per-label metrics for successfully trained models.
 	Metrics *string `mandatory:"false" json:"metrics"`
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
+	// A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only.
+	// For example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	// For example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	// For example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 

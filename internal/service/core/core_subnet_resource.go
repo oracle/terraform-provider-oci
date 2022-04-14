@@ -5,7 +5,7 @@ package core
 
 import (
 	"context"
-
+	"fmt"
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -85,6 +85,14 @@ func CoreSubnetResource() *schema.Resource {
 				Optional:         true,
 				Computed:         true,
 				DiffSuppressFunc: ipv6CompressionDiffSuppressFunction,
+			},
+			"ipv6cidr_blocks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"prohibit_internet_ingress": {
 				Type:     schema.TypeBool,
@@ -262,6 +270,19 @@ func (s *CoreSubnetResourceCrud) Create() error {
 		request.Ipv6CidrBlock = &tmp
 	}
 
+	if ipv6CidrBlocks, ok := s.D.GetOkExists("ipv6cidr_blocks"); ok {
+		interfaces := ipv6CidrBlocks.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("ipv6cidr_blocks") {
+			request.Ipv6CidrBlocks = tmp
+		}
+	}
+
 	if prohibitInternetIngress, ok := s.D.GetOkExists("prohibit_internet_ingress"); ok {
 		tmp := prohibitInternetIngress.(bool)
 		request.ProhibitInternetIngress = &tmp
@@ -340,6 +361,16 @@ func (s *CoreSubnetResourceCrud) Update() error {
 		}
 	}
 	request := oci_core.UpdateSubnetRequest{}
+
+	if _, ok := s.D.GetOkExists("ipv6cidr_blocks"); ok && s.D.HasChange("ipv6cidr_blocks") {
+		oldRaw, newRaw := s.D.GetChange("ipv6cidr_blocks")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateIpv6CidrBlocks(oldRaw, newRaw)
+			if err != nil {
+				return err
+			}
+		}
+	}
 
 	if cidrBlock, ok := s.D.GetOkExists("cidr_block"); ok {
 		tmp := cidrBlock.(string)
@@ -456,6 +487,8 @@ func (s *CoreSubnetResourceCrud) SetData() error {
 		s.D.Set("ipv6cidr_block", *s.Res.Ipv6CidrBlock)
 	}
 
+	s.D.Set("ipv6cidr_blocks", s.Res.Ipv6CidrBlocks)
+
 	if s.Res.Ipv6VirtualRouterIp != nil {
 		s.D.Set("ipv6virtual_router_ip", *s.Res.Ipv6VirtualRouterIp)
 	}
@@ -524,4 +557,80 @@ func (s *CoreSubnetResourceCrud) updateCompartment(compartment interface{}) erro
 	}
 
 	return nil
+}
+
+func (s *CoreSubnetResourceCrud) updateIpv6CidrBlocks(oldRaw interface{}, newRaw interface{}) error {
+	interfaces := oldRaw.([]interface{})
+	oldBlocks := make([]string, len(interfaces))
+	for i := range interfaces {
+		if interfaces[i] != nil {
+			oldBlocks[i] = interfaces[i].(string)
+		}
+	}
+	interfaces = newRaw.([]interface{})
+	newBlocks := make([]string, len(interfaces))
+	for i := range interfaces {
+		if interfaces[i] != nil {
+			newBlocks[i] = interfaces[i].(string)
+		}
+	}
+	canEdit, operation, oldCidr, newCidr := ipv6CidrOneEditAway(oldBlocks, newBlocks)
+	if !canEdit {
+		return fmt.Errorf("only one add/remove or modification is allowed at once, new IPv6 cidr_block must be added at the end of list")
+	}
+	if operation == "add" {
+		addIpv6SubnetCidrRequest := oci_core.AddIpv6SubnetCidrRequest{}
+		addSubnetIpv6CidrDetails := oci_core.AddSubnetIpv6CidrDetails{}
+		idTmp := s.D.Id()
+		addIpv6SubnetCidrRequest.SubnetId = &idTmp
+		addIpv6SubnetCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+		addSubnetIpv6CidrDetails.Ipv6CidrBlock = &newCidr
+		addIpv6SubnetCidrRequest.AddSubnetIpv6CidrDetails = addSubnetIpv6CidrDetails
+		_, err := s.Client.AddIpv6SubnetCidr(context.Background(), addIpv6SubnetCidrRequest)
+		if err != nil {
+			return err
+		}
+	}
+	if operation == "remove" {
+		removeIpv6SubnetCidrRequest := oci_core.RemoveIpv6SubnetCidrRequest{}
+		removeSubnetIpv6CidrDetails := oci_core.RemoveSubnetIpv6CidrDetails{}
+		idTmp := s.D.Id()
+		removeIpv6SubnetCidrRequest.SubnetId = &idTmp
+		removeIpv6SubnetCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+		removeSubnetIpv6CidrDetails.Ipv6CidrBlock = &oldCidr
+		removeIpv6SubnetCidrRequest.RemoveSubnetIpv6CidrDetails = removeSubnetIpv6CidrDetails
+		_, err := s.Client.RemoveIpv6SubnetCidr(context.Background(), removeIpv6SubnetCidrRequest)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func ipv6CidrOneEditAway(oldBlocks []string, newBlocks []string) (bool, string, string, string) {
+	if Abs(len(newBlocks)-len(oldBlocks)) > 1 {
+		return false, "", "", ""
+	}
+	if len(newBlocks) == len(oldBlocks) {
+		return false, "", "", ""
+	}
+	if len(newBlocks) > len(oldBlocks) {
+		for i := 0; i < len(oldBlocks); i++ {
+			if oldBlocks[i] != newBlocks[i] {
+				return false, "", "", ""
+			}
+		}
+		return true, "add", "", newBlocks[len(newBlocks)-1]
+	}
+	for i := 0; i < len(newBlocks); i++ {
+		if oldBlocks[i] != newBlocks[i] {
+			for j := i + 1; j < len(newBlocks); j++ {
+				if oldBlocks[j] != newBlocks[j-1] {
+					return false, "", "", ""
+				}
+			}
+			return true, "remove", oldBlocks[i], ""
+		}
+	}
+	return true, "remove", oldBlocks[len(oldBlocks)-1], ""
 }

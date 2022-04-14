@@ -66,6 +66,8 @@ func (s *CoreVcnDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("byoipv6cidr_blocks", s.Res.Byoipv6CidrBlocks)
+
 	if s.Res.CidrBlock != nil {
 		s.D.Set("cidr_block", *s.Res.CidrBlock)
 	}
@@ -105,6 +107,8 @@ func (s *CoreVcnDataSourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("ipv6cidr_blocks", s.Res.Ipv6CidrBlocks)
+
+	s.D.Set("ipv6private_cidr_blocks", s.Res.Ipv6PrivateCidrBlocks)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

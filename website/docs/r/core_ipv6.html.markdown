@@ -25,6 +25,7 @@ resource "oci_core_ipv6" "test_ipv6" {
 	display_name = var.ipv6_display_name
 	freeform_tags = {"Department"= "Finance"}
 	ip_address = var.ipv6_ip_address
+	ipv6subnet_cidr = var.ipv6_ipv6subnet_cidr
 }
 ```
 
@@ -36,6 +37,7 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `ip_address` - (Optional) An IPv6 address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns an IPv6 address from the subnet. The subnet is the one that contains the VNIC you specify in `vnicId`.  Example: `2001:DB8::` 
+* `ipv6subnet_cidr` - (Optional) The IPv6 CIDR allocated to the subnet. This is required if more than one IPv6 CIDR exists on the subnet. 
 * `vnic_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to assign the IPv6 to. The IPv6 will be in the VNIC's subnet. 
 
 

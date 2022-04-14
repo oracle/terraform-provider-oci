@@ -249,8 +249,7 @@ type AutonomousDatabase struct {
 	// The timestamp of the last failover operation.
 	TimeOfLastFailover *common.SDKTime `mandatory:"false" json:"timeOfLastFailover"`
 
-	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to
-	// Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
+	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 	IsDataGuardEnabled *bool `mandatory:"false" json:"isDataGuardEnabled"`
 
 	// Indicates the number of seconds of data loss for a Data Guard failover.
@@ -313,6 +312,12 @@ type AutonomousDatabase struct {
 
 	// The current amount of storage in use for user and system data, in terabytes (TB).
 	ActualUsedDataStorageSizeInTBs *float64 `mandatory:"false" json:"actualUsedDataStorageSizeInTBs"`
+
+	// The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
+	MaxCpuCoreCount *int `mandatory:"false" json:"maxCpuCoreCount"`
+
+	// The Oracle Database Edition that applies to the Autonomous databases.
+	DatabaseEdition AutonomousDatabaseDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 }
 
 func (m AutonomousDatabase) String() string {
@@ -366,6 +371,9 @@ func (m AutonomousDatabase) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum(string(m.AutonomousMaintenanceScheduleType)); !ok && m.AutonomousMaintenanceScheduleType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousDatabaseDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseDatabaseEditionEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -1086,5 +1094,47 @@ func GetAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnumStringValues() []
 // GetMappingAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum(val string) (AutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum, bool) {
 	enum, ok := mappingAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousDatabaseDatabaseEditionEnum Enum with underlying type: string
+type AutonomousDatabaseDatabaseEditionEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseDatabaseEditionEnum
+const (
+	AutonomousDatabaseDatabaseEditionStandardEdition   AutonomousDatabaseDatabaseEditionEnum = "STANDARD_EDITION"
+	AutonomousDatabaseDatabaseEditionEnterpriseEdition AutonomousDatabaseDatabaseEditionEnum = "ENTERPRISE_EDITION"
+)
+
+var mappingAutonomousDatabaseDatabaseEditionEnum = map[string]AutonomousDatabaseDatabaseEditionEnum{
+	"STANDARD_EDITION":   AutonomousDatabaseDatabaseEditionStandardEdition,
+	"ENTERPRISE_EDITION": AutonomousDatabaseDatabaseEditionEnterpriseEdition,
+}
+
+var mappingAutonomousDatabaseDatabaseEditionEnumLowerCase = map[string]AutonomousDatabaseDatabaseEditionEnum{
+	"standard_edition":   AutonomousDatabaseDatabaseEditionStandardEdition,
+	"enterprise_edition": AutonomousDatabaseDatabaseEditionEnterpriseEdition,
+}
+
+// GetAutonomousDatabaseDatabaseEditionEnumValues Enumerates the set of values for AutonomousDatabaseDatabaseEditionEnum
+func GetAutonomousDatabaseDatabaseEditionEnumValues() []AutonomousDatabaseDatabaseEditionEnum {
+	values := make([]AutonomousDatabaseDatabaseEditionEnum, 0)
+	for _, v := range mappingAutonomousDatabaseDatabaseEditionEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousDatabaseDatabaseEditionEnumStringValues Enumerates the set of values in String for AutonomousDatabaseDatabaseEditionEnum
+func GetAutonomousDatabaseDatabaseEditionEnumStringValues() []string {
+	return []string{
+		"STANDARD_EDITION",
+		"ENTERPRISE_EDITION",
+	}
+}
+
+// GetMappingAutonomousDatabaseDatabaseEditionEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousDatabaseDatabaseEditionEnum(val string) (AutonomousDatabaseDatabaseEditionEnum, bool) {
+	enum, ok := mappingAutonomousDatabaseDatabaseEditionEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

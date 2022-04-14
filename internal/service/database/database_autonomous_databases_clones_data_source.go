@@ -262,7 +262,15 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"database_edition": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"database_management_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"dataguard_region_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -405,6 +413,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"max_cpu_core_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"nsg_ids": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -419,6 +431,13 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						"open_mode": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"peer_db_ids": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
 						},
 						"private_endpoint": {
 							Type:     schema.TypeString,
@@ -512,6 +531,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"time_data_guard_role_changed": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -546,7 +569,15 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_data_guard_role_changed": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"time_deletion_of_free_autonomous_database": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_local_data_guard_enabled": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -752,7 +783,11 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
 		}
 
+		autonomousDatabasesClone["database_edition"] = r.DatabaseEdition
+
 		autonomousDatabasesClone["database_management_status"] = r.DatabaseManagementStatus
+
+		autonomousDatabasesClone["dataguard_region_type"] = r.DataguardRegionType
 
 		if r.DbName != nil {
 			autonomousDatabasesClone["db_name"] = *r.DbName
@@ -860,6 +895,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
 		}
 
+		if r.MaxCpuCoreCount != nil {
+			autonomousDatabasesClone["max_cpu_core_count"] = *r.MaxCpuCoreCount
+		}
+
 		autonomousDatabasesClone["nsg_ids"] = r.NsgIds
 
 		if r.OcpuCount != nil {
@@ -867,6 +906,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		}
 
 		autonomousDatabasesClone["open_mode"] = r.OpenMode
+
+		autonomousDatabasesClone["peer_db_ids"] = r.PeerDbIds
 
 		if r.PrivateEndpoint != nil {
 			autonomousDatabasesClone["private_endpoint"] = *r.PrivateEndpoint
@@ -924,8 +965,16 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.TimeDataGuardRoleChanged != nil {
+			autonomousDatabasesClone["time_data_guard_role_changed"] = r.TimeDataGuardRoleChanged.String()
+		}
+
 		if r.TimeDeletionOfFreeAutonomousDatabase != nil {
 			autonomousDatabasesClone["time_deletion_of_free_autonomous_database"] = r.TimeDeletionOfFreeAutonomousDatabase.String()
+		}
+
+		if r.TimeLocalDataGuardEnabled != nil {
+			autonomousDatabasesClone["time_local_data_guard_enabled"] = r.TimeLocalDataGuardEnabled.String()
 		}
 
 		if r.TimeMaintenanceBegin != nil {

@@ -46,6 +46,9 @@ type CreateIpv6Details struct {
 	// contains the VNIC you specify in `vnicId`.
 	// Example: `2001:DB8::`
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
+
+	// The IPv6 CIDR allocated to the subnet. This is required if more than one IPv6 CIDR exists on the subnet.
+	Ipv6SubnetCidr *string `mandatory:"false" json:"ipv6SubnetCidr"`
 }
 
 func (m CreateIpv6Details) String() string {

@@ -56,6 +56,12 @@ func CoreIpv6Resource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"ipv6subnet_cidr": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"compartment_id": {
@@ -169,6 +175,11 @@ func (s *CoreIpv6ResourceCrud) Create() error {
 	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
 		tmp := ipAddress.(string)
 		request.IpAddress = &tmp
+	}
+
+	if ipv6SubnetCidr, ok := s.D.GetOkExists("ipv6subnet_cidr"); ok {
+		tmp := ipv6SubnetCidr.(string)
+		request.Ipv6SubnetCidr = &tmp
 	}
 
 	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {

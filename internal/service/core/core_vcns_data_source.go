@@ -110,6 +110,8 @@ func (s *CoreVcnsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		vcn["byoipv6cidr_blocks"] = r.Byoipv6CidrBlocks
+
 		if r.CidrBlock != nil {
 			vcn["cidr_block"] = *r.CidrBlock
 		}
@@ -149,6 +151,8 @@ func (s *CoreVcnsDataSourceCrud) SetData() error {
 		}
 
 		vcn["ipv6cidr_blocks"] = r.Ipv6CidrBlocks
+
+		vcn["ipv6private_cidr_blocks"] = r.Ipv6PrivateCidrBlocks
 
 		vcn["state"] = r.LifecycleState
 

@@ -38,7 +38,7 @@ func getSuggestionForServiceError(tfError customError) string {
 func getSuggestionFor400(tfError customError) string {
 	switch tfError.ErrorCodeName {
 	case "InvalidParameter":
-		return fmt.Sprintf("Please Update the parameter(s) in the Terraform config as per error message %s", tfError.Message)
+		return fmt.Sprintf("Please update the parameter(s) in the Terraform config as per error message %s", tfError.Message)
 	case "LimitExceeded":
 		return fmt.Sprintf("Request a service limit increase for this resource %s", tfError.Service)
 	case "QuotaExceeded":

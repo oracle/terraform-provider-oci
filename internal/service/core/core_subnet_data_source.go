@@ -100,6 +100,8 @@ func (s *CoreSubnetDataSourceCrud) SetData() error {
 		s.D.Set("ipv6cidr_block", *s.Res.Ipv6CidrBlock)
 	}
 
+	s.D.Set("ipv6cidr_blocks", s.Res.Ipv6CidrBlocks)
+
 	if s.Res.Ipv6VirtualRouterIp != nil {
 		s.D.Set("ipv6virtual_router_ip", *s.Res.Ipv6VirtualRouterIp)
 	}
