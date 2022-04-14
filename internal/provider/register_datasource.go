@@ -487,6 +487,7 @@ func init() {
 	RegisterDatasource("oci_database_cloud_exadata_infrastructures", tf_database.DatabaseCloudExadataInfrastructuresDataSource())
 	RegisterDatasource("oci_database_cloud_vm_cluster", tf_database.DatabaseCloudVmClusterDataSource())
 	RegisterDatasource("oci_database_cloud_vm_clusters", tf_database.DatabaseCloudVmClustersDataSource())
+	RegisterDatasource("oci_database_cloud_vm_cluster_iorm_config", tf_database.DatabaseCloudVmClusterIormConfigDataSource())
 	RegisterDatasource("oci_database_data_guard_association", tf_database.DatabaseDataGuardAssociationDataSource())
 	RegisterDatasource("oci_database_data_guard_associations", tf_database.DatabaseDataGuardAssociationsDataSource())
 	RegisterDatasource("oci_database_database", tf_database.DatabaseDatabaseDataSource())
