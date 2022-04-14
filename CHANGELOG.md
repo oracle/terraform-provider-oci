@@ -1,4 +1,4 @@
-## 4.71.0 (Unreleased)
+## 4.71.0 (April 14, 2022)
 
 ### Added
 - Support for cross region ADG on ADB-Shared Databases
