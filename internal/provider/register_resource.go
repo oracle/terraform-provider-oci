@@ -265,6 +265,7 @@ func init() {
 	RegisterResource("oci_database_cloud_database_management", tf_database.DatabaseCloudDatabaseManagementResource())
 	RegisterResource("oci_database_cloud_exadata_infrastructure", tf_database.DatabaseCloudExadataInfrastructureResource())
 	RegisterResource("oci_database_cloud_vm_cluster", tf_database.DatabaseCloudVmClusterResource())
+	RegisterResource("oci_database_cloud_vm_cluster_iorm_config", tf_database.DatabaseCloudVmClusterIormConfigResource())
 	RegisterResource("oci_database_data_guard_association", tf_database.DatabaseDataGuardAssociationResource())
 	RegisterResource("oci_database_database", tf_database.DatabaseDatabaseResource())
 	RegisterResource("oci_database_database_software_image", tf_database.DatabaseDatabaseSoftwareImageResource())

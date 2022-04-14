@@ -15,3 +15,7 @@ data "oci_database_db_system_shapes" "test_db_system_shapes" {
     values = [var.db_system_shape]
   }
 }
+
+data "oci_database_cloud_vm_cluster_iorm_config" "test_cloud_vm_cluster_iorm_config" {
+  cloud_vm_cluster_id = oci_database_cloud_vm_cluster_iorm_config.test_cloud_vm_cluster_iorm_config.cloud_vm_cluster_id
+}
