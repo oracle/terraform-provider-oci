@@ -26,7 +26,39 @@ func ApmConfigConfigsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"defined_tag_equals": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"defined_tag_exists": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"freeform_tag_equals": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"freeform_tag_exists": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"options_group": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -79,9 +111,66 @@ func (s *ApmConfigConfigsDataSourceCrud) Get() error {
 		request.ConfigType = &tmp
 	}
 
+	if definedTagEquals, ok := s.D.GetOkExists("defined_tag_equals"); ok {
+		interfaces := definedTagEquals.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("defined_tag_equals") {
+			request.DefinedTagEquals = tmp
+		}
+	}
+
+	if definedTagExists, ok := s.D.GetOkExists("defined_tag_exists"); ok {
+		interfaces := definedTagExists.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("defined_tag_exists") {
+			request.DefinedTagExists = tmp
+		}
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTagEquals, ok := s.D.GetOkExists("freeform_tag_equals"); ok {
+		interfaces := freeformTagEquals.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("freeform_tag_equals") {
+			request.FreeformTagEquals = tmp
+		}
+	}
+
+	if freeformTagExists, ok := s.D.GetOkExists("freeform_tag_exists"); ok {
+		interfaces := freeformTagExists.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("freeform_tag_exists") {
+			request.FreeformTagExists = tmp
+		}
+	}
+
+	if optionsGroup, ok := s.D.GetOkExists("options_group"); ok {
+		tmp := optionsGroup.(string)
+		request.OptionsGroup = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apm_config")
