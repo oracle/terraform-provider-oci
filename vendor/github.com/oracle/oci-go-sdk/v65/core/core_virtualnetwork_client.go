@@ -954,9 +954,10 @@ func (client VirtualNetworkClient) backfill(ctx context.Context, request common.
 // Use this operation (and not UpdateVirtualCircuit)
 // to add prefixes to the virtual circuit. Oracle must verify the customer's ownership
 // of each prefix before traffic for that prefix will flow across the virtual circuit.
+// A default retry strategy applies to this operation BulkAddVirtualCircuitPublicPrefixes()
 func (client VirtualNetworkClient) BulkAddVirtualCircuitPublicPrefixes(ctx context.Context, request BulkAddVirtualCircuitPublicPrefixesRequest) (response BulkAddVirtualCircuitPublicPrefixesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1005,9 +1006,10 @@ func (client VirtualNetworkClient) bulkAddVirtualCircuitPublicPrefixes(ctx conte
 // Use this operation (and not UpdateVirtualCircuit)
 // to remove prefixes from the virtual circuit. When the virtual circuit's state switches
 // back to PROVISIONED, Oracle stops advertising the specified prefixes across the connection.
+// A default retry strategy applies to this operation BulkDeleteVirtualCircuitPublicPrefixes()
 func (client VirtualNetworkClient) BulkDeleteVirtualCircuitPublicPrefixes(ctx context.Context, request BulkDeleteVirtualCircuitPublicPrefixesRequest) (response BulkDeleteVirtualCircuitPublicPrefixesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1291,9 +1293,10 @@ func (client VirtualNetworkClient) changeCaptureFilterCompartment(ctx context.Co
 }
 
 // ChangeClientVpnCompartment Moves a ClientVpn into a different compartment within the same tenancy.
+// A default retry strategy applies to this operation ChangeClientVpnCompartment()
 func (client VirtualNetworkClient) ChangeClientVpnCompartment(ctx context.Context, request ChangeClientVpnCompartmentRequest) (response ChangeClientVpnCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1351,9 +1354,10 @@ func (client VirtualNetworkClient) changeClientVpnCompartment(ctx context.Contex
 // ChangeCpeCompartment Moves a CPE object into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeCpeCompartment()
 func (client VirtualNetworkClient) ChangeCpeCompartment(ctx context.Context, request ChangeCpeCompartmentRequest) (response ChangeCpeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1411,9 +1415,10 @@ func (client VirtualNetworkClient) changeCpeCompartment(ctx context.Context, req
 // ChangeCrossConnectCompartment Moves a cross-connect into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeCrossConnectCompartment()
 func (client VirtualNetworkClient) ChangeCrossConnectCompartment(ctx context.Context, request ChangeCrossConnectCompartmentRequest) (response ChangeCrossConnectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1471,9 +1476,10 @@ func (client VirtualNetworkClient) changeCrossConnectCompartment(ctx context.Con
 // ChangeCrossConnectGroupCompartment Moves a cross-connect group into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeCrossConnectGroupCompartment()
 func (client VirtualNetworkClient) ChangeCrossConnectGroupCompartment(ctx context.Context, request ChangeCrossConnectGroupCompartmentRequest) (response ChangeCrossConnectGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1711,9 +1717,10 @@ func (client VirtualNetworkClient) changeDrgCompartment(ctx context.Context, req
 // ChangeIPSecConnectionCompartment Moves an IPSec connection into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeIPSecConnectionCompartment()
 func (client VirtualNetworkClient) ChangeIPSecConnectionCompartment(ctx context.Context, request ChangeIPSecConnectionCompartmentRequest) (response ChangeIPSecConnectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2305,9 +2312,10 @@ func (client VirtualNetworkClient) changePublicIpPoolCompartment(ctx context.Con
 // ChangeRemotePeeringConnectionCompartment Moves a remote peering connection (RPC) into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeRemotePeeringConnectionCompartment()
 func (client VirtualNetworkClient) ChangeRemotePeeringConnectionCompartment(ctx context.Context, request ChangeRemotePeeringConnectionCompartmentRequest) (response ChangeRemotePeeringConnectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2725,9 +2733,10 @@ func (client VirtualNetworkClient) changeVcnDrgCompartment(ctx context.Context, 
 // ChangeVirtualCircuitCompartment Moves a virtual circuit into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeVirtualCircuitCompartment()
 func (client VirtualNetworkClient) ChangeVirtualCircuitCompartment(ctx context.Context, request ChangeVirtualCircuitCompartmentRequest) (response ChangeVirtualCircuitCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3187,9 +3196,10 @@ func (client VirtualNetworkClient) connectLocalPeeringGateways(ctx context.Conte
 // to connect to RPCs in the acceptor's compartment. Without that permission, this
 // operation will fail. For more information, see
 // VCN Peering (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm).
+// A default retry strategy applies to this operation ConnectRemotePeeringConnections()
 func (client VirtualNetworkClient) ConnectRemotePeeringConnections(ctx context.Context, request ConnectRemotePeeringConnectionsRequest) (response ConnectRemotePeeringConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3498,9 +3508,10 @@ func (client VirtualNetworkClient) createCaptureFilter(ctx context.Context, requ
 // specify a list of accessible subnets to manage the traffic access through this endpoint. Our service also provides
 // customers options like addressing mode and authentication method etc.
 // clientVpns.
+// A default retry strategy applies to this operation CreateClientVpn()
 func (client VirtualNetworkClient) CreateClientVpn(ctx context.Context, request CreateClientVpnRequest) (response CreateClientVpnResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3556,9 +3567,10 @@ func (client VirtualNetworkClient) createClientVpn(ctx context.Context, request 
 }
 
 // CreateClientVpnUser Create a clientVpn user on a clientVpn.
+// A default retry strategy applies to this operation CreateClientVpnUser()
 func (client VirtualNetworkClient) CreateClientVpnUser(ctx context.Context, request CreateClientVpnUserRequest) (response CreateClientVpnUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3625,9 +3637,10 @@ func (client VirtualNetworkClient) createClientVpnUser(ctx context.Context, requ
 // CPE Configuration (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
 // You may optionally specify a *display name* for the CPE, otherwise a default is provided. It does not have to
 // be unique, and you can change it. Avoid entering confidential information.
+// A default retry strategy applies to this operation CreateCpe()
 func (client VirtualNetworkClient) CreateCpe(ctx context.Context, request CreateCpeRequest) (response CreateCpeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3698,9 +3711,10 @@ func (client VirtualNetworkClient) createCpe(ctx context.Context, request common
 // Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the cross-connect.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
+// A default retry strategy applies to this operation CreateCrossConnect()
 func (client VirtualNetworkClient) CreateCrossConnect(ctx context.Context, request CreateCrossConnectRequest) (response CreateCrossConnectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3768,9 +3782,10 @@ func (client VirtualNetworkClient) createCrossConnect(ctx context.Context, reque
 // Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the cross-connect group.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
+// A default retry strategy applies to this operation CreateCrossConnectGroup()
 func (client VirtualNetworkClient) CreateCrossConnectGroup(ctx context.Context, request CreateCrossConnectGroupRequest) (response CreateCrossConnectGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4402,9 +4417,10 @@ func (client VirtualNetworkClient) createFlowLogConfigAttachment(ctx context.Con
 // For each tunnel, you need the IP address of Oracle's VPN headend and the shared secret
 // (that is, the pre-shared key). For more information, see
 // CPE Configuration (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
+// A default retry strategy applies to this operation CreateIPSecConnection()
 func (client VirtualNetworkClient) CreateIPSecConnection(ctx context.Context, request CreateIPSecConnectionRequest) (response CreateIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5632,9 +5648,10 @@ func (client VirtualNetworkClient) createPublicIpPool(ctx context.Context, reque
 }
 
 // CreateRemotePeeringConnection Creates a new remote peering connection (RPC) for the specified DRG.
+// A default retry strategy applies to this operation CreateRemotePeeringConnection()
 func (client VirtualNetworkClient) CreateRemotePeeringConnection(ctx context.Context, request CreateRemotePeeringConnectionRequest) (response CreateRemotePeeringConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6265,9 +6282,10 @@ func (client VirtualNetworkClient) createVcnDrgAttachment(ctx context.Context, r
 // VCN and confirm the VCN's routing sends traffic to the DRG. Otherwise
 // traffic will not flow. For more information, see
 // Route Tables (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
+// A default retry strategy applies to this operation CreateVirtualCircuit()
 func (client VirtualNetworkClient) CreateVirtualCircuit(ctx context.Context, request CreateVirtualCircuitRequest) (response CreateVirtualCircuitResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6727,9 +6745,10 @@ func (client VirtualNetworkClient) deleteCaptureFilter(ctx context.Context, requ
 }
 
 // DeleteClientVpn Delete the specific ClientVpn by given the clientVpnEndpointid.
+// A default retry strategy applies to this operation DeleteClientVpn()
 func (client VirtualNetworkClient) DeleteClientVpn(ctx context.Context, request DeleteClientVpnRequest) (response DeleteClientVpnResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6780,9 +6799,10 @@ func (client VirtualNetworkClient) deleteClientVpn(ctx context.Context, request 
 }
 
 // DeleteClientVpnUser Delete the specific ClientVpnUser by given an id of ClientVpn and a username.
+// A default retry strategy applies to this operation DeleteClientVpnUser()
 func (client VirtualNetworkClient) DeleteClientVpnUser(ctx context.Context, request DeleteClientVpnUserRequest) (response DeleteClientVpnUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6835,9 +6855,10 @@ func (client VirtualNetworkClient) deleteClientVpnUser(ctx context.Context, requ
 // DeleteCpe Deletes the specified CPE object. The CPE must not be connected to a DRG. This is an asynchronous
 // operation. The CPE's `lifecycleState` will change to TERMINATING temporarily until the CPE is completely
 // removed.
+// A default retry strategy applies to this operation DeleteCpe()
 func (client VirtualNetworkClient) DeleteCpe(ctx context.Context, request DeleteCpeRequest) (response DeleteCpeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6889,9 +6910,10 @@ func (client VirtualNetworkClient) deleteCpe(ctx context.Context, request common
 
 // DeleteCrossConnect Deletes the specified cross-connect. It must not be mapped to a
 // VirtualCircuit.
+// A default retry strategy applies to this operation DeleteCrossConnect()
 func (client VirtualNetworkClient) DeleteCrossConnect(ctx context.Context, request DeleteCrossConnectRequest) (response DeleteCrossConnectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6944,9 +6966,10 @@ func (client VirtualNetworkClient) deleteCrossConnect(ctx context.Context, reque
 // DeleteCrossConnectGroup Deletes the specified cross-connect group. It must not contain any
 // cross-connects, and it cannot be mapped to a
 // VirtualCircuit.
+// A default retry strategy applies to this operation DeleteCrossConnectGroup()
 func (client VirtualNetworkClient) DeleteCrossConnectGroup(ctx context.Context, request DeleteCrossConnectGroupRequest) (response DeleteCrossConnectGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7491,9 +7514,10 @@ func (client VirtualNetworkClient) deleteFlowLogConfigAttachment(ctx context.Con
 // CreateIPSecConnection.
 // This is an asynchronous operation. The connection's `lifecycleState` will change to TERMINATING temporarily
 // until the connection is completely removed.
+// A default retry strategy applies to this operation DeleteIPSecConnection()
 func (client VirtualNetworkClient) DeleteIPSecConnection(ctx context.Context, request DeleteIPSecConnectionRequest) (response DeleteIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8600,9 +8624,10 @@ func (client VirtualNetworkClient) deletePublicIpPool(ctx context.Context, reque
 // DeleteRemotePeeringConnection Deletes the remote peering connection (RPC).
 // This is an asynchronous operation; the RPC's `lifecycleState` changes to TERMINATING temporarily
 // until the RPC is completely removed.
+// A default retry strategy applies to this operation DeleteRemotePeeringConnection()
 func (client VirtualNetworkClient) DeleteRemotePeeringConnection(ctx context.Context, request DeleteRemotePeeringConnectionRequest) (response DeleteRemotePeeringConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9149,9 +9174,10 @@ func (client VirtualNetworkClient) deleteVcnDrgAttachment(ctx context.Context, r
 // **Important:** If you're using FastConnect via a provider,
 // make sure to also terminate the connection with
 // the provider, or else the provider may continue to bill you.
+// A default retry strategy applies to this operation DeleteVirtualCircuit()
 func (client VirtualNetworkClient) DeleteVirtualCircuit(ctx context.Context, request DeleteVirtualCircuitRequest) (response DeleteVirtualCircuitResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10098,9 +10124,10 @@ func (client VirtualNetworkClient) getAllDrgAttachments(ctx context.Context, req
 }
 
 // GetAllowedIkeIPSecParameters The parameters allowed for IKE IPSec tunnels.
+// A default retry strategy applies to this operation GetAllowedIkeIPSecParameters()
 func (client VirtualNetworkClient) GetAllowedIkeIPSecParameters(ctx context.Context, request GetAllowedIkeIPSecParametersRequest) (response GetAllowedIkeIPSecParametersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10363,9 +10390,10 @@ func (client VirtualNetworkClient) getCaptureFilter(ctx context.Context, request
 }
 
 // GetClientVpn Get the specific ClientVpn by given the id.
+// A default retry strategy applies to this operation GetClientVpn()
 func (client VirtualNetworkClient) GetClientVpn(ctx context.Context, request GetClientVpnRequest) (response GetClientVpnResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10416,9 +10444,10 @@ func (client VirtualNetworkClient) getClientVpn(ctx context.Context, request com
 }
 
 // GetClientVpnProfile Get the profile of the specific ClientVpn by given an id of ClientVpn.
+// A default retry strategy applies to this operation GetClientVpnProfile()
 func (client VirtualNetworkClient) GetClientVpnProfile(ctx context.Context, request GetClientVpnProfileRequest) (response GetClientVpnProfileResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10468,9 +10497,10 @@ func (client VirtualNetworkClient) getClientVpnProfile(ctx context.Context, requ
 }
 
 // GetClientVpnStatus Get the status of ClientVpn.
+// A default retry strategy applies to this operation GetClientVpnStatus()
 func (client VirtualNetworkClient) GetClientVpnStatus(ctx context.Context, request GetClientVpnStatusRequest) (response GetClientVpnStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10521,9 +10551,10 @@ func (client VirtualNetworkClient) getClientVpnStatus(ctx context.Context, reque
 }
 
 // GetClientVpnUser Get the specific ClientVpnUser by given an id of ClientVpn and an username.
+// A default retry strategy applies to this operation GetClientVpnUser()
 func (client VirtualNetworkClient) GetClientVpnUser(ctx context.Context, request GetClientVpnUserRequest) (response GetClientVpnUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10574,9 +10605,10 @@ func (client VirtualNetworkClient) getClientVpnUser(ctx context.Context, request
 }
 
 // GetClientVpnUserProfile Get the profile of the specific ClientVpnUser by given an id of ClientVpn and a username.
+// A default retry strategy applies to this operation GetClientVpnUserProfile()
 func (client VirtualNetworkClient) GetClientVpnUserProfile(ctx context.Context, request GetClientVpnUserProfileRequest) (response GetClientVpnUserProfileResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10626,9 +10658,10 @@ func (client VirtualNetworkClient) getClientVpnUserProfile(ctx context.Context, 
 }
 
 // GetCpe Gets the specified CPE's information.
+// A default retry strategy applies to this operation GetCpe()
 func (client VirtualNetworkClient) GetCpe(ctx context.Context, request GetCpeRequest) (response GetCpeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10693,9 +10726,10 @@ func (client VirtualNetworkClient) getCpe(ctx context.Context, request common.OC
 //   returns CPE configuration content for all IPSec tunnels in a single IPSec connection.
 //   * GetTunnelCpeDeviceConfigContent
 //   returns CPE configuration content for a specific IPSec tunnel in an IPSec connection.
+// A default retry strategy applies to this operation GetCpeDeviceConfigContent()
 func (client VirtualNetworkClient) GetCpeDeviceConfigContent(ctx context.Context, request GetCpeDeviceConfigContentRequest) (response GetCpeDeviceConfigContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10752,9 +10786,10 @@ func (client VirtualNetworkClient) getCpeDeviceConfigContent(ctx context.Context
 //   * GetCpeDeviceConfigContent
 //   * GetIpsecCpeDeviceConfigContent
 //   * GetTunnelCpeDeviceConfigContent
+// A default retry strategy applies to this operation GetCpeDeviceShape()
 func (client VirtualNetworkClient) GetCpeDeviceShape(ctx context.Context, request GetCpeDeviceShapeRequest) (response GetCpeDeviceShapeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10867,9 +10902,10 @@ func (client VirtualNetworkClient) getCreateReverseConnectionNatIp(ctx context.C
 }
 
 // GetCrossConnect Gets the specified cross-connect's information.
+// A default retry strategy applies to this operation GetCrossConnect()
 func (client VirtualNetworkClient) GetCrossConnect(ctx context.Context, request GetCrossConnectRequest) (response GetCrossConnectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10920,9 +10956,10 @@ func (client VirtualNetworkClient) getCrossConnect(ctx context.Context, request 
 }
 
 // GetCrossConnectGroup Gets the specified cross-connect group's information.
+// A default retry strategy applies to this operation GetCrossConnectGroup()
 func (client VirtualNetworkClient) GetCrossConnectGroup(ctx context.Context, request GetCrossConnectGroupRequest) (response GetCrossConnectGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10973,9 +11010,10 @@ func (client VirtualNetworkClient) getCrossConnectGroup(ctx context.Context, req
 }
 
 // GetCrossConnectLetterOfAuthority Gets the Letter of Authority for the specified cross-connect.
+// A default retry strategy applies to this operation GetCrossConnectLetterOfAuthority()
 func (client VirtualNetworkClient) GetCrossConnectLetterOfAuthority(ctx context.Context, request GetCrossConnectLetterOfAuthorityRequest) (response GetCrossConnectLetterOfAuthorityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -11026,9 +11064,10 @@ func (client VirtualNetworkClient) getCrossConnectLetterOfAuthority(ctx context.
 }
 
 // GetCrossConnectStatus Gets the status of the specified cross-connect.
+// A default retry strategy applies to this operation GetCrossConnectStatus()
 func (client VirtualNetworkClient) GetCrossConnectStatus(ctx context.Context, request GetCrossConnectStatusRequest) (response GetCrossConnectStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -11451,9 +11490,10 @@ func (client VirtualNetworkClient) getDrgMigrationCountTenancy(ctx context.Conte
 
 // GetDrgRedundancyStatus Gets the redundancy status for the specified DRG. For more information, see
 // Redundancy Remedies (https://docs.cloud.oracle.com/iaas/Content/Network/Troubleshoot/drgredundancy.htm).
+// A default retry strategy applies to this operation GetDrgRedundancyStatus()
 func (client VirtualNetworkClient) GetDrgRedundancyStatus(ctx context.Context, request GetDrgRedundancyStatusRequest) (response GetDrgRedundancyStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -11717,9 +11757,10 @@ func (client VirtualNetworkClient) getEndpointServiceNextHop(ctx context.Context
 
 // GetFastConnectProviderService Gets the specified provider service.
 // For more information, see FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
+// A default retry strategy applies to this operation GetFastConnectProviderService()
 func (client VirtualNetworkClient) GetFastConnectProviderService(ctx context.Context, request GetFastConnectProviderServiceRequest) (response GetFastConnectProviderServiceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -11771,9 +11812,10 @@ func (client VirtualNetworkClient) getFastConnectProviderService(ctx context.Con
 
 // GetFastConnectProviderServiceKey Gets the specified provider service key's information. Use this operation to validate a
 // provider service key. An invalid key returns a 404 error.
+// A default retry strategy applies to this operation GetFastConnectProviderServiceKey()
 func (client VirtualNetworkClient) GetFastConnectProviderServiceKey(ctx context.Context, request GetFastConnectProviderServiceKeyRequest) (response GetFastConnectProviderServiceKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -11932,9 +11974,10 @@ func (client VirtualNetworkClient) getFlowLogConfigAttachment(ctx context.Contex
 // GetIPSecConnection Gets the specified IPSec connection's basic information, including the static routes for the
 // on-premises router. If you want the status of the connection (whether it's up or down), use
 // GetIPSecConnectionTunnel.
+// A default retry strategy applies to this operation GetIPSecConnection()
 func (client VirtualNetworkClient) GetIPSecConnection(ctx context.Context, request GetIPSecConnectionRequest) (response GetIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -11987,9 +12030,10 @@ func (client VirtualNetworkClient) getIPSecConnection(ctx context.Context, reque
 // GetIPSecConnectionDeviceConfig Deprecated. To get tunnel information, instead use:
 // * GetIPSecConnectionTunnel
 // * GetIPSecConnectionTunnelSharedSecret
+// A default retry strategy applies to this operation GetIPSecConnectionDeviceConfig()
 func (client VirtualNetworkClient) GetIPSecConnectionDeviceConfig(ctx context.Context, request GetIPSecConnectionDeviceConfigRequest) (response GetIPSecConnectionDeviceConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -12041,9 +12085,10 @@ func (client VirtualNetworkClient) getIPSecConnectionDeviceConfig(ctx context.Co
 
 // GetIPSecConnectionDeviceStatus Deprecated. To get the tunnel status, instead use
 // GetIPSecConnectionTunnel.
+// A default retry strategy applies to this operation GetIPSecConnectionDeviceStatus()
 func (client VirtualNetworkClient) GetIPSecConnectionDeviceStatus(ctx context.Context, request GetIPSecConnectionDeviceStatusRequest) (response GetIPSecConnectionDeviceStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -12094,9 +12139,10 @@ func (client VirtualNetworkClient) getIPSecConnectionDeviceStatus(ctx context.Co
 }
 
 // GetIPSecConnectionMigrationStatus Gets the specified IPSec connection's migration status.
+// A default retry strategy applies to this operation GetIPSecConnectionMigrationStatus()
 func (client VirtualNetworkClient) GetIPSecConnectionMigrationStatus(ctx context.Context, request GetIPSecConnectionMigrationStatusRequest) (response GetIPSecConnectionMigrationStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -12149,9 +12195,10 @@ func (client VirtualNetworkClient) getIPSecConnectionMigrationStatus(ctx context
 // GetIPSecConnectionTunnel Gets the specified tunnel's information. The resulting object does not include the tunnel's
 // shared secret (pre-shared key). To retrieve that, use
 // GetIPSecConnectionTunnelSharedSecret.
+// A default retry strategy applies to this operation GetIPSecConnectionTunnel()
 func (client VirtualNetworkClient) GetIPSecConnectionTunnel(ctx context.Context, request GetIPSecConnectionTunnelRequest) (response GetIPSecConnectionTunnelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -12202,9 +12249,10 @@ func (client VirtualNetworkClient) getIPSecConnectionTunnel(ctx context.Context,
 }
 
 // GetIPSecConnectionTunnelError Gets the identified error for the specified IPSec tunnel ID.
+// A default retry strategy applies to this operation GetIPSecConnectionTunnelError()
 func (client VirtualNetworkClient) GetIPSecConnectionTunnelError(ctx context.Context, request GetIPSecConnectionTunnelErrorRequest) (response GetIPSecConnectionTunnelErrorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -12256,9 +12304,10 @@ func (client VirtualNetworkClient) getIPSecConnectionTunnelError(ctx context.Con
 
 // GetIPSecConnectionTunnelSharedSecret Gets the specified tunnel's shared secret (pre-shared key). To get other information
 // about the tunnel, use GetIPSecConnectionTunnel.
+// A default retry strategy applies to this operation GetIPSecConnectionTunnelSharedSecret()
 func (client VirtualNetworkClient) GetIPSecConnectionTunnelSharedSecret(ctx context.Context, request GetIPSecConnectionTunnelSharedSecretRequest) (response GetIPSecConnectionTunnelSharedSecretResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -12862,9 +12911,10 @@ func (client VirtualNetworkClient) getInternetGateway(ctx context.Context, reque
 //   returns CPE configuration content for a specific tunnel within an IPSec connection.
 //   * GetCpeDeviceConfigContent
 //   returns CPE configuration content for *all* IPSec connections that use a specific CPE.
+// A default retry strategy applies to this operation GetIpsecCpeDeviceConfigContent()
 func (client VirtualNetworkClient) GetIpsecCpeDeviceConfigContent(ctx context.Context, request GetIpsecCpeDeviceConfigContentRequest) (response GetIpsecCpeDeviceConfigContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -13741,9 +13791,10 @@ func (client VirtualNetworkClient) getPublicIpPool(ctx context.Context, request 
 }
 
 // GetRemotePeeringConnection Get the specified remote peering connection's information.
+// A default retry strategy applies to this operation GetRemotePeeringConnection()
 func (client VirtualNetworkClient) GetRemotePeeringConnection(ctx context.Context, request GetRemotePeeringConnectionRequest) (response GetRemotePeeringConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -14223,9 +14274,10 @@ func (client VirtualNetworkClient) getSubnetTopology(ctx context.Context, reques
 // To get the full set of content for the tunnel (any answers merged with the template of other
 // information specific to the CPE device type), use
 // GetTunnelCpeDeviceConfigContent.
+// A default retry strategy applies to this operation GetTunnelCpeDeviceConfig()
 func (client VirtualNetworkClient) GetTunnelCpeDeviceConfig(ctx context.Context, request GetTunnelCpeDeviceConfigRequest) (response GetTunnelCpeDeviceConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -14290,9 +14342,10 @@ func (client VirtualNetworkClient) getTunnelCpeDeviceConfig(ctx context.Context,
 //   returns CPE configuration content for all tunnels in a single IPSec connection.
 //   * GetCpeDeviceConfigContent
 //   returns CPE configuration content for *all* IPSec connections that use a specific CPE.
+// A default retry strategy applies to this operation GetTunnelCpeDeviceConfigContent()
 func (client VirtualNetworkClient) GetTunnelCpeDeviceConfigContent(ctx context.Context, request GetTunnelCpeDeviceConfigContentRequest) (response GetTunnelCpeDeviceConfigContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -14660,9 +14713,10 @@ func (client VirtualNetworkClient) getVcnTopology(ctx context.Context, request c
 }
 
 // GetVirtualCircuit Gets the specified virtual circuit's information.
+// A default retry strategy applies to this operation GetVirtualCircuit()
 func (client VirtualNetworkClient) GetVirtualCircuit(ctx context.Context, request GetVirtualCircuitRequest) (response GetVirtualCircuitResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -14982,9 +15036,10 @@ func (client VirtualNetworkClient) listAdditionalRouteRules(ctx context.Context,
 
 // ListAllowedPeerRegionsForRemotePeering Lists the regions that support remote VCN peering (which is peering across regions).
 // For more information, see VCN Peering (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm).
+// A default retry strategy applies to this operation ListAllowedPeerRegionsForRemotePeering()
 func (client VirtualNetworkClient) ListAllowedPeerRegionsForRemotePeering(ctx context.Context, request ListAllowedPeerRegionsForRemotePeeringRequest) (response ListAllowedPeerRegionsForRemotePeeringResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -15305,9 +15360,10 @@ func (client VirtualNetworkClient) listCaptureFilters(ctx context.Context, reque
 }
 
 // ListClientVpnUsers List the ClientVpnUsers on a ClientClientVpnEnpoint in the specified compartement.
+// A default retry strategy applies to this operation ListClientVpnUsers()
 func (client VirtualNetworkClient) ListClientVpnUsers(ctx context.Context, request ListClientVpnUsersRequest) (response ListClientVpnUsersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -15358,9 +15414,10 @@ func (client VirtualNetworkClient) listClientVpnUsers(ctx context.Context, reque
 }
 
 // ListClientVpns List the ClientVpns in the specified compartement.
+// A default retry strategy applies to this operation ListClientVpns()
 func (client VirtualNetworkClient) ListClientVpns(ctx context.Context, request ListClientVpnsRequest) (response ListClientVpnsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -15420,9 +15477,10 @@ func (client VirtualNetworkClient) listClientVpns(ctx context.Context, request c
 //   * GetCpeDeviceConfigContent
 //   * GetIpsecCpeDeviceConfigContent
 //   * GetTunnelCpeDeviceConfigContent
+// A default retry strategy applies to this operation ListCpeDeviceShapes()
 func (client VirtualNetworkClient) ListCpeDeviceShapes(ctx context.Context, request ListCpeDeviceShapesRequest) (response ListCpeDeviceShapesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -15473,9 +15531,10 @@ func (client VirtualNetworkClient) listCpeDeviceShapes(ctx context.Context, requ
 }
 
 // ListCpes Lists the customer-premises equipment objects (CPEs) in the specified compartment.
+// A default retry strategy applies to this operation ListCpes()
 func (client VirtualNetworkClient) ListCpes(ctx context.Context, request ListCpesRequest) (response ListCpesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -15526,9 +15585,10 @@ func (client VirtualNetworkClient) listCpes(ctx context.Context, request common.
 }
 
 // ListCrossConnectGroups Lists the cross-connect groups in the specified compartment.
+// A default retry strategy applies to this operation ListCrossConnectGroups()
 func (client VirtualNetworkClient) ListCrossConnectGroups(ctx context.Context, request ListCrossConnectGroupsRequest) (response ListCrossConnectGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -15580,9 +15640,10 @@ func (client VirtualNetworkClient) listCrossConnectGroups(ctx context.Context, r
 
 // ListCrossConnectLocations Lists the available FastConnect locations for cross-connect installation. You need
 // this information so you can specify your desired location when you create a cross-connect.
+// A default retry strategy applies to this operation ListCrossConnectLocations()
 func (client VirtualNetworkClient) ListCrossConnectLocations(ctx context.Context, request ListCrossConnectLocationsRequest) (response ListCrossConnectLocationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -15634,9 +15695,10 @@ func (client VirtualNetworkClient) listCrossConnectLocations(ctx context.Context
 
 // ListCrossConnectMappings Lists the Cross Connect mapping Details for the specified
 // virtual circuit.
+// A default retry strategy applies to this operation ListCrossConnectMappings()
 func (client VirtualNetworkClient) ListCrossConnectMappings(ctx context.Context, request ListCrossConnectMappingsRequest) (response ListCrossConnectMappingsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -15688,9 +15750,10 @@ func (client VirtualNetworkClient) listCrossConnectMappings(ctx context.Context,
 
 // ListCrossConnects Lists the cross-connects in the specified compartment. You can filter the list
 // by specifying the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a cross-connect group.
+// A default retry strategy applies to this operation ListCrossConnects()
 func (client VirtualNetworkClient) ListCrossConnects(ctx context.Context, request ListCrossConnectsRequest) (response ListCrossConnectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -15743,9 +15806,10 @@ func (client VirtualNetworkClient) listCrossConnects(ctx context.Context, reques
 // ListCrossconnectPortSpeedShapes Lists the available port speeds for cross-connects. You need this information
 // so you can specify your desired port speed (that is, shape) when you create a
 // cross-connect.
+// A default retry strategy applies to this operation ListCrossconnectPortSpeedShapes()
 func (client VirtualNetworkClient) ListCrossconnectPortSpeedShapes(ctx context.Context, request ListCrossconnectPortSpeedShapesRequest) (response ListCrossconnectPortSpeedShapesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -16341,9 +16405,10 @@ func (client VirtualNetworkClient) listEndpointServices(ctx context.Context, req
 // offering when you create a virtual circuit.
 // For the compartment ID, provide the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
 // For more information, see FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
+// A default retry strategy applies to this operation ListFastConnectProviderServices()
 func (client VirtualNetworkClient) ListFastConnectProviderServices(ctx context.Context, request ListFastConnectProviderServicesRequest) (response ListFastConnectProviderServicesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -16396,9 +16461,10 @@ func (client VirtualNetworkClient) listFastConnectProviderServices(ctx context.C
 // ListFastConnectProviderVirtualCircuitBandwidthShapes Gets the list of available virtual circuit bandwidth levels for a provider.
 // You need this information so you can specify your desired bandwidth level (shape) when you create a virtual circuit.
 // For more information about virtual circuits, see FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
+// A default retry strategy applies to this operation ListFastConnectProviderVirtualCircuitBandwidthShapes()
 func (client VirtualNetworkClient) ListFastConnectProviderVirtualCircuitBandwidthShapes(ctx context.Context, request ListFastConnectProviderVirtualCircuitBandwidthShapesRequest) (response ListFastConnectProviderVirtualCircuitBandwidthShapesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -16556,9 +16622,10 @@ func (client VirtualNetworkClient) listFlowLogConfigs(ctx context.Context, reque
 }
 
 // ListIPSecConnectionTunnelRoutes The routes advertised to the on-premises network and the routes received from the on-premises network.
+// A default retry strategy applies to this operation ListIPSecConnectionTunnelRoutes()
 func (client VirtualNetworkClient) ListIPSecConnectionTunnelRoutes(ctx context.Context, request ListIPSecConnectionTunnelRoutesRequest) (response ListIPSecConnectionTunnelRoutesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -16609,9 +16676,10 @@ func (client VirtualNetworkClient) listIPSecConnectionTunnelRoutes(ctx context.C
 }
 
 // ListIPSecConnectionTunnelSecurityAssociations Lists the tunnel security associations information for the specified IPSec tunnel ID.
+// A default retry strategy applies to this operation ListIPSecConnectionTunnelSecurityAssociations()
 func (client VirtualNetworkClient) ListIPSecConnectionTunnelSecurityAssociations(ctx context.Context, request ListIPSecConnectionTunnelSecurityAssociationsRequest) (response ListIPSecConnectionTunnelSecurityAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -16662,9 +16730,10 @@ func (client VirtualNetworkClient) listIPSecConnectionTunnelSecurityAssociations
 }
 
 // ListIPSecConnectionTunnels Lists the tunnel information for the specified IPSec connection.
+// A default retry strategy applies to this operation ListIPSecConnectionTunnels()
 func (client VirtualNetworkClient) ListIPSecConnectionTunnels(ctx context.Context, request ListIPSecConnectionTunnelsRequest) (response ListIPSecConnectionTunnelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -16716,9 +16785,10 @@ func (client VirtualNetworkClient) listIPSecConnectionTunnels(ctx context.Contex
 
 // ListIPSecConnections Lists the IPSec connections for the specified compartment. You can filter the
 // results by DRG or CPE.
+// A default retry strategy applies to this operation ListIPSecConnections()
 func (client VirtualNetworkClient) ListIPSecConnections(ctx context.Context, request ListIPSecConnectionsRequest) (response ListIPSecConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -17996,9 +18066,10 @@ func (client VirtualNetworkClient) listPublicIps(ctx context.Context, request co
 
 // ListRemotePeeringConnections Lists the remote peering connections (RPCs) for the specified DRG and compartment
 // (the RPC's compartment).
+// A default retry strategy applies to this operation ListRemotePeeringConnections()
 func (client VirtualNetworkClient) ListRemotePeeringConnections(ctx context.Context, request ListRemotePeeringConnectionsRequest) (response ListRemotePeeringConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -18644,9 +18715,10 @@ func (client VirtualNetworkClient) listVcns(ctx context.Context, request common.
 }
 
 // ListVirtualCircuitBandwidthShapes The deprecated operation lists available bandwidth levels for virtual circuits. For the compartment ID, provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
+// A default retry strategy applies to this operation ListVirtualCircuitBandwidthShapes()
 func (client VirtualNetworkClient) ListVirtualCircuitBandwidthShapes(ctx context.Context, request ListVirtualCircuitBandwidthShapesRequest) (response ListVirtualCircuitBandwidthShapesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -18698,9 +18770,10 @@ func (client VirtualNetworkClient) listVirtualCircuitBandwidthShapes(ctx context
 
 // ListVirtualCircuitPublicPrefixes Lists the public IP prefixes and their details for the specified
 // public virtual circuit.
+// A default retry strategy applies to this operation ListVirtualCircuitPublicPrefixes()
 func (client VirtualNetworkClient) ListVirtualCircuitPublicPrefixes(ctx context.Context, request ListVirtualCircuitPublicPrefixesRequest) (response ListVirtualCircuitPublicPrefixesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -18751,9 +18824,10 @@ func (client VirtualNetworkClient) listVirtualCircuitPublicPrefixes(ctx context.
 }
 
 // ListVirtualCircuits Lists the virtual circuits in the specified compartment.
+// A default retry strategy applies to this operation ListVirtualCircuits()
 func (client VirtualNetworkClient) ListVirtualCircuits(ctx context.Context, request ListVirtualCircuitsRequest) (response ListVirtualCircuitsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -19019,9 +19093,10 @@ func (client VirtualNetworkClient) migrateDrg(ctx context.Context, request commo
 }
 
 // MigrateIPSecConnection Migrates an IPSec connection from Site-to-Site VPN v1 to Site-to-Site VPN v2.
+// A default retry strategy applies to this operation MigrateIPSecConnection()
 func (client VirtualNetworkClient) MigrateIPSecConnection(ctx context.Context, request MigrateIPSecConnectionRequest) (response MigrateIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -19859,9 +19934,10 @@ func (client VirtualNetworkClient) rollbackDrgMigration(ctx context.Context, req
 }
 
 // RollbackIPSecConnection Rollback the migration of IPSec connection from Site-to-Site VPN v2 to Site-to-Site VPN v1.
+// A default retry strategy applies to this operation RollbackIPSecConnection()
 func (client VirtualNetworkClient) RollbackIPSecConnection(ctx context.Context, request RollbackIPSecConnectionRequest) (response RollbackIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -20353,9 +20429,10 @@ func (client VirtualNetworkClient) updateCaptureFilter(ctx context.Context, requ
 }
 
 // UpdateClientVpn Update the specific ClientVpn by given the clientVpnId.
+// A default retry strategy applies to this operation UpdateClientVpn()
 func (client VirtualNetworkClient) UpdateClientVpn(ctx context.Context, request UpdateClientVpnRequest) (response UpdateClientVpnResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -20411,9 +20488,10 @@ func (client VirtualNetworkClient) updateClientVpn(ctx context.Context, request 
 }
 
 // UpdateClientVpnUser Update the specific ClientVpnUser by given an id of ClientVpn and a username.
+// A default retry strategy applies to this operation UpdateClientVpnUser()
 func (client VirtualNetworkClient) UpdateClientVpnUser(ctx context.Context, request UpdateClientVpnUserRequest) (response UpdateClientVpnUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -20465,9 +20543,10 @@ func (client VirtualNetworkClient) updateClientVpnUser(ctx context.Context, requ
 
 // UpdateCpe Updates the specified CPE's display name or tags.
 // Avoid entering confidential information.
+// A default retry strategy applies to this operation UpdateCpe()
 func (client VirtualNetworkClient) UpdateCpe(ctx context.Context, request UpdateCpeRequest) (response UpdateCpeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -20518,9 +20597,10 @@ func (client VirtualNetworkClient) updateCpe(ctx context.Context, request common
 }
 
 // UpdateCrossConnect Updates the specified cross-connect.
+// A default retry strategy applies to this operation UpdateCrossConnect()
 func (client VirtualNetworkClient) UpdateCrossConnect(ctx context.Context, request UpdateCrossConnectRequest) (response UpdateCrossConnectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -20572,9 +20652,10 @@ func (client VirtualNetworkClient) updateCrossConnect(ctx context.Context, reque
 
 // UpdateCrossConnectGroup Updates the specified cross-connect group's display name.
 // Avoid entering confidential information.
+// A default retry strategy applies to this operation UpdateCrossConnectGroup()
 func (client VirtualNetworkClient) UpdateCrossConnectGroup(ctx context.Context, request UpdateCrossConnectGroupRequest) (response UpdateCrossConnectGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -21276,9 +21357,10 @@ func (client VirtualNetworkClient) updateFlowLogConfigAttachment(ctx context.Con
 // UpdateIPSecConnection Updates the specified IPSec connection.
 // To update an individual IPSec tunnel's attributes, use
 // UpdateIPSecConnectionTunnel.
+// A default retry strategy applies to this operation UpdateIPSecConnection()
 func (client VirtualNetworkClient) UpdateIPSecConnection(ctx context.Context, request UpdateIPSecConnectionRequest) (response UpdateIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -21337,9 +21419,10 @@ func (client VirtualNetworkClient) updateIPSecConnection(ctx context.Context, re
 //   * If you want to switch the tunnel's `routing` from `BGP` to `STATIC`, make sure the
 //     IPSecConnection already has at least one valid CIDR
 //     static route.
+// A default retry strategy applies to this operation UpdateIPSecConnectionTunnel()
 func (client VirtualNetworkClient) UpdateIPSecConnectionTunnel(ctx context.Context, request UpdateIPSecConnectionTunnelRequest) (response UpdateIPSecConnectionTunnelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -21391,9 +21474,10 @@ func (client VirtualNetworkClient) updateIPSecConnectionTunnel(ctx context.Conte
 
 // UpdateIPSecConnectionTunnelSharedSecret Updates the shared secret (pre-shared key) for the specified tunnel.
 // **Important:** If you change the shared secret, the tunnel will go down while it's reprovisioned.
+// A default retry strategy applies to this operation UpdateIPSecConnectionTunnelSharedSecret()
 func (client VirtualNetworkClient) UpdateIPSecConnectionTunnelSharedSecret(ctx context.Context, request UpdateIPSecConnectionTunnelSharedSecretRequest) (response UpdateIPSecConnectionTunnelSharedSecretResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -22592,9 +22676,10 @@ func (client VirtualNetworkClient) updatePublicIpPool(ctx context.Context, reque
 }
 
 // UpdateRemotePeeringConnection Updates the specified remote peering connection (RPC).
+// A default retry strategy applies to this operation UpdateRemotePeeringConnection()
 func (client VirtualNetworkClient) UpdateRemotePeeringConnection(ctx context.Context, request UpdateRemotePeeringConnectionRequest) (response UpdateRemotePeeringConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -23034,9 +23119,10 @@ func (client VirtualNetworkClient) updateSubnet(ctx context.Context, request com
 // UpdateTunnelCpeDeviceConfig Creates or updates the set of CPE configuration answers for the specified tunnel.
 // The answers correlate to the questions that are specific to the CPE device type (see the
 // `parameters` attribute of CpeDeviceShapeDetail).
+// A default retry strategy applies to this operation UpdateTunnelCpeDeviceConfig()
 func (client VirtualNetworkClient) UpdateTunnelCpeDeviceConfig(ctx context.Context, request UpdateTunnelCpeDeviceConfigRequest) (response UpdateTunnelCpeDeviceConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -23273,9 +23359,10 @@ func (client VirtualNetworkClient) updateVcnDrgAttachment(ctx context.Context, r
 // Updating the list of prefixes does NOT cause the BGP session to go down. However,
 // Oracle must verify the customer's ownership of each added prefix before
 // traffic for that prefix will flow across the virtual circuit.
+// A default retry strategy applies to this operation UpdateVirtualCircuit()
 func (client VirtualNetworkClient) UpdateVirtualCircuit(ctx context.Context, request UpdateVirtualCircuitRequest) (response UpdateVirtualCircuitResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

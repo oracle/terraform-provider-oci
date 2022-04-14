@@ -28,7 +28,7 @@ type InstanceConfigurationPerformanceBasedAutotunePolicy struct {
 
 	// This will be the maximum VPUs/GB performance level that the volume will be auto-tuned
 	// temporarily based on performance monitoring.
-	MaxVPUsPerGB *int64 `mandatory:"true" json:"maxVPUsPerGB"`
+	MaxVpusPerGB *int64 `mandatory:"true" json:"maxVpusPerGB"`
 }
 
 func (m InstanceConfigurationPerformanceBasedAutotunePolicy) String() string {

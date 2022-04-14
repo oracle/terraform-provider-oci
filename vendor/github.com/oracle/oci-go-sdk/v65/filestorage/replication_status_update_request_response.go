@@ -21,7 +21,7 @@ type ReplicationStatusUpdateRequest struct {
 	DeltaStatus ReplicationStatusUpdateDeltaStatusEnum `mandatory:"false" contributesTo:"query" name:"deltaStatus" omitEmpty:"true"`
 
 	// The `deltaState` of the snapshot in-transit.
-	DeltaState *int `mandatory:"false" contributesTo:"query" name:"deltaState"`
+	DeltaState *string `mandatory:"false" contributesTo:"query" name:"deltaState"`
 
 	// The `objectNum` of the associated replicationTarget.
 	ReplicationTargetNum *string `mandatory:"false" contributesTo:"query" name:"replicationTargetNum"`

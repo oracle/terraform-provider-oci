@@ -88,9 +88,10 @@ func (client *DataScienceClient) ConfigurationProvider() *common.ConfigurationPr
 }
 
 // ActivateModel Activates the model.
+// A default retry strategy applies to this operation ActivateModel()
 func (client DataScienceClient) ActivateModel(ctx context.Context, request ActivateModelRequest) (response ActivateModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -518,9 +519,10 @@ func (client DataScienceClient) changeJobRunCompartment(ctx context.Context, req
 }
 
 // ChangeModelCompartment Moves a model resource into a different compartment.
+// A default retry strategy applies to this operation ChangeModelCompartment()
 func (client DataScienceClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -634,9 +636,10 @@ func (client DataScienceClient) changeModelDeploymentCompartment(ctx context.Con
 }
 
 // ChangeModelVersionSetCompartment Moves a modelVersionSet resource into a different compartment.
+// A default retry strategy applies to this operation ChangeModelVersionSetCompartment()
 func (client DataScienceClient) ChangeModelVersionSetCompartment(ctx context.Context, request ChangeModelVersionSetCompartmentRequest) (response ChangeModelVersionSetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1110,9 +1113,10 @@ func (client DataScienceClient) createJobRun(ctx context.Context, request common
 }
 
 // CreateModel Creates a new model.
+// A default retry strategy applies to this operation CreateModel()
 func (client DataScienceClient) CreateModel(ctx context.Context, request CreateModelRequest) (response CreateModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1168,9 +1172,10 @@ func (client DataScienceClient) createModel(ctx context.Context, request common.
 }
 
 // CreateModelArtifact Creates model artifact for specified model.
+// A default retry strategy applies to this operation CreateModelArtifact()
 func (client DataScienceClient) CreateModelArtifact(ctx context.Context, request CreateModelArtifactRequest) (response CreateModelArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1294,9 +1299,10 @@ func (client DataScienceClient) createModelDeployment(ctx context.Context, reque
 }
 
 // CreateModelProvenance Creates provenance information for the specified model.
+// A default retry strategy applies to this operation CreateModelProvenance()
 func (client DataScienceClient) CreateModelProvenance(ctx context.Context, request CreateModelProvenanceRequest) (response CreateModelProvenanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1352,9 +1358,10 @@ func (client DataScienceClient) createModelProvenance(ctx context.Context, reque
 }
 
 // CreateModelVersionSet Creates a new modelVersionSet.
+// A default retry strategy applies to this operation CreateModelVersionSet()
 func (client DataScienceClient) CreateModelVersionSet(ctx context.Context, request CreateModelVersionSetRequest) (response CreateModelVersionSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1711,9 +1718,10 @@ func (client DataScienceClient) createStepArtifact(ctx context.Context, request 
 }
 
 // DeactivateModel Deactivates the model.
+// A default retry strategy applies to this operation DeactivateModel()
 func (client DataScienceClient) DeactivateModel(ctx context.Context, request DeactivateModelRequest) (response DeactivateModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1978,9 +1986,10 @@ func (client DataScienceClient) deleteJobRun(ctx context.Context, request common
 }
 
 // DeleteModel Deletes the specified model.
+// A default retry strategy applies to this operation DeleteModel()
 func (client DataScienceClient) DeleteModel(ctx context.Context, request DeleteModelRequest) (response DeleteModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2084,9 +2093,10 @@ func (client DataScienceClient) deleteModelDeployment(ctx context.Context, reque
 }
 
 // DeleteModelVersionSet Deletes the specified modelVersionSet.
+// A default retry strategy applies to this operation DeleteModelVersionSet()
 func (client DataScienceClient) DeleteModelVersionSet(ctx context.Context, request DeleteModelVersionSetRequest) (response DeleteModelVersionSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2350,9 +2360,10 @@ func (client DataScienceClient) deleteProject(ctx context.Context, request commo
 }
 
 // ExportModelArtifact Export model artifact from source to the service bucket
+// A default retry strategy applies to this operation ExportModelArtifact()
 func (client DataScienceClient) ExportModelArtifact(ctx context.Context, request ExportModelArtifactRequest) (response ExportModelArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2569,9 +2580,10 @@ func (client DataScienceClient) getJobRun(ctx context.Context, request common.OC
 }
 
 // GetModel Gets the specified model's information.
+// A default retry strategy applies to this operation GetModel()
 func (client DataScienceClient) GetModel(ctx context.Context, request GetModelRequest) (response GetModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2622,9 +2634,10 @@ func (client DataScienceClient) getModel(ctx context.Context, request common.OCI
 }
 
 // GetModelArtifactContent Downloads model artifact content for specified model.
+// A default retry strategy applies to this operation GetModelArtifactContent()
 func (client DataScienceClient) GetModelArtifactContent(ctx context.Context, request GetModelArtifactContentRequest) (response GetModelArtifactContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2727,9 +2740,10 @@ func (client DataScienceClient) getModelDeployment(ctx context.Context, request 
 }
 
 // GetModelProvenance Gets provenance information for specified model.
+// A default retry strategy applies to this operation GetModelProvenance()
 func (client DataScienceClient) GetModelProvenance(ctx context.Context, request GetModelProvenanceRequest) (response GetModelProvenanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2780,9 +2794,10 @@ func (client DataScienceClient) getModelProvenance(ctx context.Context, request 
 }
 
 // GetModelVersionSet Gets the specified model version set information.
+// A default retry strategy applies to this operation GetModelVersionSet()
 func (client DataScienceClient) GetModelVersionSet(ctx context.Context, request GetModelVersionSetRequest) (response GetModelVersionSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3215,9 +3230,10 @@ func (client DataScienceClient) headJobArtifact(ctx context.Context, request com
 }
 
 // HeadModelArtifact Gets model artifact metadata for specified model.
+// A default retry strategy applies to this operation HeadModelArtifact()
 func (client DataScienceClient) HeadModelArtifact(ctx context.Context, request HeadModelArtifactRequest) (response HeadModelArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3268,9 +3284,10 @@ func (client DataScienceClient) headModelArtifact(ctx context.Context, request c
 }
 
 // ImportModelArtifact Import model artifact from service bucket
+// A default retry strategy applies to this operation ImportModelArtifact()
 func (client DataScienceClient) ImportModelArtifact(ctx context.Context, request ImportModelArtifactRequest) (response ImportModelArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3643,9 +3660,10 @@ func (client DataScienceClient) listModelDeployments(ctx context.Context, reques
 }
 
 // ListModelVersionSets Lists model version sets in the specified compartment.
+// A default retry strategy applies to this operation ListModelVersionSets()
 func (client DataScienceClient) ListModelVersionSets(ctx context.Context, request ListModelVersionSetsRequest) (response ListModelVersionSetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3696,9 +3714,10 @@ func (client DataScienceClient) listModelVersionSets(ctx context.Context, reques
 }
 
 // ListModels Lists models in the specified compartment.
+// A default retry strategy applies to this operation ListModels()
 func (client DataScienceClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4282,9 +4301,10 @@ func (client DataScienceClient) updateJobRun(ctx context.Context, request common
 }
 
 // UpdateModel Updates the properties of a model. You can update the `displayName`, `description`, `freeformTags`, and `definedTags` properties.
+// A default retry strategy applies to this operation UpdateModel()
 func (client DataScienceClient) UpdateModel(ctx context.Context, request UpdateModelRequest) (response UpdateModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4391,9 +4411,10 @@ func (client DataScienceClient) updateModelDeployment(ctx context.Context, reque
 }
 
 // UpdateModelProvenance Updates the provenance information for the specified model.
+// A default retry strategy applies to this operation UpdateModelProvenance()
 func (client DataScienceClient) UpdateModelProvenance(ctx context.Context, request UpdateModelProvenanceRequest) (response UpdateModelProvenanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4444,9 +4465,10 @@ func (client DataScienceClient) updateModelProvenance(ctx context.Context, reque
 }
 
 // UpdateModelVersionSet Updates the properties of a model version set. User can update the `description` property.
+// A default retry strategy applies to this operation UpdateModelVersionSet()
 func (client DataScienceClient) UpdateModelVersionSet(ctx context.Context, request UpdateModelVersionSetRequest) (response UpdateModelVersionSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

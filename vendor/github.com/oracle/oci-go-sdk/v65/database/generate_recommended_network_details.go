@@ -27,6 +27,9 @@ type GenerateRecommendedNetworkDetails struct {
 	// List of parameters for generation of the client and backup networks.
 	Networks []InfoForNetworkGenDetails `mandatory:"true" json:"networks"`
 
+	// The list of Db server Ids to configure network.
+	DbServers []string `mandatory:"false" json:"dbServers"`
+
 	// The SCAN TCPIP port. Default is 1521.
 	ScanListenerPortTcp *int `mandatory:"false" json:"scanListenerPortTcp"`
 

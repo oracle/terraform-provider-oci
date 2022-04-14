@@ -14,6 +14,9 @@ import (
 // GetOpsiDataObjectRequest wrapper for the GetOpsiDataObject operation
 type GetOpsiDataObjectRequest struct {
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+
 	// Unique OPSI data object identifier.
 	OpsiDataObjectIdentifier *string `mandatory:"true" contributesTo:"path" name:"opsiDataObjectIdentifier"`
 

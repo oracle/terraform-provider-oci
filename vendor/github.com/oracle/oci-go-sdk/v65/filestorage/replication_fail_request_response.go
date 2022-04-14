@@ -21,7 +21,7 @@ type ReplicationFailRequest struct {
 	ReplicationTargetNum *string `mandatory:"false" contributesTo:"query" name:"replicationTargetNum"`
 
 	// The `deltaState` of the snapshot in-transit.
-	DeltaState *int `mandatory:"false" contributesTo:"query" name:"deltaState"`
+	DeltaState *string `mandatory:"false" contributesTo:"query" name:"deltaState"`
 
 	// The flag to represent if it is a replication failover message.
 	IsFailover *bool `mandatory:"false" contributesTo:"query" name:"isFailover"`

@@ -20,6 +20,8 @@ type InstanceConfiguration struct {
 
 	// The shape used to launch the model deployment instances.
 	InstanceShapeName *string `mandatory:"true" json:"instanceShapeName"`
+
+	ModelDeploymentInstanceShapeConfigDetails *ModelDeploymentInstanceShapeConfigDetails `mandatory:"false" json:"modelDeploymentInstanceShapeConfigDetails"`
 }
 
 func (m InstanceConfiguration) String() string {
