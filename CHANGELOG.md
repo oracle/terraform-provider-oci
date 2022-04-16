@@ -1,3 +1,11 @@
+## 4.72.0 (Unreleased)
+
+### Added
+- Support for Stack Monitoring service
+- Support for apm traces
+- Support IORM operation on CloudVmCluster
+- Support for Redemption Code in Oracle Support Rewards
+
 ## 4.71.0 (April 14, 2022)
 
 ### Added

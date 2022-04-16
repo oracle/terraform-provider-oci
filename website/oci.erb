@@ -298,6 +298,33 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-apm_traces") %>>
+            <a href="#">Apm Traces</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-apm_traces-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/apm_traces_trace_snapshot_data.html">oci_apm_traces_trace_snapshot_data</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/apm_traces_query_quick_picks.html">oci_apm_traces_query_quick_picks</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/apm_traces_trace.html">oci_apm_traces_trace</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/apm_traces_trace_aggregated_snapshot_data.html">oci_apm_traces_trace_aggregated_snapshot_data</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-apm_traces-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-apm") %>>
             <a href="#">Application Performance Monitoring</a>
             <ul class="nav">
@@ -2177,6 +2204,9 @@
                             <a href="/docs/providers/oci/d/database_cloud_vm_cluster.html">oci_database_cloud_vm_cluster</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/database_cloud_vm_cluster_iorm_config.html">oci_database_cloud_vm_cluster_iorm_config</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/database_cloud_vm_clusters.html">oci_database_cloud_vm_clusters</a>
                         </li>
                         <li>
@@ -2265,9 +2295,6 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/database_exadata_iorm_config.html">oci_database_exadata_iorm_config</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/database_cloud_vm_cluster_iorm_config.html">oci_database_cloud_vm_cluster_iorm_config</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/database_external_container_database.html">oci_database_external_container_database</a>
@@ -2413,6 +2440,9 @@
                             <a href="/docs/providers/oci/r/database_cloud_vm_cluster.html">oci_database_cloud_vm_cluster</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/r/database_cloud_vm_cluster_iorm_config.html">oci_database_cloud_vm_cluster_iorm_config</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/r/database_data_guard_association.html">oci_database_data_guard_association</a>
                         </li>
                         <li>
@@ -2438,9 +2468,6 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/database_exadata_iorm_config.html">oci_database_exadata_iorm_config</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/database_cloud_vm_cluster_iorm_config.html">oci_database_cloud_vm_cluster_iorm_config</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/database_external_container_database.html">oci_database_external_container_database</a>
@@ -5025,6 +5052,51 @@
                 <li<%= sidebar_current("docs-oci-service_manager_proxy-resources") %>>
                     <a href="#">Resources</a>
                     <ul class="nav nav-auto-expand">
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-stack_monitoring") %>>
+            <a href="#">Stack Monitoring</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-stack_monitoring-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/stack_monitoring_discovery_job.html">oci_stack_monitoring_discovery_job</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/stack_monitoring_discovery_job_logs.html">oci_stack_monitoring_discovery_job_logs</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/stack_monitoring_discovery_jobs.html">oci_stack_monitoring_discovery_jobs</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/stack_monitoring_monitored_resource.html">oci_stack_monitoring_monitored_resource</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-stack_monitoring-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/stack_monitoring_discovery_job.html">oci_stack_monitoring_discovery_job</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/stack_monitoring_monitored_resource.html">oci_stack_monitoring_monitored_resource</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/stack_monitoring_monitored_resources_associate_monitored_resource.html">oci_stack_monitoring_monitored_resources_associate_monitored_resource</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/stack_monitoring_monitored_resources_list_member.html">oci_stack_monitoring_monitored_resources_list_member</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/stack_monitoring_monitored_resources_search.html">oci_stack_monitoring_monitored_resources_search</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/stack_monitoring_monitored_resources_search_association.html">oci_stack_monitoring_monitored_resources_search_association</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
