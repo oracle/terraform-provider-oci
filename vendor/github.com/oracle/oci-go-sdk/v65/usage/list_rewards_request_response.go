@@ -21,7 +21,7 @@ type ListRewardsRequest struct {
 	// The OCID of the tenancy.
 	TenancyId *string `mandatory:"true" contributesTo:"query" name:"tenancyId"`
 
-	// The subscriptionId for which rewards information is requested for.
+	// The subscription ID for which rewards information is requested for.
 	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
 
 	// Unique, Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

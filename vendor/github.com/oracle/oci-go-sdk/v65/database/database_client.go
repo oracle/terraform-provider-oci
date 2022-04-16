@@ -4613,6 +4613,68 @@ func (client DatabaseClient) disableExternalContainerDatabaseDatabaseManagement(
 	return response, err
 }
 
+// DisableExternalContainerDatabaseStackMonitoring Disable Stack Monitoring for the external container database.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DisableExternalContainerDatabaseStackMonitoring.go.html to see an example of how to use DisableExternalContainerDatabaseStackMonitoring API.
+func (client DatabaseClient) DisableExternalContainerDatabaseStackMonitoring(ctx context.Context, request DisableExternalContainerDatabaseStackMonitoringRequest) (response DisableExternalContainerDatabaseStackMonitoringResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableExternalContainerDatabaseStackMonitoring, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableExternalContainerDatabaseStackMonitoringResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableExternalContainerDatabaseStackMonitoringResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableExternalContainerDatabaseStackMonitoringResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableExternalContainerDatabaseStackMonitoringResponse")
+	}
+	return
+}
+
+// disableExternalContainerDatabaseStackMonitoring implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) disableExternalContainerDatabaseStackMonitoring(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases/{externalContainerDatabaseId}/actions/disableStackMonitoring", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableExternalContainerDatabaseStackMonitoringResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalContainerDatabase/DisableExternalContainerDatabaseStackMonitoring"
+		err = common.PostProcessServiceError(err, "Database", "DisableExternalContainerDatabaseStackMonitoring", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DisableExternalNonContainerDatabaseDatabaseManagement Disable Database Management Service for the external non-container database.
 // For more information about the Database Management Service, see
 // Database Management Service (https://docs.cloud.oracle.com/Content/ExternalDatabase/Concepts/databasemanagementservice.htm).
@@ -4739,6 +4801,68 @@ func (client DatabaseClient) disableExternalNonContainerDatabaseOperationsInsigh
 	return response, err
 }
 
+// DisableExternalNonContainerDatabaseStackMonitoring Disable Stack Monitoring for the external non-container database.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DisableExternalNonContainerDatabaseStackMonitoring.go.html to see an example of how to use DisableExternalNonContainerDatabaseStackMonitoring API.
+func (client DatabaseClient) DisableExternalNonContainerDatabaseStackMonitoring(ctx context.Context, request DisableExternalNonContainerDatabaseStackMonitoringRequest) (response DisableExternalNonContainerDatabaseStackMonitoringResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableExternalNonContainerDatabaseStackMonitoring, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableExternalNonContainerDatabaseStackMonitoringResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableExternalNonContainerDatabaseStackMonitoringResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableExternalNonContainerDatabaseStackMonitoringResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableExternalNonContainerDatabaseStackMonitoringResponse")
+	}
+	return
+}
+
+// disableExternalNonContainerDatabaseStackMonitoring implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) disableExternalNonContainerDatabaseStackMonitoring(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}/actions/disableStackMonitoring", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableExternalNonContainerDatabaseStackMonitoringResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalNonContainerDatabase/DisableExternalNonContainerDatabaseStackMonitoring"
+		err = common.PostProcessServiceError(err, "Database", "DisableExternalNonContainerDatabaseStackMonitoring", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DisableExternalPluggableDatabaseDatabaseManagement Disable Database Management Service for the external pluggable database.
 // For more information about the Database Management Service, see
 // Database Management Service (https://docs.cloud.oracle.com/Content/ExternalDatabase/Concepts/databasemanagementservice.htm).
@@ -4858,6 +4982,68 @@ func (client DatabaseClient) disableExternalPluggableDatabaseOperationsInsights(
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/DisableExternalPluggableDatabaseOperationsInsights"
 		err = common.PostProcessServiceError(err, "Database", "DisableExternalPluggableDatabaseOperationsInsights", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DisableExternalPluggableDatabaseStackMonitoring Disable Stack Monitoring for the external pluggable database.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DisableExternalPluggableDatabaseStackMonitoring.go.html to see an example of how to use DisableExternalPluggableDatabaseStackMonitoring API.
+func (client DatabaseClient) DisableExternalPluggableDatabaseStackMonitoring(ctx context.Context, request DisableExternalPluggableDatabaseStackMonitoringRequest) (response DisableExternalPluggableDatabaseStackMonitoringResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableExternalPluggableDatabaseStackMonitoring, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableExternalPluggableDatabaseStackMonitoringResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableExternalPluggableDatabaseStackMonitoringResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableExternalPluggableDatabaseStackMonitoringResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableExternalPluggableDatabaseStackMonitoringResponse")
+	}
+	return
+}
+
+// disableExternalPluggableDatabaseStackMonitoring implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) disableExternalPluggableDatabaseStackMonitoring(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases/{externalPluggableDatabaseId}/actions/disableStackMonitoring", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableExternalPluggableDatabaseStackMonitoringResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/DisableExternalPluggableDatabaseStackMonitoring"
+		err = common.PostProcessServiceError(err, "Database", "DisableExternalPluggableDatabaseStackMonitoring", apiReferenceLink)
 		return response, err
 	}
 
@@ -5288,6 +5474,68 @@ func (client DatabaseClient) enableExternalContainerDatabaseDatabaseManagement(c
 	return response, err
 }
 
+// EnableExternalContainerDatabaseStackMonitoring Enable Stack Monitoring for the external container database.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/EnableExternalContainerDatabaseStackMonitoring.go.html to see an example of how to use EnableExternalContainerDatabaseStackMonitoring API.
+func (client DatabaseClient) EnableExternalContainerDatabaseStackMonitoring(ctx context.Context, request EnableExternalContainerDatabaseStackMonitoringRequest) (response EnableExternalContainerDatabaseStackMonitoringResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableExternalContainerDatabaseStackMonitoring, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableExternalContainerDatabaseStackMonitoringResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableExternalContainerDatabaseStackMonitoringResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableExternalContainerDatabaseStackMonitoringResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableExternalContainerDatabaseStackMonitoringResponse")
+	}
+	return
+}
+
+// enableExternalContainerDatabaseStackMonitoring implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) enableExternalContainerDatabaseStackMonitoring(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases/{externalContainerDatabaseId}/actions/enableStackMonitoring", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableExternalContainerDatabaseStackMonitoringResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalContainerDatabase/EnableExternalContainerDatabaseStackMonitoring"
+		err = common.PostProcessServiceError(err, "Database", "EnableExternalContainerDatabaseStackMonitoring", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // EnableExternalNonContainerDatabaseDatabaseManagement Enable Database Management Service for the external non-container database.
 // For more information about the Database Management Service, see
 // Database Management Service (https://docs.cloud.oracle.com/Content/ExternalDatabase/Concepts/databasemanagementservice.htm).
@@ -5414,6 +5662,68 @@ func (client DatabaseClient) enableExternalNonContainerDatabaseOperationsInsight
 	return response, err
 }
 
+// EnableExternalNonContainerDatabaseStackMonitoring Enable Stack Monitoring for the external non-container database.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/EnableExternalNonContainerDatabaseStackMonitoring.go.html to see an example of how to use EnableExternalNonContainerDatabaseStackMonitoring API.
+func (client DatabaseClient) EnableExternalNonContainerDatabaseStackMonitoring(ctx context.Context, request EnableExternalNonContainerDatabaseStackMonitoringRequest) (response EnableExternalNonContainerDatabaseStackMonitoringResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableExternalNonContainerDatabaseStackMonitoring, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableExternalNonContainerDatabaseStackMonitoringResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableExternalNonContainerDatabaseStackMonitoringResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableExternalNonContainerDatabaseStackMonitoringResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableExternalNonContainerDatabaseStackMonitoringResponse")
+	}
+	return
+}
+
+// enableExternalNonContainerDatabaseStackMonitoring implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) enableExternalNonContainerDatabaseStackMonitoring(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}/actions/enableStackMonitoring", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableExternalNonContainerDatabaseStackMonitoringResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalNonContainerDatabase/EnableExternalNonContainerDatabaseStackMonitoring"
+		err = common.PostProcessServiceError(err, "Database", "EnableExternalNonContainerDatabaseStackMonitoring", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // EnableExternalPluggableDatabaseDatabaseManagement Enable Database Management Service for the external pluggable database.
 // For more information about the Database Management Service, see
 // Database Management Service (https://docs.cloud.oracle.com/Content/ExternalDatabase/Concepts/databasemanagementservice.htm).
@@ -5533,6 +5843,68 @@ func (client DatabaseClient) enableExternalPluggableDatabaseOperationsInsights(c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/EnableExternalPluggableDatabaseOperationsInsights"
 		err = common.PostProcessServiceError(err, "Database", "EnableExternalPluggableDatabaseOperationsInsights", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableExternalPluggableDatabaseStackMonitoring Enable Stack Monitoring for the external pluggable database.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/EnableExternalPluggableDatabaseStackMonitoring.go.html to see an example of how to use EnableExternalPluggableDatabaseStackMonitoring API.
+func (client DatabaseClient) EnableExternalPluggableDatabaseStackMonitoring(ctx context.Context, request EnableExternalPluggableDatabaseStackMonitoringRequest) (response EnableExternalPluggableDatabaseStackMonitoringResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableExternalPluggableDatabaseStackMonitoring, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableExternalPluggableDatabaseStackMonitoringResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableExternalPluggableDatabaseStackMonitoringResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableExternalPluggableDatabaseStackMonitoringResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableExternalPluggableDatabaseStackMonitoringResponse")
+	}
+	return
+}
+
+// enableExternalPluggableDatabaseStackMonitoring implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) enableExternalPluggableDatabaseStackMonitoring(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases/{externalPluggableDatabaseId}/actions/enableStackMonitoring", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableExternalPluggableDatabaseStackMonitoringResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/EnableExternalPluggableDatabaseStackMonitoring"
+		err = common.PostProcessServiceError(err, "Database", "EnableExternalPluggableDatabaseStackMonitoring", apiReferenceLink)
 		return response, err
 	}
 
@@ -7606,6 +7978,63 @@ func (client DatabaseClient) getDbSystemPatchHistoryEntry(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PatchHistoryEntry/GetDbSystemPatchHistoryEntry"
 		err = common.PostProcessServiceError(err, "Database", "GetDbSystemPatchHistoryEntry", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDbSystemUpgradeHistoryEntry Gets the details of the specified operating system upgrade operation for the specified DB system.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDbSystemUpgradeHistoryEntry.go.html to see an example of how to use GetDbSystemUpgradeHistoryEntry API.
+func (client DatabaseClient) GetDbSystemUpgradeHistoryEntry(ctx context.Context, request GetDbSystemUpgradeHistoryEntryRequest) (response GetDbSystemUpgradeHistoryEntryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDbSystemUpgradeHistoryEntry, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDbSystemUpgradeHistoryEntryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDbSystemUpgradeHistoryEntryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDbSystemUpgradeHistoryEntryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDbSystemUpgradeHistoryEntryResponse")
+	}
+	return
+}
+
+// getDbSystemUpgradeHistoryEntry implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getDbSystemUpgradeHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/upgradeHistoryEntries/{upgradeHistoryEntryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDbSystemUpgradeHistoryEntryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystemUpgradeHistoryEntry/GetDbSystemUpgradeHistoryEntry"
+		err = common.PostProcessServiceError(err, "Database", "GetDbSystemUpgradeHistoryEntry", apiReferenceLink)
 		return response, err
 	}
 
@@ -10596,6 +11025,63 @@ func (client DatabaseClient) listDbSystemShapes(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystemShapeSummary/ListDbSystemShapes"
 		err = common.PostProcessServiceError(err, "Database", "ListDbSystemShapes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDbSystemUpgradeHistoryEntries Gets the history of the upgrade actions performed on the specified DB system.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDbSystemUpgradeHistoryEntries.go.html to see an example of how to use ListDbSystemUpgradeHistoryEntries API.
+func (client DatabaseClient) ListDbSystemUpgradeHistoryEntries(ctx context.Context, request ListDbSystemUpgradeHistoryEntriesRequest) (response ListDbSystemUpgradeHistoryEntriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDbSystemUpgradeHistoryEntries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDbSystemUpgradeHistoryEntriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDbSystemUpgradeHistoryEntriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDbSystemUpgradeHistoryEntriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDbSystemUpgradeHistoryEntriesResponse")
+	}
+	return
+}
+
+// listDbSystemUpgradeHistoryEntries implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listDbSystemUpgradeHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/upgradeHistoryEntries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDbSystemUpgradeHistoryEntriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystemUpgradeHistoryEntry/ListDbSystemUpgradeHistoryEntries"
+		err = common.PostProcessServiceError(err, "Database", "ListDbSystemUpgradeHistoryEntries", apiReferenceLink)
 		return response, err
 	}
 
@@ -15283,6 +15769,68 @@ func (client DatabaseClient) upgradeDatabase(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/UpgradeDatabase"
 		err = common.PostProcessServiceError(err, "Database", "UpgradeDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpgradeDbSystem Upgrades the operating system and grid infrastructure of the DB system.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpgradeDbSystem.go.html to see an example of how to use UpgradeDbSystem API.
+func (client DatabaseClient) UpgradeDbSystem(ctx context.Context, request UpgradeDbSystemRequest) (response UpgradeDbSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.upgradeDbSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpgradeDbSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpgradeDbSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpgradeDbSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpgradeDbSystemResponse")
+	}
+	return
+}
+
+// upgradeDbSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) upgradeDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/upgrade", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpgradeDbSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/UpgradeDbSystem"
+		err = common.PostProcessServiceError(err, "Database", "UpgradeDbSystem", apiReferenceLink)
 		return response, err
 	}
 

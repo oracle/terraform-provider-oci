@@ -81,6 +81,8 @@ type ExternalPluggableDatabase struct {
 
 	DatabaseManagementConfig *DatabaseManagementConfig `mandatory:"false" json:"databaseManagementConfig"`
 
+	StackMonitoringConfig *StackMonitoringConfig `mandatory:"false" json:"stackMonitoringConfig"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the the non-container database that was converted
 	// to a pluggable database to create this resource.
 	SourceId *string `mandatory:"false" json:"sourceId"`

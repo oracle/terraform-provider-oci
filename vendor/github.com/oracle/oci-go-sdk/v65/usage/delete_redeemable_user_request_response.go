@@ -18,13 +18,13 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/DeleteRedeemableUser.go.html to see an example of how to use DeleteRedeemableUserRequest.
 type DeleteRedeemableUserRequest struct {
 
-	// The EmailId that needs to be deleted
+	// The email ID that needs to be deleted.
 	EmailId *string `mandatory:"true" contributesTo:"query" name:"emailId"`
 
 	// The OCID of the tenancy.
 	TenancyId *string `mandatory:"true" contributesTo:"query" name:"tenancyId"`
 
-	// The subscriptionId for which rewards information is requested for.
+	// The subscription ID for which rewards information is requested for.
 	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
 
 	// Unique, Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

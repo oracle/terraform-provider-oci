@@ -75,6 +75,8 @@ type ExternalContainerDatabaseSummary struct {
 	DatabaseConfiguration ExternalContainerDatabaseSummaryDatabaseConfigurationEnum `mandatory:"false" json:"databaseConfiguration,omitempty"`
 
 	DatabaseManagementConfig *DatabaseManagementConfig `mandatory:"false" json:"databaseManagementConfig"`
+
+	StackMonitoringConfig *StackMonitoringConfig `mandatory:"false" json:"stackMonitoringConfig"`
 }
 
 func (m ExternalContainerDatabaseSummary) String() string {
