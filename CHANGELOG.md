@@ -1,3 +1,11 @@
+## 4.72.0 (Unreleased)
+
+### Added
+Ingress Route Table For NatGateway
+- Support for Stack Monitoring service
+- Support for apm traces
+- Support IORM operation on CloudVmCluster
+
 ## 4.71.0 (Unreleased)
 
 ### Added
