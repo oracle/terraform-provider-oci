@@ -52,6 +52,13 @@ type CreateEsxiHostDetails struct {
 	// will be udpated in the newly created Esxi host.
 	FailedEsxiHostId *string `mandatory:"false" json:"failedEsxiHostId"`
 
+	// The compute shape name of the ESXi host.
+	// ListSupportedHostShapes.
+	HostShapeName *string `mandatory:"false" json:"hostShapeName"`
+
+	// The OCPU count of the ESXi host.
+	HostOcpuCount *float32 `mandatory:"false" json:"hostOcpuCount"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

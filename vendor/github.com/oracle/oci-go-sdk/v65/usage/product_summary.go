@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// UsageApi API
+// Usage Proxy API
 //
-// A description of the UsageApi API.
+// Use the Usage Proxy API to list Oracle Support Rewards, view related detailed usage information, and manage users who redeem rewards. For more information, see Oracle Support Rewards Overview (https://docs.cloud.oracle.com/iaas/Content/Billing/Concepts/supportrewardsoverview.htm).
 //
 
 package usage
@@ -15,22 +15,22 @@ import (
 	"strings"
 )
 
-// ProductSummary It provides details about a product rewards and usage amount.
+// ProductSummary Provides details about product rewards and the usage amount.
 type ProductSummary struct {
 
-	// The ratecard product number.
+	// The rate card product number.
 	ProductNumber *string `mandatory:"false" json:"productNumber"`
 
-	// The ratecard product Name.
+	// The rate card product name.
 	ProductName *string `mandatory:"false" json:"productName"`
 
-	// The ratecard product usage amount.
+	// The rate card product usage amount.
 	UsageAmount *float64 `mandatory:"false" json:"usageAmount"`
 
 	// The earned rewards for the product.
 	EarnedRewards *float32 `mandatory:"false" json:"earnedRewards"`
 
-	// The boolean flag to tell if the product is eligible for earning rewards.
+	// The boolean parameter to indicate if the product is eligible to earn rewards.
 	IsEligibleToEarnRewards *bool `mandatory:"false" json:"isEligibleToEarnRewards"`
 }
 

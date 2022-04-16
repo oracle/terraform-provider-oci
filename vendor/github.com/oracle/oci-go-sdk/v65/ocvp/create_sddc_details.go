@@ -113,6 +113,13 @@ type CreateSddcDetails struct {
 	// for the Provisioning component of the VMware environment.
 	ProvisioningVlanId *string `mandatory:"false" json:"provisioningVlanId"`
 
+	// The initial compute shape of the SDDC's ESXi hosts.
+	// ListSupportedHostShapes.
+	InitialHostShapeName *string `mandatory:"false" json:"initialHostShapeName"`
+
+	// The initial OCPU count of the SDDC's ESXi hosts.
+	InitialHostOcpuCount *float32 `mandatory:"false" json:"initialHostOcpuCount"`
+
 	// Indicates whether shielded instance is enabled for this SDDC.
 	IsShieldedInstanceEnabled *bool `mandatory:"false" json:"isShieldedInstanceEnabled"`
 

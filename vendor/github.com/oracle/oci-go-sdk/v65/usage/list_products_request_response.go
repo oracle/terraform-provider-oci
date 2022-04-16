@@ -21,7 +21,7 @@ type ListProductsRequest struct {
 	// The OCID of the tenancy.
 	TenancyId *string `mandatory:"true" contributesTo:"query" name:"tenancyId"`
 
-	// The subscriptionId for which rewards information is requested for.
+	// The subscription ID for which rewards information is requested for.
 	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
 
 	// The SPM Identifier for the usage period.
@@ -36,10 +36,10 @@ type ListProductsRequest struct {
 	// The maximum number of items to return in the paginated response.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The sort order to use, can be ascending (ASC) or descending (DESC).
+	// The sort order to use, which can be ascending (ASC) or descending (DESC).
 	SortOrder ListProductsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by, supports one sort Order.
+	// The field to sort by. Supports one sort order.
 	SortBy ListProductsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The field to specify the type of product.

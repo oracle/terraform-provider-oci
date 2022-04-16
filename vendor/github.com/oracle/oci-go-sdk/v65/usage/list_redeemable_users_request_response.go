@@ -21,7 +21,7 @@ type ListRedeemableUsersRequest struct {
 	// The OCID of the tenancy.
 	TenancyId *string `mandatory:"true" contributesTo:"query" name:"tenancyId"`
 
-	// The subscriptionId for which rewards information is requested for.
+	// The subscription ID for which rewards information is requested for.
 	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
 
 	// Unique, Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -33,10 +33,10 @@ type ListRedeemableUsersRequest struct {
 	// The maximum number of items to return in the paginated response.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The sort order to use, can be ascending (ASC) or descending (DESC).
+	// The sort order to use, which can be ascending (ASC) or descending (DESC).
 	SortOrder ListRedeemableUsersSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by, supports one sort Order.
+	// The field to sort by. Supports one sort order.
 	SortBy ListRedeemableUsersSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -99,9 +99,6 @@ type ListRedeemableUsersResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
 
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,
 	// then a partial list might have been returned. Include this value as the `page` parameter for the
