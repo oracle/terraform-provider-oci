@@ -292,5 +292,17 @@
         "realmDomainComponent": "oraclecloud17.com", 
         "regionIdentifier": "us-dcc-phoenix-1", 
         "realmKey": "oc17"
+    }, 
+    {
+        "regionKey": "ork", 
+        "realmDomainComponent": "oraclecloud14.com", 
+        "regionIdentifier": "eu-dcc-dublin-1", 
+        "realmKey": "oc14"
+    }, 
+    {
+        "regionKey": "snn", 
+        "realmDomainComponent": "oraclecloud14.com", 
+        "regionIdentifier": "eu-dcc-dublin-2", 
+        "realmKey": "oc14"
     }
 ]
