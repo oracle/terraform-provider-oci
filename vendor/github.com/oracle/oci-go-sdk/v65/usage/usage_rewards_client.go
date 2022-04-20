@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// UsageApi API
+// Usage Proxy API
 //
-// A description of the UsageApi API.
+// Use the Usage Proxy API to list Oracle Support Rewards, view related detailed usage information, and manage users who redeem rewards. For more information, see Oracle Support Rewards Overview (https://docs.cloud.oracle.com/iaas/Content/Billing/Concepts/supportrewardsoverview.htm).
 //
 
 package usage
@@ -87,7 +87,7 @@ func (client *RewardsClient) ConfigurationProvider() *common.ConfigurationProvid
 	return client.config
 }
 
-// CreateRedeemableUser Add list of redeemable user email ids for a subscription Id
+// CreateRedeemableUser Adds the list of redeemable user email IDs for a subscription ID.
 //
 // See also
 //
@@ -140,7 +140,7 @@ func (client RewardsClient) createRedeemableUser(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage-proxy/20190111/RedeemableUser/CreateRedeemableUser"
 		err = common.PostProcessServiceError(err, "Rewards", "CreateRedeemableUser", apiReferenceLink)
 		return response, err
 	}
@@ -149,7 +149,7 @@ func (client RewardsClient) createRedeemableUser(ctx context.Context, request co
 	return response, err
 }
 
-// DeleteRedeemableUser Delete list of redeemable user email ids for a subscription Id
+// DeleteRedeemableUser Deletes the list of redeemable user email IDs for a subscription ID.
 //
 // See also
 //
@@ -197,7 +197,7 @@ func (client RewardsClient) deleteRedeemableUser(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage-proxy/20190111/RedeemableUser/DeleteRedeemableUser"
 		err = common.PostProcessServiceError(err, "Rewards", "DeleteRedeemableUser", apiReferenceLink)
 		return response, err
 	}
@@ -206,7 +206,7 @@ func (client RewardsClient) deleteRedeemableUser(ctx context.Context, request co
 	return response, err
 }
 
-// ListProducts This API provides usage period specific product and its usage details.
+// ListProducts Provides product information that is specific to a reward usage period and its usage details.
 //
 // See also
 //
@@ -254,7 +254,7 @@ func (client RewardsClient) listProducts(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage-proxy/20190111/ProductSummary/ListProducts"
 		err = common.PostProcessServiceError(err, "Rewards", "ListProducts", apiReferenceLink)
 		return response, err
 	}
@@ -263,7 +263,7 @@ func (client RewardsClient) listProducts(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// ListRedeemableUsers Provides emailids of redeemable users for the given subscriptionId
+// ListRedeemableUsers Provides the email IDs of users that can redeem rewards for the given subscription ID.
 //
 // See also
 //
@@ -311,7 +311,7 @@ func (client RewardsClient) listRedeemableUsers(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage-proxy/20190111/RedeemableUserSummary/ListRedeemableUsers"
 		err = common.PostProcessServiceError(err, "Rewards", "ListRedeemableUsers", apiReferenceLink)
 		return response, err
 	}
@@ -320,7 +320,7 @@ func (client RewardsClient) listRedeemableUsers(ctx context.Context, request com
 	return response, err
 }
 
-// ListRewards This API returns list of rewards for a subscription Id
+// ListRewards Returns the list of rewards for a subscription ID.
 //
 // See also
 //
@@ -368,7 +368,7 @@ func (client RewardsClient) listRewards(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage-proxy/20190111/MonthlyRewardSummary/ListRewards"
 		err = common.PostProcessServiceError(err, "Rewards", "ListRewards", apiReferenceLink)
 		return response, err
 	}

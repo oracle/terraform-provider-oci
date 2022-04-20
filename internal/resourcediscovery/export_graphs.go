@@ -70,6 +70,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"osmanagement":            osmanagementResourceGraph,
 	"osp_gateway":             ospGatewayResourceGraph,
 	"sch":                     schResourceGraph,
+	"stack_monitoring":        stackMonitoringResourceGraph,
 	"vault":                   vaultResourceGraph,
 	"vulnerability_scanning":  vulnerabilityScanningResourceGraph,
 	"waas":                    waasResourceGraph,
@@ -1197,6 +1198,20 @@ var ospGatewayResourceGraph = TerraformResourceGraph{
 var schResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportSchServiceConnectorHints},
+	},
+}
+
+var stackMonitoringResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportStackMonitoringDiscoveryJobHints},
+	},
+	"oci_stack_monitoring_monitored_resource": {
+		{
+			TerraformResourceHints: exportStackMonitoringMonitoredResourceHints,
+			datasourceQueryParams: map[string]string{
+				"monitored_resource_id": "id",
+			},
+		},
 	},
 }
 

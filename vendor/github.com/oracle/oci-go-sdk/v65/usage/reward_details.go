@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// UsageApi API
+// Usage Proxy API
 //
-// A description of the UsageApi API.
+// Use the Usage Proxy API to list Oracle Support Rewards, view related detailed usage information, and manage users who redeem rewards. For more information, see Oracle Support Rewards Overview (https://docs.cloud.oracle.com/iaas/Content/Billing/Concepts/supportrewardsoverview.htm).
 //
 
 package usage
@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// RewardDetails The overrall reward summary of the monthly summary rewards.
+// RewardDetails The overall monthly reward summary.
 type RewardDetails struct {
 
 	// The OCID of the target tenancy.
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
 
-	// The entitlement id from MQS and it is same as subcription id.
+	// The entitlement ID from MQS, which is the same as the subcription ID.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
 	// The currency unit for the reward amount.
@@ -30,8 +30,11 @@ type RewardDetails struct {
 	// The current Rewards percentage in decimal format.
 	RewardsRate *float64 `mandatory:"false" json:"rewardsRate"`
 
-	// The total number of available rewards for a given subscription Id.
+	// The total number of available rewards for a given subscription ID.
 	TotalRewardsAvailable *float32 `mandatory:"false" json:"totalRewardsAvailable"`
+
+	// The redemption code used in the billing center during the reward redemption process
+	RedemptionCode *string `mandatory:"false" json:"redemptionCode"`
 }
 
 func (m RewardDetails) String() string {

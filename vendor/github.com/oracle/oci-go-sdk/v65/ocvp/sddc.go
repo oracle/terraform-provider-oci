@@ -190,6 +190,10 @@ type Sddc struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// The initial compute shape of the SDDC's ESXi hosts.
+	// ListSupportedHostShapes.
+	InitialHostShapeName *string `mandatory:"true" json:"initialHostShapeName"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -306,6 +310,9 @@ type Sddc struct {
 
 	// The current state of the SDDC.
 	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// The initial OCPU count of the SDDC's ESXi hosts.
+	InitialHostOcpuCount *float32 `mandatory:"false" json:"initialHostOcpuCount"`
 
 	// Indicates whether shielded instance is enabled at the SDDC level.
 	IsShieldedInstanceEnabled *bool `mandatory:"false" json:"isShieldedInstanceEnabled"`

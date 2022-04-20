@@ -177,6 +177,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
+    * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
     * `vault` - Discovers vault resources within the specified compartment
@@ -756,6 +757,15 @@ osp_gateway
 sch
     
 * oci\_sch\_service\_connector
+
+stack_monitoring
+    
+* oci\_stack\_monitoring\_monitored\_resource
+* oci\_stack\_monitoring\_discovery\_job
+* oci\_stack\_monitoring\_monitored\_resources\_list\_member
+* oci\_stack\_monitoring\_monitored\_resources\_search\_association
+* oci\_stack\_monitoring\_monitored\_resources\_search
+* oci\_stack\_monitoring\_monitored\_resources\_associate\_monitored\_resource
 
 streaming
     
