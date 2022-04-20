@@ -1,4 +1,4 @@
-## 4.72.0 (Unreleased)
+## 4.72.0 (April 20, 2022)
 
 ### Added
 - Support for Stack Monitoring service
