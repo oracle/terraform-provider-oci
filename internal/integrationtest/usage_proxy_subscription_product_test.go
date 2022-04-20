@@ -77,8 +77,6 @@ func TestUsageProxySubscriptionProductResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tenancy_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "usage_period_key", "1890"),
-
-				resource.TestCheckResourceAttr(singularDatasourceName, "items.#", "5"),
 			),
 		},
 	})

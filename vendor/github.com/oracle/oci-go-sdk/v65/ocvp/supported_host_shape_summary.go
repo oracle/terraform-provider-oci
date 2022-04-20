@@ -37,6 +37,9 @@ type SupportedHostShapeSummary struct {
 	// The supported SDDC types for the shape.
 	SupportedSddcTypes []SddcTypesEnum `mandatory:"false" json:"supportedSddcTypes,omitempty"`
 
+	// The VMware software versions supported by the shape.
+	SupportedVmwareSoftwareVersions []string `mandatory:"false" json:"supportedVmwareSoftwareVersions"`
+
 	// Description of the shape.
 	Description *string `mandatory:"false" json:"description"`
 

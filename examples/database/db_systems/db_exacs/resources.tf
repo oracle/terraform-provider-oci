@@ -60,3 +60,14 @@ resource "oci_database_backup" "test_backup" {
   database_id  = oci_database_db_home.test_db_home_vm_cluster.database.0.id
   display_name = "FirstBackup"
 }
+
+
+resource "oci_database_cloud_vm_cluster_iorm_config" "test_cloud_vm_cluster_iorm_config" {
+  cloud_vm_cluster_id = oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id
+  objective    = "AUTO"
+
+  db_plans {
+    db_name = "default"
+    share   = 1
+  }
+}

@@ -52,6 +52,10 @@ type EsxiHost struct {
 	// The availability domain of the ESXi host.
 	ComputeAvailabilityDomain *string `mandatory:"true" json:"computeAvailabilityDomain"`
 
+	// The compute shape name of the ESXi host.
+	// ListSupportedHostShapes.
+	HostShapeName *string `mandatory:"true" json:"hostShapeName"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -94,6 +98,9 @@ type EsxiHost struct {
 	// RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2021-07-25T21:10:29.600Z`
 	GracePeriodEndDate *common.SDKTime `mandatory:"false" json:"gracePeriodEndDate"`
+
+	// The OCPU count of the ESXi host.
+	HostOcpuCount *float32 `mandatory:"false" json:"hostOcpuCount"`
 }
 
 func (m EsxiHost) String() string {

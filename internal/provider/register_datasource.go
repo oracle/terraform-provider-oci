@@ -11,6 +11,7 @@ import (
 	tf_apm "github.com/terraform-providers/terraform-provider-oci/internal/service/apm"
 	tf_apm_config "github.com/terraform-providers/terraform-provider-oci/internal/service/apm_config"
 	tf_apm_synthetics "github.com/terraform-providers/terraform-provider-oci/internal/service/apm_synthetics"
+	tf_apm_traces "github.com/terraform-providers/terraform-provider-oci/internal/service/apm_traces"
 	tf_appmgmt_control "github.com/terraform-providers/terraform-provider-oci/internal/service/appmgmt_control"
 	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
 	tf_audit "github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
@@ -79,6 +80,7 @@ import (
 	tf_secrets "github.com/terraform-providers/terraform-provider-oci/internal/service/secrets"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 	tf_service_manager_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/service_manager_proxy"
+	tf_stack_monitoring "github.com/terraform-providers/terraform-provider-oci/internal/service/stack_monitoring"
 	tf_streaming "github.com/terraform-providers/terraform-provider-oci/internal/service/streaming"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "github.com/terraform-providers/terraform-provider-oci/internal/service/vault"
@@ -122,6 +124,12 @@ func init() {
 	// apm service
 	RegisterDatasource("oci_apm_apm_domain", tf_apm.ApmApmDomainDataSource())
 	RegisterDatasource("oci_apm_apm_domains", tf_apm.ApmApmDomainsDataSource())
+
+	// apm_traces service
+	RegisterDatasource("oci_apm_traces_query_quick_picks", tf_apm_traces.ApmTracesQueryQuickPicksDataSource())
+	RegisterDatasource("oci_apm_traces_trace", tf_apm_traces.ApmTracesTraceDataSource())
+	RegisterDatasource("oci_apm_traces_trace_aggregated_snapshot_data", tf_apm_traces.ApmTracesTraceAggregatedSnapshotDataDataSource())
+	RegisterDatasource("oci_apm_traces_trace_snapshot_data", tf_apm_traces.ApmTracesTraceSnapshotDataDataSource())
 	RegisterDatasource("oci_apm_data_keys", tf_apm.ApmDataKeysDataSource())
 	// apm_config service
 	RegisterDatasource("oci_apm_config_config", tf_apm_config.ApmConfigConfigDataSource())
@@ -487,6 +495,7 @@ func init() {
 	RegisterDatasource("oci_database_cloud_exadata_infrastructures", tf_database.DatabaseCloudExadataInfrastructuresDataSource())
 	RegisterDatasource("oci_database_cloud_vm_cluster", tf_database.DatabaseCloudVmClusterDataSource())
 	RegisterDatasource("oci_database_cloud_vm_clusters", tf_database.DatabaseCloudVmClustersDataSource())
+	RegisterDatasource("oci_database_cloud_vm_cluster_iorm_config", tf_database.DatabaseCloudVmClusterIormConfigDataSource())
 	RegisterDatasource("oci_database_data_guard_association", tf_database.DatabaseDataGuardAssociationDataSource())
 	RegisterDatasource("oci_database_data_guard_associations", tf_database.DatabaseDataGuardAssociationsDataSource())
 	RegisterDatasource("oci_database_database", tf_database.DatabaseDatabaseDataSource())
@@ -1081,6 +1090,11 @@ func init() {
 	// service_manager_proxy service
 	RegisterDatasource("oci_service_manager_proxy_service_environment", tf_service_manager_proxy.ServiceManagerProxyServiceEnvironmentDataSource())
 	RegisterDatasource("oci_service_manager_proxy_service_environments", tf_service_manager_proxy.ServiceManagerProxyServiceEnvironmentsDataSource())
+	// stack_monitoring service
+	RegisterDatasource("oci_stack_monitoring_discovery_job", tf_stack_monitoring.StackMonitoringDiscoveryJobDataSource())
+	RegisterDatasource("oci_stack_monitoring_discovery_jobs", tf_stack_monitoring.StackMonitoringDiscoveryJobsDataSource())
+	RegisterDatasource("oci_stack_monitoring_discovery_job_logs", tf_stack_monitoring.StackMonitoringDiscoveryJobLogsDataSource())
+	RegisterDatasource("oci_stack_monitoring_monitored_resource", tf_stack_monitoring.StackMonitoringMonitoredResourceDataSource())
 	// streaming service
 	RegisterDatasource("oci_streaming_connect_harness", tf_streaming.StreamingConnectHarnessDataSource())
 	RegisterDatasource("oci_streaming_connect_harnesses", tf_streaming.StreamingConnectHarnessesDataSource())

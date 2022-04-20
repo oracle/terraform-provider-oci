@@ -24,10 +24,10 @@ type CreateRedeemableUserRequest struct {
 	// The OCID of the tenancy.
 	TenancyId *string `mandatory:"true" contributesTo:"query" name:"tenancyId"`
 
-	// The subscriptionId for which rewards information is requested for.
+	// The subscription ID for which rewards information is requested for.
 	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
 
-	// The user Id of the person whose email we cc
+	// The user ID of the person to send a copy of an email.
 	UserId *string `mandatory:"false" contributesTo:"query" name:"userId"`
 
 	// Unique, Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

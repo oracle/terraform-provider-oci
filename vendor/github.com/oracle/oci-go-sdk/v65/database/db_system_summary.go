@@ -278,6 +278,7 @@ const (
 	DbSystemSummaryLifecycleStateMigrated              DbSystemSummaryLifecycleStateEnum = "MIGRATED"
 	DbSystemSummaryLifecycleStateMaintenanceInProgress DbSystemSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 	DbSystemSummaryLifecycleStateNeedsAttention        DbSystemSummaryLifecycleStateEnum = "NEEDS_ATTENTION"
+	DbSystemSummaryLifecycleStateUpgrading             DbSystemSummaryLifecycleStateEnum = "UPGRADING"
 )
 
 var mappingDbSystemSummaryLifecycleStateEnum = map[string]DbSystemSummaryLifecycleStateEnum{
@@ -290,6 +291,7 @@ var mappingDbSystemSummaryLifecycleStateEnum = map[string]DbSystemSummaryLifecyc
 	"MIGRATED":                DbSystemSummaryLifecycleStateMigrated,
 	"MAINTENANCE_IN_PROGRESS": DbSystemSummaryLifecycleStateMaintenanceInProgress,
 	"NEEDS_ATTENTION":         DbSystemSummaryLifecycleStateNeedsAttention,
+	"UPGRADING":               DbSystemSummaryLifecycleStateUpgrading,
 }
 
 var mappingDbSystemSummaryLifecycleStateEnumLowerCase = map[string]DbSystemSummaryLifecycleStateEnum{
@@ -302,6 +304,7 @@ var mappingDbSystemSummaryLifecycleStateEnumLowerCase = map[string]DbSystemSumma
 	"migrated":                DbSystemSummaryLifecycleStateMigrated,
 	"maintenance_in_progress": DbSystemSummaryLifecycleStateMaintenanceInProgress,
 	"needs_attention":         DbSystemSummaryLifecycleStateNeedsAttention,
+	"upgrading":               DbSystemSummaryLifecycleStateUpgrading,
 }
 
 // GetDbSystemSummaryLifecycleStateEnumValues Enumerates the set of values for DbSystemSummaryLifecycleStateEnum
@@ -325,6 +328,7 @@ func GetDbSystemSummaryLifecycleStateEnumStringValues() []string {
 		"MIGRATED",
 		"MAINTENANCE_IN_PROGRESS",
 		"NEEDS_ATTENTION",
+		"UPGRADING",
 	}
 }
 

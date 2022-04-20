@@ -116,6 +116,10 @@ func UsageProxySubscriptionRewardsDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"redemption_code": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"rewards_rate": {
 													Type:     schema.TypeFloat,
 													Computed: true,
@@ -288,6 +292,10 @@ func RewardDetailsToMap(obj *oci_usage_proxy.RewardDetails) map[string]interface
 
 	if obj.Currency != nil {
 		result["currency"] = string(*obj.Currency)
+	}
+
+	if obj.RedemptionCode != nil {
+		result["redemption_code"] = string(*obj.RedemptionCode)
 	}
 
 	if obj.RewardsRate != nil {

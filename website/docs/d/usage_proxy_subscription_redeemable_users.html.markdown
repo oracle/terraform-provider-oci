@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_usage_proxy_subscription_redeemable_users
 This data source provides the list of Subscription Redeemable Users in Oracle Cloud Infrastructure Usage Proxy service.
 
-Provides emailids of redeemable users for the given subscriptionId
+Provides the email IDs of users that can redeem rewards for the given subscription ID.
 
 
 ## Example Usage
@@ -27,7 +27,7 @@ data "oci_usage_proxy_subscription_redeemable_users" "test_subscription_redeemab
 
 The following arguments are supported:
 
-* `subscription_id` - (Required) The subscriptionId for which rewards information is requested for.
+* `subscription_id` - (Required) The subscription ID for which rewards information is requested for.
 * `tenancy_id` - (Required) The OCID of the tenancy.
 
 
@@ -41,6 +41,6 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `items` - The list of redeemable users email Ids.
-	* `email_id` - The email Id of Redeemable User.
+* `items` - The list of user email IDs that can redeem rewards.
+	* `email_id` - The email ID of a user that can redeem rewards.
 

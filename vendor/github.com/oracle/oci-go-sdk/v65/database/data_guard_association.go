@@ -163,6 +163,7 @@ const (
 	DataGuardAssociationLifecycleStateTerminating  DataGuardAssociationLifecycleStateEnum = "TERMINATING"
 	DataGuardAssociationLifecycleStateTerminated   DataGuardAssociationLifecycleStateEnum = "TERMINATED"
 	DataGuardAssociationLifecycleStateFailed       DataGuardAssociationLifecycleStateEnum = "FAILED"
+	DataGuardAssociationLifecycleStateUpgrading    DataGuardAssociationLifecycleStateEnum = "UPGRADING"
 )
 
 var mappingDataGuardAssociationLifecycleStateEnum = map[string]DataGuardAssociationLifecycleStateEnum{
@@ -172,6 +173,7 @@ var mappingDataGuardAssociationLifecycleStateEnum = map[string]DataGuardAssociat
 	"TERMINATING":  DataGuardAssociationLifecycleStateTerminating,
 	"TERMINATED":   DataGuardAssociationLifecycleStateTerminated,
 	"FAILED":       DataGuardAssociationLifecycleStateFailed,
+	"UPGRADING":    DataGuardAssociationLifecycleStateUpgrading,
 }
 
 var mappingDataGuardAssociationLifecycleStateEnumLowerCase = map[string]DataGuardAssociationLifecycleStateEnum{
@@ -181,6 +183,7 @@ var mappingDataGuardAssociationLifecycleStateEnumLowerCase = map[string]DataGuar
 	"terminating":  DataGuardAssociationLifecycleStateTerminating,
 	"terminated":   DataGuardAssociationLifecycleStateTerminated,
 	"failed":       DataGuardAssociationLifecycleStateFailed,
+	"upgrading":    DataGuardAssociationLifecycleStateUpgrading,
 }
 
 // GetDataGuardAssociationLifecycleStateEnumValues Enumerates the set of values for DataGuardAssociationLifecycleStateEnum
@@ -201,6 +204,7 @@ func GetDataGuardAssociationLifecycleStateEnumStringValues() []string {
 		"TERMINATING",
 		"TERMINATED",
 		"FAILED",
+		"UPGRADING",
 	}
 }
 
