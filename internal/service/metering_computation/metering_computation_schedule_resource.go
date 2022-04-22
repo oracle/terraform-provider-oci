@@ -591,7 +591,10 @@ func (s *MeteringComputationScheduleResourceCrud) mapToQueryProperties(fieldKeyF
 	if filter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "filter")); ok {
 		tmp := filter.(string)
 		var filterObj oci_metering_computation.Filter
-		json.Unmarshal([]byte(tmp), &filterObj)
+		err := json.Unmarshal([]byte(tmp), &filterObj)
+		if err != nil {
+			return result, fmt.Errorf("[ERROR ]encountered error: %v", err.Error())
+		}
 		result.Filter = &filterObj
 	}
 
