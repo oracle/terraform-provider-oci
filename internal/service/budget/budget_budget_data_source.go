@@ -104,6 +104,8 @@ func (s *BudgetBudgetDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	s.D.Set("processing_period_type", s.Res.ProcessingPeriodType)
+
 	s.D.Set("reset_period", s.Res.ResetPeriod)
 
 	s.D.Set("state", s.Res.LifecycleState)
