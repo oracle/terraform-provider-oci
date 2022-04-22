@@ -18,13 +18,13 @@ import (
 // Budget A budget.
 type Budget struct {
 
-	// The OCID of the budget
+	// The OCID of the budget.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment
+	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The display name of the budget.
+	// The display name of the budget. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The amount of the budget expressed in the currency of the customer's rate card.
@@ -36,17 +36,17 @@ type Budget struct {
 	// The current state of the budget.
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Total number of alert rules in the budget
+	// The total number of alert rules in the budget.
 	AlertRuleCount *int `mandatory:"true" json:"alertRuleCount"`
 
-	// Time that budget was created
+	// The time that the budget was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// Time that budget was updated
+	// The time that the budget was updated.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// This is DEPRECATED. For backwards compatability, the property will be populated when
-	// targetType is "COMPARTMENT" AND targets contains EXACT ONE target compartment ocid.
+	// This is DEPRECATED. For backwards compatability, the property is populated when
+	// the targetType is "COMPARTMENT", and targets contain the specific target compartment OCID.
 	// For all other scenarios, this property will be left empty.
 	TargetCompartmentId *string `mandatory:"false" json:"targetCompartmentId"`
 
@@ -56,24 +56,27 @@ type Budget struct {
 	// The number of days offset from the first day of the month, at which the budget processing period starts. In months that have fewer days than this value, processing will begin on the last day of that month. For example, for a value of 12, processing starts every month on the 12th at midnight.
 	BudgetProcessingPeriodStartOffset *int `mandatory:"false" json:"budgetProcessingPeriodStartOffset"`
 
+	// The type of the budget processing period. Valid values are INVOICE and MONTH.
+	ProcessingPeriodType ProcessingPeriodTypeEnum `mandatory:"false" json:"processingPeriodType,omitempty"`
+
 	// The type of target on which the budget is applied.
 	TargetType TargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
 
 	// The list of targets on which the budget is applied.
-	//   If targetType is "COMPARTMENT", targets contains list of compartment OCIDs.
-	//   If targetType is "TAG", targets contains list of cost tracking tag identifiers in the form of "{tagNamespace}.{tagKey}.{tagValue}".
+	//   If the targetType is "COMPARTMENT", the targets contain the list of compartment OCIDs.
+	//   If the targetType is "TAG", the targets contain the list of cost tracking tag identifiers in the form of "{tagNamespace}.{tagKey}.{tagValue}".
 	Targets []string `mandatory:"false" json:"targets"`
 
-	// Version of the budget. Starts from 1 and increments by 1.
+	// The version of the budget. Starts from 1 and increments by 1.
 	Version *int `mandatory:"false" json:"version"`
 
-	// The actual spend in currency for the current budget cycle
+	// The actual spend in currency for the current budget cycle.
 	ActualSpend *float32 `mandatory:"false" json:"actualSpend"`
 
-	// The forecasted spend in currency by the end of the current budget cycle
+	// The forecasted spend in currency by the end of the current budget cycle.
 	ForecastedSpend *float32 `mandatory:"false" json:"forecastedSpend"`
 
-	// The time that the budget spend was last computed
+	// The time that the budget spend was last computed.
 	TimeSpendComputed *common.SDKTime `mandatory:"false" json:"timeSpendComputed"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -103,6 +106,9 @@ func (m Budget) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingProcessingPeriodTypeEnum(string(m.ProcessingPeriodType)); !ok && m.ProcessingPeriodType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProcessingPeriodType: %s. Supported values are: %s.", m.ProcessingPeriodType, strings.Join(GetProcessingPeriodTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingTargetTypeEnum(string(m.TargetType)); !ok && m.TargetType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", m.TargetType, strings.Join(GetTargetTypeEnumStringValues(), ",")))
 	}

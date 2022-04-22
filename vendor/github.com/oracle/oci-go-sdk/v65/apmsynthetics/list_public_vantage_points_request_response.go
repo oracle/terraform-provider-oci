@@ -37,10 +37,10 @@ type ListPublicVantagePointsRequest struct {
 	// sort by is case insensitive.
 	SortBy ListPublicVantagePointsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// A filter to return only resources that match the entire display name given.
+	// A filter to return only the resources that match the entire display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only resources that match the entire name given.
+	// A filter to return only the resources that match the entire name.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// Unique identifier for the request.

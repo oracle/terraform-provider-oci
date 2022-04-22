@@ -63,6 +63,9 @@ type BdsInstance struct {
 	// The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// pre-authenticated URL of the bootstrap script in Object Store that can be downloaded and executed.
+	BootstrapScriptUrl *string `mandatory:"false" json:"bootstrapScriptUrl"`
+
 	// Simple key-value pair that is applied without any predefined name, type, or scope.
 	// Exists for cross-compatibility only. For example, `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -169,21 +172,24 @@ type BdsInstanceClusterVersionEnum string
 
 // Set of constants representing the allowable values for BdsInstanceClusterVersionEnum
 const (
-	BdsInstanceClusterVersionCdh5 BdsInstanceClusterVersionEnum = "CDH5"
-	BdsInstanceClusterVersionCdh6 BdsInstanceClusterVersionEnum = "CDH6"
-	BdsInstanceClusterVersionOdh1 BdsInstanceClusterVersionEnum = "ODH1"
+	BdsInstanceClusterVersionCdh5  BdsInstanceClusterVersionEnum = "CDH5"
+	BdsInstanceClusterVersionCdh6  BdsInstanceClusterVersionEnum = "CDH6"
+	BdsInstanceClusterVersionOdh1  BdsInstanceClusterVersionEnum = "ODH1"
+	BdsInstanceClusterVersionOdh09 BdsInstanceClusterVersionEnum = "ODH0_9"
 )
 
 var mappingBdsInstanceClusterVersionEnum = map[string]BdsInstanceClusterVersionEnum{
-	"CDH5": BdsInstanceClusterVersionCdh5,
-	"CDH6": BdsInstanceClusterVersionCdh6,
-	"ODH1": BdsInstanceClusterVersionOdh1,
+	"CDH5":   BdsInstanceClusterVersionCdh5,
+	"CDH6":   BdsInstanceClusterVersionCdh6,
+	"ODH1":   BdsInstanceClusterVersionOdh1,
+	"ODH0_9": BdsInstanceClusterVersionOdh09,
 }
 
 var mappingBdsInstanceClusterVersionEnumLowerCase = map[string]BdsInstanceClusterVersionEnum{
-	"cdh5": BdsInstanceClusterVersionCdh5,
-	"cdh6": BdsInstanceClusterVersionCdh6,
-	"odh1": BdsInstanceClusterVersionOdh1,
+	"cdh5":   BdsInstanceClusterVersionCdh5,
+	"cdh6":   BdsInstanceClusterVersionCdh6,
+	"odh1":   BdsInstanceClusterVersionOdh1,
+	"odh0_9": BdsInstanceClusterVersionOdh09,
 }
 
 // GetBdsInstanceClusterVersionEnumValues Enumerates the set of values for BdsInstanceClusterVersionEnum
@@ -201,6 +207,7 @@ func GetBdsInstanceClusterVersionEnumStringValues() []string {
 		"CDH5",
 		"CDH6",
 		"ODH1",
+		"ODH0_9",
 	}
 }
 

@@ -4,7 +4,7 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
@@ -32,7 +32,7 @@ type MonitorResult struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the monitor.
 	MonitorId *string `mandatory:"false" json:"monitorId"`
 
-	// The name of the vantage point.
+	// The name of the public or dedicated vantage point.
 	VantagePoint *string `mandatory:"false" json:"vantagePoint"`
 
 	// The specific point of time when the result of an execution is collected.

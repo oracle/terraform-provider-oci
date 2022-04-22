@@ -16,13 +16,13 @@ import (
 )
 
 // CreateBudgetDetails The create budget details.
-// Client should use 'targetType' & 'targets' to specify the target type and list of targets on which the budget is applied.
-// For backwards compatibility, 'targetCompartmentId' will still be supported for all existing clients.
-// However, this is considered deprecreated and all clients be upgraded to use 'targetType' & 'targets'.
-// Specifying both 'targetCompartmentId' and 'targets' will cause a Bad Request.
+// Clients should use 'targetType' and 'targets' to specify the target type and list of targets on which the budget is applied.
+// For backwards compatibility, 'targetCompartmentId' is still supported for all existing clients.
+// This is considered deprecated, however, and all clients are upgraded to use 'targetType' and 'targets'.
+// Specifying both 'targetCompartmentId' and 'targets' causes a Bad Request.
 type CreateBudgetDetails struct {
 
-	// The OCID of the compartment
+	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The amount of the budget expressed as a whole number in the currency of the customer's rate card.
@@ -31,10 +31,10 @@ type CreateBudgetDetails struct {
 	// The reset period for the budget.
 	ResetPeriod ResetPeriodEnum `mandatory:"true" json:"resetPeriod"`
 
-	// This is DEPRECTAED. Set the target compartment id in targets instead.
+	// This is DEPRECATED. Set the target compartment ID in targets instead.
 	TargetCompartmentId *string `mandatory:"false" json:"targetCompartmentId"`
 
-	// The displayName of the budget.
+	// The displayName of the budget. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The description of the budget.
@@ -43,13 +43,16 @@ type CreateBudgetDetails struct {
 	// The number of days offset from the first day of the month, at which the budget processing period starts. In months that have fewer days than this value, processing will begin on the last day of that month. For example, for a value of 12, processing starts every month on the 12th at midnight.
 	BudgetProcessingPeriodStartOffset *int `mandatory:"false" json:"budgetProcessingPeriodStartOffset"`
 
+	// The type of the budget processing period. Valid values are INVOICE and MONTH.
+	ProcessingPeriodType ProcessingPeriodTypeEnum `mandatory:"false" json:"processingPeriodType,omitempty"`
+
 	// The type of target on which the budget is applied.
 	TargetType TargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
 
 	// The list of targets on which the budget is applied.
-	//   If targetType is "COMPARTMENT", targets contains list of compartment OCIDs.
-	//   If targetType is "TAG", targets contains list of cost tracking tag identifiers in the form of "{tagNamespace}.{tagKey}.{tagValue}".
-	// Curerntly, the array should contain EXACT ONE item.
+	//   If targetType is "COMPARTMENT", the targets contain the list of compartment OCIDs.
+	//   If targetType is "TAG", the targets contain the list of cost tracking tag identifiers in the form of "{tagNamespace}.{tagKey}.{tagValue}".
+	// Curerntly, the array should contain exactly one item.
 	Targets []string `mandatory:"false" json:"targets"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -76,6 +79,9 @@ func (m CreateBudgetDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResetPeriod: %s. Supported values are: %s.", m.ResetPeriod, strings.Join(GetResetPeriodEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingProcessingPeriodTypeEnum(string(m.ProcessingPeriodType)); !ok && m.ProcessingPeriodType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProcessingPeriodType: %s. Supported values are: %s.", m.ProcessingPeriodType, strings.Join(GetProcessingPeriodTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingTargetTypeEnum(string(m.TargetType)); !ok && m.TargetType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", m.TargetType, strings.Join(GetTargetTypeEnumStringValues(), ",")))
 	}

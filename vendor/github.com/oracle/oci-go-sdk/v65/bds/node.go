@@ -62,6 +62,12 @@ type Node struct {
 
 	// The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// The total number of OCPUs available to the node.
+	Ocpus *int `mandatory:"false" json:"ocpus"`
+
+	// The total amount of memory available to the node, in gigabytes.
+	MemoryInGBs *int `mandatory:"false" json:"memoryInGBs"`
 }
 
 func (m Node) String() string {
@@ -153,30 +159,33 @@ type NodeNodeTypeEnum string
 
 // Set of constants representing the allowable values for NodeNodeTypeEnum
 const (
-	NodeNodeTypeMaster   NodeNodeTypeEnum = "MASTER"
-	NodeNodeTypeEdge     NodeNodeTypeEnum = "EDGE"
-	NodeNodeTypeUtility  NodeNodeTypeEnum = "UTILITY"
-	NodeNodeTypeWorker   NodeNodeTypeEnum = "WORKER"
-	NodeNodeTypeBursting NodeNodeTypeEnum = "BURSTING"
-	NodeNodeTypeCloudSql NodeNodeTypeEnum = "CLOUD_SQL"
+	NodeNodeTypeMaster            NodeNodeTypeEnum = "MASTER"
+	NodeNodeTypeEdge              NodeNodeTypeEnum = "EDGE"
+	NodeNodeTypeUtility           NodeNodeTypeEnum = "UTILITY"
+	NodeNodeTypeWorker            NodeNodeTypeEnum = "WORKER"
+	NodeNodeTypeComputeOnlyWorker NodeNodeTypeEnum = "COMPUTE_ONLY_WORKER"
+	NodeNodeTypeBursting          NodeNodeTypeEnum = "BURSTING"
+	NodeNodeTypeCloudSql          NodeNodeTypeEnum = "CLOUD_SQL"
 )
 
 var mappingNodeNodeTypeEnum = map[string]NodeNodeTypeEnum{
-	"MASTER":    NodeNodeTypeMaster,
-	"EDGE":      NodeNodeTypeEdge,
-	"UTILITY":   NodeNodeTypeUtility,
-	"WORKER":    NodeNodeTypeWorker,
-	"BURSTING":  NodeNodeTypeBursting,
-	"CLOUD_SQL": NodeNodeTypeCloudSql,
+	"MASTER":              NodeNodeTypeMaster,
+	"EDGE":                NodeNodeTypeEdge,
+	"UTILITY":             NodeNodeTypeUtility,
+	"WORKER":              NodeNodeTypeWorker,
+	"COMPUTE_ONLY_WORKER": NodeNodeTypeComputeOnlyWorker,
+	"BURSTING":            NodeNodeTypeBursting,
+	"CLOUD_SQL":           NodeNodeTypeCloudSql,
 }
 
 var mappingNodeNodeTypeEnumLowerCase = map[string]NodeNodeTypeEnum{
-	"master":    NodeNodeTypeMaster,
-	"edge":      NodeNodeTypeEdge,
-	"utility":   NodeNodeTypeUtility,
-	"worker":    NodeNodeTypeWorker,
-	"bursting":  NodeNodeTypeBursting,
-	"cloud_sql": NodeNodeTypeCloudSql,
+	"master":              NodeNodeTypeMaster,
+	"edge":                NodeNodeTypeEdge,
+	"utility":             NodeNodeTypeUtility,
+	"worker":              NodeNodeTypeWorker,
+	"compute_only_worker": NodeNodeTypeComputeOnlyWorker,
+	"bursting":            NodeNodeTypeBursting,
+	"cloud_sql":           NodeNodeTypeCloudSql,
 }
 
 // GetNodeNodeTypeEnumValues Enumerates the set of values for NodeNodeTypeEnum
@@ -195,6 +204,7 @@ func GetNodeNodeTypeEnumStringValues() []string {
 		"EDGE",
 		"UTILITY",
 		"WORKER",
+		"COMPUTE_ONLY_WORKER",
 		"BURSTING",
 		"CLOUD_SQL",
 	}

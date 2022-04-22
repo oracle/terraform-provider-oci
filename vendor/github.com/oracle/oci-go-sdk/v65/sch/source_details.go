@@ -61,6 +61,10 @@ func (m *sourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		mm := LoggingSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "monitoring":
+		mm := MonitoringSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "streaming":
 		mm := StreamingSourceDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -91,18 +95,21 @@ type SourceDetailsKindEnum string
 
 // Set of constants representing the allowable values for SourceDetailsKindEnum
 const (
-	SourceDetailsKindLogging   SourceDetailsKindEnum = "logging"
-	SourceDetailsKindStreaming SourceDetailsKindEnum = "streaming"
+	SourceDetailsKindLogging    SourceDetailsKindEnum = "logging"
+	SourceDetailsKindMonitoring SourceDetailsKindEnum = "monitoring"
+	SourceDetailsKindStreaming  SourceDetailsKindEnum = "streaming"
 )
 
 var mappingSourceDetailsKindEnum = map[string]SourceDetailsKindEnum{
-	"logging":   SourceDetailsKindLogging,
-	"streaming": SourceDetailsKindStreaming,
+	"logging":    SourceDetailsKindLogging,
+	"monitoring": SourceDetailsKindMonitoring,
+	"streaming":  SourceDetailsKindStreaming,
 }
 
 var mappingSourceDetailsKindEnumLowerCase = map[string]SourceDetailsKindEnum{
-	"logging":   SourceDetailsKindLogging,
-	"streaming": SourceDetailsKindStreaming,
+	"logging":    SourceDetailsKindLogging,
+	"monitoring": SourceDetailsKindMonitoring,
+	"streaming":  SourceDetailsKindStreaming,
 }
 
 // GetSourceDetailsKindEnumValues Enumerates the set of values for SourceDetailsKindEnum
@@ -118,6 +125,7 @@ func GetSourceDetailsKindEnumValues() []SourceDetailsKindEnum {
 func GetSourceDetailsKindEnumStringValues() []string {
 	return []string{
 		"logging",
+		"monitoring",
 		"streaming",
 	}
 }

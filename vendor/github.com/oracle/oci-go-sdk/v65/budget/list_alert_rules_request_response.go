@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/ListAlertRules.go.html to see an example of how to use ListAlertRulesRequest.
 type ListAlertRulesRequest struct {
 
-	// The unique Budget OCID
+	// The unique budget OCID.
 	BudgetId *string `mandatory:"true" contributesTo:"path" name:"budgetId"`
 
 	// The maximum number of items to return.
@@ -38,7 +38,7 @@ type ListAlertRulesRequest struct {
 	// The current state of the resource to filter by.
 	LifecycleState ListAlertRulesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// A user-friendly name. This does not have to be unique, and it's changeable.
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
@@ -110,7 +110,7 @@ type ListAlertRulesResponse struct {
 	// please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of `AlertRuleSummary`s. If this header appears in the response, then this
+	// For pagination of a list of `AlertRuleSummary`. If this header appears in the response, then this
 	// is a partial list of AlertRuleSummaries. Include this value as the `page` parameter in a subsequent
 	// GET request to get the next batch of AlertRuleSummaries.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`

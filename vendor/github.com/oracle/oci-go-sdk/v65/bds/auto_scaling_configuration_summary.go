@@ -10,6 +10,7 @@
 package bds
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -27,7 +28,7 @@ type AutoScalingConfigurationSummary struct {
 	// The state of the autoscale configuration.
 	LifecycleState AutoScalingConfigurationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// A node type that is managed by an autoscale configuration. The only supported type is WORKER.
+	// A node type that is managed by an autoscale configuration. The only supported types are WORKER and COMPUTE_ONLY_WORKER.
 	NodeType NodeNodeTypeEnum `mandatory:"true" json:"nodeType"`
 
 	// The time the cluster was created, shown as an RFC 3339 formatted datetime string.
@@ -37,6 +38,8 @@ type AutoScalingConfigurationSummary struct {
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	Policy *AutoScalePolicy `mandatory:"true" json:"policy"`
+
+	PolicyDetails AutoScalePolicyDetails `mandatory:"false" json:"policyDetails"`
 }
 
 func (m AutoScalingConfigurationSummary) String() string {
@@ -59,4 +62,49 @@ func (m AutoScalingConfigurationSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *AutoScalingConfigurationSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		PolicyDetails  autoscalepolicydetails                     `json:"policyDetails"`
+		Id             *string                                    `json:"id"`
+		DisplayName    *string                                    `json:"displayName"`
+		LifecycleState AutoScalingConfigurationLifecycleStateEnum `json:"lifecycleState"`
+		NodeType       NodeNodeTypeEnum                           `json:"nodeType"`
+		TimeCreated    *common.SDKTime                            `json:"timeCreated"`
+		TimeUpdated    *common.SDKTime                            `json:"timeUpdated"`
+		Policy         *AutoScalePolicy                           `json:"policy"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	nn, e = model.PolicyDetails.UnmarshalPolymorphicJSON(model.PolicyDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PolicyDetails = nn.(AutoScalePolicyDetails)
+	} else {
+		m.PolicyDetails = nil
+	}
+
+	m.Id = model.Id
+
+	m.DisplayName = model.DisplayName
+
+	m.LifecycleState = model.LifecycleState
+
+	m.NodeType = model.NodeType
+
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.Policy = model.Policy
+
+	return
 }

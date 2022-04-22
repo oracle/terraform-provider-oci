@@ -20,7 +20,8 @@ import (
 	"strings"
 )
 
-// InstanceConfigurationAmdMilanBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance with an E4 shape.
+// InstanceConfigurationAmdMilanBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance with the BM.Standard.E4.128 shape
+// (the AMD Milan platform).
 type InstanceConfigurationAmdMilanBmLaunchInstancePlatformConfig struct {
 
 	// Whether Secure Boot is enabled on the instance.

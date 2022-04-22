@@ -21,11 +21,14 @@ type ListMonitorsRequest struct {
 	// The APM domain ID the request is intended for.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
-	// A filter to return only resources that match the entire display name given.
+	// A filter to return only the resources that match the entire display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return only monitors using scriptId.
 	ScriptId *string `mandatory:"false" contributesTo:"query" name:"scriptId"`
+
+	// The name of the public or dedicated vantage point.
+	VantagePoint *string `mandatory:"false" contributesTo:"query" name:"vantagePoint"`
 
 	// A filter to return only monitors that match the given monitor type.
 	// Supported values are SCRIPTED_BROWSER, BROWSER, SCRIPTED_REST and REST.

@@ -118,9 +118,6 @@ func PostProcessServiceError(err error, service string, method string, apiRefere
 	serviceFailure = err.(servicefailure)
 	serviceFailure.OperationName = method
 	serviceFailure.TargetService = service
-	if serviceFailure.StatusCode == 401 && serviceFailure.Code == "NotAuthenticated" {
-		serviceFailure.TargetService = "Identity"
-	}
 	serviceFailure.ErrorTroubleshootingLink = fmt.Sprintf("https://docs.oracle.com/iaas/Content/API/References/apierrors.htm#apierrors_%v__%v_%s", serviceFailure.StatusCode, serviceFailure.StatusCode, strings.ToLower(serviceFailure.Code))
 	serviceFailure.OperationReferenceLink = apiReferenceLink
 	return serviceFailure
