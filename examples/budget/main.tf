@@ -23,7 +23,11 @@ variable "compartment_ocid" {
 variable "region" {
 }
 
+variable "subscription_id" {
+} 
+
 provider "oci" {
+  provider         = "4.67.0"
   region           = var.region
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -48,8 +52,46 @@ resource "oci_budget_budget" "test_budget" {
   budget_processing_period_start_offset = "11"
 }
 
+resource "oci_budget_budget" "test_budget_invoice" {
+  #Required
+  amount         = "1"
+  compartment_id = var.tenancy_ocid
+  reset_period   = "MONTHLY"
+  target_type    = "COMPARTMENT"
+
+  targets = [
+    var.subscription_id
+  ]
+
+  #Optional
+  description  = "budget invoice description"
+  display_name = "budget_invoice"
+  processing_period_type = "INVOICE"
+} 
+
+# get budget should happen after alert rule is successful
+# as alert rule creation updates the `alert_rule_count` field
 data "oci_budget_budget" "budget1" {
   budget_id = oci_budget_budget.test_budget.id
+  depends_on = [
+    data.oci_budget_alert_rule.test_alert_rule
+  ]
+}
+
+data "oci_budget_budget" "budget_invoice" {
+  budget_id = oci_budget_budget.test_budget_invoice.id
+  depends_on = [
+    data.oci_budget_alert_rule.test_alert_rule
+  ]
+}
+
+
+data "oci_budget_budgets" "test_budgets" {
+  #Required
+  compartment_id = var.tenancy_ocid
+  #Optional
+  //  display_name = oci_budget_budget.test_budget.display_name
+  //  state        = "ACTIVE"
 }
 
 output "budget" {
@@ -72,16 +114,22 @@ output "budget" {
   //    time_spend_computed = data.oci_budget_budget.budget1.time_spend_computed
 }
 
-data "oci_budget_budgets" "test_budgets" {
-  #Required
-  compartment_id = var.tenancy_ocid
-  #Optional
-  //  display_name = oci_budget_budget.test_budget.display_name
-  //  state        = "ACTIVE"
-}
+output "budget_invoice" {
+  value = {
+    amount           = data.oci_budget_budget.budget_invoice.amount
+    compartment_id   = data.oci_budget_budget.budget_invoice.compartment_id
+    reset_period     = data.oci_budget_budget.budget_invoice.reset_period
+    targets          = data.oci_budget_budget.budget_invoice.targets[0]
+    description      = data.oci_budget_budget.budget_invoice.description
+    display_name     = data.oci_budget_budget.budget_invoice.display_name
+    alert_rule_count = data.oci_budget_budget.budget_invoice.alert_rule_count
+    state            = data.oci_budget_budget.budget_invoice.state
+    time_created     = data.oci_budget_budget.budget_invoice.time_created
+    time_updated     = data.oci_budget_budget.budget_invoice.time_updated
+    version          = data.oci_budget_budget.budget_invoice.version
 
-output "budgets" {
-  value = data.oci_budget_budgets.test_budgets.budgets
+    processing_period_type = data.oci_budget_budget.budget_invoice.processing_period_type
+  }
 }
 
 resource "oci_budget_alert_rule" "test_alert_rule" {
@@ -98,14 +146,6 @@ resource "oci_budget_alert_rule" "test_alert_rule" {
   recipients   = "JohnSmith@example.com"
 }
 
-data "oci_budget_alert_rules" "test_alert_rules" {
-  #Required
-  budget_id = oci_budget_budget.test_budget.id
-
-  #Optional
-  //  display_name = oci_budget_alert_rule.test_alert_rule.display_name
-  state = "ACTIVE"
-}
 
 output "alert_rule" {
   value = {
@@ -131,7 +171,13 @@ data "oci_budget_alert_rule" "test_alert_rule" {
   alert_rule_id = oci_budget_alert_rule.test_alert_rule.id
 }
 
-output "alert_rules" {
-  value = data.oci_budget_alert_rules.test_alert_rules.alert_rules
+data "oci_budget_alert_rules" "test_alert_rules" {
+  #Required
+  budget_id = oci_budget_budget.test_budget.id
+
+  #Optional
+  //  display_name = oci_budget_alert_rule.test_alert_rule.display_name
+  state = "ACTIVE"
 }
+
 
