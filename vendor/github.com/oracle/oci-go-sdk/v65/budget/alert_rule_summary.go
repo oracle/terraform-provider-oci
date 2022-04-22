@@ -18,20 +18,20 @@ import (
 // AlertRuleSummary The alert rule.
 type AlertRuleSummary struct {
 
-	// The OCID of the alert rule
+	// The OCID of the alert rule.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the budget
+	// The OCID of the budget.
 	BudgetId *string `mandatory:"true" json:"budgetId"`
 
-	// The name of the alert rule.
+	// The name of the alert rule. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// ACTUAL means the alert will trigger based on actual usage.
-	// FORECAST means the alert will trigger based on predicted usage.
+	// ACTUAL means the alert triggers based on actual usage.
+	// FORECAST means the alert triggers based on predicted usage.
 	Type AlertTypeEnum `mandatory:"true" json:"type"`
 
-	// The threshold for triggering the alert. If thresholdType is PERCENTAGE, the maximum value is 10000.
+	// The threshold for triggering the alert. If the thresholdType is PERCENTAGE, the maximum value is 10000.
 	Threshold *float32 `mandatory:"true" json:"threshold"`
 
 	// The type of threshold.
@@ -40,22 +40,22 @@ type AlertRuleSummary struct {
 	// The current state of the alert rule.
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The audience that will receive the alert when it triggers.
+	// The audience that receives the alert when it triggers.
 	Recipients *string `mandatory:"true" json:"recipients"`
 
-	// Time when budget was created
+	// The time when the budget was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// Time when budget was updated
+	// The time when the budget was updated.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// Custom message that will be sent when alert is triggered
+	// The custom message that will be sent when the alert is triggered.
 	Message *string `mandatory:"false" json:"message"`
 
 	// The description of the alert rule.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Version of the alert rule. Starts from 1 and increments by 1.
+	// The version of the alert rule. Starts from 1 and increments by 1.
 	Version *int `mandatory:"false" json:"version"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

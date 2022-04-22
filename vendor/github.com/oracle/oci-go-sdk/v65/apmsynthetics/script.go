@@ -4,7 +4,7 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
@@ -39,7 +39,7 @@ type Script struct {
 	// Note that the content is valid if it matches the given content type. For example, if the content type is SIDE, then the content should be in Side script format. If the content type is JS, then the content should be in JavaScript format.
 	Content *string `mandatory:"false" json:"content"`
 
-	// The time when the script was uploaded.
+	// The time the script was uploaded.
 	TimeUploaded *common.SDKTime `mandatory:"false" json:"timeUploaded"`
 
 	// Size of the script content.

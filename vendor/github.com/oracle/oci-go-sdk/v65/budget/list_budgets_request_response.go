@@ -38,11 +38,11 @@ type ListBudgetsRequest struct {
 	// The current state of the resource to filter by.
 	LifecycleState ListBudgetsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// A user-friendly name. This does not have to be unique, and it's changeable.
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// The type of target to filter by.
+	// The type of target to filter by:
 	//   * ALL - List all budgets
 	//   * COMPARTMENT - List all budgets with targetType == "COMPARTMENT"
 	//   * TAG - List all budgets with targetType == "TAG"
@@ -120,8 +120,8 @@ type ListBudgetsResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// For pagination of a list of `Budget`s. If this header appears in the response, then this
-	// is a partial list of Budgets. Include this value as the `page` parameter in a subsequent
-	// GET request to get the next batch of Budgets.
+	// is a partial list of budgets. Include this value as the `page` parameter in a subsequent
+	// GET request to get the next batch of budgets.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

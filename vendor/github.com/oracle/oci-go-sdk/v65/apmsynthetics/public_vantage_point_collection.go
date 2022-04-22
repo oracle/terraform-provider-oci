@@ -4,7 +4,7 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics

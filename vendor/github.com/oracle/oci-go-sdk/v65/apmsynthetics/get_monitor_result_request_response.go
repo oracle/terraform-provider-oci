@@ -27,10 +27,10 @@ type GetMonitorResultRequest struct {
 	// The vantagePoint name.
 	VantagePoint *string `mandatory:"true" contributesTo:"query" name:"vantagePoint"`
 
-	// The result type har, screenshot, log or network.
+	// The result type: har, screenshot, log, or network.
 	ResultType *string `mandatory:"true" contributesTo:"query" name:"resultType"`
 
-	// The result content type zip or raw.
+	// The result content type: zip or raw.
 	ResultContentType *string `mandatory:"true" contributesTo:"query" name:"resultContentType"`
 
 	// The time the object was posted.

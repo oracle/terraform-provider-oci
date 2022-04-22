@@ -20,7 +20,8 @@ import (
 	"strings"
 )
 
-// IntelSkylakeBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance with the Intel Skylake platform.
+// IntelSkylakeBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance with an Intel X7-based processor
+// (the Intel Skylake platform).
 type IntelSkylakeBmLaunchInstancePlatformConfig struct {
 
 	// Whether Secure Boot is enabled on the instance.

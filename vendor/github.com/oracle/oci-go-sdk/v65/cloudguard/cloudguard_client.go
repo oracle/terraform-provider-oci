@@ -2,10 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Cloud Guard API
+// Cloud Guard and Security Zones API
 //
-// Use the Cloud Guard API to automate processes that you would otherwise perform through the Cloud Guard Console.
-// **Note:** You can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
+// Use the Cloud Guard and Security Zones API to automate processes that you would otherwise perform through the Cloud Guard Console or the Security Zones Console. For more information on these services, see the Cloud Guard (https://docs.cloud.oracle.com/iaas/cloud-guard/home.htm) and Security Zones (https://docs.cloud.oracle.com/iaas/security-zone/home.htm) documentation.
+// **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations in Cloud Guard from any region.
 //
 
 package cloudguard
@@ -88,6 +88,68 @@ func (client *CloudGuardClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
+// AddCompartment Add an existing compartment to a security zone. If you previously removed a subcompartment from a security zone, you can add it back to the same security zone. The security zone ensures that resources in the subcompartment comply with the security zone's policies.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/AddCompartment.go.html to see an example of how to use AddCompartment API.
+func (client CloudGuardClient) AddCompartment(ctx context.Context, request AddCompartmentRequest) (response AddCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddCompartmentResponse")
+	}
+	return
+}
+
+// addCompartment implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) addCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityZones/{securityZoneId}/actions/addCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "AddCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeDetectorRecipeCompartment Moves the DetectorRecipe from current compartment to another.
 //
 // See also
@@ -141,7 +203,7 @@ func (client CloudGuardClient) changeDetectorRecipeCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipe/ChangeDetectorRecipeCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ChangeDetectorRecipeCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -203,7 +265,7 @@ func (client CloudGuardClient) changeManagedListCompartment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedList/ChangeManagedListCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ChangeManagedListCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -265,8 +327,132 @@ func (client CloudGuardClient) changeResponderRecipeCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipe/ChangeResponderRecipeCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ChangeResponderRecipeCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeSecurityRecipeCompartment Moves a security zone recipe to a different compartment. When provided, `If-Match` is checked against `ETag` values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ChangeSecurityRecipeCompartment.go.html to see an example of how to use ChangeSecurityRecipeCompartment API.
+func (client CloudGuardClient) ChangeSecurityRecipeCompartment(ctx context.Context, request ChangeSecurityRecipeCompartmentRequest) (response ChangeSecurityRecipeCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSecurityRecipeCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSecurityRecipeCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSecurityRecipeCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSecurityRecipeCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSecurityRecipeCompartmentResponse")
+	}
+	return
+}
+
+// changeSecurityRecipeCompartment implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) changeSecurityRecipeCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityRecipes/{securityRecipeId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSecurityRecipeCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "ChangeSecurityRecipeCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeSecurityZoneCompartment Moves a security zone to a different compartment. When provided, `If-Match` is checked against `ETag` values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ChangeSecurityZoneCompartment.go.html to see an example of how to use ChangeSecurityZoneCompartment API.
+func (client CloudGuardClient) ChangeSecurityZoneCompartment(ctx context.Context, request ChangeSecurityZoneCompartmentRequest) (response ChangeSecurityZoneCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSecurityZoneCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSecurityZoneCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSecurityZoneCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSecurityZoneCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSecurityZoneCompartmentResponse")
+	}
+	return
+}
+
+// changeSecurityZoneCompartment implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) changeSecurityZoneCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityZones/{securityZoneId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSecurityZoneCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "ChangeSecurityZoneCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -327,7 +513,7 @@ func (client CloudGuardClient) createDataMaskRule(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataMaskRule/CreateDataMaskRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateDataMaskRule", apiReferenceLink)
 		return response, err
 	}
@@ -389,7 +575,7 @@ func (client CloudGuardClient) createDetectorRecipe(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipe/CreateDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -451,7 +637,7 @@ func (client CloudGuardClient) createManagedList(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedList/CreateManagedList"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateManagedList", apiReferenceLink)
 		return response, err
 	}
@@ -513,8 +699,132 @@ func (client CloudGuardClient) createResponderRecipe(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipe/CreateResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateResponderRecipe", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateSecurityRecipe Creates a security zone recipe. A security zone recipe is a collection of security zone policies.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateSecurityRecipe.go.html to see an example of how to use CreateSecurityRecipe API.
+func (client CloudGuardClient) CreateSecurityRecipe(ctx context.Context, request CreateSecurityRecipeRequest) (response CreateSecurityRecipeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSecurityRecipe, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSecurityRecipeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSecurityRecipeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSecurityRecipeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSecurityRecipeResponse")
+	}
+	return
+}
+
+// createSecurityRecipe implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) createSecurityRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityRecipes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSecurityRecipeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "CreateSecurityRecipe", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateSecurityZone Creates a security zone for a compartment. A security zone enforces all security zone policies in a given security zone recipe. Any actions that violate a policy are denied. By default, any subcompartments are also in the same security zone.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateSecurityZone.go.html to see an example of how to use CreateSecurityZone API.
+func (client CloudGuardClient) CreateSecurityZone(ctx context.Context, request CreateSecurityZoneRequest) (response CreateSecurityZoneResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSecurityZone, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSecurityZoneResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSecurityZoneResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSecurityZoneResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSecurityZoneResponse")
+	}
+	return
+}
+
+// createSecurityZone implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) createSecurityZone(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityZones", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSecurityZoneResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "CreateSecurityZone", apiReferenceLink)
 		return response, err
 	}
 
@@ -575,7 +885,7 @@ func (client CloudGuardClient) createTarget(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Target/CreateTarget"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateTarget", apiReferenceLink)
 		return response, err
 	}
@@ -637,7 +947,7 @@ func (client CloudGuardClient) createTargetDetectorRecipe(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipe/CreateTargetDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateTargetDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -699,7 +1009,7 @@ func (client CloudGuardClient) createTargetResponderRecipe(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipe/CreateTargetResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateTargetResponderRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -756,7 +1066,7 @@ func (client CloudGuardClient) deleteDataMaskRule(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataMaskRule/DeleteDataMaskRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteDataMaskRule", apiReferenceLink)
 		return response, err
 	}
@@ -818,7 +1128,7 @@ func (client CloudGuardClient) deleteDetectorRecipe(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipe/DeleteDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -880,7 +1190,7 @@ func (client CloudGuardClient) deleteManagedList(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedList/DeleteManagedList"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteManagedList", apiReferenceLink)
 		return response, err
 	}
@@ -937,8 +1247,122 @@ func (client CloudGuardClient) deleteResponderRecipe(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipe/DeleteResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteResponderRecipe", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSecurityRecipe Deletes a security zone recipe. The recipe can't be associated with an existing security zone.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteSecurityRecipe.go.html to see an example of how to use DeleteSecurityRecipe API.
+func (client CloudGuardClient) DeleteSecurityRecipe(ctx context.Context, request DeleteSecurityRecipeRequest) (response DeleteSecurityRecipeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSecurityRecipe, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSecurityRecipeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSecurityRecipeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSecurityRecipeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSecurityRecipeResponse")
+	}
+	return
+}
+
+// deleteSecurityRecipe implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) deleteSecurityRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/securityRecipes/{securityRecipeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSecurityRecipeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteSecurityRecipe", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSecurityZone Deletes an existing security zone with a given identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteSecurityZone.go.html to see an example of how to use DeleteSecurityZone API.
+func (client CloudGuardClient) DeleteSecurityZone(ctx context.Context, request DeleteSecurityZoneRequest) (response DeleteSecurityZoneResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSecurityZone, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSecurityZoneResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSecurityZoneResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSecurityZoneResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSecurityZoneResponse")
+	}
+	return
+}
+
+// deleteSecurityZone implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) deleteSecurityZone(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/securityZones/{securityZoneId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSecurityZoneResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteSecurityZone", apiReferenceLink)
 		return response, err
 	}
 
@@ -994,7 +1418,7 @@ func (client CloudGuardClient) deleteTarget(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Target/DeleteTarget"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteTarget", apiReferenceLink)
 		return response, err
 	}
@@ -1051,7 +1475,7 @@ func (client CloudGuardClient) deleteTargetDetectorRecipe(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipe/DeleteTargetDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteTargetDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -1108,7 +1532,7 @@ func (client CloudGuardClient) deleteTargetResponderRecipe(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipe/DeleteTargetResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteTargetResponderRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -1170,7 +1594,7 @@ func (client CloudGuardClient) executeResponderExecution(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecution/ExecuteResponderExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ExecuteResponderExecution", apiReferenceLink)
 		return response, err
 	}
@@ -1227,7 +1651,7 @@ func (client CloudGuardClient) getConditionMetadataType(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ConditionMetadataType/GetConditionMetadataType"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetConditionMetadataType", apiReferenceLink)
 		return response, err
 	}
@@ -1284,7 +1708,7 @@ func (client CloudGuardClient) getConfiguration(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Configuration/GetConfiguration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -1341,7 +1765,7 @@ func (client CloudGuardClient) getDataMaskRule(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataMaskRule/GetDataMaskRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetDataMaskRule", apiReferenceLink)
 		return response, err
 	}
@@ -1398,7 +1822,7 @@ func (client CloudGuardClient) getDetector(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Detector/GetDetector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetDetector", apiReferenceLink)
 		return response, err
 	}
@@ -1455,7 +1879,7 @@ func (client CloudGuardClient) getDetectorRecipe(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipe/GetDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -1512,7 +1936,7 @@ func (client CloudGuardClient) getDetectorRecipeDetectorRule(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRule/GetDetectorRecipeDetectorRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetDetectorRecipeDetectorRule", apiReferenceLink)
 		return response, err
 	}
@@ -1569,7 +1993,7 @@ func (client CloudGuardClient) getDetectorRule(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRule/GetDetectorRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetDetectorRule", apiReferenceLink)
 		return response, err
 	}
@@ -1626,7 +2050,7 @@ func (client CloudGuardClient) getManagedList(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedList/GetManagedList"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetManagedList", apiReferenceLink)
 		return response, err
 	}
@@ -1683,7 +2107,7 @@ func (client CloudGuardClient) getProblem(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Problem/GetProblem"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetProblem", apiReferenceLink)
 		return response, err
 	}
@@ -1740,7 +2164,7 @@ func (client CloudGuardClient) getResourceProfile(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceProfile/GetResourceProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetResourceProfile", apiReferenceLink)
 		return response, err
 	}
@@ -1797,7 +2221,7 @@ func (client CloudGuardClient) getResponderExecution(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecution/GetResponderExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetResponderExecution", apiReferenceLink)
 		return response, err
 	}
@@ -1854,7 +2278,7 @@ func (client CloudGuardClient) getResponderRecipe(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipe/GetResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetResponderRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -1911,7 +2335,7 @@ func (client CloudGuardClient) getResponderRecipeResponderRule(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipeResponderRule/GetResponderRecipeResponderRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetResponderRecipeResponderRule", apiReferenceLink)
 		return response, err
 	}
@@ -1968,8 +2392,179 @@ func (client CloudGuardClient) getResponderRule(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRule/GetResponderRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetResponderRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSecurityPolicy Gets a security zone policy using its identifier. When a policy is enabled in a security zone, then any action in the zone that attempts to violate that policy is denied.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetSecurityPolicy.go.html to see an example of how to use GetSecurityPolicy API.
+func (client CloudGuardClient) GetSecurityPolicy(ctx context.Context, request GetSecurityPolicyRequest) (response GetSecurityPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSecurityPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSecurityPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSecurityPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSecurityPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSecurityPolicyResponse")
+	}
+	return
+}
+
+// getSecurityPolicy implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) getSecurityPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityPolicies/{securityPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSecurityPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "GetSecurityPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSecurityRecipe Gets a security zone recipe by identifier. A security zone recipe is a collection of security zone policies.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetSecurityRecipe.go.html to see an example of how to use GetSecurityRecipe API.
+func (client CloudGuardClient) GetSecurityRecipe(ctx context.Context, request GetSecurityRecipeRequest) (response GetSecurityRecipeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSecurityRecipe, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSecurityRecipeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSecurityRecipeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSecurityRecipeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSecurityRecipeResponse")
+	}
+	return
+}
+
+// getSecurityRecipe implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) getSecurityRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityRecipes/{securityRecipeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSecurityRecipeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "GetSecurityRecipe", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSecurityZone Gets a security zone by its identifier. A security zone is associated with a security zone recipe and enforces all security zone policies in the recipe. Any actions in the zone's compartments that violate a policy are denied.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetSecurityZone.go.html to see an example of how to use GetSecurityZone API.
+func (client CloudGuardClient) GetSecurityZone(ctx context.Context, request GetSecurityZoneRequest) (response GetSecurityZoneResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSecurityZone, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSecurityZoneResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSecurityZoneResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSecurityZoneResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSecurityZoneResponse")
+	}
+	return
+}
+
+// getSecurityZone implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) getSecurityZone(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityZones/{securityZoneId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSecurityZoneResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "GetSecurityZone", apiReferenceLink)
 		return response, err
 	}
 
@@ -2025,7 +2620,7 @@ func (client CloudGuardClient) getSighting(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Sighting/GetSighting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetSighting", apiReferenceLink)
 		return response, err
 	}
@@ -2082,7 +2677,7 @@ func (client CloudGuardClient) getTarget(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Target/GetTarget"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetTarget", apiReferenceLink)
 		return response, err
 	}
@@ -2139,7 +2734,7 @@ func (client CloudGuardClient) getTargetDetectorRecipe(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipe/GetTargetDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetTargetDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -2196,7 +2791,7 @@ func (client CloudGuardClient) getTargetDetectorRecipeDetectorRule(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipeDetectorRule/GetTargetDetectorRecipeDetectorRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetTargetDetectorRecipeDetectorRule", apiReferenceLink)
 		return response, err
 	}
@@ -2253,7 +2848,7 @@ func (client CloudGuardClient) getTargetResponderRecipe(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipe/GetTargetResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetTargetResponderRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -2310,7 +2905,7 @@ func (client CloudGuardClient) getTargetResponderRecipeResponderRule(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipeResponderRule/GetTargetResponderRecipeResponderRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetTargetResponderRecipeResponderRule", apiReferenceLink)
 		return response, err
 	}
@@ -2367,7 +2962,7 @@ func (client CloudGuardClient) listConditionMetadataTypes(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ConditionMetadataType/ListConditionMetadataTypes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListConditionMetadataTypes", apiReferenceLink)
 		return response, err
 	}
@@ -2424,7 +3019,7 @@ func (client CloudGuardClient) listDataMaskRules(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataMaskRule/ListDataMaskRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListDataMaskRules", apiReferenceLink)
 		return response, err
 	}
@@ -2481,7 +3076,7 @@ func (client CloudGuardClient) listDetectorRecipeDetectorRules(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRule/ListDetectorRecipeDetectorRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListDetectorRecipeDetectorRules", apiReferenceLink)
 		return response, err
 	}
@@ -2549,7 +3144,7 @@ func (client CloudGuardClient) listDetectorRecipes(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipe/ListDetectorRecipes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListDetectorRecipes", apiReferenceLink)
 		return response, err
 	}
@@ -2606,7 +3201,7 @@ func (client CloudGuardClient) listDetectorRules(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRule/ListDetectorRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListDetectorRules", apiReferenceLink)
 		return response, err
 	}
@@ -2663,7 +3258,7 @@ func (client CloudGuardClient) listDetectors(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Detector/ListDetectors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListDetectors", apiReferenceLink)
 		return response, err
 	}
@@ -2720,7 +3315,7 @@ func (client CloudGuardClient) listImpactedResources(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ImpactedResourceSummary/ListImpactedResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListImpactedResources", apiReferenceLink)
 		return response, err
 	}
@@ -2777,7 +3372,7 @@ func (client CloudGuardClient) listManagedListTypes(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedListTypeSummary/ListManagedListTypes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListManagedListTypes", apiReferenceLink)
 		return response, err
 	}
@@ -2845,7 +3440,7 @@ func (client CloudGuardClient) listManagedLists(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedList/ListManagedLists"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListManagedLists", apiReferenceLink)
 		return response, err
 	}
@@ -2902,7 +3497,7 @@ func (client CloudGuardClient) listPolicies(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/PolicySummary/ListPolicies"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -2959,7 +3554,7 @@ func (client CloudGuardClient) listProblemEndpoints(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ProblemEndpointSummary/ListProblemEndpoints"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListProblemEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -3016,7 +3611,7 @@ func (client CloudGuardClient) listProblemHistories(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Problem/ListProblemHistories"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListProblemHistories", apiReferenceLink)
 		return response, err
 	}
@@ -3084,7 +3679,7 @@ func (client CloudGuardClient) listProblems(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Problem/ListProblems"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListProblems", apiReferenceLink)
 		return response, err
 	}
@@ -3141,7 +3736,7 @@ func (client CloudGuardClient) listRecommendations(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/RecommendationSummary/ListRecommendations"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListRecommendations", apiReferenceLink)
 		return response, err
 	}
@@ -3198,7 +3793,7 @@ func (client CloudGuardClient) listResourceProfileEndpoints(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceProfileEndpointSummary/ListResourceProfileEndpoints"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResourceProfileEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -3255,7 +3850,7 @@ func (client CloudGuardClient) listResourceProfileImpactedResources(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceProfileImpactedResourceSummary/ListResourceProfileImpactedResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResourceProfileImpactedResources", apiReferenceLink)
 		return response, err
 	}
@@ -3323,7 +3918,7 @@ func (client CloudGuardClient) listResourceProfiles(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceProfileSummary/ListResourceProfiles"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResourceProfiles", apiReferenceLink)
 		return response, err
 	}
@@ -3380,7 +3975,7 @@ func (client CloudGuardClient) listResourceTypes(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceTypeSummary/ListResourceTypes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResourceTypes", apiReferenceLink)
 		return response, err
 	}
@@ -3437,7 +4032,7 @@ func (client CloudGuardClient) listResponderActivities(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderActivitySummary/ListResponderActivities"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResponderActivities", apiReferenceLink)
 		return response, err
 	}
@@ -3494,7 +4089,7 @@ func (client CloudGuardClient) listResponderExecutions(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecutionSummary/ListResponderExecutions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResponderExecutions", apiReferenceLink)
 		return response, err
 	}
@@ -3551,7 +4146,7 @@ func (client CloudGuardClient) listResponderRecipeResponderRules(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipeResponderRule/ListResponderRecipeResponderRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResponderRecipeResponderRules", apiReferenceLink)
 		return response, err
 	}
@@ -3619,7 +4214,7 @@ func (client CloudGuardClient) listResponderRecipes(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipe/ListResponderRecipes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResponderRecipes", apiReferenceLink)
 		return response, err
 	}
@@ -3676,8 +4271,179 @@ func (client CloudGuardClient) listResponderRules(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRule/ListResponderRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResponderRules", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSecurityPolicies Returns a list of security zone policies. Specify any compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListSecurityPolicies.go.html to see an example of how to use ListSecurityPolicies API.
+func (client CloudGuardClient) ListSecurityPolicies(ctx context.Context, request ListSecurityPoliciesRequest) (response ListSecurityPoliciesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSecurityPolicies, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSecurityPoliciesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSecurityPoliciesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSecurityPoliciesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSecurityPoliciesResponse")
+	}
+	return
+}
+
+// listSecurityPolicies implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listSecurityPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityPolicies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSecurityPoliciesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListSecurityPolicies", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSecurityRecipes Gets a list of all security zone recipes in a compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListSecurityRecipes.go.html to see an example of how to use ListSecurityRecipes API.
+func (client CloudGuardClient) ListSecurityRecipes(ctx context.Context, request ListSecurityRecipesRequest) (response ListSecurityRecipesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSecurityRecipes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSecurityRecipesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSecurityRecipesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSecurityRecipesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSecurityRecipesResponse")
+	}
+	return
+}
+
+// listSecurityRecipes implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listSecurityRecipes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityRecipes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSecurityRecipesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListSecurityRecipes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSecurityZones Gets a list of all security zones in a compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListSecurityZones.go.html to see an example of how to use ListSecurityZones API.
+func (client CloudGuardClient) ListSecurityZones(ctx context.Context, request ListSecurityZonesRequest) (response ListSecurityZonesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSecurityZones, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSecurityZonesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSecurityZonesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSecurityZonesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSecurityZonesResponse")
+	}
+	return
+}
+
+// listSecurityZones implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listSecurityZones(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityZones", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSecurityZonesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListSecurityZones", apiReferenceLink)
 		return response, err
 	}
 
@@ -3733,7 +4499,7 @@ func (client CloudGuardClient) listSightingEndpoints(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SightingEndpointSummary/ListSightingEndpoints"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListSightingEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -3790,7 +4556,7 @@ func (client CloudGuardClient) listSightingImpactedResources(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SightingImpactedResourceSummary/ListSightingImpactedResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListSightingImpactedResources", apiReferenceLink)
 		return response, err
 	}
@@ -3857,7 +4623,7 @@ func (client CloudGuardClient) listSightings(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SightingSummary/ListSightings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListSightings", apiReferenceLink)
 		return response, err
 	}
@@ -3914,7 +4680,7 @@ func (client CloudGuardClient) listTactics(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TacticSummary/ListTactics"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListTactics", apiReferenceLink)
 		return response, err
 	}
@@ -3971,7 +4737,7 @@ func (client CloudGuardClient) listTargetDetectorRecipeDetectorRules(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipeDetectorRule/ListTargetDetectorRecipeDetectorRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListTargetDetectorRecipeDetectorRules", apiReferenceLink)
 		return response, err
 	}
@@ -4028,7 +4794,7 @@ func (client CloudGuardClient) listTargetDetectorRecipes(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipe/ListTargetDetectorRecipes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListTargetDetectorRecipes", apiReferenceLink)
 		return response, err
 	}
@@ -4085,7 +4851,7 @@ func (client CloudGuardClient) listTargetResponderRecipeResponderRules(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipeResponderRule/ListTargetResponderRecipeResponderRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListTargetResponderRecipeResponderRules", apiReferenceLink)
 		return response, err
 	}
@@ -4142,7 +4908,7 @@ func (client CloudGuardClient) listTargetResponderRecipes(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipe/ListTargetResponderRecipes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListTargetResponderRecipes", apiReferenceLink)
 		return response, err
 	}
@@ -4210,7 +4976,7 @@ func (client CloudGuardClient) listTargets(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Target/ListTargets"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListTargets", apiReferenceLink)
 		return response, err
 	}
@@ -4267,8 +5033,70 @@ func (client CloudGuardClient) listTechniques(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TechniqueSummary/ListTechniques"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListTechniques", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveCompartment Removes an existing compartment from a security zone. When you remove a subcompartment from a security zone, it no longer enforces security zone policies on the resources in the subcompartment. You can't remove the primary compartment that was used to create the security zone.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RemoveCompartment.go.html to see an example of how to use RemoveCompartment API.
+func (client CloudGuardClient) RemoveCompartment(ctx context.Context, request RemoveCompartmentRequest) (response RemoveCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveCompartmentResponse")
+	}
+	return
+}
+
+// removeCompartment implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) removeCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityZones/{securityZoneId}/actions/removeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "RemoveCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -4324,7 +5152,7 @@ func (client CloudGuardClient) requestRiskScores(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/RiskScoreAggregation/RequestRiskScores"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestRiskScores", apiReferenceLink)
 		return response, err
 	}
@@ -4382,7 +5210,7 @@ func (client CloudGuardClient) requestSecurityScoreSummarizedTrend(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityScoreTrendAggregation/RequestSecurityScoreSummarizedTrend"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSecurityScoreSummarizedTrend", apiReferenceLink)
 		return response, err
 	}
@@ -4439,7 +5267,7 @@ func (client CloudGuardClient) requestSecurityScores(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityScoreAggregation/RequestSecurityScores"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSecurityScores", apiReferenceLink)
 		return response, err
 	}
@@ -4507,7 +5335,7 @@ func (client CloudGuardClient) requestSummarizedActivityProblems(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ActivityProblemAggregation/RequestSummarizedActivityProblems"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedActivityProblems", apiReferenceLink)
 		return response, err
 	}
@@ -4573,7 +5401,7 @@ func (client CloudGuardClient) requestSummarizedProblems(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ProblemAggregation/RequestSummarizedProblems"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedProblems", apiReferenceLink)
 		return response, err
 	}
@@ -4639,7 +5467,7 @@ func (client CloudGuardClient) requestSummarizedResponderExecutions(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecutionAggregation/RequestSummarizedResponderExecutions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedResponderExecutions", apiReferenceLink)
 		return response, err
 	}
@@ -4696,7 +5524,7 @@ func (client CloudGuardClient) requestSummarizedRiskScores(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/RiskScoreAggregation/RequestSummarizedRiskScores"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedRiskScores", apiReferenceLink)
 		return response, err
 	}
@@ -4753,7 +5581,7 @@ func (client CloudGuardClient) requestSummarizedSecurityScores(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityScoreAggregation/RequestSummarizedSecurityScores"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedSecurityScores", apiReferenceLink)
 		return response, err
 	}
@@ -4810,7 +5638,7 @@ func (client CloudGuardClient) requestSummarizedTopTrendResourceProfileRiskScore
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceProfileRiskScoreAggregationSummary/RequestSummarizedTopTrendResourceProfileRiskScores"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedTopTrendResourceProfileRiskScores", apiReferenceLink)
 		return response, err
 	}
@@ -4876,7 +5704,7 @@ func (client CloudGuardClient) requestSummarizedTrendProblems(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ProblemTrendAggregation/RequestSummarizedTrendProblems"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedTrendProblems", apiReferenceLink)
 		return response, err
 	}
@@ -4933,7 +5761,7 @@ func (client CloudGuardClient) requestSummarizedTrendResourceRiskScores(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceRiskScoreAggregation/RequestSummarizedTrendResourceRiskScores"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedTrendResourceRiskScores", apiReferenceLink)
 		return response, err
 	}
@@ -4999,7 +5827,7 @@ func (client CloudGuardClient) requestSummarizedTrendResponderExecutions(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecutionTrendAggregation/RequestSummarizedTrendResponderExecutions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedTrendResponderExecutions", apiReferenceLink)
 		return response, err
 	}
@@ -5056,7 +5884,7 @@ func (client CloudGuardClient) requestSummarizedTrendSecurityScores(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityScoreTrendAggregation/RequestSummarizedTrendSecurityScores"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedTrendSecurityScores", apiReferenceLink)
 		return response, err
 	}
@@ -5114,7 +5942,7 @@ func (client CloudGuardClient) skipBulkResponderExecution(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecution/SkipBulkResponderExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "SkipBulkResponderExecution", apiReferenceLink)
 		return response, err
 	}
@@ -5176,7 +6004,7 @@ func (client CloudGuardClient) skipResponderExecution(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecution/SkipResponderExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "SkipResponderExecution", apiReferenceLink)
 		return response, err
 	}
@@ -5238,7 +6066,7 @@ func (client CloudGuardClient) triggerResponder(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Problem/TriggerResponder"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "TriggerResponder", apiReferenceLink)
 		return response, err
 	}
@@ -5296,7 +6124,7 @@ func (client CloudGuardClient) updateBulkProblemStatus(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Problem/UpdateBulkProblemStatus"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateBulkProblemStatus", apiReferenceLink)
 		return response, err
 	}
@@ -5358,7 +6186,7 @@ func (client CloudGuardClient) updateConfiguration(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Configuration/UpdateConfiguration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -5415,7 +6243,7 @@ func (client CloudGuardClient) updateDataMaskRule(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataMaskRule/UpdateDataMaskRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateDataMaskRule", apiReferenceLink)
 		return response, err
 	}
@@ -5477,7 +6305,7 @@ func (client CloudGuardClient) updateDetectorRecipe(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipe/UpdateDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -5534,7 +6362,7 @@ func (client CloudGuardClient) updateDetectorRecipeDetectorRule(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRule/UpdateDetectorRecipeDetectorRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateDetectorRecipeDetectorRule", apiReferenceLink)
 		return response, err
 	}
@@ -5596,7 +6424,7 @@ func (client CloudGuardClient) updateManagedList(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedList/UpdateManagedList"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateManagedList", apiReferenceLink)
 		return response, err
 	}
@@ -5658,7 +6486,7 @@ func (client CloudGuardClient) updateProblemStatus(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Problem/UpdateProblemStatus"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateProblemStatus", apiReferenceLink)
 		return response, err
 	}
@@ -5715,7 +6543,7 @@ func (client CloudGuardClient) updateResponderRecipe(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipe/UpdateResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateResponderRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -5772,8 +6600,122 @@ func (client CloudGuardClient) updateResponderRecipeResponderRule(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipeResponderRule/UpdateResponderRecipeResponderRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateResponderRecipeResponderRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateSecurityRecipe Updates a security zone recipe. A security zone recipe is a collection of security zone policies.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateSecurityRecipe.go.html to see an example of how to use UpdateSecurityRecipe API.
+func (client CloudGuardClient) UpdateSecurityRecipe(ctx context.Context, request UpdateSecurityRecipeRequest) (response UpdateSecurityRecipeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSecurityRecipe, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSecurityRecipeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSecurityRecipeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSecurityRecipeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSecurityRecipeResponse")
+	}
+	return
+}
+
+// updateSecurityRecipe implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) updateSecurityRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/securityRecipes/{securityRecipeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSecurityRecipeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateSecurityRecipe", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateSecurityZone Updates the security zone identified by its id
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateSecurityZone.go.html to see an example of how to use UpdateSecurityZone API.
+func (client CloudGuardClient) UpdateSecurityZone(ctx context.Context, request UpdateSecurityZoneRequest) (response UpdateSecurityZoneResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSecurityZone, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSecurityZoneResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSecurityZoneResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSecurityZoneResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSecurityZoneResponse")
+	}
+	return
+}
+
+// updateSecurityZone implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) updateSecurityZone(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/securityZones/{securityZoneId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSecurityZoneResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateSecurityZone", apiReferenceLink)
 		return response, err
 	}
 
@@ -5829,7 +6771,7 @@ func (client CloudGuardClient) updateTarget(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Target/UpdateTarget"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateTarget", apiReferenceLink)
 		return response, err
 	}
@@ -5886,7 +6828,7 @@ func (client CloudGuardClient) updateTargetDetectorRecipe(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipe/UpdateTargetDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateTargetDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -5943,7 +6885,7 @@ func (client CloudGuardClient) updateTargetDetectorRecipeDetectorRule(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipeDetectorRule/UpdateTargetDetectorRecipeDetectorRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateTargetDetectorRecipeDetectorRule", apiReferenceLink)
 		return response, err
 	}
@@ -6000,7 +6942,7 @@ func (client CloudGuardClient) updateTargetResponderRecipe(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipe/UpdateTargetResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateTargetResponderRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -6057,7 +6999,7 @@ func (client CloudGuardClient) updateTargetResponderRecipeResponderRule(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipeResponderRule/UpdateTargetResponderRecipeResponderRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateTargetResponderRecipeResponderRule", apiReferenceLink)
 		return response, err
 	}

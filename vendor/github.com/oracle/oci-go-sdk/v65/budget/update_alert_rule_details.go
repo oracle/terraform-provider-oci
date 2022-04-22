@@ -18,28 +18,28 @@ import (
 // UpdateAlertRuleDetails The update alert rule details.
 type UpdateAlertRuleDetails struct {
 
-	// The name of the alert rule.
+	// The name of the alert rule. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Type of alert. Valid values are ACTUAL (the alert will trigger based on actual usage) or
-	// FORECAST (the alert will trigger based on predicted usage).
+	// The type of the alert. Valid values are ACTUAL (the alert triggers based on actual usage), or
+	// FORECAST (the alert triggers based on predicted usage).
 	Type AlertTypeEnum `mandatory:"false" json:"type,omitempty"`
 
-	// The threshold for triggering the alert expressed as a whole number or decimal value.
-	// If thresholdType is ABSOLUTE, threshold can have at most 12 digits before the decimal point and up to 2 digits after the decimal point.
-	// If thresholdType is PERCENTAGE, the maximum value is 10000 and can have up to 2 digits after the decimal point.
+	// The threshold for triggering the alert, expressed as a whole number or decimal value.
+	// If the thresholdType is ABSOLUTE, the threshold can have at most 12 digits before the decimal point, and up to two digits after the decimal point.
+	// If the thresholdType is PERCENTAGE, the maximum value is 10000 and can have up to two digits after the decimal point.
 	Threshold *float32 `mandatory:"false" json:"threshold"`
 
 	// The type of threshold.
 	ThresholdType ThresholdTypeEnum `mandatory:"false" json:"thresholdType,omitempty"`
 
-	// The audience that will receive the alert when it triggers. If you need to clear out this value, please pass in an empty string instead of null.
+	// The audience that receives the alert when it triggers. If you need to clear out this value, pass in an empty string instead of a null value.
 	Recipients *string `mandatory:"false" json:"recipients"`
 
-	// The description of the alert rule
+	// The description of the alert rule.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The message to be delivered to the recipients when alert is triggered
+	// The message to be delivered to the recipients when an alert is triggered.
 	Message *string `mandatory:"false" json:"message"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

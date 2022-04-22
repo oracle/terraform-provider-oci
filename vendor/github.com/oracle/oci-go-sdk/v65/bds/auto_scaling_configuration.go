@@ -10,6 +10,7 @@
 package bds
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -24,7 +25,7 @@ type AutoScalingConfiguration struct {
 	// A user-friendly name. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// A node type that is managed by an autoscale configuration. The only supported type is WORKER.
+	// A node type that is managed by an autoscale configuration. The only supported types are WORKER and COMPUTE_ONLY_WORKER.
 	NodeType NodeNodeTypeEnum `mandatory:"true" json:"nodeType"`
 
 	// The state of the autoscale configuration.
@@ -37,6 +38,8 @@ type AutoScalingConfiguration struct {
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	Policy *AutoScalePolicy `mandatory:"true" json:"policy"`
+
+	PolicyDetails AutoScalePolicyDetails `mandatory:"false" json:"policyDetails"`
 }
 
 func (m AutoScalingConfiguration) String() string {
@@ -61,6 +64,51 @@ func (m AutoScalingConfiguration) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
+// UnmarshalJSON unmarshals from json
+func (m *AutoScalingConfiguration) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		PolicyDetails  autoscalepolicydetails                     `json:"policyDetails"`
+		Id             *string                                    `json:"id"`
+		DisplayName    *string                                    `json:"displayName"`
+		NodeType       NodeNodeTypeEnum                           `json:"nodeType"`
+		LifecycleState AutoScalingConfigurationLifecycleStateEnum `json:"lifecycleState"`
+		TimeCreated    *common.SDKTime                            `json:"timeCreated"`
+		TimeUpdated    *common.SDKTime                            `json:"timeUpdated"`
+		Policy         *AutoScalePolicy                           `json:"policy"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	nn, e = model.PolicyDetails.UnmarshalPolymorphicJSON(model.PolicyDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PolicyDetails = nn.(AutoScalePolicyDetails)
+	} else {
+		m.PolicyDetails = nil
+	}
+
+	m.Id = model.Id
+
+	m.DisplayName = model.DisplayName
+
+	m.NodeType = model.NodeType
+
+	m.LifecycleState = model.LifecycleState
+
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.Policy = model.Policy
+
+	return
+}
+
 // AutoScalingConfigurationLifecycleStateEnum Enum with underlying type: string
 type AutoScalingConfigurationLifecycleStateEnum string
 
@@ -68,6 +116,7 @@ type AutoScalingConfigurationLifecycleStateEnum string
 const (
 	AutoScalingConfigurationLifecycleStateCreating AutoScalingConfigurationLifecycleStateEnum = "CREATING"
 	AutoScalingConfigurationLifecycleStateActive   AutoScalingConfigurationLifecycleStateEnum = "ACTIVE"
+	AutoScalingConfigurationLifecycleStateInactive AutoScalingConfigurationLifecycleStateEnum = "INACTIVE"
 	AutoScalingConfigurationLifecycleStateUpdating AutoScalingConfigurationLifecycleStateEnum = "UPDATING"
 	AutoScalingConfigurationLifecycleStateDeleting AutoScalingConfigurationLifecycleStateEnum = "DELETING"
 	AutoScalingConfigurationLifecycleStateDeleted  AutoScalingConfigurationLifecycleStateEnum = "DELETED"
@@ -77,6 +126,7 @@ const (
 var mappingAutoScalingConfigurationLifecycleStateEnum = map[string]AutoScalingConfigurationLifecycleStateEnum{
 	"CREATING": AutoScalingConfigurationLifecycleStateCreating,
 	"ACTIVE":   AutoScalingConfigurationLifecycleStateActive,
+	"INACTIVE": AutoScalingConfigurationLifecycleStateInactive,
 	"UPDATING": AutoScalingConfigurationLifecycleStateUpdating,
 	"DELETING": AutoScalingConfigurationLifecycleStateDeleting,
 	"DELETED":  AutoScalingConfigurationLifecycleStateDeleted,
@@ -86,6 +136,7 @@ var mappingAutoScalingConfigurationLifecycleStateEnum = map[string]AutoScalingCo
 var mappingAutoScalingConfigurationLifecycleStateEnumLowerCase = map[string]AutoScalingConfigurationLifecycleStateEnum{
 	"creating": AutoScalingConfigurationLifecycleStateCreating,
 	"active":   AutoScalingConfigurationLifecycleStateActive,
+	"inactive": AutoScalingConfigurationLifecycleStateInactive,
 	"updating": AutoScalingConfigurationLifecycleStateUpdating,
 	"deleting": AutoScalingConfigurationLifecycleStateDeleting,
 	"deleted":  AutoScalingConfigurationLifecycleStateDeleted,
@@ -106,6 +157,7 @@ func GetAutoScalingConfigurationLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
+		"INACTIVE",
 		"UPDATING",
 		"DELETING",
 		"DELETED",

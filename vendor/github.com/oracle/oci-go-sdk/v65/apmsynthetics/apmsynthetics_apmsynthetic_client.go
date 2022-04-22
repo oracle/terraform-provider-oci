@@ -4,7 +4,7 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
@@ -87,14 +87,78 @@ func (client *ApmSyntheticClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
+// CreateDedicatedVantagePoint Registers a new dedicated vantage point.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateDedicatedVantagePoint.go.html to see an example of how to use CreateDedicatedVantagePoint API.
+// A default retry strategy applies to this operation CreateDedicatedVantagePoint()
+func (client ApmSyntheticClient) CreateDedicatedVantagePoint(ctx context.Context, request CreateDedicatedVantagePointRequest) (response CreateDedicatedVantagePointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDedicatedVantagePoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDedicatedVantagePointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDedicatedVantagePointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDedicatedVantagePointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDedicatedVantagePointResponse")
+	}
+	return
+}
+
+// createDedicatedVantagePoint implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) createDedicatedVantagePoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dedicatedVantagePoints", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDedicatedVantagePointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/DedicatedVantagePoint/CreateDedicatedVantagePoint"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "CreateDedicatedVantagePoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateMonitor Creates a new monitor.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateMonitor.go.html to see an example of how to use CreateMonitor API.
+// A default retry strategy applies to this operation CreateMonitor()
 func (client ApmSyntheticClient) CreateMonitor(ctx context.Context, request CreateMonitorRequest) (response CreateMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -154,9 +218,10 @@ func (client ApmSyntheticClient) createMonitor(ctx context.Context, request comm
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateScript.go.html to see an example of how to use CreateScript API.
+// A default retry strategy applies to this operation CreateScript()
 func (client ApmSyntheticClient) CreateScript(ctx context.Context, request CreateScriptRequest) (response CreateScriptResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -211,14 +276,73 @@ func (client ApmSyntheticClient) createScript(ctx context.Context, request commo
 	return response, err
 }
 
+// DeleteDedicatedVantagePoint Deregisters the specified dedicated vantage point.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteDedicatedVantagePoint.go.html to see an example of how to use DeleteDedicatedVantagePoint API.
+// A default retry strategy applies to this operation DeleteDedicatedVantagePoint()
+func (client ApmSyntheticClient) DeleteDedicatedVantagePoint(ctx context.Context, request DeleteDedicatedVantagePointRequest) (response DeleteDedicatedVantagePointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDedicatedVantagePoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDedicatedVantagePointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDedicatedVantagePointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDedicatedVantagePointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDedicatedVantagePointResponse")
+	}
+	return
+}
+
+// deleteDedicatedVantagePoint implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) deleteDedicatedVantagePoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dedicatedVantagePoints/{dedicatedVantagePointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDedicatedVantagePointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/DedicatedVantagePoint/DeleteDedicatedVantagePoint"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "DeleteDedicatedVantagePoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteMonitor Deletes the specified monitor.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteMonitor.go.html to see an example of how to use DeleteMonitor API.
+// A default retry strategy applies to this operation DeleteMonitor()
 func (client ApmSyntheticClient) DeleteMonitor(ctx context.Context, request DeleteMonitorRequest) (response DeleteMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -273,9 +397,10 @@ func (client ApmSyntheticClient) deleteMonitor(ctx context.Context, request comm
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteScript.go.html to see an example of how to use DeleteScript API.
+// A default retry strategy applies to this operation DeleteScript()
 func (client ApmSyntheticClient) DeleteScript(ctx context.Context, request DeleteScriptRequest) (response DeleteScriptResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -325,14 +450,73 @@ func (client ApmSyntheticClient) deleteScript(ctx context.Context, request commo
 	return response, err
 }
 
+// GetDedicatedVantagePoint Gets the details of the dedicated vantage point identified by the OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetDedicatedVantagePoint.go.html to see an example of how to use GetDedicatedVantagePoint API.
+// A default retry strategy applies to this operation GetDedicatedVantagePoint()
+func (client ApmSyntheticClient) GetDedicatedVantagePoint(ctx context.Context, request GetDedicatedVantagePointRequest) (response GetDedicatedVantagePointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDedicatedVantagePoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDedicatedVantagePointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDedicatedVantagePointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDedicatedVantagePointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDedicatedVantagePointResponse")
+	}
+	return
+}
+
+// getDedicatedVantagePoint implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) getDedicatedVantagePoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVantagePoints/{dedicatedVantagePointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDedicatedVantagePointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/DedicatedVantagePoint/GetDedicatedVantagePoint"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "GetDedicatedVantagePoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetMonitor Gets the configuration of the monitor identified by the OCID.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetMonitor.go.html to see an example of how to use GetMonitor API.
+// A default retry strategy applies to this operation GetMonitor()
 func (client ApmSyntheticClient) GetMonitor(ctx context.Context, request GetMonitorRequest) (response GetMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -387,9 +571,10 @@ func (client ApmSyntheticClient) getMonitor(ctx context.Context, request common.
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetMonitorResult.go.html to see an example of how to use GetMonitorResult API.
+// A default retry strategy applies to this operation GetMonitorResult()
 func (client ApmSyntheticClient) GetMonitorResult(ctx context.Context, request GetMonitorResultRequest) (response GetMonitorResultResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -444,9 +629,10 @@ func (client ApmSyntheticClient) getMonitorResult(ctx context.Context, request c
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetScript.go.html to see an example of how to use GetScript API.
+// A default retry strategy applies to this operation GetScript()
 func (client ApmSyntheticClient) GetScript(ctx context.Context, request GetScriptRequest) (response GetScriptResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -496,14 +682,73 @@ func (client ApmSyntheticClient) getScript(ctx context.Context, request common.O
 	return response, err
 }
 
+// ListDedicatedVantagePoints Returns a list of dedicated vantage points.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListDedicatedVantagePoints.go.html to see an example of how to use ListDedicatedVantagePoints API.
+// A default retry strategy applies to this operation ListDedicatedVantagePoints()
+func (client ApmSyntheticClient) ListDedicatedVantagePoints(ctx context.Context, request ListDedicatedVantagePointsRequest) (response ListDedicatedVantagePointsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDedicatedVantagePoints, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDedicatedVantagePointsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDedicatedVantagePointsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDedicatedVantagePointsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDedicatedVantagePointsResponse")
+	}
+	return
+}
+
+// listDedicatedVantagePoints implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) listDedicatedVantagePoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVantagePoints", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDedicatedVantagePointsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/DedicatedVantagePointCollection/ListDedicatedVantagePoints"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "ListDedicatedVantagePoints", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListMonitors Returns a list of monitors.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListMonitors.go.html to see an example of how to use ListMonitors API.
+// A default retry strategy applies to this operation ListMonitors()
 func (client ApmSyntheticClient) ListMonitors(ctx context.Context, request ListMonitorsRequest) (response ListMonitorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -558,9 +803,10 @@ func (client ApmSyntheticClient) listMonitors(ctx context.Context, request commo
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListPublicVantagePoints.go.html to see an example of how to use ListPublicVantagePoints API.
+// A default retry strategy applies to this operation ListPublicVantagePoints()
 func (client ApmSyntheticClient) ListPublicVantagePoints(ctx context.Context, request ListPublicVantagePointsRequest) (response ListPublicVantagePointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -615,9 +861,10 @@ func (client ApmSyntheticClient) listPublicVantagePoints(ctx context.Context, re
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListScripts.go.html to see an example of how to use ListScripts API.
+// A default retry strategy applies to this operation ListScripts()
 func (client ApmSyntheticClient) ListScripts(ctx context.Context, request ListScriptsRequest) (response ListScriptsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -667,14 +914,73 @@ func (client ApmSyntheticClient) listScripts(ctx context.Context, request common
 	return response, err
 }
 
+// UpdateDedicatedVantagePoint Updates the dedicated vantage point.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateDedicatedVantagePoint.go.html to see an example of how to use UpdateDedicatedVantagePoint API.
+// A default retry strategy applies to this operation UpdateDedicatedVantagePoint()
+func (client ApmSyntheticClient) UpdateDedicatedVantagePoint(ctx context.Context, request UpdateDedicatedVantagePointRequest) (response UpdateDedicatedVantagePointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDedicatedVantagePoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDedicatedVantagePointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDedicatedVantagePointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDedicatedVantagePointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDedicatedVantagePointResponse")
+	}
+	return
+}
+
+// updateDedicatedVantagePoint implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) updateDedicatedVantagePoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dedicatedVantagePoints/{dedicatedVantagePointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDedicatedVantagePointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/DedicatedVantagePoint/UpdateDedicatedVantagePoint"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "UpdateDedicatedVantagePoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateMonitor Updates the monitor.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateMonitor.go.html to see an example of how to use UpdateMonitor API.
+// A default retry strategy applies to this operation UpdateMonitor()
 func (client ApmSyntheticClient) UpdateMonitor(ctx context.Context, request UpdateMonitorRequest) (response UpdateMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -729,9 +1035,10 @@ func (client ApmSyntheticClient) updateMonitor(ctx context.Context, request comm
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateScript.go.html to see an example of how to use UpdateScript API.
+// A default retry strategy applies to this operation UpdateScript()
 func (client ApmSyntheticClient) UpdateScript(ctx context.Context, request UpdateScriptRequest) (response UpdateScriptResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

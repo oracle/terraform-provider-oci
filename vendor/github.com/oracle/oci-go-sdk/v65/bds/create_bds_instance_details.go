@@ -44,6 +44,12 @@ type CreateBdsInstanceDetails struct {
 
 	NetworkConfig *NetworkConfig `mandatory:"false" json:"networkConfig"`
 
+	// Pre-authenticated URL of the script in Object Store that is downloaded and executed.
+	BootstrapScriptUrl *string `mandatory:"false" json:"bootstrapScriptUrl"`
+
+	// The user-defined kerberos realm name.
+	KerberosRealmName *string `mandatory:"false" json:"kerberosRealmName"`
+
 	// Simple key-value pair that is applied without any predefined name, type, or scope.
 	// Exists for cross-compatibility only. For example, `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
