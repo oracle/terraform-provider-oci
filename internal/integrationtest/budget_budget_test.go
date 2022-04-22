@@ -39,7 +39,7 @@ var (
 	budgetDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"target_type":    acctest.Representation{RepType: acctest.Optional, Create: `COMPARTMENT`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: budgetDataSourceFilterRepresentation}}
 	budgetDataSourceFilterRepresentation = map[string]interface{}{
@@ -47,17 +47,21 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_budget_budget.test_budget.id}`}},
 	}
 
-	//Service required target_compartment_id or targets to be set. Both cannot be empty
+	// Budget with target_compartment_id (Deprecated)
+	// target_compartment_id is no longer a required parameter
+	// Requires it here since either target or targe_compartment_id is required
 	budgetRepresentationWithTargetCompartmentId = map[string]interface{}{
 		"amount":                                acctest.Representation{RepType: acctest.Required, Create: `100`, Update: `200`},
 		"compartment_id":                        acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"reset_period":                          acctest.Representation{RepType: acctest.Required, Create: `MONTHLY`},
 		"budget_processing_period_start_offset": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"defined_tags":                          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                          acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":                           acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                          acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"processing_period_type":                acctest.Representation{RepType: acctest.Optional, Create: `MONTH`},
 		"target_compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"lifecycle":                             acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagChange},
 	}
 
 	//Budget with target_type = COMPARTMENT
@@ -65,25 +69,48 @@ var (
 		"amount":         acctest.Representation{RepType: acctest.Required, Create: `100`, Update: `200`},
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"reset_period":   acctest.Representation{RepType: acctest.Required, Create: `MONTHLY`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"target_type":    acctest.Representation{RepType: acctest.Required, Create: `COMPARTMENT`},
 		"targets":        acctest.Representation{RepType: acctest.Required, Create: []string{`${var.compartment_id}`}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagChange},
 	}
 
 	//Budget with target_type = TAG
+	// Make sure target is a cost tracking tag
 	budgetRepresentationWithTargetTypeAsTagAndTargets = map[string]interface{}{
 		"amount":         acctest.Representation{RepType: acctest.Required, Create: `100`, Update: `200`},
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"reset_period":   acctest.Representation{RepType: acctest.Required, Create: `MONTHLY`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"target_type":    acctest.Representation{RepType: acctest.Required, Create: `TAG`},
-		"targets":        acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_tag_namespace.tag-namespace1.name}.CostCenter.test`}},
+		"targets":        acctest.Representation{RepType: acctest.Required, Create: []string{`Oracle-Tags.CreatedBy.tftest`}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagChange},
+	}
+
+	//Budget with Processing Period Type = INVOICE
+	budgetRepresentationWithInvoicePeriod = map[string]interface{}{
+		"amount":                                acctest.Representation{RepType: acctest.Required, Create: `100`, Update: `200`},
+		"compartment_id":                        acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"reset_period":                          acctest.Representation{RepType: acctest.Required, Create: `MONTHLY`},
+		"budget_processing_period_start_offset": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"defined_tags":                          acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"description":                           acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":                          acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"processing_period_type":                acctest.Representation{RepType: acctest.Required, Create: `INVOICE`, Update: `MONTH`},
+		"target_type":                           acctest.Representation{RepType: acctest.Required, Create: `COMPARTMENT`},
+		"lifecycle":                             acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagChange},
+	}
+
+	// Ignore changes in defined tag in case a tenancy has a `tag default`
+	ignoreDefinedTagChange = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
 	BudgetResourceDependencies = DefinedTagsDependencies
@@ -99,7 +126,8 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 	tenancyId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
-
+	subscriptionId := utils.GetEnvSettingWithBlankDefault("subscription_id")
+	subIdVariableStr := fmt.Sprintf("variable \"subscription_id\" { default = \"%s\" }\n", subscriptionId)
 	resourceName := "oci_budget_budget.test_budget"
 	datasourceName := "data.oci_budget_budgets.test_budgets"
 	singularDatasourceName := "data.oci_budget_budget.test_budget"
@@ -110,6 +138,62 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_budget_budget", "test_budget", acctest.Optional, acctest.Create, budgetRepresentationWithTargetTypeAsCompartmentAndTargets), "budget", "budget", t)
 
 	acctest.ResourceTest(t, testAccCheckBudgetBudgetDestroy, []resource.TestStep{
+		{
+			// verify create invoice type budget
+			Config: config + compartmentIdVariableStr + subIdVariableStr + BudgetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_budget_budget", "test_budget", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(budgetRepresentationWithInvoicePeriod, map[string]interface{}{
+						"targets": acctest.Representation{RepType: acctest.Required, Create: []string{`${var.subscription_id}`}},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "amount", "100"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
+				resource.TestCheckResourceAttr(resourceName, "target_type", "COMPARTMENT"),
+				resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_compartment_id", subscriptionId),
+				resource.TestCheckResourceAttr(resourceName, "processing_period_type", "INVOICE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		{
+			// verify update invoice type budget
+			Config: config + compartmentIdVariableStr + subIdVariableStr + BudgetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_budget_budget", "test_budget", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(budgetRepresentationWithInvoicePeriod, map[string]interface{}{
+						"targets": acctest.Representation{RepType: acctest.Required, Create: []string{`${var.subscription_id}`}},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "amount", "200"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
+				resource.TestCheckResourceAttr(resourceName, "target_type", "COMPARTMENT"),
+				resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "processing_period_type", "MONTH"),
+				resource.TestCheckResourceAttr(resourceName, "budget_processing_period_start_offset", "11"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		{
+			// delete before next Creat
+			Config: config + compartmentIdVariableStr + BudgetResourceDependencies,
+		},
+
 		// verify Create for TargetType = Compartment
 		{
 			Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
@@ -294,6 +378,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "processing_period_type", "MONTH"),
 				resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_compartment_id"),
@@ -327,6 +412,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "processing_period_type", "MONTH"),
 				resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_compartment_id"),
@@ -353,7 +439,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "target_type", "COMPARTMENT"),
 
 				resource.TestCheckResourceAttr(datasourceName, "budgets.#", "1"),
@@ -367,6 +453,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.forecasted_spend"),
 				resource.TestCheckResourceAttr(datasourceName, "budgets.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "budgets.0.processing_period_type", "MONTH"),
 				resource.TestCheckResourceAttr(datasourceName, "budgets.0.reset_period", "MONTHLY"),
 				resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.target_compartment_id"),
@@ -393,6 +480,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "processing_period_type", "MONTH"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "reset_period", "MONTHLY"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_type", "COMPARTMENT"),

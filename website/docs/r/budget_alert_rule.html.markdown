@@ -37,16 +37,16 @@ resource "oci_budget_alert_rule" "test_alert_rule" {
 
 The following arguments are supported:
 
-* `budget_id` - (Required) The unique Budget OCID
+* `budget_id` - (Required) The unique budget OCID.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) The description of the alert rule.
-* `display_name` - (Optional) (Updatable) The name of the alert rule.
+* `display_name` - (Optional) (Updatable) The name of the alert rule. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `message` - (Optional) (Updatable) The message to be sent to the recipients when alert rule is triggered.
-* `recipients` - (Optional) (Updatable) The audience that will receive the alert when it triggers. An empty string is interpreted as null.
-* `threshold` - (Required) (Updatable) The threshold for triggering the alert expressed as a whole number or decimal value. If thresholdType is ABSOLUTE, threshold can have at most 12 digits before the decimal point and up to 2 digits after the decimal point. If thresholdType is PERCENTAGE, the maximum value is 10000 and can have up to 2 digits after the decimal point. 
+* `message` - (Optional) (Updatable) The message to be sent to the recipients when the alert rule is triggered.
+* `recipients` - (Optional) (Updatable) The audience that receives the alert when it triggers. An empty string is interpreted as null.
+* `threshold` - (Required) (Updatable) The threshold for triggering the alert, expressed as a whole number or decimal value. If the thresholdType is ABSOLUTE, the threshold can have at most 12 digits before the decimal point, and up to two digits after the decimal point. If the thresholdType is PERCENTAGE, the maximum value is 10000 and can have up to two digits after the decimal point. 
 * `threshold_type` - (Required) (Updatable) The type of threshold.
-* `type` - (Required) (Updatable) Type of alert. Valid values are ACTUAL (the alert will trigger based on actual usage) or FORECAST (the alert will trigger based on predicted usage). 
+* `type` - (Required) (Updatable) The type of the alert. Valid values are ACTUAL (the alert triggers based on actual usage), or FORECAST (the alert triggers based on predicted usage). 
 
 
 ** IMPORTANT **
@@ -56,21 +56,21 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `budget_id` - The OCID of the budget
+* `budget_id` - The OCID of the budget.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the alert rule.
-* `display_name` - The name of the alert rule.
+* `display_name` - The name of the alert rule. Avoid entering confidential information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `id` - The OCID of the alert rule
-* `message` - Custom message that will be sent when alert is triggered
-* `recipients` - Delimited list of email addresses to receive the alert when it triggers. Delimiter character can be comma, space, TAB, or semicolon. 
+* `id` - The OCID of the alert rule.
+* `message` - The custom message that will be sent when the alert is triggered.
+* `recipients` - The delimited list of email addresses to receive the alert when it triggers. Delimiter characters can be a comma, space, TAB, or semicolon. 
 * `state` - The current state of the alert rule.
-* `threshold` - The threshold for triggering the alert. If thresholdType is PERCENTAGE, the maximum value is 10000. 
+* `threshold` - The threshold for triggering the alert. If the thresholdType is PERCENTAGE, the maximum value is 10000. 
 * `threshold_type` - The type of threshold.
-* `time_created` - Time when budget was created
-* `time_updated` - Time when budget was updated
-* `type` - The type of alert. Valid values are ACTUAL (the alert will trigger based on actual usage) or FORECAST (the alert will trigger based on predicted usage). 
-* `version` - Version of the alert rule. Starts from 1 and increments by 1.
+* `time_created` - The time when the budget was created.
+* `time_updated` - The time when the budget was updated.
+* `type` - The type of the alert. Valid values are ACTUAL (the alert triggers based on actual usage), or FORECAST (the alert triggers based on predicted usage). 
+* `version` - The version of the alert rule. Starts from 1 and increments by 1.
 
 ## Timeouts
 
