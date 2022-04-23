@@ -1,3 +1,21 @@
+## 4.73.0 (Unreleased)
+
+### Added
+- Support for budget organization feature
+- WAF request body inspection
+- VM DB Operating System & GI Upgrade
+- Support for Datbase External TCPS
+- Support for metering computation
+- Support for dedicated Vantage points
+- Support for VTAP feature in vcn service
+- Support for E4 Dense - 32 and 128 Core
+- Support for Stack Monitoring feature for External Database
+- Support for Monitoring source feature for Service Connector Hub
+### Bug Fix
+- fix failing TestStackMonitoringDiscoveryJobResource_basic
+- fix cloud vm cluster polling for work request.
+- Add compute_nodes field to Update cloud vm cluster.
+
 ## 4.72.0 (April 20, 2022)
 
 ### Added
