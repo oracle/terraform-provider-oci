@@ -190,6 +190,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("is_free_tier", *s.Res.IsFreeTier)
 	}
 
+	if s.Res.IsLocalDataGuardEnabled != nil {
+		s.D.Set("is_local_data_guard_enabled", *s.Res.IsLocalDataGuardEnabled)
+	}
+
 	if s.Res.IsMtlsConnectionRequired != nil {
 		s.D.Set("is_mtls_connection_required", *s.Res.IsMtlsConnectionRequired)
 	}
@@ -204,6 +208,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.IsRefreshableClone != nil {
 		s.D.Set("is_refreshable_clone", *s.Res.IsRefreshableClone)
+	}
+
+	if s.Res.IsRemoteDataGuardEnabled != nil {
+		s.D.Set("is_remote_data_guard_enabled", *s.Res.IsRemoteDataGuardEnabled)
 	}
 
 	keyHistoryEntry := []interface{}{}
@@ -236,6 +244,12 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.LocalStandbyDb != nil {
+		s.D.Set("local_standby_db", []interface{}{AutonomousDatabaseStandbySummaryToMap(s.Res.LocalStandbyDb)})
+	} else {
+		s.D.Set("local_standby_db", nil)
 	}
 
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
