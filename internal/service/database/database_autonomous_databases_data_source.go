@@ -294,6 +294,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["is_free_tier"] = *r.IsFreeTier
 		}
 
+		if r.IsLocalDataGuardEnabled != nil {
+			autonomousDatabase["is_local_data_guard_enabled"] = *r.IsLocalDataGuardEnabled
+		}
+
 		if r.IsMtlsConnectionRequired != nil {
 			autonomousDatabase["is_mtls_connection_required"] = *r.IsMtlsConnectionRequired
 		}
@@ -308,6 +312,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.IsRefreshableClone != nil {
 			autonomousDatabase["is_refreshable_clone"] = *r.IsRefreshableClone
+		}
+
+		if r.IsRemoteDataGuardEnabled != nil {
+			autonomousDatabase["is_remote_data_guard_enabled"] = *r.IsRemoteDataGuardEnabled
 		}
 
 		keyHistoryEntry := []interface{}{}
@@ -340,6 +348,12 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.LifecycleDetails != nil {
 			autonomousDatabase["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		if r.LocalStandbyDb != nil {
+			autonomousDatabase["local_standby_db"] = []interface{}{AutonomousDatabaseStandbySummaryToMap(r.LocalStandbyDb)}
+		} else {
+			autonomousDatabase["local_standby_db"] = nil
 		}
 
 		if r.MemoryPerOracleComputeUnitInGBs != nil {

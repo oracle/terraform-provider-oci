@@ -197,6 +197,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_for_storage_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
@@ -411,6 +414,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "operations_insights_status", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "database_management_status", "NOT_ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "permission_level", "UNRESTRICTED"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -734,6 +740,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_begin"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_end"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 			),
 		},
 		// verify singular datasource
@@ -772,6 +779,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_scaling_for_storage_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_scaling_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "local_standby_db.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_preview"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				// @Codegen:  memory_per_oracle_compute_unit_in_gbs is used only by exacc at the moment
@@ -794,6 +804,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_maintenance_begin"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_maintenance_end"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 			),
 		},
 		// verify resource import
@@ -842,6 +855,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -875,6 +891,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -948,6 +967,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
