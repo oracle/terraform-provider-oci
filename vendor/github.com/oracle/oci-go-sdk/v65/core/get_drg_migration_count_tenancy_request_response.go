@@ -14,7 +14,7 @@ import (
 // GetDrgMigrationCountTenancyRequest wrapper for the GetDrgMigrationCountTenancy operation
 type GetDrgMigrationCountTenancyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the tenancy.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy.
 	TenancyId *string `mandatory:"true" contributesTo:"path" name:"tenancyId"`
 
 	// Unique identifier for the request.

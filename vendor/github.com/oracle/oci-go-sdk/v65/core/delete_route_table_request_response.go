@@ -14,7 +14,7 @@ import (
 // DeleteRouteTableRequest wrapper for the DeleteRouteTable operation
 type DeleteRouteTableRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the route table.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table.
 	RtId *string `mandatory:"true" contributesTo:"path" name:"rtId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

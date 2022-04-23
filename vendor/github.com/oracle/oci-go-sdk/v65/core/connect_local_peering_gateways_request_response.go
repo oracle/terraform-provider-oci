@@ -14,13 +14,13 @@ import (
 // ConnectLocalPeeringGatewaysRequest wrapper for the ConnectLocalPeeringGateways operation
 type ConnectLocalPeeringGatewaysRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the local peering gateway.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the local peering gateway.
 	LocalPeeringGatewayId *string `mandatory:"true" contributesTo:"path" name:"localPeeringGatewayId"`
 
 	// Details regarding the local peering gateway to connect.
 	ConnectLocalPeeringGatewaysDetails `contributesTo:"body"`
 
-	// A comma separated list of tenancy OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)s that might be accessed by this request. Only required
+	// A comma separated list of tenancy OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s that might be accessed by this request. Only required
 	// for cross tenancy requests. May be `null` for requests that do not cross tenancy boundaries.
 	XCrossTenancyRequest *string `mandatory:"false" contributesTo:"header" name:"x-cross-tenancy-request"`
 

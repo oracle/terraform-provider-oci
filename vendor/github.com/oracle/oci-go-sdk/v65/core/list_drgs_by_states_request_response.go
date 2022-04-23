@@ -18,7 +18,7 @@ type ListDrgsByStatesRequest struct {
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A query param to return resources that match the given compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) exactly.
+	// A query param to return resources that match the given compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) exactly.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The State of the DRG (Classical/Migrated/Upgraded) of the DRG.

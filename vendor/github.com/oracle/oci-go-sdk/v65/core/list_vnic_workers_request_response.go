@@ -25,7 +25,7 @@ type ListVnicWorkersRequest struct {
 	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the service VNIC.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service VNIC.
 	ServiceVnicId *string `mandatory:"false" contributesTo:"query" name:"serviceVnicId"`
 
 	// The OCID of the instance.

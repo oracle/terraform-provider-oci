@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// RecommendationRationale Details on the rationale for the recommendation.
+// RecommendationRationale The details of the rationale for the recommendation.
 type RecommendationRationale struct {
 
-	// Rational overview message.
+	// The message of the rationale.
 	Message *string `mandatory:"true" json:"message"`
 }
 

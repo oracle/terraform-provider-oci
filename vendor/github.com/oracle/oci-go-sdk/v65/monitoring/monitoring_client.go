@@ -673,68 +673,15 @@ func (client MonitoringClient) removeAlarmSuppression(ctx context.Context, reque
 	return response, err
 }
 
-// RetrieveDimensionHistory Retrieve the alarm history entries for the specified alarm and dimension key-value pairs.
+// RetrieveDimensionStates Lists the current alarm status of each metric stream, where status is derived from the metric stream's last associated transition.
+// Optionally filter by status value and one or more dimension key-value pairs.
+// This operation is only valid for alarms that have notifications per dimension enabled (`isNotificationsPerMetricDimensionEnabled=true`).
+//  If `isNotificationsPerMetricDimensionEnabled` for the alarm is false or null, then no results are returned.
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
-// This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
-// Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
-// or transactions, per second (TPS) for a given tenancy.
-func (client MonitoringClient) RetrieveDimensionHistory(ctx context.Context, request RetrieveDimensionHistoryRequest) (response RetrieveDimensionHistoryResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.retrieveDimensionHistory, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = RetrieveDimensionHistoryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = RetrieveDimensionHistoryResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(RetrieveDimensionHistoryResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into RetrieveDimensionHistoryResponse")
-	}
-	return
-}
-
-// retrieveDimensionHistory implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) retrieveDimensionHistory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alarms/{alarmId}/actions/retrieveDimensionHistory", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response RetrieveDimensionHistoryResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/AlarmDimensionHistoryCollection/RetrieveDimensionHistory"
-		err = common.PostProcessServiceError(err, "Monitoring", "RetrieveDimensionHistory", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// RetrieveDimensionStates Lists the alarm state entries for the specified alarm, status value, and dimension key-value pairs.
-// For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
-// This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
-// Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
-// or transactions, per second (TPS) for a given tenancy.
+//
+//  This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+//  Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
+//  or transactions, per second (TPS) for a given tenancy.
 func (client MonitoringClient) RetrieveDimensionStates(ctx context.Context, request RetrieveDimensionStatesRequest) (response RetrieveDimensionStatesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

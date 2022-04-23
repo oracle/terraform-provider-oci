@@ -14,7 +14,7 @@ import (
 // DeleteLocalPeeringConnectionRequest wrapper for the DeleteLocalPeeringConnection operation
 type DeleteLocalPeeringConnectionRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the local peering connection. This feature is currently in preview and may change before public release. Do not use it for production workloads.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the local peering connection. This feature is currently in preview and may change before public release. Do not use it for production workloads.
 	LocalPeeringConnectionId *string `mandatory:"true" contributesTo:"path" name:"localPeeringConnectionId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

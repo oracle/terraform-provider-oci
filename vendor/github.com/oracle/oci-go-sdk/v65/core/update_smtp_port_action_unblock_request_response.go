@@ -14,7 +14,7 @@ import (
 // UpdateSmtpPortActionUnblockRequest wrapper for the UpdateSmtpPortActionUnblock operation
 type UpdateSmtpPortActionUnblockRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the tenancy.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy.
 	TenancyId *string `mandatory:"true" contributesTo:"path" name:"tenancyId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
@@ -81,7 +81,8 @@ type UpdateSmtpPortActionUnblockResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
+	// Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/latest/WorkRequest/GetWorkRequest)
 	// with this ID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 

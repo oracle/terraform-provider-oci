@@ -14,7 +14,7 @@ import (
 // GetInternalVnicAttachmentRequest wrapper for the GetInternalVnicAttachment operation
 type GetInternalVnicAttachmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the internal VNIC.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internal VNIC.
 	InternalVnicId *string `mandatory:"true" contributesTo:"path" name:"internalVnicId"`
 
 	// Unique Oracle-assigned identifier for the request.

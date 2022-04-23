@@ -31,8 +31,6 @@ type UpdateApplicationDetails struct {
 	// The Spark language.
 	Language ApplicationLanguageEnum `mandatory:"false" json:"language,omitempty"`
 
-	ApplicationLogConfig *ApplicationLogConfig `mandatory:"false" json:"applicationLogConfig"`
-
 	// An Oracle Cloud Infrastructure URI of an archive.zip file containing custom dependencies that may be used to support the execution a Python, Java, or Scala application.
 	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	ArchiveUri *string `mandatory:"false" json:"archiveUri"`
@@ -92,6 +90,9 @@ type UpdateApplicationDetails struct {
 
 	// The OCID of OCI Hive Metastore.
 	MetastoreId *string `mandatory:"false" json:"metastoreId"`
+
+	// The OCID of OCI LakeHouse.
+	LakehouseId *string `mandatory:"false" json:"lakehouseId"`
 
 	// The number of executor VMs requested.
 	NumExecutors *int `mandatory:"false" json:"numExecutors"`

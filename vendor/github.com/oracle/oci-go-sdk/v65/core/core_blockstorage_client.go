@@ -540,7 +540,7 @@ func (client BlockstorageClient) copyVolumeBackup(ctx context.Context, request c
 }
 
 // CopyVolumeGroupBackup Creates a volume group backup copy in specified region. For general information about volume group backups,
-// see Overview of Block Volume Service Backups (https://docs.cloud.oracle.com/Content/Block/Concepts/blockvolumebackups.htm)
+// see Overview of Block Volume Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumebackups.htm).
 func (client BlockstorageClient) CopyVolumeGroupBackup(ctx context.Context, request CopyVolumeGroupBackupRequest) (response CopyVolumeGroupBackupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -725,6 +725,8 @@ func (client BlockstorageClient) createBootVolumeBackup(ctx context.Context, req
 // 50 GB (51200 MB) to 32 TB (33554432 MB), in 1 GB (1024 MB) increments. By default, volumes are 1 TB (1048576 MB).
 // For general information about block volumes, see
 // Overview of Block Volume Service (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm).
+// By default volumes are local to the AD specified in the request at creation. Regional volumes can be created by
+// specifying *scope = REGIONAL* and availabilityDomain = null in the request.
 // A volume and instance can be in separate compartments but must be in the same availability domain.
 // For information about access control and compartments, see
 // Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about

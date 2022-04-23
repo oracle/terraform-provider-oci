@@ -14,7 +14,7 @@ import (
 // GetFastConnectProviderServiceKeyRequest wrapper for the GetFastConnectProviderServiceKey operation
 type GetFastConnectProviderServiceKeyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the provider service.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the provider service.
 	ProviderServiceId *string `mandatory:"true" contributesTo:"path" name:"providerServiceId"`
 
 	// The provider service key that the provider gives you when you set up a virtual circuit connection

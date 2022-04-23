@@ -4,7 +4,7 @@
 
 // Object Storage Service API
 //
-// Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
+// Use Object Storage and Archive Storage APIs to manage buckets, objects, and related resources.
 // For more information, see Overview of Object Storage (https://docs.cloud.oracle.com/Content/Object/Concepts/objectstorageoverview.htm) and
 // Overview of Archive Storage (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm).
 //
@@ -37,6 +37,9 @@ type QueryObjectDetails struct {
 
 	// Optional field to specify the version ID of the object.
 	VersionId *string `mandatory:"false" json:"versionId"`
+
+	// SQL like query to execute on the file.
+	Expression *string `mandatory:"false" json:"expression"`
 
 	// Optional field to specify the number of rows to be returned.
 	Limit *int `mandatory:"false" json:"limit"`

@@ -14,7 +14,7 @@ import (
 // ChangeSecurityListCompartmentRequest wrapper for the ChangeSecurityListCompartment operation
 type ChangeSecurityListCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the security list.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the security list.
 	SecurityListId *string `mandatory:"true" contributesTo:"path" name:"securityListId"`
 
 	// Request to change the compartment of a given security list.

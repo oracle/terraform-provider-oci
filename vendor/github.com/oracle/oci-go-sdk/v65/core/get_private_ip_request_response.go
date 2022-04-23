@@ -14,7 +14,7 @@ import (
 // GetPrivateIpRequest wrapper for the GetPrivateIp operation
 type GetPrivateIpRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the private IP or IPv6.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private IP or IPv6.
 	PrivateIpId *string `mandatory:"true" contributesTo:"path" name:"privateIpId"`
 
 	// Unique Oracle-assigned identifier for the request.

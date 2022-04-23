@@ -14,7 +14,7 @@ import (
 // GetDhcpOptionsRequest wrapper for the GetDhcpOptions operation
 type GetDhcpOptionsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the set of DHCP options.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the set of DHCP options.
 	DhcpId *string `mandatory:"true" contributesTo:"path" name:"dhcpId"`
 
 	// Unique Oracle-assigned identifier for the request.

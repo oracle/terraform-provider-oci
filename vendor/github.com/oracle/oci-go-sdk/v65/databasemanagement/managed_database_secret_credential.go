@@ -21,7 +21,7 @@ import (
 // ManagedDatabaseSecretCredential User provides a secret OCID, which will be used to retrieve the password to connect to the database.
 type ManagedDatabaseSecretCredential struct {
 
-	// The user to connect to the database.
+	// The user name used to connect to the database.
 	Username *string `mandatory:"true" json:"username"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret

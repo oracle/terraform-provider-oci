@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// OptimizerStatisticsCollectionAggregationsCollection This API response object returns the hourly aggregated counts of optimizer statistics collection, grouped by task status.
+// OptimizerStatisticsCollectionAggregationsCollection The number of times optimizer statistics are collected each hour, grouped by task status.
 type OptimizerStatisticsCollectionAggregationsCollection struct {
 
-	// list of gather statistics hourly aggregated counts.
+	// The list of Optimizer Statistics Collection details.
 	Items []OptimizerStatisticsCollectionAggregationSummary `mandatory:"true" json:"items"`
 }
 

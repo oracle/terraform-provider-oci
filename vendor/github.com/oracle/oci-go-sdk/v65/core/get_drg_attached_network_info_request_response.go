@@ -14,7 +14,7 @@ import (
 // GetDrgAttachedNetworkInfoRequest wrapper for the GetDrgAttachedNetworkInfo operation
 type GetDrgAttachedNetworkInfoRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DRG.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 	DrgId *string `mandatory:"true" contributesTo:"path" name:"drgId"`
 
 	// Unique identifier for the request.

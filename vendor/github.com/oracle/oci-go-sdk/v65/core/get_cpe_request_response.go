@@ -14,7 +14,7 @@ import (
 // GetCpeRequest wrapper for the GetCpe operation
 type GetCpeRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the CPE.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CPE.
 	CpeId *string `mandatory:"true" contributesTo:"path" name:"cpeId"`
 
 	// Unique Oracle-assigned identifier for the request.

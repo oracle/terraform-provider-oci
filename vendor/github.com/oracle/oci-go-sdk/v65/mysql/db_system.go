@@ -53,8 +53,7 @@ type DbSystem struct {
 	// User-provided data about the DB System.
 	Description *string `mandatory:"false" json:"description"`
 
-	// If the policy is to enable high availability of the instance, by
-	// maintaining secondary/failover capacity as necessary.
+	// Specifies if the DB System is highly available.
 	IsHighlyAvailable *bool `mandatory:"false" json:"isHighlyAvailable"`
 
 	CurrentPlacement *DbSystemPlacement `mandatory:"false" json:"currentPlacement"`

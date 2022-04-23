@@ -14,7 +14,7 @@ import (
 // GetCrossConnectRequest wrapper for the GetCrossConnect operation
 type GetCrossConnectRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cross-connect.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cross-connect.
 	CrossConnectId *string `mandatory:"true" contributesTo:"path" name:"crossConnectId"`
 
 	// Unique Oracle-assigned identifier for the request.

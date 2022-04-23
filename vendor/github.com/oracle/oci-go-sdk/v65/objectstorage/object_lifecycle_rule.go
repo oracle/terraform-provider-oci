@@ -4,7 +4,7 @@
 
 // Object Storage Service API
 //
-// Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
+// Use Object Storage and Archive Storage APIs to manage buckets, objects, and related resources.
 // For more information, see Overview of Object Storage (https://docs.cloud.oracle.com/Content/Object/Concepts/objectstorageoverview.htm) and
 // Overview of Archive Storage (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm).
 //
@@ -33,6 +33,7 @@ type ObjectLifecycleRule struct {
 	// tier are left untouched.
 	// Rules using the action 'DELETE' permanently delete objects from buckets.
 	// Rules using 'ABORT' abort the uncommitted multipart-uploads and permanently delete their parts from buckets.
+	// Rules using 'QUERY' move existing objects between Standard/Infrequent Access storage tier and Query storage tier.
 	Action *string `mandatory:"true" json:"action"`
 
 	// Specifies the age of objects to apply the rule to. The timeAmount is interpreted in units defined by the

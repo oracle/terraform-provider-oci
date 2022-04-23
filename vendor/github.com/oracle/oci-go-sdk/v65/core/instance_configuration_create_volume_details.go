@@ -78,6 +78,11 @@ type InstanceConfigurationCreateVolumeDetails struct {
 
 	// The list of autotune policies enabled for this volume.
 	AutotunePolicies []InstanceConfigurationAutotunePolicy `mandatory:"false" json:"autotunePolicies"`
+
+	// Indicates whether the volume is AD-local or Regional. Regional volume isn't restricted to any
+	// availability domain unlike AD-local volumes. This is an optional field. The default behavior is to create
+	// AD_LOCAL volumes.
+	VolumeScope VolumeVolumeScopeEnum `mandatory:"false" json:"volumeScope,omitempty"`
 }
 
 func (m InstanceConfigurationCreateVolumeDetails) String() string {
@@ -90,6 +95,9 @@ func (m InstanceConfigurationCreateVolumeDetails) String() string {
 func (m InstanceConfigurationCreateVolumeDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingVolumeVolumeScopeEnum(string(m.VolumeScope)); !ok && m.VolumeScope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VolumeScope: %s. Supported values are: %s.", m.VolumeScope, strings.Join(GetVolumeVolumeScopeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -112,6 +120,7 @@ func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e
 		SizeInGBs           *int64                                           `json:"sizeInGBs"`
 		SourceDetails       instanceconfigurationvolumesourcedetails         `json:"sourceDetails"`
 		AutotunePolicies    []instanceconfigurationautotunepolicy            `json:"autotunePolicies"`
+		VolumeScope         VolumeVolumeScopeEnum                            `json:"volumeScope"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -166,6 +175,8 @@ func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e
 			m.AutotunePolicies[i] = nil
 		}
 	}
+
+	m.VolumeScope = model.VolumeScope
 
 	return
 }

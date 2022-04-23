@@ -14,7 +14,7 @@ import (
 // UpdateVnicWorkerRequest wrapper for the UpdateVnicWorker operation
 type UpdateVnicWorkerRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the vnicWorker.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vnicWorker.
 	VnicWorkerId *string `mandatory:"true" contributesTo:"path" name:"vnicWorkerId"`
 
 	// VnicWorker details.

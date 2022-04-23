@@ -22,7 +22,7 @@ import (
 // CreateDavDetails Details to create a Direct Attached Vnic.
 type CreateDavDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Direct Attached Vnic's compartment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Direct Attached Vnic's compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Index of NIC for Direct Attached Vnic.

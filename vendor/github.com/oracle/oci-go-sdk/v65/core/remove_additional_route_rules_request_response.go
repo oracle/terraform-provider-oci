@@ -14,7 +14,7 @@ import (
 // RemoveAdditionalRouteRulesRequest wrapper for the RemoveAdditionalRouteRules operation
 type RemoveAdditionalRouteRulesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the route table.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table.
 	RtId *string `mandatory:"true" contributesTo:"path" name:"rtId"`
 
 	// Request to remove route rules from a given route table.

@@ -48,6 +48,10 @@ type ListVolumesRequest struct {
 	// is case sensitive.
 	SortOrder ListVolumesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
+	// Specifies whether to list regional volumes or not. When set to `true`, only regional volumes are listed.
+	// Otherwise AD local volumes are returned. The default value is `false`.
+	IsRegional *bool `mandatory:"false" contributesTo:"query" name:"isRegional"`
+
 	// The OCID of the volume group.
 	VolumeGroupId *string `mandatory:"false" contributesTo:"query" name:"volumeGroupId"`
 

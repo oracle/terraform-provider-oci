@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// AlarmDimensionStatesCollection The list of alarm state entries for the specified alarm, status value, and dimension key-value pairs.
+// AlarmDimensionStatesCollection The list of current alarm state entries for each metric stream that matches the filters.
 type AlarmDimensionStatesCollection struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm to retrieve alarm state entries for.
@@ -27,12 +27,12 @@ type AlarmDimensionStatesCollection struct {
 	// Example: `true`
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
-	// When set to `true`, enables dimension-specific alarm messages.
+	// When set to `true`, splits notifications per metric stream. When set to `false`, groups notifications across metric streams.
 	// Example: `true`
 	IsNotificationsPerMetricDimensionEnabled *bool `mandatory:"true" json:"isNotificationsPerMetricDimensionEnabled"`
 
 	// Array of alarm state entries.
-	Entries []AlarmDimensionStatesEntry `mandatory:"true" json:"entries"`
+	Items []AlarmDimensionStatesEntry `mandatory:"true" json:"items"`
 }
 
 func (m AlarmDimensionStatesCollection) String() string {

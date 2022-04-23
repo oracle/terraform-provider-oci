@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// AppMgmt Control API
+// Resource Discovery and Monitoring Control API
 //
-// AppMgmt Control API
+// Use the Resource Discovery and Monitoring Control API to get details about monitored instances and perform actions. For more information, see Resource Discovery and Monitoring (https://docs.oracle.com/iaas/os-management/osms/osms-resource-discovery-monitoring.htm).
 //
 
 package appmgmtcontrol

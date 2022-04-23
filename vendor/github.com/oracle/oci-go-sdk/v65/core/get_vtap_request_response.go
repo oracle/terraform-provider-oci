@@ -14,7 +14,7 @@ import (
 // GetVtapRequest wrapper for the GetVtap operation
 type GetVtapRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VTAP.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VTAP.
 	VtapId *string `mandatory:"true" contributesTo:"path" name:"vtapId"`
 
 	// Unique identifier for the request.

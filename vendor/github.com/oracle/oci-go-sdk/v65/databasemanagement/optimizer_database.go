@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// OptimizerDatabase The summary of the managed database resource.
+// OptimizerDatabase The subset information of the Managed Database resource, which is used by Optimizer Statistics.
 type OptimizerDatabase struct {
 
-	// Database ocid.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Database name.
+	// The name of the Managed Database.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The type of Oracle Database installation.
@@ -36,10 +36,10 @@ type OptimizerDatabase struct {
 	// The infrastructure used to deploy the Oracle Database.
 	DbDeploymentType DeploymentTypeEnum `mandatory:"true" json:"dbDeploymentType"`
 
-	// Database version.
+	// The version of the Oracle Database.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
-	// Managed database resource provisioned compartment id.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which the Managed Database resides.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

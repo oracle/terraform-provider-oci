@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// TableStatisticsCollection This API response includes the aggregated counts of table statistics collection, grouped by statistics status.
+// TableStatisticsCollection A collection of table statistics, which are grouped by status.
 type TableStatisticsCollection struct {
 
-	// list of table statistics status counts
+	// The list of table statistics statuses.
 	Items []TableStatisticSummary `mandatory:"true" json:"items"`
 }
 

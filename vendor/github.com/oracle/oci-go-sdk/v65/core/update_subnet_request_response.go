@@ -14,7 +14,7 @@ import (
 // UpdateSubnetRequest wrapper for the UpdateSubnet operation
 type UpdateSubnetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
 	SubnetId *string `mandatory:"true" contributesTo:"path" name:"subnetId"`
 
 	// Details object for updating a subnet.

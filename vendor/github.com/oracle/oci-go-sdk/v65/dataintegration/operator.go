@@ -40,7 +40,7 @@ type Operator interface {
 	GetInputPorts() []InputPort
 
 	// An array of output ports.
-	GetOutputPorts() []OutputPort
+	GetOutputPorts() []TypedObject
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
@@ -63,7 +63,7 @@ type operator struct {
 	Description    *string          `mandatory:"false" json:"description"`
 	ObjectVersion  *int             `mandatory:"false" json:"objectVersion"`
 	InputPorts     []InputPort      `mandatory:"false" json:"inputPorts"`
-	OutputPorts    []OutputPort     `mandatory:"false" json:"outputPorts"`
+	OutputPorts    json.RawMessage  `mandatory:"false" json:"outputPorts"`
 	ObjectStatus   *int             `mandatory:"false" json:"objectStatus"`
 	Identifier     *string          `mandatory:"false" json:"identifier"`
 	Parameters     []Parameter      `mandatory:"false" json:"parameters"`
@@ -184,6 +184,10 @@ func (m *operator) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := MergeOperator{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SPLIT_OPERATOR":
+		mm := Split{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MINUS_OPERATOR":
 		mm := Minus{}
 		err = json.Unmarshal(data, &mm)
@@ -229,7 +233,7 @@ func (m operator) GetInputPorts() []InputPort {
 }
 
 //GetOutputPorts returns OutputPorts
-func (m operator) GetOutputPorts() []OutputPort {
+func (m operator) GetOutputPorts() json.RawMessage {
 	return m.OutputPorts
 }
 
@@ -288,6 +292,7 @@ const (
 	OperatorModelTypeMinusOperator      OperatorModelTypeEnum = "MINUS_OPERATOR"
 	OperatorModelTypeMergeOperator      OperatorModelTypeEnum = "MERGE_OPERATOR"
 	OperatorModelTypeFunctionOperator   OperatorModelTypeEnum = "FUNCTION_OPERATOR"
+	OperatorModelTypeSplitOperator      OperatorModelTypeEnum = "SPLIT_OPERATOR"
 	OperatorModelTypeStartOperator      OperatorModelTypeEnum = "START_OPERATOR"
 	OperatorModelTypeEndOperator        OperatorModelTypeEnum = "END_OPERATOR"
 	OperatorModelTypePipelineOperator   OperatorModelTypeEnum = "PIPELINE_OPERATOR"
@@ -312,6 +317,7 @@ var mappingOperatorModelTypeEnum = map[string]OperatorModelTypeEnum{
 	"MINUS_OPERATOR":      OperatorModelTypeMinusOperator,
 	"MERGE_OPERATOR":      OperatorModelTypeMergeOperator,
 	"FUNCTION_OPERATOR":   OperatorModelTypeFunctionOperator,
+	"SPLIT_OPERATOR":      OperatorModelTypeSplitOperator,
 	"START_OPERATOR":      OperatorModelTypeStartOperator,
 	"END_OPERATOR":        OperatorModelTypeEndOperator,
 	"PIPELINE_OPERATOR":   OperatorModelTypePipelineOperator,
@@ -336,6 +342,7 @@ var mappingOperatorModelTypeEnumLowerCase = map[string]OperatorModelTypeEnum{
 	"minus_operator":      OperatorModelTypeMinusOperator,
 	"merge_operator":      OperatorModelTypeMergeOperator,
 	"function_operator":   OperatorModelTypeFunctionOperator,
+	"split_operator":      OperatorModelTypeSplitOperator,
 	"start_operator":      OperatorModelTypeStartOperator,
 	"end_operator":        OperatorModelTypeEndOperator,
 	"pipeline_operator":   OperatorModelTypePipelineOperator,
@@ -371,6 +378,7 @@ func GetOperatorModelTypeEnumStringValues() []string {
 		"MINUS_OPERATOR",
 		"MERGE_OPERATOR",
 		"FUNCTION_OPERATOR",
+		"SPLIT_OPERATOR",
 		"START_OPERATOR",
 		"END_OPERATOR",
 		"PIPELINE_OPERATOR",

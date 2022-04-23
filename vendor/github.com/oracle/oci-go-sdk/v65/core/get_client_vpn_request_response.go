@@ -14,7 +14,7 @@ import (
 // GetClientVpnRequest wrapper for the GetClientVpn operation
 type GetClientVpnRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ClientVpn.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ClientVpn.
 	ClientVpnId *string `mandatory:"true" contributesTo:"path" name:"clientVpnId"`
 
 	// Unique identifier for the request.

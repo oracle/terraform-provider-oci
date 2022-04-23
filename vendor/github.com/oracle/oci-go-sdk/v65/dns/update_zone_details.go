@@ -35,7 +35,8 @@ type UpdateZoneDetails struct {
 	// The state of DNSSEC on the zone.
 	// In order to benefit from utilizing DNSSEC, every parent zone in the DNS tree, up to the TLD or an
 	// independent trust anchor, must also have DNSSEC correctly set up. After enabling DNSSEC, a DS record must be
-	// added to this zone's parent zone containing data corresponding to the KskDnssecKeyVersion that gets created.
+	// added to this zone's parent zone containing data corresponding to the KskDnssecKeyVersion that gets created,
+	// and then the KskDnssecKeyVersion must be promoted via the PromoteZoneDnssecKeyVersion operation.
 	// New KskDnssecKeyVersions are generated annually, a week before the existing KskDnssecKeyVersion's expiration.
 	// KskDnssecKeyVersion rollover requires replacing the parent zone's DS record, corresponding to the current
 	// KskDnssecKeyVersion, using the data from its successor KskDnssecKeyVersion. To prevent service disruption

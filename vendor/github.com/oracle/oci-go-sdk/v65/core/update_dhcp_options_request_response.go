@@ -14,7 +14,7 @@ import (
 // UpdateDhcpOptionsRequest wrapper for the UpdateDhcpOptions operation
 type UpdateDhcpOptionsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the set of DHCP options.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the set of DHCP options.
 	DhcpId *string `mandatory:"true" contributesTo:"path" name:"dhcpId"`
 
 	// Request object for updating a set of DHCP options.

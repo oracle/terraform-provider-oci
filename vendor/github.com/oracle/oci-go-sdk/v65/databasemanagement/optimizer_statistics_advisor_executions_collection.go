@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// OptimizerStatisticsAdvisorExecutionsCollection This response object contains each optimizer statistics advisor execution summary.
+// OptimizerStatisticsAdvisorExecutionsCollection The details of each Optimizer Statistics Advisor execution.
 type OptimizerStatisticsAdvisorExecutionsCollection struct {
 
-	// List of optimizer statistics executions summary.
+	// The list of Optimizer Statistics Advisor executions.
 	Items []OptimizerStatisticsAdvisorExecutionSummary `mandatory:"true" json:"items"`
 }
 

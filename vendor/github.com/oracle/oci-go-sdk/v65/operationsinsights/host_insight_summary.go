@@ -51,6 +51,9 @@ type HostInsightSummary interface {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	GetSystemTags() map[string]map[string]interface{}
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+	GetOpsiPrivateEndpointId() *string
+
 	// Indicates the status of a host insight in Operations Insights
 	GetStatus() ResourceStatusEnum
 
@@ -68,22 +71,23 @@ type HostInsightSummary interface {
 }
 
 type hostinsightsummary struct {
-	JsonData         []byte
-	Id               *string                           `mandatory:"true" json:"id"`
-	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
-	HostName         *string                           `mandatory:"true" json:"hostName"`
-	HostDisplayName  *string                           `mandatory:"false" json:"hostDisplayName"`
-	HostType         *string                           `mandatory:"false" json:"hostType"`
-	ProcessorCount   *int                              `mandatory:"false" json:"processorCount"`
-	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	Status           ResourceStatusEnum                `mandatory:"false" json:"status,omitempty"`
-	TimeCreated      *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
-	TimeUpdated      *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	LifecycleState   LifecycleStateEnum                `mandatory:"false" json:"lifecycleState,omitempty"`
-	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
-	EntitySource     string                            `json:"entitySource"`
+	JsonData              []byte
+	Id                    *string                           `mandatory:"true" json:"id"`
+	CompartmentId         *string                           `mandatory:"true" json:"compartmentId"`
+	HostName              *string                           `mandatory:"true" json:"hostName"`
+	HostDisplayName       *string                           `mandatory:"false" json:"hostDisplayName"`
+	HostType              *string                           `mandatory:"false" json:"hostType"`
+	ProcessorCount        *int                              `mandatory:"false" json:"processorCount"`
+	FreeformTags          map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags           map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags            map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	OpsiPrivateEndpointId *string                           `mandatory:"false" json:"opsiPrivateEndpointId"`
+	Status                ResourceStatusEnum                `mandatory:"false" json:"status,omitempty"`
+	TimeCreated           *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
+	TimeUpdated           *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	LifecycleState        LifecycleStateEnum                `mandatory:"false" json:"lifecycleState,omitempty"`
+	LifecycleDetails      *string                           `mandatory:"false" json:"lifecycleDetails"`
+	EntitySource          string                            `json:"entitySource"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -106,6 +110,7 @@ func (m *hostinsightsummary) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
+	m.OpsiPrivateEndpointId = s.Model.OpsiPrivateEndpointId
 	m.Status = s.Model.Status
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
@@ -181,6 +186,11 @@ func (m hostinsightsummary) GetDefinedTags() map[string]map[string]interface{} {
 //GetSystemTags returns SystemTags
 func (m hostinsightsummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetOpsiPrivateEndpointId returns OpsiPrivateEndpointId
+func (m hostinsightsummary) GetOpsiPrivateEndpointId() *string {
+	return m.OpsiPrivateEndpointId
 }
 
 //GetStatus returns Status

@@ -14,7 +14,7 @@ import (
 // DeleteVirtualCircuitRequest wrapper for the DeleteVirtualCircuit operation
 type DeleteVirtualCircuitRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the virtual circuit.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual circuit.
 	VirtualCircuitId *string `mandatory:"true" contributesTo:"path" name:"virtualCircuitId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

@@ -14,7 +14,7 @@ import (
 // GetInternalVnicRequest wrapper for the GetInternalVnic operation
 type GetInternalVnicRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the internal VNIC.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internal VNIC.
 	InternalVnicId *string `mandatory:"true" contributesTo:"path" name:"internalVnicId"`
 
 	// Unique identifier for the request.

@@ -17,41 +17,42 @@ import (
 	"strings"
 )
 
-// OptimizerStatisticsCollectionAggregationSummary This provides optimizer statistics collection summary which includes aggregated counts that are grouped by task status.
+// OptimizerStatisticsCollectionAggregationSummary The summary of the Optimizer Statistics Collection, which includes the aggregated number of tasks grouped by status.
 type OptimizerStatisticsCollectionAggregationSummary struct {
 
-	// As the statistics are aggregated per hour this date time indicates the start of the hour.
+	// Indicates the start of the hour as the statistics are aggregated per hour.
 	TimeStart *common.SDKTime `mandatory:"true" json:"timeStart"`
 
-	// The optimizer statistics tasks group by type.
+	// The optimizer statistics tasks grouped by type.
 	GroupBy OptimizerStatisticsGroupByTypesEnum `mandatory:"false" json:"groupBy,omitempty"`
 
-	// As the statistics are aggregated per hour this date time indicates the end of the hour.
+	// Indicates the end of the hour as the statistics are aggregated per hour.
 	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
 
-	// Count of tasks/objects for which statistics have yet to be gathered.
+	// The number of tasks or objects for which statistics are yet to be gathered.
 	Pending *int `mandatory:"false" json:"pending"`
 
-	// Count of tasks/objects for which statistics gathering is in progress.
+	// The number of tasks or objects for which statistics gathering is in progress.
 	InProgress *int `mandatory:"false" json:"inProgress"`
 
-	// Count of tasks/objects for which statistics gathering completed.
+	// The number of tasks or objects for which statistics gathering is completed.
 	Completed *int `mandatory:"false" json:"completed"`
 
-	// Count of tasks/objects for which statistics gathering failed.
+	// The number of tasks or objects for which statistics gathering failed.
 	Failed *int `mandatory:"false" json:"failed"`
 
-	// Count of tasks/objects for which statistics gathering skipped.
+	// The number of tasks or objects for which statistics gathering was skipped.
 	Skipped *int `mandatory:"false" json:"skipped"`
 
-	// Count of tasks/objects for which statistics gathering timed out.
+	// The number of tasks or objects for which statistics gathering timed out.
 	TimedOut *int `mandatory:"false" json:"timedOut"`
 
-	// Count of tasks/objects for which statistics gathering is unknown.
+	// The number of tasks or objects for which the status of statistics gathering is unknown.
 	Unknown *int `mandatory:"false" json:"unknown"`
 
-	// Total count of tasks/objects for which statistics collection finished. This count is sum of pending, inProgress, completed,
-	// failed, skipped, timedOut and unknown status.
+	// The total number of tasks or objects for which statistics collection is finished. This number is the
+	// sum of all the tasks or objects with various statuses: pending, inProgress, completed, failed, skipped,
+	// timedOut, and unknown.
 	Total *int `mandatory:"false" json:"total"`
 }
 

@@ -17,15 +17,9 @@ type ListSubscribersRequest struct {
 	// The ocid of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// Filter by the usage plan ocid.
-	UsagePlanId *string `mandatory:"false" contributesTo:"query" name:"usagePlanId"`
-
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
-
-	// The string to use for matching against the start of subscriber display names in a list query.
-	Prefix *string `mandatory:"false" contributesTo:"query" name:"prefix"`
 
 	// A filter to return only resources that match the given lifecycle state.
 	// Example: `ACTIVE`

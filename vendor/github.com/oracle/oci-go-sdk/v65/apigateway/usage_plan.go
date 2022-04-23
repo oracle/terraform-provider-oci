@@ -24,11 +24,6 @@ type UsagePlan struct {
 	// resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable.
-	// Avoid entering confidential information.
-	// Example: `My new resource`
-	DisplayName *string `mandatory:"true" json:"displayName"`
-
 	// A collection of entitlements currently assigned to the usage plan.
 	Entitlements []Entitlement `mandatory:"true" json:"entitlements"`
 
@@ -44,6 +39,11 @@ type UsagePlan struct {
 
 	// The current state of the usage plan.
 	LifecycleState UsagePlanLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
+	// Example: `My new resource`
+	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// A message describing the current state in more detail.
 	// For example, can be used to provide actionable information for a resource in a Failed state.

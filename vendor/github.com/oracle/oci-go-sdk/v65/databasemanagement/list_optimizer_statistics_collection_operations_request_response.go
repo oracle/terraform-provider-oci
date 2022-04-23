@@ -17,15 +17,15 @@ type ListOptimizerStatisticsCollectionOperationsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
-	// The start time of the time range to retrieve the optimizer stats of a Managed Database
+	// The start time of the time range to retrieve the optimizer statistics of a Managed Database
 	// in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'".
 	StartTimeGreaterThanOrEqualTo *string `mandatory:"false" contributesTo:"query" name:"startTimeGreaterThanOrEqualTo"`
 
-	// The end time of the time range to retrieve the optimizer stats of a Managed Database
+	// The end time of the time range to retrieve the optimizer statistics of a Managed Database
 	// in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'".
 	EndTimeLessThanOrEqualTo *string `mandatory:"false" contributesTo:"query" name:"endTimeLessThanOrEqualTo"`
 
-	// The optimizer statistics tasks filter types.
+	// The filter types of the optimizer statistics tasks.
 	TaskType ListOptimizerStatisticsCollectionOperationsTaskTypeEnum `mandatory:"false" contributesTo:"query" name:"taskType" omitEmpty:"true"`
 
 	// The maximum number of records returned in the paginated response.
@@ -35,14 +35,13 @@ type ListOptimizerStatisticsCollectionOperationsRequest struct {
 	// are retrieved. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// This parameter sets the optimizer statistics collection operation summary records search condition.
-	// Any attribute name in the OptimizerStatisticsCollectionOperationSummary object can be used as a search filter.
-	// The conditional operators AND/OR and binary operators >, < and = are allowed in the search filter,
-	// whereas any other operator is regarded invalid.
-	// Example search: jobName=<replace with job name> AND status=<replace with status>.
+	// The parameter used to filter the optimizer statistics operations.
+	// Any property of the OptimizerStatisticsCollectionOperationSummary can be used to define the filter condition.
+	// The allowed conditional operators are AND or OR, and the allowed binary operators are are >, < and =. Any other operator is regarded invalid.
+	// Example: jobName=<replace with job name> AND status=<replace with status>
 	FilterBy *string `mandatory:"false" contributesTo:"query" name:"filterBy"`
 
-	// Sorts the list of optimizer statistics operations based on the provided attribute.
+	// Sorts the list of optimizer statistics operations based on a specific attribute.
 	SortBy ListOptimizerStatisticsCollectionOperationsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Ascending order is the default order.

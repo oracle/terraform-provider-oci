@@ -14,7 +14,7 @@ import (
 // AttachVnicWorkerRequest wrapper for the AttachVnicWorker operation
 type AttachVnicWorkerRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the vnicWorker.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vnicWorker.
 	VnicWorkerId *string `mandatory:"true" contributesTo:"path" name:"vnicWorkerId"`
 
 	// Request to Attach a VnicWorker to a VM instance

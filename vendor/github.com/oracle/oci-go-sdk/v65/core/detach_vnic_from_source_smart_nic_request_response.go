@@ -14,7 +14,7 @@ import (
 // DetachVnicFromSourceSmartNicRequest wrapper for the DetachVnicFromSourceSmartNic operation
 type DetachVnicFromSourceSmartNicRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the internal VNIC.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internal VNIC.
 	InternalVnicId *string `mandatory:"true" contributesTo:"path" name:"internalVnicId"`
 
 	// Request to detach internal VNIC from source smart NIC for live migration

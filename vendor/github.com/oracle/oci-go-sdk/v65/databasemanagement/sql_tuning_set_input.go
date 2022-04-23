@@ -2,12 +2,14 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Data Flow API
+// Database Management API
 //
-// Use the Data Flow APIs to run any Apache Spark application at any scale without deploying or managing any infrastructure.
+// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
+// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
+// running a SQL job on a Managed Database or Managed Database Group.
 //
 
-package dataflow
+package databasemanagement
 
 import (
 	"fmt"
@@ -15,24 +17,24 @@ import (
 	"strings"
 )
 
-// ApplicationLogConfig Logging details of Application logs for Data Flow Run.
-type ApplicationLogConfig struct {
+// SqlTuningSetInput The SQL tuning set for a SQL tuning task.
+type SqlTuningSetInput struct {
 
-	// The log group id for where log objects will be for Data Flow Runs.
-	LogGroupId *string `mandatory:"true" json:"logGroupId"`
+	// The name of the SQL tuning set.
+	Name *string `mandatory:"true" json:"name"`
 
-	// The log id of the log object the Application Logs of Data Flow Run will be shipped to.
-	LogId *string `mandatory:"true" json:"logId"`
+	// The owner of the SQL tuning set.
+	Owner *string `mandatory:"true" json:"owner"`
 }
 
-func (m ApplicationLogConfig) String() string {
+func (m SqlTuningSetInput) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ApplicationLogConfig) ValidateEnumValue() (bool, error) {
+func (m SqlTuningSetInput) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

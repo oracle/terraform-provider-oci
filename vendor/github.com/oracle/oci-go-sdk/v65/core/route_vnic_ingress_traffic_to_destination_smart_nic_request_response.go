@@ -14,7 +14,7 @@ import (
 // RouteVnicIngressTrafficToDestinationSmartNicRequest wrapper for the RouteVnicIngressTrafficToDestinationSmartNic operation
 type RouteVnicIngressTrafficToDestinationSmartNicRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the internal VNIC.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internal VNIC.
 	InternalVnicId *string `mandatory:"true" contributesTo:"path" name:"internalVnicId"`
 
 	// Request to route VNIC's ingress traffic to destination smart NIC

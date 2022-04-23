@@ -22,13 +22,13 @@ import (
 // CreateInternalGenericGatewayDetails Details to create an internal generic gateway.
 type CreateInternalGenericGatewayDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the gateway's compartment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the gateway's compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Information required to fill headers of packets to be sent to the gateway.
 	GatewayHeaderData *int64 `mandatory:"true" json:"gatewayHeaderData"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the real gateway that this generic gateway represents.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the real gateway that this generic gateway represents.
 	GatewayId *string `mandatory:"true" json:"gatewayId"`
 
 	// The type of the gateway.

@@ -14,7 +14,7 @@ import (
 // DeleteInternetGatewayRequest wrapper for the DeleteInternetGateway operation
 type DeleteInternetGatewayRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the internet gateway.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internet gateway.
 	IgId *string `mandatory:"true" contributesTo:"path" name:"igId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

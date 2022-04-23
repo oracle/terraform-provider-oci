@@ -17,14 +17,14 @@ import (
 	"strings"
 )
 
-// OptimizerStatisticsAdvisorExecutionReport The rules, findings, recommendations, and actions discovered during the execution of the Optimizer statistics
-// advisor task is encapsulated in the report.
+// OptimizerStatisticsAdvisorExecutionReport A report that includes the rules, findings, recommendations, and actions discovered during the
+// execution of the Optimizer Statistics Advisor.
 type OptimizerStatisticsAdvisorExecutionReport struct {
 
-	// Overall report summary of the optimizer statistics advisor execution.
+	// A summary of the Optimizer Statistics Advisor execution.
 	Summary *string `mandatory:"true" json:"summary"`
 
-	// List of advisor rules provide during an execution.
+	// The list of rules that were not adhered to by the Optimizer Statistics Collection.
 	Rules []AdvisorRule `mandatory:"true" json:"rules"`
 }
 

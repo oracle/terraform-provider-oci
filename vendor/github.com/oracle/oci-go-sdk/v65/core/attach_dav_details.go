@@ -22,7 +22,7 @@ import (
 // AttachDavDetails Details to attach a Direct Attached Vnic to an instance.
 type AttachDavDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the host instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host instance.
 	HostInstanceId *string `mandatory:"true" json:"hostInstanceId"`
 }
 

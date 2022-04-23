@@ -14,7 +14,7 @@ import (
 // GetInternetGatewayRequest wrapper for the GetInternetGateway operation
 type GetInternetGatewayRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the internet gateway.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internet gateway.
 	IgId *string `mandatory:"true" contributesTo:"path" name:"igId"`
 
 	// Unique Oracle-assigned identifier for the request.

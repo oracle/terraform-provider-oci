@@ -14,7 +14,7 @@ import (
 // GetVnicRequest wrapper for the GetVnic operation
 type GetVnicRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VNIC.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC.
 	VnicId *string `mandatory:"true" contributesTo:"path" name:"vnicId"`
 
 	// Unique Oracle-assigned identifier for the request.

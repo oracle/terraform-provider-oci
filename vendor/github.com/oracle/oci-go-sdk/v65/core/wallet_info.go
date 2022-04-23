@@ -23,7 +23,7 @@ import (
 // and list of CAs to be trusted
 type WalletInfo struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Vault Service secret, holding
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Vault Service secret, holding
 	// the Oracle Wallet to be used for SCAN proxy.
 	ScanWalletSecretId *string `mandatory:"false" json:"scanWalletSecretId"`
 

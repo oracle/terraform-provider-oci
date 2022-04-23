@@ -17,15 +17,15 @@ import (
 	"strings"
 )
 
-// Recommendation Details of the optimizer statistics advisor finding recommendation.
+// Recommendation The details of the Optimizer Statistics Advisor findings and recommendations.
 type Recommendation struct {
 
-	// Overview of the recommendation.
+	// An overview of the Optimizer Statistics Advisor recommendation.
 	Message *string `mandatory:"true" json:"message"`
 
 	Example *RecommendationExample `mandatory:"false" json:"example"`
 
-	// List of rationale details.
+	// The rationale of the recommendation.
 	Rationales []RecommendationRationale `mandatory:"false" json:"rationales"`
 }
 

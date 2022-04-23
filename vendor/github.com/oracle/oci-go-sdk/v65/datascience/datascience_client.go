@@ -519,10 +519,9 @@ func (client DataScienceClient) changeJobRunCompartment(ctx context.Context, req
 }
 
 // ChangeModelCompartment Moves a model resource into a different compartment.
-// A default retry strategy applies to this operation ChangeModelCompartment()
 func (client DataScienceClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -636,10 +635,9 @@ func (client DataScienceClient) changeModelDeploymentCompartment(ctx context.Con
 }
 
 // ChangeModelVersionSetCompartment Moves a modelVersionSet resource into a different compartment.
-// A default retry strategy applies to this operation ChangeModelVersionSetCompartment()
 func (client DataScienceClient) ChangeModelVersionSetCompartment(ctx context.Context, request ChangeModelVersionSetCompartmentRequest) (response ChangeModelVersionSetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1241,9 +1239,10 @@ func (client DataScienceClient) createModelArtifact(ctx context.Context, request
 }
 
 // CreateModelDeployment Creates a new model deployment.
+// A default retry strategy applies to this operation CreateModelDeployment()
 func (client DataScienceClient) CreateModelDeployment(ctx context.Context, request CreateModelDeploymentRequest) (response CreateModelDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1417,9 +1416,10 @@ func (client DataScienceClient) createModelVersionSet(ctx context.Context, reque
 }
 
 // CreateNotebookSession Creates a new notebook session.
+// A default retry strategy applies to this operation CreateNotebookSession()
 func (client DataScienceClient) CreateNotebookSession(ctx context.Context, request CreateNotebookSessionRequest) (response CreateNotebookSessionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2040,9 +2040,10 @@ func (client DataScienceClient) deleteModel(ctx context.Context, request common.
 }
 
 // DeleteModelDeployment Deletes the specified model deployment. Any unsaved work in this model deployment is lost.
+// A default retry strategy applies to this operation DeleteModelDeployment()
 func (client DataScienceClient) DeleteModelDeployment(ctx context.Context, request DeleteModelDeploymentRequest) (response DeleteModelDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2147,9 +2148,10 @@ func (client DataScienceClient) deleteModelVersionSet(ctx context.Context, reque
 }
 
 // DeleteNotebookSession Deletes the specified notebook session. Any unsaved work in this notebook session are lost.
+// A default retry strategy applies to this operation DeleteNotebookSession()
 func (client DataScienceClient) DeleteNotebookSession(ctx context.Context, request DeleteNotebookSessionRequest) (response DeleteNotebookSessionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2687,9 +2689,10 @@ func (client DataScienceClient) getModelArtifactContent(ctx context.Context, req
 }
 
 // GetModelDeployment Retrieves the model deployment for the specified `modelDeploymentId`.
+// A default retry strategy applies to this operation GetModelDeployment()
 func (client DataScienceClient) GetModelDeployment(ctx context.Context, request GetModelDeploymentRequest) (response GetModelDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2848,9 +2851,10 @@ func (client DataScienceClient) getModelVersionSet(ctx context.Context, request 
 }
 
 // GetNotebookSession Gets the specified notebook session's information.
+// A default retry strategy applies to this operation GetNotebookSession()
 func (client DataScienceClient) GetNotebookSession(ctx context.Context, request GetNotebookSessionRequest) (response GetNotebookSessionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3284,10 +3288,9 @@ func (client DataScienceClient) headModelArtifact(ctx context.Context, request c
 }
 
 // ImportModelArtifact Import model artifact from service bucket
-// A default retry strategy applies to this operation ImportModelArtifact()
 func (client DataScienceClient) ImportModelArtifact(ctx context.Context, request ImportModelArtifactRequest) (response ImportModelArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3554,9 +3557,10 @@ func (client DataScienceClient) listJobs(ctx context.Context, request common.OCI
 }
 
 // ListModelDeploymentShapes Lists the valid model deployment shapes.
+// A default retry strategy applies to this operation ListModelDeploymentShapes()
 func (client DataScienceClient) ListModelDeploymentShapes(ctx context.Context, request ListModelDeploymentShapesRequest) (response ListModelDeploymentShapesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3607,9 +3611,10 @@ func (client DataScienceClient) listModelDeploymentShapes(ctx context.Context, r
 }
 
 // ListModelDeployments Lists all model deployments in the specified compartment. Only one parameter other than compartmentId may also be included in a query. The query must include compartmentId. If the query does not include compartmentId, or includes compartmentId but two or more other parameters an error is returned.
+// A default retry strategy applies to this operation ListModelDeployments()
 func (client DataScienceClient) ListModelDeployments(ctx context.Context, request ListModelDeploymentsRequest) (response ListModelDeploymentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3768,9 +3773,10 @@ func (client DataScienceClient) listModels(ctx context.Context, request common.O
 }
 
 // ListNotebookSessionShapes Lists the valid notebook session shapes.
+// A default retry strategy applies to this operation ListNotebookSessionShapes()
 func (client DataScienceClient) ListNotebookSessionShapes(ctx context.Context, request ListNotebookSessionShapesRequest) (response ListNotebookSessionShapesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3821,9 +3827,10 @@ func (client DataScienceClient) listNotebookSessionShapes(ctx context.Context, r
 }
 
 // ListNotebookSessions Lists the notebook sessions in the specified compartment.
+// A default retry strategy applies to this operation ListNotebookSessions()
 func (client DataScienceClient) ListNotebookSessions(ctx context.Context, request ListNotebookSessionsRequest) (response ListNotebookSessionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4358,9 +4365,10 @@ func (client DataScienceClient) updateModel(ctx context.Context, request common.
 // when the model deployment's lifecycle state is ACTIVE or NEEDS_ATTENTION i.e `instanceShapeName`, `instanceCount` and `modelId`, separately `loadBalancerShape` or `CategoryLogDetails`
 // can also be updated independently. All of the fields can be updated when the deployment is in the INACTIVE lifecycle state. Changes will take effect the next time the model
 // deployment is activated.
+// A default retry strategy applies to this operation UpdateModelDeployment()
 func (client DataScienceClient) UpdateModelDeployment(ctx context.Context, request UpdateModelDeploymentRequest) (response UpdateModelDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4521,9 +4529,10 @@ func (client DataScienceClient) updateModelVersionSet(ctx context.Context, reque
 // UpdateNotebookSession Updates the properties of a notebook session. You can update the `displayName`, `freeformTags`, and `definedTags` properties.
 // When the notebook session is in the INACTIVE lifecycle state, you can update `notebookSessionConfigurationDetails` and change `shape`, `subnetId`, and `blockStorageSizeInGBs`.
 // Changes to the `notebookSessionConfigurationDetails` take effect the next time the `ActivateNotebookSession` action is invoked on the notebook session resource.
+// A default retry strategy applies to this operation UpdateNotebookSession()
 func (client DataScienceClient) UpdateNotebookSession(ctx context.Context, request UpdateNotebookSessionRequest) (response UpdateNotebookSessionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

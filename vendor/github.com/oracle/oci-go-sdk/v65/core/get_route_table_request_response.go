@@ -14,7 +14,7 @@ import (
 // GetRouteTableRequest wrapper for the GetRouteTable operation
 type GetRouteTableRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the route table.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table.
 	RtId *string `mandatory:"true" contributesTo:"path" name:"rtId"`
 
 	// Unique Oracle-assigned identifier for the request.

@@ -3627,7 +3627,7 @@ func (client VirtualNetworkClient) createClientVpnUser(ctx context.Context, requ
 
 // CreateCpe Creates a new virtual customer-premises equipment (CPE) object in the specified compartment. For
 // more information, see Site-to-Site VPN Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 // the CPE to reside. Notice that the CPE doesn't have to be in the same compartment as the IPSec
 // connection or other Networking Service components. If you're not sure which compartment to
 // use, put the CPE in the same compartment as the DRG. For more information about
@@ -3701,7 +3701,7 @@ func (client VirtualNetworkClient) createCpe(ctx context.Context, request common
 // After creating the `CrossConnect` object, you need to go the FastConnect location
 // and request to have the physical cable installed. For more information, see
 // FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
 // compartment where you want the cross-connect to reside. If you're
 // not sure which compartment to use, put the cross-connect in the
 // same compartment with your VCN. For more information about
@@ -3772,7 +3772,7 @@ func (client VirtualNetworkClient) createCrossConnect(ctx context.Context, reque
 // CreateCrossConnectGroup Creates a new cross-connect group to use with Oracle Cloud Infrastructure
 // FastConnect. For more information, see
 // FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
 // compartment where you want the cross-connect group to reside. If you're
 // not sure which compartment to use, put the cross-connect group in the
 // same compartment with your VCN. For more information about
@@ -3900,7 +3900,7 @@ func (client VirtualNetworkClient) createDav(ctx context.Context, request common
 
 // CreateDhcpOptions Creates a new set of DHCP options for the specified VCN. For more information, see
 // DhcpOptions.
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want the set of
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the set of
 // DHCP options to reside. Notice that the set of options doesn't have to be in the same compartment as the VCN,
 // subnets, or other Networking Service components. If you're not sure which compartment to use, put the set
 // of DHCP options in the same compartment as the VCN. For more information about compartments and access control, see
@@ -4034,7 +4034,7 @@ func (client VirtualNetworkClient) createDrg(ctx context.Context, request common
 
 // CreateDrgAttachment Attaches the specified DRG to the specified network resource. A VCN can be attached to only one DRG
 // at a time, but a DRG can be attached to more than one VCN. The response includes a `DrgAttachment`
-// object with its own OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). For more information about DRGs, see
+// object with its own OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For more information about DRGs, see
 // Dynamic Routing Gateways (DRGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
 // You may optionally specify a *display name* for the attachment, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
@@ -4402,7 +4402,7 @@ func (client VirtualNetworkClient) createFlowLogConfigAttachment(ctx context.Con
 // If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for
 // the static routes. For more information, see the important note in
 // IPSecConnection.
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want the
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the
 // IPSec connection to reside. Notice that the IPSec connection doesn't have to be in the same compartment
 // as the DRG, CPE, or other Networking Service components. If you're not sure which compartment to
 // use, put the IPSec connection in the same compartment as the DRG. For more information about
@@ -4536,7 +4536,7 @@ func (client VirtualNetworkClient) createInternalDnsRecord(ctx context.Context, 
 // CreateInternalDrg This is only used for internal operations to support TRANSIT  HUB. Creates a new dynamic routing gateway (DRG)
 // of type DRG_TRANSIT_HUB in the specified compartment. Creates a new dynamic routing gateway (DRG) in the specified
 // compartment. For more information, see Dynamic Routing Gateways (DRGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 // the DRG to reside. Notice that the DRG doesn't have to be in the same compartment as the VCN,
 // the DRG attachment, or other Networking Service components. If you're not sure which compartment
 // to use, put the DRG in the same compartment as the VCN. For more information about compartments
@@ -4601,7 +4601,7 @@ func (client VirtualNetworkClient) createInternalDrg(ctx context.Context, reques
 }
 
 // CreateInternalDrgAttachment Connects the specified DRG to a specified network resource type. A VCN can be attached to only one DRG at a time,
-// but a DRG can be attached to more than one VCN. The response includes a `DrgAttachment` object with its own OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). For more
+// but a DRG can be attached to more than one VCN. The response includes a `DrgAttachment` object with its own OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For more
 // information about DRGs, see
 // Dynamic Routing Gateways (DRGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
 // You may optionally specify a *display name* for the attachment, otherwise a default is provided.
@@ -4916,7 +4916,7 @@ func (client VirtualNetworkClient) createInternalVnicAttachment(ctx context.Cont
 
 // CreateInternetGateway Creates a new internet gateway for the specified VCN. For more information, see
 // Access to the Internet (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIGs.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want the Internet
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the Internet
 // Gateway to reside. Notice that the internet gateway doesn't have to be in the same compartment as the VCN or
 // other Networking Service components. If you're not sure which compartment to use, put the Internet
 // Gateway in the same compartment with the VCN. For more information about compartments and access control, see
@@ -6134,7 +6134,7 @@ func (client VirtualNetworkClient) createVcn(ctx context.Context, request common
 
 // CreateVcnDrg Creates a new dynamic routing gateway (DRG) in the specified compartment. For more information,
 // see Dynamic Routing Gateways (DRGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 // the DRG to reside. Notice that the DRG doesn't have to be in the same compartment as the VCN,
 // the DRG attachment, or other Networking Service components. If you're not sure which compartment
 // to use, put the DRG in the same compartment as the VCN. For more information about compartments
@@ -6199,7 +6199,7 @@ func (client VirtualNetworkClient) createVcnDrg(ctx context.Context, request com
 }
 
 // CreateVcnDrgAttachment Attaches the specified DRG to the specified VCN. A VCN can be attached to only one DRG at a time.
-// The response includes a `DrgAttachment` object with its own OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). For more
+// The response includes a `DrgAttachment` object with its own OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For more
 // information about DRGs, see
 // Dynamic Routing Gateways (DRGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
 // You may optionally specify a *display name* for the attachment, otherwise a default is provided.
@@ -6457,7 +6457,7 @@ func (client VirtualNetworkClient) createVnicWorker(ctx context.Context, request
 }
 
 // CreateVtap Creates a virtual test access point (VTAP) in the specified compartment.
-// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the VTAP.
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the VTAP.
 // For more information about compartments and access control, see
 // Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -8004,7 +8004,7 @@ func (client VirtualNetworkClient) deleteInternetGateway(ctx context.Context, re
 	return response, err
 }
 
-// DeleteIpv6 Unassigns and deletes the specified IPv6. You must specify the object's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// DeleteIpv6 Unassigns and deletes the specified IPv6. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // The IPv6 address is returned to the subnet's pool of available addresses.
 func (client VirtualNetworkClient) DeleteIpv6(ctx context.Context, request DeleteIpv6Request) (response DeleteIpv6Response, err error) {
 	var ociResponse common.OCIResponse
@@ -12963,7 +12963,7 @@ func (client VirtualNetworkClient) getIpsecCpeDeviceConfigContent(ctx context.Co
 	return response, err
 }
 
-// GetIpv6 Gets the specified IPv6. You must specify the object's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// GetIpv6 Gets the specified IPv6. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Alternatively, you can get the object by using
 // ListIpv6s
 // with the IPv6 address (for example, 2001:0db8:0123:1111:98fe:dcba:9876:4321) and subnet OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -15472,7 +15472,7 @@ func (client VirtualNetworkClient) listClientVpns(ctx context.Context, request c
 // the actual CPE device represented by a Cpe object.
 // If you want to generate CPE configuration content for one of the returned CPE device types,
 // ensure that the Cpe object's `cpeDeviceShapeId` attribute is set
-// to the CPE device type's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) (returned by this operation).
+// to the CPE device type's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) (returned by this operation).
 // For information about generating CPE configuration content, see these operations:
 //   * GetCpeDeviceConfigContent
 //   * GetIpsecCpeDeviceConfigContent
@@ -15749,7 +15749,7 @@ func (client VirtualNetworkClient) listCrossConnectMappings(ctx context.Context,
 }
 
 // ListCrossConnects Lists the cross-connects in the specified compartment. You can filter the list
-// by specifying the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a cross-connect group.
+// by specifying the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a cross-connect group.
 // A default retry strategy applies to this operation ListCrossConnects()
 func (client VirtualNetworkClient) ListCrossConnects(ctx context.Context, request ListCrossConnectsRequest) (response ListCrossConnectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -16403,7 +16403,7 @@ func (client VirtualNetworkClient) listEndpointServices(ctx context.Context, req
 // ListFastConnectProviderServices Lists the service offerings from supported providers. You need this
 // information so you can specify your desired provider and service
 // offering when you create a virtual circuit.
-// For the compartment ID, provide the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
+// For the compartment ID, provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
 // For more information, see FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 // A default retry strategy applies to this operation ListFastConnectProviderServices()
 func (client VirtualNetworkClient) ListFastConnectProviderServices(ctx context.Context, request ListFastConnectProviderServicesRequest) (response ListFastConnectProviderServicesResponse, err error) {

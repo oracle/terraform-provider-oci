@@ -17,7 +17,7 @@ type GetOptimizerStatisticsCollectionOperationRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
-	// The id of the optimizer statistics collection operation.
+	// The ID of the Optimizer Statistics Collection operation.
 	OptimizerStatisticsCollectionOperationId *float32 `mandatory:"true" contributesTo:"path" name:"optimizerStatisticsCollectionOperationId"`
 
 	// The client request ID for tracing.

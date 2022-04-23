@@ -14,7 +14,7 @@ import (
 // UpdateVcnDrgRequest wrapper for the UpdateVcnDrg operation
 type UpdateVcnDrgRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DRG.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 	DrgId *string `mandatory:"true" contributesTo:"path" name:"drgId"`
 
 	// Details object for updating a DRG.

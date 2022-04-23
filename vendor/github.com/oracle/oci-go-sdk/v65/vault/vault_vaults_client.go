@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Secrets Management API
+// Vault Secret Management API
 //
-// API for managing secrets.
+// Use the Secret Management API to manage secrets and secret versions. For more information, see Managing Secrets (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingsecrets.htm).
 //
 
 package vault
@@ -133,7 +133,7 @@ func (client VaultsClient) cancelSecretDeletion(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretmgmt/20180608/Secret/CancelSecretDeletion"
 		err = common.PostProcessServiceError(err, "Vaults", "CancelSecretDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -186,7 +186,7 @@ func (client VaultsClient) cancelSecretVersionDeletion(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretmgmt/20180608/SecretVersion/CancelSecretVersionDeletion"
 		err = common.PostProcessServiceError(err, "Vaults", "CancelSecretVersionDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -246,7 +246,7 @@ func (client VaultsClient) changeSecretCompartment(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretmgmt/20180608/Secret/ChangeSecretCompartment"
 		err = common.PostProcessServiceError(err, "Vaults", "ChangeSecretCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -257,9 +257,10 @@ func (client VaultsClient) changeSecretCompartment(ctx context.Context, request 
 
 // CreateSecret Creates a new secret according to the details of the request.
 // This operation is not supported by the Oracle Cloud Infrastructure Terraform Provider.
+// A default retry strategy applies to this operation CreateSecret()
 func (client VaultsClient) CreateSecret(ctx context.Context, request CreateSecretRequest) (response CreateSecretResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -305,7 +306,7 @@ func (client VaultsClient) createSecret(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretmgmt/20180608/Secret/CreateSecret"
 		err = common.PostProcessServiceError(err, "Vaults", "CreateSecret", apiReferenceLink)
 		return response, err
 	}
@@ -315,9 +316,10 @@ func (client VaultsClient) createSecret(ctx context.Context, request common.OCIR
 }
 
 // GetSecret Gets information about the specified secret.
+// A default retry strategy applies to this operation GetSecret()
 func (client VaultsClient) GetSecret(ctx context.Context, request GetSecretRequest) (response GetSecretResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -358,7 +360,7 @@ func (client VaultsClient) getSecret(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretmgmt/20180608/Secret/GetSecret"
 		err = common.PostProcessServiceError(err, "Vaults", "GetSecret", apiReferenceLink)
 		return response, err
 	}
@@ -368,9 +370,10 @@ func (client VaultsClient) getSecret(ctx context.Context, request common.OCIRequ
 }
 
 // GetSecretVersion Gets information about the specified version of a secret.
+// A default retry strategy applies to this operation GetSecretVersion()
 func (client VaultsClient) GetSecretVersion(ctx context.Context, request GetSecretVersionRequest) (response GetSecretVersionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -411,7 +414,7 @@ func (client VaultsClient) getSecretVersion(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretmgmt/20180608/SecretVersion/GetSecretVersion"
 		err = common.PostProcessServiceError(err, "Vaults", "GetSecretVersion", apiReferenceLink)
 		return response, err
 	}
@@ -421,9 +424,10 @@ func (client VaultsClient) getSecretVersion(ctx context.Context, request common.
 }
 
 // ListSecretVersions Lists all secret versions for the specified secret.
+// A default retry strategy applies to this operation ListSecretVersions()
 func (client VaultsClient) ListSecretVersions(ctx context.Context, request ListSecretVersionsRequest) (response ListSecretVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -464,7 +468,7 @@ func (client VaultsClient) listSecretVersions(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretmgmt/20180608/SecretVersionSummary/ListSecretVersions"
 		err = common.PostProcessServiceError(err, "Vaults", "ListSecretVersions", apiReferenceLink)
 		return response, err
 	}
@@ -474,9 +478,10 @@ func (client VaultsClient) listSecretVersions(ctx context.Context, request commo
 }
 
 // ListSecrets Lists all secrets in the specified vault and compartment.
+// A default retry strategy applies to this operation ListSecrets()
 func (client VaultsClient) ListSecrets(ctx context.Context, request ListSecretsRequest) (response ListSecretsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -517,7 +522,7 @@ func (client VaultsClient) listSecrets(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretmgmt/20180608/SecretSummary/ListSecrets"
 		err = common.PostProcessServiceError(err, "Vaults", "ListSecrets", apiReferenceLink)
 		return response, err
 	}
@@ -571,7 +576,7 @@ func (client VaultsClient) scheduleSecretDeletion(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretmgmt/20180608/Secret/ScheduleSecretDeletion"
 		err = common.PostProcessServiceError(err, "Vaults", "ScheduleSecretDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -625,7 +630,7 @@ func (client VaultsClient) scheduleSecretVersionDeletion(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretmgmt/20180608/SecretVersion/ScheduleSecretVersionDeletion"
 		err = common.PostProcessServiceError(err, "Vaults", "ScheduleSecretVersionDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -636,7 +641,7 @@ func (client VaultsClient) scheduleSecretVersionDeletion(ctx context.Context, re
 
 // UpdateSecret Updates the properties of a secret. Specifically, you can update the version number of the secret to make
 // that version number the current version. You can also update a secret's description, its free-form or defined tags, rules
-// and the secret contents. Updating the secret content automatically creates a new secret version. You cannot, however, update the current secret version number and the secret contents and the rules at the
+// and the secret contents. Updating the secret content automatically creates a new secret version. You cannot, however, update the current secret version number, secret contents, and secret rules at the
 // same time. Furthermore, the secret must in an `ACTIVE` lifecycle state to be updated.
 // This operation is not supported by the Oracle Cloud Infrastructure Terraform Provider.
 func (client VaultsClient) UpdateSecret(ctx context.Context, request UpdateSecretRequest) (response UpdateSecretResponse, err error) {
@@ -682,7 +687,7 @@ func (client VaultsClient) updateSecret(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretmgmt/20180608/Secret/UpdateSecret"
 		err = common.PostProcessServiceError(err, "Vaults", "UpdateSecret", apiReferenceLink)
 		return response, err
 	}

@@ -19,6 +19,9 @@ import (
 // WriteOperationConfig The information about the write operation.
 type WriteOperationConfig struct {
 
+	// This map is used for passing extra metatdata configuration that is required by read / write operation.
+	MetadataConfigProperties map[string]string `mandatory:"false" json:"metadataConfigProperties"`
+
 	// this map is used for passing BIP report parameter values.
 	DerivedAttributes map[string]string `mandatory:"false" json:"derivedAttributes"`
 
@@ -48,6 +51,11 @@ type WriteOperationConfig struct {
 
 	// The mode for the write operation.
 	WriteMode WriteOperationConfigWriteModeEnum `mandatory:"false" json:"writeMode,omitempty"`
+}
+
+//GetMetadataConfigProperties returns MetadataConfigProperties
+func (m WriteOperationConfig) GetMetadataConfigProperties() map[string]string {
+	return m.MetadataConfigProperties
 }
 
 //GetDerivedAttributes returns DerivedAttributes
@@ -96,18 +104,19 @@ func (m WriteOperationConfig) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *WriteOperationConfig) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DerivedAttributes map[string]string                 `json:"derivedAttributes"`
-		CallAttribute     *BipCallAttribute                 `json:"callAttribute"`
-		Key               *string                           `json:"key"`
-		ModelVersion      *string                           `json:"modelVersion"`
-		ParentRef         *ParentReference                  `json:"parentRef"`
-		Operations        []pushdownoperation               `json:"operations"`
-		DataFormat        *DataFormat                       `json:"dataFormat"`
-		PartitionConfig   partitionconfig                   `json:"partitionConfig"`
-		WriteAttribute    abstractwriteattribute            `json:"writeAttribute"`
-		WriteMode         WriteOperationConfigWriteModeEnum `json:"writeMode"`
-		MergeKey          uniquekey                         `json:"mergeKey"`
-		ObjectStatus      *int                              `json:"objectStatus"`
+		MetadataConfigProperties map[string]string                 `json:"metadataConfigProperties"`
+		DerivedAttributes        map[string]string                 `json:"derivedAttributes"`
+		CallAttribute            *BipCallAttribute                 `json:"callAttribute"`
+		Key                      *string                           `json:"key"`
+		ModelVersion             *string                           `json:"modelVersion"`
+		ParentRef                *ParentReference                  `json:"parentRef"`
+		Operations               []pushdownoperation               `json:"operations"`
+		DataFormat               *DataFormat                       `json:"dataFormat"`
+		PartitionConfig          partitionconfig                   `json:"partitionConfig"`
+		WriteAttribute           abstractwriteattribute            `json:"writeAttribute"`
+		WriteMode                WriteOperationConfigWriteModeEnum `json:"writeMode"`
+		MergeKey                 uniquekey                         `json:"mergeKey"`
+		ObjectStatus             *int                              `json:"objectStatus"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -115,6 +124,8 @@ func (m *WriteOperationConfig) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.MetadataConfigProperties = model.MetadataConfigProperties
+
 	m.DerivedAttributes = model.DerivedAttributes
 
 	m.CallAttribute = model.CallAttribute

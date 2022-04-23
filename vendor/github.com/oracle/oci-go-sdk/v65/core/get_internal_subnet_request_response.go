@@ -14,7 +14,7 @@ import (
 // GetInternalSubnetRequest wrapper for the GetInternalSubnet operation
 type GetInternalSubnetRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
 	InternalSubnetId *string `mandatory:"true" contributesTo:"path" name:"internalSubnetId"`
 
 	// Unique Oracle-assigned identifier for the request.

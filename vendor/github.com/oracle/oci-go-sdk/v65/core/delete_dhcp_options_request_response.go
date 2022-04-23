@@ -14,7 +14,7 @@ import (
 // DeleteDhcpOptionsRequest wrapper for the DeleteDhcpOptions operation
 type DeleteDhcpOptionsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the set of DHCP options.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the set of DHCP options.
 	DhcpId *string `mandatory:"true" contributesTo:"path" name:"dhcpId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

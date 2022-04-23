@@ -14,7 +14,7 @@ import (
 // UpdateLocalPeeringGatewayRequest wrapper for the UpdateLocalPeeringGateway operation
 type UpdateLocalPeeringGatewayRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the local peering gateway.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the local peering gateway.
 	LocalPeeringGatewayId *string `mandatory:"true" contributesTo:"path" name:"localPeeringGatewayId"`
 
 	// Details object for updating a local peering gateway.

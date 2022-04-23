@@ -14,7 +14,7 @@ import (
 // ChangeRemotePeeringConnectionCompartmentRequest wrapper for the ChangeRemotePeeringConnectionCompartment operation
 type ChangeRemotePeeringConnectionCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the remote peering connection (RPC).
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the remote peering connection (RPC).
 	RemotePeeringConnectionId *string `mandatory:"true" contributesTo:"path" name:"remotePeeringConnectionId"`
 
 	// Request to change the compartment of a remote peering connection.

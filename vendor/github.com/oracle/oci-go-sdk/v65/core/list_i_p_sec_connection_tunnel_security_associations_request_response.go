@@ -14,7 +14,7 @@ import (
 // ListIPSecConnectionTunnelSecurityAssociationsRequest wrapper for the ListIPSecConnectionTunnelSecurityAssociations operation
 type ListIPSecConnectionTunnelSecurityAssociationsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the IPSec connection.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPSec connection.
 	IpscId *string `mandatory:"true" contributesTo:"path" name:"ipscId"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tunnel.

@@ -17,46 +17,47 @@ import (
 	"strings"
 )
 
-// OptimizerStatisticsCollectionOperationSummary Optimizer statistics collection operation details.
+// OptimizerStatisticsCollectionOperationSummary The summary of the Optimizer Statistics Collection operation.
 type OptimizerStatisticsCollectionOperationSummary struct {
 
-	// Operation id.
+	// The ID of the operation.
 	Id *int `mandatory:"true" json:"id"`
 
-	// Name of the operation.
+	// The name of the operation.
 	OperationName *string `mandatory:"true" json:"operationName"`
 
-	// Target object type like Table/Index/Partition etc.
+	// The target object type such as Table, Index, and Partition.
 	Target *string `mandatory:"true" json:"target"`
 
-	// Name of the Job.
+	// The name of the job.
 	JobName *string `mandatory:"true" json:"jobName"`
 
-	// Status of the operation like Completed/Failed etc.
+	// The status of the operation such as Completed, and Failed.
 	Status OptimizerStatisticsCollectionOperationSummaryStatusEnum `mandatory:"true" json:"status"`
 
-	// Start time of the execution.
+	// The start time of the operation.
 	StartTime *string `mandatory:"true" json:"startTime"`
 
-	// End time of the execution.
+	// The end time of the operation.
 	EndTime *string `mandatory:"true" json:"endTime"`
 
-	// This is the time it takes to complete the task in seconds.
+	// The time it takes to complete the operation (in seconds).
 	DurationInSeconds *float32 `mandatory:"true" json:"durationInSeconds"`
 
-	// Count of objects for which statistics collection is successfully.
+	// The number of objects for which statistics collection is completed.
 	CompletedCount *int `mandatory:"false" json:"completedCount"`
 
-	// Count of objects for which statistics gathering is still in progress.
+	// The number of objects for which statistics collection is in progress.
 	InProgressCount *int `mandatory:"false" json:"inProgressCount"`
 
-	// Count of objects for which statistics collection failed.
+	// The number of objects for which statistics collection failed.
 	FailedCount *int `mandatory:"false" json:"failedCount"`
 
-	// Count of objects statistics for which statistics collection timed out.
+	// The number of objects for which statistics collection timed out.
 	TimedOutCount *int `mandatory:"false" json:"timedOutCount"`
 
-	// Total number of objects statistics collected. This count includes completed, inProgress, failed and timedOut objects counts.
+	// The total number of objects for which statistics is collected. This number is the sum of all the objects
+	// with various statuses: completed, inProgress, failed, and timedOut.
 	TotalObjectsCount *int `mandatory:"false" json:"totalObjectsCount"`
 }
 

@@ -28,6 +28,7 @@ type CreateVolumeDetails struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The availability domain of the volume. Omissible for cloning a volume. The new volume will be created in the availability domain of the source volume.
+	// Omissible when creating a regional volume.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
@@ -86,6 +87,11 @@ type CreateVolumeDetails struct {
 	// in the specified destination availability domains.
 	BlockVolumeReplicas []BlockVolumeReplicaDetails `mandatory:"false" json:"blockVolumeReplicas"`
 
+	// Indicates whether the volume is AD-local or Regional. Regional volume isn't restricted to any
+	// availability domain unlike AD-local volumes. This is an optional field. The default behavior is to create
+	// AD_LOCAL volumes.
+	VolumeScope VolumeVolumeScopeEnum `mandatory:"false" json:"volumeScope,omitempty"`
+
 	// The list of autotune policies to be enabled for this volume.
 	AutotunePolicies []AutotunePolicy `mandatory:"false" json:"autotunePolicies"`
 }
@@ -100,6 +106,9 @@ func (m CreateVolumeDetails) String() string {
 func (m CreateVolumeDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingVolumeVolumeScopeEnum(string(m.VolumeScope)); !ok && m.VolumeScope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VolumeScope: %s. Supported values are: %s.", m.VolumeScope, strings.Join(GetVolumeVolumeScopeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -122,6 +131,7 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 		VolumeBackupId      *string                           `json:"volumeBackupId"`
 		IsAutoTuneEnabled   *bool                             `json:"isAutoTuneEnabled"`
 		BlockVolumeReplicas []BlockVolumeReplicaDetails       `json:"blockVolumeReplicas"`
+		VolumeScope         VolumeVolumeScopeEnum             `json:"volumeScope"`
 		AutotunePolicies    []autotunepolicy                  `json:"autotunePolicies"`
 		CompartmentId       *string                           `json:"compartmentId"`
 	}{}
@@ -167,6 +177,8 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	for i, n := range model.BlockVolumeReplicas {
 		m.BlockVolumeReplicas[i] = n
 	}
+
+	m.VolumeScope = model.VolumeScope
 
 	m.AutotunePolicies = make([]AutotunePolicy, len(model.AutotunePolicies))
 	for i, n := range model.AutotunePolicies {

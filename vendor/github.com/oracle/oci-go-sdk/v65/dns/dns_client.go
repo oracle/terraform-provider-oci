@@ -89,10 +89,12 @@ func (client *DnsClient) ConfigurationProvider() *common.ConfigurationProvider {
 }
 
 // ChangeResolverCompartment Moves a resolver into a different compartment along with its protected default view and any endpoints.
-// Zones in the default view are not moved.
+// Zones in the default view are not moved. VCN-dedicated resolvers are initially created in the same compartment
+// as their corresponding VCN, but can then be moved to a different compartment.
+// A default retry strategy applies to this operation ChangeResolverCompartment()
 func (client DnsClient) ChangeResolverCompartment(ctx context.Context, request ChangeResolverCompartmentRequest) (response ChangeResolverCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -148,9 +150,10 @@ func (client DnsClient) changeResolverCompartment(ctx context.Context, request c
 }
 
 // ChangeSteeringPolicyCompartment Moves a steering policy into a different compartment.
+// A default retry strategy applies to this operation ChangeSteeringPolicyCompartment()
 func (client DnsClient) ChangeSteeringPolicyCompartment(ctx context.Context, request ChangeSteeringPolicyCompartmentRequest) (response ChangeSteeringPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -206,9 +209,10 @@ func (client DnsClient) changeSteeringPolicyCompartment(ctx context.Context, req
 }
 
 // ChangeTsigKeyCompartment Moves a TSIG key into a different compartment.
+// A default retry strategy applies to this operation ChangeTsigKeyCompartment()
 func (client DnsClient) ChangeTsigKeyCompartment(ctx context.Context, request ChangeTsigKeyCompartmentRequest) (response ChangeTsigKeyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -263,10 +267,12 @@ func (client DnsClient) changeTsigKeyCompartment(ctx context.Context, request co
 	return response, err
 }
 
-// ChangeViewCompartment Moves a view into a different compartment. Protected views cannot have their compartment changed.
+// ChangeViewCompartment Moves a view into a different compartment.
+// To change the compartment of a protected view, change the compartment of its corresponding resolver.
+// A default retry strategy applies to this operation ChangeViewCompartment()
 func (client DnsClient) ChangeViewCompartment(ctx context.Context, request ChangeViewCompartmentRequest) (response ChangeViewCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -327,9 +333,10 @@ func (client DnsClient) changeViewCompartment(ctx context.Context, request commo
 // required.
 // **Note:** All SteeringPolicyAttachment objects associated with this zone will also be moved into
 // the provided compartment.
+// A default retry strategy applies to this operation ChangeZoneCompartment()
 func (client DnsClient) ChangeZoneCompartment(ctx context.Context, request ChangeZoneCompartmentRequest) (response ChangeZoneCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -384,10 +391,11 @@ func (client DnsClient) changeZoneCompartment(ctx context.Context, request commo
 	return response, err
 }
 
-// CreateResolverEndpoint Creates a new resolver endpoint.
+// CreateResolverEndpoint Creates a new resolver endpoint in the same compartment as the resolver.
+// A default retry strategy applies to this operation CreateResolverEndpoint()
 func (client DnsClient) CreateResolverEndpoint(ctx context.Context, request CreateResolverEndpointRequest) (response CreateResolverEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -444,9 +452,10 @@ func (client DnsClient) createResolverEndpoint(ctx context.Context, request comm
 
 // CreateSteeringPolicy Creates a new steering policy in the specified compartment. For more information on
 // creating policies with templates, see Traffic Management API Guide (https://docs.cloud.oracle.com/iaas/Content/TrafficManagement/Concepts/trafficmanagementapi.htm).
+// A default retry strategy applies to this operation CreateSteeringPolicy()
 func (client DnsClient) CreateSteeringPolicy(ctx context.Context, request CreateSteeringPolicyRequest) (response CreateSteeringPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -506,9 +515,10 @@ func (client DnsClient) createSteeringPolicy(ctx context.Context, request common
 // be attached to a domain for the policy to answer DNS queries for that domain.
 // For the purposes of access control, the attachment is automatically placed
 // into the same compartment as the domain's zone.
+// A default retry strategy applies to this operation CreateSteeringPolicyAttachment()
 func (client DnsClient) CreateSteeringPolicyAttachment(ctx context.Context, request CreateSteeringPolicyAttachmentRequest) (response CreateSteeringPolicyAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -565,9 +575,10 @@ func (client DnsClient) createSteeringPolicyAttachment(ctx context.Context, requ
 
 // CreateTsigKey Creates a new TSIG key in the specified compartment. There is no
 // `opc-retry-token` header since TSIG key names must be globally unique.
+// A default retry strategy applies to this operation CreateTsigKey()
 func (client DnsClient) CreateTsigKey(ctx context.Context, request CreateTsigKeyRequest) (response CreateTsigKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -618,9 +629,10 @@ func (client DnsClient) createTsigKey(ctx context.Context, request common.OCIReq
 }
 
 // CreateView Creates a new view in the specified compartment.
+// A default retry strategy applies to this operation CreateView()
 func (client DnsClient) CreateView(ctx context.Context, request CreateViewRequest) (response CreateViewResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -786,9 +798,10 @@ func (client DnsClient) createZoneFromZoneFile(ctx context.Context, request comm
 // DeleteDomainRecords Deletes all records at the specified zone and domain.
 // When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query parameter
 // then the viewId query parameter is required.
+// A default retry strategy applies to this operation DeleteDomainRecords()
 func (client DnsClient) DeleteDomainRecords(ctx context.Context, request DeleteDomainRecordsRequest) (response DeleteDomainRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -841,9 +854,10 @@ func (client DnsClient) deleteDomainRecords(ctx context.Context, request common.
 // DeleteRRSet Deletes all records in the specified RRSet.
 // When the zone name is provided as a path parameter and `PRIVATE` is used for the scope
 // query parameter then the viewId query parameter is required.
+// A default retry strategy applies to this operation DeleteRRSet()
 func (client DnsClient) DeleteRRSet(ctx context.Context, request DeleteRRSetRequest) (response DeleteRRSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -897,9 +911,10 @@ func (client DnsClient) deleteRRSet(ctx context.Context, request common.OCIReque
 // Note that attempting to delete a resolver endpoint in the DELETED lifecycle state will result in
 // a `404` response to be consistent with other operations of the API. Resolver endpoints may not
 // be deleted if they are referenced by a resolver rule.
+// A default retry strategy applies to this operation DeleteResolverEndpoint()
 func (client DnsClient) DeleteResolverEndpoint(ctx context.Context, request DeleteResolverEndpointRequest) (response DeleteResolverEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -953,9 +968,10 @@ func (client DnsClient) deleteResolverEndpoint(ctx context.Context, request comm
 // A `204` response indicates that the delete has been successful.
 // Deletion will fail if the policy is attached to any zones. To detach a
 // policy from a zone, see `DeleteSteeringPolicyAttachment`.
+// A default retry strategy applies to this operation DeleteSteeringPolicy()
 func (client DnsClient) DeleteSteeringPolicy(ctx context.Context, request DeleteSteeringPolicyRequest) (response DeleteSteeringPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1007,9 +1023,10 @@ func (client DnsClient) deleteSteeringPolicy(ctx context.Context, request common
 
 // DeleteSteeringPolicyAttachment Deletes the specified steering policy attachment.
 // A `204` response indicates that the delete has been successful.
+// A default retry strategy applies to this operation DeleteSteeringPolicyAttachment()
 func (client DnsClient) DeleteSteeringPolicyAttachment(ctx context.Context, request DeleteSteeringPolicyAttachmentRequest) (response DeleteSteeringPolicyAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1060,9 +1077,10 @@ func (client DnsClient) deleteSteeringPolicyAttachment(ctx context.Context, requ
 }
 
 // DeleteTsigKey Deletes the specified TSIG key.
+// A default retry strategy applies to this operation DeleteTsigKey()
 func (client DnsClient) DeleteTsigKey(ctx context.Context, request DeleteTsigKeyRequest) (response DeleteTsigKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1117,9 +1135,10 @@ func (client DnsClient) deleteTsigKey(ctx context.Context, request common.OCIReq
 // response to be consistent with other operations of the API. Views cannot be
 // deleted if they are referenced by non-deleted zones or resolvers.
 // Protected views cannot be deleted.
+// A default retry strategy applies to this operation DeleteView()
 func (client DnsClient) DeleteView(ctx context.Context, request DeleteViewRequest) (response DeleteViewResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1229,9 +1248,10 @@ func (client DnsClient) deleteZone(ctx context.Context, request common.OCIReques
 // The results are sorted by `rtype` in alphabetical order by default. You can optionally filter and/or sort
 // the results using the listed parameters. When the zone name is provided as a path parameter and `PRIVATE`
 // is used for the scope query parameter then the viewId query parameter is required.
+// A default retry strategy applies to this operation GetDomainRecords()
 func (client DnsClient) GetDomainRecords(ctx context.Context, request GetDomainRecordsRequest) (response GetDomainRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1284,9 +1304,10 @@ func (client DnsClient) getDomainRecords(ctx context.Context, request common.OCI
 // GetRRSet Gets a list of all records in the specified RRSet.
 // The results are sorted by `recordHash` by default. When the zone name is provided as a path parameter
 // and `PRIVATE` is used for the scope query parameter then the viewId query parameter is required.
+// A default retry strategy applies to this operation GetRRSet()
 func (client DnsClient) GetRRSet(ctx context.Context, request GetRRSetRequest) (response GetRRSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1339,9 +1360,10 @@ func (client DnsClient) getRRSet(ctx context.Context, request common.OCIRequest,
 // GetResolver Gets information about a specific resolver.
 // Note that attempting to get a resolver in the DELETED lifecycleState will result in a `404`
 // response to be consistent with other operations of the API.
+// A default retry strategy applies to this operation GetResolver()
 func (client DnsClient) GetResolver(ctx context.Context, request GetResolverRequest) (response GetResolverResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1394,9 +1416,10 @@ func (client DnsClient) getResolver(ctx context.Context, request common.OCIReque
 // GetResolverEndpoint Gets information about a specific resolver endpoint.
 // Note that attempting to get a resolver endpoint in the DELETED lifecycle state will result
 // in a `404` response to be consistent with other operations of the API.
+// A default retry strategy applies to this operation GetResolverEndpoint()
 func (client DnsClient) GetResolverEndpoint(ctx context.Context, request GetResolverEndpointRequest) (response GetResolverEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1447,9 +1470,10 @@ func (client DnsClient) getResolverEndpoint(ctx context.Context, request common.
 }
 
 // GetSteeringPolicy Gets information about the specified steering policy.
+// A default retry strategy applies to this operation GetSteeringPolicy()
 func (client DnsClient) GetSteeringPolicy(ctx context.Context, request GetSteeringPolicyRequest) (response GetSteeringPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1500,9 +1524,10 @@ func (client DnsClient) getSteeringPolicy(ctx context.Context, request common.OC
 }
 
 // GetSteeringPolicyAttachment Gets information about the specified steering policy attachment.
+// A default retry strategy applies to this operation GetSteeringPolicyAttachment()
 func (client DnsClient) GetSteeringPolicyAttachment(ctx context.Context, request GetSteeringPolicyAttachmentRequest) (response GetSteeringPolicyAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1553,9 +1578,10 @@ func (client DnsClient) getSteeringPolicyAttachment(ctx context.Context, request
 }
 
 // GetTsigKey Gets information about the specified TSIG key.
+// A default retry strategy applies to this operation GetTsigKey()
 func (client DnsClient) GetTsigKey(ctx context.Context, request GetTsigKeyRequest) (response GetTsigKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1609,9 +1635,10 @@ func (client DnsClient) getTsigKey(ctx context.Context, request common.OCIReques
 // Note that attempting to get a
 // view in the DELETED lifecycleState will result in a `404` response to be
 // consistent with other operations of the API.
+// A default retry strategy applies to this operation GetView()
 func (client DnsClient) GetView(ctx context.Context, request GetViewRequest) (response GetViewResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1664,9 +1691,10 @@ func (client DnsClient) getView(ctx context.Context, request common.OCIRequest, 
 // GetZone Gets information about the specified zone, including its creation date, zone type, and serial.
 // When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query
 // parameter then the viewId query parameter is required.
+// A default retry strategy applies to this operation GetZone()
 func (client DnsClient) GetZone(ctx context.Context, request GetZoneRequest) (response GetZoneResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1717,9 +1745,10 @@ func (client DnsClient) getZone(ctx context.Context, request common.OCIRequest, 
 }
 
 // GetZoneContent Gets the requested zone's zone file.
+// A default retry strategy applies to this operation GetZoneContent()
 func (client DnsClient) GetZoneContent(ctx context.Context, request GetZoneContentRequest) (response GetZoneContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1773,9 +1802,10 @@ func (client DnsClient) getZoneContent(ctx context.Context, request common.OCIRe
 // see Resource Record (RR) TYPEs (https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4).
 // When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query parameter
 // then the viewId query parameter is required.
+// A default retry strategy applies to this operation GetZoneRecords()
 func (client DnsClient) GetZoneRecords(ctx context.Context, request GetZoneRecordsRequest) (response GetZoneRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1845,9 +1875,10 @@ func (m *listresolverendpointsummary) UnmarshalPolymorphicJSON(data []byte) (int
 // It can be sorted on creation time or name both in ASC or DESC order. Note that when no lifecycleState
 // query parameter is provided, the collection does not include resolver endpoints in the DELETED
 // lifecycle state to be consistent with other operations of the API.
+// A default retry strategy applies to this operation ListResolverEndpoints()
 func (client DnsClient) ListResolverEndpoints(ctx context.Context, request ListResolverEndpointsRequest) (response ListResolverEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1902,9 +1933,10 @@ func (client DnsClient) listResolverEndpoints(ctx context.Context, request commo
 // on creation time or displayName both in ASC or DESC order. Note that when no lifecycleState
 // query parameter is provided, the collection does not include resolvers in the DELETED
 // lifecycleState to be consistent with other operations of the API.
+// A default retry strategy applies to this operation ListResolvers()
 func (client DnsClient) ListResolvers(ctx context.Context, request ListResolversRequest) (response ListResolversResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1955,9 +1987,10 @@ func (client DnsClient) listResolvers(ctx context.Context, request common.OCIReq
 }
 
 // ListSteeringPolicies Gets a list of all steering policies in the specified compartment.
+// A default retry strategy applies to this operation ListSteeringPolicies()
 func (client DnsClient) ListSteeringPolicies(ctx context.Context, request ListSteeringPoliciesRequest) (response ListSteeringPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2008,9 +2041,10 @@ func (client DnsClient) listSteeringPolicies(ctx context.Context, request common
 }
 
 // ListSteeringPolicyAttachments Lists the steering policy attachments in the specified compartment.
+// A default retry strategy applies to this operation ListSteeringPolicyAttachments()
 func (client DnsClient) ListSteeringPolicyAttachments(ctx context.Context, request ListSteeringPolicyAttachmentsRequest) (response ListSteeringPolicyAttachmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2061,9 +2095,10 @@ func (client DnsClient) listSteeringPolicyAttachments(ctx context.Context, reque
 }
 
 // ListTsigKeys Gets a list of all TSIG keys in the specified compartment.
+// A default retry strategy applies to this operation ListTsigKeys()
 func (client DnsClient) ListTsigKeys(ctx context.Context, request ListTsigKeysRequest) (response ListTsigKeysResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2118,9 +2153,10 @@ func (client DnsClient) listTsigKeys(ctx context.Context, request common.OCIRequ
 // on creation time or displayName both in ASC or DESC order. Note that when no lifecycleState
 // query parameter is provided, the collection does not include views in the DELETED
 // lifecycleState to be consistent with other operations of the API.
+// A default retry strategy applies to this operation ListViews()
 func (client DnsClient) ListViews(ctx context.Context, request ListViewsRequest) (response ListViewsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2173,9 +2209,10 @@ func (client DnsClient) listViews(ctx context.Context, request common.OCIRequest
 // ListZoneTransferServers Gets a list of IP addresses of OCI nameservers for inbound and outbound transfer of zones in the specified
 // compartment (which must be the root compartment of a tenancy) that transfer zone data with external master or
 // downstream nameservers.
+// A default retry strategy applies to this operation ListZoneTransferServers()
 func (client DnsClient) ListZoneTransferServers(ctx context.Context, request ListZoneTransferServersRequest) (response ListZoneTransferServersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2228,9 +2265,10 @@ func (client DnsClient) listZoneTransferServers(ctx context.Context, request com
 // ListZones Gets a list of all zones in the specified compartment.
 // The collection can be filtered by name, time created, scope, associated view, and zone type.
 // Filtering by view is only supported for private zones.
+// A default retry strategy applies to this operation ListZones()
 func (client DnsClient) ListZones(ctx context.Context, request ListZonesRequest) (response ListZonesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2285,9 +2323,10 @@ func (client DnsClient) listZones(ctx context.Context, request common.OCIRequest
 // request body. You can also add or remove records using this function. When the zone name is provided as
 // a path parameter and `PRIVATE` is used for the scope query parameter then the viewId query parameter is
 // required.
+// A default retry strategy applies to this operation PatchDomainRecords()
 func (client DnsClient) PatchDomainRecords(ctx context.Context, request PatchDomainRecordsRequest) (response PatchDomainRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2340,9 +2379,10 @@ func (client DnsClient) patchDomainRecords(ctx context.Context, request common.O
 // PatchRRSet Updates records in the specified RRSet.
 // When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query
 // parameter then the viewId query parameter is required.
+// A default retry strategy applies to this operation PatchRRSet()
 func (client DnsClient) PatchRRSet(ctx context.Context, request PatchRRSetRequest) (response PatchRRSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2397,9 +2437,10 @@ func (client DnsClient) patchRRSet(ctx context.Context, request common.OCIReques
 // request body. You can also add or remove records using this function. When the zone name is provided as
 // a path parameter and `PRIVATE` is used for the scope query parameter then the viewId query parameter is
 // required.
+// A default retry strategy applies to this operation PatchZoneRecords()
 func (client DnsClient) PatchZoneRecords(ctx context.Context, request PatchZoneRecordsRequest) (response PatchZoneRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2459,9 +2500,10 @@ func (client DnsClient) patchZoneRecords(ctx context.Context, request common.OCI
 // DnssecKeyVersion and to stop signing with the DnssecKeyVersion that is being replaced.
 // TODO: Add link to docs covering impacts of timing. For example creating a replacement key too soon after the
 // current key took over.
+// A default retry strategy applies to this operation PromoteZoneDnssecKeyVersion()
 func (client DnsClient) PromoteZoneDnssecKeyVersion(ctx context.Context, request PromoteZoneDnssecKeyVersionRequest) (response PromoteZoneDnssecKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2524,9 +2566,10 @@ func (client DnsClient) promoteZoneDnssecKeyVersion(ctx context.Context, request
 // TODO: Add link to docs covering impacts of timing. For example promoting a key too soon after the
 // replacment was staged can lead to ZSK swap happening to fast. Also, scheduling the removal of the key too
 // quickly can lead to issues. Need to link to handling emergency rollover and modifying TTLs.
+// A default retry strategy applies to this operation StageZoneDnssecKeyVersion()
 func (client DnsClient) StageZoneDnssecKeyVersion(ctx context.Context, request StageZoneDnssecKeyVersionRequest) (response StageZoneDnssecKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2586,9 +2629,10 @@ func (client DnsClient) stageZoneDnssecKeyVersion(ctx context.Context, request c
 // represent the record in the body of the request. If a record in the zone does not exist in the request body,
 // the record will be removed from the zone. When the zone name is provided as a path parameter and `PRIVATE`
 // is used for the scope query parameter then the viewId query parameter is required.
+// A default retry strategy applies to this operation UpdateDomainRecords()
 func (client DnsClient) UpdateDomainRecords(ctx context.Context, request UpdateDomainRecordsRequest) (response UpdateDomainRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2641,9 +2685,10 @@ func (client DnsClient) updateDomainRecords(ctx context.Context, request common.
 // UpdateRRSet Replaces records in the specified RRSet.
 // When the zone name is provided as a path parameter and `PRIVATE` is used for the scope
 // query parameter then the viewId query parameter is required.
+// A default retry strategy applies to this operation UpdateRRSet()
 func (client DnsClient) UpdateRRSet(ctx context.Context, request UpdateRRSetRequest) (response UpdateRRSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2694,9 +2739,10 @@ func (client DnsClient) updateRRSet(ctx context.Context, request common.OCIReque
 }
 
 // UpdateResolver Updates the specified resolver with your new information.
+// A default retry strategy applies to this operation UpdateResolver()
 func (client DnsClient) UpdateResolver(ctx context.Context, request UpdateResolverRequest) (response UpdateResolverResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2747,9 +2793,10 @@ func (client DnsClient) updateResolver(ctx context.Context, request common.OCIRe
 }
 
 // UpdateResolverEndpoint Updates the specified resolver endpoint with your new information.
+// A default retry strategy applies to this operation UpdateResolverEndpoint()
 func (client DnsClient) UpdateResolverEndpoint(ctx context.Context, request UpdateResolverEndpointRequest) (response UpdateResolverEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2800,9 +2847,10 @@ func (client DnsClient) updateResolverEndpoint(ctx context.Context, request comm
 }
 
 // UpdateSteeringPolicy Updates the configuration of the specified steering policy.
+// A default retry strategy applies to this operation UpdateSteeringPolicy()
 func (client DnsClient) UpdateSteeringPolicy(ctx context.Context, request UpdateSteeringPolicyRequest) (response UpdateSteeringPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2853,9 +2901,10 @@ func (client DnsClient) updateSteeringPolicy(ctx context.Context, request common
 }
 
 // UpdateSteeringPolicyAttachment Updates the specified steering policy attachment with your new information.
+// A default retry strategy applies to this operation UpdateSteeringPolicyAttachment()
 func (client DnsClient) UpdateSteeringPolicyAttachment(ctx context.Context, request UpdateSteeringPolicyAttachmentRequest) (response UpdateSteeringPolicyAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2906,9 +2955,10 @@ func (client DnsClient) updateSteeringPolicyAttachment(ctx context.Context, requ
 }
 
 // UpdateTsigKey Updates the specified TSIG key.
+// A default retry strategy applies to this operation UpdateTsigKey()
 func (client DnsClient) UpdateTsigKey(ctx context.Context, request UpdateTsigKeyRequest) (response UpdateTsigKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2959,9 +3009,10 @@ func (client DnsClient) updateTsigKey(ctx context.Context, request common.OCIReq
 }
 
 // UpdateView Updates the specified view with your new information.
+// A default retry strategy applies to this operation UpdateView()
 func (client DnsClient) UpdateView(ctx context.Context, request UpdateViewRequest) (response UpdateViewResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3016,9 +3067,10 @@ func (client DnsClient) updateView(ctx context.Context, request common.OCIReques
 // zones, see Manage DNS Service Zone (https://docs.cloud.oracle.com/iaas/Content/DNS/Tasks/managingdnszones.htm). When the zone name
 // is provided as a path parameter and `PRIVATE` is used for the scope query parameter then the viewId
 // query parameter is required.
+// A default retry strategy applies to this operation UpdateZone()
 func (client DnsClient) UpdateZone(ctx context.Context, request UpdateZoneRequest) (response UpdateZoneResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3074,9 +3126,10 @@ func (client DnsClient) updateZone(ctx context.Context, request common.OCIReques
 // request body, the record will be removed from the zone. When the zone name is provided as a path
 // parameter and `PRIVATE` is used for the scope query parameter then the viewId query parameter is
 // required.
+// A default retry strategy applies to this operation UpdateZoneRecords()
 func (client DnsClient) UpdateZoneRecords(ctx context.Context, request UpdateZoneRecordsRequest) (response UpdateZoneRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

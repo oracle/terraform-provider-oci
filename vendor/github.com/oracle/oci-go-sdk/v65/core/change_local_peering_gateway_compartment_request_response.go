@@ -14,7 +14,7 @@ import (
 // ChangeLocalPeeringGatewayCompartmentRequest wrapper for the ChangeLocalPeeringGatewayCompartment operation
 type ChangeLocalPeeringGatewayCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the local peering gateway.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the local peering gateway.
 	LocalPeeringGatewayId *string `mandatory:"true" contributesTo:"path" name:"localPeeringGatewayId"`
 
 	// Request to change the compartment of a given local peering gateway.

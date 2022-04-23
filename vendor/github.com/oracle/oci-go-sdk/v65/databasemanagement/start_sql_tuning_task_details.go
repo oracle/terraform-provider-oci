@@ -34,21 +34,25 @@ type StartSqlTuningTaskDetails struct {
 	// is included.
 	Scope StartSqlTuningTaskDetailsScopeEnum `mandatory:"true" json:"scope"`
 
-	// The array of the details of SQL statement on which tuning is performed.
-	SqlDetails []SqlTuningTaskSqlDetail `mandatory:"true" json:"sqlDetails"`
-
-	// The start time of the period in which SQL statements are running.
-	TimeStarted *common.SDKTime `mandatory:"true" json:"timeStarted"`
-
-	// The end time of the period in which SQL statements are running.
-	TimeEnded *common.SDKTime `mandatory:"true" json:"timeEnded"`
-
 	// The description of the SQL tuning task.
 	TaskDescription *string `mandatory:"false" json:"taskDescription"`
 
 	// The time limit per SQL statement (in minutes). This is for a task with the COMPREHENSIVE scope.
 	// The time limit per SQL statement should not be more than the total time limit.
 	StatementTimeLimitInMinutes *int `mandatory:"false" json:"statementTimeLimitInMinutes"`
+
+	SqlTuningSet *SqlTuningSetInput `mandatory:"false" json:"sqlTuningSet"`
+
+	// The details of the SQL statement on which tuning is performed.
+	// To obtain the details of the SQL statement, you must provide either the sqlTuningSet
+	// or the tuple of sqlDetails/timeStarted/timeEnded.
+	SqlDetails []SqlTuningTaskSqlDetail `mandatory:"false" json:"sqlDetails"`
+
+	// The start time of the period in which SQL statements are running.
+	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
+
+	// The end time of the period in which SQL statements are running.
+	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
 }
 
 func (m StartSqlTuningTaskDetails) String() string {
@@ -75,13 +79,14 @@ func (m *StartSqlTuningTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		TaskDescription             *string                            `json:"taskDescription"`
 		StatementTimeLimitInMinutes *int                               `json:"statementTimeLimitInMinutes"`
+		SqlTuningSet                *SqlTuningSetInput                 `json:"sqlTuningSet"`
+		SqlDetails                  []SqlTuningTaskSqlDetail           `json:"sqlDetails"`
+		TimeStarted                 *common.SDKTime                    `json:"timeStarted"`
+		TimeEnded                   *common.SDKTime                    `json:"timeEnded"`
 		TaskName                    *string                            `json:"taskName"`
 		CredentialDetails           sqltuningtaskcredentialdetails     `json:"credentialDetails"`
 		TotalTimeLimitInMinutes     *int                               `json:"totalTimeLimitInMinutes"`
 		Scope                       StartSqlTuningTaskDetailsScopeEnum `json:"scope"`
-		SqlDetails                  []SqlTuningTaskSqlDetail           `json:"sqlDetails"`
-		TimeStarted                 *common.SDKTime                    `json:"timeStarted"`
-		TimeEnded                   *common.SDKTime                    `json:"timeEnded"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -92,6 +97,17 @@ func (m *StartSqlTuningTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	m.TaskDescription = model.TaskDescription
 
 	m.StatementTimeLimitInMinutes = model.StatementTimeLimitInMinutes
+
+	m.SqlTuningSet = model.SqlTuningSet
+
+	m.SqlDetails = make([]SqlTuningTaskSqlDetail, len(model.SqlDetails))
+	for i, n := range model.SqlDetails {
+		m.SqlDetails[i] = n
+	}
+
+	m.TimeStarted = model.TimeStarted
+
+	m.TimeEnded = model.TimeEnded
 
 	m.TaskName = model.TaskName
 
@@ -108,15 +124,6 @@ func (m *StartSqlTuningTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	m.TotalTimeLimitInMinutes = model.TotalTimeLimitInMinutes
 
 	m.Scope = model.Scope
-
-	m.SqlDetails = make([]SqlTuningTaskSqlDetail, len(model.SqlDetails))
-	for i, n := range model.SqlDetails {
-		m.SqlDetails[i] = n
-	}
-
-	m.TimeStarted = model.TimeStarted
-
-	m.TimeEnded = model.TimeEnded
 
 	return
 }

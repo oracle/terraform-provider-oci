@@ -14,7 +14,7 @@ import (
 // DeleteInternalVnicAttachmentRequest wrapper for the DeleteInternalVnicAttachment operation
 type DeleteInternalVnicAttachmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the internal VNIC.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internal VNIC.
 	InternalVnicId *string `mandatory:"true" contributesTo:"path" name:"internalVnicId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

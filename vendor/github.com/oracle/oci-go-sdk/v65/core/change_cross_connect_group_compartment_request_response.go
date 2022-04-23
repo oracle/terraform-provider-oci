@@ -14,7 +14,7 @@ import (
 // ChangeCrossConnectGroupCompartmentRequest wrapper for the ChangeCrossConnectGroupCompartment operation
 type ChangeCrossConnectGroupCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cross-connect group.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cross-connect group.
 	CrossConnectGroupId *string `mandatory:"true" contributesTo:"path" name:"crossConnectGroupId"`
 
 	// Request to change the compartment of a Cross Connect Group.

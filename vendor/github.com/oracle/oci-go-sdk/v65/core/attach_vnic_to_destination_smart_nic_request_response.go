@@ -14,7 +14,7 @@ import (
 // AttachVnicToDestinationSmartNicRequest wrapper for the AttachVnicToDestinationSmartNic operation
 type AttachVnicToDestinationSmartNicRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the internal VNIC.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internal VNIC.
 	InternalVnicId *string `mandatory:"true" contributesTo:"path" name:"internalVnicId"`
 
 	// Request to attach internal VNIC to destination smart NIC for live migration

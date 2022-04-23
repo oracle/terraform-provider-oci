@@ -14,7 +14,7 @@ import (
 // GetSecurityListRequest wrapper for the GetSecurityList operation
 type GetSecurityListRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the security list.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the security list.
 	SecurityListId *string `mandatory:"true" contributesTo:"path" name:"securityListId"`
 
 	// Unique Oracle-assigned identifier for the request.

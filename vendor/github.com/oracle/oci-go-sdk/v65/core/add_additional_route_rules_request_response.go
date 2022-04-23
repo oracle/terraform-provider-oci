@@ -14,7 +14,7 @@ import (
 // AddAdditionalRouteRulesRequest wrapper for the AddAdditionalRouteRules operation
 type AddAdditionalRouteRulesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the route table.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table.
 	RtId *string `mandatory:"true" contributesTo:"path" name:"rtId"`
 
 	// Request to add route rules to a given route table.

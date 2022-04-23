@@ -17,22 +17,22 @@ import (
 	"strings"
 )
 
-// OptimizerStatisticsOperationTask Optimizer statistics collection task details.
+// OptimizerStatisticsOperationTask The details of the Optimizer Statistics Collection task.
 type OptimizerStatisticsOperationTask struct {
 
-	// Target object name for which statistics are gathered.
+	// The name of the target object for which statistics are gathered.
 	Target *string `mandatory:"true" json:"target"`
 
-	// Type of the target object.
+	// The type of target object.
 	TargetType OptimizerStatisticsOperationTaskTargetTypeEnum `mandatory:"true" json:"targetType"`
 
-	// Start time of the task collection.
+	// The start time of the Optimizer Statistics Collection task.
 	TimeStart *common.SDKTime `mandatory:"true" json:"timeStart"`
 
-	// End time of the task collection.
+	// The end time of the Optimizer Statistics Collection task.
 	TimeEnd *common.SDKTime `mandatory:"true" json:"timeEnd"`
 
-	// Task collection status.
+	// The status of the Optimizer Statistics Collection task.
 	Status OptimizerStatisticsOperationTaskStatusEnum `mandatory:"true" json:"status"`
 }
 

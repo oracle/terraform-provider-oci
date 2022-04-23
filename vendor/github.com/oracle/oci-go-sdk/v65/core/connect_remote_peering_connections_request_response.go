@@ -14,7 +14,7 @@ import (
 // ConnectRemotePeeringConnectionsRequest wrapper for the ConnectRemotePeeringConnections operation
 type ConnectRemotePeeringConnectionsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the remote peering connection (RPC).
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the remote peering connection (RPC).
 	RemotePeeringConnectionId *string `mandatory:"true" contributesTo:"path" name:"remotePeeringConnectionId"`
 
 	// Details to connect peering connection with peering connection from remote region

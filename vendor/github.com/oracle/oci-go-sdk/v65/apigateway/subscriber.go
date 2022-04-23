@@ -27,11 +27,6 @@ type Subscriber struct {
 	// resource is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable.
-	// Avoid entering confidential information.
-	// Example: `My new resource`
-	DisplayName *string `mandatory:"true" json:"displayName"`
-
 	// The clients belonging to this subscriber.
 	Clients []Client `mandatory:"true" json:"clients"`
 
@@ -47,6 +42,11 @@ type Subscriber struct {
 
 	// The current state of the subscriber.
 	LifecycleState SubscriberLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
+	// Example: `My new resource`
+	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// A message describing the current state in more detail.
 	// For example, can be used to provide actionable information for a

@@ -14,7 +14,7 @@ import (
 // ChangeIPSecConnectionCompartmentRequest wrapper for the ChangeIPSecConnectionCompartment operation
 type ChangeIPSecConnectionCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the IPSec connection.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPSec connection.
 	IpscId *string `mandatory:"true" contributesTo:"path" name:"ipscId"`
 
 	// Request to change the compartment of a IPSec connection.

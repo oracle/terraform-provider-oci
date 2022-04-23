@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// FindingSchemaOrOperation Findings of the optimizer statistics advisor gathering.
+// FindingSchemaOrOperation The findings of the Optimizer Statistics Advisor.
 type FindingSchemaOrOperation struct {
 
-	// List of operation details.
+	// The list of operation details.
 	Operations []string `mandatory:"false" json:"operations"`
 
-	// Names of impacted database schemas and their objects.
+	// The names of the impacted database schemas and their objects.
 	Schemas []SchemaDefinition `mandatory:"false" json:"schemas"`
 }
 

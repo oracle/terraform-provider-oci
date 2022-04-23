@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ImplementOptimizerStatisticsAdvisorRecommendationsJob Optimizer statistics advisor task implement finding recommendations job request details.
+// ImplementOptimizerStatisticsAdvisorRecommendationsJob The job request details to implement the Optimizer Statistics Advisor task recommendations.
 type ImplementOptimizerStatisticsAdvisorRecommendationsJob struct {
 
 	// The name of the job. Valid characters are uppercase or lowercase letters,
@@ -31,7 +31,7 @@ type ImplementOptimizerStatisticsAdvisorRecommendationsJob struct {
 
 	ResultLocation JobExecutionResultLocation `mandatory:"true" json:"resultLocation"`
 
-	// Name of the execution.
+	// The name of the execution.
 	Description *string `mandatory:"false" json:"description"`
 
 	Credentials ManagedDatabaseCredential `mandatory:"false" json:"credentials"`

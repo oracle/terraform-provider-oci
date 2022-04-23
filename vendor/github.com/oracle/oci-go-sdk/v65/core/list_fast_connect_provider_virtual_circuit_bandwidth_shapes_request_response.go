@@ -14,7 +14,7 @@ import (
 // ListFastConnectProviderVirtualCircuitBandwidthShapesRequest wrapper for the ListFastConnectProviderVirtualCircuitBandwidthShapes operation
 type ListFastConnectProviderVirtualCircuitBandwidthShapesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the provider service.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the provider service.
 	ProviderServiceId *string `mandatory:"true" contributesTo:"path" name:"providerServiceId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated

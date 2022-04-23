@@ -14,7 +14,7 @@ import (
 // UpdateC3DrgRequest wrapper for the UpdateC3Drg operation
 type UpdateC3DrgRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DRG.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 	DrgId *string `mandatory:"true" contributesTo:"path" name:"drgId"`
 
 	// Details object for updating a DRG.

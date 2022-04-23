@@ -17,7 +17,7 @@ type GetOptimizerStatisticsAdvisorExecutionRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
-	// The name of the optimizer statistics advisor execution.
+	// The name of the Optimizer Statistics Advisor execution.
 	ExecutionName *string `mandatory:"true" contributesTo:"path" name:"executionName"`
 
 	// The name of the optimizer statistics collection execution task.

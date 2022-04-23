@@ -23,7 +23,7 @@ import (
 // RemotePeeringConnectionDrgAttachmentNetworkCreateDetails The representation of RemotePeeringConnectionDrgAttachmentNetworkCreateDetails
 type RemotePeeringConnectionDrgAttachmentNetworkCreateDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of compartment that contains the remote peering connection.

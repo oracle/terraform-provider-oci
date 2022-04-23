@@ -138,54 +138,57 @@ type MacroPivotFieldModelTypeEnum string
 
 // Set of constants representing the allowable values for MacroPivotFieldModelTypeEnum
 const (
-	MacroPivotFieldModelTypeShape             MacroPivotFieldModelTypeEnum = "SHAPE"
-	MacroPivotFieldModelTypeInputPort         MacroPivotFieldModelTypeEnum = "INPUT_PORT"
-	MacroPivotFieldModelTypeShapeField        MacroPivotFieldModelTypeEnum = "SHAPE_FIELD"
-	MacroPivotFieldModelTypeInputField        MacroPivotFieldModelTypeEnum = "INPUT_FIELD"
-	MacroPivotFieldModelTypeDerivedField      MacroPivotFieldModelTypeEnum = "DERIVED_FIELD"
-	MacroPivotFieldModelTypeMacroField        MacroPivotFieldModelTypeEnum = "MACRO_FIELD"
-	MacroPivotFieldModelTypeOutputField       MacroPivotFieldModelTypeEnum = "OUTPUT_FIELD"
-	MacroPivotFieldModelTypeDynamicProxyField MacroPivotFieldModelTypeEnum = "DYNAMIC_PROXY_FIELD"
-	MacroPivotFieldModelTypeOutputPort        MacroPivotFieldModelTypeEnum = "OUTPUT_PORT"
-	MacroPivotFieldModelTypeDynamicInputField MacroPivotFieldModelTypeEnum = "DYNAMIC_INPUT_FIELD"
-	MacroPivotFieldModelTypeProxyField        MacroPivotFieldModelTypeEnum = "PROXY_FIELD"
-	MacroPivotFieldModelTypeParameter         MacroPivotFieldModelTypeEnum = "PARAMETER"
-	MacroPivotFieldModelTypePivotField        MacroPivotFieldModelTypeEnum = "PIVOT_FIELD"
-	MacroPivotFieldModelTypeMacroPivotField   MacroPivotFieldModelTypeEnum = "MACRO_PIVOT_FIELD"
+	MacroPivotFieldModelTypeShape                 MacroPivotFieldModelTypeEnum = "SHAPE"
+	MacroPivotFieldModelTypeInputPort             MacroPivotFieldModelTypeEnum = "INPUT_PORT"
+	MacroPivotFieldModelTypeShapeField            MacroPivotFieldModelTypeEnum = "SHAPE_FIELD"
+	MacroPivotFieldModelTypeInputField            MacroPivotFieldModelTypeEnum = "INPUT_FIELD"
+	MacroPivotFieldModelTypeDerivedField          MacroPivotFieldModelTypeEnum = "DERIVED_FIELD"
+	MacroPivotFieldModelTypeMacroField            MacroPivotFieldModelTypeEnum = "MACRO_FIELD"
+	MacroPivotFieldModelTypeOutputField           MacroPivotFieldModelTypeEnum = "OUTPUT_FIELD"
+	MacroPivotFieldModelTypeDynamicProxyField     MacroPivotFieldModelTypeEnum = "DYNAMIC_PROXY_FIELD"
+	MacroPivotFieldModelTypeOutputPort            MacroPivotFieldModelTypeEnum = "OUTPUT_PORT"
+	MacroPivotFieldModelTypeDynamicInputField     MacroPivotFieldModelTypeEnum = "DYNAMIC_INPUT_FIELD"
+	MacroPivotFieldModelTypeProxyField            MacroPivotFieldModelTypeEnum = "PROXY_FIELD"
+	MacroPivotFieldModelTypeParameter             MacroPivotFieldModelTypeEnum = "PARAMETER"
+	MacroPivotFieldModelTypePivotField            MacroPivotFieldModelTypeEnum = "PIVOT_FIELD"
+	MacroPivotFieldModelTypeMacroPivotField       MacroPivotFieldModelTypeEnum = "MACRO_PIVOT_FIELD"
+	MacroPivotFieldModelTypeConditionalOutputPort MacroPivotFieldModelTypeEnum = "CONDITIONAL_OUTPUT_PORT"
 )
 
 var mappingMacroPivotFieldModelTypeEnum = map[string]MacroPivotFieldModelTypeEnum{
-	"SHAPE":               MacroPivotFieldModelTypeShape,
-	"INPUT_PORT":          MacroPivotFieldModelTypeInputPort,
-	"SHAPE_FIELD":         MacroPivotFieldModelTypeShapeField,
-	"INPUT_FIELD":         MacroPivotFieldModelTypeInputField,
-	"DERIVED_FIELD":       MacroPivotFieldModelTypeDerivedField,
-	"MACRO_FIELD":         MacroPivotFieldModelTypeMacroField,
-	"OUTPUT_FIELD":        MacroPivotFieldModelTypeOutputField,
-	"DYNAMIC_PROXY_FIELD": MacroPivotFieldModelTypeDynamicProxyField,
-	"OUTPUT_PORT":         MacroPivotFieldModelTypeOutputPort,
-	"DYNAMIC_INPUT_FIELD": MacroPivotFieldModelTypeDynamicInputField,
-	"PROXY_FIELD":         MacroPivotFieldModelTypeProxyField,
-	"PARAMETER":           MacroPivotFieldModelTypeParameter,
-	"PIVOT_FIELD":         MacroPivotFieldModelTypePivotField,
-	"MACRO_PIVOT_FIELD":   MacroPivotFieldModelTypeMacroPivotField,
+	"SHAPE":                   MacroPivotFieldModelTypeShape,
+	"INPUT_PORT":              MacroPivotFieldModelTypeInputPort,
+	"SHAPE_FIELD":             MacroPivotFieldModelTypeShapeField,
+	"INPUT_FIELD":             MacroPivotFieldModelTypeInputField,
+	"DERIVED_FIELD":           MacroPivotFieldModelTypeDerivedField,
+	"MACRO_FIELD":             MacroPivotFieldModelTypeMacroField,
+	"OUTPUT_FIELD":            MacroPivotFieldModelTypeOutputField,
+	"DYNAMIC_PROXY_FIELD":     MacroPivotFieldModelTypeDynamicProxyField,
+	"OUTPUT_PORT":             MacroPivotFieldModelTypeOutputPort,
+	"DYNAMIC_INPUT_FIELD":     MacroPivotFieldModelTypeDynamicInputField,
+	"PROXY_FIELD":             MacroPivotFieldModelTypeProxyField,
+	"PARAMETER":               MacroPivotFieldModelTypeParameter,
+	"PIVOT_FIELD":             MacroPivotFieldModelTypePivotField,
+	"MACRO_PIVOT_FIELD":       MacroPivotFieldModelTypeMacroPivotField,
+	"CONDITIONAL_OUTPUT_PORT": MacroPivotFieldModelTypeConditionalOutputPort,
 }
 
 var mappingMacroPivotFieldModelTypeEnumLowerCase = map[string]MacroPivotFieldModelTypeEnum{
-	"shape":               MacroPivotFieldModelTypeShape,
-	"input_port":          MacroPivotFieldModelTypeInputPort,
-	"shape_field":         MacroPivotFieldModelTypeShapeField,
-	"input_field":         MacroPivotFieldModelTypeInputField,
-	"derived_field":       MacroPivotFieldModelTypeDerivedField,
-	"macro_field":         MacroPivotFieldModelTypeMacroField,
-	"output_field":        MacroPivotFieldModelTypeOutputField,
-	"dynamic_proxy_field": MacroPivotFieldModelTypeDynamicProxyField,
-	"output_port":         MacroPivotFieldModelTypeOutputPort,
-	"dynamic_input_field": MacroPivotFieldModelTypeDynamicInputField,
-	"proxy_field":         MacroPivotFieldModelTypeProxyField,
-	"parameter":           MacroPivotFieldModelTypeParameter,
-	"pivot_field":         MacroPivotFieldModelTypePivotField,
-	"macro_pivot_field":   MacroPivotFieldModelTypeMacroPivotField,
+	"shape":                   MacroPivotFieldModelTypeShape,
+	"input_port":              MacroPivotFieldModelTypeInputPort,
+	"shape_field":             MacroPivotFieldModelTypeShapeField,
+	"input_field":             MacroPivotFieldModelTypeInputField,
+	"derived_field":           MacroPivotFieldModelTypeDerivedField,
+	"macro_field":             MacroPivotFieldModelTypeMacroField,
+	"output_field":            MacroPivotFieldModelTypeOutputField,
+	"dynamic_proxy_field":     MacroPivotFieldModelTypeDynamicProxyField,
+	"output_port":             MacroPivotFieldModelTypeOutputPort,
+	"dynamic_input_field":     MacroPivotFieldModelTypeDynamicInputField,
+	"proxy_field":             MacroPivotFieldModelTypeProxyField,
+	"parameter":               MacroPivotFieldModelTypeParameter,
+	"pivot_field":             MacroPivotFieldModelTypePivotField,
+	"macro_pivot_field":       MacroPivotFieldModelTypeMacroPivotField,
+	"conditional_output_port": MacroPivotFieldModelTypeConditionalOutputPort,
 }
 
 // GetMacroPivotFieldModelTypeEnumValues Enumerates the set of values for MacroPivotFieldModelTypeEnum
@@ -214,6 +217,7 @@ func GetMacroPivotFieldModelTypeEnumStringValues() []string {
 		"PARAMETER",
 		"PIVOT_FIELD",
 		"MACRO_PIVOT_FIELD",
+		"CONDITIONAL_OUTPUT_PORT",
 	}
 }
 

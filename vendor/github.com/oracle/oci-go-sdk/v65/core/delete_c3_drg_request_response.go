@@ -14,7 +14,7 @@ import (
 // DeleteC3DrgRequest wrapper for the DeleteC3Drg operation
 type DeleteC3DrgRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DRG.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 	DrgId *string `mandatory:"true" contributesTo:"path" name:"drgId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

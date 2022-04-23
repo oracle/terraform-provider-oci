@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// RecommendationExampleLine Example of the recommendation.
+// RecommendationExampleLine An example line of the recommendation
 type RecommendationExampleLine struct {
 
-	// Example operation details.
+	// The details of the example operation.
 	Operation *string `mandatory:"false" json:"operation"`
 
-	// Comments about operation.
+	// The comments about the operation.
 	Comment *string `mandatory:"false" json:"comment"`
 }
 

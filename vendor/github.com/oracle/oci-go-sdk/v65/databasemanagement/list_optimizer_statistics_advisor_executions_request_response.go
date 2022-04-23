@@ -17,11 +17,11 @@ type ListOptimizerStatisticsAdvisorExecutionsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
-	// The start time of the time range to retrieve the optimizer stats of a Managed Database
+	// The start time of the time range to retrieve the optimizer statistics of a Managed Database
 	// in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'".
 	StartTimeGreaterThanOrEqualTo *string `mandatory:"false" contributesTo:"query" name:"startTimeGreaterThanOrEqualTo"`
 
-	// The end time of the time range to retrieve the optimizer stats of a Managed Database
+	// The end time of the time range to retrieve the optimizer statistics of a Managed Database
 	// in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'".
 	EndTimeLessThanOrEqualTo *string `mandatory:"false" contributesTo:"query" name:"endTimeLessThanOrEqualTo"`
 

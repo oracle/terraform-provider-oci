@@ -122,16 +122,19 @@ type GetDatabaseFleetHealthMetricsCompareTypeEnum string
 const (
 	GetDatabaseFleetHealthMetricsCompareTypeHour GetDatabaseFleetHealthMetricsCompareTypeEnum = "HOUR"
 	GetDatabaseFleetHealthMetricsCompareTypeDay  GetDatabaseFleetHealthMetricsCompareTypeEnum = "DAY"
+	GetDatabaseFleetHealthMetricsCompareTypeWeek GetDatabaseFleetHealthMetricsCompareTypeEnum = "WEEK"
 )
 
 var mappingGetDatabaseFleetHealthMetricsCompareTypeEnum = map[string]GetDatabaseFleetHealthMetricsCompareTypeEnum{
 	"HOUR": GetDatabaseFleetHealthMetricsCompareTypeHour,
 	"DAY":  GetDatabaseFleetHealthMetricsCompareTypeDay,
+	"WEEK": GetDatabaseFleetHealthMetricsCompareTypeWeek,
 }
 
 var mappingGetDatabaseFleetHealthMetricsCompareTypeEnumLowerCase = map[string]GetDatabaseFleetHealthMetricsCompareTypeEnum{
 	"hour": GetDatabaseFleetHealthMetricsCompareTypeHour,
 	"day":  GetDatabaseFleetHealthMetricsCompareTypeDay,
+	"week": GetDatabaseFleetHealthMetricsCompareTypeWeek,
 }
 
 // GetGetDatabaseFleetHealthMetricsCompareTypeEnumValues Enumerates the set of values for GetDatabaseFleetHealthMetricsCompareTypeEnum
@@ -148,6 +151,7 @@ func GetGetDatabaseFleetHealthMetricsCompareTypeEnumStringValues() []string {
 	return []string{
 		"HOUR",
 		"DAY",
+		"WEEK",
 	}
 }
 

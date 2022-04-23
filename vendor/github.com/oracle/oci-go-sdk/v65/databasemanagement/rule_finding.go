@@ -17,16 +17,16 @@ import (
 	"strings"
 )
 
-// RuleFinding Optimizer statistics advisor findings summary along with recommendations.
+// RuleFinding The summary of the Optimizer Statistics Advisor findings and recommendations.
 type RuleFinding struct {
 
-	// High level overview of the findings.
+	// A high-level overview of the findings of the Optimizer Statistics Advisor.
 	Message *string `mandatory:"true" json:"message"`
 
-	// Optional list of schema/operation details.
+	// The details of the schema or operation.
 	Details []FindingSchemaOrOperation `mandatory:"true" json:"details"`
 
-	// List of recommendations.
+	// The list of recommendations.
 	Recommendations []Recommendation `mandatory:"true" json:"recommendations"`
 }
 

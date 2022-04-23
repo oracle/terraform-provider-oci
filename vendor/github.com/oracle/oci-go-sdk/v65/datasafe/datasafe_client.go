@@ -88,9 +88,10 @@ func (client *DataSafeClient) ConfigurationProvider() *common.ConfigurationProvi
 }
 
 // ActivateTargetDatabase Reactivates a previously deactivated Data Safe target database.
+// A default retry strategy applies to this operation ActivateTargetDatabase()
 func (client DataSafeClient) ActivateTargetDatabase(ctx context.Context, request ActivateTargetDatabaseRequest) (response ActivateTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -149,9 +150,10 @@ func (client DataSafeClient) activateTargetDatabase(ctx context.Context, request
 // automatically pulls all the sensitive columns and their relationships from the sensitive
 // data model and uses this information to create columns in the masking policy. It also assigns
 // default masking formats to these columns based on the associated sensitive types.
+// A default retry strategy applies to this operation AddMaskingColumnsFromSdm()
 func (client DataSafeClient) AddMaskingColumnsFromSdm(ctx context.Context, request AddMaskingColumnsFromSdmRequest) (response AddMaskingColumnsFromSdmResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -205,9 +207,10 @@ func (client DataSafeClient) addMaskingColumnsFromSdm(ctx context.Context, reque
 // of discovery results is used for processing them. You should first use PatchDiscoveryJobResults to set the plannedAction
 // attribute of the discovery results you want to process. ApplyDiscoveryJobResults automatically reads the plannedAction
 // attribute and updates the sensitive data model to reflect the actions you planned.
+// A default retry strategy applies to this operation ApplyDiscoveryJobResults()
 func (client DataSafeClient) ApplyDiscoveryJobResults(ctx context.Context, request ApplyDiscoveryJobResultsRequest) (response ApplyDiscoveryJobResultsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -258,9 +261,10 @@ func (client DataSafeClient) applyDiscoveryJobResults(ctx context.Context, reque
 }
 
 // CalculateAuditVolumeAvailable Calculates the volume of audit events available on the target database to be collected. Measurable up to the defined retention period of the audit target resource.
+// A default retry strategy applies to this operation CalculateAuditVolumeAvailable()
 func (client DataSafeClient) CalculateAuditVolumeAvailable(ctx context.Context, request CalculateAuditVolumeAvailableRequest) (response CalculateAuditVolumeAvailableResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -316,9 +320,10 @@ func (client DataSafeClient) calculateAuditVolumeAvailable(ctx context.Context, 
 }
 
 // CalculateAuditVolumeCollected Calculates the volume of audit events collected by data safe.
+// A default retry strategy applies to this operation CalculateAuditVolumeCollected()
 func (client DataSafeClient) CalculateAuditVolumeCollected(ctx context.Context, request CalculateAuditVolumeCollectedRequest) (response CalculateAuditVolumeCollectedResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -374,9 +379,10 @@ func (client DataSafeClient) calculateAuditVolumeCollected(ctx context.Context, 
 }
 
 // CancelWorkRequest Cancel the given work request.
+// A default retry strategy applies to this operation CancelWorkRequest()
 func (client DataSafeClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -432,9 +438,10 @@ func (client DataSafeClient) cancelWorkRequest(ctx context.Context, request comm
 }
 
 // ChangeAlertCompartment Moves the specified alert into a different compartment.
+// A default retry strategy applies to this operation ChangeAlertCompartment()
 func (client DataSafeClient) ChangeAlertCompartment(ctx context.Context, request ChangeAlertCompartmentRequest) (response ChangeAlertCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -490,9 +497,10 @@ func (client DataSafeClient) changeAlertCompartment(ctx context.Context, request
 }
 
 // ChangeAuditArchiveRetrievalCompartment Moves the archive retreival to the specified compartment. When provided, if-Match is checked against ETag value of the resource.
+// A default retry strategy applies to this operation ChangeAuditArchiveRetrievalCompartment()
 func (client DataSafeClient) ChangeAuditArchiveRetrievalCompartment(ctx context.Context, request ChangeAuditArchiveRetrievalCompartmentRequest) (response ChangeAuditArchiveRetrievalCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -548,9 +556,10 @@ func (client DataSafeClient) changeAuditArchiveRetrievalCompartment(ctx context.
 }
 
 // ChangeAuditPolicyCompartment Moves the specified audit policy and its dependent resources into a different compartment.
+// A default retry strategy applies to this operation ChangeAuditPolicyCompartment()
 func (client DataSafeClient) ChangeAuditPolicyCompartment(ctx context.Context, request ChangeAuditPolicyCompartmentRequest) (response ChangeAuditPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -606,9 +615,10 @@ func (client DataSafeClient) changeAuditPolicyCompartment(ctx context.Context, r
 }
 
 // ChangeAuditProfileCompartment Moves the specified audit profile and its dependent resources into a different compartment.
+// A default retry strategy applies to this operation ChangeAuditProfileCompartment()
 func (client DataSafeClient) ChangeAuditProfileCompartment(ctx context.Context, request ChangeAuditProfileCompartmentRequest) (response ChangeAuditProfileCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -664,9 +674,10 @@ func (client DataSafeClient) changeAuditProfileCompartment(ctx context.Context, 
 }
 
 // ChangeDataSafePrivateEndpointCompartment Moves the Data Safe private endpoint and its dependent resources to the specified compartment.
+// A default retry strategy applies to this operation ChangeDataSafePrivateEndpointCompartment()
 func (client DataSafeClient) ChangeDataSafePrivateEndpointCompartment(ctx context.Context, request ChangeDataSafePrivateEndpointCompartmentRequest) (response ChangeDataSafePrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -717,9 +728,10 @@ func (client DataSafeClient) changeDataSafePrivateEndpointCompartment(ctx contex
 }
 
 // ChangeDiscoveryJobCompartment Moves the specified discovery job and its dependent resources into a different compartment.
+// A default retry strategy applies to this operation ChangeDiscoveryJobCompartment()
 func (client DataSafeClient) ChangeDiscoveryJobCompartment(ctx context.Context, request ChangeDiscoveryJobCompartmentRequest) (response ChangeDiscoveryJobCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -775,9 +787,10 @@ func (client DataSafeClient) changeDiscoveryJobCompartment(ctx context.Context, 
 }
 
 // ChangeLibraryMaskingFormatCompartment Moves the specified library masking format into a different compartment.
+// A default retry strategy applies to this operation ChangeLibraryMaskingFormatCompartment()
 func (client DataSafeClient) ChangeLibraryMaskingFormatCompartment(ctx context.Context, request ChangeLibraryMaskingFormatCompartmentRequest) (response ChangeLibraryMaskingFormatCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -833,9 +846,10 @@ func (client DataSafeClient) changeLibraryMaskingFormatCompartment(ctx context.C
 }
 
 // ChangeMaskingPolicyCompartment Moves the specified masking policy and its dependent resources into a different compartment.
+// A default retry strategy applies to this operation ChangeMaskingPolicyCompartment()
 func (client DataSafeClient) ChangeMaskingPolicyCompartment(ctx context.Context, request ChangeMaskingPolicyCompartmentRequest) (response ChangeMaskingPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -891,9 +905,10 @@ func (client DataSafeClient) changeMaskingPolicyCompartment(ctx context.Context,
 }
 
 // ChangeOnPremConnectorCompartment Moves the specified on-premises connector into a different compartment.
+// A default retry strategy applies to this operation ChangeOnPremConnectorCompartment()
 func (client DataSafeClient) ChangeOnPremConnectorCompartment(ctx context.Context, request ChangeOnPremConnectorCompartmentRequest) (response ChangeOnPremConnectorCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -949,9 +964,10 @@ func (client DataSafeClient) changeOnPremConnectorCompartment(ctx context.Contex
 }
 
 // ChangeReportCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeReportCompartment()
 func (client DataSafeClient) ChangeReportCompartment(ctx context.Context, request ChangeReportCompartmentRequest) (response ChangeReportCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1007,9 +1023,10 @@ func (client DataSafeClient) changeReportCompartment(ctx context.Context, reques
 }
 
 // ChangeReportDefinitionCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeReportDefinitionCompartment()
 func (client DataSafeClient) ChangeReportDefinitionCompartment(ctx context.Context, request ChangeReportDefinitionCompartmentRequest) (response ChangeReportDefinitionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1065,9 +1082,10 @@ func (client DataSafeClient) changeReportDefinitionCompartment(ctx context.Conte
 }
 
 // ChangeRetention Change the online and offline months .
+// A default retry strategy applies to this operation ChangeRetention()
 func (client DataSafeClient) ChangeRetention(ctx context.Context, request ChangeRetentionRequest) (response ChangeRetentionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1125,9 +1143,10 @@ func (client DataSafeClient) changeRetention(ctx context.Context, request common
 // ChangeSecurityAssessmentCompartment Moves the specified saved security assessment or future scheduled assessments into a different compartment.
 // To start, call first the operation ListSecurityAssessments with filters "type = save_schedule". This returns the scheduleAssessmentId. Then, call this changeCompartment with the scheduleAssessmentId.
 // The existing saved security assessments created due to the schedule are not moved. However, all new saves will be associated with the new compartment.
+// A default retry strategy applies to this operation ChangeSecurityAssessmentCompartment()
 func (client DataSafeClient) ChangeSecurityAssessmentCompartment(ctx context.Context, request ChangeSecurityAssessmentCompartmentRequest) (response ChangeSecurityAssessmentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1183,9 +1202,10 @@ func (client DataSafeClient) changeSecurityAssessmentCompartment(ctx context.Con
 }
 
 // ChangeSensitiveDataModelCompartment Moves the specified sensitive data model and its dependent resources into a different compartment.
+// A default retry strategy applies to this operation ChangeSensitiveDataModelCompartment()
 func (client DataSafeClient) ChangeSensitiveDataModelCompartment(ctx context.Context, request ChangeSensitiveDataModelCompartmentRequest) (response ChangeSensitiveDataModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1241,9 +1261,10 @@ func (client DataSafeClient) changeSensitiveDataModelCompartment(ctx context.Con
 }
 
 // ChangeSensitiveTypeCompartment Moves the specified sensitive type into a different compartment.
+// A default retry strategy applies to this operation ChangeSensitiveTypeCompartment()
 func (client DataSafeClient) ChangeSensitiveTypeCompartment(ctx context.Context, request ChangeSensitiveTypeCompartmentRequest) (response ChangeSensitiveTypeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1299,9 +1320,10 @@ func (client DataSafeClient) changeSensitiveTypeCompartment(ctx context.Context,
 }
 
 // ChangeTargetAlertPolicyAssociationCompartment Moves the specified target-alert policy Association into a different compartment.
+// A default retry strategy applies to this operation ChangeTargetAlertPolicyAssociationCompartment()
 func (client DataSafeClient) ChangeTargetAlertPolicyAssociationCompartment(ctx context.Context, request ChangeTargetAlertPolicyAssociationCompartmentRequest) (response ChangeTargetAlertPolicyAssociationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1357,9 +1379,10 @@ func (client DataSafeClient) changeTargetAlertPolicyAssociationCompartment(ctx c
 }
 
 // ChangeTargetDatabaseCompartment Moves the Data Safe target database to the specified compartment.
+// A default retry strategy applies to this operation ChangeTargetDatabaseCompartment()
 func (client DataSafeClient) ChangeTargetDatabaseCompartment(ctx context.Context, request ChangeTargetDatabaseCompartmentRequest) (response ChangeTargetDatabaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1419,9 +1442,10 @@ func (client DataSafeClient) changeTargetDatabaseCompartment(ctx context.Context
 // the filters "type = save_schedule". That call returns the scheduleAssessmentId. Then call
 // ChangeUserAssessmentCompartment with the scheduleAssessmentId. The existing saved user assessments created per the schedule
 // are not be moved. However, all new saves will be associated with the new compartment.
+// A default retry strategy applies to this operation ChangeUserAssessmentCompartment()
 func (client DataSafeClient) ChangeUserAssessmentCompartment(ctx context.Context, request ChangeUserAssessmentCompartmentRequest) (response ChangeUserAssessmentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1478,9 +1502,10 @@ func (client DataSafeClient) changeUserAssessmentCompartment(ctx context.Context
 
 // CompareSecurityAssessment Compares two security assessments. For this comparison, a security assessment can be a saved assessment, a latest assessment, or a baseline assessment.
 // For example, you can compare saved assessment or a latest assessment against a baseline.
+// A default retry strategy applies to this operation CompareSecurityAssessment()
 func (client DataSafeClient) CompareSecurityAssessment(ctx context.Context, request CompareSecurityAssessmentRequest) (response CompareSecurityAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1537,9 +1562,10 @@ func (client DataSafeClient) compareSecurityAssessment(ctx context.Context, requ
 
 // CompareUserAssessment Compares two user assessments. For this comparison, a user assessment can be a saved, a latest assessment, or a baseline.
 // As an example, it can be used to compare a user assessment saved or a latest assessment with a baseline.
+// A default retry strategy applies to this operation CompareUserAssessment()
 func (client DataSafeClient) CompareUserAssessment(ctx context.Context, request CompareUserAssessmentRequest) (response CompareUserAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1597,9 +1623,10 @@ func (client DataSafeClient) compareUserAssessment(ctx context.Context, request 
 // CreateAuditArchiveRetrieval Creates a work request to retrieve archived audit data. This asynchronous process will usually take over an hour to complete.
 // Save the id from the response of this operation. Call GetAuditArchiveRetrieval operation after an hour, passing the id to know the status of
 // this operation.
+// A default retry strategy applies to this operation CreateAuditArchiveRetrieval()
 func (client DataSafeClient) CreateAuditArchiveRetrieval(ctx context.Context, request CreateAuditArchiveRetrievalRequest) (response CreateAuditArchiveRetrievalResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1655,9 +1682,10 @@ func (client DataSafeClient) createAuditArchiveRetrieval(ctx context.Context, re
 }
 
 // CreateDataSafePrivateEndpoint Creates a new Data Safe private endpoint.
+// A default retry strategy applies to this operation CreateDataSafePrivateEndpoint()
 func (client DataSafeClient) CreateDataSafePrivateEndpoint(ctx context.Context, request CreateDataSafePrivateEndpointRequest) (response CreateDataSafePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1717,9 +1745,10 @@ func (client DataSafeClient) createDataSafePrivateEndpoint(ctx context.Context, 
 // After performing data discovery, you can use ListDiscoveryJobResults to view the discovery results, PatchDiscoveryJobResults
 // to specify the action you want perform on these results, and then ApplyDiscoveryJobResults to process the results
 // and apply them to the sensitive data model.
+// A default retry strategy applies to this operation CreateDiscoveryJob()
 func (client DataSafeClient) CreateDiscoveryJob(ctx context.Context, request CreateDiscoveryJobRequest) (response CreateDiscoveryJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1779,9 +1808,10 @@ func (client DataSafeClient) createDiscoveryJob(ctx context.Context, request com
 // It provides the flexibility to define a masking format that can generate different
 // parts of a data value separately and then combine them to get the final data value
 // for masking. Note that you cannot define masking condition in a library masking format.
+// A default retry strategy applies to this operation CreateLibraryMaskingFormat()
 func (client DataSafeClient) CreateLibraryMaskingFormat(ctx context.Context, request CreateLibraryMaskingFormatRequest) (response CreateLibraryMaskingFormatResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1854,9 +1884,10 @@ func (client DataSafeClient) createLibraryMaskingFormat(ctx context.Context, req
 // You can use the maskingColumnGroup attribute to group the columns that you would
 // like to mask together. It enables you to do <a href="https://docs.oracle.com/en/cloud/paas/data-safe/udscs/group-masking1.html#GUID-755056B9-9540-48C0-9491-262A44A85037">group or compound masking</a> that ensures that the
 // masked data across the columns in a group continue to retain the same logical relationship.
+// A default retry strategy applies to this operation CreateMaskingColumn()
 func (client DataSafeClient) CreateMaskingColumn(ctx context.Context, request CreateMaskingColumnRequest) (response CreateMaskingColumnResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1925,9 +1956,10 @@ func (client DataSafeClient) createMaskingColumn(ctx context.Context, request co
 // operation to manually add columns to the policy. You need to add the parent columns only,
 // and it automatically adds the child columns (in referential relationship with the parent columns)
 // from the associated sensitive data model or target database.
+// A default retry strategy applies to this operation CreateMaskingPolicy()
 func (client DataSafeClient) CreateMaskingPolicy(ctx context.Context, request CreateMaskingPolicyRequest) (response CreateMaskingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1983,9 +2015,10 @@ func (client DataSafeClient) createMaskingPolicy(ctx context.Context, request co
 }
 
 // CreateOnPremConnector Creates a new on-premises connector.
+// A default retry strategy applies to this operation CreateOnPremConnector()
 func (client DataSafeClient) CreateOnPremConnector(ctx context.Context, request CreateOnPremConnectorRequest) (response CreateOnPremConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2041,9 +2074,10 @@ func (client DataSafeClient) createOnPremConnector(ctx context.Context, request 
 }
 
 // CreateReportDefinition Creates a new report definition with parameters specified in the body. The report definition is stored in the specified compartment.
+// A default retry strategy applies to this operation CreateReportDefinition()
 func (client DataSafeClient) CreateReportDefinition(ctx context.Context, request CreateReportDefinitionRequest) (response CreateReportDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2101,9 +2135,10 @@ func (client DataSafeClient) createReportDefinition(ctx context.Context, request
 // CreateSecurityAssessment Creates a new saved security assessment for one or multiple targets in a compartment. When this operation is performed,
 // it will save the latest assessments in the specified compartment. If a schedule is passed, it will persist the latest assessments,
 // at the defined date and time, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+// A default retry strategy applies to this operation CreateSecurityAssessment()
 func (client DataSafeClient) CreateSecurityAssessment(ctx context.Context, request CreateSecurityAssessmentRequest) (response CreateSecurityAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2159,9 +2194,10 @@ func (client DataSafeClient) createSecurityAssessment(ctx context.Context, reque
 }
 
 // CreateSensitiveColumn Creates a new sensitive column in the specified sensitive data model.
+// A default retry strategy applies to this operation CreateSensitiveColumn()
 func (client DataSafeClient) CreateSensitiveColumn(ctx context.Context, request CreateSensitiveColumnRequest) (response CreateSensitiveColumnResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2219,9 +2255,10 @@ func (client DataSafeClient) createSensitiveColumn(ctx context.Context, request 
 // CreateSensitiveDataModel Creates a new sensitive data model. If schemas and sensitive types are provided, it automatically runs data discovery
 // and adds the discovered columns to the sensitive data model. Otherwise, it creates an empty sensitive data model
 // that can be updated later.
+// A default retry strategy applies to this operation CreateSensitiveDataModel()
 func (client DataSafeClient) CreateSensitiveDataModel(ctx context.Context, request CreateSensitiveDataModelRequest) (response CreateSensitiveDataModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2279,9 +2316,10 @@ func (client DataSafeClient) createSensitiveDataModel(ctx context.Context, reque
 // CreateSensitiveType Creates a new sensitive type, which can be a basic sensitive type with regular expressions or a sensitive category.
 // While sensitive types are used for data discovery, sensitive categories are used for logically grouping the related
 // or similar sensitive types.
+// A default retry strategy applies to this operation CreateSensitiveType()
 func (client DataSafeClient) CreateSensitiveType(ctx context.Context, request CreateSensitiveTypeRequest) (response CreateSensitiveTypeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2337,9 +2375,10 @@ func (client DataSafeClient) createSensitiveType(ctx context.Context, request co
 }
 
 // CreateTargetAlertPolicyAssociation Creates a new target-alert policy association to track a alert policy applied on target.
+// A default retry strategy applies to this operation CreateTargetAlertPolicyAssociation()
 func (client DataSafeClient) CreateTargetAlertPolicyAssociation(ctx context.Context, request CreateTargetAlertPolicyAssociationRequest) (response CreateTargetAlertPolicyAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2395,9 +2434,10 @@ func (client DataSafeClient) createTargetAlertPolicyAssociation(ctx context.Cont
 }
 
 // CreateTargetDatabase Registers the specified database with Data Safe and creates a Data Safe target database in the Data Safe Console.
+// A default retry strategy applies to this operation CreateTargetDatabase()
 func (client DataSafeClient) CreateTargetDatabase(ctx context.Context, request CreateTargetDatabaseRequest) (response CreateTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2455,9 +2495,10 @@ func (client DataSafeClient) createTargetDatabase(ctx context.Context, request c
 // CreateUserAssessment Creates a new saved user assessment for one or multiple targets in a compartment. It saves the latest assessments in the
 // specified compartment. If a scheduled is passed in, this operation persists the latest assessments that exist at the defined
 // date and time, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+// A default retry strategy applies to this operation CreateUserAssessment()
 func (client DataSafeClient) CreateUserAssessment(ctx context.Context, request CreateUserAssessmentRequest) (response CreateUserAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2513,9 +2554,10 @@ func (client DataSafeClient) createUserAssessment(ctx context.Context, request c
 }
 
 // DeactivateTargetDatabase Deactivates a target database in Data Safe.
+// A default retry strategy applies to this operation DeactivateTargetDatabase()
 func (client DataSafeClient) DeactivateTargetDatabase(ctx context.Context, request DeactivateTargetDatabaseRequest) (response DeactivateTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2572,9 +2614,10 @@ func (client DataSafeClient) deactivateTargetDatabase(ctx context.Context, reque
 
 // DeleteAuditArchiveRetrieval To unload retrieved archive data, call the operation ListAuditArchiveRetrieval first.
 // This will return the auditArchiveRetrievalId. Then call this operation with auditArchiveRetrievalId.
+// A default retry strategy applies to this operation DeleteAuditArchiveRetrieval()
 func (client DataSafeClient) DeleteAuditArchiveRetrieval(ctx context.Context, request DeleteAuditArchiveRetrievalRequest) (response DeleteAuditArchiveRetrievalResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2625,9 +2668,10 @@ func (client DataSafeClient) deleteAuditArchiveRetrieval(ctx context.Context, re
 }
 
 // DeleteAuditTrail Deletes the specified audit trail.
+// A default retry strategy applies to this operation DeleteAuditTrail()
 func (client DataSafeClient) DeleteAuditTrail(ctx context.Context, request DeleteAuditTrailRequest) (response DeleteAuditTrailResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2678,9 +2722,10 @@ func (client DataSafeClient) deleteAuditTrail(ctx context.Context, request commo
 }
 
 // DeleteDataSafePrivateEndpoint Deletes the specified Data Safe private endpoint.
+// A default retry strategy applies to this operation DeleteDataSafePrivateEndpoint()
 func (client DataSafeClient) DeleteDataSafePrivateEndpoint(ctx context.Context, request DeleteDataSafePrivateEndpointRequest) (response DeleteDataSafePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2731,9 +2776,10 @@ func (client DataSafeClient) deleteDataSafePrivateEndpoint(ctx context.Context, 
 }
 
 // DeleteDiscoveryJob Deletes the specified discovery job.
+// A default retry strategy applies to this operation DeleteDiscoveryJob()
 func (client DataSafeClient) DeleteDiscoveryJob(ctx context.Context, request DeleteDiscoveryJobRequest) (response DeleteDiscoveryJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2784,9 +2830,10 @@ func (client DataSafeClient) deleteDiscoveryJob(ctx context.Context, request com
 }
 
 // DeleteDiscoveryJobResult Deletes the specified discovery result.
+// A default retry strategy applies to this operation DeleteDiscoveryJobResult()
 func (client DataSafeClient) DeleteDiscoveryJobResult(ctx context.Context, request DeleteDiscoveryJobResultRequest) (response DeleteDiscoveryJobResultResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2837,9 +2884,10 @@ func (client DataSafeClient) deleteDiscoveryJobResult(ctx context.Context, reque
 }
 
 // DeleteLibraryMaskingFormat Deletes the specified library masking format.
+// A default retry strategy applies to this operation DeleteLibraryMaskingFormat()
 func (client DataSafeClient) DeleteLibraryMaskingFormat(ctx context.Context, request DeleteLibraryMaskingFormatRequest) (response DeleteLibraryMaskingFormatResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2890,9 +2938,10 @@ func (client DataSafeClient) deleteLibraryMaskingFormat(ctx context.Context, req
 }
 
 // DeleteMaskingColumn Deletes the specified masking column.
+// A default retry strategy applies to this operation DeleteMaskingColumn()
 func (client DataSafeClient) DeleteMaskingColumn(ctx context.Context, request DeleteMaskingColumnRequest) (response DeleteMaskingColumnResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2943,9 +2992,10 @@ func (client DataSafeClient) deleteMaskingColumn(ctx context.Context, request co
 }
 
 // DeleteMaskingPolicy Deletes the specified masking policy.
+// A default retry strategy applies to this operation DeleteMaskingPolicy()
 func (client DataSafeClient) DeleteMaskingPolicy(ctx context.Context, request DeleteMaskingPolicyRequest) (response DeleteMaskingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2996,9 +3046,10 @@ func (client DataSafeClient) deleteMaskingPolicy(ctx context.Context, request co
 }
 
 // DeleteOnPremConnector Deletes the specified on-premises connector.
+// A default retry strategy applies to this operation DeleteOnPremConnector()
 func (client DataSafeClient) DeleteOnPremConnector(ctx context.Context, request DeleteOnPremConnectorRequest) (response DeleteOnPremConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3049,9 +3100,10 @@ func (client DataSafeClient) deleteOnPremConnector(ctx context.Context, request 
 }
 
 // DeleteReportDefinition Deletes the specified report definition. Only the user created report definition can be deleted. The seeded report definitions cannot be deleted.
+// A default retry strategy applies to this operation DeleteReportDefinition()
 func (client DataSafeClient) DeleteReportDefinition(ctx context.Context, request DeleteReportDefinitionRequest) (response DeleteReportDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3105,9 +3157,10 @@ func (client DataSafeClient) deleteReportDefinition(ctx context.Context, request
 // first call the operation ListSecurityAssessments with filters "type = save_schedule".
 // That operation returns the scheduleAssessmentId. Then, call DeleteSecurityAssessment with the scheduleAssessmentId.
 // If the assessment being deleted is the baseline for that compartment, then it will impact all baselines in the compartment.
+// A default retry strategy applies to this operation DeleteSecurityAssessment()
 func (client DataSafeClient) DeleteSecurityAssessment(ctx context.Context, request DeleteSecurityAssessmentRequest) (response DeleteSecurityAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3158,9 +3211,10 @@ func (client DataSafeClient) deleteSecurityAssessment(ctx context.Context, reque
 }
 
 // DeleteSensitiveColumn Deletes the specified sensitive column.
+// A default retry strategy applies to this operation DeleteSensitiveColumn()
 func (client DataSafeClient) DeleteSensitiveColumn(ctx context.Context, request DeleteSensitiveColumnRequest) (response DeleteSensitiveColumnResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3211,9 +3265,10 @@ func (client DataSafeClient) deleteSensitiveColumn(ctx context.Context, request 
 }
 
 // DeleteSensitiveDataModel Deletes the specified sensitive data model.
+// A default retry strategy applies to this operation DeleteSensitiveDataModel()
 func (client DataSafeClient) DeleteSensitiveDataModel(ctx context.Context, request DeleteSensitiveDataModelRequest) (response DeleteSensitiveDataModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3264,9 +3319,10 @@ func (client DataSafeClient) deleteSensitiveDataModel(ctx context.Context, reque
 }
 
 // DeleteSensitiveType Deletes the specified sensitive type.
+// A default retry strategy applies to this operation DeleteSensitiveType()
 func (client DataSafeClient) DeleteSensitiveType(ctx context.Context, request DeleteSensitiveTypeRequest) (response DeleteSensitiveTypeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3317,9 +3373,10 @@ func (client DataSafeClient) deleteSensitiveType(ctx context.Context, request co
 }
 
 // DeleteTargetAlertPolicyAssociation Deletes the specified target-alert policy Association.
+// A default retry strategy applies to this operation DeleteTargetAlertPolicyAssociation()
 func (client DataSafeClient) DeleteTargetAlertPolicyAssociation(ctx context.Context, request DeleteTargetAlertPolicyAssociationRequest) (response DeleteTargetAlertPolicyAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3370,9 +3427,10 @@ func (client DataSafeClient) deleteTargetAlertPolicyAssociation(ctx context.Cont
 }
 
 // DeleteTargetDatabase Deregisters the specified database from Data Safe and removes the target database from the Data Safe Console.
+// A default retry strategy applies to this operation DeleteTargetDatabase()
 func (client DataSafeClient) DeleteTargetDatabase(ctx context.Context, request DeleteTargetDatabaseRequest) (response DeleteTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3426,9 +3484,10 @@ func (client DataSafeClient) deleteTargetDatabase(ctx context.Context, request c
 // ListUserAssessments with filters "type = save_schedule".
 // That call returns the scheduleAssessmentId. Then call DeleteUserAssessment with the scheduleAssessmentId.
 // If the assessment being deleted is the baseline for that compartment, then it will impact all baselines in the compartment.
+// A default retry strategy applies to this operation DeleteUserAssessment()
 func (client DataSafeClient) DeleteUserAssessment(ctx context.Context, request DeleteUserAssessmentRequest) (response DeleteUserAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3482,9 +3541,10 @@ func (client DataSafeClient) deleteUserAssessment(ctx context.Context, request c
 // operation can be used to create new audit trails for target database
 // when they become available for audit collection because of change of database version
 // or change of database unified mode or change of data base  edition or being deleted previously etc.
+// A default retry strategy applies to this operation DiscoverAuditTrails()
 func (client DataSafeClient) DiscoverAuditTrails(ctx context.Context, request DiscoverAuditTrailsRequest) (response DiscoverAuditTrailsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3543,9 +3603,10 @@ func (client DataSafeClient) discoverAuditTrails(ctx context.Context, request co
 // prerequisite for the DownloadDiscoveryReport operation. Use GenerateDiscoveryReportForDownload to generate a discovery
 // report file and then use DownloadDiscoveryReport to download the generated file. By default, it downloads report for
 // all the columns in a sensitive data model. Use the discoveryJobId attribute to download report for a specific discovery job.
+// A default retry strategy applies to this operation DownloadDiscoveryReport()
 func (client DataSafeClient) DownloadDiscoveryReport(ctx context.Context, request DownloadDiscoveryReportRequest) (response DownloadDiscoveryReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3595,9 +3656,10 @@ func (client DataSafeClient) downloadDiscoveryReport(ctx context.Context, reques
 }
 
 // DownloadMaskingLog Downloads the masking log generated by the last masking operation on a target database using the specified masking policy.
+// A default retry strategy applies to this operation DownloadMaskingLog()
 func (client DataSafeClient) DownloadMaskingLog(ctx context.Context, request DownloadMaskingLogRequest) (response DownloadMaskingLogResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3650,9 +3712,10 @@ func (client DataSafeClient) downloadMaskingLog(ctx context.Context, request com
 // Note that the GenerateMaskingPolicyForDownload operation is a prerequisite for the
 // DownloadMaskingPolicy operation. Use GenerateMaskingPolicyForDownload to generate
 // a masking policy file and then use DownloadMaskingPolicy to download the generated file.
+// A default retry strategy applies to this operation DownloadMaskingPolicy()
 func (client DataSafeClient) DownloadMaskingPolicy(ctx context.Context, request DownloadMaskingPolicyRequest) (response DownloadMaskingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3704,9 +3767,10 @@ func (client DataSafeClient) downloadMaskingPolicy(ctx context.Context, request 
 // DownloadMaskingReport Downloads an already-generated masking report. Note that the GenerateMaskingReportForDownload
 // operation is a prerequisite for the DownloadMaskingReport operation. Use GenerateMaskingReportForDownload
 // to generate a masking report file and then use DownloadMaskingReport to download the generated file.
+// A default retry strategy applies to this operation DownloadMaskingReport()
 func (client DataSafeClient) DownloadMaskingReport(ctx context.Context, request DownloadMaskingReportRequest) (response DownloadMaskingReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3756,9 +3820,10 @@ func (client DataSafeClient) downloadMaskingReport(ctx context.Context, request 
 }
 
 // DownloadPrivilegeScript Downloads the privilege script to grant/revoke required roles from the Data Safe account on the target database.
+// A default retry strategy applies to this operation DownloadPrivilegeScript()
 func (client DataSafeClient) DownloadPrivilegeScript(ctx context.Context, request DownloadPrivilegeScriptRequest) (response DownloadPrivilegeScriptResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3814,9 +3879,10 @@ func (client DataSafeClient) downloadPrivilegeScript(ctx context.Context, reques
 
 // DownloadSecurityAssessmentReport Downloads the report of the specified security assessment. To download the security assessment report, it needs to be generated first.
 // Please use GenerateSecurityAssessmentReport to generate a downloadable report in the preferred format (PDF, XLS).
+// A default retry strategy applies to this operation DownloadSecurityAssessmentReport()
 func (client DataSafeClient) DownloadSecurityAssessmentReport(ctx context.Context, request DownloadSecurityAssessmentReportRequest) (response DownloadSecurityAssessmentReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3874,9 +3940,10 @@ func (client DataSafeClient) downloadSecurityAssessmentReport(ctx context.Contex
 // GenerateSensitiveDataModelForDownload operation is a prerequisite for the DownloadSensitiveDataModel operation.
 // Use GenerateSensitiveDataModelForDownload to generate a data model file and then use DownloadSensitiveDataModel
 // to download the generated file.
+// A default retry strategy applies to this operation DownloadSensitiveDataModel()
 func (client DataSafeClient) DownloadSensitiveDataModel(ctx context.Context, request DownloadSensitiveDataModelRequest) (response DownloadSensitiveDataModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3927,9 +3994,10 @@ func (client DataSafeClient) downloadSensitiveDataModel(ctx context.Context, req
 
 // DownloadUserAssessmentReport Downloads the report of the specified user assessment. To download the user assessment report, it needs to be generated first.
 // Please use GenerateUserAssessmentReport to generate a downloadable report in the preferred format (PDF, XLS).
+// A default retry strategy applies to this operation DownloadUserAssessmentReport()
 func (client DataSafeClient) DownloadUserAssessmentReport(ctx context.Context, request DownloadUserAssessmentReportRequest) (response DownloadUserAssessmentReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3984,9 +4052,10 @@ func (client DataSafeClient) downloadUserAssessmentReport(ctx context.Context, r
 }
 
 // EnableDataSafeConfiguration Enables Data Safe in the tenancy and region.
+// A default retry strategy applies to this operation EnableDataSafeConfiguration()
 func (client DataSafeClient) EnableDataSafeConfiguration(ctx context.Context, request EnableDataSafeConfigurationRequest) (response EnableDataSafeConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4040,9 +4109,10 @@ func (client DataSafeClient) enableDataSafeConfiguration(ctx context.Context, re
 // endpoint to generate a discovery report file and then use DownloadDiscoveryReport to download the generated file.
 // By default, it generates report for all the columns in a sensitive data model. Use the discoveryJobId attribute
 // to generate report for a specific discovery job.
+// A default retry strategy applies to this operation GenerateDiscoveryReportForDownload()
 func (client DataSafeClient) GenerateDiscoveryReportForDownload(ctx context.Context, request GenerateDiscoveryReportForDownloadRequest) (response GenerateDiscoveryReportForDownloadResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4097,9 +4167,10 @@ func (client DataSafeClient) generateDiscoveryReportForDownload(ctx context.Cont
 // a masking policy file and then use DownloadMaskingPolicy to download the generated file.
 // Note that file generation and download are serial operations. The download operation
 // can't be invoked while the generate operation is in progress.
+// A default retry strategy applies to this operation GenerateMaskingPolicyForDownload()
 func (client DataSafeClient) GenerateMaskingPolicyForDownload(ctx context.Context, request GenerateMaskingPolicyForDownloadRequest) (response GenerateMaskingPolicyForDownloadResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4153,9 +4224,10 @@ func (client DataSafeClient) generateMaskingPolicyForDownload(ctx context.Contex
 // DownloadMaskingReport operation. Use this endpoint to generate a
 // masking report file and then use DownloadMaskingReport to download
 // the generated file.
+// A default retry strategy applies to this operation GenerateMaskingReportForDownload()
 func (client DataSafeClient) GenerateMaskingReportForDownload(ctx context.Context, request GenerateMaskingReportForDownloadRequest) (response GenerateMaskingReportForDownloadResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4206,9 +4278,10 @@ func (client DataSafeClient) generateMaskingReportForDownload(ctx context.Contex
 }
 
 // GenerateOnPremConnectorConfiguration Creates and downloads the configuration of the specified on-premises connector.
+// A default retry strategy applies to this operation GenerateOnPremConnectorConfiguration()
 func (client DataSafeClient) GenerateOnPremConnectorConfiguration(ctx context.Context, request GenerateOnPremConnectorConfigurationRequest) (response GenerateOnPremConnectorConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4263,9 +4336,10 @@ func (client DataSafeClient) generateOnPremConnectorConfiguration(ctx context.Co
 }
 
 // GenerateReport Generates a PDF or XLS report based on parameters and report definition.
+// A default retry strategy applies to this operation GenerateReport()
 func (client DataSafeClient) GenerateReport(ctx context.Context, request GenerateReportRequest) (response GenerateReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4322,9 +4396,10 @@ func (client DataSafeClient) generateReport(ctx context.Context, request common.
 
 // GenerateSecurityAssessmentReport Generates the report of the specified security assessment. You can get the report in PDF or XLS format.
 // After generating the report, use DownloadSecurityAssessmentReport to download it in the preferred format.
+// A default retry strategy applies to this operation GenerateSecurityAssessmentReport()
 func (client DataSafeClient) GenerateSecurityAssessmentReport(ctx context.Context, request GenerateSecurityAssessmentReportRequest) (response GenerateSecurityAssessmentReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4383,9 +4458,10 @@ func (client DataSafeClient) generateSecurityAssessmentReport(ctx context.Contex
 // DownloadSensitiveDataModel operation. Use this endpoint to generate a data model file and then use DownloadSensitiveDataModel
 // to download the generated file. Note that file generation and download are serial operations. The download operation
 // can't be invoked while the generate operation is in progress.
+// A default retry strategy applies to this operation GenerateSensitiveDataModelForDownload()
 func (client DataSafeClient) GenerateSensitiveDataModelForDownload(ctx context.Context, request GenerateSensitiveDataModelForDownloadRequest) (response GenerateSensitiveDataModelForDownloadResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4437,9 +4513,10 @@ func (client DataSafeClient) generateSensitiveDataModelForDownload(ctx context.C
 
 // GenerateUserAssessmentReport Generates the report of the specified user assessment. The report is available in PDF or XLS format.
 // After generating the report, use DownloadUserAssessmentReport to download it in the preferred format.
+// A default retry strategy applies to this operation GenerateUserAssessmentReport()
 func (client DataSafeClient) GenerateUserAssessmentReport(ctx context.Context, request GenerateUserAssessmentReportRequest) (response GenerateUserAssessmentReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4495,9 +4572,10 @@ func (client DataSafeClient) generateUserAssessmentReport(ctx context.Context, r
 }
 
 // GetAlert Gets the details of alert by its ID.
+// A default retry strategy applies to this operation GetAlert()
 func (client DataSafeClient) GetAlert(ctx context.Context, request GetAlertRequest) (response GetAlertResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4548,9 +4626,10 @@ func (client DataSafeClient) getAlert(ctx context.Context, request common.OCIReq
 }
 
 // GetAlertPolicy Gets the details of alert policy by its ID.
+// A default retry strategy applies to this operation GetAlertPolicy()
 func (client DataSafeClient) GetAlertPolicy(ctx context.Context, request GetAlertPolicyRequest) (response GetAlertPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4601,9 +4680,10 @@ func (client DataSafeClient) getAlertPolicy(ctx context.Context, request common.
 }
 
 // GetAuditArchiveRetrieval Gets the details of the specified archive retreival.
+// A default retry strategy applies to this operation GetAuditArchiveRetrieval()
 func (client DataSafeClient) GetAuditArchiveRetrieval(ctx context.Context, request GetAuditArchiveRetrievalRequest) (response GetAuditArchiveRetrievalResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4654,9 +4734,10 @@ func (client DataSafeClient) getAuditArchiveRetrieval(ctx context.Context, reque
 }
 
 // GetAuditPolicy Gets a audit policy by identifier.
+// A default retry strategy applies to this operation GetAuditPolicy()
 func (client DataSafeClient) GetAuditPolicy(ctx context.Context, request GetAuditPolicyRequest) (response GetAuditPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4707,9 +4788,10 @@ func (client DataSafeClient) getAuditPolicy(ctx context.Context, request common.
 }
 
 // GetAuditProfile Gets the details of audit profile resource and associated audit trails of the audit profile.
+// A default retry strategy applies to this operation GetAuditProfile()
 func (client DataSafeClient) GetAuditProfile(ctx context.Context, request GetAuditProfileRequest) (response GetAuditProfileResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4760,9 +4842,10 @@ func (client DataSafeClient) getAuditProfile(ctx context.Context, request common
 }
 
 // GetAuditTrail Gets the details of audit trail.
+// A default retry strategy applies to this operation GetAuditTrail()
 func (client DataSafeClient) GetAuditTrail(ctx context.Context, request GetAuditTrailRequest) (response GetAuditTrailResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4819,9 +4902,10 @@ func (client DataSafeClient) getAuditTrail(ctx context.Context, request common.O
 // Date - Includes DATE and TIMESTAMP
 // LOB - Includes BLOB, CLOB, and NCLOB
 // All - Includes all the supported data types
+// A default retry strategy applies to this operation GetCompatibleFormatsForDataTypes()
 func (client DataSafeClient) GetCompatibleFormatsForDataTypes(ctx context.Context, request GetCompatibleFormatsForDataTypesRequest) (response GetCompatibleFormatsForDataTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4875,9 +4959,10 @@ func (client DataSafeClient) getCompatibleFormatsForDataTypes(ctx context.Contex
 // For each sensitive type, it returns the assigned default masking format as well as
 // the other library masking formats that have the sensitiveTypeIds attribute containing
 // the OCID of the sensitive type.
+// A default retry strategy applies to this operation GetCompatibleFormatsForSensitiveTypes()
 func (client DataSafeClient) GetCompatibleFormatsForSensitiveTypes(ctx context.Context, request GetCompatibleFormatsForSensitiveTypesRequest) (response GetCompatibleFormatsForSensitiveTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4928,9 +5013,10 @@ func (client DataSafeClient) getCompatibleFormatsForSensitiveTypes(ctx context.C
 }
 
 // GetDataSafeConfiguration Gets the details of the Data Safe configuration.
+// A default retry strategy applies to this operation GetDataSafeConfiguration()
 func (client DataSafeClient) GetDataSafeConfiguration(ctx context.Context, request GetDataSafeConfigurationRequest) (response GetDataSafeConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4981,9 +5067,10 @@ func (client DataSafeClient) getDataSafeConfiguration(ctx context.Context, reque
 }
 
 // GetDataSafePrivateEndpoint Gets the details of the specified Data Safe private endpoint.
+// A default retry strategy applies to this operation GetDataSafePrivateEndpoint()
 func (client DataSafeClient) GetDataSafePrivateEndpoint(ctx context.Context, request GetDataSafePrivateEndpointRequest) (response GetDataSafePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5034,9 +5121,10 @@ func (client DataSafeClient) getDataSafePrivateEndpoint(ctx context.Context, req
 }
 
 // GetDiscoveryJob Gets the details of the specified discovery job.
+// A default retry strategy applies to this operation GetDiscoveryJob()
 func (client DataSafeClient) GetDiscoveryJob(ctx context.Context, request GetDiscoveryJobRequest) (response GetDiscoveryJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5087,9 +5175,10 @@ func (client DataSafeClient) getDiscoveryJob(ctx context.Context, request common
 }
 
 // GetDiscoveryJobResult Gets the details of the specified discovery result.
+// A default retry strategy applies to this operation GetDiscoveryJobResult()
 func (client DataSafeClient) GetDiscoveryJobResult(ctx context.Context, request GetDiscoveryJobResultRequest) (response GetDiscoveryJobResultResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5140,9 +5229,10 @@ func (client DataSafeClient) getDiscoveryJobResult(ctx context.Context, request 
 }
 
 // GetLibraryMaskingFormat Gets the details of the specified library masking format.
+// A default retry strategy applies to this operation GetLibraryMaskingFormat()
 func (client DataSafeClient) GetLibraryMaskingFormat(ctx context.Context, request GetLibraryMaskingFormatRequest) (response GetLibraryMaskingFormatResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5193,9 +5283,10 @@ func (client DataSafeClient) getLibraryMaskingFormat(ctx context.Context, reques
 }
 
 // GetMaskingColumn Gets the details of the specified masking column.
+// A default retry strategy applies to this operation GetMaskingColumn()
 func (client DataSafeClient) GetMaskingColumn(ctx context.Context, request GetMaskingColumnRequest) (response GetMaskingColumnResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5246,9 +5337,10 @@ func (client DataSafeClient) getMaskingColumn(ctx context.Context, request commo
 }
 
 // GetMaskingPolicy Gets the details of the specified masking policy.
+// A default retry strategy applies to this operation GetMaskingPolicy()
 func (client DataSafeClient) GetMaskingPolicy(ctx context.Context, request GetMaskingPolicyRequest) (response GetMaskingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5299,9 +5391,10 @@ func (client DataSafeClient) getMaskingPolicy(ctx context.Context, request commo
 }
 
 // GetMaskingReport Gets the details of the specified masking report.
+// A default retry strategy applies to this operation GetMaskingReport()
 func (client DataSafeClient) GetMaskingReport(ctx context.Context, request GetMaskingReportRequest) (response GetMaskingReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5352,9 +5445,10 @@ func (client DataSafeClient) getMaskingReport(ctx context.Context, request commo
 }
 
 // GetOnPremConnector Gets the details of the specified on-premises connector.
+// A default retry strategy applies to this operation GetOnPremConnector()
 func (client DataSafeClient) GetOnPremConnector(ctx context.Context, request GetOnPremConnectorRequest) (response GetOnPremConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5405,9 +5499,10 @@ func (client DataSafeClient) getOnPremConnector(ctx context.Context, request com
 }
 
 // GetReport Gets a report by identifier
+// A default retry strategy applies to this operation GetReport()
 func (client DataSafeClient) GetReport(ctx context.Context, request GetReportRequest) (response GetReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5458,9 +5553,10 @@ func (client DataSafeClient) getReport(ctx context.Context, request common.OCIRe
 }
 
 // GetReportContent Downloads the specified report in the form of PDF or XLXS.
+// A default retry strategy applies to this operation GetReportContent()
 func (client DataSafeClient) GetReportContent(ctx context.Context, request GetReportContentRequest) (response GetReportContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5510,9 +5606,10 @@ func (client DataSafeClient) getReportContent(ctx context.Context, request commo
 }
 
 // GetReportDefinition Gets the details of report definition specified by the identifier
+// A default retry strategy applies to this operation GetReportDefinition()
 func (client DataSafeClient) GetReportDefinition(ctx context.Context, request GetReportDefinitionRequest) (response GetReportDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5563,9 +5660,10 @@ func (client DataSafeClient) getReportDefinition(ctx context.Context, request co
 }
 
 // GetSecurityAssessment Gets the details of the specified security assessment.
+// A default retry strategy applies to this operation GetSecurityAssessment()
 func (client DataSafeClient) GetSecurityAssessment(ctx context.Context, request GetSecurityAssessmentRequest) (response GetSecurityAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5616,9 +5714,10 @@ func (client DataSafeClient) getSecurityAssessment(ctx context.Context, request 
 }
 
 // GetSecurityAssessmentComparison Gets the details of the comparison report on the security assessments submitted for comparison.
+// A default retry strategy applies to this operation GetSecurityAssessmentComparison()
 func (client DataSafeClient) GetSecurityAssessmentComparison(ctx context.Context, request GetSecurityAssessmentComparisonRequest) (response GetSecurityAssessmentComparisonResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5669,9 +5768,10 @@ func (client DataSafeClient) getSecurityAssessmentComparison(ctx context.Context
 }
 
 // GetSensitiveColumn Gets the details of the specified sensitive column.
+// A default retry strategy applies to this operation GetSensitiveColumn()
 func (client DataSafeClient) GetSensitiveColumn(ctx context.Context, request GetSensitiveColumnRequest) (response GetSensitiveColumnResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5722,9 +5822,10 @@ func (client DataSafeClient) getSensitiveColumn(ctx context.Context, request com
 }
 
 // GetSensitiveDataModel Gets the details of the specified sensitive data model.
+// A default retry strategy applies to this operation GetSensitiveDataModel()
 func (client DataSafeClient) GetSensitiveDataModel(ctx context.Context, request GetSensitiveDataModelRequest) (response GetSensitiveDataModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5775,9 +5876,10 @@ func (client DataSafeClient) getSensitiveDataModel(ctx context.Context, request 
 }
 
 // GetSensitiveType Gets the details of the specified sensitive type.
+// A default retry strategy applies to this operation GetSensitiveType()
 func (client DataSafeClient) GetSensitiveType(ctx context.Context, request GetSensitiveTypeRequest) (response GetSensitiveTypeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5828,9 +5930,10 @@ func (client DataSafeClient) getSensitiveType(ctx context.Context, request commo
 }
 
 // GetTargetAlertPolicyAssociation Gets the details of target-alert policy association by its ID.
+// A default retry strategy applies to this operation GetTargetAlertPolicyAssociation()
 func (client DataSafeClient) GetTargetAlertPolicyAssociation(ctx context.Context, request GetTargetAlertPolicyAssociationRequest) (response GetTargetAlertPolicyAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5881,9 +5984,10 @@ func (client DataSafeClient) getTargetAlertPolicyAssociation(ctx context.Context
 }
 
 // GetTargetDatabase Returns the details of the specified Data Safe target database.
+// A default retry strategy applies to this operation GetTargetDatabase()
 func (client DataSafeClient) GetTargetDatabase(ctx context.Context, request GetTargetDatabaseRequest) (response GetTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5934,9 +6038,10 @@ func (client DataSafeClient) getTargetDatabase(ctx context.Context, request comm
 }
 
 // GetUserAssessment Gets a user assessment by identifier.
+// A default retry strategy applies to this operation GetUserAssessment()
 func (client DataSafeClient) GetUserAssessment(ctx context.Context, request GetUserAssessmentRequest) (response GetUserAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5987,9 +6092,10 @@ func (client DataSafeClient) getUserAssessment(ctx context.Context, request comm
 }
 
 // GetUserAssessmentComparison Gets the details of the comparison report for the user assessments provided.
+// A default retry strategy applies to this operation GetUserAssessmentComparison()
 func (client DataSafeClient) GetUserAssessmentComparison(ctx context.Context, request GetUserAssessmentComparisonRequest) (response GetUserAssessmentComparisonResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6040,9 +6146,10 @@ func (client DataSafeClient) getUserAssessmentComparison(ctx context.Context, re
 }
 
 // GetWorkRequest Gets the details of the specified work request.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client DataSafeClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6093,9 +6200,10 @@ func (client DataSafeClient) getWorkRequest(ctx context.Context, request common.
 }
 
 // ListAlertAnalytics Returns aggregation details of alerts.
+// A default retry strategy applies to this operation ListAlertAnalytics()
 func (client DataSafeClient) ListAlertAnalytics(ctx context.Context, request ListAlertAnalyticsRequest) (response ListAlertAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6151,9 +6259,10 @@ func (client DataSafeClient) listAlertAnalytics(ctx context.Context, request com
 }
 
 // ListAlertPolicies Gets a list of all alert policies.
+// A default retry strategy applies to this operation ListAlertPolicies()
 func (client DataSafeClient) ListAlertPolicies(ctx context.Context, request ListAlertPoliciesRequest) (response ListAlertPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6205,9 +6314,10 @@ func (client DataSafeClient) listAlertPolicies(ctx context.Context, request comm
 
 // ListAlertPolicyRules Lists the rules of the specified alert policy. The alert policy is said to be satisfied when all rules in the policy evaulate to true.
 // If there are three rules: rule1,rule2 and rule3, the policy is satisfied if rule1 AND rule2 AND rule3 is True.
+// A default retry strategy applies to this operation ListAlertPolicyRules()
 func (client DataSafeClient) ListAlertPolicyRules(ctx context.Context, request ListAlertPolicyRulesRequest) (response ListAlertPolicyRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6258,9 +6368,10 @@ func (client DataSafeClient) listAlertPolicyRules(ctx context.Context, request c
 }
 
 // ListAlerts Gets a list of all alerts.
+// A default retry strategy applies to this operation ListAlerts()
 func (client DataSafeClient) ListAlerts(ctx context.Context, request ListAlertsRequest) (response ListAlertsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6311,9 +6422,10 @@ func (client DataSafeClient) listAlerts(ctx context.Context, request common.OCIR
 }
 
 // ListAuditArchiveRetrievals Returns the list of audit archive retrieval.
+// A default retry strategy applies to this operation ListAuditArchiveRetrievals()
 func (client DataSafeClient) ListAuditArchiveRetrievals(ctx context.Context, request ListAuditArchiveRetrievalsRequest) (response ListAuditArchiveRetrievalsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6368,9 +6480,10 @@ func (client DataSafeClient) listAuditArchiveRetrievals(ctx context.Context, req
 // **Example:** /ListAuditEventAnalytics?summaryField=targetName&summaryField=userName&summaryField=clientHostName&summaryField
 //              &summaryField=dmls&summaryField=privilege_changes&summaryField=ddls&summaryField=login_failure&summaryField=login_success
 //              &summaryField=eventcount&q=(operationTime ge '2021-06-13T23:49:14')&groupBy=targetName
+// A default retry strategy applies to this operation ListAuditEventAnalytics()
 func (client DataSafeClient) ListAuditEventAnalytics(ctx context.Context, request ListAuditEventAnalyticsRequest) (response ListAuditEventAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6436,9 +6549,10 @@ func (client DataSafeClient) listAuditEventAnalytics(ctx context.Context, reques
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// A default retry strategy applies to this operation ListAuditEvents()
 func (client DataSafeClient) ListAuditEvents(ctx context.Context, request ListAuditEventsRequest) (response ListAuditEventsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6500,9 +6614,10 @@ func (client DataSafeClient) listAuditEvents(ctx context.Context, request common
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// A default retry strategy applies to this operation ListAuditPolicies()
 func (client DataSafeClient) ListAuditPolicies(ctx context.Context, request ListAuditPoliciesRequest) (response ListAuditPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6563,9 +6678,10 @@ func (client DataSafeClient) listAuditPolicies(ctx context.Context, request comm
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// A default retry strategy applies to this operation ListAuditProfileAnalytics()
 func (client DataSafeClient) ListAuditProfileAnalytics(ctx context.Context, request ListAuditProfileAnalyticsRequest) (response ListAuditProfileAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6627,9 +6743,10 @@ func (client DataSafeClient) listAuditProfileAnalytics(ctx context.Context, requ
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// A default retry strategy applies to this operation ListAuditProfiles()
 func (client DataSafeClient) ListAuditProfiles(ctx context.Context, request ListAuditProfilesRequest) (response ListAuditProfilesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6690,9 +6807,10 @@ func (client DataSafeClient) listAuditProfiles(ctx context.Context, request comm
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// A default retry strategy applies to this operation ListAuditTrailAnalytics()
 func (client DataSafeClient) ListAuditTrailAnalytics(ctx context.Context, request ListAuditTrailAnalyticsRequest) (response ListAuditTrailAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6754,9 +6872,10 @@ func (client DataSafeClient) listAuditTrailAnalytics(ctx context.Context, reques
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// A default retry strategy applies to this operation ListAuditTrails()
 func (client DataSafeClient) ListAuditTrails(ctx context.Context, request ListAuditTrailsRequest) (response ListAuditTrailsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6807,9 +6926,10 @@ func (client DataSafeClient) listAuditTrails(ctx context.Context, request common
 }
 
 // ListAvailableAuditVolumes Retrieves a list of audit trails, and associated audit event volume for each trail up to defined start date.
+// A default retry strategy applies to this operation ListAvailableAuditVolumes()
 func (client DataSafeClient) ListAvailableAuditVolumes(ctx context.Context, request ListAvailableAuditVolumesRequest) (response ListAvailableAuditVolumesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6860,9 +6980,10 @@ func (client DataSafeClient) listAvailableAuditVolumes(ctx context.Context, requ
 }
 
 // ListCollectedAuditVolumes Gets a list of all collected audit volume data points.
+// A default retry strategy applies to this operation ListCollectedAuditVolumes()
 func (client DataSafeClient) ListCollectedAuditVolumes(ctx context.Context, request ListCollectedAuditVolumesRequest) (response ListCollectedAuditVolumesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6913,9 +7034,10 @@ func (client DataSafeClient) listCollectedAuditVolumes(ctx context.Context, requ
 }
 
 // ListColumns Returns a list of column metadata objects.
+// A default retry strategy applies to this operation ListColumns()
 func (client DataSafeClient) ListColumns(ctx context.Context, request ListColumnsRequest) (response ListColumnsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6966,9 +7088,10 @@ func (client DataSafeClient) listColumns(ctx context.Context, request common.OCI
 }
 
 // ListDataSafePrivateEndpoints Gets a list of Data Safe private endpoints.
+// A default retry strategy applies to this operation ListDataSafePrivateEndpoints()
 func (client DataSafeClient) ListDataSafePrivateEndpoints(ctx context.Context, request ListDataSafePrivateEndpointsRequest) (response ListDataSafePrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7019,9 +7142,10 @@ func (client DataSafeClient) listDataSafePrivateEndpoints(ctx context.Context, r
 }
 
 // ListDiscoveryAnalytics Gets consolidated discovery analytics data based on the specified query parameters.
+// A default retry strategy applies to this operation ListDiscoveryAnalytics()
 func (client DataSafeClient) ListDiscoveryAnalytics(ctx context.Context, request ListDiscoveryAnalyticsRequest) (response ListDiscoveryAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7072,9 +7196,10 @@ func (client DataSafeClient) listDiscoveryAnalytics(ctx context.Context, request
 }
 
 // ListDiscoveryJobResults Gets a list of discovery results based on the specified query parameters.
+// A default retry strategy applies to this operation ListDiscoveryJobResults()
 func (client DataSafeClient) ListDiscoveryJobResults(ctx context.Context, request ListDiscoveryJobResultsRequest) (response ListDiscoveryJobResultsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7125,9 +7250,10 @@ func (client DataSafeClient) listDiscoveryJobResults(ctx context.Context, reques
 }
 
 // ListDiscoveryJobs Gets a list of incremental discovery jobs based on the specified query parameters.
+// A default retry strategy applies to this operation ListDiscoveryJobs()
 func (client DataSafeClient) ListDiscoveryJobs(ctx context.Context, request ListDiscoveryJobsRequest) (response ListDiscoveryJobsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7178,9 +7304,10 @@ func (client DataSafeClient) listDiscoveryJobs(ctx context.Context, request comm
 }
 
 // ListFindings List all the findings from all the targets in the specified assessment.
+// A default retry strategy applies to this operation ListFindings()
 func (client DataSafeClient) ListFindings(ctx context.Context, request ListFindingsRequest) (response ListFindingsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7234,9 +7361,10 @@ func (client DataSafeClient) listFindings(ctx context.Context, request common.OC
 // privilege name, type, category, and depth level. The depth level indicates how deep in the hierarchy of roles granted to
 // roles a privilege grant is. The userKey in this operation is a system-generated identifier. Perform the operation ListUsers
 // to get the userKey for a particular user.
+// A default retry strategy applies to this operation ListGrants()
 func (client DataSafeClient) ListGrants(ctx context.Context, request ListGrantsRequest) (response ListGrantsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7287,9 +7415,10 @@ func (client DataSafeClient) listGrants(ctx context.Context, request common.OCIR
 }
 
 // ListLibraryMaskingFormats Gets a list of library masking formats based on the specified query parameters.
+// A default retry strategy applies to this operation ListLibraryMaskingFormats()
 func (client DataSafeClient) ListLibraryMaskingFormats(ctx context.Context, request ListLibraryMaskingFormatsRequest) (response ListLibraryMaskingFormatsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7340,9 +7469,10 @@ func (client DataSafeClient) listLibraryMaskingFormats(ctx context.Context, requ
 }
 
 // ListMaskedColumns Gets a list of masked columns present in the specified masking report and based on the specified query parameters.
+// A default retry strategy applies to this operation ListMaskedColumns()
 func (client DataSafeClient) ListMaskedColumns(ctx context.Context, request ListMaskedColumnsRequest) (response ListMaskedColumnsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7393,9 +7523,10 @@ func (client DataSafeClient) listMaskedColumns(ctx context.Context, request comm
 }
 
 // ListMaskingAnalytics Gets consolidated masking analytics data based on the specified query parameters.
+// A default retry strategy applies to this operation ListMaskingAnalytics()
 func (client DataSafeClient) ListMaskingAnalytics(ctx context.Context, request ListMaskingAnalyticsRequest) (response ListMaskingAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7446,9 +7577,10 @@ func (client DataSafeClient) listMaskingAnalytics(ctx context.Context, request c
 }
 
 // ListMaskingColumns Gets a list of masking columns present in the specified masking policy and based on the specified query parameters.
+// A default retry strategy applies to this operation ListMaskingColumns()
 func (client DataSafeClient) ListMaskingColumns(ctx context.Context, request ListMaskingColumnsRequest) (response ListMaskingColumnsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7499,9 +7631,10 @@ func (client DataSafeClient) listMaskingColumns(ctx context.Context, request com
 }
 
 // ListMaskingPolicies Gets a list of masking policies based on the specified query parameters.
+// A default retry strategy applies to this operation ListMaskingPolicies()
 func (client DataSafeClient) ListMaskingPolicies(ctx context.Context, request ListMaskingPoliciesRequest) (response ListMaskingPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7552,9 +7685,10 @@ func (client DataSafeClient) listMaskingPolicies(ctx context.Context, request co
 }
 
 // ListMaskingReports Gets a list of masking reports based on the specified query parameters.
+// A default retry strategy applies to this operation ListMaskingReports()
 func (client DataSafeClient) ListMaskingReports(ctx context.Context, request ListMaskingReportsRequest) (response ListMaskingReportsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7605,9 +7739,10 @@ func (client DataSafeClient) listMaskingReports(ctx context.Context, request com
 }
 
 // ListOnPremConnectors Gets a list of on-premises connectors.
+// A default retry strategy applies to this operation ListOnPremConnectors()
 func (client DataSafeClient) ListOnPremConnectors(ctx context.Context, request ListOnPremConnectorsRequest) (response ListOnPremConnectorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7660,9 +7795,10 @@ func (client DataSafeClient) listOnPremConnectors(ctx context.Context, request c
 // ListReportDefinitions Gets a list of report definitions.
 // The ListReportDefinitions operation returns only the report definitions in the specified `compartmentId`.
 // It also returns the seeded report definitions which are available to all the compartments.
+// A default retry strategy applies to this operation ListReportDefinitions()
 func (client DataSafeClient) ListReportDefinitions(ctx context.Context, request ListReportDefinitionsRequest) (response ListReportDefinitionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7713,9 +7849,10 @@ func (client DataSafeClient) listReportDefinitions(ctx context.Context, request 
 }
 
 // ListReports Gets a list of all the reports in the compartment. It contains information such as report generation time.
+// A default retry strategy applies to this operation ListReports()
 func (client DataSafeClient) ListReports(ctx context.Context, request ListReportsRequest) (response ListReportsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7766,9 +7903,10 @@ func (client DataSafeClient) listReports(ctx context.Context, request common.OCI
 }
 
 // ListRoles Returns a list of role metadata objects.
+// A default retry strategy applies to this operation ListRoles()
 func (client DataSafeClient) ListRoles(ctx context.Context, request ListRolesRequest) (response ListRolesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7819,9 +7957,10 @@ func (client DataSafeClient) listRoles(ctx context.Context, request common.OCIRe
 }
 
 // ListSchemas Returns list of schema.
+// A default retry strategy applies to this operation ListSchemas()
 func (client DataSafeClient) ListSchemas(ctx context.Context, request ListSchemasRequest) (response ListSchemasResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7883,9 +8022,10 @@ func (client DataSafeClient) listSchemas(ctx context.Context, request common.OCI
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// A default retry strategy applies to this operation ListSecurityAssessments()
 func (client DataSafeClient) ListSecurityAssessments(ctx context.Context, request ListSecurityAssessmentsRequest) (response ListSecurityAssessmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7936,9 +8076,10 @@ func (client DataSafeClient) listSecurityAssessments(ctx context.Context, reques
 }
 
 // ListSensitiveColumns Gets a list of sensitive columns present in the specified sensitive data model based on the specified query parameters.
+// A default retry strategy applies to this operation ListSensitiveColumns()
 func (client DataSafeClient) ListSensitiveColumns(ctx context.Context, request ListSensitiveColumnsRequest) (response ListSensitiveColumnsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7989,9 +8130,10 @@ func (client DataSafeClient) listSensitiveColumns(ctx context.Context, request c
 }
 
 // ListSensitiveDataModels Gets a list of sensitive data models based on the specified query parameters.
+// A default retry strategy applies to this operation ListSensitiveDataModels()
 func (client DataSafeClient) ListSensitiveDataModels(ctx context.Context, request ListSensitiveDataModelsRequest) (response ListSensitiveDataModelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8042,9 +8184,10 @@ func (client DataSafeClient) listSensitiveDataModels(ctx context.Context, reques
 }
 
 // ListSensitiveTypes Gets a list of sensitive types based on the specified query parameters.
+// A default retry strategy applies to this operation ListSensitiveTypes()
 func (client DataSafeClient) ListSensitiveTypes(ctx context.Context, request ListSensitiveTypesRequest) (response ListSensitiveTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8095,9 +8238,10 @@ func (client DataSafeClient) listSensitiveTypes(ctx context.Context, request com
 }
 
 // ListTables Returns a list of table metadata objects.
+// A default retry strategy applies to this operation ListTables()
 func (client DataSafeClient) ListTables(ctx context.Context, request ListTablesRequest) (response ListTablesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8148,9 +8292,10 @@ func (client DataSafeClient) listTables(ctx context.Context, request common.OCIR
 }
 
 // ListTargetAlertPolicyAssociations Gets a list of all target-alert policy associations.
+// A default retry strategy applies to this operation ListTargetAlertPolicyAssociations()
 func (client DataSafeClient) ListTargetAlertPolicyAssociations(ctx context.Context, request ListTargetAlertPolicyAssociationsRequest) (response ListTargetAlertPolicyAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8201,9 +8346,10 @@ func (client DataSafeClient) listTargetAlertPolicyAssociations(ctx context.Conte
 }
 
 // ListTargetDatabases Returns the list of registered target databases in Data Safe.
+// A default retry strategy applies to this operation ListTargetDatabases()
 func (client DataSafeClient) ListTargetDatabases(ctx context.Context, request ListTargetDatabasesRequest) (response ListTargetDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8265,9 +8411,10 @@ func (client DataSafeClient) listTargetDatabases(ctx context.Context, request co
 // set to true, the entire hierarchy of compartments can be returned.
 // To use ListUserAnalytics to get a full list of all compartments and subcompartments in the tenancy from the root compartment,
 // set the parameter compartmentIdInSubtree to true and accessLevel to ACCESSIBLE.
+// A default retry strategy applies to this operation ListUserAnalytics()
 func (client DataSafeClient) ListUserAnalytics(ctx context.Context, request ListUserAnalyticsRequest) (response ListUserAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8329,9 +8476,10 @@ func (client DataSafeClient) listUserAnalytics(ctx context.Context, request comm
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// A default retry strategy applies to this operation ListUserAssessments()
 func (client DataSafeClient) ListUserAssessments(ctx context.Context, request ListUserAssessmentsRequest) (response ListUserAssessmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8385,9 +8533,10 @@ func (client DataSafeClient) listUserAssessments(ctx context.Context, request co
 // as user type, account status, last login time, user creation time, authentication type, user profile, and the date and time
 // of the latest password change. It also contains the user category derived from these user details as well as privileges
 // granted to each user.
+// A default retry strategy applies to this operation ListUsers()
 func (client DataSafeClient) ListUsers(ctx context.Context, request ListUsersRequest) (response ListUsersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8438,9 +8587,10 @@ func (client DataSafeClient) listUsers(ctx context.Context, request common.OCIRe
 }
 
 // ListWorkRequestErrors Gets a list of errors for the specified work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DataSafeClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8491,9 +8641,10 @@ func (client DataSafeClient) listWorkRequestErrors(ctx context.Context, request 
 }
 
 // ListWorkRequestLogs Gets a list of log entries for the specified work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DataSafeClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8544,9 +8695,10 @@ func (client DataSafeClient) listWorkRequestLogs(ctx context.Context, request co
 }
 
 // ListWorkRequests Gets a list of work requests.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client DataSafeClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8597,9 +8749,10 @@ func (client DataSafeClient) listWorkRequests(ctx context.Context, request commo
 }
 
 // MaskData Masks data using the specified masking policy.
+// A default retry strategy applies to this operation MaskData()
 func (client DataSafeClient) MaskData(ctx context.Context, request MaskDataRequest) (response MaskDataResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8650,9 +8803,10 @@ func (client DataSafeClient) maskData(ctx context.Context, request common.OCIReq
 }
 
 // ModifyGlobalSettings Modifies Global Settings in Data Safe in the tenancy and region.
+// A default retry strategy applies to this operation ModifyGlobalSettings()
 func (client DataSafeClient) ModifyGlobalSettings(ctx context.Context, request ModifyGlobalSettingsRequest) (response ModifyGlobalSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8708,9 +8862,10 @@ func (client DataSafeClient) modifyGlobalSettings(ctx context.Context, request c
 }
 
 // PatchAlerts Patch alerts. Updates one or more alerts by specifying alert Ids.
+// A default retry strategy applies to this operation PatchAlerts()
 func (client DataSafeClient) PatchAlerts(ctx context.Context, request PatchAlertsRequest) (response PatchAlertsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8762,9 +8917,10 @@ func (client DataSafeClient) patchAlerts(ctx context.Context, request common.OCI
 
 // PatchDiscoveryJobResults Patches one or more discovery results. You can use this operation to set the plannedAction attribute before using
 // ApplyDiscoveryJobResults to process the results based on this attribute.
+// A default retry strategy applies to this operation PatchDiscoveryJobResults()
 func (client DataSafeClient) PatchDiscoveryJobResults(ctx context.Context, request PatchDiscoveryJobResultsRequest) (response PatchDiscoveryJobResultsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8817,9 +8973,10 @@ func (client DataSafeClient) patchDiscoveryJobResults(ctx context.Context, reque
 // PatchMaskingColumns Patches one or more columns in the specified masking policy. Use it to create, or update
 // masking columns. To create masking columns, use CreateMaskingColumnDetails as the patch
 // value. And to update masking columns, use UpdateMaskingColumnDetails as the patch value.
+// A default retry strategy applies to this operation PatchMaskingColumns()
 func (client DataSafeClient) PatchMaskingColumns(ctx context.Context, request PatchMaskingColumnsRequest) (response PatchMaskingColumnsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8872,9 +9029,10 @@ func (client DataSafeClient) patchMaskingColumns(ctx context.Context, request co
 // PatchSensitiveColumns Patches one or more columns in the specified sensitive data model. Use it to create, update, or delete sensitive columns.
 // To create sensitive columns, use CreateSensitiveColumnDetails as the patch value. And to update sensitive columns,
 // use UpdateSensitiveColumnDetails as the patch value.
+// A default retry strategy applies to this operation PatchSensitiveColumns()
 func (client DataSafeClient) PatchSensitiveColumns(ctx context.Context, request PatchSensitiveColumnsRequest) (response PatchSensitiveColumnsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8925,9 +9083,10 @@ func (client DataSafeClient) patchSensitiveColumns(ctx context.Context, request 
 }
 
 // ProvisionAuditPolicy Provision audit policy.
+// A default retry strategy applies to this operation ProvisionAuditPolicy()
 func (client DataSafeClient) ProvisionAuditPolicy(ctx context.Context, request ProvisionAuditPolicyRequest) (response ProvisionAuditPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8984,9 +9143,10 @@ func (client DataSafeClient) provisionAuditPolicy(ctx context.Context, request c
 
 // RefreshSecurityAssessment Runs a security assessment, refreshes the latest assessment, and saves it for future reference.
 // The assessment runs with a securityAssessmentId of type LATEST. Before you start, first call the ListSecurityAssessments operation with filter "type = latest" to get the security assessment id for the target's latest assessment.
+// A default retry strategy applies to this operation RefreshSecurityAssessment()
 func (client DataSafeClient) RefreshSecurityAssessment(ctx context.Context, request RefreshSecurityAssessmentRequest) (response RefreshSecurityAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9044,9 +9204,10 @@ func (client DataSafeClient) refreshSecurityAssessment(ctx context.Context, requ
 // RefreshUserAssessment Refreshes the latest assessment and saves it for future reference. This operation runs with a userAssessmentId of type LATEST.
 // Before you start, first call the ListUserAssessments operation with filter "type = latest" to get the user assessment ID for
 // the target's latest assessment.
+// A default retry strategy applies to this operation RefreshUserAssessment()
 func (client DataSafeClient) RefreshUserAssessment(ctx context.Context, request RefreshUserAssessmentRequest) (response RefreshUserAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9102,9 +9263,10 @@ func (client DataSafeClient) refreshUserAssessment(ctx context.Context, request 
 }
 
 // ResumeAuditTrail Resumes the specified audit trail once it got stopped.
+// A default retry strategy applies to this operation ResumeAuditTrail()
 func (client DataSafeClient) ResumeAuditTrail(ctx context.Context, request ResumeAuditTrailRequest) (response ResumeAuditTrailResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9155,9 +9317,10 @@ func (client DataSafeClient) resumeAuditTrail(ctx context.Context, request commo
 }
 
 // ResumeWorkRequest Resume the given work request. Issuing a resume does not guarantee of immediate resume of the work request.
+// A default retry strategy applies to this operation ResumeWorkRequest()
 func (client DataSafeClient) ResumeWorkRequest(ctx context.Context, request ResumeWorkRequestRequest) (response ResumeWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9213,9 +9376,10 @@ func (client DataSafeClient) resumeWorkRequest(ctx context.Context, request comm
 }
 
 // RetrieveAuditPolicies Retrieves the audit policy details from the source target database.
+// A default retry strategy applies to this operation RetrieveAuditPolicies()
 func (client DataSafeClient) RetrieveAuditPolicies(ctx context.Context, request RetrieveAuditPoliciesRequest) (response RetrieveAuditPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9271,9 +9435,10 @@ func (client DataSafeClient) retrieveAuditPolicies(ctx context.Context, request 
 }
 
 // SetSecurityAssessmentBaseline Sets the saved security assessment as the baseline in the compartment where the the specified assessment resides. The security assessment needs to be of type 'SAVED'.
+// A default retry strategy applies to this operation SetSecurityAssessmentBaseline()
 func (client DataSafeClient) SetSecurityAssessmentBaseline(ctx context.Context, request SetSecurityAssessmentBaselineRequest) (response SetSecurityAssessmentBaselineResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9329,9 +9494,10 @@ func (client DataSafeClient) setSecurityAssessmentBaseline(ctx context.Context, 
 }
 
 // SetUserAssessmentBaseline Sets the saved user assessment as the baseline in the compartment where the specified assessment resides. The user assessment needs to be of type 'SAVED'.
+// A default retry strategy applies to this operation SetUserAssessmentBaseline()
 func (client DataSafeClient) SetUserAssessmentBaseline(ctx context.Context, request SetUserAssessmentBaselineRequest) (response SetUserAssessmentBaselineResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9387,9 +9553,10 @@ func (client DataSafeClient) setUserAssessmentBaseline(ctx context.Context, requ
 }
 
 // StartAuditTrail Starts collection of audit records on the specified audit trail.
+// A default retry strategy applies to this operation StartAuditTrail()
 func (client DataSafeClient) StartAuditTrail(ctx context.Context, request StartAuditTrailRequest) (response StartAuditTrailResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9445,9 +9612,10 @@ func (client DataSafeClient) startAuditTrail(ctx context.Context, request common
 }
 
 // StopAuditTrail Stops the specified audit trail.
+// A default retry strategy applies to this operation StopAuditTrail()
 func (client DataSafeClient) StopAuditTrail(ctx context.Context, request StopAuditTrailRequest) (response StopAuditTrailResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9498,9 +9666,10 @@ func (client DataSafeClient) stopAuditTrail(ctx context.Context, request common.
 }
 
 // SuspendWorkRequest Suspend the given work request. Issuing a suspend does not guarantee of a immediate suspend of the work request.
+// A default retry strategy applies to this operation SuspendWorkRequest()
 func (client DataSafeClient) SuspendWorkRequest(ctx context.Context, request SuspendWorkRequestRequest) (response SuspendWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9557,9 +9726,10 @@ func (client DataSafeClient) suspendWorkRequest(ctx context.Context, request com
 
 // UnsetSecurityAssessmentBaseline Removes the baseline setting for the saved security assessment. The saved security assessment is no longer considered a baseline.
 // Sets the if-match parameter to the value of the etag from a previous GET or POST response for that resource.
+// A default retry strategy applies to this operation UnsetSecurityAssessmentBaseline()
 func (client DataSafeClient) UnsetSecurityAssessmentBaseline(ctx context.Context, request UnsetSecurityAssessmentBaselineRequest) (response UnsetSecurityAssessmentBaselineResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9616,9 +9786,10 @@ func (client DataSafeClient) unsetSecurityAssessmentBaseline(ctx context.Context
 
 // UnsetUserAssessmentBaseline Removes the baseline setting for the saved user assessment. The saved user assessment is no longer considered a baseline.
 // Sets the if-match parameter to the value of the etag from a previous GET or POST response for that resource.
+// A default retry strategy applies to this operation UnsetUserAssessmentBaseline()
 func (client DataSafeClient) UnsetUserAssessmentBaseline(ctx context.Context, request UnsetUserAssessmentBaselineRequest) (response UnsetUserAssessmentBaselineResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9674,9 +9845,10 @@ func (client DataSafeClient) unsetUserAssessmentBaseline(ctx context.Context, re
 }
 
 // UpdateAlert Updates alert status of the specified alert.
+// A default retry strategy applies to this operation UpdateAlert()
 func (client DataSafeClient) UpdateAlert(ctx context.Context, request UpdateAlertRequest) (response UpdateAlertResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9727,9 +9899,10 @@ func (client DataSafeClient) updateAlert(ctx context.Context, request common.OCI
 }
 
 // UpdateAuditArchiveRetrieval Updates the audit archive retrieval.
+// A default retry strategy applies to this operation UpdateAuditArchiveRetrieval()
 func (client DataSafeClient) UpdateAuditArchiveRetrieval(ctx context.Context, request UpdateAuditArchiveRetrievalRequest) (response UpdateAuditArchiveRetrievalResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9780,9 +9953,10 @@ func (client DataSafeClient) updateAuditArchiveRetrieval(ctx context.Context, re
 }
 
 // UpdateAuditPolicy Updates the audit policy.
+// A default retry strategy applies to this operation UpdateAuditPolicy()
 func (client DataSafeClient) UpdateAuditPolicy(ctx context.Context, request UpdateAuditPolicyRequest) (response UpdateAuditPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9833,9 +10007,10 @@ func (client DataSafeClient) updateAuditPolicy(ctx context.Context, request comm
 }
 
 // UpdateAuditProfile Updates one or more attributes of the specified audit profile.
+// A default retry strategy applies to this operation UpdateAuditProfile()
 func (client DataSafeClient) UpdateAuditProfile(ctx context.Context, request UpdateAuditProfileRequest) (response UpdateAuditProfileResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9886,9 +10061,10 @@ func (client DataSafeClient) updateAuditProfile(ctx context.Context, request com
 }
 
 // UpdateAuditTrail Updates one or more attributes of the specified audit trail.
+// A default retry strategy applies to this operation UpdateAuditTrail()
 func (client DataSafeClient) UpdateAuditTrail(ctx context.Context, request UpdateAuditTrailRequest) (response UpdateAuditTrailResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9939,9 +10115,10 @@ func (client DataSafeClient) updateAuditTrail(ctx context.Context, request commo
 }
 
 // UpdateDataSafePrivateEndpoint Updates one or more attributes of the specified Data Safe private endpoint.
+// A default retry strategy applies to this operation UpdateDataSafePrivateEndpoint()
 func (client DataSafeClient) UpdateDataSafePrivateEndpoint(ctx context.Context, request UpdateDataSafePrivateEndpointRequest) (response UpdateDataSafePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9992,9 +10169,10 @@ func (client DataSafeClient) updateDataSafePrivateEndpoint(ctx context.Context, 
 }
 
 // UpdateLibraryMaskingFormat Updates one or more attributes of the specified library masking format. Note that updating the formatEntries attribute replaces all the existing masking format entries with the specified format entries.
+// A default retry strategy applies to this operation UpdateLibraryMaskingFormat()
 func (client DataSafeClient) UpdateLibraryMaskingFormat(ctx context.Context, request UpdateLibraryMaskingFormatRequest) (response UpdateLibraryMaskingFormatResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10046,9 +10224,10 @@ func (client DataSafeClient) updateLibraryMaskingFormat(ctx context.Context, req
 
 // UpdateMaskingColumn Updates one or more attributes of the specified masking column. Note that updating the maskingFormats
 // attribute replaces the currently assigned masking formats with the specified masking formats.
+// A default retry strategy applies to this operation UpdateMaskingColumn()
 func (client DataSafeClient) UpdateMaskingColumn(ctx context.Context, request UpdateMaskingColumnRequest) (response UpdateMaskingColumnResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10099,9 +10278,10 @@ func (client DataSafeClient) updateMaskingColumn(ctx context.Context, request co
 }
 
 // UpdateMaskingPolicy Updates one or more attributes of the specified masking policy.
+// A default retry strategy applies to this operation UpdateMaskingPolicy()
 func (client DataSafeClient) UpdateMaskingPolicy(ctx context.Context, request UpdateMaskingPolicyRequest) (response UpdateMaskingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10152,9 +10332,10 @@ func (client DataSafeClient) updateMaskingPolicy(ctx context.Context, request co
 }
 
 // UpdateOnPremConnector Updates one or more attributes of the specified on-premises connector.
+// A default retry strategy applies to this operation UpdateOnPremConnector()
 func (client DataSafeClient) UpdateOnPremConnector(ctx context.Context, request UpdateOnPremConnectorRequest) (response UpdateOnPremConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10205,9 +10386,10 @@ func (client DataSafeClient) updateOnPremConnector(ctx context.Context, request 
 }
 
 // UpdateOnPremConnectorWallet Updates the wallet for the specified on-premises connector to a new version.
+// A default retry strategy applies to this operation UpdateOnPremConnectorWallet()
 func (client DataSafeClient) UpdateOnPremConnectorWallet(ctx context.Context, request UpdateOnPremConnectorWalletRequest) (response UpdateOnPremConnectorWalletResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10263,9 +10445,10 @@ func (client DataSafeClient) updateOnPremConnectorWallet(ctx context.Context, re
 }
 
 // UpdateReportDefinition Updates the specified report definition. Only user created report definition can be updated. Seeded report definitions need to be saved as new report definition first.
+// A default retry strategy applies to this operation UpdateReportDefinition()
 func (client DataSafeClient) UpdateReportDefinition(ctx context.Context, request UpdateReportDefinitionRequest) (response UpdateReportDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10321,9 +10504,10 @@ func (client DataSafeClient) updateReportDefinition(ctx context.Context, request
 }
 
 // UpdateSecurityAssessment Updates one or more attributes of the specified security assessment. This operation allows to update the security assessment displayName, description, or schedule.
+// A default retry strategy applies to this operation UpdateSecurityAssessment()
 func (client DataSafeClient) UpdateSecurityAssessment(ctx context.Context, request UpdateSecurityAssessmentRequest) (response UpdateSecurityAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10374,9 +10558,10 @@ func (client DataSafeClient) updateSecurityAssessment(ctx context.Context, reque
 }
 
 // UpdateSensitiveColumn Updates one or more attributes of the specified sensitive column.
+// A default retry strategy applies to this operation UpdateSensitiveColumn()
 func (client DataSafeClient) UpdateSensitiveColumn(ctx context.Context, request UpdateSensitiveColumnRequest) (response UpdateSensitiveColumnResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10428,9 +10613,10 @@ func (client DataSafeClient) updateSensitiveColumn(ctx context.Context, request 
 
 // UpdateSensitiveDataModel Updates one or more attributes of the specified sensitive data model. Note that updating any attribute of a sensitive
 // data model does not perform data discovery.
+// A default retry strategy applies to this operation UpdateSensitiveDataModel()
 func (client DataSafeClient) UpdateSensitiveDataModel(ctx context.Context, request UpdateSensitiveDataModelRequest) (response UpdateSensitiveDataModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10481,9 +10667,10 @@ func (client DataSafeClient) updateSensitiveDataModel(ctx context.Context, reque
 }
 
 // UpdateSensitiveType Updates one or more attributes of the specified sensitive type.
+// A default retry strategy applies to this operation UpdateSensitiveType()
 func (client DataSafeClient) UpdateSensitiveType(ctx context.Context, request UpdateSensitiveTypeRequest) (response UpdateSensitiveTypeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10534,9 +10721,10 @@ func (client DataSafeClient) updateSensitiveType(ctx context.Context, request co
 }
 
 // UpdateTargetAlertPolicyAssociation Updates the specified target-alert policy association.
+// A default retry strategy applies to this operation UpdateTargetAlertPolicyAssociation()
 func (client DataSafeClient) UpdateTargetAlertPolicyAssociation(ctx context.Context, request UpdateTargetAlertPolicyAssociationRequest) (response UpdateTargetAlertPolicyAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10587,9 +10775,10 @@ func (client DataSafeClient) updateTargetAlertPolicyAssociation(ctx context.Cont
 }
 
 // UpdateTargetDatabase Updates one or more attributes of the specified Data Safe target database.
+// A default retry strategy applies to this operation UpdateTargetDatabase()
 func (client DataSafeClient) UpdateTargetDatabase(ctx context.Context, request UpdateTargetDatabaseRequest) (response UpdateTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10645,9 +10834,10 @@ func (client DataSafeClient) updateTargetDatabase(ctx context.Context, request c
 }
 
 // UpdateUserAssessment Updates one or more attributes of the specified user assessment. This operation allows to update the user assessment displayName, description, or schedule.
+// A default retry strategy applies to this operation UpdateUserAssessment()
 func (client DataSafeClient) UpdateUserAssessment(ctx context.Context, request UpdateUserAssessmentRequest) (response UpdateUserAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10702,9 +10892,10 @@ func (client DataSafeClient) updateUserAssessment(ctx context.Context, request c
 // to create an empty masking policy and then use this endpoint to upload the masking policy file.
 // Note that the upload operation replaces the content of the specified masking policy,
 // including all the existing columns and masking formats, with the content of the file.
+// A default retry strategy applies to this operation UploadMaskingPolicy()
 func (client DataSafeClient) UploadMaskingPolicy(ctx context.Context, request UploadMaskingPolicyRequest) (response UploadMaskingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10758,9 +10949,10 @@ func (client DataSafeClient) uploadMaskingPolicy(ctx context.Context, request co
 // a new sensitive data model using a file, first use the CreateSensitiveDataModel operation to create an empty data model
 // and then use this endpoint to upload the data model file. Note that the upload operation replaces the content of the
 // specified sensitive data model, including all the existing columns and their relationships, with the content of the file.
+// A default retry strategy applies to this operation UploadSensitiveDataModel()
 func (client DataSafeClient) UploadSensitiveDataModel(ctx context.Context, request UploadSensitiveDataModelRequest) (response UploadSensitiveDataModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

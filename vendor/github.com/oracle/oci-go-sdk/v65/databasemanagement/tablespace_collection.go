@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// TablespaceCollection A collection of tablespaces for a specific database.
+// TablespaceCollection A collection of tablespaces for a specific Managed Database.
 type TablespaceCollection struct {
 
 	// An array of TablespaceSummary resources.

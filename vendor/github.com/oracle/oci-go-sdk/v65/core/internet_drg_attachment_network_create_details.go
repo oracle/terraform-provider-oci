@@ -23,7 +23,7 @@ import (
 // InternetDrgAttachmentNetworkCreateDetails Create details for an "Internet" attachment for a DRG
 type InternetDrgAttachmentNetworkCreateDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The list of BYOIP Range OCIDs used to be accessible to the internet via this DRG.

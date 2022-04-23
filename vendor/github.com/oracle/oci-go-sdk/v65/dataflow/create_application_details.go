@@ -57,8 +57,6 @@ type CreateApplicationDetails struct {
 	// `--input mydata.xml --name "John Doe"`
 	Arguments []string `mandatory:"false" json:"arguments"`
 
-	ApplicationLogConfig *ApplicationLogConfig `mandatory:"false" json:"applicationLogConfig"`
-
 	// The class for the application.
 	ClassName *string `mandatory:"false" json:"className"`
 
@@ -98,6 +96,9 @@ type CreateApplicationDetails struct {
 
 	// The OCID of OCI Hive Metastore.
 	MetastoreId *string `mandatory:"false" json:"metastoreId"`
+
+	// The OCID of OCI LakeHouse.
+	LakehouseId *string `mandatory:"false" json:"lakehouseId"`
 
 	// An array of name/value pairs used to fill placeholders found in properties like
 	// `Application.arguments`.  The name must be a string of one or more word characters

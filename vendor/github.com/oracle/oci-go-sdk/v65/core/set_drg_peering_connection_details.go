@@ -22,7 +22,7 @@ import (
 // SetDrgPeeringConnectionDetails The representation of SetDrgPeeringConnectionDetails
 type SetDrgPeeringConnectionDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DRG.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 	DrgId *string `mandatory:"true" json:"drgId"`
 
 	// The string in the form ASN:rpc_attachment_mplsLabel.

@@ -17,10 +17,6 @@ type RetrieveDimensionStatesRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm.
 	AlarmId *string `mandatory:"true" contributesTo:"path" name:"alarmId"`
 
-	// The configuration details for retrieving the alarm state entries. Filter retrieved alarm state entries by a specified status value
-	// and specified dimension key-value pairs.
-	RetrieveDimensionStatesDetails `contributesTo:"body"`
-
 	// Customer part of the request identifier token. If you need to contact Oracle about a particular
 	// request, please provide the complete request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -34,6 +30,9 @@ type RetrieveDimensionStatesRequest struct {
 	// Default: 1000
 	// Example: 500
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
+
+	// The configuration details for retrieving the current alarm status of each metric stream.
+	RetrieveDimensionStatesDetails `contributesTo:"body"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

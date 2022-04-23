@@ -14,7 +14,7 @@ import (
 // UpdateCpeRequest wrapper for the UpdateCpe operation
 type UpdateCpeRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the CPE.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CPE.
 	CpeId *string `mandatory:"true" contributesTo:"path" name:"cpeId"`
 
 	// Details object for updating a CPE.

@@ -20,17 +20,17 @@ import (
 // CreateUsagePlanDetails Information about a new usage plan.
 type CreateUsagePlanDetails struct {
 
-	// A user-friendly name. Does not have to be unique, and it's changeable.
-	// Avoid entering confidential information.
-	// Example: `My new resource`
-	DisplayName *string `mandatory:"true" json:"displayName"`
-
 	// A collection of entitlements to assign to the newly created usage plan.
 	Entitlements []Entitlement `mandatory:"true" json:"entitlements"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which the
 	// resource is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
+	// Example: `My new resource`
+	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	// with no predefined name, type, or namespace. For more information, see

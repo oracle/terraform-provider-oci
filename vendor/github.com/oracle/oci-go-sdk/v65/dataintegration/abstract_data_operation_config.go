@@ -19,6 +19,9 @@ import (
 // AbstractDataOperationConfig The information about the data operation.
 type AbstractDataOperationConfig interface {
 
+	// This map is used for passing extra metatdata configuration that is required by read / write operation.
+	GetMetadataConfigProperties() map[string]string
+
 	// this map is used for passing BIP report parameter values.
 	GetDerivedAttributes() map[string]string
 
@@ -26,10 +29,11 @@ type AbstractDataOperationConfig interface {
 }
 
 type abstractdataoperationconfig struct {
-	JsonData          []byte
-	DerivedAttributes map[string]string `mandatory:"false" json:"derivedAttributes"`
-	CallAttribute     *BipCallAttribute `mandatory:"false" json:"callAttribute"`
-	ModelType         string            `json:"modelType"`
+	JsonData                 []byte
+	MetadataConfigProperties map[string]string `mandatory:"false" json:"metadataConfigProperties"`
+	DerivedAttributes        map[string]string `mandatory:"false" json:"derivedAttributes"`
+	CallAttribute            *BipCallAttribute `mandatory:"false" json:"callAttribute"`
+	ModelType                string            `json:"modelType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -43,6 +47,7 @@ func (m *abstractdataoperationconfig) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.MetadataConfigProperties = s.Model.MetadataConfigProperties
 	m.DerivedAttributes = s.Model.DerivedAttributes
 	m.CallAttribute = s.Model.CallAttribute
 	m.ModelType = s.Model.ModelType
@@ -70,6 +75,11 @@ func (m *abstractdataoperationconfig) UnmarshalPolymorphicJSON(data []byte) (int
 	default:
 		return *m, nil
 	}
+}
+
+//GetMetadataConfigProperties returns MetadataConfigProperties
+func (m abstractdataoperationconfig) GetMetadataConfigProperties() map[string]string {
+	return m.MetadataConfigProperties
 }
 
 //GetDerivedAttributes returns DerivedAttributes

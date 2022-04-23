@@ -14,7 +14,7 @@ import (
 // UpdatePrivateIpNextHopRequest wrapper for the UpdatePrivateIpNextHop operation
 type UpdatePrivateIpNextHopRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the private IP or IPv6.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private IP or IPv6.
 	PrivateIpId *string `mandatory:"true" contributesTo:"path" name:"privateIpId"`
 
 	// Private IP nextHop configuration details.

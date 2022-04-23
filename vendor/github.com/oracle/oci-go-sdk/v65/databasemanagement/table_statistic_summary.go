@@ -17,17 +17,17 @@ import (
 	"strings"
 )
 
-// TableStatisticSummary Table statistics status object includes status type like Stale/Not Stale/No Stats, aggregated count by
-// collection status and percentage of objects from the total objects.
+// TableStatisticSummary The summary of table statistics statuses, which includes status categories such as Stale, Not Stale, and No Stats,
+// the number of table statistics grouped by status category, and the percentage of objects with a particular status.
 type TableStatisticSummary struct {
 
-	// Optimizer table statistics valid status category.
+	// The valid status categories of table statistics.
 	Type TableStatisticsStatusCategoryEnum `mandatory:"true" json:"type"`
 
-	// Aggregated objects count by status category.
+	// The number of objects aggregated by status category.
 	Count *int `mandatory:"true" json:"count"`
 
-	// Percentage of objects by status from the total objects.
+	// The percentage of objects with a particular status.
 	Percentage *float64 `mandatory:"true" json:"percentage"`
 }
 

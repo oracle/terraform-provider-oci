@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// ImplementOptimizerStatisticsAdvisorRecommendationsDetails This is the request details object for implementing the Optimizer statistics advisor task recommendations.
+// ImplementOptimizerStatisticsAdvisorRecommendationsDetails The request details object to implement the Optimizer Statistics Advisor task recommendations.
 type ImplementOptimizerStatisticsAdvisorRecommendationsDetails struct {
 
-	// Name of the task.
+	// The name of the task.
 	TaskName *string `mandatory:"true" json:"taskName"`
 
 	JobDetails *ImplementOptimizerStatisticsAdvisorRecommendationsJob `mandatory:"true" json:"jobDetails"`

@@ -14,7 +14,7 @@ import (
 // ListCrossConnectMappingsRequest wrapper for the ListCrossConnectMappings operation
 type ListCrossConnectMappingsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the virtual circuit.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual circuit.
 	VirtualCircuitId *string `mandatory:"true" contributesTo:"path" name:"virtualCircuitId"`
 
 	// Unique identifier for the request.

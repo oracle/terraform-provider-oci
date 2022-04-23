@@ -25,7 +25,7 @@ type MigrateDrgDetails struct {
 	// Type of the `Drg` to be migrated to.
 	DestinationDrgType MigrateDrgDetailsDestinationDrgTypeEnum `mandatory:"true" json:"destinationDrgType"`
 
-	// The DRG attachment's Oracle ID (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)).
+	// The DRG attachment's Oracle ID (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 	DrgAttachmentId *string `mandatory:"false" json:"drgAttachmentId"`
 
 	// NextHop target's MPLS label.

@@ -40,7 +40,7 @@ type SortOper struct {
 	InputPorts []InputPort `mandatory:"false" json:"inputPorts"`
 
 	// An array of output ports.
-	OutputPorts []OutputPort `mandatory:"false" json:"outputPorts"`
+	OutputPorts []TypedObject `mandatory:"false" json:"outputPorts"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
@@ -92,7 +92,7 @@ func (m SortOper) GetInputPorts() []InputPort {
 }
 
 //GetOutputPorts returns OutputPorts
-func (m SortOper) GetOutputPorts() []OutputPort {
+func (m SortOper) GetOutputPorts() []TypedObject {
 	return m.OutputPorts
 }
 
@@ -144,4 +144,73 @@ func (m SortOper) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *SortOper) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Key            *string          `json:"key"`
+		ModelVersion   *string          `json:"modelVersion"`
+		ParentRef      *ParentReference `json:"parentRef"`
+		Name           *string          `json:"name"`
+		Description    *string          `json:"description"`
+		ObjectVersion  *int             `json:"objectVersion"`
+		InputPorts     []InputPort      `json:"inputPorts"`
+		OutputPorts    []typedobject    `json:"outputPorts"`
+		ObjectStatus   *int             `json:"objectStatus"`
+		Identifier     *string          `json:"identifier"`
+		Parameters     []Parameter      `json:"parameters"`
+		OpConfigValues *ConfigValues    `json:"opConfigValues"`
+		SortKey        *SortKey         `json:"sortKey"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Key = model.Key
+
+	m.ModelVersion = model.ModelVersion
+
+	m.ParentRef = model.ParentRef
+
+	m.Name = model.Name
+
+	m.Description = model.Description
+
+	m.ObjectVersion = model.ObjectVersion
+
+	m.InputPorts = make([]InputPort, len(model.InputPorts))
+	for i, n := range model.InputPorts {
+		m.InputPorts[i] = n
+	}
+
+	m.OutputPorts = make([]TypedObject, len(model.OutputPorts))
+	for i, n := range model.OutputPorts {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.OutputPorts[i] = nn.(TypedObject)
+		} else {
+			m.OutputPorts[i] = nil
+		}
+	}
+
+	m.ObjectStatus = model.ObjectStatus
+
+	m.Identifier = model.Identifier
+
+	m.Parameters = make([]Parameter, len(model.Parameters))
+	for i, n := range model.Parameters {
+		m.Parameters[i] = n
+	}
+
+	m.OpConfigValues = model.OpConfigValues
+
+	m.SortKey = model.SortKey
+
+	return
 }

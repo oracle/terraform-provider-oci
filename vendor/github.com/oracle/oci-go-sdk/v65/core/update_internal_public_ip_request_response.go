@@ -14,7 +14,7 @@ import (
 // UpdateInternalPublicIpRequest wrapper for the UpdateInternalPublicIp operation
 type UpdateInternalPublicIpRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the internal public IP.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internal public IP.
 	InternalPublicIpId *string `mandatory:"true" contributesTo:"path" name:"internalPublicIpId"`
 
 	// Internal Public IP details.

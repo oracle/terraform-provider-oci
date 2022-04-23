@@ -20,10 +20,10 @@ import (
 // SchemaDefinition The schema object details.
 type SchemaDefinition struct {
 
-	// Name of the schema.
+	// The name of the schema.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Names of schema objects.
+	// The names of schema objects.
 	Objects []string `mandatory:"false" json:"objects"`
 }
 

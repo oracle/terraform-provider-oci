@@ -14,7 +14,7 @@ import (
 // ListIPSecConnectionTunnelsRequest wrapper for the ListIPSecConnectionTunnels operation
 type ListIPSecConnectionTunnelsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the IPSec connection.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPSec connection.
 	IpscId *string `mandatory:"true" contributesTo:"path" name:"ipscId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated

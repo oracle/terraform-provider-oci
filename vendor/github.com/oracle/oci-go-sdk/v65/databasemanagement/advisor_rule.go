@@ -17,16 +17,16 @@ import (
 	"strings"
 )
 
-// AdvisorRule Details of the optimizer statistics advisor rule.
+// AdvisorRule The details of the Optimizer Statistics Advisor rule.
 type AdvisorRule struct {
 
-	// Name of the rule.
+	// The name of the rule.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Description of the rule.
+	// The description of the rule.
 	Description *string `mandatory:"true" json:"description"`
 
-	// List of findings for this rule.
+	// The list of findings for the rule.
 	Findings []RuleFinding `mandatory:"true" json:"findings"`
 }
 

@@ -14,7 +14,7 @@ import (
 // DeletePublicIpRequest wrapper for the DeletePublicIp operation
 type DeletePublicIpRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the public IP.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the public IP.
 	PublicIpId *string `mandatory:"true" contributesTo:"path" name:"publicIpId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

@@ -14,7 +14,7 @@ import (
 // DeleteClientVpnRequest wrapper for the DeleteClientVpn operation
 type DeleteClientVpnRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ClientVpn.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ClientVpn.
 	ClientVpnId *string `mandatory:"true" contributesTo:"path" name:"clientVpnId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

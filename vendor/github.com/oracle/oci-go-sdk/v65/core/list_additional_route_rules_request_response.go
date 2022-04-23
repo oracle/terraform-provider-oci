@@ -14,7 +14,7 @@ import (
 // ListAdditionalRouteRulesRequest wrapper for the ListAdditionalRouteRules operation
 type ListAdditionalRouteRulesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the route table.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table.
 	RtId *string `mandatory:"true" contributesTo:"path" name:"rtId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated

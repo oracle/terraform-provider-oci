@@ -17,18 +17,18 @@ type ListOptimizerStatisticsCollectionAggregationsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
-	// The optimizer statistics tasks group by types.
+	// The optimizer statistics tasks grouped by type.
 	GroupType ListOptimizerStatisticsCollectionAggregationsGroupTypeEnum `mandatory:"true" contributesTo:"query" name:"groupType" omitEmpty:"true"`
 
-	// The start time of the time range to retrieve the optimizer stats of a Managed Database
+	// The start time of the time range to retrieve the optimizer statistics of a Managed Database
 	// in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'".
 	StartTimeGreaterThanOrEqualTo *string `mandatory:"false" contributesTo:"query" name:"startTimeGreaterThanOrEqualTo"`
 
-	// The end time of the time range to retrieve the optimizer stats of a Managed Database
+	// The end time of the time range to retrieve the optimizer statistics of a Managed Database
 	// in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'".
 	EndTimeLessThanOrEqualTo *string `mandatory:"false" contributesTo:"query" name:"endTimeLessThanOrEqualTo"`
 
-	// The optimizer statistics tasks filter types.
+	// The filter types of the optimizer statistics tasks.
 	TaskType ListOptimizerStatisticsCollectionAggregationsTaskTypeEnum `mandatory:"false" contributesTo:"query" name:"taskType" omitEmpty:"true"`
 
 	// The client request ID for tracing.

@@ -17,17 +17,17 @@ import (
 	"strings"
 )
 
-// AlarmDimensionStatesEntry A timestamped alarm state entry indicating a status value and one or more associated dimension key-value pairs.
+// AlarmDimensionStatesEntry A timestamped alarm state entry for a metric stream.
 type AlarmDimensionStatesEntry struct {
 
-	// One or more dimension key-value pairs associated with the alarm state entry.
+	// Indicator of the metric stream associated with the alarm state entry. Includes one or more dimension key-value pairs.
 	Dimensions map[string]string `mandatory:"true" json:"dimensions"`
 
-	// The status value associated with the alarm state entry.
+	// Transition state (status value) associated with the alarm state entry.
 	// Example: `FIRING`
 	Status AlarmDimensionStatesEntryStatusEnum `mandatory:"true" json:"status"`
 
-	// Timestamp for this alarm state entry. Format defined by RFC3339.
+	// Transition time associated with the alarm state entry. Format defined by RFC3339.
 	// Example: `2022-02-01T01:02:29.600Z`
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
@@ -58,19 +58,16 @@ type AlarmDimensionStatesEntryStatusEnum string
 const (
 	AlarmDimensionStatesEntryStatusFiring AlarmDimensionStatesEntryStatusEnum = "FIRING"
 	AlarmDimensionStatesEntryStatusOk     AlarmDimensionStatesEntryStatusEnum = "OK"
-	AlarmDimensionStatesEntryStatusReset  AlarmDimensionStatesEntryStatusEnum = "RESET"
 )
 
 var mappingAlarmDimensionStatesEntryStatusEnum = map[string]AlarmDimensionStatesEntryStatusEnum{
 	"FIRING": AlarmDimensionStatesEntryStatusFiring,
 	"OK":     AlarmDimensionStatesEntryStatusOk,
-	"RESET":  AlarmDimensionStatesEntryStatusReset,
 }
 
 var mappingAlarmDimensionStatesEntryStatusEnumLowerCase = map[string]AlarmDimensionStatesEntryStatusEnum{
 	"firing": AlarmDimensionStatesEntryStatusFiring,
 	"ok":     AlarmDimensionStatesEntryStatusOk,
-	"reset":  AlarmDimensionStatesEntryStatusReset,
 }
 
 // GetAlarmDimensionStatesEntryStatusEnumValues Enumerates the set of values for AlarmDimensionStatesEntryStatusEnum
@@ -87,7 +84,6 @@ func GetAlarmDimensionStatesEntryStatusEnumStringValues() []string {
 	return []string{
 		"FIRING",
 		"OK",
-		"RESET",
 	}
 }
 

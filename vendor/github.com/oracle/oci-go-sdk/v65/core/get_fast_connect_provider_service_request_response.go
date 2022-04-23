@@ -14,7 +14,7 @@ import (
 // GetFastConnectProviderServiceRequest wrapper for the GetFastConnectProviderService operation
 type GetFastConnectProviderServiceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the provider service.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the provider service.
 	ProviderServiceId *string `mandatory:"true" contributesTo:"path" name:"providerServiceId"`
 
 	// Unique Oracle-assigned identifier for the request.

@@ -14,7 +14,7 @@ import (
 // ChangeRouteTableCompartmentRequest wrapper for the ChangeRouteTableCompartment operation
 type ChangeRouteTableCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the route table.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table.
 	RtId *string `mandatory:"true" contributesTo:"path" name:"rtId"`
 
 	// Request to change the compartment of a given route table.

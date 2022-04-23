@@ -14,7 +14,7 @@ import (
 // GetVcnDrgRequest wrapper for the GetVcnDrg operation
 type GetVcnDrgRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DRG.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 	DrgId *string `mandatory:"true" contributesTo:"path" name:"drgId"`
 
 	// Unique Oracle-assigned identifier for the request.

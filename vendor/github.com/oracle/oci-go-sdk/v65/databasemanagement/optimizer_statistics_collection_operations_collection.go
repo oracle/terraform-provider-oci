@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// OptimizerStatisticsCollectionOperationsCollection The response provides summary of each gather statistics operation.
+// OptimizerStatisticsCollectionOperationsCollection The details of each statistics collection operation.
 type OptimizerStatisticsCollectionOperationsCollection struct {
 
-	// Details of the optimizer statistics collection operations.
+	// The details of the Optimizer Statistics Collection operation.
 	Items []OptimizerStatisticsCollectionOperationSummary `mandatory:"true" json:"items"`
 }
 

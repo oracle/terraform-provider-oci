@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// RecommendationExample Example for the recommendation.
+// RecommendationExample An example of the recommendation.
 type RecommendationExample struct {
 
-	// Detailed List of examples.
+	// The list of examples for the recommendation.
 	Lines []RecommendationExampleLine `mandatory:"false" json:"lines"`
 }
 

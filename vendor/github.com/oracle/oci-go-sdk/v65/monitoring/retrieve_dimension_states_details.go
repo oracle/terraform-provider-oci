@@ -21,7 +21,9 @@ import (
 // Filter retrieved alarm state entries by status value and dimension key-value pairs.
 type RetrieveDimensionStatesDetails struct {
 
-	// A filter to return only alarm state entries that match the specified dimension key-value pairs.
+	// A filter to return only alarm state entries that match the exact set of specified dimension key-value pairs.
+	// If you specify `"availabilityDomain": "phx-ad-1"` but the alarm state entry corresponds to the set `"availabilityDomain": "phx-ad-1"`
+	// and `"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"`, then no results are returned.
 	DimensionFilters map[string]string `mandatory:"false" json:"dimensionFilters"`
 
 	// A filter to return only alarm state entries that match the status value.

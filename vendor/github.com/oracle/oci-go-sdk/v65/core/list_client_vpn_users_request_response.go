@@ -17,7 +17,7 @@ type ListClientVpnUsersRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ClientVpn.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ClientVpn.
 	ClientVpnId *string `mandatory:"true" contributesTo:"path" name:"clientVpnId"`
 
 	// A filter to return only resources that match the given display name exactly.

@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// OptimizerStatisticsAdvisorExecutionScript This response object contains oracle system generated sample script for the provided advisor execution.
+// OptimizerStatisticsAdvisorExecutionScript The Oracle system-generated script for the Optimizer Statistics Advisor execution.
 type OptimizerStatisticsAdvisorExecutionScript struct {
 
-	// Optimizer statistics advisor execution script.
+	// The Optimizer Statistics Advisor execution script.
 	Script *string `mandatory:"true" json:"script"`
 }
 

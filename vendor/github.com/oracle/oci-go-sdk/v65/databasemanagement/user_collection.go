@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// UserCollection A collection of users for a specific database.
+// UserCollection A collection of users for a specific Managed Database.
 type UserCollection struct {
 
 	// An array of User resources.

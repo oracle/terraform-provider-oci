@@ -14,7 +14,7 @@ import (
 // UpdateVnicRequest wrapper for the UpdateVnic operation
 type UpdateVnicRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VNIC.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC.
 	VnicId *string `mandatory:"true" contributesTo:"path" name:"vnicId"`
 
 	// Details object for updating a VNIC.

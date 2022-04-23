@@ -14,7 +14,7 @@ import (
 // ChangeVirtualCircuitCompartmentRequest wrapper for the ChangeVirtualCircuitCompartment operation
 type ChangeVirtualCircuitCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the virtual circuit.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual circuit.
 	VirtualCircuitId *string `mandatory:"true" contributesTo:"path" name:"virtualCircuitId"`
 
 	// Request to change the compartment of a virtual circuit.

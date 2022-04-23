@@ -14,7 +14,7 @@ import (
 // GenerateLocalPeeringTokenRequest wrapper for the GenerateLocalPeeringToken operation
 type GenerateLocalPeeringTokenRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the local peering connection. This feature is currently in preview and may change before public release. Do not use it for production workloads.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the local peering connection. This feature is currently in preview and may change before public release. Do not use it for production workloads.
 	LocalPeeringConnectionId *string `mandatory:"true" contributesTo:"path" name:"localPeeringConnectionId"`
 
 	// Unique Oracle-assigned identifier for the request.

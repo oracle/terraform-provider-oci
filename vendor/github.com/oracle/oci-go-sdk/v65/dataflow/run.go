@@ -71,8 +71,6 @@ type Run struct {
 	// `--input mydata.xml --name "John Doe"`
 	Arguments []string `mandatory:"false" json:"arguments"`
 
-	ApplicationLogConfig *ApplicationLogConfig `mandatory:"false" json:"applicationLogConfig"`
-
 	// The class for the application.
 	ClassName *string `mandatory:"false" json:"className"`
 
@@ -121,6 +119,9 @@ type Run struct {
 
 	// The OCID of OCI Hive Metastore.
 	MetastoreId *string `mandatory:"false" json:"metastoreId"`
+
+	// The OCID of OCI LakeHouse.
+	LakehouseId *string `mandatory:"false" json:"lakehouseId"`
 
 	// Unique Oracle assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.

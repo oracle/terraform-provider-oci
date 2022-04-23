@@ -14,7 +14,7 @@ import (
 // UpdateCrossConnectGroupRequest wrapper for the UpdateCrossConnectGroup operation
 type UpdateCrossConnectGroupRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cross-connect group.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cross-connect group.
 	CrossConnectGroupId *string `mandatory:"true" contributesTo:"path" name:"crossConnectGroupId"`
 
 	// Update CrossConnectGroup fields
