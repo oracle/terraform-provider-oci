@@ -336,6 +336,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"is_local_data_guard_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"is_mtls_connection_required": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -349,6 +353,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"is_refreshable_clone": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_remote_data_guard_enabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -408,6 +416,35 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						"lifecycle_details": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"local_standby_db": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"lag_time_in_seconds": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"lifecycle_details": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_data_guard_role_changed": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 						"memory_per_oracle_compute_unit_in_gbs": {
 							Type:     schema.TypeInt,
@@ -850,6 +887,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["is_free_tier"] = *r.IsFreeTier
 		}
 
+		if r.IsLocalDataGuardEnabled != nil {
+			autonomousDatabasesClone["is_local_data_guard_enabled"] = *r.IsLocalDataGuardEnabled
+		}
+
 		if r.IsMtlsConnectionRequired != nil {
 			autonomousDatabasesClone["is_mtls_connection_required"] = *r.IsMtlsConnectionRequired
 		}
@@ -864,6 +905,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.IsRefreshableClone != nil {
 			autonomousDatabasesClone["is_refreshable_clone"] = *r.IsRefreshableClone
+		}
+
+		if r.IsRemoteDataGuardEnabled != nil {
+			autonomousDatabasesClone["is_remote_data_guard_enabled"] = *r.IsRemoteDataGuardEnabled
 		}
 
 		keyHistoryEntry := []interface{}{}
@@ -896,6 +941,12 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.LifecycleDetails != nil {
 			autonomousDatabasesClone["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		if r.LocalStandbyDb != nil {
+			autonomousDatabasesClone["local_standby_db"] = []interface{}{AutonomousDatabaseStandbySummaryToMap(r.LocalStandbyDb)}
+		} else {
+			autonomousDatabasesClone["local_standby_db"] = nil
 		}
 
 		if r.MemoryPerOracleComputeUnitInGBs != nil {

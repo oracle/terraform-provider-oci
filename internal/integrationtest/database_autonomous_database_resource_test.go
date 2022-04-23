@@ -1061,11 +1061,6 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 		//0. Create dependencies
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
-			Check: func(s *terraform.State) (err error) {
-				log.Printf("[DEBUG] Source ADB should be at least 2hrs old. Time Sleep for 2hrs")
-				time.Sleep(2 * time.Hour)
-				return nil
-			},
 		},
 		//1. verify create
 		{
@@ -1129,14 +1124,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testi
 	resourceName := "oci_database_autonomous_database.test_autonomous_database_from_backuptimestamp"
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		//1. Create dependencies, To Create clone the source db must be atleast 2 hrs old
+		//1. Create dependencies
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
-			Check: func(s *terraform.State) (err error) {
-				log.Printf("[DEBUG] Source ADB should be at least 2hrs old. Time Sleep for 2hrs")
-				time.Sleep(2 * time.Hour)
-				return nil
-			},
 		},
 		//2. verify create
 		{
@@ -1735,6 +1725,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -1752,7 +1745,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseDataGuardRepresentation, map[string]interface{}{
-						"is_data_guard_enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
+						"is_local_data_guard_enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
@@ -1768,6 +1761,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_data_guard_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
@@ -1807,6 +1803,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
