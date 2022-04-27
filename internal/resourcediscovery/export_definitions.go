@@ -40,6 +40,7 @@ import (
 	oci_sch "github.com/oracle/oci-go-sdk/v65/sch"
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 	oci_streaming "github.com/oracle/oci-go-sdk/v65/streaming"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v65/usageapi"
 	oci_vault "github.com/oracle/oci-go-sdk/v65/vault"
 	oci_visual_builder "github.com/oracle/oci-go-sdk/v65/visualbuilder"
 	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v65/vulnerabilityscanning"
@@ -286,6 +287,15 @@ var exportApmSyntheticsMonitorHints = &TerraformResourceHints{
 	datasourceClass:        "oci_apm_synthetics_monitors",
 	datasourceItemsAttr:    "monitor_collection",
 	resourceAbbreviation:   "monitor",
+	requireResourceRefresh: true,
+}
+
+var exportApmSyntheticsDedicatedVantagePointHints = &TerraformResourceHints{
+	resourceClass:          "oci_apm_synthetics_dedicated_vantage_point",
+	datasourceClass:        "oci_apm_synthetics_dedicated_vantage_points",
+	datasourceItemsAttr:    "dedicated_vantage_point_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "dedicated_vantage_point",
 	requireResourceRefresh: true,
 }
 
@@ -1011,6 +1021,26 @@ var exportCoreDrgRouteDistributionHints = &TerraformResourceHints{
 var exportCoreDrgRouteTableRouteRuleHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_drg_route_table_route_rule",
 	resourceAbbreviation: "drg_route_table_route_rule",
+}
+
+var exportCoreCaptureFilterHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_capture_filter",
+	datasourceClass:      "oci_core_capture_filters",
+	datasourceItemsAttr:  "capture_filters",
+	resourceAbbreviation: "capture_filter",
+	discoverableLifecycleStates: []string{
+		string(oci_core.CaptureFilterLifecycleStateAvailable),
+	},
+}
+
+var exportCoreVtapHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_vtap",
+	datasourceClass:      "oci_core_vtaps",
+	datasourceItemsAttr:  "vtaps",
+	resourceAbbreviation: "vtap",
+	discoverableLifecycleStates: []string{
+		string(oci_core.VtapLifecycleStateAvailable),
+	},
 }
 
 var exportDataConnectivityRegistryHints = &TerraformResourceHints{
@@ -2634,6 +2664,18 @@ var exportMeteringComputationCustomTableHints = &TerraformResourceHints{
 	isDatasourceCollection: true,
 	resourceAbbreviation:   "custom_table",
 	requireResourceRefresh: true,
+}
+
+var exportMeteringComputationScheduleHints = &TerraformResourceHints{
+	resourceClass:          "oci_metering_computation_schedule",
+	datasourceClass:        "oci_metering_computation_schedules",
+	datasourceItemsAttr:    "schedule_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "schedule",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_metering_computation.ScheduleLifecycleStateActive),
+	},
 }
 
 var exportMonitoringAlarmHints = &TerraformResourceHints{

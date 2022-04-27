@@ -29,6 +29,10 @@ const (
 	OperationTypesChangeShape               OperationTypesEnum = "CHANGE_SHAPE"
 	OperationTypesUpdateInfra               OperationTypesEnum = "UPDATE_INFRA"
 	OperationTypesRestartNode               OperationTypesEnum = "RESTART_NODE"
+	OperationTypesRemoveNode                OperationTypesEnum = "REMOVE_NODE"
+	OperationTypesCreateAutoscaleConfig     OperationTypesEnum = "CREATE_AUTOSCALE_CONFIG"
+	OperationTypesUpdateAutoscaleConfig     OperationTypesEnum = "UPDATE_AUTOSCALE_CONFIG"
+	OperationTypesDeleteAutoscaleConfig     OperationTypesEnum = "DELETE_AUTOSCALE_CONFIG"
 	OperationTypesAutoscaleConfig           OperationTypesEnum = "AUTOSCALE_CONFIG"
 	OperationTypesAutoscaleRun              OperationTypesEnum = "AUTOSCALE_RUN"
 	OperationTypesCreateApiKey              OperationTypesEnum = "CREATE_API_KEY"
@@ -39,6 +43,8 @@ const (
 	OperationTypesUpdateMetastoreConfig     OperationTypesEnum = "UPDATE_METASTORE_CONFIG"
 	OperationTypesActivateMetastoreConfig   OperationTypesEnum = "ACTIVATE_METASTORE_CONFIG"
 	OperationTypesTestMetastoreConfig       OperationTypesEnum = "TEST_METASTORE_CONFIG"
+	OperationTypesPatchBds                  OperationTypesEnum = "PATCH_BDS"
+	OperationTypesPatchOdh                  OperationTypesEnum = "PATCH_ODH"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -53,6 +59,10 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"CHANGE_SHAPE":                 OperationTypesChangeShape,
 	"UPDATE_INFRA":                 OperationTypesUpdateInfra,
 	"RESTART_NODE":                 OperationTypesRestartNode,
+	"REMOVE_NODE":                  OperationTypesRemoveNode,
+	"CREATE_AUTOSCALE_CONFIG":      OperationTypesCreateAutoscaleConfig,
+	"UPDATE_AUTOSCALE_CONFIG":      OperationTypesUpdateAutoscaleConfig,
+	"DELETE_AUTOSCALE_CONFIG":      OperationTypesDeleteAutoscaleConfig,
 	"AUTOSCALE_CONFIG":             OperationTypesAutoscaleConfig,
 	"AUTOSCALE_RUN":                OperationTypesAutoscaleRun,
 	"CREATE_API_KEY":               OperationTypesCreateApiKey,
@@ -63,6 +73,8 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"UPDATE_METASTORE_CONFIG":      OperationTypesUpdateMetastoreConfig,
 	"ACTIVATE_METASTORE_CONFIG":    OperationTypesActivateMetastoreConfig,
 	"TEST_METASTORE_CONFIG":        OperationTypesTestMetastoreConfig,
+	"PATCH_BDS":                    OperationTypesPatchBds,
+	"PATCH_ODH":                    OperationTypesPatchOdh,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -77,6 +89,10 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"change_shape":                 OperationTypesChangeShape,
 	"update_infra":                 OperationTypesUpdateInfra,
 	"restart_node":                 OperationTypesRestartNode,
+	"remove_node":                  OperationTypesRemoveNode,
+	"create_autoscale_config":      OperationTypesCreateAutoscaleConfig,
+	"update_autoscale_config":      OperationTypesUpdateAutoscaleConfig,
+	"delete_autoscale_config":      OperationTypesDeleteAutoscaleConfig,
 	"autoscale_config":             OperationTypesAutoscaleConfig,
 	"autoscale_run":                OperationTypesAutoscaleRun,
 	"create_api_key":               OperationTypesCreateApiKey,
@@ -87,6 +103,8 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"update_metastore_config":      OperationTypesUpdateMetastoreConfig,
 	"activate_metastore_config":    OperationTypesActivateMetastoreConfig,
 	"test_metastore_config":        OperationTypesTestMetastoreConfig,
+	"patch_bds":                    OperationTypesPatchBds,
+	"patch_odh":                    OperationTypesPatchOdh,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -112,6 +130,10 @@ func GetOperationTypesEnumStringValues() []string {
 		"CHANGE_SHAPE",
 		"UPDATE_INFRA",
 		"RESTART_NODE",
+		"REMOVE_NODE",
+		"CREATE_AUTOSCALE_CONFIG",
+		"UPDATE_AUTOSCALE_CONFIG",
+		"DELETE_AUTOSCALE_CONFIG",
 		"AUTOSCALE_CONFIG",
 		"AUTOSCALE_RUN",
 		"CREATE_API_KEY",
@@ -122,6 +144,8 @@ func GetOperationTypesEnumStringValues() []string {
 		"UPDATE_METASTORE_CONFIG",
 		"ACTIVATE_METASTORE_CONFIG",
 		"TEST_METASTORE_CONFIG",
+		"PATCH_BDS",
+		"PATCH_ODH",
 	}
 }
 

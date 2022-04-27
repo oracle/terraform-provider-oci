@@ -69,6 +69,9 @@ type ListProblemsRequest struct {
 	// The ID of the target in which to list resources.
 	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
 
+	// Setting this to `SECURITY_ZONE` returns only security-zone related violations.
+	ProblemCategory ListProblemsProblemCategoryEnum `mandatory:"false" contributesTo:"query" name:"problemCategory" omitEmpty:"true"`
+
 	// Default is false.
 	// When set to true, the hierarchy of compartments is traversed
 	// and all compartments and subcompartments in the tenancy are
@@ -144,6 +147,9 @@ func (request ListProblemsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListProblemsDetectorTypeEnum(string(request.DetectorType)); !ok && request.DetectorType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DetectorType: %s. Supported values are: %s.", request.DetectorType, strings.Join(GetListProblemsDetectorTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListProblemsProblemCategoryEnum(string(request.ProblemCategory)); !ok && request.ProblemCategory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProblemCategory: %s. Supported values are: %s.", request.ProblemCategory, strings.Join(GetListProblemsProblemCategoryEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListProblemsAccessLevelEnum(string(request.AccessLevel)); !ok && request.AccessLevel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListProblemsAccessLevelEnumStringValues(), ",")))
@@ -323,6 +329,44 @@ func GetListProblemsDetectorTypeEnumStringValues() []string {
 // GetMappingListProblemsDetectorTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListProblemsDetectorTypeEnum(val string) (ListProblemsDetectorTypeEnum, bool) {
 	enum, ok := mappingListProblemsDetectorTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListProblemsProblemCategoryEnum Enum with underlying type: string
+type ListProblemsProblemCategoryEnum string
+
+// Set of constants representing the allowable values for ListProblemsProblemCategoryEnum
+const (
+	ListProblemsProblemCategorySecurityZone ListProblemsProblemCategoryEnum = "SECURITY_ZONE"
+)
+
+var mappingListProblemsProblemCategoryEnum = map[string]ListProblemsProblemCategoryEnum{
+	"SECURITY_ZONE": ListProblemsProblemCategorySecurityZone,
+}
+
+var mappingListProblemsProblemCategoryEnumLowerCase = map[string]ListProblemsProblemCategoryEnum{
+	"security_zone": ListProblemsProblemCategorySecurityZone,
+}
+
+// GetListProblemsProblemCategoryEnumValues Enumerates the set of values for ListProblemsProblemCategoryEnum
+func GetListProblemsProblemCategoryEnumValues() []ListProblemsProblemCategoryEnum {
+	values := make([]ListProblemsProblemCategoryEnum, 0)
+	for _, v := range mappingListProblemsProblemCategoryEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListProblemsProblemCategoryEnumStringValues Enumerates the set of values in String for ListProblemsProblemCategoryEnum
+func GetListProblemsProblemCategoryEnumStringValues() []string {
+	return []string{
+		"SECURITY_ZONE",
+	}
+}
+
+// GetMappingListProblemsProblemCategoryEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListProblemsProblemCategoryEnum(val string) (ListProblemsProblemCategoryEnum, bool) {
+	enum, ok := mappingListProblemsProblemCategoryEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

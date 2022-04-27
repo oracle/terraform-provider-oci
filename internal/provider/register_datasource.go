@@ -134,7 +134,10 @@ func init() {
 	// apm_config service
 	RegisterDatasource("oci_apm_config_config", tf_apm_config.ApmConfigConfigDataSource())
 	RegisterDatasource("oci_apm_config_configs", tf_apm_config.ApmConfigConfigsDataSource())
+
 	// apm_synthetics service
+	RegisterDatasource("oci_apm_synthetics_dedicated_vantage_points", tf_apm_synthetics.ApmSyntheticsDedicatedVantagePointsDataSource())
+	RegisterDatasource("oci_apm_synthetics_dedicated_vantage_point", tf_apm_synthetics.ApmSyntheticsDedicatedVantagePointDataSource())
 	RegisterDatasource("oci_apm_synthetics_monitor", tf_apm_synthetics.ApmSyntheticsMonitorDataSource())
 	RegisterDatasource("oci_apm_synthetics_monitors", tf_apm_synthetics.ApmSyntheticsMonitorsDataSource())
 	RegisterDatasource("oci_apm_synthetics_public_vantage_point", tf_apm_synthetics.ApmSyntheticsPublicVantagePointDataSource())
@@ -248,6 +251,8 @@ func init() {
 	RegisterDatasource("oci_core_byoip_allocated_ranges", tf_core.CoreByoipAllocatedRangesDataSource())
 	RegisterDatasource("oci_core_byoip_range", tf_core.CoreByoipRangeDataSource())
 	RegisterDatasource("oci_core_byoip_ranges", tf_core.CoreByoipRangesDataSource())
+	RegisterDatasource("oci_core_capture_filter", tf_core.CoreCaptureFilterDataSource())
+	RegisterDatasource("oci_core_capture_filters", tf_core.CoreCaptureFiltersDataSource())
 	RegisterDatasource("oci_core_cluster_network", tf_core.CoreClusterNetworkDataSource())
 	RegisterDatasource("oci_core_cluster_network_instances", tf_core.CoreClusterNetworkInstancesDataSource())
 	RegisterDatasource("oci_core_cluster_networks", tf_core.CoreClusterNetworksDataSource())
@@ -362,6 +367,8 @@ func init() {
 	RegisterDatasource("oci_core_volume_group_replicas", tf_core.CoreVolumeGroupReplicasDataSource())
 	RegisterDatasource("oci_core_volume_groups", tf_core.CoreVolumeGroupsDataSource())
 	RegisterDatasource("oci_core_volumes", tf_core.CoreVolumesDataSource())
+	RegisterDatasource("oci_core_vtap", tf_core.CoreVtapDataSource())
+	RegisterDatasource("oci_core_vtaps", tf_core.CoreVtapsDataSource())
 	// data_connectivity service
 	RegisterDatasource("oci_data_connectivity_registries", tf_data_connectivity.DataConnectivityRegistriesDataSource())
 	RegisterDatasource("oci_data_connectivity_registry", tf_data_connectivity.DataConnectivityRegistryDataSource())
@@ -555,6 +562,8 @@ func init() {
 	RegisterDatasource("oci_database_vm_cluster_update_history_entry", tf_database.DatabaseVmClusterUpdateHistoryEntryDataSource())
 	RegisterDatasource("oci_database_vm_cluster_updates", tf_database.DatabaseVmClusterUpdatesDataSource())
 	RegisterDatasource("oci_database_vm_clusters", tf_database.DatabaseVmClustersDataSource())
+	RegisterDatasource("oci_database_db_systems_upgrade_history_entries", tf_database.DatabaseDbSystemsUpgradeHistoryEntriesDataSource())
+	RegisterDatasource("oci_database_db_systems_upgrade_history_entry", tf_database.DatabaseDbSystemsUpgradeHistoryEntryDataSource())
 	// database_management service
 	RegisterDatasource("oci_database_management_db_management_private_endpoint", tf_database_management.DatabaseManagementDbManagementPrivateEndpointDataSource())
 	RegisterDatasource("oci_database_management_db_management_private_endpoint_associated_database", tf_database_management.DatabaseManagementDbManagementPrivateEndpointAssociatedDatabaseDataSource())
@@ -921,6 +930,10 @@ func init() {
 	RegisterDatasource("oci_metering_computation_custom_tables", tf_metering_computation.MeteringComputationCustomTablesDataSource())
 	RegisterDatasource("oci_metering_computation_queries", tf_metering_computation.MeteringComputationQueriesDataSource())
 	RegisterDatasource("oci_metering_computation_query", tf_metering_computation.MeteringComputationQueryDataSource())
+	RegisterDatasource("oci_metering_computation_schedule", tf_metering_computation.MeteringComputationScheduleDataSource())
+	RegisterDatasource("oci_metering_computation_scheduled_run", tf_metering_computation.MeteringComputationScheduledRunDataSource())
+	RegisterDatasource("oci_metering_computation_scheduled_runs", tf_metering_computation.MeteringComputationScheduledRunsDataSource())
+	RegisterDatasource("oci_metering_computation_schedules", tf_metering_computation.MeteringComputationSchedulesDataSource())
 	// monitoring service
 	RegisterDatasource("oci_monitoring_alarm", tf_monitoring.MonitoringAlarmDataSource())
 	RegisterDatasource("oci_monitoring_alarm_history_collection", tf_monitoring.MonitoringAlarmHistoryCollectionDataSource())

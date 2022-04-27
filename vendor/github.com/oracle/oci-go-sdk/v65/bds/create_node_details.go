@@ -30,6 +30,8 @@ type CreateNodeDetails struct {
 
 	// The OCID of the subnet in which the node will be created.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
+
+	ShapeConfig *ShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 }
 
 func (m CreateNodeDetails) String() string {

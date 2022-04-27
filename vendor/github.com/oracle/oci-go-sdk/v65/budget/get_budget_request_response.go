@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/GetBudget.go.html to see an example of how to use GetBudgetRequest.
 type GetBudgetRequest struct {
 
-	// The unique Budget OCID
+	// The unique budget OCID.
 	BudgetId *string `mandatory:"true" contributesTo:"path" name:"budgetId"`
 
 	// The client request ID for tracing.

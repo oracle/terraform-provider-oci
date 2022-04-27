@@ -66,8 +66,9 @@ func TestOcvpSupportedHostShapeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "items.0.name", "BM.DenseIO.E4.128"),
 				resource.TestCheckResourceAttr(datasourceName, "items.0.supported_operations.#", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "items.0.shape_family", "AMD"),
-				resource.TestCheckResourceAttr(datasourceName, "items.0.supported_ocpu_count.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "items.0.supported_ocpu_count.#"),
 				resource.TestCheckResourceAttr(datasourceName, "items.0.supported_sddc_types.#", "2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "items.0.supported_vmware_software_versions.0"),
 			),
 		},
 	})

@@ -20,7 +20,8 @@ import (
 	"strings"
 )
 
-// InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance with the AMD Rome platform.
+// InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance with the BM.Standard.E3.128 shape
+// (the AMD Rome platform).
 type InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig struct {
 
 	// Whether Secure Boot is enabled on the instance.

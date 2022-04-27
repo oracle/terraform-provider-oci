@@ -138,18 +138,28 @@ The following arguments are supported:
 		* `param_value` - (Applicable when config_type=REST_CONFIG) (Updatable) Value of request query parameter.
 	* `verify_response_codes` - (Applicable when config_type=REST_CONFIG) (Updatable) Expected HTTP response codes. For status code range, set values such as 2xx, 3xx. 
 	* `verify_response_content` - (Applicable when config_type=REST_CONFIG) (Updatable) Verify response content against regular expression based string. If response content does not match the verifyResponseContent value, then it will be considered a failure. 
-	* `verify_texts` - (Applicable when config_type=BROWSER_CONFIG) (Updatable) Verify all the search strings present in response. If any search string is not present in the response, then it will be considered as a failure. 
+	* `verify_texts` - (Applicable when config_type=BROWSER_CONFIG) (Updatable) Verifies all the search strings present in the response. If any search string is not present in the response, then it will be considered as a failure. 
 		* `text` - (Applicable when config_type=BROWSER_CONFIG) (Updatable) Verification text in the response.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `is_run_once` - (Optional) (Updatable) If runOnce is enabled, then the monitor will run once.
+<<<<<<< ours
+* `monitor_type` - (Required) Type of monitor.
+* `repeat_interval_in_seconds` - (Required) (Updatable) Interval in seconds after the start time when the job should be repeated. Minimum repeatIntervalInSeconds should be 300 seconds for Scripted REST, Scripted Browser and Browser monitors, and 60 seconds for REST monitor. 
+=======
+>>>>>>> theirs
 * `script_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the script. scriptId is mandatory for creation of SCRIPTED_BROWSER and SCRIPTED_REST monitor types. For other monitor types, it should be set to null. 
 * `script_parameters` - (Optional) (Updatable) List of script parameters in the monitor. This is valid only for SCRIPTED_BROWSER and SCRIPTED_REST monitor types. For other monitor types, it should be set to null. Example: `[{"paramName": "userid", "paramValue":"testuser"}]` 
 	* `param_name` - (Required) (Updatable) Name of the parameter.
 	* `param_value` - (Required) (Updatable) Value of the parameter.
 * `status` - (Optional) (Updatable) Enables or disables the monitor.
 * `target` - (Optional) (Updatable) Specify the endpoint on which to run the monitor. For BROWSER and REST monitor types, target is mandatory. If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint. If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is. 
+<<<<<<< ours
+* `timeout_in_seconds` - (Optional) (Updatable) Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors. Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that. 
+* `vantage_points` - (Required) (Updatable) A list of public and dedicated vantage points from which to execute the monitor. Use /publicVantagePoints to fetch public vantage points, and /dedicatedVantagePoints to fetch dedicated vantage points. 
+=======
 * `timeout_in_seconds` - (Optional) (Updatable) Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors. Also, timeoutInSeconds should be a multiple of 60. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that. 
+>>>>>>> theirs
 
 
 ** IMPORTANT **
@@ -192,7 +202,7 @@ The following attributes are exported:
 		* `param_value` - Value of request query parameter.
 	* `verify_response_codes` - Expected HTTP response codes. For status code range, set values such as 2xx, 3xx. 
 	* `verify_response_content` - Verify response content against regular expression based string. If response content does not match the verifyResponseContent value, then it will be considered a failure. 
-	* `verify_texts` - Verify all the search strings present in response. If any search string is not present in the response, then it will be considered as a failure. 
+	* `verify_texts` - Verifies all the search strings present in the response. If any search string is not present in the response, then it will be considered as a failure. 
 		* `text` - Verification text in the response.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Unique name that can be edited. The name should not contain any confidential information.
@@ -200,7 +210,7 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitor.
 * `is_run_once` - If runOnce is enabled, then the monitor will run once.
 * `monitor_type` - Type of the monitor.
-* `repeat_interval_in_seconds` - Interval in seconds after the start time when the job should be repeated. Minimum repeatIntervalInSeconds should be 300 seconds. 
+* `repeat_interval_in_seconds` - Interval in seconds after the start time when the job should be repeated. Minimum repeatIntervalInSeconds should be 300 seconds for Scripted REST, Scripted Browser and Browser monitors, and 60 seconds for REST monitor. 
 * `script_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the script. scriptId is mandatory for creation of SCRIPTED_BROWSER and SCRIPTED_REST monitor types. For other monitor types, it should be set to null. 
 * `script_name` - Name of the script.
 * `script_parameters` - List of script parameters. Example: `[{"monitorScriptParameter": {"paramName": "userid", "paramValue":"testuser"}, "isSecret": false, "isOverwritten": false}]` 
@@ -213,9 +223,9 @@ The following attributes are exported:
 * `target` - Specify the endpoint on which to run the monitor. For BROWSER and REST monitor types, target is mandatory. If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint. If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is. 
 * `time_created` - The time the resource was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
 * `time_updated` - The time the resource was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-13T22:47:12.613Z` 
-* `timeout_in_seconds` - Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors. Also, timeoutInSeconds should be a multiple of 60. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that. 
+* `timeout_in_seconds` - Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors. Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that. 
 * `vantage_point_count` - Number of vantage points where monitor is running.
-* `vantage_points` - List of vantage points from where monitor is running.
+* `vantage_points` - List of public and dedicated vantage points where the monitor is running.
 	* `display_name` - Unique name that can be edited. The name should not contain any confidential information.
 	* `name` - Name of the vantage point.
 

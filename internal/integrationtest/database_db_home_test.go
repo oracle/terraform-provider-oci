@@ -176,13 +176,25 @@ var (
 		"pdb_name":       acctest.Representation{RepType: acctest.Optional, Create: `pdbName`},
 	}
 
+	dbHomeRepresentationSourceVmCluster = map[string]interface{}{
+		"vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
+		"source":        acctest.Representation{RepType: acctest.Required, Create: `VM_CLUSTER_NEW`},
+		"db_version":    acctest.Representation{RepType: acctest.Required, Create: `12.1.0.2`},
+		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `TFTestDbHome1`},
+	}
+
 	DbHomeResourceDependencies = BackupResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationNFSRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": acctest.Representation{RepType: acctest.Optional, Update: activationFilePath}})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, vmClusterNetworkValidateRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, backupRepresentation) +
 		KeyResourceDependencyConfig +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, dbServerDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, vmClusterRepresentation)
+
+	DbHomeResourceVmClusterDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, cloudVmClusterRepresentation) +
+		AvailabilityDomainConfig +
+		CloudVmClusterResourceDependencies
 )
 
 // issue-routing-tag: database/default
@@ -288,6 +300,15 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
+	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
+	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
+
+	vaultId := utils.GetEnvSettingWithBlankDefault("vault_id")
+	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
+
+	kmsKeyVersionId := utils.GetEnvSettingWithBlankDefault("kms_key_version_id")
+	kmsKeyVersionIdVariableStr := fmt.Sprintf("variable \"kms_key_version_id\" { default = \"%s\" }\n", kmsKeyVersionId)
+
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
@@ -297,13 +318,13 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DbHomeResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+kmsKeyIdVariableStr+vaultIdVariableStr+kmsKeyVersionIdVariableStr+DbHomeResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Optional, acctest.Create, dbHomeRepresentation), "database", "dbHome", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseDbHomeDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + vaultIdVariableStr + kmsKeyVersionIdVariableStr + DbHomeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", acctest.Required, acctest.Create, dbHomeRepresentationSourceNoneRequiredOnly) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", acctest.Required, acctest.Create, dbHomeRepresentationSourceDbBackup) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", acctest.Required, acctest.Create, dbHomeRepresentationSourceVmClusterNew) +
@@ -342,11 +363,11 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DbHomeResourceDependencies,
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + vaultIdVariableStr + kmsKeyVersionIdVariableStr + DbHomeResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + vaultIdVariableStr + kmsKeyVersionIdVariableStr + DbHomeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", acctest.Optional, acctest.Create, dbHomeRepresentationSourceNone) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", acctest.Optional, acctest.Create, dbHomeRepresentationSourceDbBackup) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", acctest.Optional, acctest.Create, dbHomeRepresentationSourceVmClusterNew) +
@@ -440,7 +461,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 		},
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + vaultIdVariableStr + kmsKeyVersionIdVariableStr + DbHomeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", acctest.Optional, acctest.Update, dbHomeRepresentationSourceNone) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", acctest.Optional, acctest.Update, dbHomeRepresentationSourceDbBackup) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", acctest.Optional, acctest.Update, dbHomeRepresentationSourceVmClusterNew) +
@@ -524,7 +545,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_homes", "test_db_homes", acctest.Optional, acctest.Update, dbHomeDataSourceRepresentation) +
-				compartmentIdVariableStr + DbHomeResourceDependencies +
+				compartmentIdVariableStr + kmsKeyIdVariableStr + vaultIdVariableStr + kmsKeyVersionIdVariableStr + DbHomeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", acctest.Optional, acctest.Update, dbHomeRepresentationSourceNone) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", acctest.Optional, acctest.Update, dbHomeRepresentationSourceDbBackup) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", acctest.Optional, acctest.Update, dbHomeRepresentationSourceDatabase),
@@ -550,7 +571,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DbHomeResourceDependencies +
+				compartmentIdVariableStr + kmsKeyIdVariableStr + vaultIdVariableStr + kmsKeyVersionIdVariableStr + DbHomeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", acctest.Optional, acctest.Update, dbHomeRepresentationSourceNone) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", acctest.Optional, acctest.Update, dbHomeRepresentationSourceDbBackup) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", acctest.Optional, acctest.Update, dbHomeRepresentationSourceDatabase),
@@ -578,6 +599,70 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				"kms_key_version_id",
 			},
 			ResourceName: resourceName + "_source_none",
+		},
+	})
+}
+
+// issue-routing-tag: database/default
+func TestDatabaseDbHomeResource_exacs(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDbHomeResource_exacs")
+	defer httpreplay.SaveScenario()
+
+	provider := acctest.TestAccProvider
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_db_home.test_db_home"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { acctest.PreCheck(t) },
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckDatabaseDbHomeDestroy,
+		Steps: []resource.TestStep{
+			// verify Create
+			{
+				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Required, acctest.Create, dbHomeRepresentationSourceVmCluster),
+
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "source", "VM_CLUSTER_NEW"),
+					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "display_name", "TFTestDbHome1"),
+					resource.TestCheckResourceAttrSet(resourceName+"_vm_cluster_no_db", "vm_cluster_id"),
+					resource.TestMatchResourceAttr(resourceName+"_vm_cluster_no_db", "db_version", regexp.MustCompile(`^12\.1\.0\.2\.[0-9]+$`)),
+				),
+			},
+
+			// delete before next Create
+			{
+				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies,
+			},
+			// verify Create with optionals
+			{
+				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithNewProperties(dbHomeRepresentationSourceVmCluster, map[string]interface{}{
+							"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: dbHomeDatabaseRepresentation},
+						})),
+
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName+"_vm_cluster_no_db", "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "database.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "database.0.db_name", "tfDbNam"),
+					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "database.0.db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "database.0.ncharacter_set", "AL16UTF16"),
+					resource.TestCheckResourceAttrSet(resourceName+"_vm_cluster_no_db", "vm_cluster_id"),
+					resource.TestMatchResourceAttr(resourceName+"_vm_cluster_no_db", "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
+					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "display_name", "TFTestDbHome1"),
+					resource.TestCheckResourceAttrSet(resourceName+"_vm_cluster_no_db", "id"),
+					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "source", "VM_CLUSTER_NEW"),
+					resource.TestCheckResourceAttrSet(resourceName+"_vm_cluster_no_db", "state"),
+				),
+			},
 		},
 	})
 }

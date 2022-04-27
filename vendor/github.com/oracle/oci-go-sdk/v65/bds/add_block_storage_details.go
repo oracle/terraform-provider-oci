@@ -24,6 +24,9 @@ type AddBlockStorageDetails struct {
 	// The size of block volume in GB to be added to each worker node. All the
 	// details needed for attaching the block volume are managed by service itself.
 	BlockVolumeSizeInGBs *int64 `mandatory:"true" json:"blockVolumeSizeInGBs"`
+
+	// Worker node types, can either be Worker Data node or Compute only worker node.
+	NodeType AddBlockStorageDetailsNodeTypeEnum `mandatory:"true" json:"nodeType"`
 }
 
 func (m AddBlockStorageDetails) String() string {
@@ -35,9 +38,54 @@ func (m AddBlockStorageDetails) String() string {
 // Not recommended for calling this function directly
 func (m AddBlockStorageDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingAddBlockStorageDetailsNodeTypeEnum(string(m.NodeType)); !ok && m.NodeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NodeType: %s. Supported values are: %s.", m.NodeType, strings.Join(GetAddBlockStorageDetailsNodeTypeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// AddBlockStorageDetailsNodeTypeEnum Enum with underlying type: string
+type AddBlockStorageDetailsNodeTypeEnum string
+
+// Set of constants representing the allowable values for AddBlockStorageDetailsNodeTypeEnum
+const (
+	AddBlockStorageDetailsNodeTypeWorker            AddBlockStorageDetailsNodeTypeEnum = "WORKER"
+	AddBlockStorageDetailsNodeTypeComputeOnlyWorker AddBlockStorageDetailsNodeTypeEnum = "COMPUTE_ONLY_WORKER"
+)
+
+var mappingAddBlockStorageDetailsNodeTypeEnum = map[string]AddBlockStorageDetailsNodeTypeEnum{
+	"WORKER":              AddBlockStorageDetailsNodeTypeWorker,
+	"COMPUTE_ONLY_WORKER": AddBlockStorageDetailsNodeTypeComputeOnlyWorker,
+}
+
+var mappingAddBlockStorageDetailsNodeTypeEnumLowerCase = map[string]AddBlockStorageDetailsNodeTypeEnum{
+	"worker":              AddBlockStorageDetailsNodeTypeWorker,
+	"compute_only_worker": AddBlockStorageDetailsNodeTypeComputeOnlyWorker,
+}
+
+// GetAddBlockStorageDetailsNodeTypeEnumValues Enumerates the set of values for AddBlockStorageDetailsNodeTypeEnum
+func GetAddBlockStorageDetailsNodeTypeEnumValues() []AddBlockStorageDetailsNodeTypeEnum {
+	values := make([]AddBlockStorageDetailsNodeTypeEnum, 0)
+	for _, v := range mappingAddBlockStorageDetailsNodeTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAddBlockStorageDetailsNodeTypeEnumStringValues Enumerates the set of values in String for AddBlockStorageDetailsNodeTypeEnum
+func GetAddBlockStorageDetailsNodeTypeEnumStringValues() []string {
+	return []string{
+		"WORKER",
+		"COMPUTE_ONLY_WORKER",
+	}
+}
+
+// GetMappingAddBlockStorageDetailsNodeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAddBlockStorageDetailsNodeTypeEnum(val string) (AddBlockStorageDetailsNodeTypeEnum, bool) {
+	enum, ok := mappingAddBlockStorageDetailsNodeTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -23,7 +23,7 @@ var (
 	externalPluggableDatabaseConnectorRepresentation = map[string]interface{}{
 		"connection_credentials": acctest.RepresentationGroup{RepType: acctest.Required, Group: externalDatabaseConnectorConnectionCredentialsRepresentation},
 		"connection_string":      acctest.RepresentationGroup{RepType: acctest.Required, Group: externalDatabaseConnectorConnectionStringRepresentation},
-		"connector_agent_id":     acctest.Representation{RepType: acctest.Required, Create: `ocid1.managementagent.oc1.phx.amaaaaaajobtc3iaes4ijczgekzqigoji25xocsny7yundummydummydummy`},
+		"connector_agent_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.agent_id}`},
 		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `myTestConn`},
 		"external_database_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_external_pluggable_database.test_external_pluggable_database.id}`},
 		"connector_type":         acctest.Representation{RepType: acctest.Optional, Create: `MACS`},
@@ -53,22 +53,25 @@ func TestDatabaseExternalPluggableDatabaseManagementResource_basic(t *testing.T)
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	agentId := utils.GetEnvSettingWithBlankDefault("connector_agent_id")
+	agentIdVariableStr := fmt.Sprintf("variable \"agent_id\" { default = \"%s\" }\n", agentId)
+
 	resourceName := "oci_database_external_pluggable_database_management.test_external_pluggable_database_management"
 	resourcePDB := "oci_database_external_pluggable_database.test_external_pluggable_database"
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ExternalPluggableDatabaseManagementResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+agentIdVariableStr+ExternalPluggableDatabaseManagementResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", acctest.Required, acctest.Create, externalPluggableDatabaseManagementRepresentation), "database", "externalPluggableDatabaseManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Enablement of parent CDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", acctest.Required, acctest.Create, externalContainerDatabaseManagementRepresentation),
 		},
 		// Enablement of PDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", acctest.Required, acctest.Create, externalContainerDatabaseManagementRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", acctest.Required, acctest.Create, externalPluggableDatabaseManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -78,7 +81,7 @@ func TestDatabaseExternalPluggableDatabaseManagementResource_basic(t *testing.T)
 		},
 		// Verify Enablement of PDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", acctest.Required, acctest.Create, externalContainerDatabaseManagementRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", acctest.Required, acctest.Create, externalPluggableDatabaseManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -88,16 +91,16 @@ func TestDatabaseExternalPluggableDatabaseManagementResource_basic(t *testing.T)
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies,
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies,
 		},
 		// Enablement of parent CDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", acctest.Optional, acctest.Create, externalContainerDatabaseManagementRepresentation),
 		},
 		// Enablement of PDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", acctest.Optional, acctest.Create, externalContainerDatabaseManagementRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", acctest.Optional, acctest.Create, externalPluggableDatabaseManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -107,7 +110,7 @@ func TestDatabaseExternalPluggableDatabaseManagementResource_basic(t *testing.T)
 		},
 		// Verify Enablement of PDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", acctest.Optional, acctest.Create, externalContainerDatabaseManagementRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", acctest.Optional, acctest.Create, externalPluggableDatabaseManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -116,13 +119,13 @@ func TestDatabaseExternalPluggableDatabaseManagementResource_basic(t *testing.T)
 		},
 		// Disablement of parent CDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", acctest.Optional, acctest.Update, externalContainerDatabaseManagementRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", acctest.Optional, acctest.Update, externalPluggableDatabaseManagementRepresentation),
 		},
 		// Disablement of PDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", acctest.Optional, acctest.Update, externalContainerDatabaseManagementRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", acctest.Optional, acctest.Update, externalPluggableDatabaseManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -132,7 +135,7 @@ func TestDatabaseExternalPluggableDatabaseManagementResource_basic(t *testing.T)
 		},
 		// Verify Disablement of PDB
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", acctest.Optional, acctest.Update, externalContainerDatabaseManagementRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", acctest.Optional, acctest.Update, externalPluggableDatabaseManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(

@@ -319,6 +319,7 @@ apm_synthetics
     
 * oci\_apm\_synthetics\_script
 * oci\_apm\_synthetics\_monitor
+* oci\_apm\_synthetics\_dedicated\_vantage\_point
 
 artifacts
     
@@ -421,6 +422,8 @@ core
 * oci\_core\_drg\_route\_table
 * oci\_core\_drg\_route\_distribution
 * oci\_core\_drg\_route\_table\_route\_rule
+* oci\_core\_capture\_filter
+* oci\_core\_vtap
 
 data_connectivity
     
@@ -671,6 +674,7 @@ metering_computation
     
 * oci\_metering\_computation\_query
 * oci\_metering\_computation\_custom\_table
+* oci\_metering\_computation\_schedule
 
 monitoring
     

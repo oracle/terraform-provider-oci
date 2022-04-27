@@ -10,6 +10,7 @@
 package bds
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -28,6 +29,8 @@ type UpdateAutoScalingConfigurationDetails struct {
 	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
 
 	Policy *AutoScalePolicy `mandatory:"false" json:"policy"`
+
+	PolicyDetails UpdateAutoScalePolicyDetails `mandatory:"false" json:"policyDetails"`
 }
 
 func (m UpdateAutoScalingConfigurationDetails) String() string {
@@ -44,4 +47,40 @@ func (m UpdateAutoScalingConfigurationDetails) ValidateEnumValue() (bool, error)
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateAutoScalingConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName          *string                      `json:"displayName"`
+		IsEnabled            *bool                        `json:"isEnabled"`
+		ClusterAdminPassword *string                      `json:"clusterAdminPassword"`
+		Policy               *AutoScalePolicy             `json:"policy"`
+		PolicyDetails        updateautoscalepolicydetails `json:"policyDetails"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.IsEnabled = model.IsEnabled
+
+	m.ClusterAdminPassword = model.ClusterAdminPassword
+
+	m.Policy = model.Policy
+
+	nn, e = model.PolicyDetails.UnmarshalPolymorphicJSON(model.PolicyDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PolicyDetails = nn.(UpdateAutoScalePolicyDetails)
+	} else {
+		m.PolicyDetails = nil
+	}
+
+	return
 }

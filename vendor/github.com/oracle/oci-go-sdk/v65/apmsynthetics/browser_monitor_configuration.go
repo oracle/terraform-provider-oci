@@ -4,7 +4,7 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
@@ -25,7 +25,7 @@ type BrowserMonitorConfiguration struct {
 	// If certificate validation is enabled, then the call will fail in case of certification errors.
 	IsCertificateValidationEnabled *bool `mandatory:"false" json:"isCertificateValidationEnabled"`
 
-	// Verify all the search strings present in response.
+	// Verifies all the search strings present in the response.
 	// If any search string is not present in the response, then it will be considered as a failure.
 	VerifyTexts []VerifyText `mandatory:"false" json:"verifyTexts"`
 

@@ -18,28 +18,28 @@ import (
 // CreateAlertRuleDetails The create alert rule details. This is a batch-create.
 type CreateAlertRuleDetails struct {
 
-	// Type of alert. Valid values are ACTUAL (the alert will trigger based on actual usage) or
-	// FORECAST (the alert will trigger based on predicted usage).
+	// The type of the alert. Valid values are ACTUAL (the alert triggers based on actual usage), or
+	// FORECAST (the alert triggers based on predicted usage).
 	Type AlertTypeEnum `mandatory:"true" json:"type"`
 
-	// The threshold for triggering the alert expressed as a whole number or decimal value.
-	// If thresholdType is ABSOLUTE, threshold can have at most 12 digits before the decimal point and up to 2 digits after the decimal point.
-	// If thresholdType is PERCENTAGE, the maximum value is 10000 and can have up to 2 digits after the decimal point.
+	// The threshold for triggering the alert, expressed as a whole number or decimal value.
+	// If the thresholdType is ABSOLUTE, the threshold can have at most 12 digits before the decimal point, and up to two digits after the decimal point.
+	// If the thresholdType is PERCENTAGE, the maximum value is 10000 and can have up to two digits after the decimal point.
 	Threshold *float32 `mandatory:"true" json:"threshold"`
 
 	// The type of threshold.
 	ThresholdType ThresholdTypeEnum `mandatory:"true" json:"thresholdType"`
 
-	// The name of the alert rule.
+	// The name of the alert rule. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The description of the alert rule.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The audience that will receive the alert when it triggers. An empty string is interpreted as null.
+	// The audience that receives the alert when it triggers. An empty string is interpreted as null.
 	Recipients *string `mandatory:"false" json:"recipients"`
 
-	// The message to be sent to the recipients when alert rule is triggered.
+	// The message to be sent to the recipients when the alert rule is triggered.
 	Message *string `mandatory:"false" json:"message"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/DeleteBudget.go.html to see an example of how to use DeleteBudgetRequest.
 type DeleteBudgetRequest struct {
 
-	// The unique Budget OCID
+	// The unique budget OCID.
 	BudgetId *string `mandatory:"true" contributesTo:"path" name:"budgetId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

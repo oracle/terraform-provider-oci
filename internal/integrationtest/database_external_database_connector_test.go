@@ -50,7 +50,7 @@ var (
 	externalDatabaseConnectorRepresentation = map[string]interface{}{
 		"connection_credentials": acctest.RepresentationGroup{RepType: acctest.Required, Group: externalDatabaseConnectorConnectionCredentialsRepresentation},
 		"connection_string":      acctest.RepresentationGroup{RepType: acctest.Required, Group: externalDatabaseConnectorConnectionStringRepresentation},
-		"connector_agent_id":     acctest.Representation{RepType: acctest.Required, Create: `ocid1.managementagent.oc1.phx.amaaaaaajobtc3iaes4ijczgekzqigoji25xocsny7yundummydummydummy`},
+		"connector_agent_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.agent_id}`},
 		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `myTestConn`, Update: `displayName2`},
 		"external_database_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
 		"connector_type":         acctest.Representation{RepType: acctest.Optional, Create: `MACS`},
@@ -67,7 +67,7 @@ var (
 	}
 	externalDatabaseConnectorConnectionStringRepresentation = map[string]interface{}{
 		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myHost.test`, Update: `hostname2`},
-		"port":     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"port":     acctest.Representation{RepType: acctest.Required, Create: `1024`, Update: `1025`},
 		"protocol": acctest.Representation{RepType: acctest.Required, Create: `TCP`},
 		"service":  acctest.Representation{RepType: acctest.Required, Create: `testService`, Update: `service2`},
 	}
@@ -86,19 +86,22 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	agentId := utils.GetEnvSettingWithBlankDefault("connector_agent_id")
+	agentIdVariableStr := fmt.Sprintf("variable \"agent_id\" { default = \"%s\" }\n", agentId)
+
 	resourceName := "oci_database_external_database_connector.test_external_database_connector"
 	datasourceName := "data.oci_database_external_database_connectors.test_external_database_connectors"
 	singularDatasourceName := "data.oci_database_external_database_connector.test_external_database_connector"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ExternalDatabaseConnectorResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+agentIdVariableStr+ExternalDatabaseConnectorResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Optional, acctest.Create, externalDatabaseConnectorRepresentation), "database", "externalDatabaseConnector", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseExternalDatabaseConnectorDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Required, acctest.Create, externalDatabaseConnectorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
@@ -122,12 +125,12 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies,
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalDatabaseConnectorResourceDependencies,
 		},
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Optional, acctest.Create, externalDatabaseConnectorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -163,7 +166,7 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Optional, acctest.Update, externalDatabaseConnectorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -198,7 +201,7 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_database_connectors", "test_external_database_connectors", acctest.Optional, acctest.Update, externalDatabaseConnectorDataSourceRepresentation) +
-				compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
+				compartmentIdVariableStr + agentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Optional, acctest.Update, externalDatabaseConnectorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -231,7 +234,7 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Required, acctest.Create, externalDatabaseConnectorSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ExternalDatabaseConnectorResourceConfig,
+				compartmentIdVariableStr + agentIdVariableStr + ExternalDatabaseConnectorResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_database_connector_id"),
 
@@ -253,6 +256,12 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
+
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalDatabaseConnectorResourceConfig,
+		},
+
 		// verify resource import
 		{
 			Config:            config + ExternalDatabaseConnectorRequiredOnlyResource,

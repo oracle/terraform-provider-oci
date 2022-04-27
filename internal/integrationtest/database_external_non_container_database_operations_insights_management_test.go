@@ -35,16 +35,19 @@ func TestDatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	agentId := utils.GetEnvSettingWithBlankDefault("connector_agent_id")
+	agentIdVariableStr := fmt.Sprintf("variable \"agent_id\" { default = \"%s\" }\n", agentId)
+
 	resourceName := "oci_database_external_non_container_database_operations_insights_management.test_external_non_container_database_operations_insights_management"
 	resourceNonCDB := "oci_database_external_non_container_database.test_external_non_container_database"
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+agentIdVariableStr+ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", acctest.Required, acctest.Create, externalNonContainerDatabaseOperationsInsightsManagementRepresentation), "database", "externalNonContainerDatabaseOperationsInsightsManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", acctest.Required, acctest.Create, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
@@ -54,7 +57,7 @@ func TestDatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 
 		// verify enabled
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", acctest.Required, acctest.Create, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceNonCDB, "operations_insights_config.0.operations_insights_status", "ENABLED"),
@@ -63,11 +66,11 @@ func TestDatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies,
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies,
 		},
 		// verify Update (Enable Operations Insights)
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", acctest.Optional, acctest.Create, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
@@ -76,7 +79,7 @@ func TestDatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 		},
 		// verify Update (Disable Operations Insights)
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", acctest.Optional, acctest.Update, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
@@ -85,7 +88,7 @@ func TestDatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 		},
 		// Verify Disablement
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", acctest.Optional, acctest.Update, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceNonCDB, "operations_insights_config.0.operations_insights_status", "NOT_ENABLED"),

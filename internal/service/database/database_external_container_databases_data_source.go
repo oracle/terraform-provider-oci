@@ -162,6 +162,12 @@ func (s *DatabaseExternalContainerDatabasesDataSourceCrud) SetData() error {
 			externalContainerDatabase["ncharacter_set"] = *r.NcharacterSet
 		}
 
+		if r.StackMonitoringConfig != nil {
+			externalContainerDatabase["stack_monitoring_config"] = []interface{}{StackMonitoringConfigToMap(r.StackMonitoringConfig)}
+		} else {
+			externalContainerDatabase["stack_monitoring_config"] = nil
+		}
+
 		externalContainerDatabase["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {

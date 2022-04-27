@@ -139,6 +139,78 @@ var (
 		"tasks":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: serviceConnectorTasksRepresentation},
 	}
 
+	serviceConnectorRepresentationMonitoringSource = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `My_Service_Connector`, Update: `displayName2`},
+		"source":         acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceConnectorMonitoringSourceRepresentation},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    acctest.Representation{RepType: acctest.Optional, Create: `My service connector description`, Update: `description2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"tasks":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: serviceConnectorTasksRepresentation},
+	}
+
+	serviceConnectorMonitoringSourceRepresentation = map[string]interface{}{
+		"kind":               acctest.Representation{RepType: acctest.Required, Create: `monitoring`},
+		"monitoring_sources": acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceConnectorSourceMonitoringSourcesRepresentation},
+	}
+
+	serviceConnectorSourceMonitoringSourcesRepresentation = map[string]interface{}{
+		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"namespace_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceConnectorSourceMonitoringSourcesNamespaceDetailsRepresentation},
+	}
+
+	serviceConnectorSourceMonitoringSourcesNamespaceDetailsRepresentation = map[string]interface{}{
+		"kind":       acctest.Representation{RepType: acctest.Required, Create: `selected`, Update: `selected`},
+		"namespaces": acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceConnectorSourceMonitoringSourcesNamespaceDetailsNamespacesRepresentation},
+	}
+
+	serviceConnectorSourceMonitoringSourcesNamespaceDetailsNamespacesRepresentation = map[string]interface{}{
+		"metrics":   acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceConnectorSourceMonitoringSourcesNamespaceDetailsNamespacesMetricsRepresentation},
+		"namespace": acctest.Representation{RepType: acctest.Required, Create: `oci_computeagent`},
+	}
+
+	serviceConnectorSourceMonitoringSourcesNamespaceDetailsNamespacesMetricsRepresentation = map[string]interface{}{
+		"kind": acctest.Representation{RepType: acctest.Required, Create: `all`, Update: `all`},
+	}
+
+	serviceConnectorRepresentationMonitoringSourceMultipleNamespaces = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `My_Service_Connector`, Update: `displayName2`},
+		"source":         acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceConnectorMonitoringSourceNamespaceRepresentation},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    acctest.Representation{RepType: acctest.Optional, Create: `My service connector description`, Update: `description2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"tasks":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: serviceConnectorTasksRepresentation},
+	}
+
+	serviceConnectorMonitoringSourceNamespaceRepresentation = map[string]interface{}{
+		"kind":               acctest.Representation{RepType: acctest.Required, Create: `monitoring`},
+		"monitoring_sources": acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceConnectorSourceMonitoringSourcesNamespaceRepresentation},
+	}
+
+	serviceConnectorSourceMonitoringSourcesNamespaceRepresentation = map[string]interface{}{
+		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"namespace_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceConnectorSourceMonitoringSourcesNamespaceDetailsNamespaceRepresentation},
+	}
+
+	serviceConnectorSourceMonitoringSourcesNamespaceDetailsNamespaceRepresentation = map[string]interface{}{
+		"kind": acctest.Representation{RepType: acctest.Required, Create: `selected`, Update: `selected`},
+		"namespaces": []acctest.RepresentationGroup{
+			{RepType: acctest.Required, Group: serviceConnectorSourceMonitoringSourcesNamespaceDetailsNamespacesRepresentation_0},
+			{RepType: acctest.Required, Group: serviceConnectorSourceMonitoringSourcesNamespaceDetailsNamespacesRepresentation_1},
+		},
+	}
+
+	serviceConnectorSourceMonitoringSourcesNamespaceDetailsNamespacesRepresentation_0 = map[string]interface{}{
+		"metrics":   acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceConnectorSourceMonitoringSourcesNamespaceDetailsNamespacesMetricsRepresentation},
+		"namespace": acctest.Representation{RepType: acctest.Required, Create: `oci_computeagent`},
+	}
+
+	serviceConnectorSourceMonitoringSourcesNamespaceDetailsNamespacesRepresentation_1 = map[string]interface{}{
+		"metrics":   acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceConnectorSourceMonitoringSourcesNamespaceDetailsNamespacesMetricsRepresentation},
+		"namespace": acctest.Representation{RepType: acctest.Required, Create: `oci_logging_analytics`},
+	}
+
 	// targets for logging as a source
 	serviceConnectorFunctionTargetRepresentation      = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTarget, functionTargetRepresentation)
 	serviceConnectorObjectStorageTargetRepresentation = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTarget, objectStorageTargetRepresentation)

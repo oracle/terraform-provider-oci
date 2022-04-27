@@ -134,6 +134,27 @@ func DatabaseExternalNonContainerDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"stack_monitoring_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"stack_monitoring_connector_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"stack_monitoring_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -375,7 +396,7 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) SetData() error {
 	s.D.Set("database_edition", s.Res.DatabaseEdition)
 
 	if s.Res.DatabaseManagementConfig != nil {
-		s.D.Set("database_management_config", []interface{}{DatabaseManagementConfigToMap(s.Res.DatabaseManagementConfig)})
+		s.D.Set("database_management_config", []interface{}{DatabaseManagementNonContainerConfigToMap(s.Res.DatabaseManagementConfig)})
 	} else {
 		s.D.Set("database_management_config", nil)
 	}
@@ -420,6 +441,12 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("operations_insights_config", nil)
 	}
 
+	if s.Res.StackMonitoringConfig != nil {
+		s.D.Set("stack_monitoring_config", []interface{}{StackMonitoringNonContainerConfigToMap(s.Res.StackMonitoringConfig)})
+	} else {
+		s.D.Set("stack_monitoring_config", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -433,7 +460,7 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) SetData() error {
 	return nil
 }
 
-func DatabaseManagementConfigToMap(obj *oci_database.DatabaseManagementConfig) map[string]interface{} {
+func DatabaseManagementNonContainerConfigToMap(obj *oci_database.DatabaseManagementConfig) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.DatabaseManagementConnectionId != nil {
@@ -455,6 +482,18 @@ func OperationsInsightsConfigToMap(obj *oci_database.OperationsInsightsConfig) m
 	}
 
 	result["operations_insights_status"] = string(obj.OperationsInsightsStatus)
+
+	return result
+}
+
+func StackMonitoringNonContainerConfigToMap(obj *oci_database.StackMonitoringConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.StackMonitoringConnectorId != nil {
+		result["stack_monitoring_connector_id"] = string(*obj.StackMonitoringConnectorId)
+	}
+
+	result["stack_monitoring_status"] = string(obj.StackMonitoringStatus)
 
 	return result
 }

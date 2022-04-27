@@ -100,7 +100,9 @@ func init() {
 	// apm_config service
 	RegisterResource("oci_apm_apm_domain", tf_apm.ApmApmDomainResource())
 	RegisterResource("oci_apm_config_config", tf_apm_config.ApmConfigConfigResource())
-	// apm_synthetics service
+
+	//apm synthetics
+	RegisterResource("oci_apm_synthetics_dedicated_vantage_point", tf_apm_synthetics.ApmSyntheticsDedicatedVantagePointResource())
 	RegisterResource("oci_apm_synthetics_monitor", tf_apm_synthetics.ApmSyntheticsMonitorResource())
 	RegisterResource("oci_apm_synthetics_script", tf_apm_synthetics.ApmSyntheticsScriptResource())
 	// appmgmt_control service
@@ -184,6 +186,7 @@ func init() {
 	RegisterResource("oci_core_app_catalog_subscription", tf_core.CoreAppCatalogSubscriptionResource())
 	RegisterResource("oci_core_boot_volume", tf_core.CoreBootVolumeResource())
 	RegisterResource("oci_core_boot_volume_backup", tf_core.CoreBootVolumeBackupResource())
+	RegisterResource("oci_core_capture_filter", tf_core.CoreCaptureFilterResource())
 	RegisterResource("oci_core_cluster_network", tf_core.CoreClusterNetworkResource())
 	RegisterResource("oci_core_compute_capacity_reservation", tf_core.CoreComputeCapacityReservationResource())
 	RegisterResource("oci_core_compute_image_capability_schema", tf_core.CoreComputeImageCapabilitySchemaResource())
@@ -241,6 +244,7 @@ func init() {
 	RegisterResource("oci_core_volume_backup_policy_assignment", tf_core.CoreVolumeBackupPolicyAssignmentResource())
 	RegisterResource("oci_core_volume_group", tf_core.CoreVolumeGroupResource())
 	RegisterResource("oci_core_volume_group_backup", tf_core.CoreVolumeGroupBackupResource())
+	RegisterResource("oci_core_vtap", tf_core.CoreVtapResource())
 	// data_connectivity service
 	RegisterResource("oci_data_connectivity_registry", tf_data_connectivity.DataConnectivityRegistryResource())
 	RegisterResource("oci_data_connectivity_registry_connection", tf_data_connectivity.DataConnectivityRegistryConnectionResource())
@@ -274,6 +278,7 @@ func init() {
 	RegisterResource("oci_database_db_home", tf_database.DatabaseDbHomeResource())
 	RegisterResource("oci_database_db_node_console_connection", tf_database.DatabaseDbNodeConsoleConnectionResource())
 	RegisterResource("oci_database_db_system", tf_database.DatabaseDbSystemResource())
+	RegisterResource("oci_database_db_systems_upgrade", tf_database.DatabaseDbSystemsUpgradeResource())
 	RegisterResource("oci_database_exadata_infrastructure", tf_database.DatabaseExadataInfrastructureResource())
 	RegisterResource("oci_database_exadata_infrastructure", tf_database.DatabaseExadataInfrastructureResource())
 	RegisterResource("oci_database_exadata_infrastructure_storage", tf_database.DatabaseExadataInfrastructureStorageResource())
@@ -287,6 +292,9 @@ func init() {
 	RegisterResource("oci_database_external_pluggable_database", tf_database.DatabaseExternalPluggableDatabaseResource())
 	RegisterResource("oci_database_external_pluggable_database_management", tf_database.DatabaseExternalPluggableDatabaseManagementResource())
 	RegisterResource("oci_database_external_pluggable_database_operations_insights_management", tf_database.DatabaseExternalPluggableDatabaseOperationsInsightsManagementResource())
+	RegisterResource("oci_database_externalcontainerdatabases_stack_monitoring", tf_database.DatabaseExternalcontainerdatabasesStackMonitoringResource())
+	RegisterResource("oci_database_externalnoncontainerdatabases_stack_monitoring", tf_database.DatabaseExternalnoncontainerdatabasesStackMonitoringResource())
+	RegisterResource("oci_database_externalpluggabledatabases_stack_monitoring", tf_database.DatabaseExternalpluggabledatabasesStackMonitoringResource())
 	RegisterResource("oci_database_key_store", tf_database.DatabaseKeyStoreResource())
 	RegisterResource("oci_database_maintenance_run", tf_database.DatabaseMaintenanceRunResource())
 	RegisterResource("oci_database_pluggable_database", tf_database.DatabasePluggableDatabaseResource())
@@ -469,6 +477,7 @@ func init() {
 	// metering_computation service
 	RegisterResource("oci_metering_computation_custom_table", tf_metering_computation.MeteringComputationCustomTableResource())
 	RegisterResource("oci_metering_computation_query", tf_metering_computation.MeteringComputationQueryResource())
+	RegisterResource("oci_metering_computation_schedule", tf_metering_computation.MeteringComputationScheduleResource())
 	RegisterResource("oci_metering_computation_usage", tf_metering_computation.MeteringComputationUsageResource())
 	// monitoring service
 	RegisterResource("oci_monitoring_alarm", tf_monitoring.MonitoringAlarmResource())

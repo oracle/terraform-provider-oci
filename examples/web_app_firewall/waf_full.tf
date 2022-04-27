@@ -95,11 +95,14 @@ resource "oci_waf_web_app_firewall_policy" "test_waf_web_app_firewall_policy" {
 
   request_protection {
     #Optional
+    body_inspection_size_limit_exceeded_action_name = "return401Response"
+    body_inspection_size_limit_in_bytes = 8192
     rules {
       #Required
       type = "PROTECTION"
       name = "requestProtectionRule"
       action_name = "return401Response"
+      is_body_inspection_enabled = true
       protection_capabilities {
         #Required
         key = "9300000"
