@@ -57,7 +57,6 @@ provider "oci" {
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
   region           = var.region
-  version = "4.22.0"
 }
 
 resource "oci_core_subnet" "regional_subnet" {
@@ -115,7 +114,6 @@ data "oci_apigateway_gateways" "test_gateways" {
   compartment_id = var.compartment_ocid
 
   #Optional
-  id           = oci_apigateway_gateway.test_gateway.id
   state        = var.gateway_state
 }
 
