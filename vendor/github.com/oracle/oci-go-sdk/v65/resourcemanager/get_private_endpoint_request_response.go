@@ -11,11 +11,11 @@ import (
 	"strings"
 )
 
-// GetJobLogsContentRequest wrapper for the GetJobLogsContent operation
-type GetJobLogsContentRequest struct {
+// GetPrivateEndpointRequest wrapper for the GetPrivateEndpoint operation
+type GetPrivateEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
-	JobId *string `mandatory:"true" contributesTo:"path" name:"jobId"`
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
+	PrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"privateEndpointId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please provide the request ID.
@@ -26,12 +26,12 @@ type GetJobLogsContentRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetJobLogsContentRequest) String() string {
+func (request GetPrivateEndpointRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetJobLogsContentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request GetPrivateEndpointRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -41,21 +41,21 @@ func (request GetJobLogsContentRequest) HTTPRequest(method, path string, binaryR
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request GetJobLogsContentRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request GetPrivateEndpointRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetJobLogsContentRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetPrivateEndpointRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request GetJobLogsContentRequest) ValidateEnumValue() (bool, error) {
+func (request GetPrivateEndpointRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -63,24 +63,27 @@ func (request GetJobLogsContentRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// GetJobLogsContentResponse wrapper for the GetJobLogsContent operation
-type GetJobLogsContentResponse struct {
+// GetPrivateEndpointResponse wrapper for the GetPrivateEndpoint operation
+type GetPrivateEndpointResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The string instance
-	Value *string `presentIn:"body" encoding:"plain-text"`
+	// The PrivateEndpoint instance
+	PrivateEndpoint `presentIn:"body"`
 
-	// Unique identifier for the request
+	// Unique identifier for the request.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 }
 
-func (response GetJobLogsContentResponse) String() string {
+func (response GetPrivateEndpointResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetJobLogsContentResponse) HTTPResponse() *http.Response {
+func (response GetPrivateEndpointResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
