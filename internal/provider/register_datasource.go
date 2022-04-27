@@ -130,6 +130,10 @@ func init() {
 	RegisterDatasource("oci_apigateway_deployments", tf_apigateway.ApigatewayDeploymentsDataSource())
 	RegisterDatasource("oci_apigateway_gateway", tf_apigateway.ApigatewayGatewayDataSource())
 	RegisterDatasource("oci_apigateway_gateways", tf_apigateway.ApigatewayGatewaysDataSource())
+	RegisterDatasource("oci_apigateway_subscriber", tf_apigateway.ApigatewaySubscriberDataSource())
+	RegisterDatasource("oci_apigateway_subscribers", tf_apigateway.ApigatewaySubscribersDataSource())
+	RegisterDatasource("oci_apigateway_usage_plan", tf_apigateway.ApigatewayUsagePlanDataSource())
+	RegisterDatasource("oci_apigateway_usage_plans", tf_apigateway.ApigatewayUsagePlansDataSource())
 	// apm service
 	RegisterDatasource("oci_apm_apm_domain", tf_apm.ApmApmDomainDataSource())
 	RegisterDatasource("oci_apm_apm_domains", tf_apm.ApmApmDomainsDataSource())

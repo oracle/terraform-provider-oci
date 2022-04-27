@@ -57,6 +57,10 @@ var (
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
 		"response_cache_details":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: gatewayResponseCacheDetailsRepresentation},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesGatewayRepresentation},
+	}
+	ignoreChangesGatewayRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 	gatewayCaBundlesRepresentation = map[string]interface{}{
 		"type":                     acctest.Representation{RepType: acctest.Required, Create: `CA_BUNDLE`, Update: `CERTIFICATE_AUTHORITY`},
