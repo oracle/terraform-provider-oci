@@ -11,32 +11,42 @@ import (
 	"strings"
 )
 
-// DeleteConfigurationSourceProviderRequest wrapper for the DeleteConfigurationSourceProvider operation
-type DeleteConfigurationSourceProviderRequest struct {
+// ChangePrivateEndpointCompartmentRequest wrapper for the ChangePrivateEndpointCompartment operation
+type ChangePrivateEndpointCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration source provider.
-	ConfigurationSourceProviderId *string `mandatory:"true" contributesTo:"path" name:"configurationSourceProviderId"`
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
+	PrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"privateEndpointId"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
-	// particular request, please provide the request ID.
-	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+	// Defines the properties of changePrivateEndpointCompartment operation.
+	ChangePrivateEndpointCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the `PUT` or `DELETE` call for a resource, set the `if-match`
 	// parameter to the value of the etag from a previous `GET` or `POST` response for that resource.  The resource
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
+	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+	// particular request, please provide the request ID.
+	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or
+	// server error without risk of retrying the same action. Retry tokens expire after
+	// 24 hours, but can be invalidated before then due to conflicting operations. For example,
+	// if a resource has been deleted and purged from the system, then a retry of the original
+	// creation request may be rejected.
+	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request DeleteConfigurationSourceProviderRequest) String() string {
+func (request ChangePrivateEndpointCompartmentRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request DeleteConfigurationSourceProviderRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request ChangePrivateEndpointCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -46,21 +56,21 @@ func (request DeleteConfigurationSourceProviderRequest) HTTPRequest(method, path
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request DeleteConfigurationSourceProviderRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request ChangePrivateEndpointCompartmentRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteConfigurationSourceProviderRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangePrivateEndpointCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request DeleteConfigurationSourceProviderRequest) ValidateEnumValue() (bool, error) {
+func (request ChangePrivateEndpointCompartmentRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -68,8 +78,8 @@ func (request DeleteConfigurationSourceProviderRequest) ValidateEnumValue() (boo
 	return false, nil
 }
 
-// DeleteConfigurationSourceProviderResponse wrapper for the DeleteConfigurationSourceProvider operation
-type DeleteConfigurationSourceProviderResponse struct {
+// ChangePrivateEndpointCompartmentResponse wrapper for the ChangePrivateEndpointCompartment operation
+type ChangePrivateEndpointCompartmentResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
@@ -78,11 +88,11 @@ type DeleteConfigurationSourceProviderResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response DeleteConfigurationSourceProviderResponse) String() string {
+func (response ChangePrivateEndpointCompartmentResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response DeleteConfigurationSourceProviderResponse) HTTPResponse() *http.Response {
+func (response ChangePrivateEndpointCompartmentResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
