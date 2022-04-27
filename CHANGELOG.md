@@ -1,4 +1,4 @@
-## 4.73.0 (Unreleased)
+## 4.73.0 (April 27, 2022)
 
 ### Added
 - Support for budget organization feature
