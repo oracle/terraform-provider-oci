@@ -55,6 +55,7 @@ The following attributes are exported:
 	* `credential_type` - The type of credential used to connect to the database.
 	* `password` - The password that will be used to connect to the database.
 	* `role` - The role of the user that will be connecting to the database.
+	* `ssl_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [secret](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	* `username` - The username that will be used to connect to the database.
 * `connection_status` - The status of connectivity to the external database.
 * `connection_string` - The Oracle Database connection string. 

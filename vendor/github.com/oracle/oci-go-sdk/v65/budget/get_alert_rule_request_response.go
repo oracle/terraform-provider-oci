@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/GetAlertRule.go.html to see an example of how to use GetAlertRuleRequest.
 type GetAlertRuleRequest struct {
 
-	// The unique Budget OCID
+	// The unique budget OCID.
 	BudgetId *string `mandatory:"true" contributesTo:"path" name:"budgetId"`
 
-	// The unique Alert Rule OCID
+	// The unique Alert Rule OCID.
 	AlertRuleId *string `mandatory:"true" contributesTo:"path" name:"alertRuleId"`
 
 	// The client request ID for tracing.

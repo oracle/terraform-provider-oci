@@ -30,7 +30,8 @@ type ProtectionRule struct {
 	ActionName *string `mandatory:"true" json:"actionName"`
 
 	// An ordered list that references OCI-managed protection capabilities.
-	// Referenced protection capabilities are executed in order of appearance.
+	// Referenced protection capabilities are not necessarily executed in order of appearance. Their execution order
+	// is decided at runtime for improved performance.
 	// The array cannot contain entries with the same pair of capability key and version more than once.
 	ProtectionCapabilities []ProtectionCapability `mandatory:"true" json:"protectionCapabilities"`
 
@@ -38,6 +39,11 @@ type ProtectionRule struct {
 	Condition *string `mandatory:"false" json:"condition"`
 
 	ProtectionCapabilitySettings *ProtectionCapabilitySettings `mandatory:"false" json:"protectionCapabilitySettings"`
+
+	// Enables/disables body inspection for this protection rule.
+	// Only Protection Rules in RequestProtection can have this option enabled. Response body inspection will
+	// be available at a later date.
+	IsBodyInspectionEnabled *bool `mandatory:"false" json:"isBodyInspectionEnabled"`
 
 	// The language used to parse condition from field `condition`. Available languages:
 	// * **JMESPATH** an extended JMESPath language syntax.

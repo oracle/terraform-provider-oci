@@ -399,21 +399,3 @@ func (s *MeteringComputationCustomTableResourceCrud) mapToTag(fieldKeyFormat str
 
 	return result, nil
 }
-
-func TagToMap(obj oci_metering_computation.Tag) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Key != nil {
-		result["key"] = string(*obj.Key)
-	}
-
-	if obj.Namespace != nil {
-		result["namespace"] = string(*obj.Namespace)
-	}
-
-	if obj.Value != nil {
-		result["value"] = string(*obj.Value)
-	}
-
-	return result
-}

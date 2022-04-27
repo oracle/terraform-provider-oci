@@ -656,7 +656,7 @@ func (s *ApmSyntheticsMonitorResourceCrud) Update() error {
 		request.MonitorId = &monitorId
 		request.ApmDomainId = &apmDomainId
 	} else {
-		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+		log.Printf("[WARN] Update() unable to parse current ID: %s", s.D.Id())
 	}
 
 	if repeatIntervalInSeconds, ok := s.D.GetOkExists("repeat_interval_in_seconds"); ok {
@@ -671,7 +671,7 @@ func (s *ApmSyntheticsMonitorResourceCrud) Update() error {
 			request.ScriptId = &scriptId
 			request.ApmDomainId = &apmDomainId
 		} else {
-			log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+			log.Printf("[WARN] Update() unable to parse current ID: %s", s.D.Id())
 		}
 	}
 
@@ -741,7 +741,7 @@ func (s *ApmSyntheticsMonitorResourceCrud) Delete() error {
 			request.MonitorId = &monitorId
 			request.ApmDomainId = &apmDomainId
 		} else {
-			log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+			log.Printf("[WARN] Delete() unable to parse current ID: %s", s.D.Id())
 		}
 	}
 

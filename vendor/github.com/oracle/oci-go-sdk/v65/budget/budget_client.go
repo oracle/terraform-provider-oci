@@ -149,7 +149,7 @@ func (client BudgetClient) createAlertRule(ctx context.Context, request common.O
 	return response, err
 }
 
-// CreateBudget Creates a new Budget.
+// CreateBudget Creates a new budget.
 //
 // See also
 //
@@ -268,7 +268,7 @@ func (client BudgetClient) deleteAlertRule(ctx context.Context, request common.O
 	return response, err
 }
 
-// DeleteBudget Deletes a specified Budget resource
+// DeleteBudget Deletes a specified budget resource.
 //
 // See also
 //
@@ -325,7 +325,7 @@ func (client BudgetClient) deleteBudget(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// GetAlertRule Gets an Alert Rule for a specified Budget.
+// GetAlertRule Gets an Alert Rule for a specified budget.
 //
 // See also
 //
@@ -382,7 +382,7 @@ func (client BudgetClient) getAlertRule(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// GetBudget Gets a Budget by identifier
+// GetBudget Gets a budget by the identifier.
 //
 // See also
 //
@@ -439,7 +439,7 @@ func (client BudgetClient) getBudget(ctx context.Context, request common.OCIRequ
 	return response, err
 }
 
-// ListAlertRules Returns a list of Alert Rules for a specified Budget.
+// ListAlertRules Returns a list of Alert Rules for a specified budget.
 //
 // See also
 //
@@ -496,13 +496,11 @@ func (client BudgetClient) listAlertRules(ctx context.Context, request common.OC
 	return response, err
 }
 
-// ListBudgets Gets a list of Budgets in a compartment.
-// By default, ListBudgets returns budgets of 'COMPARTMENT' target type and the budget records with only ONE target compartment OCID.
-// To list ALL budgets, set the targetType query parameter to ALL.
-// Example:
-//   'targetType=ALL'
-// Additional targetTypes would be available in future releases. Clients should ignore new targetType
-// or upgrade to latest version of client SDK to handle new targetType.
+// ListBudgets Gets a list of budgets in a compartment.
+// By default, ListBudgets returns budgets of the 'COMPARTMENT' target type, and the budget records with only one target compartment OCID.
+// To list all budgets, set the targetType query parameter to ALL (for example: 'targetType=ALL').
+// Additional targetTypes would be available in future releases. Clients should ignore new targetTypes,
+// or upgrade to the latest version of the client SDK to handle new targetTypes.
 //
 // See also
 //
@@ -616,7 +614,7 @@ func (client BudgetClient) updateAlertRule(ctx context.Context, request common.O
 	return response, err
 }
 
-// UpdateBudget Update a Budget identified by the OCID
+// UpdateBudget Update a budget identified by the OCID.
 //
 // See also
 //

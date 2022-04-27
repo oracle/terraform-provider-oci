@@ -55,6 +55,7 @@ func SchServiceConnectorResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"logging",
+								"monitoring",
 								"streaming",
 							}, true),
 						},
@@ -104,6 +105,85 @@ func SchServiceConnectorResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"monitoring_sources": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"namespace_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"kind": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"selected",
+													}, true),
+												},
+												"namespaces": {
+													Type:     schema.TypeList,
+													Required: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"metrics": {
+																Type:     schema.TypeList,
+																Required: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"kind": {
+																			Type:     schema.TypeString,
+																			Required: true,
+																		},
+
+																		// Optional
+
+																		// Computed
+																	},
+																},
+															},
+															"namespace": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+
+															// Optional
+
+															// Computed
+														},
+													},
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
 									},
 
 									// Computed
@@ -999,6 +1079,174 @@ func LogSourceToMap(obj oci_sch.LogSource) map[string]interface{} {
 	return result
 }
 
+func (s *SchServiceConnectorResourceCrud) mapToMonitoringSource(fieldKeyFormat string) (oci_sch.MonitoringSource, error) {
+	result := oci_sch.MonitoringSource{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if namespaceDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace_details")); ok {
+		if tmpList := namespaceDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "namespace_details"), 0)
+			tmp, err := s.mapToMonitoringSourceNamespaceDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert namespace_details, encountered error: %v", err)
+			}
+			result.NamespaceDetails = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func MonitoringSourceToMap(obj oci_sch.MonitoringSource) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.NamespaceDetails != nil {
+		namespaceDetailsArray := []interface{}{}
+		if namespaceDetailsMap := MonitoringSourceNamespaceDetailsToMap(&obj.NamespaceDetails); namespaceDetailsMap != nil {
+			namespaceDetailsArray = append(namespaceDetailsArray, namespaceDetailsMap)
+		}
+		result["namespace_details"] = namespaceDetailsArray
+	}
+
+	return result
+}
+
+func (s *SchServiceConnectorResourceCrud) mapToMonitoringSourceMetricDetails(fieldKeyFormat string) (oci_sch.MonitoringSourceMetricDetails, error) {
+	var baseObject oci_sch.MonitoringSourceMetricDetails
+	//discriminator
+	kindRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
+	var kind string
+	if ok {
+		kind = kindRaw.(string)
+	} else {
+		kind = "" // default value
+	}
+	switch strings.ToLower(kind) {
+	case strings.ToLower("all"):
+		details := oci_sch.MonitoringSourceAllMetrics{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown kind '%v' was specified", kind)
+	}
+	return baseObject, nil
+}
+
+func MonitoringSourceMetricDetailsToMap(obj *oci_sch.MonitoringSourceMetricDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_sch.MonitoringSourceAllMetrics:
+		result["kind"] = "all"
+	default:
+		log.Printf("[WARN] Received 'kind' of unknown type %v %v", *obj, v)
+		return nil
+	}
+
+	return result
+}
+
+func (s *SchServiceConnectorResourceCrud) mapToMonitoringSourceNamespaceDetails(fieldKeyFormat string) (oci_sch.MonitoringSourceNamespaceDetails, error) {
+	var baseObject oci_sch.MonitoringSourceNamespaceDetails
+	//discriminator
+	kindRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
+	var kind string
+	if ok {
+		kind = kindRaw.(string)
+	} else {
+		kind = "" // default value
+	}
+	switch strings.ToLower(kind) {
+	case strings.ToLower("selected"):
+		details := oci_sch.MonitoringSourceSelectedNamespaceDetails{}
+		if namespaces, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespaces")); ok {
+			interfaces := namespaces.([]interface{})
+			tmp := make([]oci_sch.MonitoringSourceSelectedNamespace, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "namespaces"), stateDataIndex)
+				converted, err := s.mapToMonitoringSourceSelectedNamespace(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "namespaces")) {
+				details.Namespaces = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown kind '%v' was specified", kind)
+	}
+	return baseObject, nil
+}
+
+func MonitoringSourceNamespaceDetailsToMap(obj *oci_sch.MonitoringSourceNamespaceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_sch.MonitoringSourceSelectedNamespaceDetails:
+		result["kind"] = "selected"
+
+		namespaces := []interface{}{}
+		for _, item := range v.Namespaces {
+			namespaces = append(namespaces, MonitoringSourceSelectedNamespaceToMap(item))
+		}
+		result["namespaces"] = namespaces
+	default:
+		log.Printf("[WARN] Received 'kind' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *SchServiceConnectorResourceCrud) mapToMonitoringSourceSelectedNamespace(fieldKeyFormat string) (oci_sch.MonitoringSourceSelectedNamespace, error) {
+	result := oci_sch.MonitoringSourceSelectedNamespace{}
+
+	if metrics, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metrics")); ok {
+		if tmpList := metrics.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "metrics"), 0)
+			tmp, err := s.mapToMonitoringSourceMetricDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert metrics, encountered error: %v", err)
+			}
+			result.Metrics = tmp
+		}
+	}
+
+	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+		tmp := namespace.(string)
+		result.Namespace = &tmp
+	}
+
+	return result, nil
+}
+
+func MonitoringSourceSelectedNamespaceToMap(obj oci_sch.MonitoringSourceSelectedNamespace) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Metrics != nil {
+		metricsArray := []interface{}{}
+		if metricsMap := MonitoringSourceMetricDetailsToMap(&obj.Metrics); metricsMap != nil {
+			metricsArray = append(metricsArray, metricsMap)
+		}
+		result["metrics"] = metricsArray
+	}
+
+	if obj.Namespace != nil {
+		result["namespace"] = string(*obj.Namespace)
+	}
+
+	return result
+}
+
 func ServiceConnectorSummaryToMap(obj oci_sch.ServiceConnectorSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1075,6 +1323,25 @@ func (s *SchServiceConnectorResourceCrud) mapToSourceDetails(fieldKeyFormat stri
 			}
 		}
 		baseObject = details
+	case strings.ToLower("monitoring"):
+		details := oci_sch.MonitoringSourceDetails{}
+		if monitoringSources, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "monitoring_sources")); ok {
+			interfaces := monitoringSources.([]interface{})
+			tmp := make([]oci_sch.MonitoringSource, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "monitoring_sources"), stateDataIndex)
+				converted, err := s.mapToMonitoringSource(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "monitoring_sources")) {
+				details.MonitoringSources = tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("streaming"):
 		details := oci_sch.StreamingSourceDetails{}
 		if cursor, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cursor")); ok {
@@ -1109,6 +1376,14 @@ func SourceDetailsToMap(obj *oci_sch.SourceDetails) map[string]interface{} {
 			logSources = append(logSources, LogSourceToMap(item))
 		}
 		result["log_sources"] = logSources
+	case oci_sch.MonitoringSourceDetails:
+		result["kind"] = "monitoring"
+
+		monitoringSources := []interface{}{}
+		for _, item := range v.MonitoringSources {
+			monitoringSources = append(monitoringSources, MonitoringSourceToMap(item))
+		}
+		result["monitoring_sources"] = monitoringSources
 	case oci_sch.StreamingSourceDetails:
 		result["kind"] = "streaming"
 

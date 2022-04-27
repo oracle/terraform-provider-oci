@@ -71,7 +71,7 @@ var (
 	}
 	//Get API does not return sensitive data, it returns null
 	ignoreSensitiveDiscoveryJobDataRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`discovery_details`, `system_tags`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`discovery_details`, `system_tags`, `defined_tags`}},
 	}
 	stackMonitoringDiscoveryJobDiscoveryDetailsCredentialsRepresentation = map[string]interface{}{
 		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: stackMonitoringDiscoveryJobDiscoveryDetailsCredentialsItemsRepresentation},

@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-// AmdMilanBmPlatformConfig The platform configuration of a bare metal instance that uses an E4 shape.
+// AmdMilanBmPlatformConfig The platform configuration of a bare metal instance that uses the BM.Standard.E4.128 shape
 // (the AMD Milan platform).
 type AmdMilanBmPlatformConfig struct {
 

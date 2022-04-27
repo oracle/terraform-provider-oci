@@ -18,7 +18,7 @@ import (
 // UpdateBudgetDetails The update budget details.
 type UpdateBudgetDetails struct {
 
-	// The displayName of the budget.
+	// The displayName of the budget. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The description of the budget.
@@ -29,6 +29,9 @@ type UpdateBudgetDetails struct {
 
 	// The number of days offset from the first day of the month, at which the budget processing period starts. In months that have fewer days than this value, processing will begin on the last day of that month. For example, for a value of 12, processing starts every month on the 12th at midnight.
 	BudgetProcessingPeriodStartOffset *int `mandatory:"false" json:"budgetProcessingPeriodStartOffset"`
+
+	// The type of the budget processing period. Valid values are INVOICE and MONTH.
+	ProcessingPeriodType ProcessingPeriodTypeEnum `mandatory:"false" json:"processingPeriodType,omitempty"`
 
 	// The reset period for the budget.
 	ResetPeriod ResetPeriodEnum `mandatory:"false" json:"resetPeriod,omitempty"`
@@ -54,6 +57,9 @@ func (m UpdateBudgetDetails) String() string {
 func (m UpdateBudgetDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingProcessingPeriodTypeEnum(string(m.ProcessingPeriodType)); !ok && m.ProcessingPeriodType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProcessingPeriodType: %s. Supported values are: %s.", m.ProcessingPeriodType, strings.Join(GetProcessingPeriodTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingResetPeriodEnum(string(m.ResetPeriod)); !ok && m.ResetPeriod != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResetPeriod: %s. Supported values are: %s.", m.ResetPeriod, strings.Join(GetResetPeriodEnumStringValues(), ",")))
 	}

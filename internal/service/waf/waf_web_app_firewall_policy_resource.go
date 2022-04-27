@@ -209,6 +209,16 @@ func WafWebAppFirewallPolicyResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"body_inspection_size_limit_exceeded_action_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"body_inspection_size_limit_in_bytes": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"rules": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -322,6 +332,11 @@ func WafWebAppFirewallPolicyResource() *schema.Resource {
 									},
 									"condition_language": {
 										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"is_body_inspection_enabled": {
+										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
 									},
@@ -640,6 +655,11 @@ func WafWebAppFirewallPolicyResource() *schema.Resource {
 									},
 									"condition_language": {
 										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"is_body_inspection_enabled": {
+										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
 									},
@@ -1713,6 +1733,11 @@ func (s *WafWebAppFirewallPolicyResourceCrud) mapToProtectionRule(fieldKeyFormat
 		result.ConditionLanguage = oci_waf.WebAppFirewallPolicyRuleConditionLanguageEnum(conditionLanguage.(string))
 	}
 
+	if isBodyInspectionEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_body_inspection_enabled")); ok {
+		tmp := isBodyInspectionEnabled.(bool)
+		result.IsBodyInspectionEnabled = &tmp
+	}
+
 	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
 		tmp := name.(string)
 		result.Name = &tmp
@@ -1761,6 +1786,10 @@ func ProtectionRuleToMap(obj oci_waf.ProtectionRule) map[string]interface{} {
 	}
 
 	result["condition_language"] = string(obj.ConditionLanguage)
+
+	if obj.IsBodyInspectionEnabled != nil {
+		result["is_body_inspection_enabled"] = bool(*obj.IsBodyInspectionEnabled)
+	}
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
@@ -1828,6 +1857,16 @@ func RequestAccessControlToMap(obj *oci_waf.RequestAccessControl) map[string]int
 func (s *WafWebAppFirewallPolicyResourceCrud) mapToRequestProtection(fieldKeyFormat string) (oci_waf.RequestProtection, error) {
 	result := oci_waf.RequestProtection{}
 
+	if bodyInspectionSizeLimitExceededActionName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "body_inspection_size_limit_exceeded_action_name")); ok {
+		tmp := bodyInspectionSizeLimitExceededActionName.(string)
+		result.BodyInspectionSizeLimitExceededActionName = &tmp
+	}
+
+	if bodyInspectionSizeLimitInBytes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "body_inspection_size_limit_in_bytes")); ok {
+		tmp := bodyInspectionSizeLimitInBytes.(int)
+		result.BodyInspectionSizeLimitInBytes = &tmp
+	}
+
 	if rules, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rules")); ok {
 		interfaces := rules.([]interface{})
 		tmp := make([]oci_waf.ProtectionRule, len(interfaces))
@@ -1850,6 +1889,14 @@ func (s *WafWebAppFirewallPolicyResourceCrud) mapToRequestProtection(fieldKeyFor
 
 func RequestProtectionToMap(obj *oci_waf.RequestProtection) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.BodyInspectionSizeLimitExceededActionName != nil {
+		result["body_inspection_size_limit_exceeded_action_name"] = string(*obj.BodyInspectionSizeLimitExceededActionName)
+	}
+
+	if obj.BodyInspectionSizeLimitInBytes != nil {
+		result["body_inspection_size_limit_in_bytes"] = int(*obj.BodyInspectionSizeLimitInBytes)
+	}
 
 	rules := []interface{}{}
 	for _, item := range obj.Rules {

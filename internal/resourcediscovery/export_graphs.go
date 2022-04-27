@@ -335,6 +335,8 @@ var coreResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreVolumeGroupBackupHints},
 		{TerraformResourceHints: exportCoreVolumeHints},
 		{TerraformResourceHints: exportCorePublicIpPoolHints},
+		{TerraformResourceHints: exportCoreCaptureFilterHints},
+		{TerraformResourceHints: exportCoreVtapHints},
 	},
 	"oci_core_boot_volume": {
 		{
@@ -1010,6 +1012,7 @@ var marketplaceResourceGraph = TerraformResourceGraph{
 var meteringComputationResourceGraph = TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{TerraformResourceHints: exportMeteringComputationQueryHints},
+		{TerraformResourceHints: exportMeteringComputationScheduleHints},
 	},
 }
 

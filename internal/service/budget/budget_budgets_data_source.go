@@ -156,6 +156,8 @@ func (s *BudgetBudgetsDataSourceCrud) SetData() error {
 			budget["id"] = *r.Id
 		}
 
+		budget["processing_period_type"] = r.ProcessingPeriodType
+
 		budget["reset_period"] = r.ResetPeriod
 
 		budget["state"] = r.LifecycleState

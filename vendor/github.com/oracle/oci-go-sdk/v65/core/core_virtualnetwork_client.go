@@ -652,9 +652,10 @@ func (client VirtualNetworkClient) attachServiceId(ctx context.Context, request 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/BulkAddVirtualCircuitPublicPrefixes.go.html to see an example of how to use BulkAddVirtualCircuitPublicPrefixes API.
+// A default retry strategy applies to this operation BulkAddVirtualCircuitPublicPrefixes()
 func (client VirtualNetworkClient) BulkAddVirtualCircuitPublicPrefixes(ctx context.Context, request BulkAddVirtualCircuitPublicPrefixesRequest) (response BulkAddVirtualCircuitPublicPrefixesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -707,9 +708,10 @@ func (client VirtualNetworkClient) bulkAddVirtualCircuitPublicPrefixes(ctx conte
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/BulkDeleteVirtualCircuitPublicPrefixes.go.html to see an example of how to use BulkDeleteVirtualCircuitPublicPrefixes API.
+// A default retry strategy applies to this operation BulkDeleteVirtualCircuitPublicPrefixes()
 func (client VirtualNetworkClient) BulkDeleteVirtualCircuitPublicPrefixes(ctx context.Context, request BulkDeleteVirtualCircuitPublicPrefixesRequest) (response BulkDeleteVirtualCircuitPublicPrefixesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -818,6 +820,70 @@ func (client VirtualNetworkClient) changeByoipRangeCompartment(ctx context.Conte
 	return response, err
 }
 
+// ChangeCaptureFilterCompartment Moves a capture filter to a new compartment in the same tenancy. For information
+// about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeCaptureFilterCompartment.go.html to see an example of how to use ChangeCaptureFilterCompartment API.
+func (client VirtualNetworkClient) ChangeCaptureFilterCompartment(ctx context.Context, request ChangeCaptureFilterCompartmentRequest) (response ChangeCaptureFilterCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeCaptureFilterCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCaptureFilterCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCaptureFilterCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeCaptureFilterCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeCaptureFilterCompartmentResponse")
+	}
+	return
+}
+
+// changeCaptureFilterCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) changeCaptureFilterCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/captureFilters/{captureFilterId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeCaptureFilterCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CaptureFilter/ChangeCaptureFilterCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeCaptureFilterCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeCpeCompartment Moves a CPE object into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
@@ -825,9 +891,10 @@ func (client VirtualNetworkClient) changeByoipRangeCompartment(ctx context.Conte
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeCpeCompartment.go.html to see an example of how to use ChangeCpeCompartment API.
+// A default retry strategy applies to this operation ChangeCpeCompartment()
 func (client VirtualNetworkClient) ChangeCpeCompartment(ctx context.Context, request ChangeCpeCompartmentRequest) (response ChangeCpeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -889,9 +956,10 @@ func (client VirtualNetworkClient) changeCpeCompartment(ctx context.Context, req
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeCrossConnectCompartment.go.html to see an example of how to use ChangeCrossConnectCompartment API.
+// A default retry strategy applies to this operation ChangeCrossConnectCompartment()
 func (client VirtualNetworkClient) ChangeCrossConnectCompartment(ctx context.Context, request ChangeCrossConnectCompartmentRequest) (response ChangeCrossConnectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -953,9 +1021,10 @@ func (client VirtualNetworkClient) changeCrossConnectCompartment(ctx context.Con
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeCrossConnectGroupCompartment.go.html to see an example of how to use ChangeCrossConnectGroupCompartment API.
+// A default retry strategy applies to this operation ChangeCrossConnectGroupCompartment()
 func (client VirtualNetworkClient) ChangeCrossConnectGroupCompartment(ctx context.Context, request ChangeCrossConnectGroupCompartmentRequest) (response ChangeCrossConnectGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1145,9 +1214,10 @@ func (client VirtualNetworkClient) changeDrgCompartment(ctx context.Context, req
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeIPSecConnectionCompartment.go.html to see an example of how to use ChangeIPSecConnectionCompartment API.
+// A default retry strategy applies to this operation ChangeIPSecConnectionCompartment()
 func (client VirtualNetworkClient) ChangeIPSecConnectionCompartment(ctx context.Context, request ChangeIPSecConnectionCompartmentRequest) (response ChangeIPSecConnectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1594,9 +1664,10 @@ func (client VirtualNetworkClient) changePublicIpPoolCompartment(ctx context.Con
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeRemotePeeringConnectionCompartment.go.html to see an example of how to use ChangeRemotePeeringConnectionCompartment API.
+// A default retry strategy applies to this operation ChangeRemotePeeringConnectionCompartment()
 func (client VirtualNetworkClient) ChangeRemotePeeringConnectionCompartment(ctx context.Context, request ChangeRemotePeeringConnectionCompartmentRequest) (response ChangeRemotePeeringConnectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1978,9 +2049,10 @@ func (client VirtualNetworkClient) changeVcnCompartment(ctx context.Context, req
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeVirtualCircuitCompartment.go.html to see an example of how to use ChangeVirtualCircuitCompartment API.
+// A default retry strategy applies to this operation ChangeVirtualCircuitCompartment()
 func (client VirtualNetworkClient) ChangeVirtualCircuitCompartment(ctx context.Context, request ChangeVirtualCircuitCompartmentRequest) (response ChangeVirtualCircuitCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2099,6 +2171,70 @@ func (client VirtualNetworkClient) changeVlanCompartment(ctx context.Context, re
 	return response, err
 }
 
+// ChangeVtapCompartment Moves a VTAP to a new compartment within the same tenancy. For information
+// about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeVtapCompartment.go.html to see an example of how to use ChangeVtapCompartment API.
+func (client VirtualNetworkClient) ChangeVtapCompartment(ctx context.Context, request ChangeVtapCompartmentRequest) (response ChangeVtapCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeVtapCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeVtapCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeVtapCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeVtapCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeVtapCompartmentResponse")
+	}
+	return
+}
+
+// changeVtapCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) changeVtapCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vtaps/{vtapId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeVtapCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vtap/ChangeVtapCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeVtapCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ConnectLocalPeeringGateways Connects this local peering gateway (LPG) to another one in the same region.
 // This operation must be called by the VCN administrator who is designated as
 // the *requestor* in the peering relationship. The *acceptor* must implement
@@ -2173,9 +2309,10 @@ func (client VirtualNetworkClient) connectLocalPeeringGateways(ctx context.Conte
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ConnectRemotePeeringConnections.go.html to see an example of how to use ConnectRemotePeeringConnections API.
+// A default retry strategy applies to this operation ConnectRemotePeeringConnections()
 func (client VirtualNetworkClient) ConnectRemotePeeringConnections(ctx context.Context, request ConnectRemotePeeringConnectionsRequest) (response ConnectRemotePeeringConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2287,6 +2424,74 @@ func (client VirtualNetworkClient) createByoipRange(ctx context.Context, request
 	return response, err
 }
 
+// CreateCaptureFilter Creates a virtual test access point (VTAP) capture filter in the specified compartment.
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains
+// the VTAP. For more information about compartments and access control, see
+// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// You may optionally specify a *display name* for the VTAP, otherwise a default is provided.
+// It does not have to be unique, and you can change it.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateCaptureFilter.go.html to see an example of how to use CreateCaptureFilter API.
+func (client VirtualNetworkClient) CreateCaptureFilter(ctx context.Context, request CreateCaptureFilterRequest) (response CreateCaptureFilterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createCaptureFilter, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCaptureFilterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCaptureFilterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateCaptureFilterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateCaptureFilterResponse")
+	}
+	return
+}
+
+// createCaptureFilter implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createCaptureFilter(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/captureFilters", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateCaptureFilterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CaptureFilter/CreateCaptureFilter"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateCaptureFilter", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateCpe Creates a new virtual customer-premises equipment (CPE) object in the specified compartment. For
 // more information, see Site-to-Site VPN Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm).
 // For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want
@@ -2303,9 +2508,10 @@ func (client VirtualNetworkClient) createByoipRange(ctx context.Context, request
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateCpe.go.html to see an example of how to use CreateCpe API.
+// A default retry strategy applies to this operation CreateCpe()
 func (client VirtualNetworkClient) CreateCpe(ctx context.Context, request CreateCpeRequest) (response CreateCpeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2380,9 +2586,10 @@ func (client VirtualNetworkClient) createCpe(ctx context.Context, request common
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateCrossConnect.go.html to see an example of how to use CreateCrossConnect API.
+// A default retry strategy applies to this operation CreateCrossConnect()
 func (client VirtualNetworkClient) CreateCrossConnect(ctx context.Context, request CreateCrossConnectRequest) (response CreateCrossConnectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2454,9 +2661,10 @@ func (client VirtualNetworkClient) createCrossConnect(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateCrossConnectGroup.go.html to see an example of how to use CreateCrossConnectGroup API.
+// A default retry strategy applies to this operation CreateCrossConnectGroup()
 func (client VirtualNetworkClient) CreateCrossConnectGroup(ctx context.Context, request CreateCrossConnectGroupRequest) (response CreateCrossConnectGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2877,9 +3085,10 @@ func (client VirtualNetworkClient) createDrgRouteTable(ctx context.Context, requ
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateIPSecConnection.go.html to see an example of how to use CreateIPSecConnection API.
+// A default retry strategy applies to this operation CreateIPSecConnection()
 func (client VirtualNetworkClient) CreateIPSecConnection(ctx context.Context, request CreateIPSecConnectionRequest) (response CreateIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3469,9 +3678,10 @@ func (client VirtualNetworkClient) createPublicIpPool(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateRemotePeeringConnection.go.html to see an example of how to use CreateRemotePeeringConnection API.
+// A default retry strategy applies to this operation CreateRemotePeeringConnection()
 func (client VirtualNetworkClient) CreateRemotePeeringConnection(ctx context.Context, request CreateRemotePeeringConnectionRequest) (response CreateRemotePeeringConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3935,9 +4145,10 @@ func (client VirtualNetworkClient) createVcn(ctx context.Context, request common
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateVirtualCircuit.go.html to see an example of how to use CreateVirtualCircuit API.
+// A default retry strategy applies to this operation CreateVirtualCircuit()
 func (client VirtualNetworkClient) CreateVirtualCircuit(ctx context.Context, request CreateVirtualCircuitRequest) (response CreateVirtualCircuitResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4054,6 +4265,74 @@ func (client VirtualNetworkClient) createVlan(ctx context.Context, request commo
 	return response, err
 }
 
+// CreateVtap Creates a virtual test access point (VTAP) in the specified compartment.
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the VTAP.
+// For more information about compartments and access control, see
+// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+// For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// You may optionally specify a *display name* for the VTAP, otherwise a default is provided.
+// It does not have to be unique, and you can change it.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateVtap.go.html to see an example of how to use CreateVtap API.
+func (client VirtualNetworkClient) CreateVtap(ctx context.Context, request CreateVtapRequest) (response CreateVtapResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createVtap, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVtapResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVtapResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateVtapResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateVtapResponse")
+	}
+	return
+}
+
+// createVtap implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createVtap(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vtaps", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateVtapResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vtap/CreateVtap"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateVtap", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteByoipRange Deletes the specified `ByoipRange` resource.
 // The resource must be in one of the following states: CREATING, PROVISIONED, ACTIVE, or FAILED.
 // It must not have any subranges currently allocated to a PublicIpPool object or the deletion will fail.
@@ -4115,6 +4394,64 @@ func (client VirtualNetworkClient) deleteByoipRange(ctx context.Context, request
 	return response, err
 }
 
+// DeleteCaptureFilter Deletes the specified VTAP capture filter. This is an asynchronous operation. The VTAP capture filter's `lifecycleState` will
+// change to TERMINATING temporarily until the VTAP capture filter is completely removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteCaptureFilter.go.html to see an example of how to use DeleteCaptureFilter API.
+func (client VirtualNetworkClient) DeleteCaptureFilter(ctx context.Context, request DeleteCaptureFilterRequest) (response DeleteCaptureFilterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteCaptureFilter, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCaptureFilterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCaptureFilterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteCaptureFilterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteCaptureFilterResponse")
+	}
+	return
+}
+
+// deleteCaptureFilter implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteCaptureFilter(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/captureFilters/{captureFilterId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteCaptureFilterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CaptureFilter/DeleteCaptureFilter"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteCaptureFilter", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteCpe Deletes the specified CPE object. The CPE must not be connected to a DRG. This is an asynchronous
 // operation. The CPE's `lifecycleState` will change to TERMINATING temporarily until the CPE is completely
 // removed.
@@ -4122,9 +4459,10 @@ func (client VirtualNetworkClient) deleteByoipRange(ctx context.Context, request
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteCpe.go.html to see an example of how to use DeleteCpe API.
+// A default retry strategy applies to this operation DeleteCpe()
 func (client VirtualNetworkClient) DeleteCpe(ctx context.Context, request DeleteCpeRequest) (response DeleteCpeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4180,9 +4518,10 @@ func (client VirtualNetworkClient) deleteCpe(ctx context.Context, request common
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteCrossConnect.go.html to see an example of how to use DeleteCrossConnect API.
+// A default retry strategy applies to this operation DeleteCrossConnect()
 func (client VirtualNetworkClient) DeleteCrossConnect(ctx context.Context, request DeleteCrossConnectRequest) (response DeleteCrossConnectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4239,9 +4578,10 @@ func (client VirtualNetworkClient) deleteCrossConnect(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteCrossConnectGroup.go.html to see an example of how to use DeleteCrossConnectGroup API.
+// A default retry strategy applies to this operation DeleteCrossConnectGroup()
 func (client VirtualNetworkClient) DeleteCrossConnectGroup(ctx context.Context, request DeleteCrossConnectGroupRequest) (response DeleteCrossConnectGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4596,9 +4936,10 @@ func (client VirtualNetworkClient) deleteDrgRouteTable(ctx context.Context, requ
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteIPSecConnection.go.html to see an example of how to use DeleteIPSecConnection API.
+// A default retry strategy applies to this operation DeleteIPSecConnection()
 func (client VirtualNetworkClient) DeleteIPSecConnection(ctx context.Context, request DeleteIPSecConnectionRequest) (response DeleteIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5146,9 +5487,10 @@ func (client VirtualNetworkClient) deletePublicIpPool(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteRemotePeeringConnection.go.html to see an example of how to use DeleteRemotePeeringConnection API.
+// A default retry strategy applies to this operation DeleteRemotePeeringConnection()
 func (client VirtualNetworkClient) DeleteRemotePeeringConnection(ctx context.Context, request DeleteRemotePeeringConnectionRequest) (response DeleteRemotePeeringConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5502,9 +5844,10 @@ func (client VirtualNetworkClient) deleteVcn(ctx context.Context, request common
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteVirtualCircuit.go.html to see an example of how to use DeleteVirtualCircuit API.
+// A default retry strategy applies to this operation DeleteVirtualCircuit()
 func (client VirtualNetworkClient) DeleteVirtualCircuit(ctx context.Context, request DeleteVirtualCircuitRequest) (response DeleteVirtualCircuitResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5604,6 +5947,64 @@ func (client VirtualNetworkClient) deleteVlan(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vlan/DeleteVlan"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteVlan", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteVtap Deletes the specified VTAP. This is an asynchronous operation. The VTAP's `lifecycleState` will change to
+// TERMINATING temporarily until the VTAP is completely removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteVtap.go.html to see an example of how to use DeleteVtap API.
+func (client VirtualNetworkClient) DeleteVtap(ctx context.Context, request DeleteVtapRequest) (response DeleteVtapResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteVtap, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteVtapResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteVtapResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteVtapResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteVtapResponse")
+	}
+	return
+}
+
+// deleteVtap implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteVtap(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/vtaps/{vtapId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteVtapResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vtap/DeleteVtap"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteVtap", apiReferenceLink)
 		return response, err
 	}
 
@@ -5740,9 +6141,10 @@ func (client VirtualNetworkClient) getAllDrgAttachments(ctx context.Context, req
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetAllowedIkeIPSecParameters.go.html to see an example of how to use GetAllowedIkeIPSecParameters API.
+// A default retry strategy applies to this operation GetAllowedIkeIPSecParameters()
 func (client VirtualNetworkClient) GetAllowedIkeIPSecParameters(ctx context.Context, request GetAllowedIkeIPSecParametersRequest) (response GetAllowedIkeIPSecParametersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5849,14 +6251,72 @@ func (client VirtualNetworkClient) getByoipRange(ctx context.Context, request co
 	return response, err
 }
 
+// GetCaptureFilter Gets information about the specified VTAP capture filter.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCaptureFilter.go.html to see an example of how to use GetCaptureFilter API.
+func (client VirtualNetworkClient) GetCaptureFilter(ctx context.Context, request GetCaptureFilterRequest) (response GetCaptureFilterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCaptureFilter, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCaptureFilterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCaptureFilterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCaptureFilterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCaptureFilterResponse")
+	}
+	return
+}
+
+// getCaptureFilter implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getCaptureFilter(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/captureFilters/{captureFilterId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCaptureFilterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CaptureFilter/GetCaptureFilter"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetCaptureFilter", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetCpe Gets the specified CPE's information.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCpe.go.html to see an example of how to use GetCpe API.
+// A default retry strategy applies to this operation GetCpe()
 func (client VirtualNetworkClient) GetCpe(ctx context.Context, request GetCpeRequest) (response GetCpeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5925,9 +6385,10 @@ func (client VirtualNetworkClient) getCpe(ctx context.Context, request common.OC
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCpeDeviceConfigContent.go.html to see an example of how to use GetCpeDeviceConfigContent API.
+// A default retry strategy applies to this operation GetCpeDeviceConfigContent()
 func (client VirtualNetworkClient) GetCpeDeviceConfigContent(ctx context.Context, request GetCpeDeviceConfigContentRequest) (response GetCpeDeviceConfigContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5988,9 +6449,10 @@ func (client VirtualNetworkClient) getCpeDeviceConfigContent(ctx context.Context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCpeDeviceShape.go.html to see an example of how to use GetCpeDeviceShape API.
+// A default retry strategy applies to this operation GetCpeDeviceShape()
 func (client VirtualNetworkClient) GetCpeDeviceShape(ctx context.Context, request GetCpeDeviceShapeRequest) (response GetCpeDeviceShapeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6045,9 +6507,10 @@ func (client VirtualNetworkClient) getCpeDeviceShape(ctx context.Context, reques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCrossConnect.go.html to see an example of how to use GetCrossConnect API.
+// A default retry strategy applies to this operation GetCrossConnect()
 func (client VirtualNetworkClient) GetCrossConnect(ctx context.Context, request GetCrossConnectRequest) (response GetCrossConnectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6102,9 +6565,10 @@ func (client VirtualNetworkClient) getCrossConnect(ctx context.Context, request 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCrossConnectGroup.go.html to see an example of how to use GetCrossConnectGroup API.
+// A default retry strategy applies to this operation GetCrossConnectGroup()
 func (client VirtualNetworkClient) GetCrossConnectGroup(ctx context.Context, request GetCrossConnectGroupRequest) (response GetCrossConnectGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6159,9 +6623,10 @@ func (client VirtualNetworkClient) getCrossConnectGroup(ctx context.Context, req
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCrossConnectLetterOfAuthority.go.html to see an example of how to use GetCrossConnectLetterOfAuthority API.
+// A default retry strategy applies to this operation GetCrossConnectLetterOfAuthority()
 func (client VirtualNetworkClient) GetCrossConnectLetterOfAuthority(ctx context.Context, request GetCrossConnectLetterOfAuthorityRequest) (response GetCrossConnectLetterOfAuthorityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6216,9 +6681,10 @@ func (client VirtualNetworkClient) getCrossConnectLetterOfAuthority(ctx context.
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCrossConnectStatus.go.html to see an example of how to use GetCrossConnectStatus API.
+// A default retry strategy applies to this operation GetCrossConnectStatus()
 func (client VirtualNetworkClient) GetCrossConnectStatus(ctx context.Context, request GetCrossConnectStatusRequest) (response GetCrossConnectStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6445,9 +6911,10 @@ func (client VirtualNetworkClient) getDrgAttachment(ctx context.Context, request
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetDrgRedundancyStatus.go.html to see an example of how to use GetDrgRedundancyStatus API.
+// A default retry strategy applies to this operation GetDrgRedundancyStatus()
 func (client VirtualNetworkClient) GetDrgRedundancyStatus(ctx context.Context, request GetDrgRedundancyStatusRequest) (response GetDrgRedundancyStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6617,9 +7084,10 @@ func (client VirtualNetworkClient) getDrgRouteTable(ctx context.Context, request
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetFastConnectProviderService.go.html to see an example of how to use GetFastConnectProviderService API.
+// A default retry strategy applies to this operation GetFastConnectProviderService()
 func (client VirtualNetworkClient) GetFastConnectProviderService(ctx context.Context, request GetFastConnectProviderServiceRequest) (response GetFastConnectProviderServiceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6675,9 +7143,10 @@ func (client VirtualNetworkClient) getFastConnectProviderService(ctx context.Con
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetFastConnectProviderServiceKey.go.html to see an example of how to use GetFastConnectProviderServiceKey API.
+// A default retry strategy applies to this operation GetFastConnectProviderServiceKey()
 func (client VirtualNetworkClient) GetFastConnectProviderServiceKey(ctx context.Context, request GetFastConnectProviderServiceKeyRequest) (response GetFastConnectProviderServiceKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6734,9 +7203,10 @@ func (client VirtualNetworkClient) getFastConnectProviderServiceKey(ctx context.
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIPSecConnection.go.html to see an example of how to use GetIPSecConnection API.
+// A default retry strategy applies to this operation GetIPSecConnection()
 func (client VirtualNetworkClient) GetIPSecConnection(ctx context.Context, request GetIPSecConnectionRequest) (response GetIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6793,9 +7263,10 @@ func (client VirtualNetworkClient) getIPSecConnection(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIPSecConnectionDeviceConfig.go.html to see an example of how to use GetIPSecConnectionDeviceConfig API.
+// A default retry strategy applies to this operation GetIPSecConnectionDeviceConfig()
 func (client VirtualNetworkClient) GetIPSecConnectionDeviceConfig(ctx context.Context, request GetIPSecConnectionDeviceConfigRequest) (response GetIPSecConnectionDeviceConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6851,9 +7322,10 @@ func (client VirtualNetworkClient) getIPSecConnectionDeviceConfig(ctx context.Co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIPSecConnectionDeviceStatus.go.html to see an example of how to use GetIPSecConnectionDeviceStatus API.
+// A default retry strategy applies to this operation GetIPSecConnectionDeviceStatus()
 func (client VirtualNetworkClient) GetIPSecConnectionDeviceStatus(ctx context.Context, request GetIPSecConnectionDeviceStatusRequest) (response GetIPSecConnectionDeviceStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6910,9 +7382,10 @@ func (client VirtualNetworkClient) getIPSecConnectionDeviceStatus(ctx context.Co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIPSecConnectionTunnel.go.html to see an example of how to use GetIPSecConnectionTunnel API.
+// A default retry strategy applies to this operation GetIPSecConnectionTunnel()
 func (client VirtualNetworkClient) GetIPSecConnectionTunnel(ctx context.Context, request GetIPSecConnectionTunnelRequest) (response GetIPSecConnectionTunnelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6967,9 +7440,10 @@ func (client VirtualNetworkClient) getIPSecConnectionTunnel(ctx context.Context,
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIPSecConnectionTunnelError.go.html to see an example of how to use GetIPSecConnectionTunnelError API.
+// A default retry strategy applies to this operation GetIPSecConnectionTunnelError()
 func (client VirtualNetworkClient) GetIPSecConnectionTunnelError(ctx context.Context, request GetIPSecConnectionTunnelErrorRequest) (response GetIPSecConnectionTunnelErrorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7025,9 +7499,10 @@ func (client VirtualNetworkClient) getIPSecConnectionTunnelError(ctx context.Con
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIPSecConnectionTunnelSharedSecret.go.html to see an example of how to use GetIPSecConnectionTunnelSharedSecret API.
+// A default retry strategy applies to this operation GetIPSecConnectionTunnelSharedSecret()
 func (client VirtualNetworkClient) GetIPSecConnectionTunnelSharedSecret(ctx context.Context, request GetIPSecConnectionTunnelSharedSecretRequest) (response GetIPSecConnectionTunnelSharedSecretResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7154,9 +7629,10 @@ func (client VirtualNetworkClient) getInternetGateway(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIpsecCpeDeviceConfigContent.go.html to see an example of how to use GetIpsecCpeDeviceConfigContent API.
+// A default retry strategy applies to this operation GetIpsecCpeDeviceConfigContent()
 func (client VirtualNetworkClient) GetIpsecCpeDeviceConfigContent(ctx context.Context, request GetIpsecCpeDeviceConfigContentRequest) (response GetIpsecCpeDeviceConfigContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7809,9 +8285,10 @@ func (client VirtualNetworkClient) getPublicIpPool(ctx context.Context, request 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetRemotePeeringConnection.go.html to see an example of how to use GetRemotePeeringConnection API.
+// A default retry strategy applies to this operation GetRemotePeeringConnection()
 func (client VirtualNetworkClient) GetRemotePeeringConnection(ctx context.Context, request GetRemotePeeringConnectionRequest) (response GetRemotePeeringConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8212,9 +8689,10 @@ func (client VirtualNetworkClient) getSubnetTopology(ctx context.Context, reques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetTunnelCpeDeviceConfig.go.html to see an example of how to use GetTunnelCpeDeviceConfig API.
+// A default retry strategy applies to this operation GetTunnelCpeDeviceConfig()
 func (client VirtualNetworkClient) GetTunnelCpeDeviceConfig(ctx context.Context, request GetTunnelCpeDeviceConfigRequest) (response GetTunnelCpeDeviceConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8283,9 +8761,10 @@ func (client VirtualNetworkClient) getTunnelCpeDeviceConfig(ctx context.Context,
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetTunnelCpeDeviceConfigContent.go.html to see an example of how to use GetTunnelCpeDeviceConfigContent API.
+// A default retry strategy applies to this operation GetTunnelCpeDeviceConfigContent()
 func (client VirtualNetworkClient) GetTunnelCpeDeviceConfigContent(ctx context.Context, request GetTunnelCpeDeviceConfigContentRequest) (response GetTunnelCpeDeviceConfigContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8567,9 +9046,10 @@ func (client VirtualNetworkClient) getVcnTopology(ctx context.Context, request c
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVirtualCircuit.go.html to see an example of how to use GetVirtualCircuit API.
+// A default retry strategy applies to this operation GetVirtualCircuit()
 func (client VirtualNetworkClient) GetVirtualCircuit(ctx context.Context, request GetVirtualCircuitRequest) (response GetVirtualCircuitResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8736,15 +9216,73 @@ func (client VirtualNetworkClient) getVnic(ctx context.Context, request common.O
 	return response, err
 }
 
+// GetVtap Gets the specified `Vtap` resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVtap.go.html to see an example of how to use GetVtap API.
+func (client VirtualNetworkClient) GetVtap(ctx context.Context, request GetVtapRequest) (response GetVtapResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getVtap, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVtapResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVtapResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetVtapResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetVtapResponse")
+	}
+	return
+}
+
+// getVtap implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getVtap(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vtaps/{vtapId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetVtapResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vtap/GetVtap"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVtap", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListAllowedPeerRegionsForRemotePeering Lists the regions that support remote VCN peering (which is peering across regions).
 // For more information, see VCN Peering (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm).
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListAllowedPeerRegionsForRemotePeering.go.html to see an example of how to use ListAllowedPeerRegionsForRemotePeering API.
+// A default retry strategy applies to this operation ListAllowedPeerRegionsForRemotePeering()
 func (client VirtualNetworkClient) ListAllowedPeerRegionsForRemotePeering(ctx context.Context, request ListAllowedPeerRegionsForRemotePeeringRequest) (response ListAllowedPeerRegionsForRemotePeeringResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8910,6 +9448,63 @@ func (client VirtualNetworkClient) listByoipRanges(ctx context.Context, request 
 	return response, err
 }
 
+// ListCaptureFilters Lists the capture filters in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCaptureFilters.go.html to see an example of how to use ListCaptureFilters API.
+func (client VirtualNetworkClient) ListCaptureFilters(ctx context.Context, request ListCaptureFiltersRequest) (response ListCaptureFiltersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCaptureFilters, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCaptureFiltersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCaptureFiltersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCaptureFiltersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCaptureFiltersResponse")
+	}
+	return
+}
+
+// listCaptureFilters implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listCaptureFilters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/captureFilters", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCaptureFiltersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CaptureFilter/ListCaptureFilters"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListCaptureFilters", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListCpeDeviceShapes Lists the CPE device types that the Networking service provides CPE configuration
 // content for (example: Cisco ASA). The content helps a network engineer configure
 // the actual CPE device represented by a Cpe object.
@@ -8924,9 +9519,10 @@ func (client VirtualNetworkClient) listByoipRanges(ctx context.Context, request 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCpeDeviceShapes.go.html to see an example of how to use ListCpeDeviceShapes API.
+// A default retry strategy applies to this operation ListCpeDeviceShapes()
 func (client VirtualNetworkClient) ListCpeDeviceShapes(ctx context.Context, request ListCpeDeviceShapesRequest) (response ListCpeDeviceShapesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8981,9 +9577,10 @@ func (client VirtualNetworkClient) listCpeDeviceShapes(ctx context.Context, requ
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCpes.go.html to see an example of how to use ListCpes API.
+// A default retry strategy applies to this operation ListCpes()
 func (client VirtualNetworkClient) ListCpes(ctx context.Context, request ListCpesRequest) (response ListCpesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9038,9 +9635,10 @@ func (client VirtualNetworkClient) listCpes(ctx context.Context, request common.
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCrossConnectGroups.go.html to see an example of how to use ListCrossConnectGroups API.
+// A default retry strategy applies to this operation ListCrossConnectGroups()
 func (client VirtualNetworkClient) ListCrossConnectGroups(ctx context.Context, request ListCrossConnectGroupsRequest) (response ListCrossConnectGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9096,9 +9694,10 @@ func (client VirtualNetworkClient) listCrossConnectGroups(ctx context.Context, r
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCrossConnectLocations.go.html to see an example of how to use ListCrossConnectLocations API.
+// A default retry strategy applies to this operation ListCrossConnectLocations()
 func (client VirtualNetworkClient) ListCrossConnectLocations(ctx context.Context, request ListCrossConnectLocationsRequest) (response ListCrossConnectLocationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9154,9 +9753,10 @@ func (client VirtualNetworkClient) listCrossConnectLocations(ctx context.Context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCrossConnectMappings.go.html to see an example of how to use ListCrossConnectMappings API.
+// A default retry strategy applies to this operation ListCrossConnectMappings()
 func (client VirtualNetworkClient) ListCrossConnectMappings(ctx context.Context, request ListCrossConnectMappingsRequest) (response ListCrossConnectMappingsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9212,9 +9812,10 @@ func (client VirtualNetworkClient) listCrossConnectMappings(ctx context.Context,
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCrossConnects.go.html to see an example of how to use ListCrossConnects API.
+// A default retry strategy applies to this operation ListCrossConnects()
 func (client VirtualNetworkClient) ListCrossConnects(ctx context.Context, request ListCrossConnectsRequest) (response ListCrossConnectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9271,9 +9872,10 @@ func (client VirtualNetworkClient) listCrossConnects(ctx context.Context, reques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCrossconnectPortSpeedShapes.go.html to see an example of how to use ListCrossconnectPortSpeedShapes API.
+// A default retry strategy applies to this operation ListCrossconnectPortSpeedShapes()
 func (client VirtualNetworkClient) ListCrossconnectPortSpeedShapes(ctx context.Context, request ListCrossconnectPortSpeedShapesRequest) (response ListCrossconnectPortSpeedShapesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9741,9 +10343,10 @@ func (client VirtualNetworkClient) listDrgs(ctx context.Context, request common.
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListFastConnectProviderServices.go.html to see an example of how to use ListFastConnectProviderServices API.
+// A default retry strategy applies to this operation ListFastConnectProviderServices()
 func (client VirtualNetworkClient) ListFastConnectProviderServices(ctx context.Context, request ListFastConnectProviderServicesRequest) (response ListFastConnectProviderServicesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9800,9 +10403,10 @@ func (client VirtualNetworkClient) listFastConnectProviderServices(ctx context.C
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListFastConnectProviderVirtualCircuitBandwidthShapes.go.html to see an example of how to use ListFastConnectProviderVirtualCircuitBandwidthShapes API.
+// A default retry strategy applies to this operation ListFastConnectProviderVirtualCircuitBandwidthShapes()
 func (client VirtualNetworkClient) ListFastConnectProviderVirtualCircuitBandwidthShapes(ctx context.Context, request ListFastConnectProviderVirtualCircuitBandwidthShapesRequest) (response ListFastConnectProviderVirtualCircuitBandwidthShapesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9857,9 +10461,10 @@ func (client VirtualNetworkClient) listFastConnectProviderVirtualCircuitBandwidt
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListIPSecConnectionTunnelRoutes.go.html to see an example of how to use ListIPSecConnectionTunnelRoutes API.
+// A default retry strategy applies to this operation ListIPSecConnectionTunnelRoutes()
 func (client VirtualNetworkClient) ListIPSecConnectionTunnelRoutes(ctx context.Context, request ListIPSecConnectionTunnelRoutesRequest) (response ListIPSecConnectionTunnelRoutesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9914,9 +10519,10 @@ func (client VirtualNetworkClient) listIPSecConnectionTunnelRoutes(ctx context.C
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListIPSecConnectionTunnelSecurityAssociations.go.html to see an example of how to use ListIPSecConnectionTunnelSecurityAssociations API.
+// A default retry strategy applies to this operation ListIPSecConnectionTunnelSecurityAssociations()
 func (client VirtualNetworkClient) ListIPSecConnectionTunnelSecurityAssociations(ctx context.Context, request ListIPSecConnectionTunnelSecurityAssociationsRequest) (response ListIPSecConnectionTunnelSecurityAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9971,9 +10577,10 @@ func (client VirtualNetworkClient) listIPSecConnectionTunnelSecurityAssociations
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListIPSecConnectionTunnels.go.html to see an example of how to use ListIPSecConnectionTunnels API.
+// A default retry strategy applies to this operation ListIPSecConnectionTunnels()
 func (client VirtualNetworkClient) ListIPSecConnectionTunnels(ctx context.Context, request ListIPSecConnectionTunnelsRequest) (response ListIPSecConnectionTunnelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10029,9 +10636,10 @@ func (client VirtualNetworkClient) listIPSecConnectionTunnels(ctx context.Contex
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListIPSecConnections.go.html to see an example of how to use ListIPSecConnections API.
+// A default retry strategy applies to this operation ListIPSecConnections()
 func (client VirtualNetworkClient) ListIPSecConnections(ctx context.Context, request ListIPSecConnectionsRequest) (response ListIPSecConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -10695,9 +11303,10 @@ func (client VirtualNetworkClient) listPublicIps(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListRemotePeeringConnections.go.html to see an example of how to use ListRemotePeeringConnections API.
+// A default retry strategy applies to this operation ListRemotePeeringConnections()
 func (client VirtualNetworkClient) ListRemotePeeringConnections(ctx context.Context, request ListRemotePeeringConnectionsRequest) (response ListRemotePeeringConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -11101,9 +11710,10 @@ func (client VirtualNetworkClient) listVcns(ctx context.Context, request common.
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVirtualCircuitBandwidthShapes.go.html to see an example of how to use ListVirtualCircuitBandwidthShapes API.
+// A default retry strategy applies to this operation ListVirtualCircuitBandwidthShapes()
 func (client VirtualNetworkClient) ListVirtualCircuitBandwidthShapes(ctx context.Context, request ListVirtualCircuitBandwidthShapesRequest) (response ListVirtualCircuitBandwidthShapesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -11159,9 +11769,10 @@ func (client VirtualNetworkClient) listVirtualCircuitBandwidthShapes(ctx context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVirtualCircuitPublicPrefixes.go.html to see an example of how to use ListVirtualCircuitPublicPrefixes API.
+// A default retry strategy applies to this operation ListVirtualCircuitPublicPrefixes()
 func (client VirtualNetworkClient) ListVirtualCircuitPublicPrefixes(ctx context.Context, request ListVirtualCircuitPublicPrefixesRequest) (response ListVirtualCircuitPublicPrefixesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -11216,9 +11827,10 @@ func (client VirtualNetworkClient) listVirtualCircuitPublicPrefixes(ctx context.
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVirtualCircuits.go.html to see an example of how to use ListVirtualCircuits API.
+// A default retry strategy applies to this operation ListVirtualCircuits()
 func (client VirtualNetworkClient) ListVirtualCircuits(ctx context.Context, request ListVirtualCircuitsRequest) (response ListVirtualCircuitsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -11318,6 +11930,63 @@ func (client VirtualNetworkClient) listVlans(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vlan/ListVlans"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVlans", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListVtaps Lists the virtual test access points (VTAPs) in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVtaps.go.html to see an example of how to use ListVtaps API.
+func (client VirtualNetworkClient) ListVtaps(ctx context.Context, request ListVtapsRequest) (response ListVtapsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listVtaps, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVtapsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVtapsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListVtapsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListVtapsResponse")
+	}
+	return
+}
+
+// listVtaps implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listVtaps(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vtaps", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListVtapsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vtap/ListVtaps"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVtaps", apiReferenceLink)
 		return response, err
 	}
 
@@ -11987,15 +12656,73 @@ func (client VirtualNetworkClient) updateByoipRange(ctx context.Context, request
 	return response, err
 }
 
+// UpdateCaptureFilter Updates the specified VTAP capture filter's display name or tags.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateCaptureFilter.go.html to see an example of how to use UpdateCaptureFilter API.
+func (client VirtualNetworkClient) UpdateCaptureFilter(ctx context.Context, request UpdateCaptureFilterRequest) (response UpdateCaptureFilterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCaptureFilter, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCaptureFilterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCaptureFilterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCaptureFilterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCaptureFilterResponse")
+	}
+	return
+}
+
+// updateCaptureFilter implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateCaptureFilter(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/captureFilters/{captureFilterId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCaptureFilterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CaptureFilter/UpdateCaptureFilter"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateCaptureFilter", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateCpe Updates the specified CPE's display name or tags.
 // Avoid entering confidential information.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateCpe.go.html to see an example of how to use UpdateCpe API.
+// A default retry strategy applies to this operation UpdateCpe()
 func (client VirtualNetworkClient) UpdateCpe(ctx context.Context, request UpdateCpeRequest) (response UpdateCpeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -12050,9 +12777,10 @@ func (client VirtualNetworkClient) updateCpe(ctx context.Context, request common
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateCrossConnect.go.html to see an example of how to use UpdateCrossConnect API.
+// A default retry strategy applies to this operation UpdateCrossConnect()
 func (client VirtualNetworkClient) UpdateCrossConnect(ctx context.Context, request UpdateCrossConnectRequest) (response UpdateCrossConnectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -12108,9 +12836,10 @@ func (client VirtualNetworkClient) updateCrossConnect(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateCrossConnectGroup.go.html to see an example of how to use UpdateCrossConnectGroup API.
+// A default retry strategy applies to this operation UpdateCrossConnectGroup()
 func (client VirtualNetworkClient) UpdateCrossConnectGroup(ctx context.Context, request UpdateCrossConnectGroupRequest) (response UpdateCrossConnectGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -12569,9 +13298,10 @@ func (client VirtualNetworkClient) updateDrgRouteTable(ctx context.Context, requ
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateIPSecConnection.go.html to see an example of how to use UpdateIPSecConnection API.
+// A default retry strategy applies to this operation UpdateIPSecConnection()
 func (client VirtualNetworkClient) UpdateIPSecConnection(ctx context.Context, request UpdateIPSecConnectionRequest) (response UpdateIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -12634,9 +13364,10 @@ func (client VirtualNetworkClient) updateIPSecConnection(ctx context.Context, re
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateIPSecConnectionTunnel.go.html to see an example of how to use UpdateIPSecConnectionTunnel API.
+// A default retry strategy applies to this operation UpdateIPSecConnectionTunnel()
 func (client VirtualNetworkClient) UpdateIPSecConnectionTunnel(ctx context.Context, request UpdateIPSecConnectionTunnelRequest) (response UpdateIPSecConnectionTunnelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -12692,9 +13423,10 @@ func (client VirtualNetworkClient) updateIPSecConnectionTunnel(ctx context.Conte
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateIPSecConnectionTunnelSharedSecret.go.html to see an example of how to use UpdateIPSecConnectionTunnelSharedSecret API.
+// A default retry strategy applies to this operation UpdateIPSecConnectionTunnelSharedSecret()
 func (client VirtualNetworkClient) UpdateIPSecConnectionTunnelSharedSecret(ctx context.Context, request UpdateIPSecConnectionTunnelSharedSecretRequest) (response UpdateIPSecConnectionTunnelSharedSecretResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -13318,9 +14050,10 @@ func (client VirtualNetworkClient) updatePublicIpPool(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateRemotePeeringConnection.go.html to see an example of how to use UpdateRemotePeeringConnection API.
+// A default retry strategy applies to this operation UpdateRemotePeeringConnection()
 func (client VirtualNetworkClient) UpdateRemotePeeringConnection(ctx context.Context, request UpdateRemotePeeringConnectionRequest) (response UpdateRemotePeeringConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -13611,9 +14344,10 @@ func (client VirtualNetworkClient) updateSubnet(ctx context.Context, request com
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateTunnelCpeDeviceConfig.go.html to see an example of how to use UpdateTunnelCpeDeviceConfig API.
+// A default retry strategy applies to this operation UpdateTunnelCpeDeviceConfig()
 func (client VirtualNetworkClient) UpdateTunnelCpeDeviceConfig(ctx context.Context, request UpdateTunnelCpeDeviceConfigRequest) (response UpdateTunnelCpeDeviceConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -13751,9 +14485,10 @@ func (client VirtualNetworkClient) updateVcn(ctx context.Context, request common
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVirtualCircuit.go.html to see an example of how to use UpdateVirtualCircuit API.
+// A default retry strategy applies to this operation UpdateVirtualCircuit()
 func (client VirtualNetworkClient) UpdateVirtualCircuit(ctx context.Context, request UpdateVirtualCircuitRequest) (response UpdateVirtualCircuitResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -13911,6 +14646,63 @@ func (client VirtualNetworkClient) updateVnic(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vnic/UpdateVnic"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVnic", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateVtap Updates the specified VTAP's display name or tags.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVtap.go.html to see an example of how to use UpdateVtap API.
+func (client VirtualNetworkClient) UpdateVtap(ctx context.Context, request UpdateVtapRequest) (response UpdateVtapResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateVtap, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVtapResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVtapResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateVtapResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateVtapResponse")
+	}
+	return
+}
+
+// updateVtap implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateVtap(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/vtaps/{vtapId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateVtapResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVtap", apiReferenceLink)
 		return response, err
 	}
 

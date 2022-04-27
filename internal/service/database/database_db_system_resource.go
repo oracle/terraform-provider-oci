@@ -950,6 +950,7 @@ func (s *DatabaseDbSystemResourceCrud) DeletedTarget() []string {
 func (s *DatabaseDbSystemResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_database.DbSystemLifecycleStateUpdating),
+		string(oci_database.DbSystemLifecycleStateUpgrading),
 	}
 }
 

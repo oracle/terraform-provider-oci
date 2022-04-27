@@ -25,7 +25,7 @@ type ListScriptsRequest struct {
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A filter to return only resources that match the entire display name given.
+	// A filter to return only the resources that match the entire display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return only resources that match the content type given.

@@ -146,7 +146,7 @@ The following arguments are supported:
 	**Subnet Restrictions:** See the subnet restrictions information for **subnetId**. 
 * `cluster_name` - (Optional) The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive. 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment the DB system  belongs in.
-* `cpu_core_count` - (Optional) (Updatable) The number of CPU cores to enable for a bare metal or Exadata DB system. The valid values depend on the specified shape:
+* `cpu_core_count` - (Optional) (Updatable) The number of CPU cores to enable for a bare metal or Exadata DB system or AMD VMDB Systems. The valid values depend on the specified shape:
 	* BM.DenseIO1.36 - Specify a multiple of 2, from 2 to 36.
 	* BM.DenseIO2.52 - Specify a multiple of 2, from 2 to 52.
 	* Exadata.Base.48 - Specify a multiple of 2, from 0 to 48.
@@ -156,8 +156,9 @@ The following arguments are supported:
 	* Exadata.Quarter2.92 - Specify a multiple of 2, from 0 to 92.
 	* Exadata.Half2.184 - Specify a multiple of 4, from 0 to 184.
 	* Exadata.Full2.368 - Specify a multiple of 8, from 0 to 368.
+	* VM.Standard.E4.Flex - Specify any thing from 1 to 64.
 
-	This parameter is not used for virtual machine DB systems because virtual machine DB systems have a set number of cores for each shape. For information about the number of cores for a virtual machine DB system shape, see [Virtual Machine DB Systems](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/overview.htm#virtualmachine) 
+	This parameter is not used for INTEL virtual machine DB systems because virtual machine DB systems have a set number of cores for each shape. For information about the number of cores for a virtual machine DB system shape, see [Virtual Machine DB Systems](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/overview.htm#virtualmachine) 
 * `data_storage_percentage` - (Optional) The percentage assigned to DATA storage (user data and database files). The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Specify 80 or 40. The default is 80 percent assigned to DATA storage. Not applicable for virtual machine DB systems. Required for BMDBs.
 * `data_storage_size_in_gb` - (Optional) (Updatable) Size (in GB) of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume. Required for VMDBs.
 * `database_edition` - (Required when source=DATABASE | DB_BACKUP | NONE) The Oracle Database Edition that applies to all the databases on the DB system. Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE. 

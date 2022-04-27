@@ -4,7 +4,7 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
@@ -22,8 +22,8 @@ type UpdateMonitorDetails struct {
 	// Unique name that can be edited. The name should not contain any confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// A list of vantage points from which to execute the monitor.
-	// Use /publicVantagePoints to fetch public vantage points.
+	// A list of public and dedicated vantage points from which to execute the monitor.
+	// Use /publicVantagePoints to fetch public vantage points, and /dedicatedVantagePoints to fetch dedicated vantage points.
 	VantagePoints []string `mandatory:"false" json:"vantagePoints"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the script.
@@ -34,14 +34,15 @@ type UpdateMonitorDetails struct {
 	Status MonitorStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	// Interval in seconds after the start time when the job should be repeated.
-	// Minimum repeatIntervalInSeconds should be 300 seconds.
+	// Minimum repeatIntervalInSeconds should be 300 seconds for Scripted REST, Scripted Browser and Browser monitors, and 60 seconds for REST monitor.
 	RepeatIntervalInSeconds *int `mandatory:"false" json:"repeatIntervalInSeconds"`
 
 	// If runOnce is enabled, then the monitor will run once.
 	IsRunOnce *bool `mandatory:"false" json:"isRunOnce"`
 
 	// Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
-	// Also, timeoutInSeconds should be a multiple of 60. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.
+	// Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors.
+	// Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
 	// Specify the endpoint on which to run the monitor.

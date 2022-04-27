@@ -24,6 +24,11 @@ type ListTargetsRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// Default is false.
+	// When set to true, only the targets that would be deleted as part of
+	// security zone creation will be returned.
+	IsNonSecurityZoneTargetsOnlyQuery *bool `mandatory:"false" contributesTo:"query" name:"isNonSecurityZoneTargetsOnlyQuery"`
+
 	// The field life cycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
 	LifecycleState ListTargetsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 

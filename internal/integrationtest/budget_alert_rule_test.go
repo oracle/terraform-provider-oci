@@ -41,7 +41,7 @@ var (
 	alertRuleDataSourceRepresentation = map[string]interface{}{
 		"budget_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_budget_budget.test_budget.id}`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"state":        acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"state":        acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":       acctest.RepresentationGroup{RepType: acctest.Required, Group: alertRuleDataSourceFilterRepresentation}}
 	alertRuleDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -53,12 +53,13 @@ var (
 		"threshold":      acctest.Representation{RepType: acctest.Required, Create: `100`, Update: `200`},
 		"threshold_type": acctest.Representation{RepType: acctest.Required, Create: `PERCENTAGE`, Update: `ABSOLUTE`},
 		"type":           acctest.Representation{RepType: acctest.Required, Create: `ACTUAL`, Update: `FORECAST`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"message":        acctest.Representation{RepType: acctest.Optional, Create: `message`, Update: `message2`},
 		"recipients":     acctest.Representation{RepType: acctest.Optional, Create: `JohnSmith@example.com`, Update: `SmithJohn@example.com`},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagChange},
 	}
 
 	AlertRuleResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_budget_budget", "test_budget", acctest.Required, acctest.Create, budgetRepresentationWithTargetCompartmentId) +
@@ -180,7 +181,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "budget_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "alert_rules.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "alert_rules.0.budget_id"),

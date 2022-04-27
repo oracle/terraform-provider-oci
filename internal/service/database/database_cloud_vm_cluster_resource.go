@@ -7,12 +7,16 @@ import (
 	"context"
 	"strconv"
 
+	"fmt"
+	"log"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 )
 
 func DatabaseCloudVmClusterResource() *schema.Resource {
@@ -303,6 +307,7 @@ func createDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseCloudVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -311,6 +316,7 @@ func readDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseCloudVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.ReadResource(sync)
 }
@@ -319,6 +325,7 @@ func updateDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseCloudVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -327,6 +334,7 @@ func deleteDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseCloudVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)
@@ -335,7 +343,9 @@ func deleteDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
 type DatabaseCloudVmClusterResourceCrud struct {
 	tfresource.BaseCrud
 	Client                 *oci_database.DatabaseClient
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.CloudVmCluster
+	Infra                  *oci_database.CloudExadataInfrastructure
 	DisableNotFoundRetries bool
 }
 
@@ -541,6 +551,14 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		return err
 	}
 
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
 	s.Res = &response.CloudVmCluster
 	return nil
 }
@@ -591,16 +609,34 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.CloudVmClusterId = &tmp
 
-	if computeNodes, ok := s.D.GetOkExists("compute_nodes"); ok {
-		interfaces := computeNodes.([]interface{})
-		tmp := make([]string, len(interfaces))
-		for i := range interfaces {
-			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(string)
+	if cloudExadataInfrastructureId, ok := s.D.GetOkExists("cloud_exadata_infrastructure_id"); ok {
+		if s.Infra == nil || s.Infra.Id == nil {
+			err := s.getInfraInfo(cloudExadataInfrastructureId.(string))
+			if err != nil {
+				log.Printf("[ERROR] Could not get Cloud Exadata Infrastructure info for the : %v", err)
 			}
 		}
-		if len(tmp) != 0 || s.D.HasChange("compute_nodes") {
-			request.ComputeNodes = tmp
+	}
+
+	if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
+		if *s.Infra.ComputeCount != nodeCount {
+			request.ComputeNodes = []string{"ALL"}
+		} else {
+			request.ComputeNodes = []string{}
+			if shape, ok := s.D.GetOkExists("shape"); ok {
+				flexShape := shape.(string) + ".StorageServer"
+
+				if compartmentId, compOk := s.D.GetOkExists("compartment_id"); compOk {
+					flex, err := s.flexAvailableDbStorageInGBs(compartmentId.(string), flexShape)
+
+					if err == nil {
+						if storageSizeInGBs, ok := s.D.GetOkExists("storage_size_in_gbs"); ok {
+							tmp := flex**s.Infra.StorageCount - storageSizeInGBs.(int)
+							request.StorageSizeInGBs = &tmp
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -662,16 +698,19 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		}
 	}
 
-	if storageSizeInGBs, ok := s.D.GetOkExists("storage_size_in_gbs"); ok && s.D.HasChange("storage_size_in_gbs") {
-		tmp := storageSizeInGBs.(int)
-		request.StorageSizeInGBs = &tmp
-	}
-
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateCloudVmCluster(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	s.Res = &response.CloudVmCluster
@@ -865,6 +904,38 @@ func (s *DatabaseCloudVmClusterResourceCrud) updateCompartment(compartment inter
 	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
+
+	return nil
+}
+
+func (s *DatabaseCloudVmClusterResourceCrud) flexAvailableDbStorageInGBs(compartmentId string, shapeName string) (int, error) {
+	request := oci_database.ListFlexComponentsRequest{}
+	request.CompartmentId = &compartmentId
+	request.Name = &shapeName
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
+
+	response, err := s.Client.ListFlexComponents(context.Background(), request)
+	if err != nil {
+		return 0, err
+	}
+	for _, item := range response.FlexComponentCollection.Items {
+		return *item.AvailableDbStorageInGBs, nil
+	}
+
+	return 0, fmt.Errorf("No flex component found for compartment")
+}
+
+func (s *DatabaseCloudVmClusterResourceCrud) getInfraInfo(ceiId string) error {
+	request := oci_database.GetCloudExadataInfrastructureRequest{}
+
+	request.CloudExadataInfrastructureId = &ceiId
+
+	response, err := s.Client.GetCloudExadataInfrastructure(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Infra = &response.CloudExadataInfrastructure
 
 	return nil
 }

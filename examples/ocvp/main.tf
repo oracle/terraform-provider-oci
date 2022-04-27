@@ -43,6 +43,14 @@ data "oci_ocvp_supported_skus" "test_supported_skus" {
   compartment_id = "${var.compartment_ocid}"
 }
 
+data "oci_ocvp_supported_host_shapes" "test_supported_host_shapes" {
+  // Required
+  compartment_id = "${var.compartment_ocid}"
+  // Optional
+  name = "BM.DenseIO2.52"
+  sddc_type = "PRODUCTION"
+}
+
 resource "oci_core_vcn" "test_vcn_ocvp" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = var.compartment_ocid

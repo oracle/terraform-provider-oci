@@ -82,6 +82,13 @@ func OcvpSupportedHostShapesDataSource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"supported_vmware_software_versions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 					},
 				},
 			},
@@ -198,6 +205,8 @@ func SupportedHostShapeSummaryToMap(obj oci_ocvp.SupportedHostShapeSummary) map[
 	result["supported_operations"] = obj.SupportedOperations
 
 	result["supported_sddc_types"] = obj.SupportedSddcTypes
+
+	result["supported_vmware_software_versions"] = obj.SupportedVmwareSoftwareVersions
 
 	return result
 }

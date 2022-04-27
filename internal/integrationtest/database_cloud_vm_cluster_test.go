@@ -32,6 +32,9 @@ var (
 	CloudVmClusterResourceConfig = CloudVmClusterResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update, cloudVmClusterRepresentation)
 
+	CloudVmClusterResourceConfigUpdateInfra = CloudVmClusterResourceUpdateDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update, cloudVmClusterRepresentation)
+
 	cloudVmClusterSingularDataSourceRepresentation = map[string]interface{}{
 		"cloud_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
 	}
@@ -51,6 +54,32 @@ var (
 		"backup_subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet_backup.id}`},
 		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
 		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"cpu_core_count":                  acctest.Representation{RepType: acctest.Required, Create: `4`, Update: `6`},
+		"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `cloudVmCluster`, Update: `displayName2`},
+		"gi_version":                      acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0`},
+		"hostname":                        acctest.Representation{RepType: acctest.Required, Create: `apollo`},
+		"ssh_public_keys":                 acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}},
+		"subnet_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet1.id}`},
+		"domain":                          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet1.subnet_domain_name}`},
+		"backup_network_nsg_ids":          acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group_backup.id}`}},
+		"cluster_name":                    acctest.Representation{RepType: acctest.Optional, Create: `clusterName`},
+		"data_storage_percentage":         acctest.Representation{RepType: acctest.Optional, Create: `40`},
+		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_local_backup_enabled":         acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"is_sparse_diskgroup_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"license_model":                   acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
+		"nsg_ids":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"ocpu_count":                      acctest.Representation{RepType: acctest.Required, Create: `4.0`, Update: `6.0`},
+		"scan_listener_port_tcp":          acctest.Representation{RepType: acctest.Optional, Create: `1521`},
+		"scan_listener_port_tcp_ssl":      acctest.Representation{RepType: acctest.Optional, Create: `2484`},
+		"time_zone":                       acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
+	}
+
+	cloudVmClusterRepresentation2 = map[string]interface{}{
+		"backup_subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet_backup.id}`},
+		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
+		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"cpu_core_count":                  acctest.Representation{RepType: acctest.Required, Create: `4`},
 		"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `cloudVmCluster`, Update: `displayName2`},
 		"gi_version":                      acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0`},
@@ -67,127 +96,139 @@ var (
 		"is_sparse_diskgroup_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"license_model":                   acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
 		"nsg_ids":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"ocpu_count":                      acctest.Representation{RepType: acctest.Optional, Create: `4.0`, Update: `4.0`},
 		"scan_listener_port_tcp":          acctest.Representation{RepType: acctest.Optional, Create: `1521`},
 		"scan_listener_port_tcp_ssl":      acctest.Representation{RepType: acctest.Optional, Create: `2484`},
 		"time_zone":                       acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
 	}
 
-	CloudVmClusterResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create, cloudExadataInfrastructureRepresentation) +
-		`
-				data "oci_identity_availability_domains" "ADs" {
-					compartment_id = "${var.compartment_id}"
-				}
+	ad_subnet_security = `
+                data "oci_identity_availability_domains" "ADs" {
+                    compartment_id = "${var.compartment_id}"
+                }
 
-				data "oci_identity_availability_domain" "ad" {
-  					compartment_id 		= "${var.compartment_id}"
-  					ad_number      		= 1
-				}
+                data "oci_identity_availability_domain" "ad" {
+                    compartment_id 		= "${var.compartment_id}"
+                    ad_number      		= 1
+                }
 
-				resource "oci_core_virtual_network" "t" {
-					compartment_id = "${var.compartment_id}"
-					cidr_block = "10.1.0.0/16"
-					display_name = "-tf-vcn"
-					dns_label = "tfvcn"
-				}
+                resource "oci_core_virtual_network" "t" {
+                    compartment_id = "${var.compartment_id}"
+                    cidr_block = "10.1.0.0/16"
+                    display_name = "-tf-vcn"
+                    dns_label = "tfvcn"
+                }
 
-				resource "oci_core_route_table" "t" {
-					compartment_id = "${var.compartment_id}"
-					vcn_id = "${oci_core_virtual_network.t.id}"
-					route_rules {
-						cidr_block = "0.0.0.0/0"
-						network_entity_id = "${oci_core_internet_gateway.t.id}"
-					}
-				}
-				resource "oci_core_internet_gateway" "t" {
-					compartment_id = "${var.compartment_id}"
-					vcn_id = "${oci_core_virtual_network.t.id}"
-					display_name = "-tf-internet-gateway"
-				}
+                resource "oci_core_route_table" "t" {
+                    compartment_id = "${var.compartment_id}"
+                    vcn_id = "${oci_core_virtual_network.t.id}"
+                    route_rules {
+                        cidr_block = "0.0.0.0/0"
+                        network_entity_id = "${oci_core_internet_gateway.t.id}"
+                    }
+                }
+                resource "oci_core_internet_gateway" "t" {
+                    compartment_id = "${var.compartment_id}"
+                    vcn_id = "${oci_core_virtual_network.t.id}"
+                    display_name = "-tf-internet-gateway"
+                }
 
-				resource "oci_core_subnet" "t" {
-					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-					cidr_block          = "10.1.20.0/24"
-					display_name        = "TFSubnet1"
-					compartment_id      = "${var.compartment_id}"
-					vcn_id              = "${oci_core_virtual_network.t.id}"
-					route_table_id      = "${oci_core_route_table.t.id}"
-					dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
-					security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
-					dns_label           = "tfsubnet"
-				}
-				resource "oci_core_subnet" "t2" {
-					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-					cidr_block          = "10.1.21.0/24"
-					display_name        = "TFSubnet2"
-					compartment_id      = "${var.compartment_id}"
-					vcn_id              = "${oci_core_virtual_network.t.id}"
-					route_table_id      = "${oci_core_route_table.t.id}"
-					dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
-					security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
-					dns_label           = "tfsubnet2"
-				}
-				resource "oci_core_network_security_group" "test_network_security_group" {
-					 compartment_id  = "${var.compartment_id}"
-					 vcn_id            = "${oci_core_virtual_network.t.id}"
-					 display_name      =  "displayName"
-				}
+                resource "oci_core_subnet" "t" {
+                    availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+                    cidr_block          = "10.1.20.0/24"
+                    display_name        = "TFSubnet1"
+                    compartment_id      = "${var.compartment_id}"
+                    vcn_id              = "${oci_core_virtual_network.t.id}"
+                    route_table_id      = "${oci_core_route_table.t.id}"
+                    dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
+                    security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
+                    dns_label           = "tfsubnet"
+                }
+                resource "oci_core_subnet" "t2" {
+                    availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+                    cidr_block          = "10.1.21.0/24"
+                    display_name        = "TFSubnet2"
+                    compartment_id      = "${var.compartment_id}"
+                    vcn_id              = "${oci_core_virtual_network.t.id}"
+                    route_table_id      = "${oci_core_route_table.t.id}"
+                    dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
+                    security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
+                    dns_label           = "tfsubnet2"
+                }
+                resource "oci_core_network_security_group" "test_network_security_group" {
+                     compartment_id  = "${var.compartment_id}"
+                     vcn_id            = "${oci_core_virtual_network.t.id}"
+                     display_name      =  "displayName"
+                }
 
-				resource "oci_core_network_security_group" "test_network_security_group_backup" {
-					compartment_id = "${var.compartment_id}"
-					vcn_id            = "${oci_core_virtual_network.t.id}"
-				}
+                resource "oci_core_network_security_group" "test_network_security_group_backup" {
+                    compartment_id = "${var.compartment_id}"
+                    vcn_id            = "${oci_core_virtual_network.t.id}"
+                }
 
-				resource "oci_core_subnet" "test_subnet1" {
-					availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-					cidr_block          = "10.1.22.0/24"
-					display_name        = "ExadataSubnet"
-					compartment_id      = "${var.compartment_id}"
-					vcn_id              = "${oci_core_virtual_network.t.id}"
-					route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
-					dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
-					security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}", "${oci_core_security_list.exadata_shapes_security_list.id}"]
-					dns_label           = "subnetexadata1"
-				}
+                resource "oci_core_subnet" "test_subnet1" {
+                    availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+                    cidr_block          = "10.1.22.0/24"
+                    display_name        = "ExadataSubnet"
+                    compartment_id      = "${var.compartment_id}"
+                    vcn_id              = "${oci_core_virtual_network.t.id}"
+                    route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+                    dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
+                    security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}", "${oci_core_security_list.exadata_shapes_security_list.id}"]
+                    dns_label           = "subnetexadata1"
+                }
 
-				resource "oci_core_subnet" "test_subnet_backup" {
-					availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-					cidr_block          = "10.1.23.0/24"
-					display_name        = "ExadataBackupSubnet"
-					compartment_id      = "${var.compartment_id}"
-					vcn_id              = "${oci_core_virtual_network.t.id}"
-					route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
-					dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
-					security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
-					dns_label           = "subnetexadata2"
-				}
+                resource "oci_core_subnet" "test_subnet_backup" {
+                    availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+                    cidr_block          = "10.1.23.0/24"
+                    display_name        = "ExadataBackupSubnet"
+                    compartment_id      = "${var.compartment_id}"
+                    vcn_id              = "${oci_core_virtual_network.t.id}"
+                    route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+                    dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
+                    security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
+                    dns_label           = "subnetexadata2"
+                }
 
-				resource "oci_core_security_list" "exadata_shapes_security_list" {
-					compartment_id = "${var.compartment_id}"
-					vcn_id         = "${oci_core_virtual_network.t.id}"
-					display_name   = "ExadataSecurityList"
+                resource "oci_core_security_list" "exadata_shapes_security_list" {
+                    compartment_id = "${var.compartment_id}"
+                    vcn_id         = "${oci_core_virtual_network.t.id}"
+                    display_name   = "ExadataSecurityList"
 
-					ingress_security_rules {
-						source    = "10.1.22.0/24"
-						protocol  = "6"
-					}
+                    ingress_security_rules {
+                        source    = "10.1.22.0/24"
+                        protocol  = "6"
+                    }
 
-					ingress_security_rules {
-						source    = "10.1.22.0/24"
-						protocol  = "1"
-					}
+                    ingress_security_rules {
+                        source    = "10.1.22.0/24"
+                        protocol  = "1"
+                    }
 
-					egress_security_rules {
-						destination = "10.1.22.0/24"
-						protocol    = "6"
-					}
+                    egress_security_rules {
+                        destination = "10.1.22.0/24"
+                        protocol    = "6"
+                    }
 
-					egress_security_rules {
-						destination = "10.1.22.0/24"
-						protocol    = "1"
-					}
-				}
+                    egress_security_rules {
+                        destination = "10.1.22.0/24"
+                        protocol    = "1"
+                    }
+                }
 `
+	CloudVmClusterResourceDependencies = ad_subnet_security + acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create,
+		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(cloudExadataInfrastructureRepresentation, []string{"compute_count"}), map[string]interface{}{
+			"compute_count": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		}))
+
+	CloudVmClusterResourceUpdateDependencies = ad_subnet_security + acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Update,
+		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(cloudExadataInfrastructureRepresentation, []string{"compute_count"}), map[string]interface{}{
+			"compute_count": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		}))
+
+	CloudVmClusterResourceUpdateStorageDependencies = ad_subnet_security + acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Update,
+		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(cloudExadataInfrastructureRepresentation, []string{"storage_count"}), map[string]interface{}{
+			"storage_count": acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `4`},
+		}))
 )
 
 // issue-routing-tag: database/ExaCS
@@ -321,10 +362,9 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				},
 			),
 		},
-
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+			Config: config + compartmentIdVariableStr + CloudVmClusterResourceUpdateDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update, cloudVmClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -332,7 +372,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_name", "clusterName"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "6"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_percentage", "40"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "domain"),
@@ -343,12 +383,13 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttr(resourceName, "ocpu_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "ocpu_count", "6"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape"),
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttr(resourceName, "node_count", "3"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -359,12 +400,13 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_cloud_vm_clusters", "test_cloud_vm_clusters", acctest.Optional, acctest.Update, cloudVmClusterDataSourceRepresentation) +
-				compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update, cloudVmClusterRepresentation),
+				compartmentIdVariableStr + CloudVmClusterResourceUpdateDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Update, cloudVmClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -377,7 +419,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.cloud_exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.cluster_name", "clusterName"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.cpu_core_count", "6"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.data_storage_percentage", "40"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.disk_redundancy"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.display_name", "displayName2"),
@@ -391,7 +433,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.listener_port"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.node_count"),
-				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.ocpu_count", "4"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.ocpu_count", "6"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.scan_dns_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.shape"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.ssh_public_keys.#", "1"),
@@ -407,14 +449,14 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, cloudVmClusterSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CloudVmClusterResourceConfig + DefinedTagsDependencies + AvailabilityDomainConfig,
+				compartmentIdVariableStr + CloudVmClusterResourceConfigUpdateInfra + DefinedTagsDependencies + AvailabilityDomainConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cloud_vm_cluster_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_name", "clusterName"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "6"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_percentage", "40"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "disk_redundancy"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
@@ -428,7 +470,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "listener_port"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_count"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "ocpu_count", "4"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ocpu_count", "6"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "scan_dns_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ssh_public_keys.#", "1"),
@@ -448,6 +490,174 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				"create_async",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: database/ExaCS
+func TestDatabaseCloudVmClusterUpdate(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseCloudVmClusterResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	resourceName := "oci_database_cloud_vm_cluster.test_cloud_vm_cluster"
+
+	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudVmClusterResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, cloudVmClusterRepresentation2), "database", "cloudVmCluster", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseCloudVmClusterDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, cloudVmClusterRepresentation2),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "cloudVmCluster"),
+				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.9.0.0.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
+				resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, cloudVmClusterRepresentation2),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_name", "clusterName"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_percentage", "40"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "cloudVmCluster"),
+				resource.TestCheckResourceAttrSet(resourceName, "domain"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.9.0.0.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape"),
+				resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(cloudVmClusterRepresentation2, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_name", "clusterName"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_percentage", "40"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "cloudVmCluster"),
+				resource.TestCheckResourceAttrSet(resourceName, "domain"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.9.0.0.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tcp", "1521"),
+				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tcp_ssl", "2484"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape"),
+				resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + CloudVmClusterResourceUpdateStorageDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update, cloudVmClusterRepresentation2),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_name", "clusterName"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_percentage", "40"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "domain"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.9.0.0.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape"),
+				resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttr(resourceName, "storage_size_in_gbs", "204388"), // 4 storage cells * 51097 (X8M.StorageCell AvailableDbStorageInGBs)
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
 		},
 	})
 }

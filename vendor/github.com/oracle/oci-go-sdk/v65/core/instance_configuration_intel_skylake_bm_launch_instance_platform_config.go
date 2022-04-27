@@ -20,7 +20,8 @@ import (
 	"strings"
 )
 
-// InstanceConfigurationIntelSkylakeBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance with the Intel Skylake platform.
+// InstanceConfigurationIntelSkylakeBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance with one of the following
+// shapes: BM.Standard2.52, BM.GPU2.2, BM.GPU3.8, or BM.DenseIO2.52 (the Intel Skylake platform).
 type InstanceConfigurationIntelSkylakeBmLaunchInstancePlatformConfig struct {
 
 	// Whether Secure Boot is enabled on the instance.

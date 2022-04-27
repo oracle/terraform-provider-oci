@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// MetricThresholdRule An autoscale action is triggered when a performance metric meets or exceeds a threshold.
+// MetricThresholdRule An autoscale action is triggered when a performance metric exceeds a threshold.
 type MetricThresholdRule struct {
 
-	// This value is the minimum period of time the metric value meets or exceeds the threshold value before the action is triggered. The value is in minutes.
+	// This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
 	DurationInMinutes *int `mandatory:"true" json:"durationInMinutes"`
 
 	// The comparison operator to use. Options are greater than (GT) or less than (LT).

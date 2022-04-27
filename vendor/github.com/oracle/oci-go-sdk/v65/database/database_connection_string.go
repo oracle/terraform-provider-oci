@@ -55,15 +55,18 @@ type DatabaseConnectionStringProtocolEnum string
 
 // Set of constants representing the allowable values for DatabaseConnectionStringProtocolEnum
 const (
-	DatabaseConnectionStringProtocolTcp DatabaseConnectionStringProtocolEnum = "TCP"
+	DatabaseConnectionStringProtocolTcp  DatabaseConnectionStringProtocolEnum = "TCP"
+	DatabaseConnectionStringProtocolTcps DatabaseConnectionStringProtocolEnum = "TCPS"
 )
 
 var mappingDatabaseConnectionStringProtocolEnum = map[string]DatabaseConnectionStringProtocolEnum{
-	"TCP": DatabaseConnectionStringProtocolTcp,
+	"TCP":  DatabaseConnectionStringProtocolTcp,
+	"TCPS": DatabaseConnectionStringProtocolTcps,
 }
 
 var mappingDatabaseConnectionStringProtocolEnumLowerCase = map[string]DatabaseConnectionStringProtocolEnum{
-	"tcp": DatabaseConnectionStringProtocolTcp,
+	"tcp":  DatabaseConnectionStringProtocolTcp,
+	"tcps": DatabaseConnectionStringProtocolTcps,
 }
 
 // GetDatabaseConnectionStringProtocolEnumValues Enumerates the set of values for DatabaseConnectionStringProtocolEnum
@@ -79,6 +82,7 @@ func GetDatabaseConnectionStringProtocolEnumValues() []DatabaseConnectionStringP
 func GetDatabaseConnectionStringProtocolEnumStringValues() []string {
 	return []string{
 		"TCP",
+		"TCPS",
 	}
 }
 

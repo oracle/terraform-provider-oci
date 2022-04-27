@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_autonomous_exadata_infrastructure_shapes
 This data source provides the list of Autonomous Exadata Infrastructure Shapes in Oracle Cloud Infrastructure Database service.
 
-**Deprecated.** 
+**Deprecated.**
 
 
 ## Example Usage

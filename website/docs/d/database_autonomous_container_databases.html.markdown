@@ -57,7 +57,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `autonomous_exadata_infrastructure_id` - The OCID of the Autonomous Exadata Infrastructure.
+* `autonomous_exadata_infrastructure_id` - **No longer used.** For Autonomous Database on dedicated Exadata infrastructure, the container database is created within a specified `cloudAutonomousVmCluster`.  
 * `autonomous_vm_cluster_id` - The OCID of the Autonomous VM Cluster.
 * `availability_domain` - The availability domain of the Autonomous Container Database.
 * `backup_config` - Backup options for the Autonomous Container Database. 

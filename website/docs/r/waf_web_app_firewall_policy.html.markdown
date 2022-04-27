@@ -62,6 +62,8 @@ resource "oci_waf_web_app_firewall_policy" "test_web_app_firewall_policy" {
 	request_protection {
 
 		#Optional
+		body_inspection_size_limit_exceeded_action_name = var.web_app_firewall_policy_request_protection_body_inspection_size_limit_exceeded_action_name
+		body_inspection_size_limit_in_bytes = var.web_app_firewall_policy_request_protection_body_inspection_size_limit_in_bytes
 		rules {
 			#Required
 			action_name = var.web_app_firewall_policy_request_protection_rules_action_name
@@ -91,6 +93,7 @@ resource "oci_waf_web_app_firewall_policy" "test_web_app_firewall_policy" {
 			#Optional
 			condition = var.web_app_firewall_policy_request_protection_rules_condition
 			condition_language = var.web_app_firewall_policy_request_protection_rules_condition_language
+			is_body_inspection_enabled = var.web_app_firewall_policy_request_protection_rules_is_body_inspection_enabled
 			protection_capability_settings {
 
 				#Optional
@@ -171,6 +174,7 @@ resource "oci_waf_web_app_firewall_policy" "test_web_app_firewall_policy" {
 			#Optional
 			condition = var.web_app_firewall_policy_response_protection_rules_condition
 			condition_language = var.web_app_firewall_policy_response_protection_rules_condition_language
+			is_body_inspection_enabled = var.web_app_firewall_policy_response_protection_rules_is_body_inspection_enabled
 			protection_capability_settings {
 
 				#Optional
@@ -246,13 +250,25 @@ The following arguments are supported:
 		* `name` - (Required) (Updatable) Rule name. Must be unique within the module.
 		* `type` - (Required) (Updatable) Type of WebAppFirewallPolicyRule.
 * `request_protection` - (Optional) (Updatable) Module that allows to enable OCI-managed protection capabilities for incoming HTTP requests.
-	* `rules` - (Optional) (Updatable) Ordered list of ProtectionRules. Rules are executed in order of appearance in this array. ProtectionRules in this array can only use protection cCapabilities of REQUEST_PROTECTION_CAPABILITY type. 
+	* `body_inspection_size_limit_exceeded_action_name` - (Optional) (Updatable) References action by name from actions defined in WebAppFirewallPolicy. Executed if HTTP message body size exceeds limit set in field `bodyInspectionSizeLimitInBytes`.
+
+		If this field is `null` HTTP message body will inspected up to `bodyInspectionSizeLimitInBytes` and the rest will not be inspected by Protection Capabilities.
+
+		Allowed action types:
+		* **RETURN_HTTP_RESPONSE** terminates further execution of modules and rules and returns defined HTTP response. 
+	* `body_inspection_size_limit_in_bytes` - (Optional) (Updatable) Maximum size of inspected HTTP message body in bytes. Actions to take if this limit is exceeded are defined in `bodyInspectionSizeLimitExceededActionName`.
+
+		Body inspection maximum size allowed is defined with per-tenancy limit: 8192 bytes.
+
+		For steps to request a limit increase, see [Requesting a Service Limit Increase](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm). 
+	* `rules` - (Optional) (Updatable) Ordered list of ProtectionRules. Rules are executed in order of appearance in this array. ProtectionRules in this array can only use protection Capabilities of REQUEST_PROTECTION_CAPABILITY type. 
 		* `action_name` - (Required) (Updatable) References action by name from actions defined in WebAppFirewallPolicy.
 		* `condition` - (Optional) (Updatable) An expression that determines whether or not the rule action should be executed. 
 		* `condition_language` - (Optional) (Updatable) The language used to parse condition from field `condition`. Available languages:
 			* **JMESPATH** an extended JMESPath language syntax. 
+		* `is_body_inspection_enabled` - (Optional) (Updatable) Enables/disables body inspection for this protection rule. Only Protection Rules in RequestProtection can have this option enabled. Response body inspection will be available at a later date. 
 		* `name` - (Required) (Updatable) Rule name. Must be unique within the module.
-		* `protection_capabilities` - (Required) (Updatable) An ordered list that references OCI-managed protection capabilities. Referenced protection capabilities are executed in order of appearance. The array cannot contain entries with the same pair of capability key and version more than once. 
+		* `protection_capabilities` - (Required) (Updatable) An ordered list that references OCI-managed protection capabilities. Referenced protection capabilities are not necessarily executed in order of appearance. Their execution order is decided at runtime for improved performance. The array cannot contain entries with the same pair of capability key and version more than once. 
 			* `action_name` - (Optional) (Updatable) Override action to take if capability was triggered, defined in Protection Rule for this capability. Only actions of type CHECK are allowed. 
 			* `collaborative_action_threshold` - (Optional) (Updatable) The minimum sum of weights of associated collaborative protection capabilities that have triggered which must be reached in order for _this_ capability to trigger. This field is ignored for non-collaborative capabilities. 
 			* `collaborative_weights` - (Optional) (Updatable) Explicit weight values to use for associated collaborative protection capabilities. 
@@ -297,8 +313,9 @@ The following arguments are supported:
 		* `condition` - (Optional) (Updatable) An expression that determines whether or not the rule action should be executed. 
 		* `condition_language` - (Optional) (Updatable) The language used to parse condition from field `condition`. Available languages:
 			* **JMESPATH** an extended JMESPath language syntax. 
+		* `is_body_inspection_enabled` - (Optional) (Updatable) Enables/disables body inspection for this protection rule. Only Protection Rules in RequestProtection can have this option enabled. Response body inspection will be available at a later date. 
 		* `name` - (Required) (Updatable) Rule name. Must be unique within the module.
-		* `protection_capabilities` - (Required) (Updatable) An ordered list that references OCI-managed protection capabilities. Referenced protection capabilities are executed in order of appearance. The array cannot contain entries with the same pair of capability key and version more than once. 
+		* `protection_capabilities` - (Required) (Updatable) An ordered list that references OCI-managed protection capabilities. Referenced protection capabilities are not necessarily executed in order of appearance. Their execution order is decided at runtime for improved performance. The array cannot contain entries with the same pair of capability key and version more than once. 
 			* `action_name` - (Optional) (Updatable) Override action to take if capability was triggered, defined in Protection Rule for this capability. Only actions of type CHECK are allowed. 
 			* `collaborative_action_threshold` - (Optional) (Updatable) The minimum sum of weights of associated collaborative protection capabilities that have triggered which must be reached in order for _this_ capability to trigger. This field is ignored for non-collaborative capabilities. 
 			* `collaborative_weights` - (Optional) (Updatable) Explicit weight values to use for associated collaborative protection capabilities. 
@@ -384,13 +401,25 @@ The following attributes are exported:
 		* `name` - Rule name. Must be unique within the module.
 		* `type` - Type of WebAppFirewallPolicyRule.
 * `request_protection` - Module that allows to enable OCI-managed protection capabilities for incoming HTTP requests.
-	* `rules` - Ordered list of ProtectionRules. Rules are executed in order of appearance in this array. ProtectionRules in this array can only use protection cCapabilities of REQUEST_PROTECTION_CAPABILITY type. 
+	* `body_inspection_size_limit_exceeded_action_name` - References action by name from actions defined in WebAppFirewallPolicy. Executed if HTTP message body size exceeds limit set in field `bodyInspectionSizeLimitInBytes`.
+
+		If this field is `null` HTTP message body will inspected up to `bodyInspectionSizeLimitInBytes` and the rest will not be inspected by Protection Capabilities.
+
+		Allowed action types:
+		* **RETURN_HTTP_RESPONSE** terminates further execution of modules and rules and returns defined HTTP response. 
+	* `body_inspection_size_limit_in_bytes` - Maximum size of inspected HTTP message body in bytes. Actions to take if this limit is exceeded are defined in `bodyInspectionSizeLimitExceededActionName`.
+
+		Body inspection maximum size allowed is defined with per-tenancy limit: 8192 bytes.
+
+		For steps to request a limit increase, see [Requesting a Service Limit Increase](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm). 
+	* `rules` - Ordered list of ProtectionRules. Rules are executed in order of appearance in this array. ProtectionRules in this array can only use protection Capabilities of REQUEST_PROTECTION_CAPABILITY type. 
 		* `action_name` - References action by name from actions defined in WebAppFirewallPolicy.
 		* `condition` - An expression that determines whether or not the rule action should be executed. 
 		* `condition_language` - The language used to parse condition from field `condition`. Available languages:
 			* **JMESPATH** an extended JMESPath language syntax. 
+		* `is_body_inspection_enabled` - Enables/disables body inspection for this protection rule. Only Protection Rules in RequestProtection can have this option enabled. Response body inspection will be available at a later date. 
 		* `name` - Rule name. Must be unique within the module.
-		* `protection_capabilities` - An ordered list that references OCI-managed protection capabilities. Referenced protection capabilities are executed in order of appearance. The array cannot contain entries with the same pair of capability key and version more than once. 
+		* `protection_capabilities` - An ordered list that references OCI-managed protection capabilities. Referenced protection capabilities are not necessarily executed in order of appearance. Their execution order is decided at runtime for improved performance. The array cannot contain entries with the same pair of capability key and version more than once. 
 			* `action_name` - Override action to take if capability was triggered, defined in Protection Rule for this capability. Only actions of type CHECK are allowed. 
 			* `collaborative_action_threshold` - The minimum sum of weights of associated collaborative protection capabilities that have triggered which must be reached in order for _this_ capability to trigger. This field is ignored for non-collaborative capabilities. 
 			* `collaborative_weights` - Explicit weight values to use for associated collaborative protection capabilities. 
@@ -435,8 +464,9 @@ The following attributes are exported:
 		* `condition` - An expression that determines whether or not the rule action should be executed. 
 		* `condition_language` - The language used to parse condition from field `condition`. Available languages:
 			* **JMESPATH** an extended JMESPath language syntax. 
+		* `is_body_inspection_enabled` - Enables/disables body inspection for this protection rule. Only Protection Rules in RequestProtection can have this option enabled. Response body inspection will be available at a later date. 
 		* `name` - Rule name. Must be unique within the module.
-		* `protection_capabilities` - An ordered list that references OCI-managed protection capabilities. Referenced protection capabilities are executed in order of appearance. The array cannot contain entries with the same pair of capability key and version more than once. 
+		* `protection_capabilities` - An ordered list that references OCI-managed protection capabilities. Referenced protection capabilities are not necessarily executed in order of appearance. Their execution order is decided at runtime for improved performance. The array cannot contain entries with the same pair of capability key and version more than once. 
 			* `action_name` - Override action to take if capability was triggered, defined in Protection Rule for this capability. Only actions of type CHECK are allowed. 
 			* `collaborative_action_threshold` - The minimum sum of weights of associated collaborative protection capabilities that have triggered which must be reached in order for _this_ capability to trigger. This field is ignored for non-collaborative capabilities. 
 			* `collaborative_weights` - Explicit weight values to use for associated collaborative protection capabilities. 

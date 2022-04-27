@@ -82,7 +82,9 @@ var (
 		"rules":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyRequestAccessControlRulesRepresentation},
 	}
 	webAppFirewallPolicyRequestProtectionRepresentation = map[string]interface{}{
-		"rules": acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyRequestProtectionRulesRepresentation},
+		"body_inspection_size_limit_exceeded_action_name": acctest.Representation{RepType: acctest.Optional, Create: `actionName`, Update: `actionName2`},
+		"body_inspection_size_limit_in_bytes":             acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"rules":                                           acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyRequestProtectionRulesRepresentation},
 	}
 	webAppFirewallPolicyRequestRateLimitingRepresentation = map[string]interface{}{
 		"rules": acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyRequestRateLimitingRulesRepresentation},
@@ -115,6 +117,7 @@ var (
 		"type":                           acctest.Representation{RepType: acctest.Required, Create: `PROTECTION`},
 		"condition":                      acctest.Representation{RepType: acctest.Optional, Create: `i_contains(keys(http.request.headers), 'header1')`, Update: `i_contains(keys(http.request.headers), 'header2')`},
 		"condition_language":             acctest.Representation{RepType: acctest.Optional, Create: `JMESPATH`},
+		"is_body_inspection_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"protection_capability_settings": acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyRequestProtectionRulesProtectionCapabilitySettingsRepresentation},
 	}
 	webAppFirewallPolicyRequestRateLimitingRulesRepresentation = map[string]interface{}{
@@ -139,6 +142,7 @@ var (
 	//	"type":                           acctest.Representation{RepType: acctest.Required, Create: `ACCESS_CONTROL`, Update: `PROTECTION`},
 	//	"condition":                      acctest.Representation{RepType: acctest.Optional, Create: `condition`, Update: `condition2`},
 	//	"condition_language":             acctest.Representation{RepType: acctest.Optional, Create: `JMESPATH`},
+	//	"is_body_inspection_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	//	"protection_capability_settings": acctest.RepresentationGroup{RepType: acctest.Optional,Group: webAppFirewallPolicyResponseProtectionRulesProtectionCapabilitySettingsRepresentation},
 	//}
 	webAppFirewallPolicyRequestProtectionRulesProtectionCapabilitiesRepresentation = map[string]interface{}{
@@ -271,10 +275,13 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "request_access_control.0.rules.0.type", "ACCESS_CONTROL"),
 
 				resource.TestCheckResourceAttr(resourceName, "request_protection.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "request_protection.0.body_inspection_size_limit_exceeded_action_name", "actionName"),
+				resource.TestCheckResourceAttr(resourceName, "request_protection.0.body_inspection_size_limit_in_bytes", "10"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.action_name", "actionName"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.condition", "i_contains(keys(http.request.headers), 'header1')"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.condition_language", "JMESPATH"),
+				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.is_body_inspection_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.name", "name"),
 
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.protection_capabilities.#", "1"),
@@ -317,6 +324,7 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.action_name", "actionName"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.condition", "condition"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.condition_language", "JMESPATH"),
+				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.is_body_inspection_enabled", "false"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.name", "name"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.protection_capabilities.#", "1"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.protection_capabilities.0.action_name", "actionName"),
@@ -387,10 +395,13 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "request_access_control.0.rules.0.type", "ACCESS_CONTROL"),
 
 				resource.TestCheckResourceAttr(resourceName, "request_protection.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "request_protection.0.body_inspection_size_limit_exceeded_action_name", "actionName"),
+				resource.TestCheckResourceAttr(resourceName, "request_protection.0.body_inspection_size_limit_in_bytes", "10"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.action_name", "actionName"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.condition", "i_contains(keys(http.request.headers), 'header1')"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.condition_language", "JMESPATH"),
+				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.is_body_inspection_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.protection_capabilities.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.protection_capabilities.0.exclusions.#", "1"),
@@ -432,6 +443,7 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.action_name", "actionName"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.condition", "condition"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.condition_language", "JMESPATH"),
+				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.is_body_inspection_enabled", "false"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.name", "name"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.protection_capabilities.#", "1"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.protection_capabilities.0.action_name", "actionName"),
@@ -497,10 +509,13 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "request_access_control.0.rules.0.type", "ACCESS_CONTROL"),
 
 				resource.TestCheckResourceAttr(resourceName, "request_protection.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "request_protection.0.body_inspection_size_limit_exceeded_action_name", "actionName2"),
+				resource.TestCheckResourceAttr(resourceName, "request_protection.0.body_inspection_size_limit_in_bytes", "11"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.action_name", "actionName2"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.condition", "i_contains(keys(http.request.headers), 'header2')"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.condition_language", "JMESPATH"),
+				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.is_body_inspection_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.name", "name2"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.protection_capabilities.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "request_protection.0.rules.0.protection_capabilities.0.action_name", "checkAction"),
@@ -543,6 +558,7 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.action_name", "actionName2"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.condition", "condition2"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.condition_language", "JMESPATH"),
+				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.is_body_inspection_enabled", "true"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.name", "name2"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.protection_capabilities.#", "1"),
 				//resource.TestCheckResourceAttr(resourceName, "response_protection.0.rules.0.protection_capabilities.0.action_name", "actionName2"),
@@ -627,10 +643,13 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "request_access_control.0.rules.0.type", "ACCESS_CONTROL"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "request_protection.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "request_protection.0.body_inspection_size_limit_exceeded_action_name", "actionName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "request_protection.0.body_inspection_size_limit_in_bytes", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "request_protection.0.rules.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "request_protection.0.rules.0.action_name", "actionName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "request_protection.0.rules.0.condition", "i_contains(keys(http.request.headers), 'header2')"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "request_protection.0.rules.0.condition_language", "JMESPATH"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "request_protection.0.rules.0.is_body_inspection_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "request_protection.0.rules.0.name", "name2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "request_protection.0.rules.0.protection_capabilities.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "request_protection.0.rules.0.protection_capabilities.0.action_name", "checkAction"),
@@ -673,6 +692,7 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(singularDatasourceName, "response_protection.0.rules.0.action_name", "actionName2"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "response_protection.0.rules.0.condition", "condition2"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "response_protection.0.rules.0.condition_language", "JMESPATH"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "response_protection.0.rules.0.is_body_inspection_enabled", "true"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "response_protection.0.rules.0.name", "name2"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "response_protection.0.rules.0.protection_capabilities.#", "1"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "response_protection.0.rules.0.protection_capabilities.0.action_name", "actionName2"),

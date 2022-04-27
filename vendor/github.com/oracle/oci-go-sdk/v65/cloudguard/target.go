@@ -2,15 +2,16 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Cloud Guard API
+// Cloud Guard and Security Zones API
 //
-// Use the Cloud Guard API to automate processes that you would otherwise perform through the Cloud Guard Console.
-// **Note:** You can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
+// Use the Cloud Guard and Security Zones API to automate processes that you would otherwise perform through the Cloud Guard Console or the Security Zones Console. For more information on these services, see the Cloud Guard (https://docs.cloud.oracle.com/iaas/cloud-guard/home.htm) and Security Zones (https://docs.cloud.oracle.com/iaas/security-zone/home.htm) documentation.
+// **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations in Cloud Guard from any region.
 //
 
 package cloudguard
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -45,6 +46,8 @@ type Target struct {
 
 	// List of responder recipes associated with target
 	TargetResponderRecipes []TargetResponderRecipe `mandatory:"false" json:"targetResponderRecipes"`
+
+	TargetDetails TargetDetails `mandatory:"false" json:"targetDetails"`
 
 	// List of inherited compartments
 	InheritedByCompartments []string `mandatory:"false" json:"inheritedByCompartments"`
@@ -97,4 +100,88 @@ func (m Target) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *Target) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName             *string                           `json:"displayName"`
+		Description             *string                           `json:"description"`
+		TargetDetectorRecipes   []TargetDetectorRecipe            `json:"targetDetectorRecipes"`
+		TargetResponderRecipes  []TargetResponderRecipe           `json:"targetResponderRecipes"`
+		TargetDetails           targetdetails                     `json:"targetDetails"`
+		InheritedByCompartments []string                          `json:"inheritedByCompartments"`
+		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated             *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleState          LifecycleStateEnum                `json:"lifecycleState"`
+		LifecyleDetails         *string                           `json:"lifecyleDetails"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
+		Id                      *string                           `json:"id"`
+		CompartmentId           *string                           `json:"compartmentId"`
+		TargetResourceType      TargetResourceTypeEnum            `json:"targetResourceType"`
+		TargetResourceId        *string                           `json:"targetResourceId"`
+		RecipeCount             *int                              `json:"recipeCount"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.Description = model.Description
+
+	m.TargetDetectorRecipes = make([]TargetDetectorRecipe, len(model.TargetDetectorRecipes))
+	for i, n := range model.TargetDetectorRecipes {
+		m.TargetDetectorRecipes[i] = n
+	}
+
+	m.TargetResponderRecipes = make([]TargetResponderRecipe, len(model.TargetResponderRecipes))
+	for i, n := range model.TargetResponderRecipes {
+		m.TargetResponderRecipes[i] = n
+	}
+
+	nn, e = model.TargetDetails.UnmarshalPolymorphicJSON(model.TargetDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.TargetDetails = nn.(TargetDetails)
+	} else {
+		m.TargetDetails = nil
+	}
+
+	m.InheritedByCompartments = make([]string, len(model.InheritedByCompartments))
+	for i, n := range model.InheritedByCompartments {
+		m.InheritedByCompartments[i] = n
+	}
+
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.LifecycleState = model.LifecycleState
+
+	m.LifecyleDetails = model.LifecyleDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.TargetResourceType = model.TargetResourceType
+
+	m.TargetResourceId = model.TargetResourceId
+
+	m.RecipeCount = model.RecipeCount
+
+	return
 }

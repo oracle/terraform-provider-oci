@@ -132,6 +132,12 @@ func (s *DatabaseExternalPluggableDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("source_id", *s.Res.SourceId)
 	}
 
+	if s.Res.StackMonitoringConfig != nil {
+		s.D.Set("stack_monitoring_config", []interface{}{StackMonitoringConfigToMap(s.Res.StackMonitoringConfig)})
+	} else {
+		s.D.Set("stack_monitoring_config", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
