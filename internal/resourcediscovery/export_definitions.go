@@ -279,6 +279,30 @@ var exportApigatewayCertificateHints = &TerraformResourceHints{
 	},
 }
 
+var exportApigatewaySubscriberHints = &TerraformResourceHints{
+	resourceClass:          "oci_apigateway_subscriber",
+	datasourceClass:        "oci_apigateway_subscribers",
+	datasourceItemsAttr:    "subscriber_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "subscriber",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_apigateway.SubscriberLifecycleStateActive),
+	},
+}
+
+var exportApigatewayUsagePlanHints = &TerraformResourceHints{
+	resourceClass:          "oci_apigateway_usage_plan",
+	datasourceClass:        "oci_apigateway_usage_plans",
+	datasourceItemsAttr:    "usage_plan_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "usage_plan",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_apigateway.UsagePlanLifecycleStateActive),
+	},
+}
+
 var exportApmApmDomainHints = &TerraformResourceHints{
 	resourceClass:        "oci_apm_apm_domain",
 	datasourceClass:      "oci_apm_apm_domains",

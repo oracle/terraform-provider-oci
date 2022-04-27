@@ -103,6 +103,8 @@ func init() {
 	RegisterResource("oci_apigateway_certificate", tf_apigateway.ApigatewayCertificateResource())
 	RegisterResource("oci_apigateway_deployment", tf_apigateway.ApigatewayDeploymentResource())
 	RegisterResource("oci_apigateway_gateway", tf_apigateway.ApigatewayGatewayResource())
+	RegisterResource("oci_apigateway_subscriber", tf_apigateway.ApigatewaySubscriberResource())
+	RegisterResource("oci_apigateway_usage_plan", tf_apigateway.ApigatewayUsagePlanResource())
 	// apm_config service
 	RegisterResource("oci_apm_apm_domain", tf_apm.ApmApmDomainResource())
 	RegisterResource("oci_apm_config_config", tf_apm_config.ApmConfigConfigResource())

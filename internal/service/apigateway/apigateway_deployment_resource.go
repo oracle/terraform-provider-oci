@@ -49,30 +49,9 @@ func ApigatewayDeploymentResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
-			// Optional
-			"defined_tags": {
-				Type:             schema.TypeMap,
-				Optional:         true,
-				Computed:         true,
-				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
 			"specification": {
 				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
+				Required: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -465,6 +444,29 @@ func ApigatewayDeploymentResource() *schema.Resource {
 												"rate_key": {
 													Type:     schema.TypeString,
 													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+									"usage_plans": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"token_locations": {
+													Type:     schema.TypeList,
+													Required: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
 												},
 
 												// Optional
@@ -1391,6 +1393,26 @@ func ApigatewayDeploymentResource() *schema.Resource {
 				},
 			},
 
+			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+
 			// Computed
 			"endpoint": {
 				Type:     schema.TypeString,
@@ -2000,6 +2022,17 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRequestPolicies(
 		}
 	}
 
+	if usagePlans, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "usage_plans")); ok {
+		if tmpList := usagePlans.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "usage_plans"), 0)
+			tmp, err := s.mapToUsagePlansPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert usage_plans, encountered error: %v", err)
+			}
+			result.UsagePlans = &tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -2024,6 +2057,10 @@ func ApiSpecificationRequestPoliciesToMap(obj *oci_apigateway.ApiSpecificationRe
 
 	if obj.RateLimiting != nil {
 		result["rate_limiting"] = []interface{}{RateLimitingPolicyToMap(obj.RateLimiting)}
+	}
+
+	if obj.UsagePlans != nil {
+		result["usage_plans"] = []interface{}{UsagePlansPolicyToMap(obj.UsagePlans)}
 	}
 
 	return result
@@ -4057,6 +4094,33 @@ func StaticPublicKeyToMap(obj oci_apigateway.StaticPublicKey) map[string]interfa
 		log.Printf("[WARN] Received 'format' of unknown type %v", obj)
 		return nil
 	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToUsagePlansPolicy(fieldKeyFormat string) (oci_apigateway.UsagePlansPolicy, error) {
+	result := oci_apigateway.UsagePlansPolicy{}
+
+	if tokenLocations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "token_locations")); ok {
+		interfaces := tokenLocations.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "token_locations")) {
+			result.TokenLocations = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func UsagePlansPolicyToMap(obj *oci_apigateway.UsagePlansPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["token_locations"] = obj.TokenLocations
 
 	return result
 }
