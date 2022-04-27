@@ -132,7 +132,7 @@ The following attributes are exported:
 * `ip_address` - The IP address the DB System is configured to listen on. A private IP address of the primary endpoint of the DB System. Must be an available IP address within the subnet's CIDR. This will be a "dotted-quad" style IPv4 address. 
 * `is_analytics_cluster_attached` - DEPRECATED -- please use `isHeatWaveClusterAttached` instead. If the DB System has an Analytics Cluster attached. 
 * `is_heat_wave_cluster_attached` - If the DB System has a HeatWave Cluster attached. 
-* `is_highly_available` - If the policy is to enable high availability of the instance, by maintaining secondary/failover capacity as necessary. 
+* `is_highly_available` - Specifies if the DB System is highly available. 
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `maintenance` - The Maintenance Policy for the DB System. 
 	* `window_start_time` - The start time of the maintenance window.
