@@ -156,6 +156,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				#Optional
 				baseline_ocpu_utilization = var.instance_configuration_instance_details_launch_details_shape_config_baseline_ocpu_utilization
 				memory_in_gbs = var.instance_configuration_instance_details_launch_details_shape_config_memory_in_gbs
+				nvmes = var.instance_configuration_instance_details_launch_details_shape_config_nvmes
 				ocpus = var.instance_configuration_instance_details_launch_details_shape_config_ocpus
 			}
 			source_details {
@@ -393,6 +394,7 @@ The following arguments are supported:
 				* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
 				* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 			* `memory_in_gbs` - (Optional) The total amount of memory available to the instance, in gigabytes. 
+			* `nvmes` - (Optional) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
 			* `ocpus` - (Optional) The total number of OCPUs available to the instance. 
 		* `source_details` - (Optional) 
 			* `boot_volume_id` - (Applicable when source_type=bootVolume) The OCID of the boot volume used to boot the instance.
@@ -631,6 +633,7 @@ The following attributes are exported:
 				* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
 				* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 			* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
+			* `nvmes` - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
 			* `ocpus` - The total number of OCPUs available to the instance. 
 		* `source_details` - 
 			* `boot_volume_id` - The OCID of the boot volume used to boot the instance.

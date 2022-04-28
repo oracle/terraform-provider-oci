@@ -60,6 +60,30 @@ var (
 		"is_secure_boot_enabled":             acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"is_trusted_platform_module_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`},
 	}
+	// instance representation for E4 Dense
+	instanceRepresentationWithNvmes = map[string]interface{}{
+		"availability_domain":                 acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+		"compartment_id":                      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape":                               acctest.Representation{RepType: acctest.Required, Create: `VM.DenseIO.E4.Flex`},
+		"is_pv_encryption_in_transit_enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"image":                               acctest.Representation{RepType: acctest.Required, Create: `${var.image_id}`},
+		"launch_options":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: instanceLaunchOptionsRepresentationWithNvmes},
+		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: instanceShapeConfigRepresentationForNvmeShape},
+		"subnet_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+	}
+
+	instanceLaunchOptionsRepresentationWithNvmes = map[string]interface{}{
+		"boot_volume_type":        acctest.Representation{RepType: acctest.Required, Create: `PARAVIRTUALIZED`},
+		"firmware":                acctest.Representation{RepType: acctest.Required, Create: `UEFI_64`},
+		"network_type":            acctest.Representation{RepType: acctest.Required, Create: `PARAVIRTUALIZED`},
+		"remote_data_volume_type": acctest.Representation{RepType: acctest.Required, Create: `PARAVIRTUALIZED`},
+	}
+
+	instanceShapeConfigRepresentationForNvmeShape = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `128`},
+		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `8`},
+		"nvmes":         acctest.Representation{RepType: acctest.Required, Create: `1`},
+	}
 	// instance representation for testing Update to launch_options and fault_domain
 	instanceRepresentationCore_ForLaunchOptionsUpdate = acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
 		"launch_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceLaunchOptionsRepresentation_ForLaunchOptionsUpdate},
@@ -175,14 +199,14 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
-	
+
 	resource "oci_core_virtual_network" "t" {
 		compartment_id = "${var.compartment_id}"
 		cidr_block = "10.0.0.0/16"
 		display_name = "-tf-vcn"
 		dns_label = "examplevcn"
 	}
-	
+
 	resource "oci_core_subnet" "t" {
 		compartment_id      = "${var.compartment_id}"
 		vcn_id              = "${oci_core_virtual_network.t.id}"
@@ -2303,6 +2327,50 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
+				),
+			},
+		},
+	})
+}
+
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
+func TestAccResourceCoreInstance_nvmeVMShape(t *testing.T) {
+	httpreplay.SetScenario("TestAccResourceCoreInstance_nvmeVMShape")
+	defer httpreplay.SaveScenario()
+
+	provider := acctest.TestAccProvider
+	config := `
+      provider oci {
+         test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+      }
+   ` + acctest.CommonTestVariables()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	imageId := utils.GetEnvSettingWithBlankDefault("image_id")
+	imageIdVariableStr := fmt.Sprintf("variable \"image_id\" { default = \"%s\" }\n", imageId)
+
+	resourceName := "oci_core_instance.test_instance"
+
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+			// Create E4 Dense shape and shape config
+			{
+				Config: config + compartmentIdVariableStr + imageIdVariableStr + InstanceResourceDependenciesWithoutDHV +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentationWithNvmes),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.DenseIO.E4.Flex"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "8"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.local_disks", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "128"),
+					func(s *terraform.State) (err error) {
+						_, err = acctest.FromInstanceState(s, resourceName, "id")
+						return err
+					},
 				),
 			},
 		},

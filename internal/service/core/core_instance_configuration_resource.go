@@ -749,6 +749,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"nvmes": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"ocpus": {
 													Type:     schema.TypeFloat,
 													Optional: true,
@@ -2283,6 +2289,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.MemoryInGBs = &tmp
 	}
 
+	if nvmes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nvmes")); ok {
+		tmp := nvmes.(int)
+		result.Nvmes = &tmp
+	}
+
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
 		tmp := float32(ocpus.(float64))
 		result.Ocpus = &tmp
@@ -2298,6 +2309,10 @@ func InstanceConfigurationLaunchInstanceShapeConfigDetailsToMap(obj *oci_core.In
 
 	if obj.MemoryInGBs != nil {
 		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
+	}
+
+	if obj.Nvmes != nil {
+		result["nvmes"] = int(*obj.Nvmes)
 	}
 
 	if obj.Ocpus != nil {
