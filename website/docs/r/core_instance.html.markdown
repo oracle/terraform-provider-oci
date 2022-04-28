@@ -147,6 +147,7 @@ resource "oci_core_instance" "test_instance" {
 		#Optional
 		baseline_ocpu_utilization = var.instance_shape_config_baseline_ocpu_utilization
 		memory_in_gbs = var.instance_shape_config_memory_in_gbs
+		nvmes = var.instance_shape_config_nvmes
 		ocpus = var.instance_shape_config_ocpus
 	}
 	source_details {
@@ -370,6 +371,7 @@ The following arguments are supported:
 		* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
 		* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 	* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to the instance, in gigabytes. 
+	* `nvmes` - (Optional) (Updatable) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
 	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the instance. 
 * `source_details` - (Optional) (Updatable) 
 	* `boot_volume_size_in_gbs` - (Applicable when source_type=image) (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB). 
