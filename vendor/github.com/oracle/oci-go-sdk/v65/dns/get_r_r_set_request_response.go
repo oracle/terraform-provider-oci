@@ -53,7 +53,8 @@ type GetRRSetRequest struct {
 	// The version of the zone for which data is requested.
 	ZoneVersion *string `mandatory:"false" contributesTo:"query" name:"zoneVersion"`
 
-	// The OCID of the compartment the resource belongs to.
+	// The OCID of the compartment the zone belongs to.
+	// This parameter is deprecated and should be omitted.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Specifies to operate only on resources that have a matching DNS scope.

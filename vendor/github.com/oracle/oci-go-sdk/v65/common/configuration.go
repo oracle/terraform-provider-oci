@@ -195,6 +195,8 @@ func (p environmentConfigurationProvider) TenancyOCID() (value string, err error
 	var ok bool
 	if value, ok = os.LookupEnv(environmentVariable); !ok {
 		err = fmt.Errorf("can not read Tenancy from environment variable %s", environmentVariable)
+	} else if value == "" {
+		err = fmt.Errorf("tenancy OCID can not be empty when reading from environmental variable")
 	}
 	return
 }
@@ -204,6 +206,8 @@ func (p environmentConfigurationProvider) UserOCID() (value string, err error) {
 	var ok bool
 	if value, ok = os.LookupEnv(environmentVariable); !ok {
 		err = fmt.Errorf("can not read user id from environment variable %s", environmentVariable)
+	} else if value == "" {
+		err = fmt.Errorf("user OCID can not be empty when reading from environmental variable")
 	}
 	return
 }
@@ -213,6 +217,8 @@ func (p environmentConfigurationProvider) KeyFingerprint() (value string, err er
 	var ok bool
 	if value, ok = os.LookupEnv(environmentVariable); !ok {
 		err = fmt.Errorf("can not read fingerprint from environment variable %s", environmentVariable)
+	} else if value == "" {
+		err = fmt.Errorf("fingerprint can not be empty when reading from environmental variable")
 	}
 	return
 }
@@ -432,6 +438,9 @@ func (p fileConfigurationProvider) TenancyOCID() (value string, err error) {
 	}
 
 	value, err = presentOrError(info.TenancyOcid, hasTenancy, info.PresentConfiguration, "tenancy")
+	if err == nil && value == "" {
+		err = fileConfigurationProviderError{err: fmt.Errorf("tenancy OCID can not be empty when reading from config file")}
+	}
 	return
 }
 
@@ -459,26 +468,44 @@ func (p fileConfigurationProvider) KeyFingerprint() (value string, err error) {
 		return
 	}
 	value, err = presentOrError(info.Fingerprint, hasFingerprint, info.PresentConfiguration, "fingerprint")
+	if err == nil && value == "" {
+		return "", fmt.Errorf("fingerprint can not be empty when reading from config file")
+	}
 	return
 }
 
 func (p fileConfigurationProvider) KeyID() (keyID string, err error) {
+	tenancy, err := p.TenancyOCID()
+	if err != nil {
+		return
+	}
+
+	fingerprint, err := p.KeyFingerprint()
+	if err != nil {
+		return
+	}
+
 	info, err := p.readAndParseConfigFile()
 	if err != nil {
 		err = fileConfigurationProviderError{err: fmt.Errorf("can not read tenancy configuration due to: %s", err.Error())}
 		return
 	}
 	if info.PresentConfiguration&hasUser == hasUser {
-		return fmt.Sprintf("%s/%s/%s", info.TenancyOcid, info.UserOcid, info.Fingerprint), nil
+		if info.UserOcid == "" {
+			err = fileConfigurationProviderError{err: fmt.Errorf("user cannot be empty in the config file")}
+			return
+		}
+		return fmt.Sprintf("%s/%s/%s", tenancy, info.UserOcid, fingerprint), nil
 	}
-	if filePath, err := presentOrError(info.SecurityTokenFilePath, hasSecurityTokenFile, info.PresentConfiguration, "securityTokenFilePath"); err == nil {
+	filePath, pathErr := presentOrError(info.SecurityTokenFilePath, hasSecurityTokenFile, info.PresentConfiguration, "securityTokenFilePath")
+	if pathErr == nil {
 		rawString, err := getTokenContent(filePath)
 		if err != nil {
 			return "", fileConfigurationProviderError{err: err}
 		}
 		return "ST$" + rawString, nil
 	}
-	err = fileConfigurationProviderError{err: fmt.Errorf("can not read SecurityTokenFilePath from configuration file due to: %s", err.Error())}
+	err = fileConfigurationProviderError{err: fmt.Errorf("can not read SecurityTokenFilePath from configuration file due to: %s", pathErr.Error())}
 	return
 }
 

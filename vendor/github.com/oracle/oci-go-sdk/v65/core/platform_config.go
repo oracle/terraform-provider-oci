@@ -81,6 +81,14 @@ func (m *platformconfig) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := IntelSkylakeBmPlatformConfig{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AMD_ROME_BM_GPU":
+		mm := AmdRomeBmGpuPlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "INTEL_ICELAKE_BM":
+		mm := IntelIcelakeBmPlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AMD_VM":
 		mm := AmdVmPlatformConfig{}
 		err = json.Unmarshal(data, &mm)
@@ -132,6 +140,8 @@ type PlatformConfigTypeEnum string
 const (
 	PlatformConfigTypeAmdMilanBm     PlatformConfigTypeEnum = "AMD_MILAN_BM"
 	PlatformConfigTypeAmdRomeBm      PlatformConfigTypeEnum = "AMD_ROME_BM"
+	PlatformConfigTypeAmdRomeBmGpu   PlatformConfigTypeEnum = "AMD_ROME_BM_GPU"
+	PlatformConfigTypeIntelIcelakeBm PlatformConfigTypeEnum = "INTEL_ICELAKE_BM"
 	PlatformConfigTypeIntelSkylakeBm PlatformConfigTypeEnum = "INTEL_SKYLAKE_BM"
 	PlatformConfigTypeAmdVm          PlatformConfigTypeEnum = "AMD_VM"
 	PlatformConfigTypeIntelVm        PlatformConfigTypeEnum = "INTEL_VM"
@@ -140,6 +150,8 @@ const (
 var mappingPlatformConfigTypeEnum = map[string]PlatformConfigTypeEnum{
 	"AMD_MILAN_BM":     PlatformConfigTypeAmdMilanBm,
 	"AMD_ROME_BM":      PlatformConfigTypeAmdRomeBm,
+	"AMD_ROME_BM_GPU":  PlatformConfigTypeAmdRomeBmGpu,
+	"INTEL_ICELAKE_BM": PlatformConfigTypeIntelIcelakeBm,
 	"INTEL_SKYLAKE_BM": PlatformConfigTypeIntelSkylakeBm,
 	"AMD_VM":           PlatformConfigTypeAmdVm,
 	"INTEL_VM":         PlatformConfigTypeIntelVm,
@@ -148,6 +160,8 @@ var mappingPlatformConfigTypeEnum = map[string]PlatformConfigTypeEnum{
 var mappingPlatformConfigTypeEnumLowerCase = map[string]PlatformConfigTypeEnum{
 	"amd_milan_bm":     PlatformConfigTypeAmdMilanBm,
 	"amd_rome_bm":      PlatformConfigTypeAmdRomeBm,
+	"amd_rome_bm_gpu":  PlatformConfigTypeAmdRomeBmGpu,
+	"intel_icelake_bm": PlatformConfigTypeIntelIcelakeBm,
 	"intel_skylake_bm": PlatformConfigTypeIntelSkylakeBm,
 	"amd_vm":           PlatformConfigTypeAmdVm,
 	"intel_vm":         PlatformConfigTypeIntelVm,
@@ -167,6 +181,8 @@ func GetPlatformConfigTypeEnumStringValues() []string {
 	return []string{
 		"AMD_MILAN_BM",
 		"AMD_ROME_BM",
+		"AMD_ROME_BM_GPU",
+		"INTEL_ICELAKE_BM",
 		"INTEL_SKYLAKE_BM",
 		"AMD_VM",
 		"INTEL_VM",

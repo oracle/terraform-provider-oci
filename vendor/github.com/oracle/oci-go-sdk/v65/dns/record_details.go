@@ -31,7 +31,7 @@ type RecordDetails struct {
 	// The type of DNS record, such as A or CNAME. For more information, see Resource Record (RR) TYPEs (https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4).
 	Rtype *string `mandatory:"true" json:"rtype"`
 
-	// The Time To Live for the record, in seconds.
+	// The Time To Live for the record, in seconds. Using a TTL lower than 30 seconds is not recommended.
 	Ttl *int `mandatory:"true" json:"ttl"`
 
 	// A unique identifier for the record within its zone.

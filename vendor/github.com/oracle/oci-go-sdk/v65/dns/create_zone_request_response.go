@@ -26,7 +26,8 @@ type CreateZoneRequest struct {
 	// the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The OCID of the compartment the resource belongs to.
+	// The OCID of the compartment the zone belongs to.
+	// This parameter is deprecated and should be omitted.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Specifies to operate only on resources that have a matching DNS scope.

@@ -34,13 +34,8 @@ type CreateJobArtifactRequest struct {
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again. Retry tokens expire after 24 hours, but can be invalidated before then due to conflicting operations. For example, if a resource has been deleted and purged from the system, then a retry of the original creation request might be rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// This header allows you to specify a filename during upload. This file name is used to dispose of the file contents
-	// while downloading the file. If this optional field is not populated in the request, then the OCID of the model is used for the file
-	// name when downloading.
-	// Example: `{"Content-Disposition": "attachment"
-	//            "filename"="model.tar.gz"
-	//            "Content-Length": "2347"
-	//            "Content-Type": "application/gzip"}`
+	// This header is for specifying a filename during upload. It is used to identify the file type and validate if the
+	// file type is supported. Example: `--content-disposition "attachment; filename=hello-world.py"`
 	ContentDisposition *string `mandatory:"false" contributesTo:"header" name:"content-disposition"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
