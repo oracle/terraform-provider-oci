@@ -28,6 +28,8 @@ import (
 // specified `shape`, an error is returned.
 // For more information about shielded instances, see
 // Shielded Instances (https://docs.cloud.oracle.com/iaas/Content/Compute/References/shielded-instances.htm).
+// For more information about BIOS settings for bare metal instances, see
+// BIOS Settings for Bare Metal Instances (https://docs.cloud.oracle.com/iaas/Content/Compute/References/bios-settings.htm).
 type LaunchInstancePlatformConfig interface {
 
 	// Whether Secure Boot is enabled on the instance.
@@ -76,8 +78,16 @@ func (m *launchinstanceplatformconfig) UnmarshalPolymorphicJSON(data []byte) (in
 
 	var err error
 	switch m.Type {
+	case "AMD_ROME_BM_GPU":
+		mm := AmdRomeBmGpuLaunchInstancePlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AMD_ROME_BM":
 		mm := AmdRomeBmLaunchInstancePlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "INTEL_ICELAKE_BM":
+		mm := IntelIcelakeBmLaunchInstancePlatformConfig{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AMD_VM":
@@ -139,6 +149,8 @@ type LaunchInstancePlatformConfigTypeEnum string
 const (
 	LaunchInstancePlatformConfigTypeAmdMilanBm     LaunchInstancePlatformConfigTypeEnum = "AMD_MILAN_BM"
 	LaunchInstancePlatformConfigTypeAmdRomeBm      LaunchInstancePlatformConfigTypeEnum = "AMD_ROME_BM"
+	LaunchInstancePlatformConfigTypeAmdRomeBmGpu   LaunchInstancePlatformConfigTypeEnum = "AMD_ROME_BM_GPU"
+	LaunchInstancePlatformConfigTypeIntelIcelakeBm LaunchInstancePlatformConfigTypeEnum = "INTEL_ICELAKE_BM"
 	LaunchInstancePlatformConfigTypeIntelSkylakeBm LaunchInstancePlatformConfigTypeEnum = "INTEL_SKYLAKE_BM"
 	LaunchInstancePlatformConfigTypeAmdVm          LaunchInstancePlatformConfigTypeEnum = "AMD_VM"
 	LaunchInstancePlatformConfigTypeIntelVm        LaunchInstancePlatformConfigTypeEnum = "INTEL_VM"
@@ -147,6 +159,8 @@ const (
 var mappingLaunchInstancePlatformConfigTypeEnum = map[string]LaunchInstancePlatformConfigTypeEnum{
 	"AMD_MILAN_BM":     LaunchInstancePlatformConfigTypeAmdMilanBm,
 	"AMD_ROME_BM":      LaunchInstancePlatformConfigTypeAmdRomeBm,
+	"AMD_ROME_BM_GPU":  LaunchInstancePlatformConfigTypeAmdRomeBmGpu,
+	"INTEL_ICELAKE_BM": LaunchInstancePlatformConfigTypeIntelIcelakeBm,
 	"INTEL_SKYLAKE_BM": LaunchInstancePlatformConfigTypeIntelSkylakeBm,
 	"AMD_VM":           LaunchInstancePlatformConfigTypeAmdVm,
 	"INTEL_VM":         LaunchInstancePlatformConfigTypeIntelVm,
@@ -155,6 +169,8 @@ var mappingLaunchInstancePlatformConfigTypeEnum = map[string]LaunchInstancePlatf
 var mappingLaunchInstancePlatformConfigTypeEnumLowerCase = map[string]LaunchInstancePlatformConfigTypeEnum{
 	"amd_milan_bm":     LaunchInstancePlatformConfigTypeAmdMilanBm,
 	"amd_rome_bm":      LaunchInstancePlatformConfigTypeAmdRomeBm,
+	"amd_rome_bm_gpu":  LaunchInstancePlatformConfigTypeAmdRomeBmGpu,
+	"intel_icelake_bm": LaunchInstancePlatformConfigTypeIntelIcelakeBm,
 	"intel_skylake_bm": LaunchInstancePlatformConfigTypeIntelSkylakeBm,
 	"amd_vm":           LaunchInstancePlatformConfigTypeAmdVm,
 	"intel_vm":         LaunchInstancePlatformConfigTypeIntelVm,
@@ -174,6 +190,8 @@ func GetLaunchInstancePlatformConfigTypeEnumStringValues() []string {
 	return []string{
 		"AMD_MILAN_BM",
 		"AMD_ROME_BM",
+		"AMD_ROME_BM_GPU",
+		"INTEL_ICELAKE_BM",
 		"INTEL_SKYLAKE_BM",
 		"AMD_VM",
 		"INTEL_VM",

@@ -41,6 +41,9 @@ type UpdateInstanceShapeConfigDetails struct {
 	// - `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
 	// - `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance.
 	BaselineOcpuUtilization UpdateInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum `mandatory:"false" json:"baselineOcpuUtilization,omitempty"`
+
+	// The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
+	Nvmes *int `mandatory:"false" json:"nvmes"`
 }
 
 func (m UpdateInstanceShapeConfigDetails) String() string {

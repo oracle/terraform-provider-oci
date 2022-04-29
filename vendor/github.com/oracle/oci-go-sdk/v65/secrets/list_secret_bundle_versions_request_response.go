@@ -33,7 +33,7 @@ type ListSecretBundleVersionsRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The field to sort by. You can specify only one sort order. The default
-	// order for `VERSION_NUMBER` is ascending.
+	// order for `VERSION_NUMBER` is descending.
 	SortBy ListSecretBundleVersionsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).

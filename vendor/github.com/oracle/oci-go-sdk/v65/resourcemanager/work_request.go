@@ -85,21 +85,18 @@ const (
 	WorkRequestOperationTypeChangeStackCompartment     WorkRequestOperationTypeEnum = "CHANGE_STACK_COMPARTMENT"
 	WorkRequestOperationTypeCreateStackFromCompartment WorkRequestOperationTypeEnum = "CREATE_STACK_FROM_COMPARTMENT"
 	WorkRequestOperationTypeDriftDetection             WorkRequestOperationTypeEnum = "DRIFT_DETECTION"
-	WorkRequestOperationTypePrivateEndpoint            WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
 	"CHANGE_STACK_COMPARTMENT":      WorkRequestOperationTypeChangeStackCompartment,
 	"CREATE_STACK_FROM_COMPARTMENT": WorkRequestOperationTypeCreateStackFromCompartment,
 	"DRIFT_DETECTION":               WorkRequestOperationTypeDriftDetection,
-	"PRIVATE_ENDPOINT":              WorkRequestOperationTypePrivateEndpoint,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
 	"change_stack_compartment":      WorkRequestOperationTypeChangeStackCompartment,
 	"create_stack_from_compartment": WorkRequestOperationTypeCreateStackFromCompartment,
 	"drift_detection":               WorkRequestOperationTypeDriftDetection,
-	"private_endpoint":              WorkRequestOperationTypePrivateEndpoint,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -117,7 +114,6 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"CHANGE_STACK_COMPARTMENT",
 		"CREATE_STACK_FROM_COMPARTMENT",
 		"DRIFT_DETECTION",
-		"PRIVATE_ENDPOINT",
 	}
 }
 
