@@ -1,3 +1,12 @@
+## 4.74.0 (Unreleased)
+
+### Added
+- E4 Dense Availability for OCVS
+- Nvme variable to LaunchInstanceShapeConfigDetails & UpdateInstanceShapeConfigDetails
+- Provisioned Concurrency for Oracle Functions
+- Support for App Dependency Management service
+- support for rename database, added tests for extending database-name length.
+
 ## 4.73.0 (Unreleased)
 
 ###  Added
