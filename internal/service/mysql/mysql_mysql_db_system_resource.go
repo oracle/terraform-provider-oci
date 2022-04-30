@@ -118,7 +118,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"crash_recovery": {
 				Type:     schema.TypeString,
@@ -129,7 +128,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -232,7 +230,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Computed:         true,
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.MySqlVersionDiffSuppress,
-				Deprecated:       tfresource.FieldDeprecatedAndAvoidReferences("mysql_version"),
 			},
 			"port": {
 				Type:     schema.TypeInt,
@@ -920,6 +917,16 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.DbSystemId = &tmp
+
+	if configurationId, ok := s.D.GetOkExists("configuration_id"); ok && s.D.HasChange("configuration_id") {
+		tmp := configurationId.(string)
+		request.ConfigurationId = &tmp
+	}
+
+	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok && s.D.HasChange("data_storage_size_in_gb") {
+		tmp := dataStorageSizeInGB.(int)
+		request.DataStorageSizeInGBs = &tmp
+	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
