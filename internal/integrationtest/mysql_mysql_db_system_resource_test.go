@@ -409,6 +409,59 @@ func TestMysqlMysqlDbSystemResource_crashRecovery(t *testing.T) {
 }
 
 // issue-routing-tag: mysql/default
+func TestMysqlMysqlDbSystemResource_dataStorageSizeGB(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_dataStorageSizeGB")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system"
+
+	var resId, resId2 string
+
+	updatedRepresentation := acctest.GetUpdatedRepresentationCopy("data_storage_size_in_gb", acctest.Representation{RepType: acctest.Optional, Create: `50`, Update: `100`},
+		acctest.RepresentationCopyWithNewProperties(mysqlDbSystemRepresentation, map[string]interface{}{
+			"backup_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyNotUpdateableRepresentation},
+		}))
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify Create with data_storage_size_in_gb
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, updatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_gb", "50"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify update to data_storage_size_in_gb
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, updatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_gb", "100"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+// issue-routing-tag: mysql/default
 func TestMysqlMysqlDbSystemResource_HA_enable(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_HA")
 	defer httpreplay.SaveScenario()
@@ -454,6 +507,69 @@ func TestMysqlMysqlDbSystemResource_HA_enable(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "is_highly_available", "true"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+// issue-routing-tag: mysql/default
+func TestMysqlMysqlDbSystemResource_configurationId(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_configurationId")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system"
+
+	var resId, resId2 string
+
+	updatedRepresentation := acctest.GetUpdatedRepresentationCopy("configuration_id",
+		acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`, Update: `${var.MysqlHAConfigurationOCID[var.region]}`},
+		acctest.RepresentationCopyWithNewProperties(mysqlDbSystemRepresentation, map[string]interface{}{
+			"backup_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyNotUpdateableRepresentation},
+		}))
+
+	// would be nice to make this look up work, but since this is terraform syntax we can't evaluate it.
+	// Luckily configs are realm wide and the ocid will be the same across all regions. We should remove the map
+	// at some point.
+	// mysqlConfigurationOCIDVal := `${var.MysqlConfigurationOCID[var.region]}`
+	// mysqlHAConfigurationOCIDVal := `${var.MysqlHAConfigurationOCID[var.region]}`
+	mysqlConfigurationOCIDVal := "ocid1.mysqlconfiguration.oc1..aaaaaaaalwzc2a22xqm56fwjwfymixnulmbq3v77p5v4lcbb6qhkftxf2trq"
+	mysqlHAConfigurationOCIDVal := "ocid1.mysqlconfiguration.oc1..aaaaaaaantprksu6phqfgr5xvyut46wdfesdszonbclybfwvahgysfjbrb4q"
+
+	// NOTE: for now this test has to be separate from TestMysqlMysqlDbSystemResource_HA because the configuration and is_highly_available fields
+	// cannot be changed at the same time.  Once that is fixed, we should consolidate these two test cases
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify standalone Create
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, updatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "configuration_id", mysqlConfigurationOCIDVal),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify update to HA enabled configuration
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, updatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "configuration_id", mysqlHAConfigurationOCIDVal),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
