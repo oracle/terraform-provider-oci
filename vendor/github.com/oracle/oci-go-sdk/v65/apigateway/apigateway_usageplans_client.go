@@ -148,9 +148,10 @@ func (client UsagePlansClient) changeUsagePlanCompartment(ctx context.Context, r
 }
 
 // CreateUsagePlan Creates a new usage plan.
+// A default retry strategy applies to this operation CreateUsagePlan()
 func (client UsagePlansClient) CreateUsagePlan(ctx context.Context, request CreateUsagePlanRequest) (response CreateUsagePlanResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -259,9 +260,10 @@ func (client UsagePlansClient) deleteUsagePlan(ctx context.Context, request comm
 }
 
 // GetUsagePlan Gets a usage plan by identifier.
+// A default retry strategy applies to this operation GetUsagePlan()
 func (client UsagePlansClient) GetUsagePlan(ctx context.Context, request GetUsagePlanRequest) (response GetUsagePlanResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -312,9 +314,10 @@ func (client UsagePlansClient) getUsagePlan(ctx context.Context, request common.
 }
 
 // ListUsagePlans Returns a list of usage plans.
+// A default retry strategy applies to this operation ListUsagePlans()
 func (client UsagePlansClient) ListUsagePlans(ctx context.Context, request ListUsagePlansRequest) (response ListUsagePlansResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

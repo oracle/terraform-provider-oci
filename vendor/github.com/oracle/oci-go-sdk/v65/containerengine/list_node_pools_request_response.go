@@ -42,7 +42,7 @@ type ListNodePoolsRequest struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A nodepool lifecycle state to filter on. Can have multiple parameters of this name.
+	// A list of nodepool lifecycle states on which to filter on, matching any of the list items (OR logic). eg. [ACTIVE, DELETING]
 	LifecycleState []NodePoolLifecycleStateEnum `contributesTo:"query" name:"lifecycleState" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

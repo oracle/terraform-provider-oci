@@ -17,24 +17,24 @@ import (
 	"strings"
 )
 
-// ListAddmReportsCollection The ADDM report metadata.
-type ListAddmReportsCollection struct {
+// AddmTasksCollection The list of ADDM task metadata.
+type AddmTasksCollection struct {
 
-	// The list of ADDM report metadata.
-	Items []ListAddmReportSummary `mandatory:"true" json:"items"`
+	// The list of ADDM task metadata.
+	Items []AddmTaskSummary `mandatory:"true" json:"items"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" json:"managedDatabaseId"`
 }
 
-func (m ListAddmReportsCollection) String() string {
+func (m AddmTasksCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ListAddmReportsCollection) ValidateEnumValue() (bool, error) {
+func (m AddmTasksCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

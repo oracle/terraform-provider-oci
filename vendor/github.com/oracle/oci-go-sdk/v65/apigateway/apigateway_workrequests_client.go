@@ -148,9 +148,10 @@ func (client WorkRequestsClient) cancelWorkRequest(ctx context.Context, request 
 }
 
 // GetWorkRequest Gets the status of the work request with the given identifier.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client WorkRequestsClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -201,9 +202,10 @@ func (client WorkRequestsClient) getWorkRequest(ctx context.Context, request com
 }
 
 // ListWorkRequestErrors Returns a (paginated) list of errors for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client WorkRequestsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -254,9 +256,10 @@ func (client WorkRequestsClient) listWorkRequestErrors(ctx context.Context, requ
 }
 
 // ListWorkRequestLogs Returns a (paginated) list of logs for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client WorkRequestsClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -307,9 +310,10 @@ func (client WorkRequestsClient) listWorkRequestLogs(ctx context.Context, reques
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client WorkRequestsClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

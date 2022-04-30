@@ -908,9 +908,10 @@ func (client WaasClient) deleteWaasPolicy(ctx context.Context, request common.OC
 }
 
 // GetAddressList Gets the details of an address list.
+// A default retry strategy applies to this operation GetAddressList()
 func (client WaasClient) GetAddressList(ctx context.Context, request GetAddressListRequest) (response GetAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -961,9 +962,10 @@ func (client WaasClient) getAddressList(ctx context.Context, request common.OCIR
 }
 
 // GetCertificate Gets the details of an SSL certificate.
+// A default retry strategy applies to this operation GetCertificate()
 func (client WaasClient) GetCertificate(ctx context.Context, request GetCertificateRequest) (response GetCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1014,9 +1016,10 @@ func (client WaasClient) getCertificate(ctx context.Context, request common.OCIR
 }
 
 // GetCustomProtectionRule Gets the details of a custom protection rule.
+// A default retry strategy applies to this operation GetCustomProtectionRule()
 func (client WaasClient) GetCustomProtectionRule(ctx context.Context, request GetCustomProtectionRuleRequest) (response GetCustomProtectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1067,9 +1070,10 @@ func (client WaasClient) getCustomProtectionRule(ctx context.Context, request co
 }
 
 // GetDeviceFingerprintChallenge Gets the device fingerprint challenge settings in the Web Application Firewall configuration for a WAAS policy.
+// A default retry strategy applies to this operation GetDeviceFingerprintChallenge()
 func (client WaasClient) GetDeviceFingerprintChallenge(ctx context.Context, request GetDeviceFingerprintChallengeRequest) (response GetDeviceFingerprintChallengeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1120,9 +1124,10 @@ func (client WaasClient) getDeviceFingerprintChallenge(ctx context.Context, requ
 }
 
 // GetHumanInteractionChallenge Gets the human interaction challenge settings in the Web Application Firewall configuration for a WAAS policy.
+// A default retry strategy applies to this operation GetHumanInteractionChallenge()
 func (client WaasClient) GetHumanInteractionChallenge(ctx context.Context, request GetHumanInteractionChallengeRequest) (response GetHumanInteractionChallengeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1173,9 +1178,10 @@ func (client WaasClient) getHumanInteractionChallenge(ctx context.Context, reque
 }
 
 // GetJsChallenge Gets the JavaScript challenge settings in the Web Application Firewall configuration for a WAAS policy.
+// A default retry strategy applies to this operation GetJsChallenge()
 func (client WaasClient) GetJsChallenge(ctx context.Context, request GetJsChallengeRequest) (response GetJsChallengeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1226,9 +1232,10 @@ func (client WaasClient) getJsChallenge(ctx context.Context, request common.OCIR
 }
 
 // GetPolicyConfig Gets the configuration of a WAAS policy.
+// A default retry strategy applies to this operation GetPolicyConfig()
 func (client WaasClient) GetPolicyConfig(ctx context.Context, request GetPolicyConfigRequest) (response GetPolicyConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1279,9 +1286,10 @@ func (client WaasClient) getPolicyConfig(ctx context.Context, request common.OCI
 }
 
 // GetProtectionRule Gets the details of a protection rule in the Web Application Firewall configuration for a WAAS policy.
+// A default retry strategy applies to this operation GetProtectionRule()
 func (client WaasClient) GetProtectionRule(ctx context.Context, request GetProtectionRuleRequest) (response GetProtectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1332,9 +1340,10 @@ func (client WaasClient) getProtectionRule(ctx context.Context, request common.O
 }
 
 // GetProtectionSettings Gets the protection settings in the Web Application Firewall configuration for a WAAS policy.
+// A default retry strategy applies to this operation GetProtectionSettings()
 func (client WaasClient) GetProtectionSettings(ctx context.Context, request GetProtectionSettingsRequest) (response GetProtectionSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1385,9 +1394,10 @@ func (client WaasClient) getProtectionSettings(ctx context.Context, request comm
 }
 
 // GetWaasPolicy Gets the details of a WAAS policy.
+// A default retry strategy applies to this operation GetWaasPolicy()
 func (client WaasClient) GetWaasPolicy(ctx context.Context, request GetWaasPolicyRequest) (response GetWaasPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1438,9 +1448,10 @@ func (client WaasClient) getWaasPolicy(ctx context.Context, request common.OCIRe
 }
 
 // GetWafAddressRateLimiting Gets the address rate limiting settings of the Web Application Firewall configuration for a WAAS policy.
+// A default retry strategy applies to this operation GetWafAddressRateLimiting()
 func (client WaasClient) GetWafAddressRateLimiting(ctx context.Context, request GetWafAddressRateLimitingRequest) (response GetWafAddressRateLimitingResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1491,9 +1502,10 @@ func (client WaasClient) getWafAddressRateLimiting(ctx context.Context, request 
 }
 
 // GetWafConfig Gets the Web Application Firewall configuration details for a WAAS policy.
+// A default retry strategy applies to this operation GetWafConfig()
 func (client WaasClient) GetWafConfig(ctx context.Context, request GetWafConfigRequest) (response GetWafConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1544,9 +1556,10 @@ func (client WaasClient) getWafConfig(ctx context.Context, request common.OCIReq
 }
 
 // GetWorkRequest Gets the details of a specified work request.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client WaasClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1598,9 +1611,10 @@ func (client WaasClient) getWorkRequest(ctx context.Context, request common.OCIR
 
 // ListAccessRules Gets the currently configured access rules for the Web Application Firewall configuration of a specified WAAS policy.
 // The order of the access rules is important. The rules will be checked in the order they are specified and the first matching rule will be used.
+// A default retry strategy applies to this operation ListAccessRules()
 func (client WaasClient) ListAccessRules(ctx context.Context, request ListAccessRulesRequest) (response ListAccessRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1651,9 +1665,10 @@ func (client WaasClient) listAccessRules(ctx context.Context, request common.OCI
 }
 
 // ListAddressLists Gets a list of address lists that can be used in a WAAS policy.
+// A default retry strategy applies to this operation ListAddressLists()
 func (client WaasClient) ListAddressLists(ctx context.Context, request ListAddressListsRequest) (response ListAddressListsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1705,9 +1720,10 @@ func (client WaasClient) listAddressLists(ctx context.Context, request common.OC
 
 // ListCachingRules Gets the currently configured caching rules for the Web Application Firewall configuration of a specified WAAS policy.
 // The rules are processed in the order they are specified in and the first matching rule will be used when processing a request.
+// A default retry strategy applies to this operation ListCachingRules()
 func (client WaasClient) ListCachingRules(ctx context.Context, request ListCachingRulesRequest) (response ListCachingRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1761,9 +1777,10 @@ func (client WaasClient) listCachingRules(ctx context.Context, request common.OC
 // Application Firewall configuration of a WAAS policy.
 // The order of the CAPTCHA challenges is important. The URL for each
 // CAPTCHA will be checked in the order they are created.
+// A default retry strategy applies to this operation ListCaptchas()
 func (client WaasClient) ListCaptchas(ctx context.Context, request ListCaptchasRequest) (response ListCaptchasResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1814,9 +1831,10 @@ func (client WaasClient) listCaptchas(ctx context.Context, request common.OCIReq
 }
 
 // ListCertificates Gets a list of SSL certificates that can be used in a WAAS policy.
+// A default retry strategy applies to this operation ListCertificates()
 func (client WaasClient) ListCertificates(ctx context.Context, request ListCertificatesRequest) (response ListCertificatesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1867,9 +1885,10 @@ func (client WaasClient) listCertificates(ctx context.Context, request common.OC
 }
 
 // ListCustomProtectionRules Gets a list of custom protection rules for the specified Web Application Firewall.
+// A default retry strategy applies to this operation ListCustomProtectionRules()
 func (client WaasClient) ListCustomProtectionRules(ctx context.Context, request ListCustomProtectionRulesRequest) (response ListCustomProtectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1920,9 +1939,10 @@ func (client WaasClient) listCustomProtectionRules(ctx context.Context, request 
 }
 
 // ListEdgeSubnets Return the list of the tenant's edge node subnets. Use these CIDR blocks to restrict incoming traffic to your origin. These subnets are owned by OCI and forward traffic to customer origins. They are not associated with specific regions or compartments.
+// A default retry strategy applies to this operation ListEdgeSubnets()
 func (client WaasClient) ListEdgeSubnets(ctx context.Context, request ListEdgeSubnetsRequest) (response ListEdgeSubnetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1974,9 +1994,10 @@ func (client WaasClient) listEdgeSubnets(ctx context.Context, request common.OCI
 
 // ListGoodBots Gets the list of good bots defined in the Web Application Firewall configuration for a WAAS policy.
 // The list is sorted by `key`, in ascending order.
+// A default retry strategy applies to this operation ListGoodBots()
 func (client WaasClient) ListGoodBots(ctx context.Context, request ListGoodBotsRequest) (response ListGoodBotsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2028,9 +2049,10 @@ func (client WaasClient) listGoodBots(ctx context.Context, request common.OCIReq
 
 // ListProtectionRules Gets the list of available protection rules for a WAAS policy. Use the `GetWafConfig` operation to view a list of currently configured protection rules for the Web Application Firewall, or use the `ListRecommendations` operation to get a list of recommended protection rules for the Web Application Firewall.
 // The list is sorted by `key`, in ascending order.
+// A default retry strategy applies to this operation ListProtectionRules()
 func (client WaasClient) ListProtectionRules(ctx context.Context, request ListProtectionRulesRequest) (response ListProtectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2083,9 +2105,10 @@ func (client WaasClient) listProtectionRules(ctx context.Context, request common
 // ListRecommendations Gets the list of recommended Web Application Firewall protection rules.
 // Use the `POST /waasPolicies/{waasPolicyId}/actions/acceptWafConfigRecommendations` method to accept recommended Web Application Firewall protection rules. For more information, see WAF Protection Rules (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/wafprotectionrules.htm).
 // The list is sorted by `key`, in ascending order.
+// A default retry strategy applies to this operation ListRecommendations()
 func (client WaasClient) ListRecommendations(ctx context.Context, request ListRecommendationsRequest) (response ListRecommendationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2138,9 +2161,10 @@ func (client WaasClient) listRecommendations(ctx context.Context, request common
 // ListThreatFeeds Gets the list of available web application threat intelligence feeds
 // and the actions set for each feed. The list is sorted by `key`,
 // in ascending order.
+// A default retry strategy applies to this operation ListThreatFeeds()
 func (client WaasClient) ListThreatFeeds(ctx context.Context, request ListThreatFeedsRequest) (response ListThreatFeedsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2191,9 +2215,10 @@ func (client WaasClient) listThreatFeeds(ctx context.Context, request common.OCI
 }
 
 // ListWaasPolicies Gets a list of WAAS policies.
+// A default retry strategy applies to this operation ListWaasPolicies()
 func (client WaasClient) ListWaasPolicies(ctx context.Context, request ListWaasPoliciesRequest) (response ListWaasPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2244,9 +2269,10 @@ func (client WaasClient) listWaasPolicies(ctx context.Context, request common.OC
 }
 
 // ListWaasPolicyCustomProtectionRules Gets the list of currently configured custom protection rules for a WAAS policy.
+// A default retry strategy applies to this operation ListWaasPolicyCustomProtectionRules()
 func (client WaasClient) ListWaasPolicyCustomProtectionRules(ctx context.Context, request ListWaasPolicyCustomProtectionRulesRequest) (response ListWaasPolicyCustomProtectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2297,9 +2323,10 @@ func (client WaasClient) listWaasPolicyCustomProtectionRules(ctx context.Context
 }
 
 // ListWafBlockedRequests Gets the number of blocked requests by a Web Application Firewall feature in five minute blocks, sorted by `timeObserved` in ascending order (starting from oldest data).
+// A default retry strategy applies to this operation ListWafBlockedRequests()
 func (client WaasClient) ListWafBlockedRequests(ctx context.Context, request ListWafBlockedRequestsRequest) (response ListWafBlockedRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2352,9 +2379,10 @@ func (client WaasClient) listWafBlockedRequests(ctx context.Context, request com
 // ListWafLogs Gets structured Web Application Firewall event logs for a WAAS
 // policy. Sorted by the `timeObserved` in ascending order (starting from the
 // oldest recorded event).
+// A default retry strategy applies to this operation ListWafLogs()
 func (client WaasClient) ListWafLogs(ctx context.Context, request ListWafLogsRequest) (response ListWafLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2407,9 +2435,10 @@ func (client WaasClient) listWafLogs(ctx context.Context, request common.OCIRequ
 // ListWafRequests Gets the number of requests managed by a Web Application Firewall
 // over a specified period of time, including blocked requests. Sorted
 // by `timeObserved` in ascending order (starting from oldest requests).
+// A default retry strategy applies to this operation ListWafRequests()
 func (client WaasClient) ListWafRequests(ctx context.Context, request ListWafRequestsRequest) (response ListWafRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2461,9 +2490,10 @@ func (client WaasClient) listWafRequests(ctx context.Context, request common.OCI
 
 // ListWafTraffic Gets the Web Application Firewall traffic data for a WAAS policy.
 // Sorted by `timeObserved` in ascending order (starting from oldest data).
+// A default retry strategy applies to this operation ListWafTraffic()
 func (client WaasClient) ListWafTraffic(ctx context.Context, request ListWafTrafficRequest) (response ListWafTrafficResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2514,9 +2544,10 @@ func (client WaasClient) listWafTraffic(ctx context.Context, request common.OCIR
 }
 
 // ListWhitelists Gets the list of whitelists defined in the Web Application Firewall configuration for a WAAS policy.
+// A default retry strategy applies to this operation ListWhitelists()
 func (client WaasClient) ListWhitelists(ctx context.Context, request ListWhitelistsRequest) (response ListWhitelistsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2567,9 +2598,10 @@ func (client WaasClient) listWhitelists(ctx context.Context, request common.OCIR
 }
 
 // ListWorkRequests Gets a list of subnets (CIDR notation) from which the WAAS EDGE may make requests. The subnets are owned by OCI and forward traffic to your origins. Allow traffic from these subnets to your origins. They are not associated with specific regions or compartments.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client WaasClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

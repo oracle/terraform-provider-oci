@@ -148,9 +148,10 @@ func (client GatewayClient) changeGatewayCompartment(ctx context.Context, reques
 }
 
 // CreateGateway Creates a new gateway.
+// A default retry strategy applies to this operation CreateGateway()
 func (client GatewayClient) CreateGateway(ctx context.Context, request CreateGatewayRequest) (response CreateGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -259,9 +260,10 @@ func (client GatewayClient) deleteGateway(ctx context.Context, request common.OC
 }
 
 // GetGateway Gets a gateway by identifier.
+// A default retry strategy applies to this operation GetGateway()
 func (client GatewayClient) GetGateway(ctx context.Context, request GetGatewayRequest) (response GetGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -312,9 +314,10 @@ func (client GatewayClient) getGateway(ctx context.Context, request common.OCIRe
 }
 
 // ListGateways Returns a list of gateways.
+// A default retry strategy applies to this operation ListGateways()
 func (client GatewayClient) ListGateways(ctx context.Context, request ListGatewaysRequest) (response ListGatewaysResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

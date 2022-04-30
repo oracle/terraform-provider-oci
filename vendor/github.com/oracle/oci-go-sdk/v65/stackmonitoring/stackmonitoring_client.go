@@ -320,9 +320,10 @@ func (client StackMonitoringClient) createMonitoredResource(ctx context.Context,
 }
 
 // DeleteDiscoveryJob Deletes a DiscoveryJob by identifier
+// A default retry strategy applies to this operation DeleteDiscoveryJob()
 func (client StackMonitoringClient) DeleteDiscoveryJob(ctx context.Context, request DeleteDiscoveryJobRequest) (response DeleteDiscoveryJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -542,9 +543,10 @@ func (client StackMonitoringClient) disassociateMonitoredResources(ctx context.C
 }
 
 // GetDiscoveryJob API to get the details of discovery Job by identifier.
+// A default retry strategy applies to this operation GetDiscoveryJob()
 func (client StackMonitoringClient) GetDiscoveryJob(ctx context.Context, request GetDiscoveryJobRequest) (response GetDiscoveryJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -595,9 +597,10 @@ func (client StackMonitoringClient) getDiscoveryJob(ctx context.Context, request
 }
 
 // GetMonitoredResource Gets a monitored resource by identifier
+// A default retry strategy applies to this operation GetMonitoredResource()
 func (client StackMonitoringClient) GetMonitoredResource(ctx context.Context, request GetMonitoredResourceRequest) (response GetMonitoredResourceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -648,9 +651,10 @@ func (client StackMonitoringClient) getMonitoredResource(ctx context.Context, re
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client StackMonitoringClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -701,9 +705,10 @@ func (client StackMonitoringClient) getWorkRequest(ctx context.Context, request 
 }
 
 // ListDiscoveryJobLogs API to get all the logs of a Discovery Job.
+// A default retry strategy applies to this operation ListDiscoveryJobLogs()
 func (client StackMonitoringClient) ListDiscoveryJobLogs(ctx context.Context, request ListDiscoveryJobLogsRequest) (response ListDiscoveryJobLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -754,9 +759,10 @@ func (client StackMonitoringClient) listDiscoveryJobLogs(ctx context.Context, re
 }
 
 // ListDiscoveryJobs API to get the details of all Discovery Jobs.
+// A default retry strategy applies to this operation ListDiscoveryJobs()
 func (client StackMonitoringClient) ListDiscoveryJobs(ctx context.Context, request ListDiscoveryJobsRequest) (response ListDiscoveryJobsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -807,9 +813,10 @@ func (client StackMonitoringClient) listDiscoveryJobs(ctx context.Context, reque
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client StackMonitoringClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -860,9 +867,10 @@ func (client StackMonitoringClient) listWorkRequestErrors(ctx context.Context, r
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client StackMonitoringClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -913,9 +921,10 @@ func (client StackMonitoringClient) listWorkRequestLogs(ctx context.Context, req
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client StackMonitoringClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -966,9 +975,10 @@ func (client StackMonitoringClient) listWorkRequests(ctx context.Context, reques
 }
 
 // SearchMonitoredResourceAssociations Returns a list of monitored resource associations.
+// A default retry strategy applies to this operation SearchMonitoredResourceAssociations()
 func (client StackMonitoringClient) SearchMonitoredResourceAssociations(ctx context.Context, request SearchMonitoredResourceAssociationsRequest) (response SearchMonitoredResourceAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1024,9 +1034,10 @@ func (client StackMonitoringClient) searchMonitoredResourceAssociations(ctx cont
 }
 
 // SearchMonitoredResourceMembers List resources which are members of the given monitored resource
+// A default retry strategy applies to this operation SearchMonitoredResourceMembers()
 func (client StackMonitoringClient) SearchMonitoredResourceMembers(ctx context.Context, request SearchMonitoredResourceMembersRequest) (response SearchMonitoredResourceMembersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1082,9 +1093,10 @@ func (client StackMonitoringClient) searchMonitoredResourceMembers(ctx context.C
 }
 
 // SearchMonitoredResources Returns a list of monitored resources.
+// A default retry strategy applies to this operation SearchMonitoredResources()
 func (client StackMonitoringClient) SearchMonitoredResources(ctx context.Context, request SearchMonitoredResourcesRequest) (response SearchMonitoredResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

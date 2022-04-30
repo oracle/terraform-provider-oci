@@ -143,9 +143,10 @@ func (client AppmgmtControlClient) activateMonitoringPlugin(ctx context.Context,
 }
 
 // GetMonitoredInstance Gets a monitored instance by identifier
+// A default retry strategy applies to this operation GetMonitoredInstance()
 func (client AppmgmtControlClient) GetMonitoredInstance(ctx context.Context, request GetMonitoredInstanceRequest) (response GetMonitoredInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -196,9 +197,10 @@ func (client AppmgmtControlClient) getMonitoredInstance(ctx context.Context, req
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client AppmgmtControlClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -249,9 +251,10 @@ func (client AppmgmtControlClient) getWorkRequest(ctx context.Context, request c
 }
 
 // ListMonitoredInstances Returns a list of monitored instances.
+// A default retry strategy applies to this operation ListMonitoredInstances()
 func (client AppmgmtControlClient) ListMonitoredInstances(ctx context.Context, request ListMonitoredInstancesRequest) (response ListMonitoredInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -302,9 +305,10 @@ func (client AppmgmtControlClient) listMonitoredInstances(ctx context.Context, r
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client AppmgmtControlClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -355,9 +359,10 @@ func (client AppmgmtControlClient) listWorkRequestErrors(ctx context.Context, re
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client AppmgmtControlClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -408,9 +413,10 @@ func (client AppmgmtControlClient) listWorkRequestLogs(ctx context.Context, requ
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client AppmgmtControlClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

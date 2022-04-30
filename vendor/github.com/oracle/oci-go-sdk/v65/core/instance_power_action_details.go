@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-// InstancePowerActionDetails A base object for all types of Instance Power Action requests.
+// InstancePowerActionDetails A base object for all types of instance power action requests.
 type InstancePowerActionDetails interface {
 }
 

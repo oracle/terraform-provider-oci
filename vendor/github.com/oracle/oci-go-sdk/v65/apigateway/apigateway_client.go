@@ -264,9 +264,10 @@ func (client ApiGatewayClient) changeCertificateCompartment(ctx context.Context,
 }
 
 // CreateApi Creates a new API.
+// A default retry strategy applies to this operation CreateApi()
 func (client ApiGatewayClient) CreateApi(ctx context.Context, request CreateApiRequest) (response CreateApiResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -322,9 +323,10 @@ func (client ApiGatewayClient) createApi(ctx context.Context, request common.OCI
 }
 
 // CreateCatalog Creates a new catalog.
+// A default retry strategy applies to this operation CreateCatalog()
 func (client ApiGatewayClient) CreateCatalog(ctx context.Context, request CreateCatalogRequest) (response CreateCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -380,9 +382,10 @@ func (client ApiGatewayClient) createCatalog(ctx context.Context, request common
 }
 
 // CreateCertificate Creates a new Certificate.
+// A default retry strategy applies to this operation CreateCertificate()
 func (client ApiGatewayClient) CreateCertificate(ctx context.Context, request CreateCertificateRequest) (response CreateCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -438,9 +441,10 @@ func (client ApiGatewayClient) createCertificate(ctx context.Context, request co
 }
 
 // CreateSdk Creates a new SDK.
+// A default retry strategy applies to this operation CreateSdk()
 func (client ApiGatewayClient) CreateSdk(ctx context.Context, request CreateSdkRequest) (response CreateSdkResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -708,9 +712,10 @@ func (client ApiGatewayClient) deleteSdk(ctx context.Context, request common.OCI
 }
 
 // GetApi Gets an API by identifier.
+// A default retry strategy applies to this operation GetApi()
 func (client ApiGatewayClient) GetApi(ctx context.Context, request GetApiRequest) (response GetApiResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -761,9 +766,10 @@ func (client ApiGatewayClient) getApi(ctx context.Context, request common.OCIReq
 }
 
 // GetApiContent Get the raw API content.
+// A default retry strategy applies to this operation GetApiContent()
 func (client ApiGatewayClient) GetApiContent(ctx context.Context, request GetApiContentRequest) (response GetApiContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -813,9 +819,10 @@ func (client ApiGatewayClient) getApiContent(ctx context.Context, request common
 }
 
 // GetApiDeploymentSpecification Gets an API Deployment specification by identifier.
+// A default retry strategy applies to this operation GetApiDeploymentSpecification()
 func (client ApiGatewayClient) GetApiDeploymentSpecification(ctx context.Context, request GetApiDeploymentSpecificationRequest) (response GetApiDeploymentSpecificationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -866,9 +873,10 @@ func (client ApiGatewayClient) getApiDeploymentSpecification(ctx context.Context
 }
 
 // GetApiValidations Gets the API validation results.
+// A default retry strategy applies to this operation GetApiValidations()
 func (client ApiGatewayClient) GetApiValidations(ctx context.Context, request GetApiValidationsRequest) (response GetApiValidationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -919,9 +927,10 @@ func (client ApiGatewayClient) getApiValidations(ctx context.Context, request co
 }
 
 // GetCatalog Gets an API Catalog by identifier.
+// A default retry strategy applies to this operation GetCatalog()
 func (client ApiGatewayClient) GetCatalog(ctx context.Context, request GetCatalogRequest) (response GetCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -972,9 +981,10 @@ func (client ApiGatewayClient) getCatalog(ctx context.Context, request common.OC
 }
 
 // GetCertificate Gets a certificate by identifier.
+// A default retry strategy applies to this operation GetCertificate()
 func (client ApiGatewayClient) GetCertificate(ctx context.Context, request GetCertificateRequest) (response GetCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1025,9 +1035,10 @@ func (client ApiGatewayClient) getCertificate(ctx context.Context, request commo
 }
 
 // GetSdk Return object store downloadable URL and metadata.
+// A default retry strategy applies to this operation GetSdk()
 func (client ApiGatewayClient) GetSdk(ctx context.Context, request GetSdkRequest) (response GetSdkResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1078,9 +1089,10 @@ func (client ApiGatewayClient) getSdk(ctx context.Context, request common.OCIReq
 }
 
 // ListApis Returns a list of APIs.
+// A default retry strategy applies to this operation ListApis()
 func (client ApiGatewayClient) ListApis(ctx context.Context, request ListApisRequest) (response ListApisResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1131,9 +1143,10 @@ func (client ApiGatewayClient) listApis(ctx context.Context, request common.OCIR
 }
 
 // ListCatalogs Returns a list of catalogs.
+// A default retry strategy applies to this operation ListCatalogs()
 func (client ApiGatewayClient) ListCatalogs(ctx context.Context, request ListCatalogsRequest) (response ListCatalogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1184,9 +1197,10 @@ func (client ApiGatewayClient) listCatalogs(ctx context.Context, request common.
 }
 
 // ListCertificates Returns a list of certificates.
+// A default retry strategy applies to this operation ListCertificates()
 func (client ApiGatewayClient) ListCertificates(ctx context.Context, request ListCertificatesRequest) (response ListCertificatesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1237,9 +1251,10 @@ func (client ApiGatewayClient) listCertificates(ctx context.Context, request com
 }
 
 // ListSdkLanguageTypes Lists programming languages in which SDK can be generated.
+// A default retry strategy applies to this operation ListSdkLanguageTypes()
 func (client ApiGatewayClient) ListSdkLanguageTypes(ctx context.Context, request ListSdkLanguageTypesRequest) (response ListSdkLanguageTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1290,9 +1305,10 @@ func (client ApiGatewayClient) listSdkLanguageTypes(ctx context.Context, request
 }
 
 // ListSdks Returns list of generated SDKs.
+// A default retry strategy applies to this operation ListSdks()
 func (client ApiGatewayClient) ListSdks(ctx context.Context, request ListSdksRequest) (response ListSdksResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

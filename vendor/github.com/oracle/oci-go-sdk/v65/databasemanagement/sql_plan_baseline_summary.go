@@ -38,6 +38,12 @@ type SqlPlanBaselineSummary struct {
 	// The date and time when the plan baseline was last modified.
 	TimeLastModified *common.SDKTime `mandatory:"false" json:"timeLastModified"`
 
+	// The date and time when the plan baseline was last executed.
+	// **Note:** For performance reasons, database does not update this value
+	// immediately after each execution of the plan baseline. Therefore, the plan
+	// baseline may have been executed more recently than this value indicates.
+	TimeLastExecuted *common.SDKTime `mandatory:"false" json:"timeLastExecuted"`
+
 	// Indicates whether the plan baseline is enabled (`YES`) or disabled (`NO`).
 	Enabled *string `mandatory:"false" json:"enabled"`
 

@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// HistoricAddmResult The result of the creation and execution of the historic ADDM report, which contains the name of the ADDM task and the report.
+// HistoricAddmResult The details of the historic ADDM task.
 type HistoricAddmResult struct {
 
 	// The ID of the historic ADDM task.
@@ -29,14 +29,14 @@ type HistoricAddmResult struct {
 	// The owner of the historic ADDM task.
 	DbUser *string `mandatory:"false" json:"dbUser"`
 
-	// The timestamp of the beginning AWR snapshot used in the ADDM report as defined by date-time RFC3339 format.
+	// The timestamp of the beginning AWR snapshot used in the ADDM task as defined by date-time RFC3339 format.
 	StartSnapShotTime *common.SDKTime `mandatory:"false" json:"startSnapShotTime"`
 
-	// The timestamp of the ending AWR snapshot used in the ADDM report as defined by date-time RFC3339 format.
+	// The timestamp of the ending AWR snapshot used in the ADDM task as defined by date-time RFC3339 format.
 	EndSnapshotTime *common.SDKTime `mandatory:"false" json:"endSnapshotTime"`
 
 	// The ID number of the beginning AWR snapshot.
-	BeginSnaphotId *int64 `mandatory:"false" json:"beginSnaphotId"`
+	BeginSnapshotId *int64 `mandatory:"false" json:"beginSnapshotId"`
 
 	// The ID number of the ending AWR snapshot.
 	EndSnapshotId *int64 `mandatory:"false" json:"endSnapshotId"`

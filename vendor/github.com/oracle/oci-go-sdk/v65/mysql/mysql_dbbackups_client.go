@@ -147,9 +147,10 @@ func (client DbBackupsClient) changeBackupCompartment(ctx context.Context, reque
 }
 
 // CreateBackup Create a backup of a DB System.
+// A default retry strategy applies to this operation CreateBackup()
 func (client DbBackupsClient) CreateBackup(ctx context.Context, request CreateBackupRequest) (response CreateBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -205,9 +206,10 @@ func (client DbBackupsClient) createBackup(ctx context.Context, request common.O
 }
 
 // DeleteBackup Delete a Backup.
+// A default retry strategy applies to this operation DeleteBackup()
 func (client DbBackupsClient) DeleteBackup(ctx context.Context, request DeleteBackupRequest) (response DeleteBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -258,9 +260,10 @@ func (client DbBackupsClient) deleteBackup(ctx context.Context, request common.O
 }
 
 // GetBackup Get information about the specified Backup
+// A default retry strategy applies to this operation GetBackup()
 func (client DbBackupsClient) GetBackup(ctx context.Context, request GetBackupRequest) (response GetBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -311,9 +314,10 @@ func (client DbBackupsClient) getBackup(ctx context.Context, request common.OCIR
 }
 
 // ListBackups Get a list of DB System backups.
+// A default retry strategy applies to this operation ListBackups()
 func (client DbBackupsClient) ListBackups(ctx context.Context, request ListBackupsRequest) (response ListBackupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -364,9 +368,10 @@ func (client DbBackupsClient) listBackups(ctx context.Context, request common.OC
 }
 
 // UpdateBackup Update the metadata of a Backup. Metadata such as the displayName or description
+// A default retry strategy applies to this operation UpdateBackup()
 func (client DbBackupsClient) UpdateBackup(ctx context.Context, request UpdateBackupRequest) (response UpdateBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

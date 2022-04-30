@@ -147,9 +147,10 @@ func (client MysqlaasClient) createConfiguration(ctx context.Context, request co
 
 // DeleteConfiguration Deletes a Configuration.
 // The Configuration must not be in use by any DB Systems.
+// A default retry strategy applies to this operation DeleteConfiguration()
 func (client MysqlaasClient) DeleteConfiguration(ctx context.Context, request DeleteConfigurationRequest) (response DeleteConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -200,9 +201,10 @@ func (client MysqlaasClient) deleteConfiguration(ctx context.Context, request co
 }
 
 // GetConfiguration Get the full details of the specified Configuration, including the list of MySQL Variables and their values.
+// A default retry strategy applies to this operation GetConfiguration()
 func (client MysqlaasClient) GetConfiguration(ctx context.Context, request GetConfigurationRequest) (response GetConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -258,9 +260,10 @@ func (client MysqlaasClient) getConfiguration(ctx context.Context, request commo
 //   - shapeName, ascending
 //   - DEFAULT-before-CUSTOM
 //   - displayName ascending
+// A default retry strategy applies to this operation ListConfigurations()
 func (client MysqlaasClient) ListConfigurations(ctx context.Context, request ListConfigurationsRequest) (response ListConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -314,9 +317,10 @@ func (client MysqlaasClient) listConfigurations(ctx context.Context, request com
 // The shape determines the resources allocated to the DB System:
 // CPU cores and memory for VM shapes; CPU cores, memory and
 // storage for non-VM (or bare metal) shapes.
+// A default retry strategy applies to this operation ListShapes()
 func (client MysqlaasClient) ListShapes(ctx context.Context, request ListShapesRequest) (response ListShapesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -368,9 +372,10 @@ func (client MysqlaasClient) listShapes(ctx context.Context, request common.OCIR
 
 // ListVersions Get a list of supported and available MySQL database major versions.
 // The list is sorted by version family.
+// A default retry strategy applies to this operation ListVersions()
 func (client MysqlaasClient) ListVersions(ctx context.Context, request ListVersionsRequest) (response ListVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -421,9 +426,10 @@ func (client MysqlaasClient) listVersions(ctx context.Context, request common.OC
 }
 
 // UpdateConfiguration Updates the Configuration details.
+// A default retry strategy applies to this operation UpdateConfiguration()
 func (client MysqlaasClient) UpdateConfiguration(ctx context.Context, request UpdateConfigurationRequest) (response UpdateConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

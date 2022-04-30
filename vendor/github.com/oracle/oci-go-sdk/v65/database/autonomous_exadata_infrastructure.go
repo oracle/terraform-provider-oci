@@ -54,7 +54,7 @@ type AutonomousExadataInfrastructure struct {
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
-	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds list cannot be empty.
+	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// Additional information about the current lifecycle state of the Autonomous Exadata Infrastructure.

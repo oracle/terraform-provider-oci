@@ -258,9 +258,10 @@ func (client VbInstanceClient) deleteVbInstance(ctx context.Context, request com
 }
 
 // GetVbInstance Gets a VbInstance by identifier
+// A default retry strategy applies to this operation GetVbInstance()
 func (client VbInstanceClient) GetVbInstance(ctx context.Context, request GetVbInstanceRequest) (response GetVbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -311,9 +312,10 @@ func (client VbInstanceClient) getVbInstance(ctx context.Context, request common
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client VbInstanceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -364,9 +366,10 @@ func (client VbInstanceClient) getWorkRequest(ctx context.Context, request commo
 }
 
 // ListVbInstances Returns a list of Vb Instances.
+// A default retry strategy applies to this operation ListVbInstances()
 func (client VbInstanceClient) ListVbInstances(ctx context.Context, request ListVbInstancesRequest) (response ListVbInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -417,9 +420,10 @@ func (client VbInstanceClient) listVbInstances(ctx context.Context, request comm
 }
 
 // ListWorkRequestErrors Get the errors of a work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client VbInstanceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -470,9 +474,10 @@ func (client VbInstanceClient) listWorkRequestErrors(ctx context.Context, reques
 }
 
 // ListWorkRequestLogs Get the logs of a work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client VbInstanceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -523,9 +528,10 @@ func (client VbInstanceClient) listWorkRequestLogs(ctx context.Context, request 
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client VbInstanceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

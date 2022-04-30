@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// RunHistoricAddmDetails The details of the ADDM report, which include the beginning and ending AWR snapshot IDs.
+// RunHistoricAddmDetails The details of the ADDM task, which include the beginning and ending AWR snapshot IDs.
 type RunHistoricAddmDetails struct {
 
 	// The ID number of the beginning AWR snapshot.

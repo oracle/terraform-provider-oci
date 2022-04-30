@@ -262,9 +262,10 @@ func (client RedirectClient) deleteHttpRedirect(ctx context.Context, request com
 }
 
 // GetHttpRedirect Gets the details of a HTTP Redirect.
+// A default retry strategy applies to this operation GetHttpRedirect()
 func (client RedirectClient) GetHttpRedirect(ctx context.Context, request GetHttpRedirectRequest) (response GetHttpRedirectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -315,9 +316,10 @@ func (client RedirectClient) getHttpRedirect(ctx context.Context, request common
 }
 
 // ListHttpRedirects Gets a list of HTTP Redirects.
+// A default retry strategy applies to this operation ListHttpRedirects()
 func (client RedirectClient) ListHttpRedirects(ctx context.Context, request ListHttpRedirectsRequest) (response ListHttpRedirectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

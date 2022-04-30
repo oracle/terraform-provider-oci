@@ -30,11 +30,11 @@ type UpdateNodePoolRequest struct {
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Duration after which OKE will give up eviction of the pods on the node.
-	// 0 will indicate you want to delete the node without cordon and drain. Default 60, Min 0, Max: 60. Format ISO 8601 e.g PT30M
-	EvictionGraceDurationOverride *string `mandatory:"false" contributesTo:"query" name:"evictionGraceDurationOverride"`
+	// PT0M will indicate you want to delete the node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M
+	OverrideEvictionGraceDuration *string `mandatory:"false" contributesTo:"query" name:"overrideEvictionGraceDuration"`
 
 	// If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
-	IsForceDeleteAfterGraceDurationOverride *bool `mandatory:"false" contributesTo:"query" name:"isForceDeleteAfterGraceDurationOverride"`
+	IsForceDeletionAfterOverrideGraceDuration *bool `mandatory:"false" contributesTo:"query" name:"isForceDeletionAfterOverrideGraceDuration"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

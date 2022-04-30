@@ -89,9 +89,10 @@ func (client *DbSystemClient) ConfigurationProvider() *common.ConfigurationProvi
 
 // AddAnalyticsCluster DEPRECATED -- please use HeatWave API instead.
 // Adds an Analytics Cluster to the DB System.
+// A default retry strategy applies to this operation AddAnalyticsCluster()
 func (client DbSystemClient) AddAnalyticsCluster(ctx context.Context, request AddAnalyticsClusterRequest) (response AddAnalyticsClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -147,9 +148,10 @@ func (client DbSystemClient) addAnalyticsCluster(ctx context.Context, request co
 }
 
 // AddHeatWaveCluster Adds a HeatWave cluster to the DB System.
+// A default retry strategy applies to this operation AddHeatWaveCluster()
 func (client DbSystemClient) AddHeatWaveCluster(ctx context.Context, request AddHeatWaveClusterRequest) (response AddHeatWaveClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -205,9 +207,10 @@ func (client DbSystemClient) addHeatWaveCluster(ctx context.Context, request com
 }
 
 // CreateDbSystem Creates and launches a DB System.
+// A default retry strategy applies to this operation CreateDbSystem()
 func (client DbSystemClient) CreateDbSystem(ctx context.Context, request CreateDbSystemRequest) (response CreateDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -265,9 +268,10 @@ func (client DbSystemClient) createDbSystem(ctx context.Context, request common.
 // DeleteAnalyticsCluster DEPRECATED -- please use HeatWave API instead.
 // Deletes the Analytics Cluster including terminating, detaching, removing, finalizing and
 // otherwise deleting all related resources.
+// A default retry strategy applies to this operation DeleteAnalyticsCluster()
 func (client DbSystemClient) DeleteAnalyticsCluster(ctx context.Context, request DeleteAnalyticsClusterRequest) (response DeleteAnalyticsClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -319,9 +323,10 @@ func (client DbSystemClient) deleteAnalyticsCluster(ctx context.Context, request
 
 // DeleteDbSystem Delete a DB System, including terminating, detaching,
 // removing, finalizing and otherwise deleting all related resources.
+// A default retry strategy applies to this operation DeleteDbSystem()
 func (client DbSystemClient) DeleteDbSystem(ctx context.Context, request DeleteDbSystemRequest) (response DeleteDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -373,9 +378,10 @@ func (client DbSystemClient) deleteDbSystem(ctx context.Context, request common.
 
 // DeleteHeatWaveCluster Deletes the HeatWave cluster including terminating, detaching, removing, finalizing and
 // otherwise deleting all related resources.
+// A default retry strategy applies to this operation DeleteHeatWaveCluster()
 func (client DbSystemClient) DeleteHeatWaveCluster(ctx context.Context, request DeleteHeatWaveClusterRequest) (response DeleteHeatWaveClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -427,9 +433,10 @@ func (client DbSystemClient) deleteHeatWaveCluster(ctx context.Context, request 
 
 // GenerateAnalyticsClusterMemoryEstimate DEPRECATED -- please use HeatWave API instead.
 // Sends a request to estimate the memory footprints of user tables when loaded to Analytics Cluster memory.
+// A default retry strategy applies to this operation GenerateAnalyticsClusterMemoryEstimate()
 func (client DbSystemClient) GenerateAnalyticsClusterMemoryEstimate(ctx context.Context, request GenerateAnalyticsClusterMemoryEstimateRequest) (response GenerateAnalyticsClusterMemoryEstimateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -485,9 +492,10 @@ func (client DbSystemClient) generateAnalyticsClusterMemoryEstimate(ctx context.
 }
 
 // GenerateHeatWaveClusterMemoryEstimate Sends a request to estimate the memory footprints of user tables when loaded to HeatWave cluster memory.
+// A default retry strategy applies to this operation GenerateHeatWaveClusterMemoryEstimate()
 func (client DbSystemClient) GenerateHeatWaveClusterMemoryEstimate(ctx context.Context, request GenerateHeatWaveClusterMemoryEstimateRequest) (response GenerateHeatWaveClusterMemoryEstimateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -544,9 +552,10 @@ func (client DbSystemClient) generateHeatWaveClusterMemoryEstimate(ctx context.C
 
 // GetAnalyticsCluster DEPRECATED -- please use HeatWave API instead.
 // Gets information about the Analytics Cluster.
+// A default retry strategy applies to this operation GetAnalyticsCluster()
 func (client DbSystemClient) GetAnalyticsCluster(ctx context.Context, request GetAnalyticsClusterRequest) (response GetAnalyticsClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -599,9 +608,10 @@ func (client DbSystemClient) getAnalyticsCluster(ctx context.Context, request co
 // GetAnalyticsClusterMemoryEstimate DEPRECATED -- please use HeatWave API instead.
 // Gets the most recent Analytics Cluster memory estimate that can be used to determine a suitable
 // Analytics Cluster size.
+// A default retry strategy applies to this operation GetAnalyticsClusterMemoryEstimate()
 func (client DbSystemClient) GetAnalyticsClusterMemoryEstimate(ctx context.Context, request GetAnalyticsClusterMemoryEstimateRequest) (response GetAnalyticsClusterMemoryEstimateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -652,9 +662,10 @@ func (client DbSystemClient) getAnalyticsClusterMemoryEstimate(ctx context.Conte
 }
 
 // GetDbSystem Get information about the specified DB System.
+// A default retry strategy applies to this operation GetDbSystem()
 func (client DbSystemClient) GetDbSystem(ctx context.Context, request GetDbSystemRequest) (response GetDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -705,9 +716,10 @@ func (client DbSystemClient) getDbSystem(ctx context.Context, request common.OCI
 }
 
 // GetHeatWaveCluster Gets information about the HeatWave cluster.
+// A default retry strategy applies to this operation GetHeatWaveCluster()
 func (client DbSystemClient) GetHeatWaveCluster(ctx context.Context, request GetHeatWaveClusterRequest) (response GetHeatWaveClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -759,9 +771,10 @@ func (client DbSystemClient) getHeatWaveCluster(ctx context.Context, request com
 
 // GetHeatWaveClusterMemoryEstimate Gets the most recent HeatWave cluster memory estimate that can be used to determine a suitable
 // HeatWave cluster size.
+// A default retry strategy applies to this operation GetHeatWaveClusterMemoryEstimate()
 func (client DbSystemClient) GetHeatWaveClusterMemoryEstimate(ctx context.Context, request GetHeatWaveClusterMemoryEstimateRequest) (response GetHeatWaveClusterMemoryEstimateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -813,9 +826,10 @@ func (client DbSystemClient) getHeatWaveClusterMemoryEstimate(ctx context.Contex
 
 // ListDbSystems Get a list of DB Systems in the specified compartment.
 // The default sort order is by timeUpdated, descending.
+// A default retry strategy applies to this operation ListDbSystems()
 func (client DbSystemClient) ListDbSystems(ctx context.Context, request ListDbSystemsRequest) (response ListDbSystemsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -867,9 +881,10 @@ func (client DbSystemClient) listDbSystems(ctx context.Context, request common.O
 
 // RestartAnalyticsCluster DEPRECATED -- please use HeatWave API instead.
 // Restarts the Analytics Cluster.
+// A default retry strategy applies to this operation RestartAnalyticsCluster()
 func (client DbSystemClient) RestartAnalyticsCluster(ctx context.Context, request RestartAnalyticsClusterRequest) (response RestartAnalyticsClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -925,9 +940,10 @@ func (client DbSystemClient) restartAnalyticsCluster(ctx context.Context, reques
 }
 
 // RestartDbSystem Restarts the specified DB System.
+// A default retry strategy applies to this operation RestartDbSystem()
 func (client DbSystemClient) RestartDbSystem(ctx context.Context, request RestartDbSystemRequest) (response RestartDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -983,9 +999,10 @@ func (client DbSystemClient) restartDbSystem(ctx context.Context, request common
 }
 
 // RestartHeatWaveCluster Restarts the HeatWave cluster.
+// A default retry strategy applies to this operation RestartHeatWaveCluster()
 func (client DbSystemClient) RestartHeatWaveCluster(ctx context.Context, request RestartHeatWaveClusterRequest) (response RestartHeatWaveClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1042,9 +1059,10 @@ func (client DbSystemClient) restartHeatWaveCluster(ctx context.Context, request
 
 // StartAnalyticsCluster DEPRECATED -- please use HeatWave API instead.
 // Starts the Analytics Cluster.
+// A default retry strategy applies to this operation StartAnalyticsCluster()
 func (client DbSystemClient) StartAnalyticsCluster(ctx context.Context, request StartAnalyticsClusterRequest) (response StartAnalyticsClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1100,9 +1118,10 @@ func (client DbSystemClient) startAnalyticsCluster(ctx context.Context, request 
 }
 
 // StartDbSystem Start the specified DB System.
+// A default retry strategy applies to this operation StartDbSystem()
 func (client DbSystemClient) StartDbSystem(ctx context.Context, request StartDbSystemRequest) (response StartDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1158,9 +1177,10 @@ func (client DbSystemClient) startDbSystem(ctx context.Context, request common.O
 }
 
 // StartHeatWaveCluster Starts the HeatWave cluster.
+// A default retry strategy applies to this operation StartHeatWaveCluster()
 func (client DbSystemClient) StartHeatWaveCluster(ctx context.Context, request StartHeatWaveClusterRequest) (response StartHeatWaveClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1217,9 +1237,10 @@ func (client DbSystemClient) startHeatWaveCluster(ctx context.Context, request c
 
 // StopAnalyticsCluster DEPRECATED -- please use HeatWave API instead.
 // Stops the Analytics Cluster.
+// A default retry strategy applies to this operation StopAnalyticsCluster()
 func (client DbSystemClient) StopAnalyticsCluster(ctx context.Context, request StopAnalyticsClusterRequest) (response StopAnalyticsClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1276,9 +1297,10 @@ func (client DbSystemClient) stopAnalyticsCluster(ctx context.Context, request c
 
 // StopDbSystem Stops the specified DB System.
 // A stopped DB System is not billed.
+// A default retry strategy applies to this operation StopDbSystem()
 func (client DbSystemClient) StopDbSystem(ctx context.Context, request StopDbSystemRequest) (response StopDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1334,9 +1356,10 @@ func (client DbSystemClient) stopDbSystem(ctx context.Context, request common.OC
 }
 
 // StopHeatWaveCluster Stops the HeatWave cluster.
+// A default retry strategy applies to this operation StopHeatWaveCluster()
 func (client DbSystemClient) StopHeatWaveCluster(ctx context.Context, request StopHeatWaveClusterRequest) (response StopHeatWaveClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1393,9 +1416,10 @@ func (client DbSystemClient) stopHeatWaveCluster(ctx context.Context, request co
 
 // UpdateAnalyticsCluster DEPRECATED -- please use HeatWave API instead.
 // Updates the Analytics Cluster.
+// A default retry strategy applies to this operation UpdateAnalyticsCluster()
 func (client DbSystemClient) UpdateAnalyticsCluster(ctx context.Context, request UpdateAnalyticsClusterRequest) (response UpdateAnalyticsClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1452,9 +1476,10 @@ func (client DbSystemClient) updateAnalyticsCluster(ctx context.Context, request
 // DB System is an asynchronous operation that involves provisioning new
 // Compute resources, pausing the DB System and migrating storage
 // before making the DB System available again.
+// A default retry strategy applies to this operation UpdateDbSystem()
 func (client DbSystemClient) UpdateDbSystem(ctx context.Context, request UpdateDbSystemRequest) (response UpdateDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1505,9 +1530,10 @@ func (client DbSystemClient) updateDbSystem(ctx context.Context, request common.
 }
 
 // UpdateHeatWaveCluster Updates the HeatWave cluster.
+// A default retry strategy applies to this operation UpdateHeatWaveCluster()
 func (client DbSystemClient) UpdateHeatWaveCluster(ctx context.Context, request UpdateHeatWaveClusterRequest) (response UpdateHeatWaveClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

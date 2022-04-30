@@ -55,6 +55,9 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// The number of OCPU cores available for AMD-based virtual machine DB systems.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
+	// The number of nodes to launch for the DB system of the standby in the Data Guard association. For a 2-node RAC virtual machine DB system, specify either 1 or 2. If you do not supply this parameter, the default is the node count of the primary DB system.
+	NodeCount *int `mandatory:"false" json:"nodeCount"`
+
 	// The OCID of the subnet the DB system is associated with.
 	// **Subnet Restrictions:**
 	// - For 1- and 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.16.16/28
@@ -65,7 +68,7 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
-	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds list cannot be empty.
+	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems.
@@ -113,6 +116,8 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DatabaseDefinedTags map[string]map[string]interface{} `mandatory:"false" json:"databaseDefinedTags"`
+
+	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
 
 	// The block storage volume performance level. Valid values are `BALANCED` and `HIGH_PERFORMANCE`. See Block Volume Performance (https://docs.cloud.oracle.com/Content/Block/Concepts/blockvolumeperformance.htm) for more information.
 	StorageVolumePerformanceMode CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum `mandatory:"false" json:"storageVolumePerformanceMode,omitempty"`

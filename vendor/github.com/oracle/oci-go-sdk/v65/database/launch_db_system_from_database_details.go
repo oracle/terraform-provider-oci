@@ -91,7 +91,7 @@ type LaunchDbSystemFromDatabaseDetails struct {
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
-	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds list cannot be empty.
+	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems.
@@ -142,6 +142,8 @@ type LaunchDbSystemFromDatabaseDetails struct {
 	// A private IP address of your choice. Must be an available IP address within the subnet's CIDR.
 	// If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
+
+	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
 
 	// The Oracle Database Edition that applies to all the databases on the DB system.
 	// Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
@@ -287,6 +289,11 @@ func (m LaunchDbSystemFromDatabaseDetails) GetDefinedTags() map[string]map[strin
 //GetPrivateIp returns PrivateIp
 func (m LaunchDbSystemFromDatabaseDetails) GetPrivateIp() *string {
 	return m.PrivateIp
+}
+
+//GetDataCollectionOptions returns DataCollectionOptions
+func (m LaunchDbSystemFromDatabaseDetails) GetDataCollectionOptions() *DataCollectionOptions {
+	return m.DataCollectionOptions
 }
 
 func (m LaunchDbSystemFromDatabaseDetails) String() string {

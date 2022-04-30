@@ -148,9 +148,10 @@ func (client SubscribersClient) changeSubscriberCompartment(ctx context.Context,
 }
 
 // CreateSubscriber Creates a new subscriber.
+// A default retry strategy applies to this operation CreateSubscriber()
 func (client SubscribersClient) CreateSubscriber(ctx context.Context, request CreateSubscriberRequest) (response CreateSubscriberResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -259,9 +260,10 @@ func (client SubscribersClient) deleteSubscriber(ctx context.Context, request co
 }
 
 // GetSubscriber Gets a subscriber by identifier.
+// A default retry strategy applies to this operation GetSubscriber()
 func (client SubscribersClient) GetSubscriber(ctx context.Context, request GetSubscriberRequest) (response GetSubscriberResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -312,9 +314,10 @@ func (client SubscribersClient) getSubscriber(ctx context.Context, request commo
 }
 
 // ListSubscribers Returns a list of subscribers.
+// A default retry strategy applies to this operation ListSubscribers()
 func (client SubscribersClient) ListSubscribers(ctx context.Context, request ListSubscribersRequest) (response ListSubscribersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

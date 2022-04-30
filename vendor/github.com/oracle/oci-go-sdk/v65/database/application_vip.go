@@ -33,6 +33,9 @@ type ApplicationVip struct {
 	// The date and time when the create operation for the application virtual IP (VIP) address completed.
 	TimeAssigned *common.SDKTime `mandatory:"true" json:"timeAssigned"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet associated with the application virtual IP (VIP) address.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 

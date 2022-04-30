@@ -148,9 +148,10 @@ func (client DeploymentClient) changeDeploymentCompartment(ctx context.Context, 
 }
 
 // CreateDeployment Creates a new deployment.
+// A default retry strategy applies to this operation CreateDeployment()
 func (client DeploymentClient) CreateDeployment(ctx context.Context, request CreateDeploymentRequest) (response CreateDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -259,9 +260,10 @@ func (client DeploymentClient) deleteDeployment(ctx context.Context, request com
 }
 
 // GetDeployment Gets a deployment by identifier.
+// A default retry strategy applies to this operation GetDeployment()
 func (client DeploymentClient) GetDeployment(ctx context.Context, request GetDeploymentRequest) (response GetDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -312,9 +314,10 @@ func (client DeploymentClient) getDeployment(ctx context.Context, request common
 }
 
 // ListDeployments Returns a list of deployments.
+// A default retry strategy applies to this operation ListDeployments()
 func (client DeploymentClient) ListDeployments(ctx context.Context, request ListDeploymentsRequest) (response ListDeploymentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

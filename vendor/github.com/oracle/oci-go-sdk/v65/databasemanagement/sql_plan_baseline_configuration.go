@@ -42,8 +42,14 @@ type SqlPlanBaselineConfiguration struct {
 	// The number of weeks to retain unused plans before they are purged.
 	PlanRetentionWeeks *int `mandatory:"true" json:"planRetentionWeeks"`
 
-	// The maximum percent of `SYSAUX` space that the SQL Management Base can use.
+	// The maximum percent of `SYSAUX` space that can be used for SQL Management Base.
 	SpaceBudgetPercent *float32 `mandatory:"true" json:"spaceBudgetPercent"`
+
+	// The maximum `SYSAUX` space that can be used for SQL Management Base in MB.
+	SpaceBudgetMB *float32 `mandatory:"false" json:"spaceBudgetMB"`
+
+	// The space used by SQL Management Base in MB.
+	SpaceUsedMB *float32 `mandatory:"false" json:"spaceUsedMB"`
 
 	// The capture filters used in automatic initial plan capture.
 	AutoCaptureFilters []AutomaticCaptureFilter `mandatory:"false" json:"autoCaptureFilters"`

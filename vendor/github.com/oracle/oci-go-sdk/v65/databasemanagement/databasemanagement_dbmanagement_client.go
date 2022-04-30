@@ -207,6 +207,60 @@ func (client DbManagementClient) addManagedDatabaseToManagedDatabaseGroup(ctx co
 	return response, err
 }
 
+// AddmTasks Lists the metadata for each ADDM task who's end snapshot time falls within the provided start and end time. Details include
+// the name of the ADDM task, description, user, status and creation date time.
+func (client DbManagementClient) AddmTasks(ctx context.Context, request AddmTasksRequest) (response AddmTasksResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addmTasks, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddmTasksResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddmTasksResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddmTasksResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddmTasksResponse")
+	}
+	return
+}
+
+// addmTasks implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) addmTasks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/addmTasks", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddmTasksResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/AddmTasksCollection/AddmTasks"
+		err = common.PostProcessServiceError(err, "DbManagement", "AddmTasks", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeDatabaseParameters Changes database parameter values. There are two kinds of database
 // parameters:
 // - Dynamic parameters: They can be changed for the current Oracle
@@ -2871,60 +2925,6 @@ func (client DbManagementClient) implementOptimizerStatisticsAdvisorRecommendati
 	return response, err
 }
 
-// ListAddmReports Lists the metadata for each ADDM task created within the provided start and end time. Details include
-// the name of the ADDM task, description, user, status and creation date time.
-func (client DbManagementClient) ListAddmReports(ctx context.Context, request ListAddmReportsRequest) (response ListAddmReportsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listAddmReports, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListAddmReportsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListAddmReportsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListAddmReportsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListAddmReportsResponse")
-	}
-	return
-}
-
-// listAddmReports implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) listAddmReports(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/actions/listAddmReports", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListAddmReportsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ListAddmReportsCollection/ListAddmReports"
-		err = common.PostProcessServiceError(err, "DbManagement", "ListAddmReports", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListAsmProperties Gets the list of ASM properties for the specified managedDatabaseId.
 func (client DbManagementClient) ListAsmProperties(ctx context.Context, request ListAsmPropertiesRequest) (response ListAsmPropertiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4850,7 +4850,8 @@ func (client DbManagementClient) resizeDataFile(ctx context.Context, request com
 	return response, err
 }
 
-// RunHistoricAddm Creates a historic ADDM report using the specified AWR snapshot IDs.
+// RunHistoricAddm Creates and executes a historic ADDM task using the specified AWR snapshot IDs. If an existing ADDM task
+// uses the provided awr snapshot IDs, the existing task will be returned.
 func (client DbManagementClient) RunHistoricAddm(ctx context.Context, request RunHistoricAddmRequest) (response RunHistoricAddmResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

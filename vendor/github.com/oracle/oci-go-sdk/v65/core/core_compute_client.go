@@ -3209,7 +3209,7 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // After waiting 15 minutes for the OS to shut down, the instance is powered off and
 // then powered back on.
 // - **SUSPEND** - Powers off the instance and saves the contents from the instance's memory.
-// - **SENDDIAGNOSTICINTERRUPT** - For advanced users. **Warning: Sending a diagnostic interrupt to a live system can
+// - **SENDDIAGNOSTICINTERRUPT** - For advanced users. **Caution: Sending a diagnostic interrupt to a live system can
 // cause data corruption or system failure.** Sends a diagnostic interrupt that causes the instance's
 // OS to crash and then reboot. Before you send a diagnostic interrupt, you must configure the instance to generate a
 // crash dump file when it crashes. The crash dump captures information about the state of the OS at the time of
@@ -3219,7 +3219,7 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // - **VALIDATELIVEMIGRATE** - Live migrate the instance to validate impact on the customer workload.
 //                             Live migrating an instance moves it to a different physical host while the instance is running.
 //
-// - **DIAGNOSTICREBOOT** - Powers off the instance, rebuilds it on the physical host, and then powers it back on.
+// - **DIAGNOSTICREBOOT** - Powers off the instance, rebuilds it, and then powers it back on.
 // Before you send a diagnostic reboot, restart the instance's OS, confirm that the instance and networking settings are configured
 // correctly, and try other troubleshooting steps (https://docs.cloud.oracle.com/iaas/Content/Compute/References/troubleshooting-compute-instances.htm).
 // Use diagnostic reboot as a final attempt to troubleshoot an unreachable instance. For virtual machine (VM) instances only.
