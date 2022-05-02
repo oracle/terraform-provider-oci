@@ -296,9 +296,7 @@ ai_anomaly_detection
 * oci\_ai\_anomaly\_detection\_ai\_private\_endpoint
 
 ai_vision
-    
-* oci\_ai\_vision\_document\_job
-* oci\_ai\_vision\_image\_job
+
 * oci\_ai\_vision\_project
 * oci\_ai\_vision\_model
 
