@@ -504,6 +504,11 @@ func CoreInstanceResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"nvmes": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"ocpus": {
 							Type:     schema.TypeFloat,
 							Optional: true,
@@ -2101,6 +2106,11 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstanceShapeConfigDetails(fieldKe
 		result.MemoryInGBs = &tmp
 	}
 
+	if nvmes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nvmes")); ok {
+		tmp := nvmes.(int)
+		result.Nvmes = &tmp
+	}
+
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
 		tmp := float32(ocpus.(float64))
 		result.Ocpus = &tmp
@@ -2148,6 +2158,7 @@ func InstanceShapeConfigToMap(obj *oci_core.InstanceShapeConfig) map[string]inte
 
 	if obj.LocalDisks != nil {
 		result["local_disks"] = int(*obj.LocalDisks)
+		result["nvmes"] = int(*obj.LocalDisks)
 	}
 
 	if obj.LocalDisksTotalSizeInGBs != nil {

@@ -16,6 +16,7 @@ var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 
 var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"availability_domain":     availabilityDomainResourceGraph,
+	"adm":                     admResourceGraph,
 	"ai_anomaly_detection":    aiAnomalyDetectionResourceGraph,
 	"ai_vision":               aiVisionResourceGraph,
 	"analytics":               analyticsResourceGraph,
@@ -69,6 +70,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"opsi":                    opsiResourceGraph,
 	"osmanagement":            osmanagementResourceGraph,
 	"osp_gateway":             ospGatewayResourceGraph,
+	"resourcemanager":         resourcemanagerResourceGraph,
 	"sch":                     schResourceGraph,
 	"stack_monitoring":        stackMonitoringResourceGraph,
 	"vault":                   vaultResourceGraph,
@@ -116,6 +118,13 @@ var availabilityDomainResourceGraph = TerraformResourceGraph{
 				"file_system_id": "id",
 			},
 		},
+	},
+}
+
+var admResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportAdmVulnerabilityAuditHints},
+		{TerraformResourceHints: exportAdmKnowledgeBaseHints},
 	},
 }
 
@@ -1196,6 +1205,12 @@ var osmanagementResourceGraph = TerraformResourceGraph{
 
 var ospGatewayResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {},
+}
+
+var resourcemanagerResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportResourcemanagerPrivateEndpointHints},
+	},
 }
 
 var schResourceGraph = TerraformResourceGraph{

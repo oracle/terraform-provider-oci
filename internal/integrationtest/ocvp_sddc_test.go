@@ -6,6 +6,7 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"math/rand"
 	"strconv"
 	"testing"
 	"time"
@@ -39,10 +40,14 @@ var (
 		"sddc_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_ocvp_sddc.test_sddc.id}`},
 	}
 
+	// use random name to avoid conflict in parallel tests
+	sddcDisplayName1 = fmt.Sprintf("%s-%d", "test", rand.Intn(10000))
+	sddcDisplayName2 = sddcDisplayName1 + "u"
+
 	sddcDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compute_availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
-		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: sddcDisplayName1, Update: sddcDisplayName2},
 		"state":                       acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: sddcDataSourceFilterRepresentation}}
 	sddcDataSourceFilterRepresentation = map[string]interface{}{
@@ -61,16 +66,18 @@ var (
 		"provisioning_subnet_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_provisioning_subnet.id}`},
 		"ssh_authorized_keys":          acctest.Representation{RepType: acctest.Required, Create: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`},
 		"vmotion_vlan_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vmotion_net_vlan.id}`},
-		"vmware_software_version":      acctest.Representation{RepType: acctest.Required, Create: `6.7 update 3`, Update: `6.5 update 3`},
+		"vmware_software_version":      acctest.Representation{RepType: acctest.Required, Create: `test-L2`, Update: `6.5 update 3`},
 		"vsan_vlan_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vsan_net_vlan.id}`},
 		"vsphere_vlan_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vsphere_net_vlan.id}`},
 		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: sddcDisplayName1, Update: sddcDisplayName2},
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"initial_sku":                  acctest.Representation{RepType: acctest.Optional, Create: `HOUR`},
 		"is_shielded_instance_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"hcx_action":                   acctest.Representation{RepType: acctest.Optional, Create: ocvp.UpgradeHcxAction},
 		"hcx_vlan_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vlan.test_hcx_vlan.id}`},
+		"initial_host_ocpu_count":      acctest.Representation{RepType: acctest.Optional, Create: `52.0`},
+		"initial_host_shape_name":      acctest.Representation{RepType: acctest.Optional, Create: `BM.DenseIO2.52`},
 		"instance_display_name_prefix": acctest.Representation{RepType: acctest.Optional, Create: `njki`},
 		"is_hcx_enabled":               acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"workload_network_cidr":        acctest.Representation{RepType: acctest.Optional, Create: `172.20.0.0/24`},
@@ -130,6 +137,10 @@ resource oci_core_route_table test_route_table_for_vsphere_vlan {
     network_entity_id = oci_core_nat_gateway.test_nat_gateway_ocvp.id
   }
   vcn_id = oci_core_vcn.test_vcn_ocvp.id
+
+  lifecycle {
+    ignore_changes = [ route_rules ]
+  }
 }
 
 resource "oci_core_network_security_group" "test_nsg_allow_all" {
@@ -188,6 +199,10 @@ resource "oci_core_route_table" "private_rt" {
         network_entity_id = "${oci_core_service_gateway.export_sgw.id}"
     }
     vcn_id = "${oci_core_vcn.test_vcn_ocvp.id}"
+
+  lifecycle {
+    ignore_changes = [ route_rules ]
+  }
 }
 
 resource "oci_core_security_list" "private_sl" {
@@ -426,7 +441,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
 				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.7 update 3"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "test-L2"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 				resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "false"),
@@ -478,12 +493,14 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", sddcDisplayName1),
 				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", "52"),
+				resource.TestCheckResourceAttr(resourceName, "initial_host_shape_name", "BM.DenseIO2.52"),
 				resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
 				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
@@ -534,12 +551,14 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", sddcDisplayName1),
 				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", "52"),
+				resource.TestCheckResourceAttr(resourceName, "initial_host_shape_name", "BM.DenseIO2.52"),
 				resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
 				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
@@ -586,12 +605,14 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", sddcDisplayName2),
 				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", "52"),
+				resource.TestCheckResourceAttr(resourceName, "initial_host_shape_name", "BM.DenseIO2.52"),
 				resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
 				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
@@ -641,12 +662,14 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.compute_availability_domain"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.display_name", sddcDisplayName2),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.is_shielded_instance_enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "7.0 update 2"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.actual_esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.initial_host_ocpu_count", "52"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.initial_host_shape_name", "BM.DenseIO2.52"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_updated"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.state", "ACTIVE"),
@@ -663,7 +686,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", sddcDisplayName2),
 				resource.TestCheckResourceAttr(singularDatasourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "actual_esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
@@ -674,6 +697,8 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_private_ip_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_vlan_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_host_ocpu_count", "52"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_host_shape_name", "BM.DenseIO2.52"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_sku", "HOUR"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_display_name_prefix", "njki"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_hcx_enabled", "true"),

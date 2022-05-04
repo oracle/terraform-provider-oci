@@ -102,6 +102,14 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 		s.D.Set("grace_period_end_date", s.Res.GracePeriodEndDate.String())
 	}
 
+	if s.Res.HostOcpuCount != nil {
+		s.D.Set("host_ocpu_count", *s.Res.HostOcpuCount)
+	}
+
+	if s.Res.HostShapeName != nil {
+		s.D.Set("host_shape_name", *s.Res.HostShapeName)
+	}
+
 	s.D.Set("next_sku", s.Res.NextSku)
 
 	if s.Res.ReplacementEsxiHostId != nil {

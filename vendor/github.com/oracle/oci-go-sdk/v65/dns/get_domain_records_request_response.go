@@ -66,7 +66,8 @@ type GetDomainRecordsRequest struct {
 	// The order to sort the resources.
 	SortOrder GetDomainRecordsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The OCID of the compartment the resource belongs to.
+	// The OCID of the compartment the zone belongs to.
+	// This parameter is deprecated and should be omitted.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

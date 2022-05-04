@@ -2,10 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Container Images API
+// Artifacts and Container Images API
 //
-// API covering the Registry (https://docs.cloud.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm) services.
-// Use this API to manage resources such as container images and repositories.
+// API covering the Artifacts and Registry (https://docs.cloud.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm) services.
+// Use this API to manage resources such as generic artifacts and container images.
 //
 
 package artifacts
@@ -143,7 +143,7 @@ func (client ArtifactsClient) changeContainerRepositoryCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerRepository/ChangeContainerRepositoryCompartment"
 		err = common.PostProcessServiceError(err, "Artifacts", "ChangeContainerRepositoryCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -207,7 +207,7 @@ func (client ArtifactsClient) changeRepositoryCompartment(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/Repository/ChangeRepositoryCompartment"
 		err = common.PostProcessServiceError(err, "Artifacts", "ChangeRepositoryCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -269,7 +269,7 @@ func (client ArtifactsClient) createContainerImageSignature(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerImageSignature/CreateContainerImageSignature"
 		err = common.PostProcessServiceError(err, "Artifacts", "CreateContainerImageSignature", apiReferenceLink)
 		return response, err
 	}
@@ -331,7 +331,7 @@ func (client ArtifactsClient) createContainerRepository(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerRepository/CreateContainerRepository"
 		err = common.PostProcessServiceError(err, "Artifacts", "CreateContainerRepository", apiReferenceLink)
 		return response, err
 	}
@@ -393,7 +393,7 @@ func (client ArtifactsClient) createRepository(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/Repository/CreateRepository"
 		err = common.PostProcessServiceError(err, "Artifacts", "CreateRepository", apiReferenceLink)
 		return response, err
 	}
@@ -450,7 +450,7 @@ func (client ArtifactsClient) deleteContainerImage(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerImage/DeleteContainerImage"
 		err = common.PostProcessServiceError(err, "Artifacts", "DeleteContainerImage", apiReferenceLink)
 		return response, err
 	}
@@ -507,7 +507,7 @@ func (client ArtifactsClient) deleteContainerImageSignature(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerImageSignature/DeleteContainerImageSignature"
 		err = common.PostProcessServiceError(err, "Artifacts", "DeleteContainerImageSignature", apiReferenceLink)
 		return response, err
 	}
@@ -564,7 +564,7 @@ func (client ArtifactsClient) deleteContainerRepository(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerRepository/DeleteContainerRepository"
 		err = common.PostProcessServiceError(err, "Artifacts", "DeleteContainerRepository", apiReferenceLink)
 		return response, err
 	}
@@ -621,7 +621,7 @@ func (client ArtifactsClient) deleteGenericArtifact(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/GenericArtifact/DeleteGenericArtifact"
 		err = common.PostProcessServiceError(err, "Artifacts", "DeleteGenericArtifact", apiReferenceLink)
 		return response, err
 	}
@@ -678,7 +678,7 @@ func (client ArtifactsClient) deleteGenericArtifactByPath(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/GenericArtifact/DeleteGenericArtifactByPath"
 		err = common.PostProcessServiceError(err, "Artifacts", "DeleteGenericArtifactByPath", apiReferenceLink)
 		return response, err
 	}
@@ -735,7 +735,7 @@ func (client ArtifactsClient) deleteRepository(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/Repository/DeleteRepository"
 		err = common.PostProcessServiceError(err, "Artifacts", "DeleteRepository", apiReferenceLink)
 		return response, err
 	}
@@ -792,7 +792,7 @@ func (client ArtifactsClient) getContainerConfiguration(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerConfiguration/GetContainerConfiguration"
 		err = common.PostProcessServiceError(err, "Artifacts", "GetContainerConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -849,7 +849,7 @@ func (client ArtifactsClient) getContainerImage(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerImage/GetContainerImage"
 		err = common.PostProcessServiceError(err, "Artifacts", "GetContainerImage", apiReferenceLink)
 		return response, err
 	}
@@ -906,7 +906,7 @@ func (client ArtifactsClient) getContainerImageSignature(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerImageSignature/GetContainerImageSignature"
 		err = common.PostProcessServiceError(err, "Artifacts", "GetContainerImageSignature", apiReferenceLink)
 		return response, err
 	}
@@ -963,7 +963,7 @@ func (client ArtifactsClient) getContainerRepository(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerRepository/GetContainerRepository"
 		err = common.PostProcessServiceError(err, "Artifacts", "GetContainerRepository", apiReferenceLink)
 		return response, err
 	}
@@ -1020,7 +1020,7 @@ func (client ArtifactsClient) getGenericArtifact(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/GenericArtifact/GetGenericArtifact"
 		err = common.PostProcessServiceError(err, "Artifacts", "GetGenericArtifact", apiReferenceLink)
 		return response, err
 	}
@@ -1077,7 +1077,7 @@ func (client ArtifactsClient) getGenericArtifactByPath(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/GenericArtifact/GetGenericArtifactByPath"
 		err = common.PostProcessServiceError(err, "Artifacts", "GetGenericArtifactByPath", apiReferenceLink)
 		return response, err
 	}
@@ -1134,7 +1134,7 @@ func (client ArtifactsClient) getRepository(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/Repository/GetRepository"
 		err = common.PostProcessServiceError(err, "Artifacts", "GetRepository", apiReferenceLink)
 		return response, err
 	}
@@ -1191,7 +1191,7 @@ func (client ArtifactsClient) listContainerImageSignatures(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerImageSignatureSummary/ListContainerImageSignatures"
 		err = common.PostProcessServiceError(err, "Artifacts", "ListContainerImageSignatures", apiReferenceLink)
 		return response, err
 	}
@@ -1248,7 +1248,7 @@ func (client ArtifactsClient) listContainerImages(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerImageSummary/ListContainerImages"
 		err = common.PostProcessServiceError(err, "Artifacts", "ListContainerImages", apiReferenceLink)
 		return response, err
 	}
@@ -1305,7 +1305,7 @@ func (client ArtifactsClient) listContainerRepositories(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerRepository/ListContainerRepositories"
 		err = common.PostProcessServiceError(err, "Artifacts", "ListContainerRepositories", apiReferenceLink)
 		return response, err
 	}
@@ -1362,7 +1362,7 @@ func (client ArtifactsClient) listGenericArtifacts(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/GenericArtifact/ListGenericArtifacts"
 		err = common.PostProcessServiceError(err, "Artifacts", "ListGenericArtifacts", apiReferenceLink)
 		return response, err
 	}
@@ -1419,7 +1419,7 @@ func (client ArtifactsClient) listRepositories(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/Repository/ListRepositories"
 		err = common.PostProcessServiceError(err, "Artifacts", "ListRepositories", apiReferenceLink)
 		return response, err
 	}
@@ -1481,7 +1481,7 @@ func (client ArtifactsClient) removeContainerVersion(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerImage/RemoveContainerVersion"
 		err = common.PostProcessServiceError(err, "Artifacts", "RemoveContainerVersion", apiReferenceLink)
 		return response, err
 	}
@@ -1543,7 +1543,7 @@ func (client ArtifactsClient) restoreContainerImage(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerImage/RestoreContainerImage"
 		err = common.PostProcessServiceError(err, "Artifacts", "RestoreContainerImage", apiReferenceLink)
 		return response, err
 	}
@@ -1600,7 +1600,7 @@ func (client ArtifactsClient) updateContainerConfiguration(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerConfiguration/UpdateContainerConfiguration"
 		err = common.PostProcessServiceError(err, "Artifacts", "UpdateContainerConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -1657,7 +1657,7 @@ func (client ArtifactsClient) updateContainerRepository(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerRepository/UpdateContainerRepository"
 		err = common.PostProcessServiceError(err, "Artifacts", "UpdateContainerRepository", apiReferenceLink)
 		return response, err
 	}
@@ -1714,7 +1714,7 @@ func (client ArtifactsClient) updateGenericArtifact(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/GenericArtifact/UpdateGenericArtifact"
 		err = common.PostProcessServiceError(err, "Artifacts", "UpdateGenericArtifact", apiReferenceLink)
 		return response, err
 	}
@@ -1771,7 +1771,7 @@ func (client ArtifactsClient) updateGenericArtifactByPath(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/GenericArtifact/UpdateGenericArtifactByPath"
 		err = common.PostProcessServiceError(err, "Artifacts", "UpdateGenericArtifactByPath", apiReferenceLink)
 		return response, err
 	}
@@ -1828,7 +1828,7 @@ func (client ArtifactsClient) updateRepository(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/Repository/UpdateRepository"
 		err = common.PostProcessServiceError(err, "Artifacts", "UpdateRepository", apiReferenceLink)
 		return response, err
 	}

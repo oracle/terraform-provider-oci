@@ -126,6 +126,18 @@ func OcvpSddcResource() *schema.Resource {
 					CancelDowngradeHcxAction,
 				}, true),
 			},
+			"initial_host_ocpu_count": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"initial_host_shape_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"initial_sku": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -412,6 +424,16 @@ func (s *OcvpSddcResourceCrud) Create() error {
 	if hcxVlanId, ok := s.D.GetOkExists("hcx_vlan_id"); ok {
 		tmp := hcxVlanId.(string)
 		request.HcxVlanId = &tmp
+	}
+
+	if initialHostOcpuCount, ok := s.D.GetOkExists("initial_host_ocpu_count"); ok {
+		tmp := float32(initialHostOcpuCount.(float64))
+		request.InitialHostOcpuCount = &tmp
+	}
+
+	if initialHostShapeName, ok := s.D.GetOkExists("initial_host_shape_name"); ok {
+		tmp := initialHostShapeName.(string)
+		request.InitialHostShapeName = &tmp
 	}
 
 	if initialSku, ok := s.D.GetOkExists("initial_sku"); ok {
@@ -945,6 +967,14 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("hcx_vlan_id", *s.Res.HcxVlanId)
 	}
 
+	if s.Res.InitialHostOcpuCount != nil {
+		s.D.Set("initial_host_ocpu_count", *s.Res.InitialHostOcpuCount)
+	}
+
+	if s.Res.InitialHostShapeName != nil {
+		s.D.Set("initial_host_shape_name", *s.Res.InitialHostShapeName)
+	}
+
 	s.D.Set("initial_sku", s.Res.InitialSku)
 
 	if s.Res.InstanceDisplayNamePrefix != nil {
@@ -1128,6 +1158,14 @@ func SddcSummaryToMap(obj oci_ocvp.SddcSummary) map[string]interface{} {
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.InitialHostOcpuCount != nil {
+		result["initial_host_ocpu_count"] = float32(*obj.InitialHostOcpuCount)
+	}
+
+	if obj.InitialHostShapeName != nil {
+		result["initial_host_shape_name"] = string(*obj.InitialHostShapeName)
 	}
 
 	if obj.IsHcxEnabled != nil {

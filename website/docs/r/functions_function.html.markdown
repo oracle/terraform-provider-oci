@@ -27,6 +27,13 @@ resource "oci_functions_function" "test_function" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
 	image_digest = var.function_image_digest
+	provisioned_concurrency_config {
+		#Required
+		strategy = var.function_provisioned_concurrency_config_strategy
+
+		#Optional
+		count = var.function_provisioned_concurrency_config_count
+	}
 	timeout_in_seconds = var.function_timeout_in_seconds
 	trace_config {
 
@@ -50,6 +57,9 @@ The following arguments are supported:
 * `image` - (Required) (Updatable) The qualified name of the Docker image to use in the function, including the image tag. The image should be in the Oracle Cloud Infrastructure Registry that is in the same region as the function itself. This field must be updated if image_digest is updated. Example: `phx.ocir.io/ten/functions/function:0.0.1`
 * `image_digest` - (Optional) (Updatable) The image digest for the version of the image that will be pulled when invoking this function. If no value is specified, the digest currently associated with the image in the Oracle Cloud Infrastructure Registry will be used. This field must be updated if image is updated. Example: `sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7`
 * `memory_in_mbs` - (Required) (Updatable) Maximum usable memory for the function (MiB).
+* `provisioned_concurrency_config` - (Optional) (Updatable) Define the strategy for provisioned concurrency for the function. 
+	* `count` - (Required when strategy=CONSTANT) (Updatable) 
+	* `strategy` - (Required) (Updatable) The strategy for provisioned concurrency to be used. 
 * `timeout_in_seconds` - (Optional) (Updatable) Timeout for executions of the function. Value in seconds.
 * `trace_config` - (Optional) (Updatable) Define the tracing configuration for a function. 
 	* `is_enabled` - (Optional) (Updatable) Define if tracing is enabled for the resource. 
@@ -75,6 +85,9 @@ The following attributes are exported:
 * `image_digest` - The image digest for the version of the image that will be pulled when invoking this function. If no value is specified, the digest currently associated with the image in the Oracle Cloud Infrastructure Registry will be used. This field must be updated if image is updated. Example: `sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7`
 * `invoke_endpoint` - The base https invoke URL to set on a client in order to invoke a function. This URL will never change over the lifetime of the function and can be cached. 
 * `memory_in_mbs` - Maximum usable memory for the function (MiB).
+* `provisioned_concurrency_config` - Define the strategy for provisioned concurrency for the function. 
+	* `count` - 
+	* `strategy` - The strategy for provisioned concurrency to be used. 
 * `state` - The current state of the function. 
 * `time_created` - The time the function was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-09-12T22:47:12.613Z` 
 * `time_updated` - The time the function was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-09-12T22:47:12.613Z` 

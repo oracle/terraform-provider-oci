@@ -32,6 +32,36 @@ type InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig struct {
 
 	// Whether the Measured Boot feature is enabled on the instance.
 	IsMeasuredBootEnabled *bool `mandatory:"false" json:"isMeasuredBootEnabled"`
+
+	// Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also
+	// called simultaneous multithreading (SMT) or Intel Hyper-Threading.
+	// Intel and AMD processors have two hardware execution threads per core (OCPU). SMT permits multiple
+	// independent threads of execution, to better use the resources and increase the efficiency
+	// of the CPU. When multithreading is disabled, only one thread is permitted to run on each core, which
+	// can provide higher or more predictable performance for some workloads.
+	IsSymmetricMultiThreadingEnabled *bool `mandatory:"false" json:"isSymmetricMultiThreadingEnabled"`
+
+	// Whether the Access Control Service is enabled on the instance. When enabled,
+	// the platform can enforce PCIe device isolation, required for VFIO device pass-through.
+	IsAccessControlServiceEnabled *bool `mandatory:"false" json:"isAccessControlServiceEnabled"`
+
+	// Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes
+	// or VT-x for Intel shapes.
+	AreVirtualInstructionsEnabled *bool `mandatory:"false" json:"areVirtualInstructionsEnabled"`
+
+	// Whether the input-output memory management unit is enabled.
+	IsInputOutputMemoryManagementUnitEnabled *bool `mandatory:"false" json:"isInputOutputMemoryManagementUnitEnabled"`
+
+	// The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage
+	// results in a fractional number of cores, the system rounds up the number of cores across processors
+	// and provisions an instance with a whole number of cores.
+	// If the applications that you run on the instance use a core-based licensing model and need fewer cores
+	// than the full size of the shape, you can disable cores to reduce your licensing costs. The instance
+	// itself is billed for the full shape, regardless of whether all cores are enabled.
+	PercentageOfCoresEnabled *int `mandatory:"false" json:"percentageOfCoresEnabled"`
+
+	// The number of NUMA nodes per socket (NPS).
+	NumaNodesPerSocket InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum `mandatory:"false" json:"numaNodesPerSocket,omitempty"`
 }
 
 //GetIsSecureBootEnabled returns IsSecureBootEnabled
@@ -58,6 +88,9 @@ func (m InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig) String() str
 // Not recommended for calling this function directly
 func (m InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum(string(m.NumaNodesPerSocket)); !ok && m.NumaNodesPerSocket != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NumaNodesPerSocket: %s. Supported values are: %s.", m.NumaNodesPerSocket, strings.Join(GetInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -77,4 +110,54 @@ func (m InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig) MarshalJSON(
 	}
 
 	return json.Marshal(&s)
+}
+
+// InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum Enum with underlying type: string
+type InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum string
+
+// Set of constants representing the allowable values for InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum
+const (
+	InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps0 InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS0"
+	InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps1 InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS1"
+	InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps2 InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS2"
+	InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps4 InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS4"
+)
+
+var mappingInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = map[string]InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum{
+	"NPS0": InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps0,
+	"NPS1": InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps1,
+	"NPS2": InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps2,
+	"NPS4": InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps4,
+}
+
+var mappingInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumLowerCase = map[string]InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum{
+	"nps0": InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps0,
+	"nps1": InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps1,
+	"nps2": InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps2,
+	"nps4": InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps4,
+}
+
+// GetInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumValues Enumerates the set of values for InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum
+func GetInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumValues() []InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum {
+	values := make([]InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum, 0)
+	for _, v := range mappingInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumStringValues Enumerates the set of values in String for InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum
+func GetInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumStringValues() []string {
+	return []string{
+		"NPS0",
+		"NPS1",
+		"NPS2",
+		"NPS4",
+	}
+}
+
+// GetMappingInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum(val string) (InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum, bool) {
+	enum, ok := mappingInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

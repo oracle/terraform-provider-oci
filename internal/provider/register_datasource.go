@@ -4,6 +4,7 @@
 package provider
 
 import (
+	tf_adm "github.com/terraform-providers/terraform-provider-oci/internal/service/adm"
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	tf_ai_vision "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_vision"
 	tf_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
@@ -91,6 +92,13 @@ import (
 )
 
 func init() {
+	// adm service
+	RegisterDatasource("oci_adm_knowledge_base", tf_adm.AdmKnowledgeBaseDataSource())
+	RegisterDatasource("oci_adm_knowledge_bases", tf_adm.AdmKnowledgeBasesDataSource())
+	RegisterDatasource("oci_adm_vulnerability_audit", tf_adm.AdmVulnerabilityAuditDataSource())
+	RegisterDatasource("oci_adm_vulnerability_audits", tf_adm.AdmVulnerabilityAuditsDataSource())
+	RegisterDatasource("oci_adm_vulnerability_audit_application_dependency_vulnerability", tf_adm.AdmVulnerabilityAuditApplicationDependencyVulnerabilityDataSource())
+	RegisterDatasource("oci_adm_vulnerability_audit_application_dependency_vulnerabilities", tf_adm.AdmVulnerabilityAuditApplicationDependencyVulnerabilitiesDataSource())
 	// ai_anomaly_detection service
 	RegisterDatasource("oci_ai_anomaly_detection_ai_private_endpoint", tf_ai_anomaly_detection.AiAnomalyDetectionAiPrivateEndpointDataSource())
 	RegisterDatasource("oci_ai_anomaly_detection_ai_private_endpoints", tf_ai_anomaly_detection.AiAnomalyDetectionAiPrivateEndpointsDataSource())
@@ -1082,6 +1090,8 @@ func init() {
 	RegisterDatasource("oci_osub_usage_computed_usage_aggregateds", tf_osub_usage.OsubUsageComputedUsageAggregatedsDataSource())
 	RegisterDatasource("oci_osub_usage_computed_usages", tf_osub_usage.OsubUsageComputedUsagesDataSource())
 	// resourcemanager service
+	RegisterDatasource("oci_resourcemanager_private_endpoint", tf_resourcemanager.ResourcemanagerPrivateEndpointDataSource())
+	RegisterDatasource("oci_resourcemanager_private_endpoint_reachable_ip", tf_resourcemanager.ResourcemanagerPrivateEndpointReachableIpDataSource())
 	RegisterDatasource("oci_resourcemanager_stack", tf_resourcemanager.ResourcemanagerStackDataSource())
 	RegisterDatasource("oci_resourcemanager_stack_tf_state", tf_resourcemanager.ResourcemanagerStackTfStateDataSource())
 	RegisterDatasource("oci_resourcemanager_stacks", tf_resourcemanager.ResourcemanagerStacksDataSource())
