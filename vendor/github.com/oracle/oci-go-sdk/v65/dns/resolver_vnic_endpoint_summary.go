@@ -17,7 +17,8 @@ import (
 	"strings"
 )
 
-// ResolverVnicEndpointSummary An OCI DNS resolver VNIC endpoint.
+// ResolverVnicEndpointSummary An OCI DNS resolver VNIC endpoint. A VNIC is created for each ResolverVnicEndpoint. VCNs and subnets cannot be
+// deleted while ResolverVnicEndpoints exist in them due to the VNIC.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type ResolverVnicEndpointSummary struct {
 

@@ -115,6 +115,14 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("hcx_vlan_id", *s.Res.HcxVlanId)
 	}
 
+	if s.Res.InitialHostOcpuCount != nil {
+		s.D.Set("initial_host_ocpu_count", *s.Res.InitialHostOcpuCount)
+	}
+
+	if s.Res.InitialHostShapeName != nil {
+		s.D.Set("initial_host_shape_name", *s.Res.InitialHostShapeName)
+	}
+
 	s.D.Set("initial_sku", s.Res.InitialSku)
 
 	if s.Res.InstanceDisplayNamePrefix != nil {

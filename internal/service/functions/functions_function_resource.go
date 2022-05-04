@@ -6,13 +6,16 @@ package functions
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
+	"strings"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/customdiff"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_functions "github.com/oracle/oci-go-sdk/v65/functions"
 )
@@ -123,6 +126,36 @@ func FunctionsFunctionResource() *schema.Resource {
 
 				DefaultFunc: func() (interface{}, error) {
 					return requireRecompute, nil
+				},
+			},
+			"provisioned_concurrency_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"strategy": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"CONSTANT",
+								"NONE",
+							}, true),
+						},
+
+						// Optional
+						"count": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
 				},
 			},
 			"timeout_in_seconds": {
@@ -297,6 +330,17 @@ func (s *FunctionsFunctionResourceCrud) Create() error {
 		request.MemoryInMBs = &tmpInt64
 	}
 
+	if provisionedConcurrencyConfig, ok := s.D.GetOkExists("provisioned_concurrency_config"); ok {
+		if tmpList := provisionedConcurrencyConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "provisioned_concurrency_config", 0)
+			tmp, err := s.mapToFunctionProvisionedConcurrencyConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ProvisionedConcurrencyConfig = tmp
+		}
+	}
+
 	if timeoutInSeconds, ok := s.D.GetOkExists("timeout_in_seconds"); ok {
 		tmp := timeoutInSeconds.(int)
 		request.TimeoutInSeconds = &tmp
@@ -385,6 +429,17 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 		request.MemoryInMBs = &tmpInt64
 	}
 
+	if provisionedConcurrencyConfig, ok := s.D.GetOkExists("provisioned_concurrency_config"); ok {
+		if tmpList := provisionedConcurrencyConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "provisioned_concurrency_config", 0)
+			tmp, err := s.mapToFunctionProvisionedConcurrencyConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ProvisionedConcurrencyConfig = tmp
+		}
+	}
+
 	if timeoutInSeconds, ok := s.D.GetOkExists("timeout_in_seconds"); ok {
 		tmp := timeoutInSeconds.(int)
 		request.TimeoutInSeconds = &tmp
@@ -461,6 +516,16 @@ func (s *FunctionsFunctionResourceCrud) SetData() error {
 		s.D.Set("memory_in_mbs", strconv.FormatInt(*s.Res.MemoryInMBs, 10))
 	}
 
+	if s.Res.ProvisionedConcurrencyConfig != nil {
+		provisionedConcurrencyConfigArray := []interface{}{}
+		if provisionedConcurrencyConfigMap := FunctionProvisionedConcurrencyConfigToMap(&s.Res.ProvisionedConcurrencyConfig); provisionedConcurrencyConfigMap != nil {
+			provisionedConcurrencyConfigArray = append(provisionedConcurrencyConfigArray, provisionedConcurrencyConfigMap)
+		}
+		s.D.Set("provisioned_concurrency_config", provisionedConcurrencyConfigArray)
+	} else {
+		s.D.Set("provisioned_concurrency_config", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -482,6 +547,52 @@ func (s *FunctionsFunctionResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *FunctionsFunctionResourceCrud) mapToFunctionProvisionedConcurrencyConfig(fieldKeyFormat string) (oci_functions.FunctionProvisionedConcurrencyConfig, error) {
+	var baseObject oci_functions.FunctionProvisionedConcurrencyConfig
+	//discriminator
+	strategyRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "strategy"))
+	var strategy string
+	if ok {
+		strategy = strategyRaw.(string)
+	} else {
+		strategy = "" // default value
+	}
+	switch strings.ToLower(strategy) {
+	case strings.ToLower("CONSTANT"):
+		details := oci_functions.ConstantProvisionedConcurrencyConfig{}
+		if count, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "count")); ok {
+			tmp := count.(int)
+			details.Count = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("NONE"):
+		details := oci_functions.NoneProvisionedConcurrencyConfig{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown strategy '%v' was specified", strategy)
+	}
+	return baseObject, nil
+}
+
+func FunctionProvisionedConcurrencyConfigToMap(obj *oci_functions.FunctionProvisionedConcurrencyConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_functions.ConstantProvisionedConcurrencyConfig:
+		result["strategy"] = "CONSTANT"
+
+		if v.Count != nil {
+			result["count"] = int(*v.Count)
+		}
+	case oci_functions.NoneProvisionedConcurrencyConfig:
+		result["strategy"] = "NONE"
+	default:
+		log.Printf("[WARN] Received 'strategy' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
 }
 
 func (s *FunctionsFunctionResourceCrud) mapToFunctionTraceConfig(fieldKeyFormat string) (oci_functions.FunctionTraceConfig, error) {

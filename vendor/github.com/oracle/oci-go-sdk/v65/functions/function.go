@@ -10,6 +10,7 @@
 package functions
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -55,6 +56,8 @@ type Function struct {
 	// Timeout for executions of the function. Value in seconds.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
+	ProvisionedConcurrencyConfig FunctionProvisionedConcurrencyConfig `mandatory:"false" json:"provisionedConcurrencyConfig"`
+
 	TraceConfig *FunctionTraceConfig `mandatory:"false" json:"traceConfig"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -97,6 +100,78 @@ func (m Function) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *Function) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName                  *string                              `json:"displayName"`
+		LifecycleState               FunctionLifecycleStateEnum           `json:"lifecycleState"`
+		ApplicationId                *string                              `json:"applicationId"`
+		CompartmentId                *string                              `json:"compartmentId"`
+		Image                        *string                              `json:"image"`
+		ImageDigest                  *string                              `json:"imageDigest"`
+		MemoryInMBs                  *int64                               `json:"memoryInMBs"`
+		Config                       map[string]string                    `json:"config"`
+		TimeoutInSeconds             *int                                 `json:"timeoutInSeconds"`
+		ProvisionedConcurrencyConfig functionprovisionedconcurrencyconfig `json:"provisionedConcurrencyConfig"`
+		TraceConfig                  *FunctionTraceConfig                 `json:"traceConfig"`
+		FreeformTags                 map[string]string                    `json:"freeformTags"`
+		InvokeEndpoint               *string                              `json:"invokeEndpoint"`
+		DefinedTags                  map[string]map[string]interface{}    `json:"definedTags"`
+		TimeCreated                  *common.SDKTime                      `json:"timeCreated"`
+		TimeUpdated                  *common.SDKTime                      `json:"timeUpdated"`
+		Id                           *string                              `json:"id"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.LifecycleState = model.LifecycleState
+
+	m.ApplicationId = model.ApplicationId
+
+	m.CompartmentId = model.CompartmentId
+
+	m.Image = model.Image
+
+	m.ImageDigest = model.ImageDigest
+
+	m.MemoryInMBs = model.MemoryInMBs
+
+	m.Config = model.Config
+
+	m.TimeoutInSeconds = model.TimeoutInSeconds
+
+	nn, e = model.ProvisionedConcurrencyConfig.UnmarshalPolymorphicJSON(model.ProvisionedConcurrencyConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ProvisionedConcurrencyConfig = nn.(FunctionProvisionedConcurrencyConfig)
+	} else {
+		m.ProvisionedConcurrencyConfig = nil
+	}
+
+	m.TraceConfig = model.TraceConfig
+
+	m.FreeformTags = model.FreeformTags
+
+	m.InvokeEndpoint = model.InvokeEndpoint
+
+	m.DefinedTags = model.DefinedTags
+
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.Id = model.Id
+
+	return
 }
 
 // FunctionLifecycleStateEnum Enum with underlying type: string

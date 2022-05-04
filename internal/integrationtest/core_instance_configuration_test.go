@@ -67,6 +67,10 @@ var (
 		acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsRepresentationForFlexShape},
 		instanceConfigurationInstanceDetailsLaunchRepresentation)
 
+	instanceConfigurationInstanceDetailsLaunchRepresentationForDenseShape = acctest.GetUpdatedRepresentationCopy("launch_details",
+		acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsRepresentationForDenseShape},
+		instanceConfigurationInstanceDetailsLaunchRepresentation)
+
 	instanceConfigurationInstanceDetailsBlockRepresentation = map[string]interface{}{
 		"instance_type": acctest.Representation{RepType: acctest.Required, Create: `compute`},
 		"block_volumes": acctest.RepresentationGroup{RepType: acctest.Required, Group: instanceConfigurationInstanceDetailsBlockVolumesRepresentation},
@@ -130,6 +134,17 @@ var (
 			instanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
 		[]string{"dedicated_vm_host_id", "preferred_maintenance_action"},
 	)
+	instanceConfigurationInstanceDetailsLaunchDetailsRepresentationForDenseShape = acctest.RepresentationCopyWithRemovedProperties(
+		acctest.GetMultipleUpdatedRepresenationCopy(
+			[]string{"shape", "source_details", "shape_config"},
+			[]interface{}{
+				acctest.Representation{RepType: acctest.Optional, Create: InstanceConfigurationVmShapeForDense},
+				acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationForDenseShape},
+				acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceShapeConfigRepresentationForNvmeShape},
+			},
+			instanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
+		[]string{"dedicated_vm_host_id", "preferred_maintenance_action"},
+	)
 	instanceConfigurationInstanceOptionsRepresentation = map[string]interface{}{
 		"are_legacy_imds_endpoints_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
@@ -183,6 +198,10 @@ var (
 		acctest.Representation{RepType: acctest.Optional, Create: `${var.FlexInstanceImageOCID[var.region]}`},
 		instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)
 
+	instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationForDenseShape = acctest.GetUpdatedRepresentationCopy("image_id",
+		acctest.Representation{RepType: acctest.Optional, Create: `${var.image_id}`},
+		instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)
+
 	instanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentation = map[string]interface{}{
 		"assign_private_dns_record": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"assign_public_ip":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -211,8 +230,9 @@ var (
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig
-	InstanceConfigurationVmShape        = `VM.Standard2.1`
-	InstanceConfigurationVmShapeForFlex = `VM.Standard.E3.Flex`
+	InstanceConfigurationVmShape         = `VM.Standard2.1`
+	InstanceConfigurationVmShapeForFlex  = `VM.Standard.E3.Flex`
+	InstanceConfigurationVmShapeForDense = `VM.DenseIO.E4.Flex`
 
 	InstanceConfigurationResourceImageConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
 		acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation))
@@ -227,6 +247,9 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	imageId := utils.GetEnvSettingWithBlankDefault("image_id")
+	imageIdVariableStr := fmt.Sprintf("variable \"image_id\" { default = \"%s\" }\n", imageId)
 
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
@@ -325,6 +348,59 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape_config.0.ocpus", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape_config.0.memory_in_gbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape_config.0.baseline_ocpu_utilization", "BASELINE_1_8"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies,
+		},
+
+		// verify Create with optionals launch_details for E4 dense shape
+		{
+			Config: config + compartmentIdVariableStr + imageIdVariableStr + InstanceConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchRepresentationForDenseShape}, instanceConfigurationRepresentation)),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.extended_metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.ipxe_script", "ipxeScript"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", InstanceConfigurationVmShapeForDense),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.0.boot_volume_size_in_gbs", "55"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.source_details.0.image_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.0.source_type", "image"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.agent_config.0.is_management_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.agent_config.0.is_monitoring_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.launch_options.0.network_type", "PARAVIRTUALIZED"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.is_pv_encryption_in_transit_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.launch_mode", "NATIVE"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape_config.0.ocpus", "8"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape_config.0.memory_in_gbs", "128"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape_config.0.nvmes", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {

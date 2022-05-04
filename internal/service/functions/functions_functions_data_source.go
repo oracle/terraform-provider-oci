@@ -154,6 +154,16 @@ func (s *FunctionsFunctionsDataSourceCrud) SetData() error {
 			function["memory_in_mbs"] = strconv.FormatInt(*r.MemoryInMBs, 10)
 		}
 
+		if r.ProvisionedConcurrencyConfig != nil {
+			provisionedConcurrencyConfigArray := []interface{}{}
+			if provisionedConcurrencyConfigMap := FunctionProvisionedConcurrencyConfigToMap(&r.ProvisionedConcurrencyConfig); provisionedConcurrencyConfigMap != nil {
+				provisionedConcurrencyConfigArray = append(provisionedConcurrencyConfigArray, provisionedConcurrencyConfigMap)
+			}
+			function["provisioned_concurrency_config"] = provisionedConcurrencyConfigArray
+		} else {
+			function["provisioned_concurrency_config"] = nil
+		}
+
 		function["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {

@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Vault Service Secret Retrieval API
+// Vault Secret Retrieval API
 //
-// API for retrieving secrets from vaults.
+// Use the Secret Retrieval API to retrieve secrets and secret versions from vaults. For more information, see Managing Secrets (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingsecrets.htm).
 //
 
 package secrets
@@ -93,9 +93,10 @@ func (client *SecretsClient) ConfigurationProvider() *common.ConfigurationProvid
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/secrets/GetSecretBundle.go.html to see an example of how to use GetSecretBundle API.
+// A default retry strategy applies to this operation GetSecretBundle()
 func (client SecretsClient) GetSecretBundle(ctx context.Context, request GetSecretBundleRequest) (response GetSecretBundleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -136,7 +137,7 @@ func (client SecretsClient) getSecretBundle(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretretrieval/20190301/SecretBundle/GetSecretBundle"
 		err = common.PostProcessServiceError(err, "Secrets", "GetSecretBundle", apiReferenceLink)
 		return response, err
 	}
@@ -151,9 +152,10 @@ func (client SecretsClient) getSecretBundle(ctx context.Context, request common.
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/secrets/GetSecretBundleByName.go.html to see an example of how to use GetSecretBundleByName API.
+// A default retry strategy applies to this operation GetSecretBundleByName()
 func (client SecretsClient) GetSecretBundleByName(ctx context.Context, request GetSecretBundleByNameRequest) (response GetSecretBundleByNameResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -194,7 +196,7 @@ func (client SecretsClient) getSecretBundleByName(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretretrieval/20190301/SecretBundle/GetSecretBundleByName"
 		err = common.PostProcessServiceError(err, "Secrets", "GetSecretBundleByName", apiReferenceLink)
 		return response, err
 	}
@@ -208,9 +210,10 @@ func (client SecretsClient) getSecretBundleByName(ctx context.Context, request c
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/secrets/ListSecretBundleVersions.go.html to see an example of how to use ListSecretBundleVersions API.
+// A default retry strategy applies to this operation ListSecretBundleVersions()
 func (client SecretsClient) ListSecretBundleVersions(ctx context.Context, request ListSecretBundleVersionsRequest) (response ListSecretBundleVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -251,7 +254,7 @@ func (client SecretsClient) listSecretBundleVersions(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretretrieval/20190301/SecretBundleVersionSummary/ListSecretBundleVersions"
 		err = common.PostProcessServiceError(err, "Secrets", "ListSecretBundleVersions", apiReferenceLink)
 		return response, err
 	}
