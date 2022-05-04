@@ -1,4 +1,4 @@
-## 4.74.0 (Unreleased)
+## 4.74.0 (May 04, 2022)
 
 ### Added
 - E4 Dense Availability for OCVS
