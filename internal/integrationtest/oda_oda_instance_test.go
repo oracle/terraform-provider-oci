@@ -46,13 +46,20 @@ var (
 	}
 
 	odaInstanceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"shape_name":     acctest.Representation{RepType: acctest.Required, Create: `DEVELOPMENT`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape_name":           acctest.Representation{RepType: acctest.Required, Create: `DEVELOPMENT`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":          acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"identity_domain":      acctest.Representation{RepType: acctest.Optional, Create: `identityDomain`},
+		"is_role_based_access": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"state":                acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: odaInstanceIgnoreDefinedTagsDifferencesRepresentation},
+	}
+
+	odaInstanceIgnoreDefinedTagsDifferencesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
 	OdaInstanceResourceDependencies = DefinedTagsDependencies
@@ -114,7 +121,9 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "identity_domain", "identityDomain"),
+				resource.TestCheckResourceAttr(resourceName, "is_role_based_access", "false"),
+				resource.TestCheckResourceAttr(resourceName, "shape_name", "DEVELOPMENT"),
 				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
 
 				func(s *terraform.State) (err error) {
@@ -165,7 +174,9 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "identity_domain", "identityDomain"),
+				resource.TestCheckResourceAttr(resourceName, "is_role_based_access", "false"),
+				resource.TestCheckResourceAttr(resourceName, "shape_name", "DEVELOPMENT"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 				func(s *terraform.State) (err error) {
@@ -188,7 +199,9 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "identity_domain", "identityDomain"),
+				resource.TestCheckResourceAttr(resourceName, "is_role_based_access", "false"),
+				resource.TestCheckResourceAttr(resourceName, "shape_name", "DEVELOPMENT"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 				func(s *terraform.State) (err error) {
@@ -217,12 +230,16 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "oda_instances.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.attachment_types.#", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.shape_name"),
+				resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.identity_domain", ""),
+				resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.imported_package_names.#", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.is_role_based_access", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.shape_name", "DEVELOPMENT"),
 				resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.time_updated"),
@@ -236,12 +253,19 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "oda_instance_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "attachment_ids.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "attachment_types.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "connector_url"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "imported_package_ids.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "imported_package_names.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_role_based_access", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "restricted_operations.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "shape_name", "DEVELOPMENT"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
@@ -253,7 +277,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 			Config:                  config + OdaInstanceRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
+			ImportStateVerifyIgnore: []string{"identity_domain"},
 			ResourceName:            resourceName,
 		},
 	})
@@ -330,7 +354,7 @@ func sweepOdaOdaInstanceResource(compartment string) error {
 				fmt.Printf("Error deleting OdaInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", odaInstanceId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &odaInstanceId, odaInstanceSweepWaitCondition, time.Duration(3*time.Minute),
+			acctest.WaitTillCondition(acctest.TestAccProvider, &odaInstanceId, odaInstanceSweepWaitCondition, time.Duration(6*time.Minute),
 				odaInstanceSweepResponseFetchOperation, "oda", true)
 		}
 	}
