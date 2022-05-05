@@ -25,6 +25,10 @@ variable "compartment_ocid" {
 variable "region" {
 }
 
+variable "ad_number" {
+  default = 1
+}
+
 provider "oci" {
   region           = var.region
   tenancy_ocid     = var.tenancy_ocid
@@ -43,7 +47,7 @@ variable "instance_shape_config_memory_in_gbs" { default = 6 }
 
 data "oci_identity_availability_domain" "ad" {
   compartment_id = var.tenancy_ocid
-  ad_number      = 1
+  ad_number      = var.ad_number
 }
 
 /* Network */
