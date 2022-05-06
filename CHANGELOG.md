@@ -1,3 +1,12 @@
+## 4.75.0 (Unreleased)
+
+### Added
+- support for securityzones
+- Updating state of closed ADG Standby to not show as Available
+- Support for Resource Usage Tracking
+### Bug Fix
+- Fixed the test cases for APIGateway Client mTLS feature
+
 ## 4.74.0 (Unreleased)
 
 ### Added
