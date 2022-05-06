@@ -42,8 +42,7 @@ type DbSystemSummary struct {
 	// The OCID of the compartment the DB System belongs in.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// If the policy is to enable high availability of the instance, by
-	// maintaining secondary/failover capacity as necessary.
+	// Specifies if the DB System is highly available.
 	IsHighlyAvailable *bool `mandatory:"false" json:"isHighlyAvailable"`
 
 	CurrentPlacement *DbSystemPlacement `mandatory:"false" json:"currentPlacement"`

@@ -74,6 +74,9 @@ type TaskRunSummary struct {
 	// Step Id for running from a certain step.
 	StepId *string `mandatory:"false" json:"stepId"`
 
+	// A map of the configuration provider input bindings of the run.
+	Inputs map[string]ParameterValue `mandatory:"false" json:"inputs"`
+
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 }
 

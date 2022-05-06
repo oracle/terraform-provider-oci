@@ -48,7 +48,13 @@ type CreateDataAssetFromFusionApp struct {
 	// The generic JDBC host name.
 	ServiceUrl *string `mandatory:"false" json:"serviceUrl"`
 
-	DefaultConnection *CreateConnectionFromBicc `mandatory:"false" json:"defaultConnection"`
+	DefaultConnection CreateConnectionDetails `mandatory:"false" json:"defaultConnection"`
+
+	StagingDataAsset *DataAssetSummaryFromObjectStorage `mandatory:"false" json:"stagingDataAsset"`
+
+	StagingConnection *ConnectionSummaryFromObjectStorage `mandatory:"false" json:"stagingConnection"`
+
+	BucketSchema *Schema `mandatory:"false" json:"bucketSchema"`
 }
 
 //GetKey returns Key
@@ -124,4 +130,67 @@ func (m CreateDataAssetFromFusionApp) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateDataAssetFromFusionApp) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Key               *string                             `json:"key"`
+		ModelVersion      *string                             `json:"modelVersion"`
+		Description       *string                             `json:"description"`
+		ObjectStatus      *int                                `json:"objectStatus"`
+		ExternalKey       *string                             `json:"externalKey"`
+		AssetProperties   map[string]string                   `json:"assetProperties"`
+		RegistryMetadata  *RegistryMetadata                   `json:"registryMetadata"`
+		ServiceUrl        *string                             `json:"serviceUrl"`
+		DefaultConnection createconnectiondetails             `json:"defaultConnection"`
+		StagingDataAsset  *DataAssetSummaryFromObjectStorage  `json:"stagingDataAsset"`
+		StagingConnection *ConnectionSummaryFromObjectStorage `json:"stagingConnection"`
+		BucketSchema      *Schema                             `json:"bucketSchema"`
+		Name              *string                             `json:"name"`
+		Identifier        *string                             `json:"identifier"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Key = model.Key
+
+	m.ModelVersion = model.ModelVersion
+
+	m.Description = model.Description
+
+	m.ObjectStatus = model.ObjectStatus
+
+	m.ExternalKey = model.ExternalKey
+
+	m.AssetProperties = model.AssetProperties
+
+	m.RegistryMetadata = model.RegistryMetadata
+
+	m.ServiceUrl = model.ServiceUrl
+
+	nn, e = model.DefaultConnection.UnmarshalPolymorphicJSON(model.DefaultConnection.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DefaultConnection = nn.(CreateConnectionDetails)
+	} else {
+		m.DefaultConnection = nil
+	}
+
+	m.StagingDataAsset = model.StagingDataAsset
+
+	m.StagingConnection = model.StagingConnection
+
+	m.BucketSchema = model.BucketSchema
+
+	m.Name = model.Name
+
+	m.Identifier = model.Identifier
+
+	return
 }

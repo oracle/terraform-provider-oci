@@ -40,7 +40,7 @@ type TaskOperator struct {
 	InputPorts []InputPort `mandatory:"false" json:"inputPorts"`
 
 	// An array of output ports.
-	OutputPorts []OutputPort `mandatory:"false" json:"outputPorts"`
+	OutputPorts []TypedObject `mandatory:"false" json:"outputPorts"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
@@ -118,7 +118,7 @@ func (m TaskOperator) GetInputPorts() []InputPort {
 }
 
 //GetOutputPorts returns OutputPorts
-func (m TaskOperator) GetOutputPorts() []OutputPort {
+func (m TaskOperator) GetOutputPorts() []TypedObject {
 	return m.OutputPorts
 }
 
@@ -194,7 +194,7 @@ func (m *TaskOperator) UnmarshalJSON(data []byte) (e error) {
 		Description            *string                              `json:"description"`
 		ObjectVersion          *int                                 `json:"objectVersion"`
 		InputPorts             []InputPort                          `json:"inputPorts"`
-		OutputPorts            []OutputPort                         `json:"outputPorts"`
+		OutputPorts            []typedobject                        `json:"outputPorts"`
 		ObjectStatus           *int                                 `json:"objectStatus"`
 		Identifier             *string                              `json:"identifier"`
 		Parameters             []Parameter                          `json:"parameters"`
@@ -232,9 +232,17 @@ func (m *TaskOperator) UnmarshalJSON(data []byte) (e error) {
 		m.InputPorts[i] = n
 	}
 
-	m.OutputPorts = make([]OutputPort, len(model.OutputPorts))
+	m.OutputPorts = make([]TypedObject, len(model.OutputPorts))
 	for i, n := range model.OutputPorts {
-		m.OutputPorts[i] = n
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.OutputPorts[i] = nn.(TypedObject)
+		} else {
+			m.OutputPorts[i] = nil
+		}
 	}
 
 	m.ObjectStatus = model.ObjectStatus

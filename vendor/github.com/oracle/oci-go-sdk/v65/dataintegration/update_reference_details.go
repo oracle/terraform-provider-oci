@@ -21,7 +21,7 @@ type UpdateReferenceDetails struct {
 	// A list of options such as `ignoreObjectOnError`.
 	Options map[string]string `mandatory:"false" json:"options"`
 
-	// The new target object to reference. This should be of type `DataAsset`. The child references can be of type `Connection`.
+	// The new target object to reference. This can be of type `DataAsset`, `Schema` or `Task`. In case of `DataAsset`, the child references can be of type `Connection`.
 	TargetObject *interface{} `mandatory:"false" json:"targetObject"`
 
 	// The list of child references that also need to be updated.

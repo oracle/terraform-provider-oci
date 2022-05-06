@@ -75,6 +75,7 @@ const (
 	AutonomousDatabaseStandbySummaryLifecycleStateRoleChangeInProgress    AutonomousDatabaseStandbySummaryLifecycleStateEnum = "ROLE_CHANGE_IN_PROGRESS"
 	AutonomousDatabaseStandbySummaryLifecycleStateUpgrading               AutonomousDatabaseStandbySummaryLifecycleStateEnum = "UPGRADING"
 	AutonomousDatabaseStandbySummaryLifecycleStateInaccessible            AutonomousDatabaseStandbySummaryLifecycleStateEnum = "INACCESSIBLE"
+	AutonomousDatabaseStandbySummaryLifecycleStateStandby                 AutonomousDatabaseStandbySummaryLifecycleStateEnum = "STANDBY"
 )
 
 var mappingAutonomousDatabaseStandbySummaryLifecycleStateEnum = map[string]AutonomousDatabaseStandbySummaryLifecycleStateEnum{
@@ -98,6 +99,7 @@ var mappingAutonomousDatabaseStandbySummaryLifecycleStateEnum = map[string]Auton
 	"ROLE_CHANGE_IN_PROGRESS":   AutonomousDatabaseStandbySummaryLifecycleStateRoleChangeInProgress,
 	"UPGRADING":                 AutonomousDatabaseStandbySummaryLifecycleStateUpgrading,
 	"INACCESSIBLE":              AutonomousDatabaseStandbySummaryLifecycleStateInaccessible,
+	"STANDBY":                   AutonomousDatabaseStandbySummaryLifecycleStateStandby,
 }
 
 var mappingAutonomousDatabaseStandbySummaryLifecycleStateEnumLowerCase = map[string]AutonomousDatabaseStandbySummaryLifecycleStateEnum{
@@ -121,6 +123,7 @@ var mappingAutonomousDatabaseStandbySummaryLifecycleStateEnumLowerCase = map[str
 	"role_change_in_progress":   AutonomousDatabaseStandbySummaryLifecycleStateRoleChangeInProgress,
 	"upgrading":                 AutonomousDatabaseStandbySummaryLifecycleStateUpgrading,
 	"inaccessible":              AutonomousDatabaseStandbySummaryLifecycleStateInaccessible,
+	"standby":                   AutonomousDatabaseStandbySummaryLifecycleStateStandby,
 }
 
 // GetAutonomousDatabaseStandbySummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseStandbySummaryLifecycleStateEnum
@@ -155,6 +158,7 @@ func GetAutonomousDatabaseStandbySummaryLifecycleStateEnumStringValues() []strin
 		"ROLE_CHANGE_IN_PROGRESS",
 		"UPGRADING",
 		"INACCESSIBLE",
+		"STANDBY",
 	}
 }
 

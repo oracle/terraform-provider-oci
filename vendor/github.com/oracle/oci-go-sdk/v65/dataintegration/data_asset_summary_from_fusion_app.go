@@ -55,7 +55,13 @@ type DataAssetSummaryFromFusionApp struct {
 	// The generic JDBC host name.
 	ServiceUrl *string `mandatory:"false" json:"serviceUrl"`
 
-	DefaultConnection *ConnectionSummaryFromBicc `mandatory:"false" json:"defaultConnection"`
+	DefaultConnection ConnectionSummary `mandatory:"false" json:"defaultConnection"`
+
+	StagingDataAsset *DataAssetSummaryFromObjectStorage `mandatory:"false" json:"stagingDataAsset"`
+
+	StagingConnection *ConnectionSummaryFromObjectStorage `mandatory:"false" json:"stagingConnection"`
+
+	BucketSchema *Schema `mandatory:"false" json:"bucketSchema"`
 }
 
 //GetKey returns Key
@@ -146,4 +152,76 @@ func (m DataAssetSummaryFromFusionApp) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *DataAssetSummaryFromFusionApp) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Key               *string                             `json:"key"`
+		ModelVersion      *string                             `json:"modelVersion"`
+		Name              *string                             `json:"name"`
+		Description       *string                             `json:"description"`
+		ObjectStatus      *int                                `json:"objectStatus"`
+		Identifier        *string                             `json:"identifier"`
+		ExternalKey       *string                             `json:"externalKey"`
+		AssetProperties   map[string]string                   `json:"assetProperties"`
+		NativeTypeSystem  *TypeSystem                         `json:"nativeTypeSystem"`
+		ObjectVersion     *int                                `json:"objectVersion"`
+		ParentRef         *ParentReference                    `json:"parentRef"`
+		Metadata          *ObjectMetadata                     `json:"metadata"`
+		ServiceUrl        *string                             `json:"serviceUrl"`
+		DefaultConnection connectionsummary                   `json:"defaultConnection"`
+		StagingDataAsset  *DataAssetSummaryFromObjectStorage  `json:"stagingDataAsset"`
+		StagingConnection *ConnectionSummaryFromObjectStorage `json:"stagingConnection"`
+		BucketSchema      *Schema                             `json:"bucketSchema"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Key = model.Key
+
+	m.ModelVersion = model.ModelVersion
+
+	m.Name = model.Name
+
+	m.Description = model.Description
+
+	m.ObjectStatus = model.ObjectStatus
+
+	m.Identifier = model.Identifier
+
+	m.ExternalKey = model.ExternalKey
+
+	m.AssetProperties = model.AssetProperties
+
+	m.NativeTypeSystem = model.NativeTypeSystem
+
+	m.ObjectVersion = model.ObjectVersion
+
+	m.ParentRef = model.ParentRef
+
+	m.Metadata = model.Metadata
+
+	m.ServiceUrl = model.ServiceUrl
+
+	nn, e = model.DefaultConnection.UnmarshalPolymorphicJSON(model.DefaultConnection.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DefaultConnection = nn.(ConnectionSummary)
+	} else {
+		m.DefaultConnection = nil
+	}
+
+	m.StagingDataAsset = model.StagingDataAsset
+
+	m.StagingConnection = model.StagingConnection
+
+	m.BucketSchema = model.BucketSchema
+
+	return
 }

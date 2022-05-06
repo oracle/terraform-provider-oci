@@ -82,8 +82,7 @@ type DbSystemSnapshot struct {
 	// The network port on which X Plugin listens for TCP/IP connections. This is the X Plugin equivalent of port.
 	PortX *int `mandatory:"false" json:"portX"`
 
-	// If the policy is to enable high availability of the instance, by
-	// maintaining secondary/failover capacity as necessary.
+	// Specifies if the DB System is highly available.
 	IsHighlyAvailable *bool `mandatory:"false" json:"isHighlyAvailable"`
 
 	// The network endpoints available for this DB System.

@@ -56,6 +56,14 @@ type PublishedObjectFromDataLoaderTask struct {
 	ConfigProviderDelegate *ConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
 	DataFlow *DataFlow `mandatory:"false" json:"dataFlow"`
+
+	ConditionalCompositeFieldMap *ConditionalCompositeFieldMap `mandatory:"false" json:"conditionalCompositeFieldMap"`
+
+	// If true, defines a singular load.
+	IsSingleLoad *bool `mandatory:"false" json:"isSingleLoad"`
+
+	// If not a singular load, this defines the number of entities being loaded in parallel at a time for a Data Loader task.
+	ParallelLoadLimit *int `mandatory:"false" json:"parallelLoadLimit"`
 }
 
 //GetKey returns Key

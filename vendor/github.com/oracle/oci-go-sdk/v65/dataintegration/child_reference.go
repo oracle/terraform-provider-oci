@@ -76,6 +76,9 @@ const (
 	ChildReferenceTypeOracleAdwcConnection          ChildReferenceTypeEnum = "ORACLE_ADWC_CONNECTION"
 	ChildReferenceTypeMysqlConnection               ChildReferenceTypeEnum = "MYSQL_CONNECTION"
 	ChildReferenceTypeGenericJdbcConnection         ChildReferenceTypeEnum = "GENERIC_JDBC_CONNECTION"
+	ChildReferenceTypeBipConnection                 ChildReferenceTypeEnum = "BIP_CONNECTION"
+	ChildReferenceTypeBiccConnection                ChildReferenceTypeEnum = "BICC_CONNECTION"
+	ChildReferenceTypeAmazonS3Connection            ChildReferenceTypeEnum = "AMAZON_S3_CONNECTION"
 )
 
 var mappingChildReferenceTypeEnum = map[string]ChildReferenceTypeEnum{
@@ -85,6 +88,9 @@ var mappingChildReferenceTypeEnum = map[string]ChildReferenceTypeEnum{
 	"ORACLE_ADWC_CONNECTION":           ChildReferenceTypeOracleAdwcConnection,
 	"MYSQL_CONNECTION":                 ChildReferenceTypeMysqlConnection,
 	"GENERIC_JDBC_CONNECTION":          ChildReferenceTypeGenericJdbcConnection,
+	"BIP_CONNECTION":                   ChildReferenceTypeBipConnection,
+	"BICC_CONNECTION":                  ChildReferenceTypeBiccConnection,
+	"AMAZON_S3_CONNECTION":             ChildReferenceTypeAmazonS3Connection,
 }
 
 var mappingChildReferenceTypeEnumLowerCase = map[string]ChildReferenceTypeEnum{
@@ -94,6 +100,9 @@ var mappingChildReferenceTypeEnumLowerCase = map[string]ChildReferenceTypeEnum{
 	"oracle_adwc_connection":           ChildReferenceTypeOracleAdwcConnection,
 	"mysql_connection":                 ChildReferenceTypeMysqlConnection,
 	"generic_jdbc_connection":          ChildReferenceTypeGenericJdbcConnection,
+	"bip_connection":                   ChildReferenceTypeBipConnection,
+	"bicc_connection":                  ChildReferenceTypeBiccConnection,
+	"amazon_s3_connection":             ChildReferenceTypeAmazonS3Connection,
 }
 
 // GetChildReferenceTypeEnumValues Enumerates the set of values for ChildReferenceTypeEnum
@@ -114,6 +123,9 @@ func GetChildReferenceTypeEnumStringValues() []string {
 		"ORACLE_ADWC_CONNECTION",
 		"MYSQL_CONNECTION",
 		"GENERIC_JDBC_CONNECTION",
+		"BIP_CONNECTION",
+		"BICC_CONNECTION",
+		"AMAZON_S3_CONNECTION",
 	}
 }
 
