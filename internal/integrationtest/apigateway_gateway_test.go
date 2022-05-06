@@ -60,8 +60,8 @@ var (
 	}
 	gatewayCaBundlesRepresentation = map[string]interface{}{
 		"type":                     acctest.Representation{RepType: acctest.Required, Create: `CA_BUNDLE`, Update: `CERTIFICATE_AUTHORITY`},
-		"ca_bundle_id":             acctest.Representation{RepType: acctest.Optional, Create: `${var.ca_bundle_id}`},
-		"certificate_authority_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.certificate_authority_id}`},
+		"ca_bundle_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_certificates_management_ca_bundle.test_ca_bundle.id}`, Update: ``},
+		"certificate_authority_id": acctest.Representation{RepType: acctest.Optional, Update: `${oci_certificates_management_certificate_authority.test_certificate_authority.id}`},
 	}
 	gatewayResponseCacheDetailsRepresentation = map[string]interface{}{
 		"type":                                 acctest.Representation{RepType: acctest.Required, Create: `EXTERNAL_RESP_CACHE`},
@@ -84,6 +84,8 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle", acctest.Required, acctest.Create, caBundleRepresentationRequired) +
+		acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_certificate_authority", "test_certificate_authority", acctest.Required, acctest.Create, certificateAuthorityRepresentationRoot) +
 		DefinedTagsDependencies +
 		apiCertificateVariableStr + apiPrivateKeyVariableStr
 )
@@ -101,12 +103,6 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	caBundleId := utils.GetEnvSettingWithBlankDefault("ca_bundle_id")
-	caBundleIdVariableStr := fmt.Sprintf("variable \"ca_bundle_id\" { default = \"%s\" }\n", caBundleId)
-
-	certificateAuthorityId := utils.GetEnvSettingWithBlankDefault("certificate_authority_id")
-	certificateAuthorityIdVariableStr := fmt.Sprintf("variable \"certificate_authority_id\" { default = \"%s\" }\n", certificateAuthorityId)
-
 	vaultSecretId := utils.GetEnvSettingWithBlankDefault("oci_vault_secret_id")
 	vaultSecretIdStr := fmt.Sprintf("variable \"oci_vault_secret_id\" { default = \"%s\" }\n", vaultSecretId)
 
@@ -122,7 +118,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckApigatewayGatewayDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies + caBundleIdVariableStr + certificateAuthorityIdVariableStr +
+			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, gatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -148,12 +144,11 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies + caBundleIdVariableStr + certificateAuthorityIdVariableStr +
+			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Create, gatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ca_bundles.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "ca_bundles.0.ca_bundle_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "ca_bundles.0.certificate_authority_id"),
 				resource.TestCheckResourceAttr(resourceName, "ca_bundles.0.type", "CA_BUNDLE"),
 				resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -189,7 +184,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vaultSecretIdStr + GatewayResourceDependencies + caBundleIdVariableStr + certificateAuthorityIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(gatewayRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -197,7 +192,6 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ca_bundles.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "ca_bundles.0.ca_bundle_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "ca_bundles.0.certificate_authority_id"),
 				resource.TestCheckResourceAttr(resourceName, "ca_bundles.0.type", "CA_BUNDLE"),
 				resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -231,11 +225,10 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies + caBundleIdVariableStr + certificateAuthorityIdVariableStr +
+			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Update, gatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ca_bundles.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "ca_bundles.0.ca_bundle_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ca_bundles.0.certificate_authority_id"),
 				resource.TestCheckResourceAttr(resourceName, "ca_bundles.0.type", "CERTIFICATE_AUTHORITY"),
 				resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
@@ -271,7 +264,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_gateways", "test_gateways", acctest.Optional, acctest.Update, gatewayDataSourceRepresentation) +
-				compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies + caBundleIdVariableStr + certificateAuthorityIdVariableStr +
+				compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Update, gatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "certificate_id"),
@@ -288,7 +281,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, gatewaySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceConfig + caBundleIdVariableStr + certificateAuthorityIdVariableStr,
+				compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
 
