@@ -126,6 +126,10 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateConnectionFromAdwc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BIP_CONNECTION":
+		mm := UpdateConnectionFromBip{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MYSQL_CONNECTION":
 		mm := UpdateConnectionFromMySql{}
 		err = json.Unmarshal(data, &mm)
@@ -214,6 +218,7 @@ const (
 	UpdateConnectionDetailsModelTypeGenericJdbcConnection         UpdateConnectionDetailsModelTypeEnum = "GENERIC_JDBC_CONNECTION"
 	UpdateConnectionDetailsModelTypeBiccConnection                UpdateConnectionDetailsModelTypeEnum = "BICC_CONNECTION"
 	UpdateConnectionDetailsModelTypeAmazonS3Connection            UpdateConnectionDetailsModelTypeEnum = "AMAZON_S3_CONNECTION"
+	UpdateConnectionDetailsModelTypeBipConnection                 UpdateConnectionDetailsModelTypeEnum = "BIP_CONNECTION"
 )
 
 var mappingUpdateConnectionDetailsModelTypeEnum = map[string]UpdateConnectionDetailsModelTypeEnum{
@@ -225,6 +230,7 @@ var mappingUpdateConnectionDetailsModelTypeEnum = map[string]UpdateConnectionDet
 	"GENERIC_JDBC_CONNECTION":          UpdateConnectionDetailsModelTypeGenericJdbcConnection,
 	"BICC_CONNECTION":                  UpdateConnectionDetailsModelTypeBiccConnection,
 	"AMAZON_S3_CONNECTION":             UpdateConnectionDetailsModelTypeAmazonS3Connection,
+	"BIP_CONNECTION":                   UpdateConnectionDetailsModelTypeBipConnection,
 }
 
 var mappingUpdateConnectionDetailsModelTypeEnumLowerCase = map[string]UpdateConnectionDetailsModelTypeEnum{
@@ -236,6 +242,7 @@ var mappingUpdateConnectionDetailsModelTypeEnumLowerCase = map[string]UpdateConn
 	"generic_jdbc_connection":          UpdateConnectionDetailsModelTypeGenericJdbcConnection,
 	"bicc_connection":                  UpdateConnectionDetailsModelTypeBiccConnection,
 	"amazon_s3_connection":             UpdateConnectionDetailsModelTypeAmazonS3Connection,
+	"bip_connection":                   UpdateConnectionDetailsModelTypeBipConnection,
 }
 
 // GetUpdateConnectionDetailsModelTypeEnumValues Enumerates the set of values for UpdateConnectionDetailsModelTypeEnum
@@ -258,6 +265,7 @@ func GetUpdateConnectionDetailsModelTypeEnumStringValues() []string {
 		"GENERIC_JDBC_CONNECTION",
 		"BICC_CONNECTION",
 		"AMAZON_S3_CONNECTION",
+		"BIP_CONNECTION",
 	}
 }
 

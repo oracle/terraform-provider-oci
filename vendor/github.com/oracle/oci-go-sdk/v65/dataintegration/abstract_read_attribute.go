@@ -58,6 +58,10 @@ func (m *abstractreadattribute) UnmarshalPolymorphicJSON(data []byte) (interface
 		mm := BiccReadAttributes{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BIP_READ_ATTRIBUTE":
+		mm := BipReadAttributes{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLEREADATTRIBUTE":
 		mm := OracleReadAttribute{}
 		err = json.Unmarshal(data, &mm)
@@ -91,18 +95,21 @@ const (
 	AbstractReadAttributeModelTypeOraclereadattribute AbstractReadAttributeModelTypeEnum = "ORACLEREADATTRIBUTE"
 	AbstractReadAttributeModelTypeOracleReadAttribute AbstractReadAttributeModelTypeEnum = "ORACLE_READ_ATTRIBUTE"
 	AbstractReadAttributeModelTypeBiccReadAttribute   AbstractReadAttributeModelTypeEnum = "BICC_READ_ATTRIBUTE"
+	AbstractReadAttributeModelTypeBipReadAttribute    AbstractReadAttributeModelTypeEnum = "BIP_READ_ATTRIBUTE"
 )
 
 var mappingAbstractReadAttributeModelTypeEnum = map[string]AbstractReadAttributeModelTypeEnum{
 	"ORACLEREADATTRIBUTE":   AbstractReadAttributeModelTypeOraclereadattribute,
 	"ORACLE_READ_ATTRIBUTE": AbstractReadAttributeModelTypeOracleReadAttribute,
 	"BICC_READ_ATTRIBUTE":   AbstractReadAttributeModelTypeBiccReadAttribute,
+	"BIP_READ_ATTRIBUTE":    AbstractReadAttributeModelTypeBipReadAttribute,
 }
 
 var mappingAbstractReadAttributeModelTypeEnumLowerCase = map[string]AbstractReadAttributeModelTypeEnum{
 	"oraclereadattribute":   AbstractReadAttributeModelTypeOraclereadattribute,
 	"oracle_read_attribute": AbstractReadAttributeModelTypeOracleReadAttribute,
 	"bicc_read_attribute":   AbstractReadAttributeModelTypeBiccReadAttribute,
+	"bip_read_attribute":    AbstractReadAttributeModelTypeBipReadAttribute,
 }
 
 // GetAbstractReadAttributeModelTypeEnumValues Enumerates the set of values for AbstractReadAttributeModelTypeEnum
@@ -120,6 +127,7 @@ func GetAbstractReadAttributeModelTypeEnumStringValues() []string {
 		"ORACLEREADATTRIBUTE",
 		"ORACLE_READ_ATTRIBUTE",
 		"BICC_READ_ATTRIBUTE",
+		"BIP_READ_ATTRIBUTE",
 	}
 }
 

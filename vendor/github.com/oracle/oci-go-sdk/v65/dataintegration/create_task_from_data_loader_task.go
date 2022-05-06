@@ -55,6 +55,14 @@ type CreateTaskFromDataLoaderTask struct {
 	ConfigProviderDelegate *CreateConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
 	DataFlow *DataFlow `mandatory:"false" json:"dataFlow"`
+
+	ConditionalCompositeFieldMap *ConditionalCompositeFieldMap `mandatory:"false" json:"conditionalCompositeFieldMap"`
+
+	// Defines whether Data Loader task is used for single load or multiple
+	IsSingleLoad *bool `mandatory:"false" json:"isSingleLoad"`
+
+	// Defines the number of entities being loaded in parallel at a time for a Data Loader task
+	ParallelLoadLimit *int `mandatory:"false" json:"parallelLoadLimit"`
 }
 
 //GetKey returns Key

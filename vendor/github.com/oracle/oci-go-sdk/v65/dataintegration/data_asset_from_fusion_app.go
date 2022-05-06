@@ -58,7 +58,7 @@ type DataAssetFromFusionApp struct {
 	// The service url of the BI Server.
 	ServiceUrl *string `mandatory:"false" json:"serviceUrl"`
 
-	DefaultConnection *ConnectionFromBiccDetails `mandatory:"false" json:"defaultConnection"`
+	DefaultConnection ConnectionDetails `mandatory:"false" json:"defaultConnection"`
 }
 
 //GetKey returns Key
@@ -154,4 +154,70 @@ func (m DataAssetFromFusionApp) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *DataAssetFromFusionApp) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Key               *string           `json:"key"`
+		ModelVersion      *string           `json:"modelVersion"`
+		Name              *string           `json:"name"`
+		Description       *string           `json:"description"`
+		ObjectStatus      *int              `json:"objectStatus"`
+		Identifier        *string           `json:"identifier"`
+		ExternalKey       *string           `json:"externalKey"`
+		AssetProperties   map[string]string `json:"assetProperties"`
+		NativeTypeSystem  *TypeSystem       `json:"nativeTypeSystem"`
+		ObjectVersion     *int              `json:"objectVersion"`
+		ParentRef         *ParentReference  `json:"parentRef"`
+		Metadata          *ObjectMetadata   `json:"metadata"`
+		KeyMap            map[string]string `json:"keyMap"`
+		ServiceUrl        *string           `json:"serviceUrl"`
+		DefaultConnection connectiondetails `json:"defaultConnection"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Key = model.Key
+
+	m.ModelVersion = model.ModelVersion
+
+	m.Name = model.Name
+
+	m.Description = model.Description
+
+	m.ObjectStatus = model.ObjectStatus
+
+	m.Identifier = model.Identifier
+
+	m.ExternalKey = model.ExternalKey
+
+	m.AssetProperties = model.AssetProperties
+
+	m.NativeTypeSystem = model.NativeTypeSystem
+
+	m.ObjectVersion = model.ObjectVersion
+
+	m.ParentRef = model.ParentRef
+
+	m.Metadata = model.Metadata
+
+	m.KeyMap = model.KeyMap
+
+	m.ServiceUrl = model.ServiceUrl
+
+	nn, e = model.DefaultConnection.UnmarshalPolymorphicJSON(model.DefaultConnection.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DefaultConnection = nn.(ConnectionDetails)
+	} else {
+		m.DefaultConnection = nil
+	}
+
+	return
 }
