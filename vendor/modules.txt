@@ -576,4 +576,3 @@ gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
 ## explicit
 gopkg.in/yaml.v3
-# github.com/oracle/oci-go-sdk/v65 => ../../oracle/oci-go-sdk
