@@ -39,6 +39,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID for the volume group replica.
 * `member_replicas` - Volume replicas within this volume group replica.
+	* `membership_state` - Membership state of the volume replica in relation to the volume group replica.
 	* `volume_replica_id` - The volume replica ID.
 * `size_in_gbs` - The aggregate size of the volume group replica in GBs.
 * `state` - The current state of a volume group.
