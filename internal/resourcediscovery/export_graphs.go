@@ -318,6 +318,7 @@ var containerengineResourceGraph = TerraformResourceGraph{
 var coreResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportCoreBootVolumeBackupHints},
+		{TerraformResourceHints: exportCoreBootVolumeHints},
 		{TerraformResourceHints: exportCoreConsoleHistoryHints},
 		{TerraformResourceHints: exportCoreClusterNetworkHints},
 		{TerraformResourceHints: exportCoreComputeImageCapabilitySchemaHints},
