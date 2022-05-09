@@ -33,8 +33,14 @@ type UpdatePrivateEndpointDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet within the VCN for the private endpoint.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// DNS Proxy forwards any DNS FQDN queries over into the consumer DNS resolver if the DNS FQDN is included in the dns zones list otherwise it goes to service provider VCN resolver.
+	DnsZones []string `mandatory:"false" json:"dnsZones"`
+
 	// An array of network security group (NSG) OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the private endpoint.
 	NsgIdList []string `mandatory:"false" json:"nsgIdList"`
+
+	// When `true`, allows the private endpoint to be used with a configuration source provider.
+	IsUsedWithConfigurationSourceProvider *bool `mandatory:"false" json:"isUsedWithConfigurationSourceProvider"`
 
 	// Free-form tags associated with the resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

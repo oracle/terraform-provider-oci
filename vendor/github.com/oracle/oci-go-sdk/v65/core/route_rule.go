@@ -58,6 +58,9 @@ type RouteRule struct {
 
 	// An optional description of your choice for the rule.
 	Description *string `mandatory:"false" json:"description"`
+
+	// A route rule can be STATIC if manually added to the Route Table, LOCAL if added by OCI to the Route Table.
+	RouteType RouteRuleRouteTypeEnum `mandatory:"false" json:"routeType,omitempty"`
 }
 
 func (m RouteRule) String() string {
@@ -72,6 +75,9 @@ func (m RouteRule) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingRouteRuleDestinationTypeEnum(string(m.DestinationType)); !ok && m.DestinationType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DestinationType: %s. Supported values are: %s.", m.DestinationType, strings.Join(GetRouteRuleDestinationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRouteRuleRouteTypeEnum(string(m.RouteType)); !ok && m.RouteType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RouteType: %s. Supported values are: %s.", m.RouteType, strings.Join(GetRouteRuleRouteTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -118,5 +124,47 @@ func GetRouteRuleDestinationTypeEnumStringValues() []string {
 // GetMappingRouteRuleDestinationTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingRouteRuleDestinationTypeEnum(val string) (RouteRuleDestinationTypeEnum, bool) {
 	enum, ok := mappingRouteRuleDestinationTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// RouteRuleRouteTypeEnum Enum with underlying type: string
+type RouteRuleRouteTypeEnum string
+
+// Set of constants representing the allowable values for RouteRuleRouteTypeEnum
+const (
+	RouteRuleRouteTypeStatic RouteRuleRouteTypeEnum = "STATIC"
+	RouteRuleRouteTypeLocal  RouteRuleRouteTypeEnum = "LOCAL"
+)
+
+var mappingRouteRuleRouteTypeEnum = map[string]RouteRuleRouteTypeEnum{
+	"STATIC": RouteRuleRouteTypeStatic,
+	"LOCAL":  RouteRuleRouteTypeLocal,
+}
+
+var mappingRouteRuleRouteTypeEnumLowerCase = map[string]RouteRuleRouteTypeEnum{
+	"static": RouteRuleRouteTypeStatic,
+	"local":  RouteRuleRouteTypeLocal,
+}
+
+// GetRouteRuleRouteTypeEnumValues Enumerates the set of values for RouteRuleRouteTypeEnum
+func GetRouteRuleRouteTypeEnumValues() []RouteRuleRouteTypeEnum {
+	values := make([]RouteRuleRouteTypeEnum, 0)
+	for _, v := range mappingRouteRuleRouteTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetRouteRuleRouteTypeEnumStringValues Enumerates the set of values in String for RouteRuleRouteTypeEnum
+func GetRouteRuleRouteTypeEnumStringValues() []string {
+	return []string{
+		"STATIC",
+		"LOCAL",
+	}
+}
+
+// GetMappingRouteRuleRouteTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingRouteRuleRouteTypeEnum(val string) (RouteRuleRouteTypeEnum, bool) {
+	enum, ok := mappingRouteRuleRouteTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

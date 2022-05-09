@@ -22,6 +22,9 @@ type DeleteCompartmentRequest struct {
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
+	// Whether or not skip resource validation in compartment delete
+	IsSkipResourceCheck *bool `mandatory:"false" contributesTo:"query" name:"isSkipResourceCheck"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

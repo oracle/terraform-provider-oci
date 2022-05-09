@@ -23,7 +23,7 @@ type ListModelVersionSetsRequest struct {
 	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project.
 	ProjectId *string `mandatory:"false" contributesTo:"query" name:"projectId"`
 
-	// <b>Filter</b> results by the name of the model version set.
+	// A filter to return only resources that match the entire name given.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// <b>Filter</b> results by the specified lifecycle state. Must be a valid
@@ -233,19 +233,19 @@ type ListModelVersionSetsSortByEnum string
 // Set of constants representing the allowable values for ListModelVersionSetsSortByEnum
 const (
 	ListModelVersionSetsSortByTimecreated    ListModelVersionSetsSortByEnum = "timeCreated"
-	ListModelVersionSetsSortByDisplayname    ListModelVersionSetsSortByEnum = "displayName"
+	ListModelVersionSetsSortByName           ListModelVersionSetsSortByEnum = "name"
 	ListModelVersionSetsSortByLifecyclestate ListModelVersionSetsSortByEnum = "lifecycleState"
 )
 
 var mappingListModelVersionSetsSortByEnum = map[string]ListModelVersionSetsSortByEnum{
 	"timeCreated":    ListModelVersionSetsSortByTimecreated,
-	"displayName":    ListModelVersionSetsSortByDisplayname,
+	"name":           ListModelVersionSetsSortByName,
 	"lifecycleState": ListModelVersionSetsSortByLifecyclestate,
 }
 
 var mappingListModelVersionSetsSortByEnumLowerCase = map[string]ListModelVersionSetsSortByEnum{
 	"timecreated":    ListModelVersionSetsSortByTimecreated,
-	"displayname":    ListModelVersionSetsSortByDisplayname,
+	"name":           ListModelVersionSetsSortByName,
 	"lifecyclestate": ListModelVersionSetsSortByLifecyclestate,
 }
 
@@ -262,7 +262,7 @@ func GetListModelVersionSetsSortByEnumValues() []ListModelVersionSetsSortByEnum 
 func GetListModelVersionSetsSortByEnumStringValues() []string {
 	return []string{
 		"timeCreated",
-		"displayName",
+		"name",
 		"lifecycleState",
 	}
 }

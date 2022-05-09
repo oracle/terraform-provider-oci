@@ -50,8 +50,6 @@ func NewNetworkLoadBalancerClientWithOboToken(configProvider common.Configuratio
 }
 
 func newNetworkLoadBalancerClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client NetworkLoadBalancerClient, err error) {
-	// NetworkLoadBalancer service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("NetworkLoadBalancer"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
@@ -88,9 +86,10 @@ func (client *NetworkLoadBalancerClient) ConfigurationProvider() *common.Configu
 }
 
 // AttachNlbToPod Updates the network load balancer for NLB live migration and creates new mappings with new pod id and slot id
+// A default retry strategy applies to this operation AttachNlbToPod()
 func (client NetworkLoadBalancerClient) AttachNlbToPod(ctx context.Context, request AttachNlbToPodRequest) (response AttachNlbToPodResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -147,9 +146,10 @@ func (client NetworkLoadBalancerClient) attachNlbToPod(ctx context.Context, requ
 
 // ChangeNetworkLoadBalancerCompartment Moves a network load balancer into a different compartment within the same tenancy. For information about moving resources
 // between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeNetworkLoadBalancerCompartment()
 func (client NetworkLoadBalancerClient) ChangeNetworkLoadBalancerCompartment(ctx context.Context, request ChangeNetworkLoadBalancerCompartmentRequest) (response ChangeNetworkLoadBalancerCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -205,9 +205,10 @@ func (client NetworkLoadBalancerClient) changeNetworkLoadBalancerCompartment(ctx
 }
 
 // CreateBackend Adds a backend server to a backend set.
+// A default retry strategy applies to this operation CreateBackend()
 func (client NetworkLoadBalancerClient) CreateBackend(ctx context.Context, request CreateBackendRequest) (response CreateBackendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -263,9 +264,10 @@ func (client NetworkLoadBalancerClient) createBackend(ctx context.Context, reque
 }
 
 // CreateBackendSet Adds a backend set to a network load balancer.
+// A default retry strategy applies to this operation CreateBackendSet()
 func (client NetworkLoadBalancerClient) CreateBackendSet(ctx context.Context, request CreateBackendSetRequest) (response CreateBackendSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -321,9 +323,10 @@ func (client NetworkLoadBalancerClient) createBackendSet(ctx context.Context, re
 }
 
 // CreateListener Adds a listener to a network load balancer.
+// A default retry strategy applies to this operation CreateListener()
 func (client NetworkLoadBalancerClient) CreateListener(ctx context.Context, request CreateListenerRequest) (response CreateListenerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -379,9 +382,10 @@ func (client NetworkLoadBalancerClient) createListener(ctx context.Context, requ
 }
 
 // CreateNetworkLoadBalancer Creates a network load balancer.
+// A default retry strategy applies to this operation CreateNetworkLoadBalancer()
 func (client NetworkLoadBalancerClient) CreateNetworkLoadBalancer(ctx context.Context, request CreateNetworkLoadBalancerRequest) (response CreateNetworkLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -437,9 +441,10 @@ func (client NetworkLoadBalancerClient) createNetworkLoadBalancer(ctx context.Co
 }
 
 // DeleteBackend Removes a backend server from a given network load balancer and backend set.
+// A default retry strategy applies to this operation DeleteBackend()
 func (client NetworkLoadBalancerClient) DeleteBackend(ctx context.Context, request DeleteBackendRequest) (response DeleteBackendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -491,9 +496,10 @@ func (client NetworkLoadBalancerClient) deleteBackend(ctx context.Context, reque
 
 // DeleteBackendSet Deletes the specified backend set. Note that deleting a backend set removes its backend servers from the network load balancer.
 // Before you can delete a backend set, you must remove it from any active listeners.
+// A default retry strategy applies to this operation DeleteBackendSet()
 func (client NetworkLoadBalancerClient) DeleteBackendSet(ctx context.Context, request DeleteBackendSetRequest) (response DeleteBackendSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -544,9 +550,10 @@ func (client NetworkLoadBalancerClient) deleteBackendSet(ctx context.Context, re
 }
 
 // DeleteListener Deletes a listener from a network load balancer.
+// A default retry strategy applies to this operation DeleteListener()
 func (client NetworkLoadBalancerClient) DeleteListener(ctx context.Context, request DeleteListenerRequest) (response DeleteListenerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -597,9 +604,10 @@ func (client NetworkLoadBalancerClient) deleteListener(ctx context.Context, requ
 }
 
 // DeleteNetworkLoadBalancer Deletes a network load balancer resource by identifier.
+// A default retry strategy applies to this operation DeleteNetworkLoadBalancer()
 func (client NetworkLoadBalancerClient) DeleteNetworkLoadBalancer(ctx context.Context, request DeleteNetworkLoadBalancerRequest) (response DeleteNetworkLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -650,9 +658,10 @@ func (client NetworkLoadBalancerClient) deleteNetworkLoadBalancer(ctx context.Co
 }
 
 // DetachNlbFromDestinationPod Update mappings for a provisioned network load balancer for the provided pod Id in case of rollback.
+// A default retry strategy applies to this operation DetachNlbFromDestinationPod()
 func (client NetworkLoadBalancerClient) DetachNlbFromDestinationPod(ctx context.Context, request DetachNlbFromDestinationPodRequest) (response DetachNlbFromDestinationPodResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -708,9 +717,10 @@ func (client NetworkLoadBalancerClient) detachNlbFromDestinationPod(ctx context.
 }
 
 // DetachNlbFromSourcePod Delete mappings for a provisioned network load balancer for the provided pod Id.
+// A default retry strategy applies to this operation DetachNlbFromSourcePod()
 func (client NetworkLoadBalancerClient) DetachNlbFromSourcePod(ctx context.Context, request DetachNlbFromSourcePodRequest) (response DetachNlbFromSourcePodResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -766,9 +776,10 @@ func (client NetworkLoadBalancerClient) detachNlbFromSourcePod(ctx context.Conte
 }
 
 // GetBackend Retrieves the configuration information for the specified backend server.
+// A default retry strategy applies to this operation GetBackend()
 func (client NetworkLoadBalancerClient) GetBackend(ctx context.Context, request GetBackendRequest) (response GetBackendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -819,9 +830,10 @@ func (client NetworkLoadBalancerClient) getBackend(ctx context.Context, request 
 }
 
 // GetBackendHealth Retrieves the current health status of the specified backend server.
+// A default retry strategy applies to this operation GetBackendHealth()
 func (client NetworkLoadBalancerClient) GetBackendHealth(ctx context.Context, request GetBackendHealthRequest) (response GetBackendHealthResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -872,9 +884,10 @@ func (client NetworkLoadBalancerClient) getBackendHealth(ctx context.Context, re
 }
 
 // GetBackendSet Retrieves the configuration information for the specified backend set.
+// A default retry strategy applies to this operation GetBackendSet()
 func (client NetworkLoadBalancerClient) GetBackendSet(ctx context.Context, request GetBackendSetRequest) (response GetBackendSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -925,9 +938,10 @@ func (client NetworkLoadBalancerClient) getBackendSet(ctx context.Context, reque
 }
 
 // GetBackendSetHealth Retrieves the health status for the specified backend set.
+// A default retry strategy applies to this operation GetBackendSetHealth()
 func (client NetworkLoadBalancerClient) GetBackendSetHealth(ctx context.Context, request GetBackendSetHealthRequest) (response GetBackendSetHealthResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -978,9 +992,10 @@ func (client NetworkLoadBalancerClient) getBackendSetHealth(ctx context.Context,
 }
 
 // GetHealthChecker Retrieves the health check policy information for a given network load balancer and backend set.
+// A default retry strategy applies to this operation GetHealthChecker()
 func (client NetworkLoadBalancerClient) GetHealthChecker(ctx context.Context, request GetHealthCheckerRequest) (response GetHealthCheckerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1036,9 +1051,10 @@ func (client NetworkLoadBalancerClient) getHealthChecker(ctx context.Context, re
 }
 
 // GetListener Retrieves listener properties associated with a given network load balancer and listener name.
+// A default retry strategy applies to this operation GetListener()
 func (client NetworkLoadBalancerClient) GetListener(ctx context.Context, request GetListenerRequest) (response GetListenerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1089,9 +1105,10 @@ func (client NetworkLoadBalancerClient) getListener(ctx context.Context, request
 }
 
 // GetNetworkLoadBalancer Retrieves network load balancer configuration information by identifier.
+// A default retry strategy applies to this operation GetNetworkLoadBalancer()
 func (client NetworkLoadBalancerClient) GetNetworkLoadBalancer(ctx context.Context, request GetNetworkLoadBalancerRequest) (response GetNetworkLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1142,9 +1159,10 @@ func (client NetworkLoadBalancerClient) getNetworkLoadBalancer(ctx context.Conte
 }
 
 // GetNetworkLoadBalancerHealth Retrieves the health status for the specified network load balancer.
+// A default retry strategy applies to this operation GetNetworkLoadBalancerHealth()
 func (client NetworkLoadBalancerClient) GetNetworkLoadBalancerHealth(ctx context.Context, request GetNetworkLoadBalancerHealthRequest) (response GetNetworkLoadBalancerHealthResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1195,9 +1213,10 @@ func (client NetworkLoadBalancerClient) getNetworkLoadBalancerHealth(ctx context
 }
 
 // GetWorkRequest Retrieves the details of the work request with the given identifier.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client NetworkLoadBalancerClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1248,9 +1267,10 @@ func (client NetworkLoadBalancerClient) getWorkRequest(ctx context.Context, requ
 }
 
 // ListBackendSets Lists all backend sets associated with a given network load balancer.
+// A default retry strategy applies to this operation ListBackendSets()
 func (client NetworkLoadBalancerClient) ListBackendSets(ctx context.Context, request ListBackendSetsRequest) (response ListBackendSetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1301,9 +1321,10 @@ func (client NetworkLoadBalancerClient) listBackendSets(ctx context.Context, req
 }
 
 // ListBackends Lists the backend servers for a given network load balancer and backend set.
+// A default retry strategy applies to this operation ListBackends()
 func (client NetworkLoadBalancerClient) ListBackends(ctx context.Context, request ListBackendsRequest) (response ListBackendsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1354,9 +1375,10 @@ func (client NetworkLoadBalancerClient) listBackends(ctx context.Context, reques
 }
 
 // ListListeners Lists all listeners associated with a given network load balancer.
+// A default retry strategy applies to this operation ListListeners()
 func (client NetworkLoadBalancerClient) ListListeners(ctx context.Context, request ListListenersRequest) (response ListListenersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1407,9 +1429,10 @@ func (client NetworkLoadBalancerClient) listListeners(ctx context.Context, reque
 }
 
 // ListNetworkLoadBalancerHealths Lists the summary health statuses for all network load balancers in the specified compartment.
+// A default retry strategy applies to this operation ListNetworkLoadBalancerHealths()
 func (client NetworkLoadBalancerClient) ListNetworkLoadBalancerHealths(ctx context.Context, request ListNetworkLoadBalancerHealthsRequest) (response ListNetworkLoadBalancerHealthsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1460,9 +1483,10 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancerHealths(ctx conte
 }
 
 // ListNetworkLoadBalancers Returns a list of network load balancers.
+// A default retry strategy applies to this operation ListNetworkLoadBalancers()
 func (client NetworkLoadBalancerClient) ListNetworkLoadBalancers(ctx context.Context, request ListNetworkLoadBalancersRequest) (response ListNetworkLoadBalancersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1513,9 +1537,10 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancers(ctx context.Con
 }
 
 // ListNetworkLoadBalancersPolicies Lists the available network load balancer policies.
+// A default retry strategy applies to this operation ListNetworkLoadBalancersPolicies()
 func (client NetworkLoadBalancerClient) ListNetworkLoadBalancersPolicies(ctx context.Context, request ListNetworkLoadBalancersPoliciesRequest) (response ListNetworkLoadBalancersPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1567,9 +1592,10 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancersPolicies(ctx con
 
 // ListNetworkLoadBalancersProtocols This API has been deprecated so it won't return the updated list of supported protocls.
 // Lists all supported traffic protocols.
+// A default retry strategy applies to this operation ListNetworkLoadBalancersProtocols()
 func (client NetworkLoadBalancerClient) ListNetworkLoadBalancersProtocols(ctx context.Context, request ListNetworkLoadBalancersProtocolsRequest) (response ListNetworkLoadBalancersProtocolsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1620,9 +1646,10 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancersProtocols(ctx co
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client NetworkLoadBalancerClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1673,9 +1700,10 @@ func (client NetworkLoadBalancerClient) listWorkRequestErrors(ctx context.Contex
 }
 
 // ListWorkRequestLogs Returns a (paginated) list of logs for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client NetworkLoadBalancerClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1726,9 +1754,10 @@ func (client NetworkLoadBalancerClient) listWorkRequestLogs(ctx context.Context,
 }
 
 // ListWorkRequests Lists all work requests.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client NetworkLoadBalancerClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1779,9 +1808,10 @@ func (client NetworkLoadBalancerClient) listWorkRequests(ctx context.Context, re
 }
 
 // UpdateBackend Updates the configuration of a backend server within the specified backend set.
+// A default retry strategy applies to this operation UpdateBackend()
 func (client NetworkLoadBalancerClient) UpdateBackend(ctx context.Context, request UpdateBackendRequest) (response UpdateBackendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1837,9 +1867,10 @@ func (client NetworkLoadBalancerClient) updateBackend(ctx context.Context, reque
 }
 
 // UpdateBackendSet Updates a backend set.
+// A default retry strategy applies to this operation UpdateBackendSet()
 func (client NetworkLoadBalancerClient) UpdateBackendSet(ctx context.Context, request UpdateBackendSetRequest) (response UpdateBackendSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1895,9 +1926,10 @@ func (client NetworkLoadBalancerClient) updateBackendSet(ctx context.Context, re
 }
 
 // UpdateHealthChecker Updates the health check policy for a given network load balancer and backend set.
+// A default retry strategy applies to this operation UpdateHealthChecker()
 func (client NetworkLoadBalancerClient) UpdateHealthChecker(ctx context.Context, request UpdateHealthCheckerRequest) (response UpdateHealthCheckerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1953,9 +1985,10 @@ func (client NetworkLoadBalancerClient) updateHealthChecker(ctx context.Context,
 }
 
 // UpdateListener Updates a listener for a given network load balancer.
+// A default retry strategy applies to this operation UpdateListener()
 func (client NetworkLoadBalancerClient) UpdateListener(ctx context.Context, request UpdateListenerRequest) (response UpdateListenerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2011,9 +2044,10 @@ func (client NetworkLoadBalancerClient) updateListener(ctx context.Context, requ
 }
 
 // UpdateNetworkLoadBalancer Updates the network load balancer
+// A default retry strategy applies to this operation UpdateNetworkLoadBalancer()
 func (client NetworkLoadBalancerClient) UpdateNetworkLoadBalancer(ctx context.Context, request UpdateNetworkLoadBalancerRequest) (response UpdateNetworkLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2064,9 +2098,10 @@ func (client NetworkLoadBalancerClient) updateNetworkLoadBalancer(ctx context.Co
 }
 
 // UpdateNetworkSecurityGroups Updates the network security groups associated with the specified network load balancer.
+// A default retry strategy applies to this operation UpdateNetworkSecurityGroups()
 func (client NetworkLoadBalancerClient) UpdateNetworkSecurityGroups(ctx context.Context, request UpdateNetworkSecurityGroupsRequest) (response UpdateNetworkSecurityGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

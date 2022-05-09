@@ -3510,7 +3510,6 @@ func (client IdentityClient) deleteSwiftPassword(ctx context.Context, request co
 // DeleteTag Deletes the specified tag definition. This operation triggers a process that removes the
 // tag from all resources in your tenancy.
 // These things happen immediately:
-//
 //   * If the tag was a cost-tracking tag, it no longer counts against your 10 cost-tracking
 //   tags limit, whether you first disabled it or not.
 //   * If the tag was used with dynamic groups, none of the rules that contain the tag will

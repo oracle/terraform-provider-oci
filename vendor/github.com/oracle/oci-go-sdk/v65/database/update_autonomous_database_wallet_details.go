@@ -20,6 +20,9 @@ type UpdateAutonomousDatabaseWalletDetails struct {
 
 	// Indicates whether to rotate the wallet or not. If `false`, the wallet will not be rotated. The default is `false`.
 	ShouldRotate *bool `mandatory:"false" json:"shouldRotate"`
+
+	// Grace period in hours to keep the existing wallet valid after rotation.
+	GracePeriod *int `mandatory:"false" json:"gracePeriod"`
 }
 
 func (m UpdateAutonomousDatabaseWalletDetails) String() string {

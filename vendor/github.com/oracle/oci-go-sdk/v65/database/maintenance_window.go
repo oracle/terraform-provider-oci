@@ -32,6 +32,9 @@ type MaintenanceWindow struct {
 	// Custom action timeout is in minutes and valid value is between 15 to 120 (inclusive).
 	CustomActionTimeoutInMins *int `mandatory:"false" json:"customActionTimeoutInMins"`
 
+	// If true, enables the monthly patching option.
+	IsMonthlyPatchingEnabled *bool `mandatory:"false" json:"isMonthlyPatchingEnabled"`
+
 	// Months during the year when maintenance should be performed.
 	Months []Month `mandatory:"false" json:"months"`
 

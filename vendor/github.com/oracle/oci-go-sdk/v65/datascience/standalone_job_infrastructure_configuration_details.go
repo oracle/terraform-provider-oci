@@ -27,6 +27,8 @@ type StandaloneJobInfrastructureConfigurationDetails struct {
 
 	// The size of the block storage volume to attach to the instance running the job
 	BlockStorageSizeInGBs *int `mandatory:"true" json:"blockStorageSizeInGBs"`
+
+	JobShapeConfigDetails *JobShapeConfigDetails `mandatory:"false" json:"jobShapeConfigDetails"`
 }
 
 func (m StandaloneJobInfrastructureConfigurationDetails) String() string {

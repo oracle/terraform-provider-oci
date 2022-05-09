@@ -18,72 +18,99 @@ type WorkRequestOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestOperationTypeEnum
 const (
-	WorkRequestOperationTypeNotebookSessionCreate     WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_CREATE"
-	WorkRequestOperationTypeNotebookSessionDelete     WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_DELETE"
-	WorkRequestOperationTypeNotebookSessionActivate   WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_ACTIVATE"
-	WorkRequestOperationTypeNotebookSessionDeactivate WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_DEACTIVATE"
-	WorkRequestOperationTypeModelversionsetDelete     WorkRequestOperationTypeEnum = "MODELVERSIONSET_DELETE"
-	WorkRequestOperationTypeExportModelArtifact       WorkRequestOperationTypeEnum = "EXPORT_MODEL_ARTIFACT"
-	WorkRequestOperationTypeImportModelArtifact       WorkRequestOperationTypeEnum = "IMPORT_MODEL_ARTIFACT"
-	WorkRequestOperationTypeModelDeploymentCreate     WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_CREATE"
-	WorkRequestOperationTypeModelDeploymentDelete     WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_DELETE"
-	WorkRequestOperationTypeModelDeploymentActivate   WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_ACTIVATE"
-	WorkRequestOperationTypeModelDeploymentDeactivate WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_DEACTIVATE"
-	WorkRequestOperationTypeModelDeploymentUpdate     WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_UPDATE"
-	WorkRequestOperationTypeProjectDelete             WorkRequestOperationTypeEnum = "PROJECT_DELETE"
-	WorkRequestOperationTypeWorkrequestCancel         WorkRequestOperationTypeEnum = "WORKREQUEST_CANCEL"
-	WorkRequestOperationTypeJobDelete                 WorkRequestOperationTypeEnum = "JOB_DELETE"
-	WorkRequestOperationTypePipelineCreate            WorkRequestOperationTypeEnum = "PIPELINE_CREATE"
-	WorkRequestOperationTypePipelineDelete            WorkRequestOperationTypeEnum = "PIPELINE_DELETE"
-	WorkRequestOperationTypePipelineRunCreate         WorkRequestOperationTypeEnum = "PIPELINE_RUN_CREATE"
-	WorkRequestOperationTypePipelineRunCancel         WorkRequestOperationTypeEnum = "PIPELINE_RUN_CANCEL"
-	WorkRequestOperationTypePipelineRunDelete         WorkRequestOperationTypeEnum = "PIPELINE_RUN_DELETE"
+	WorkRequestOperationTypeNotebookSessionCreate              WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_CREATE"
+	WorkRequestOperationTypeNotebookSessionDelete              WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_DELETE"
+	WorkRequestOperationTypeNotebookSessionActivate            WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_ACTIVATE"
+	WorkRequestOperationTypeNotebookSessionDeactivate          WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_DEACTIVATE"
+	WorkRequestOperationTypeModelversionsetDelete              WorkRequestOperationTypeEnum = "MODELVERSIONSET_DELETE"
+	WorkRequestOperationTypeExportModelArtifact                WorkRequestOperationTypeEnum = "EXPORT_MODEL_ARTIFACT"
+	WorkRequestOperationTypeImportModelArtifact                WorkRequestOperationTypeEnum = "IMPORT_MODEL_ARTIFACT"
+	WorkRequestOperationTypeModelDeploymentCreate              WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_CREATE"
+	WorkRequestOperationTypeModelDeploymentDelete              WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_DELETE"
+	WorkRequestOperationTypeModelDeploymentActivate            WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_ACTIVATE"
+	WorkRequestOperationTypeModelDeploymentDeactivate          WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_DEACTIVATE"
+	WorkRequestOperationTypeModelDeploymentUpdate              WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_UPDATE"
+	WorkRequestOperationTypeProjectDelete                      WorkRequestOperationTypeEnum = "PROJECT_DELETE"
+	WorkRequestOperationTypeWorkrequestCancel                  WorkRequestOperationTypeEnum = "WORKREQUEST_CANCEL"
+	WorkRequestOperationTypeJobDelete                          WorkRequestOperationTypeEnum = "JOB_DELETE"
+	WorkRequestOperationTypePipelineCreate                     WorkRequestOperationTypeEnum = "PIPELINE_CREATE"
+	WorkRequestOperationTypePipelineDelete                     WorkRequestOperationTypeEnum = "PIPELINE_DELETE"
+	WorkRequestOperationTypePipelineRunCreate                  WorkRequestOperationTypeEnum = "PIPELINE_RUN_CREATE"
+	WorkRequestOperationTypePipelineRunCancel                  WorkRequestOperationTypeEnum = "PIPELINE_RUN_CANCEL"
+	WorkRequestOperationTypePipelineRunDelete                  WorkRequestOperationTypeEnum = "PIPELINE_RUN_DELETE"
+	WorkRequestOperationTypeCreateMlApplication                WorkRequestOperationTypeEnum = "CREATE_ML_APPLICATION"
+	WorkRequestOperationTypeUpdateMlApplication                WorkRequestOperationTypeEnum = "UPDATE_ML_APPLICATION"
+	WorkRequestOperationTypeDeleteMlApplication                WorkRequestOperationTypeEnum = "DELETE_ML_APPLICATION"
+	WorkRequestOperationTypeMoveMlApplication                  WorkRequestOperationTypeEnum = "MOVE_ML_APPLICATION"
+	WorkRequestOperationTypeCreateMlApplicationInstance        WorkRequestOperationTypeEnum = "CREATE_ML_APPLICATION_INSTANCE"
+	WorkRequestOperationTypeUpdateMlApplicationInstance        WorkRequestOperationTypeEnum = "UPDATE_ML_APPLICATION_INSTANCE"
+	WorkRequestOperationTypeDeleteMlApplicationInstance        WorkRequestOperationTypeEnum = "DELETE_ML_APPLICATION_INSTANCE"
+	WorkRequestOperationTypeValidateInstanceComponentTemplates WorkRequestOperationTypeEnum = "VALIDATE_INSTANCE_COMPONENT_TEMPLATES"
+	WorkRequestOperationTypeCreateMlApplicationInstanceView    WorkRequestOperationTypeEnum = "CREATE_ML_APPLICATION_INSTANCE_VIEW"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
-	"NOTEBOOK_SESSION_CREATE":     WorkRequestOperationTypeNotebookSessionCreate,
-	"NOTEBOOK_SESSION_DELETE":     WorkRequestOperationTypeNotebookSessionDelete,
-	"NOTEBOOK_SESSION_ACTIVATE":   WorkRequestOperationTypeNotebookSessionActivate,
-	"NOTEBOOK_SESSION_DEACTIVATE": WorkRequestOperationTypeNotebookSessionDeactivate,
-	"MODELVERSIONSET_DELETE":      WorkRequestOperationTypeModelversionsetDelete,
-	"EXPORT_MODEL_ARTIFACT":       WorkRequestOperationTypeExportModelArtifact,
-	"IMPORT_MODEL_ARTIFACT":       WorkRequestOperationTypeImportModelArtifact,
-	"MODEL_DEPLOYMENT_CREATE":     WorkRequestOperationTypeModelDeploymentCreate,
-	"MODEL_DEPLOYMENT_DELETE":     WorkRequestOperationTypeModelDeploymentDelete,
-	"MODEL_DEPLOYMENT_ACTIVATE":   WorkRequestOperationTypeModelDeploymentActivate,
-	"MODEL_DEPLOYMENT_DEACTIVATE": WorkRequestOperationTypeModelDeploymentDeactivate,
-	"MODEL_DEPLOYMENT_UPDATE":     WorkRequestOperationTypeModelDeploymentUpdate,
-	"PROJECT_DELETE":              WorkRequestOperationTypeProjectDelete,
-	"WORKREQUEST_CANCEL":          WorkRequestOperationTypeWorkrequestCancel,
-	"JOB_DELETE":                  WorkRequestOperationTypeJobDelete,
-	"PIPELINE_CREATE":             WorkRequestOperationTypePipelineCreate,
-	"PIPELINE_DELETE":             WorkRequestOperationTypePipelineDelete,
-	"PIPELINE_RUN_CREATE":         WorkRequestOperationTypePipelineRunCreate,
-	"PIPELINE_RUN_CANCEL":         WorkRequestOperationTypePipelineRunCancel,
-	"PIPELINE_RUN_DELETE":         WorkRequestOperationTypePipelineRunDelete,
+	"NOTEBOOK_SESSION_CREATE":               WorkRequestOperationTypeNotebookSessionCreate,
+	"NOTEBOOK_SESSION_DELETE":               WorkRequestOperationTypeNotebookSessionDelete,
+	"NOTEBOOK_SESSION_ACTIVATE":             WorkRequestOperationTypeNotebookSessionActivate,
+	"NOTEBOOK_SESSION_DEACTIVATE":           WorkRequestOperationTypeNotebookSessionDeactivate,
+	"MODELVERSIONSET_DELETE":                WorkRequestOperationTypeModelversionsetDelete,
+	"EXPORT_MODEL_ARTIFACT":                 WorkRequestOperationTypeExportModelArtifact,
+	"IMPORT_MODEL_ARTIFACT":                 WorkRequestOperationTypeImportModelArtifact,
+	"MODEL_DEPLOYMENT_CREATE":               WorkRequestOperationTypeModelDeploymentCreate,
+	"MODEL_DEPLOYMENT_DELETE":               WorkRequestOperationTypeModelDeploymentDelete,
+	"MODEL_DEPLOYMENT_ACTIVATE":             WorkRequestOperationTypeModelDeploymentActivate,
+	"MODEL_DEPLOYMENT_DEACTIVATE":           WorkRequestOperationTypeModelDeploymentDeactivate,
+	"MODEL_DEPLOYMENT_UPDATE":               WorkRequestOperationTypeModelDeploymentUpdate,
+	"PROJECT_DELETE":                        WorkRequestOperationTypeProjectDelete,
+	"WORKREQUEST_CANCEL":                    WorkRequestOperationTypeWorkrequestCancel,
+	"JOB_DELETE":                            WorkRequestOperationTypeJobDelete,
+	"PIPELINE_CREATE":                       WorkRequestOperationTypePipelineCreate,
+	"PIPELINE_DELETE":                       WorkRequestOperationTypePipelineDelete,
+	"PIPELINE_RUN_CREATE":                   WorkRequestOperationTypePipelineRunCreate,
+	"PIPELINE_RUN_CANCEL":                   WorkRequestOperationTypePipelineRunCancel,
+	"PIPELINE_RUN_DELETE":                   WorkRequestOperationTypePipelineRunDelete,
+	"CREATE_ML_APPLICATION":                 WorkRequestOperationTypeCreateMlApplication,
+	"UPDATE_ML_APPLICATION":                 WorkRequestOperationTypeUpdateMlApplication,
+	"DELETE_ML_APPLICATION":                 WorkRequestOperationTypeDeleteMlApplication,
+	"MOVE_ML_APPLICATION":                   WorkRequestOperationTypeMoveMlApplication,
+	"CREATE_ML_APPLICATION_INSTANCE":        WorkRequestOperationTypeCreateMlApplicationInstance,
+	"UPDATE_ML_APPLICATION_INSTANCE":        WorkRequestOperationTypeUpdateMlApplicationInstance,
+	"DELETE_ML_APPLICATION_INSTANCE":        WorkRequestOperationTypeDeleteMlApplicationInstance,
+	"VALIDATE_INSTANCE_COMPONENT_TEMPLATES": WorkRequestOperationTypeValidateInstanceComponentTemplates,
+	"CREATE_ML_APPLICATION_INSTANCE_VIEW":   WorkRequestOperationTypeCreateMlApplicationInstanceView,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
-	"notebook_session_create":     WorkRequestOperationTypeNotebookSessionCreate,
-	"notebook_session_delete":     WorkRequestOperationTypeNotebookSessionDelete,
-	"notebook_session_activate":   WorkRequestOperationTypeNotebookSessionActivate,
-	"notebook_session_deactivate": WorkRequestOperationTypeNotebookSessionDeactivate,
-	"modelversionset_delete":      WorkRequestOperationTypeModelversionsetDelete,
-	"export_model_artifact":       WorkRequestOperationTypeExportModelArtifact,
-	"import_model_artifact":       WorkRequestOperationTypeImportModelArtifact,
-	"model_deployment_create":     WorkRequestOperationTypeModelDeploymentCreate,
-	"model_deployment_delete":     WorkRequestOperationTypeModelDeploymentDelete,
-	"model_deployment_activate":   WorkRequestOperationTypeModelDeploymentActivate,
-	"model_deployment_deactivate": WorkRequestOperationTypeModelDeploymentDeactivate,
-	"model_deployment_update":     WorkRequestOperationTypeModelDeploymentUpdate,
-	"project_delete":              WorkRequestOperationTypeProjectDelete,
-	"workrequest_cancel":          WorkRequestOperationTypeWorkrequestCancel,
-	"job_delete":                  WorkRequestOperationTypeJobDelete,
-	"pipeline_create":             WorkRequestOperationTypePipelineCreate,
-	"pipeline_delete":             WorkRequestOperationTypePipelineDelete,
-	"pipeline_run_create":         WorkRequestOperationTypePipelineRunCreate,
-	"pipeline_run_cancel":         WorkRequestOperationTypePipelineRunCancel,
-	"pipeline_run_delete":         WorkRequestOperationTypePipelineRunDelete,
+	"notebook_session_create":               WorkRequestOperationTypeNotebookSessionCreate,
+	"notebook_session_delete":               WorkRequestOperationTypeNotebookSessionDelete,
+	"notebook_session_activate":             WorkRequestOperationTypeNotebookSessionActivate,
+	"notebook_session_deactivate":           WorkRequestOperationTypeNotebookSessionDeactivate,
+	"modelversionset_delete":                WorkRequestOperationTypeModelversionsetDelete,
+	"export_model_artifact":                 WorkRequestOperationTypeExportModelArtifact,
+	"import_model_artifact":                 WorkRequestOperationTypeImportModelArtifact,
+	"model_deployment_create":               WorkRequestOperationTypeModelDeploymentCreate,
+	"model_deployment_delete":               WorkRequestOperationTypeModelDeploymentDelete,
+	"model_deployment_activate":             WorkRequestOperationTypeModelDeploymentActivate,
+	"model_deployment_deactivate":           WorkRequestOperationTypeModelDeploymentDeactivate,
+	"model_deployment_update":               WorkRequestOperationTypeModelDeploymentUpdate,
+	"project_delete":                        WorkRequestOperationTypeProjectDelete,
+	"workrequest_cancel":                    WorkRequestOperationTypeWorkrequestCancel,
+	"job_delete":                            WorkRequestOperationTypeJobDelete,
+	"pipeline_create":                       WorkRequestOperationTypePipelineCreate,
+	"pipeline_delete":                       WorkRequestOperationTypePipelineDelete,
+	"pipeline_run_create":                   WorkRequestOperationTypePipelineRunCreate,
+	"pipeline_run_cancel":                   WorkRequestOperationTypePipelineRunCancel,
+	"pipeline_run_delete":                   WorkRequestOperationTypePipelineRunDelete,
+	"create_ml_application":                 WorkRequestOperationTypeCreateMlApplication,
+	"update_ml_application":                 WorkRequestOperationTypeUpdateMlApplication,
+	"delete_ml_application":                 WorkRequestOperationTypeDeleteMlApplication,
+	"move_ml_application":                   WorkRequestOperationTypeMoveMlApplication,
+	"create_ml_application_instance":        WorkRequestOperationTypeCreateMlApplicationInstance,
+	"update_ml_application_instance":        WorkRequestOperationTypeUpdateMlApplicationInstance,
+	"delete_ml_application_instance":        WorkRequestOperationTypeDeleteMlApplicationInstance,
+	"validate_instance_component_templates": WorkRequestOperationTypeValidateInstanceComponentTemplates,
+	"create_ml_application_instance_view":   WorkRequestOperationTypeCreateMlApplicationInstanceView,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -118,6 +145,15 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"PIPELINE_RUN_CREATE",
 		"PIPELINE_RUN_CANCEL",
 		"PIPELINE_RUN_DELETE",
+		"CREATE_ML_APPLICATION",
+		"UPDATE_ML_APPLICATION",
+		"DELETE_ML_APPLICATION",
+		"MOVE_ML_APPLICATION",
+		"CREATE_ML_APPLICATION_INSTANCE",
+		"UPDATE_ML_APPLICATION_INSTANCE",
+		"DELETE_ML_APPLICATION_INSTANCE",
+		"VALIDATE_INSTANCE_COMPONENT_TEMPLATES",
+		"CREATE_ML_APPLICATION_INSTANCE_VIEW",
 	}
 }
 

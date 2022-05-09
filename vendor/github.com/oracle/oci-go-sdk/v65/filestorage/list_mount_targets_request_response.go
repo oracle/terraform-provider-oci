@@ -42,6 +42,9 @@ type ListMountTargetsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the export set.
 	ExportSetId *string `mandatory:"false" contributesTo:"query" name:"exportSetId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the share set.
+	ShareSetId *string `mandatory:"false" contributesTo:"query" name:"shareSetId"`
+
 	// Filter results by the specified lifecycle state. Must be a valid
 	// state for the resource type.
 	LifecycleState ListMountTargetsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`

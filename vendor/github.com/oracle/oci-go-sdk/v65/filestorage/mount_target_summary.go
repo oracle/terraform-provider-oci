@@ -65,6 +65,10 @@ type MountTargetSummary struct {
 	// For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated share set. Controls what file
+	// systems will be shared through SMB protocol on this mount target.
+	ShareSetId *string `mandatory:"false" json:"shareSetId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

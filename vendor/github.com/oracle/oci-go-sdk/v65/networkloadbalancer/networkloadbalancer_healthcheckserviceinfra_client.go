@@ -50,8 +50,6 @@ func NewHealthCheckServiceInfraClientWithOboToken(configProvider common.Configur
 }
 
 func newHealthCheckServiceInfraClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client HealthCheckServiceInfraClient, err error) {
-	// HealthCheckServiceInfra service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("HealthCheckServiceInfra"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
@@ -88,9 +86,10 @@ func (client *HealthCheckServiceInfraClient) ConfigurationProvider() *common.Con
 }
 
 // RegisterHealthCheckServiceInfraDpHost Create a HCS dp host
+// A default retry strategy applies to this operation RegisterHealthCheckServiceInfraDpHost()
 func (client HealthCheckServiceInfraClient) RegisterHealthCheckServiceInfraDpHost(ctx context.Context, request RegisterHealthCheckServiceInfraDpHostRequest) (response RegisterHealthCheckServiceInfraDpHostResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

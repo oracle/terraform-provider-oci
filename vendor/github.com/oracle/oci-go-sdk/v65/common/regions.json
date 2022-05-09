@@ -304,5 +304,11 @@
         "realmDomainComponent": "oraclecloud14.com", 
         "regionIdentifier": "eu-dcc-dublin-2", 
         "realmKey": "oc14"
+    }, 
+    {
+        "regionKey": "num", 
+        "realmDomainComponent": "oraclecloud.com", 
+        "regionIdentifier": "me-neom-1", 
+        "realmKey": "oc1"
     }
 ]

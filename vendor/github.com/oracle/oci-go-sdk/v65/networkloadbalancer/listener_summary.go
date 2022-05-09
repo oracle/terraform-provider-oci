@@ -48,9 +48,6 @@ type ListenerSummary struct {
 	// An array that represents the PPV2 Options that can be enabled on TCP Listeners.
 	// Example: ["VCN_ID"]
 	InternalProxyProtocolOptions []MetadataOptionsEnum `mandatory:"false" json:"internalProxyProtocolOptions"`
-
-	// Override to use 0xE1 custom TLV for encoding Class E IP Address in IP Options. (Default is 0xE2)
-	IsSgwNatIpTlvTypeOverrideEnabled *bool `mandatory:"false" json:"isSgwNatIpTlvTypeOverrideEnabled"`
 }
 
 func (m ListenerSummary) String() string {

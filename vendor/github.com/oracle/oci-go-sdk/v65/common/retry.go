@@ -836,6 +836,7 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 		// scaling factor should be
 		policyToUse, endOfWindowTime, backoffScalingFactor := policy.DeterminePolicyToUse(policy)
 		Debugln(fmt.Sprintf("Retry policy to use: %v", policyToUse))
+		retryStartTime := time.Now()
 
 		extraHeaders := make(map[string]string)
 
@@ -860,7 +861,7 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 			if !policyToUse.ShouldRetryOperation(operationResponse) {
 				// we should NOT retry operation based on response and/or error => return
 				retrierChannel <- retrierResult{response, err}
-				// Debugln(fmt.Sprintf("Http Status Code: %v. Not Matching retry policy", operationResponse.Response.HTTPResponse().StatusCode))
+				Debugln(fmt.Sprintf("Http Status Code: %v. Not Matching retry policy", operationResponse.Response.HTTPResponse().StatusCode))
 				return
 			}
 			// if the request body type is stream, requested retry but doesn't resettable, throw error and stop retrying
@@ -878,12 +879,13 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 				retrierChannel <- retrierResult{response, DeadlineExceededByBackoff}
 				return
 			}
-			// Debugln(fmt.Sprintf("Http Status Code: %v. Matching retry policy", operationResponse.Response.HTTPResponse().StatusCode))
+			Debugln(fmt.Sprintf("Http Status Code: %v. Matching retry policy", operationResponse.Response.HTTPResponse().StatusCode))
 			Debugln(fmt.Sprintf("waiting %v before retrying operation", duration))
 			// sleep before retrying the operation
 			<-time.After(duration)
 		}
-
+		retryEndTime := time.Now()
+		Debugln(fmt.Sprintf("Total Latency for this API call is: %v ms", retryEndTime.Sub(retryStartTime).Milliseconds()))
 		retrierChannel <- retrierResult{response, err}
 	}()
 

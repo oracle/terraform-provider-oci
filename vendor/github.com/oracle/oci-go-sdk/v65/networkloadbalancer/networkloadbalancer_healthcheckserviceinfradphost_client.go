@@ -50,8 +50,6 @@ func NewHealthCheckServiceInfraDpHostClientWithOboToken(configProvider common.Co
 }
 
 func newHealthCheckServiceInfraDpHostClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client HealthCheckServiceInfraDpHostClient, err error) {
-	// HealthCheckServiceInfraDpHost service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("HealthCheckServiceInfraDpHost"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
@@ -88,9 +86,10 @@ func (client *HealthCheckServiceInfraDpHostClient) ConfigurationProvider() *comm
 }
 
 // DeleteHealthCheckServiceInfraDpHost Delete hcs dp host configuration by identifier.
+// A default retry strategy applies to this operation DeleteHealthCheckServiceInfraDpHost()
 func (client HealthCheckServiceInfraDpHostClient) DeleteHealthCheckServiceInfraDpHost(ctx context.Context, request DeleteHealthCheckServiceInfraDpHostRequest) (response DeleteHealthCheckServiceInfraDpHostResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -141,9 +140,10 @@ func (client HealthCheckServiceInfraDpHostClient) deleteHealthCheckServiceInfraD
 }
 
 // GetHealthCheckServiceInfraDpHost Retrieves hcs dp host configuration information by identifier.
+// A default retry strategy applies to this operation GetHealthCheckServiceInfraDpHost()
 func (client HealthCheckServiceInfraDpHostClient) GetHealthCheckServiceInfraDpHost(ctx context.Context, request GetHealthCheckServiceInfraDpHostRequest) (response GetHealthCheckServiceInfraDpHostResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -194,9 +194,10 @@ func (client HealthCheckServiceInfraDpHostClient) getHealthCheckServiceInfraDpHo
 }
 
 // PostHeartBeat Post HCS dp host heart beat
+// A default retry strategy applies to this operation PostHeartBeat()
 func (client HealthCheckServiceInfraDpHostClient) PostHeartBeat(ctx context.Context, request PostHeartBeatRequest) (response PostHeartBeatResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -252,9 +253,10 @@ func (client HealthCheckServiceInfraDpHostClient) postHeartBeat(ctx context.Cont
 }
 
 // UpdateHealthCheckServiceInfraDpHost Update HCS dp host
+// A default retry strategy applies to this operation UpdateHealthCheckServiceInfraDpHost()
 func (client HealthCheckServiceInfraDpHostClient) UpdateHealthCheckServiceInfraDpHost(ctx context.Context, request UpdateHealthCheckServiceInfraDpHostRequest) (response UpdateHealthCheckServiceInfraDpHostResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
