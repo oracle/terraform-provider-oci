@@ -76,11 +76,11 @@ func CoreVolumeGroupReplicasDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
 									// Computed
+									"membership_state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"volume_replica_id": {
 										Type:     schema.TypeString,
 										Computed: true,

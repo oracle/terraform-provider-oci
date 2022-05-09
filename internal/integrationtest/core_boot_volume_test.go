@@ -42,8 +42,8 @@ var (
 	}
 
 	CoreCoreBootVolumeDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreBootVolumeDataSourceFilterRepresentation}}
 	CoreBootVolumeDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -410,7 +410,6 @@ func getCoreBootVolumeIds(compartment string) ([]string, error) {
 
 	listBootVolumesRequest := oci_core.ListBootVolumesRequest{}
 	listBootVolumesRequest.CompartmentId = &compartmentId
-
 	availabilityDomains, err := acctest.GetAvalabilityDomains(compartment)
 	if err != nil {
 		return resourceIds, fmt.Errorf("Error getting availabilityDomains required for BootVolume list for compartment id : %s , %s \n", compartmentId, err)
@@ -428,7 +427,6 @@ func getCoreBootVolumeIds(compartment string) ([]string, error) {
 			resourceIds = append(resourceIds, id)
 			acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "BootVolumeId", id)
 		}
-
 	}
 	return resourceIds, nil
 }

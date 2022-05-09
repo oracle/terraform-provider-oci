@@ -22,10 +22,11 @@ var (
 		"block_volume_replica_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_block_volume_replicas.test_block_volume_replicas.block_volume_replicas.0.id}`},
 	}
 	CoreCoreBlockVolumeReplicaDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `KvuH:US-ASHBURN-AD-1`},
-		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
-		"state":               acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"availability_domain":     acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":          acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"state":                   acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"volume_group_replica_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_volume_group_replica.test_volume_group_replica.id}`},
 	}
 
 	CoreBlockDependenceVolumeRepresentation = map[string]interface{}{

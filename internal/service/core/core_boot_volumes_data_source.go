@@ -21,11 +21,11 @@ func CoreBootVolumesDataSource() *schema.Resource {
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"volume_group_id": {
 				Type:     schema.TypeString,
@@ -108,13 +108,14 @@ func (s *CoreBootVolumesDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		bootVolume := map[string]interface{}{
-			"availability_domain": *r.AvailabilityDomain,
-			"compartment_id":      *r.CompartmentId,
-		}
+		bootVolume := map[string]interface{}{}
 
 		if r.AutoTunedVpusPerGB != nil {
 			bootVolume["auto_tuned_vpus_per_gb"] = strconv.FormatInt(*r.AutoTunedVpusPerGB, 10)
+		}
+
+		if r.AvailabilityDomain != nil {
+			bootVolume["availability_domain"] = *r.AvailabilityDomain
 		}
 
 		bootVolumeReplicas := []interface{}{}
@@ -122,6 +123,10 @@ func (s *CoreBootVolumesDataSourceCrud) SetData() error {
 			bootVolumeReplicas = append(bootVolumeReplicas, BootVolumeReplicaInfoToMap(item))
 		}
 		bootVolume["boot_volume_replicas"] = bootVolumeReplicas
+
+		if r.CompartmentId != nil {
+			bootVolume["compartment_id"] = *r.CompartmentId
+		}
 
 		if r.DefinedTags != nil {
 			bootVolume["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
