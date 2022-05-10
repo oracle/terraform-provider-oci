@@ -13,6 +13,10 @@ import (
 )
 
 // GetTemplateLogoRequest wrapper for the GetTemplateLogo operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetTemplateLogo.go.html to see an example of how to use GetTemplateLogoRequest.
 type GetTemplateLogoRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the template.
