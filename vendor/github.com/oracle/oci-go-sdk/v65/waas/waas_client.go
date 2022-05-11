@@ -968,9 +968,10 @@ func (client WaasClient) deleteWaasPolicy(ctx context.Context, request common.OC
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetAddressList.go.html to see an example of how to use GetAddressList API.
+// A default retry strategy applies to this operation GetAddressList()
 func (client WaasClient) GetAddressList(ctx context.Context, request GetAddressListRequest) (response GetAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1025,9 +1026,10 @@ func (client WaasClient) getAddressList(ctx context.Context, request common.OCIR
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetCertificate.go.html to see an example of how to use GetCertificate API.
+// A default retry strategy applies to this operation GetCertificate()
 func (client WaasClient) GetCertificate(ctx context.Context, request GetCertificateRequest) (response GetCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1082,9 +1084,10 @@ func (client WaasClient) getCertificate(ctx context.Context, request common.OCIR
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetCustomProtectionRule.go.html to see an example of how to use GetCustomProtectionRule API.
+// A default retry strategy applies to this operation GetCustomProtectionRule()
 func (client WaasClient) GetCustomProtectionRule(ctx context.Context, request GetCustomProtectionRuleRequest) (response GetCustomProtectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1139,9 +1142,10 @@ func (client WaasClient) getCustomProtectionRule(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetDeviceFingerprintChallenge.go.html to see an example of how to use GetDeviceFingerprintChallenge API.
+// A default retry strategy applies to this operation GetDeviceFingerprintChallenge()
 func (client WaasClient) GetDeviceFingerprintChallenge(ctx context.Context, request GetDeviceFingerprintChallengeRequest) (response GetDeviceFingerprintChallengeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1196,9 +1200,10 @@ func (client WaasClient) getDeviceFingerprintChallenge(ctx context.Context, requ
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetHumanInteractionChallenge.go.html to see an example of how to use GetHumanInteractionChallenge API.
+// A default retry strategy applies to this operation GetHumanInteractionChallenge()
 func (client WaasClient) GetHumanInteractionChallenge(ctx context.Context, request GetHumanInteractionChallengeRequest) (response GetHumanInteractionChallengeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1253,9 +1258,10 @@ func (client WaasClient) getHumanInteractionChallenge(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetJsChallenge.go.html to see an example of how to use GetJsChallenge API.
+// A default retry strategy applies to this operation GetJsChallenge()
 func (client WaasClient) GetJsChallenge(ctx context.Context, request GetJsChallengeRequest) (response GetJsChallengeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1310,9 +1316,10 @@ func (client WaasClient) getJsChallenge(ctx context.Context, request common.OCIR
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetPolicyConfig.go.html to see an example of how to use GetPolicyConfig API.
+// A default retry strategy applies to this operation GetPolicyConfig()
 func (client WaasClient) GetPolicyConfig(ctx context.Context, request GetPolicyConfigRequest) (response GetPolicyConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1367,9 +1374,10 @@ func (client WaasClient) getPolicyConfig(ctx context.Context, request common.OCI
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetProtectionRule.go.html to see an example of how to use GetProtectionRule API.
+// A default retry strategy applies to this operation GetProtectionRule()
 func (client WaasClient) GetProtectionRule(ctx context.Context, request GetProtectionRuleRequest) (response GetProtectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1424,9 +1432,10 @@ func (client WaasClient) getProtectionRule(ctx context.Context, request common.O
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetProtectionSettings.go.html to see an example of how to use GetProtectionSettings API.
+// A default retry strategy applies to this operation GetProtectionSettings()
 func (client WaasClient) GetProtectionSettings(ctx context.Context, request GetProtectionSettingsRequest) (response GetProtectionSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1481,9 +1490,10 @@ func (client WaasClient) getProtectionSettings(ctx context.Context, request comm
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetWaasPolicy.go.html to see an example of how to use GetWaasPolicy API.
+// A default retry strategy applies to this operation GetWaasPolicy()
 func (client WaasClient) GetWaasPolicy(ctx context.Context, request GetWaasPolicyRequest) (response GetWaasPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1538,9 +1548,10 @@ func (client WaasClient) getWaasPolicy(ctx context.Context, request common.OCIRe
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetWafAddressRateLimiting.go.html to see an example of how to use GetWafAddressRateLimiting API.
+// A default retry strategy applies to this operation GetWafAddressRateLimiting()
 func (client WaasClient) GetWafAddressRateLimiting(ctx context.Context, request GetWafAddressRateLimitingRequest) (response GetWafAddressRateLimitingResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1595,9 +1606,10 @@ func (client WaasClient) getWafAddressRateLimiting(ctx context.Context, request 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetWafConfig.go.html to see an example of how to use GetWafConfig API.
+// A default retry strategy applies to this operation GetWafConfig()
 func (client WaasClient) GetWafConfig(ctx context.Context, request GetWafConfigRequest) (response GetWafConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1652,9 +1664,10 @@ func (client WaasClient) getWafConfig(ctx context.Context, request common.OCIReq
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client WaasClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1710,9 +1723,10 @@ func (client WaasClient) getWorkRequest(ctx context.Context, request common.OCIR
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListAccessRules.go.html to see an example of how to use ListAccessRules API.
+// A default retry strategy applies to this operation ListAccessRules()
 func (client WaasClient) ListAccessRules(ctx context.Context, request ListAccessRulesRequest) (response ListAccessRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1767,9 +1781,10 @@ func (client WaasClient) listAccessRules(ctx context.Context, request common.OCI
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListAddressLists.go.html to see an example of how to use ListAddressLists API.
+// A default retry strategy applies to this operation ListAddressLists()
 func (client WaasClient) ListAddressLists(ctx context.Context, request ListAddressListsRequest) (response ListAddressListsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1825,9 +1840,10 @@ func (client WaasClient) listAddressLists(ctx context.Context, request common.OC
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListCachingRules.go.html to see an example of how to use ListCachingRules API.
+// A default retry strategy applies to this operation ListCachingRules()
 func (client WaasClient) ListCachingRules(ctx context.Context, request ListCachingRulesRequest) (response ListCachingRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1885,9 +1901,10 @@ func (client WaasClient) listCachingRules(ctx context.Context, request common.OC
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListCaptchas.go.html to see an example of how to use ListCaptchas API.
+// A default retry strategy applies to this operation ListCaptchas()
 func (client WaasClient) ListCaptchas(ctx context.Context, request ListCaptchasRequest) (response ListCaptchasResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1942,9 +1959,10 @@ func (client WaasClient) listCaptchas(ctx context.Context, request common.OCIReq
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListCertificates.go.html to see an example of how to use ListCertificates API.
+// A default retry strategy applies to this operation ListCertificates()
 func (client WaasClient) ListCertificates(ctx context.Context, request ListCertificatesRequest) (response ListCertificatesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1999,9 +2017,10 @@ func (client WaasClient) listCertificates(ctx context.Context, request common.OC
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListCustomProtectionRules.go.html to see an example of how to use ListCustomProtectionRules API.
+// A default retry strategy applies to this operation ListCustomProtectionRules()
 func (client WaasClient) ListCustomProtectionRules(ctx context.Context, request ListCustomProtectionRulesRequest) (response ListCustomProtectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2056,9 +2075,10 @@ func (client WaasClient) listCustomProtectionRules(ctx context.Context, request 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListEdgeSubnets.go.html to see an example of how to use ListEdgeSubnets API.
+// A default retry strategy applies to this operation ListEdgeSubnets()
 func (client WaasClient) ListEdgeSubnets(ctx context.Context, request ListEdgeSubnetsRequest) (response ListEdgeSubnetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2114,9 +2134,10 @@ func (client WaasClient) listEdgeSubnets(ctx context.Context, request common.OCI
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListGoodBots.go.html to see an example of how to use ListGoodBots API.
+// A default retry strategy applies to this operation ListGoodBots()
 func (client WaasClient) ListGoodBots(ctx context.Context, request ListGoodBotsRequest) (response ListGoodBotsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2172,9 +2193,10 @@ func (client WaasClient) listGoodBots(ctx context.Context, request common.OCIReq
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListProtectionRules.go.html to see an example of how to use ListProtectionRules API.
+// A default retry strategy applies to this operation ListProtectionRules()
 func (client WaasClient) ListProtectionRules(ctx context.Context, request ListProtectionRulesRequest) (response ListProtectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2231,9 +2253,10 @@ func (client WaasClient) listProtectionRules(ctx context.Context, request common
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListRecommendations.go.html to see an example of how to use ListRecommendations API.
+// A default retry strategy applies to this operation ListRecommendations()
 func (client WaasClient) ListRecommendations(ctx context.Context, request ListRecommendationsRequest) (response ListRecommendationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2290,9 +2313,10 @@ func (client WaasClient) listRecommendations(ctx context.Context, request common
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListThreatFeeds.go.html to see an example of how to use ListThreatFeeds API.
+// A default retry strategy applies to this operation ListThreatFeeds()
 func (client WaasClient) ListThreatFeeds(ctx context.Context, request ListThreatFeedsRequest) (response ListThreatFeedsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2347,9 +2371,10 @@ func (client WaasClient) listThreatFeeds(ctx context.Context, request common.OCI
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWaasPolicies.go.html to see an example of how to use ListWaasPolicies API.
+// A default retry strategy applies to this operation ListWaasPolicies()
 func (client WaasClient) ListWaasPolicies(ctx context.Context, request ListWaasPoliciesRequest) (response ListWaasPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2404,9 +2429,10 @@ func (client WaasClient) listWaasPolicies(ctx context.Context, request common.OC
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWaasPolicyCustomProtectionRules.go.html to see an example of how to use ListWaasPolicyCustomProtectionRules API.
+// A default retry strategy applies to this operation ListWaasPolicyCustomProtectionRules()
 func (client WaasClient) ListWaasPolicyCustomProtectionRules(ctx context.Context, request ListWaasPolicyCustomProtectionRulesRequest) (response ListWaasPolicyCustomProtectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2461,9 +2487,10 @@ func (client WaasClient) listWaasPolicyCustomProtectionRules(ctx context.Context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWafBlockedRequests.go.html to see an example of how to use ListWafBlockedRequests API.
+// A default retry strategy applies to this operation ListWafBlockedRequests()
 func (client WaasClient) ListWafBlockedRequests(ctx context.Context, request ListWafBlockedRequestsRequest) (response ListWafBlockedRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2520,9 +2547,10 @@ func (client WaasClient) listWafBlockedRequests(ctx context.Context, request com
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWafLogs.go.html to see an example of how to use ListWafLogs API.
+// A default retry strategy applies to this operation ListWafLogs()
 func (client WaasClient) ListWafLogs(ctx context.Context, request ListWafLogsRequest) (response ListWafLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2579,9 +2607,10 @@ func (client WaasClient) listWafLogs(ctx context.Context, request common.OCIRequ
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWafRequests.go.html to see an example of how to use ListWafRequests API.
+// A default retry strategy applies to this operation ListWafRequests()
 func (client WaasClient) ListWafRequests(ctx context.Context, request ListWafRequestsRequest) (response ListWafRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2637,9 +2666,10 @@ func (client WaasClient) listWafRequests(ctx context.Context, request common.OCI
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWafTraffic.go.html to see an example of how to use ListWafTraffic API.
+// A default retry strategy applies to this operation ListWafTraffic()
 func (client WaasClient) ListWafTraffic(ctx context.Context, request ListWafTrafficRequest) (response ListWafTrafficResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2694,9 +2724,10 @@ func (client WaasClient) listWafTraffic(ctx context.Context, request common.OCIR
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWhitelists.go.html to see an example of how to use ListWhitelists API.
+// A default retry strategy applies to this operation ListWhitelists()
 func (client WaasClient) ListWhitelists(ctx context.Context, request ListWhitelistsRequest) (response ListWhitelistsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2751,9 +2782,10 @@ func (client WaasClient) listWhitelists(ctx context.Context, request common.OCIR
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client WaasClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

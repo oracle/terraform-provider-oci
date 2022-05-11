@@ -274,10 +274,24 @@ var (
 		"use":     acctest.Representation{RepType: acctest.Optional, Create: `use`, Update: `sig`},
 	}
 
-	DeploymentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, gatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRegionalRepresentation) +
+	gatewayCaBundlesRepresentationWithCABundle = acctest.GetUpdatedRepresentationCopy(
+		"ca_bundle_id",
+		acctest.Representation{RepType: acctest.Required, Create: `${oci_certificates_management_ca_bundle.test_ca_bundle_dep.id}`},
+		gatewayCaBundlesRepresentation)
+
+	gatewayRepresentationWithCABundle = acctest.GetUpdatedRepresentationCopy(
+		"ca_bundles",
+		acctest.RepresentationGroup{RepType: acctest.Required, Group: gatewayCaBundlesRepresentationWithCABundle},
+		gatewayRepresentation)
+
+	DeploymentResourceGatewayDependency = acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, gatewayRepresentationWithCABundle)
+
+	DeploymentResourceDependenciesWithoutCABundle = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRegionalRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
 		DefinedTagsDependencies
+
+	DeploymentResourceDependencies = DeploymentResourceGatewayDependency + DeploymentResourceDependenciesWithoutCABundle +
+		acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle_dep", acctest.Optional, acctest.Create, caBundleRepresentation)
 
 	deploymentRepresentationCustomAuth = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
 		"specification.request_policies.authentication.audiences",

@@ -97,6 +97,8 @@ data "oci_cloud_guard_detector_recipes" "test_detector_recipes" {
   compartment_id = "${var.tenancy_ocid}"
   #Optional
   state          = "ACTIVE"
+  //Adding this to make sure the detector rule id is compatible with the returned detector recipes
+  display_name   = "OCI Configuration Detector Recipe"
 }
 
 data "oci_cloud_guard_responder_recipes" "test_responder_recipes" {

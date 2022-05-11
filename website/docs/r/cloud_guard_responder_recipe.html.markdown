@@ -43,9 +43,15 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) Compartment Identifier
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `description` - (Optional) (Updatable) ResponderRecipe Description
-* `display_name` - (Required) (Updatable) ResponderRecipe Display Name
-* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `description` - (Optional) (Updatable) Responder recipe description. 
+
+	Avoid entering confidential information. 
+* `display_name` - (Required) (Updatable) Responder recipe display name. 
+
+	Avoid entering confidential information. 
+* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
+
+	Avoid entering confidential information. 
 * `responder_rules` - (Optional) (Updatable) Responder Rules to override from source responder recipe
 	* `compartment_id` - (Optional) (Updatable) Compartment Identifier
 	* `details` - (Required) (Updatable) Details of UpdateResponderRuleDetails.
@@ -63,11 +69,11 @@ The following attributes are exported:
 
 * `compartment_id` - Compartment Identifier
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `description` - ResponderRecipe Description
-* `display_name` - ResponderRecipe Display Name
+* `description` - ResponderRecipe description.
+* `display_name` - ResponderRecipe display name.
 * `effective_responder_rules` - List of responder rules associated with the recipe
 	* `compartment_id` - Compartment Identifier
-	* `description` - ResponderRule Description
+	* `description` - ResponderRule description.
 	* `details` - Details of ResponderRule.
 		* `condition` - 
 		* `configurations` - ResponderRule configurations
@@ -76,7 +82,7 @@ The following attributes are exported:
 			* `value` - configuration value
 		* `is_enabled` - Identifies state for ResponderRule
 		* `mode` - Execution Mode for ResponderRule
-	* `display_name` - ResponderRule Display Name
+	* `display_name` - ResponderRule display name.
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	* `policies` - List of Policy
 	* `responder_rule_id` - Identifier for ResponderRule.
@@ -85,13 +91,15 @@ The following attributes are exported:
 	* `time_created` - The date and time the responder recipe rule was created. Format defined by RFC3339.
 	* `time_updated` - The date and time the responder recipe rule was updated. Format defined by RFC3339.
 	* `type` - Type of Responder
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
+
+	Avoid entering confidential information. 
 * `id` - Identifier for ResponderRecipe.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `owner` - Owner of ResponderRecipe
 * `responder_rules` - List of responder rules associated with the recipe
 	* `compartment_id` - Compartment Identifier
-	* `description` - ResponderRule Description
+	* `description` - ResponderRule description.
 	* `details` - Details of ResponderRule.
 		* `condition` - 
 		* `configurations` - ResponderRule configurations
@@ -100,7 +108,7 @@ The following attributes are exported:
 			* `value` - configuration value
 		* `is_enabled` - Identifies state for ResponderRule
 		* `mode` - Execution Mode for ResponderRule
-	* `display_name` - ResponderRule Display Name
+	* `display_name` - ResponderRule display name.
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	* `policies` - List of Policy
 	* `responder_rule_id` - Identifier for ResponderRule.

@@ -227,6 +227,19 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 	datasourceName := "data.oci_database_autonomous_databases.test_autonomous_databases"
 	singularDatasourceName := "data.oci_database_autonomous_database.test_autonomous_database"
 
+	//ADBD specific ACD MaintenanceWindowRepresentation
+	AutonomousContainerDatabaseDedicatedMaintenanceWindowDetailsRepresentation := acctest.RepresentationCopyWithRemovedProperties(
+		acctest.GetUpdatedRepresentationCopy("months",
+			[]acctest.RepresentationGroup{{RepType: acctest.Optional, Group: autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation}, {RepType: acctest.Optional, Group: autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation2}, {RepType: acctest.Optional, Group: autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation3}, {RepType: acctest.Optional, Group: autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation4}},
+			autonomousContainerDatabaseMaintenanceWindowDetailsRepresentation), []string{"lead_time_in_weeks"})
+
+	AutonomousContainerDatabaseDedicatedRepresentation := acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: AutonomousContainerDatabaseDedicatedMaintenanceWindowDetailsRepresentation}, autonomousContainerDatabaseRepresentation)
+	AutonomousContainerDatabaseDedicatedResourceConfig := ATPDAutonomousContainerDatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, AutonomousContainerDatabaseDedicatedRepresentation)
+	AutonomousDatabaseDedicatedResourceDependencies := AutonomousContainerDatabaseDedicatedResourceConfig
+	AutonomousDatabaseDedicatedResourceConfig := AutonomousDatabaseDedicatedResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update, autonomousDatabaseDedicatedRepresentation)
+
 	var resId, resId2 string
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
@@ -398,6 +411,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_dedicated", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.provisionable_cpus.#", "108"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_created"),
 			),
@@ -441,6 +455,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 				"source_id",
 				"lifecycle_details",
 				"is_auto_scaling_enabled",
+				"is_auto_scaling_for_storage_enabled",
 				"rotate_key_trigger",
 				"is_mtls_connection_required",
 			},
@@ -1758,6 +1773,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_local_data_guard_enabled"),
+				resource.TestCheckResourceAttr(resourceName, "standby_db.0.state", "STANDBY"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")

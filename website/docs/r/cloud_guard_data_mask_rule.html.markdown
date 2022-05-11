@@ -47,9 +47,13 @@ The following arguments are supported:
 * `data_mask_categories` - (Required) (Updatable) Data Mask Categories
 * `data_mask_rule_status` - (Optional) (Updatable) The status of the dataMaskRule.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `description` - (Optional) The Data Mask Rule description.
-* `display_name` - (Required) (Updatable) Data Mask Rule name
-* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `description` - (Optional) The data mask rule description. Avoid entering confidential information.
+* `display_name` - (Required) (Updatable) Data mask rule name. 
+
+	Avoid entering confidential information. 
+* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
+
+	Avoid entering confidential information. 
 * `iam_group_id` - (Required) (Updatable) IAM Group id associated with the data mask rule
 * `state` - (Optional) The current state of the DataMaskRule.
 * `target_selected` - (Required) (Updatable) Target Selection eg select ALL or select on basis of TargetResourceTypes or TargetIds.
@@ -64,13 +68,15 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `compartment_id` - Compartment Identifier where the resource is created
+* `compartment_id` - Compartment Identifier where the resource is created.
 * `data_mask_categories` - Data Mask Categories
 * `data_mask_rule_status` - The status of the dataMaskRule.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - The data mask rule description.
-* `display_name` - Data Mask Rule Identifier, can be renamed
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `display_name` - Data Mask Rule Identifier, can be renamed.
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
+
+	Avoid entering confidential information. 
 * `iam_group_id` - IAM Group id associated with the data mask rule
 * `id` - Unique identifier that is immutable on creation
 * `lifecyle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

@@ -576,6 +576,30 @@ var exportCloudGuardDetectorRecipeHints = &TerraformResourceHints{
 	},
 }
 
+var exportCloudGuardSecurityRecipeHints = &TerraformResourceHints{
+	resourceClass:          "oci_cloud_guard_security_recipe",
+	datasourceClass:        "oci_cloud_guard_security_recipes",
+	datasourceItemsAttr:    "security_recipe_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "security_recipe",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_cloud_guard.LifecycleStateActive),
+	},
+}
+
+var exportCloudGuardSecurityZoneHints = &TerraformResourceHints{
+	resourceClass:          "oci_cloud_guard_security_zone",
+	datasourceClass:        "oci_cloud_guard_security_zones",
+	datasourceItemsAttr:    "security_zone_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "security_zone",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_cloud_guard.LifecycleStateActive),
+	},
+}
+
 var exportContainerengineClusterHints = &TerraformResourceHints{
 	resourceClass:          "oci_containerengine_cluster",
 	datasourceClass:        "oci_containerengine_clusters",

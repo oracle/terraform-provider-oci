@@ -109,6 +109,7 @@ const (
 	DataEntityModelTypeFileEntity      DataEntityModelTypeEnum = "FILE_ENTITY"
 	DataEntityModelTypeSqlEntity       DataEntityModelTypeEnum = "SQL_ENTITY"
 	DataEntityModelTypeDataStoreEntity DataEntityModelTypeEnum = "DATA_STORE_ENTITY"
+	DataEntityModelTypeDerivedEntity   DataEntityModelTypeEnum = "DERIVED_ENTITY"
 )
 
 var mappingDataEntityModelTypeEnum = map[string]DataEntityModelTypeEnum{
@@ -117,6 +118,7 @@ var mappingDataEntityModelTypeEnum = map[string]DataEntityModelTypeEnum{
 	"FILE_ENTITY":       DataEntityModelTypeFileEntity,
 	"SQL_ENTITY":        DataEntityModelTypeSqlEntity,
 	"DATA_STORE_ENTITY": DataEntityModelTypeDataStoreEntity,
+	"DERIVED_ENTITY":    DataEntityModelTypeDerivedEntity,
 }
 
 var mappingDataEntityModelTypeEnumLowerCase = map[string]DataEntityModelTypeEnum{
@@ -125,6 +127,7 @@ var mappingDataEntityModelTypeEnumLowerCase = map[string]DataEntityModelTypeEnum
 	"file_entity":       DataEntityModelTypeFileEntity,
 	"sql_entity":        DataEntityModelTypeSqlEntity,
 	"data_store_entity": DataEntityModelTypeDataStoreEntity,
+	"derived_entity":    DataEntityModelTypeDerivedEntity,
 }
 
 // GetDataEntityModelTypeEnumValues Enumerates the set of values for DataEntityModelTypeEnum
@@ -144,6 +147,7 @@ func GetDataEntityModelTypeEnumStringValues() []string {
 		"FILE_ENTITY",
 		"SQL_ENTITY",
 		"DATA_STORE_ENTITY",
+		"DERIVED_ENTITY",
 	}
 }
 

@@ -40,7 +40,7 @@ type Target struct {
 	InputPorts []InputPort `mandatory:"false" json:"inputPorts"`
 
 	// An array of output ports.
-	OutputPorts []OutputPort `mandatory:"false" json:"outputPorts"`
+	OutputPorts []TypedObject `mandatory:"false" json:"outputPorts"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
@@ -64,11 +64,23 @@ type Target struct {
 	// Specifies if this uses a predefined shape.
 	IsPredefinedShape *bool `mandatory:"false" json:"isPredefinedShape"`
 
+	// Specifies if entity name is the same as source.
+	IsUseSameSourceName *bool `mandatory:"false" json:"isUseSameSourceName"`
+
+	// Prefix for the entity Name.
+	TargetEntityNamePrefix *string `mandatory:"false" json:"targetEntityNamePrefix"`
+
+	// Suffix for the entity Name.
+	TargetEntityNameSuffix *string `mandatory:"false" json:"targetEntityNameSuffix"`
+
 	SchemaDriftConfig *SchemaDriftConfig `mandatory:"false" json:"schemaDriftConfig"`
 
 	FixedDataShape *Shape `mandatory:"false" json:"fixedDataShape"`
 
 	WriteOperationConfig *WriteOperationConfig `mandatory:"false" json:"writeOperationConfig"`
+
+	// A numeric loading order number for the target.
+	LoadOrder *int `mandatory:"false" json:"loadOrder"`
 
 	// Specifies the data property.
 	DataProperty TargetDataPropertyEnum `mandatory:"false" json:"dataProperty,omitempty"`
@@ -110,7 +122,7 @@ func (m Target) GetInputPorts() []InputPort {
 }
 
 //GetOutputPorts returns OutputPorts
-func (m Target) GetOutputPorts() []OutputPort {
+func (m Target) GetOutputPorts() []TypedObject {
 	return m.OutputPorts
 }
 
@@ -170,26 +182,30 @@ func (m Target) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *Target) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Key                  *string                `json:"key"`
-		ModelVersion         *string                `json:"modelVersion"`
-		ParentRef            *ParentReference       `json:"parentRef"`
-		Name                 *string                `json:"name"`
-		Description          *string                `json:"description"`
-		ObjectVersion        *int                   `json:"objectVersion"`
-		InputPorts           []InputPort            `json:"inputPorts"`
-		OutputPorts          []OutputPort           `json:"outputPorts"`
-		ObjectStatus         *int                   `json:"objectStatus"`
-		Identifier           *string                `json:"identifier"`
-		Parameters           []Parameter            `json:"parameters"`
-		OpConfigValues       *ConfigValues          `json:"opConfigValues"`
-		Entity               dataentity             `json:"entity"`
-		IsReadAccess         *bool                  `json:"isReadAccess"`
-		IsCopyFields         *bool                  `json:"isCopyFields"`
-		IsPredefinedShape    *bool                  `json:"isPredefinedShape"`
-		DataProperty         TargetDataPropertyEnum `json:"dataProperty"`
-		SchemaDriftConfig    *SchemaDriftConfig     `json:"schemaDriftConfig"`
-		FixedDataShape       *Shape                 `json:"fixedDataShape"`
-		WriteOperationConfig *WriteOperationConfig  `json:"writeOperationConfig"`
+		Key                    *string                `json:"key"`
+		ModelVersion           *string                `json:"modelVersion"`
+		ParentRef              *ParentReference       `json:"parentRef"`
+		Name                   *string                `json:"name"`
+		Description            *string                `json:"description"`
+		ObjectVersion          *int                   `json:"objectVersion"`
+		InputPorts             []InputPort            `json:"inputPorts"`
+		OutputPorts            []typedobject          `json:"outputPorts"`
+		ObjectStatus           *int                   `json:"objectStatus"`
+		Identifier             *string                `json:"identifier"`
+		Parameters             []Parameter            `json:"parameters"`
+		OpConfigValues         *ConfigValues          `json:"opConfigValues"`
+		Entity                 dataentity             `json:"entity"`
+		IsReadAccess           *bool                  `json:"isReadAccess"`
+		IsCopyFields           *bool                  `json:"isCopyFields"`
+		IsPredefinedShape      *bool                  `json:"isPredefinedShape"`
+		IsUseSameSourceName    *bool                  `json:"isUseSameSourceName"`
+		TargetEntityNamePrefix *string                `json:"targetEntityNamePrefix"`
+		TargetEntityNameSuffix *string                `json:"targetEntityNameSuffix"`
+		DataProperty           TargetDataPropertyEnum `json:"dataProperty"`
+		SchemaDriftConfig      *SchemaDriftConfig     `json:"schemaDriftConfig"`
+		FixedDataShape         *Shape                 `json:"fixedDataShape"`
+		WriteOperationConfig   *WriteOperationConfig  `json:"writeOperationConfig"`
+		LoadOrder              *int                   `json:"loadOrder"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -214,9 +230,17 @@ func (m *Target) UnmarshalJSON(data []byte) (e error) {
 		m.InputPorts[i] = n
 	}
 
-	m.OutputPorts = make([]OutputPort, len(model.OutputPorts))
+	m.OutputPorts = make([]TypedObject, len(model.OutputPorts))
 	for i, n := range model.OutputPorts {
-		m.OutputPorts[i] = n
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.OutputPorts[i] = nn.(TypedObject)
+		} else {
+			m.OutputPorts[i] = nil
+		}
 	}
 
 	m.ObjectStatus = model.ObjectStatus
@@ -246,6 +270,12 @@ func (m *Target) UnmarshalJSON(data []byte) (e error) {
 
 	m.IsPredefinedShape = model.IsPredefinedShape
 
+	m.IsUseSameSourceName = model.IsUseSameSourceName
+
+	m.TargetEntityNamePrefix = model.TargetEntityNamePrefix
+
+	m.TargetEntityNameSuffix = model.TargetEntityNameSuffix
+
 	m.DataProperty = model.DataProperty
 
 	m.SchemaDriftConfig = model.SchemaDriftConfig
@@ -253,6 +283,8 @@ func (m *Target) UnmarshalJSON(data []byte) (e error) {
 	m.FixedDataShape = model.FixedDataShape
 
 	m.WriteOperationConfig = model.WriteOperationConfig
+
+	m.LoadOrder = model.LoadOrder
 
 	return
 }

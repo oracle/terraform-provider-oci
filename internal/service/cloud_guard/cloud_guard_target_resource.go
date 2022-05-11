@@ -6,10 +6,13 @@ package cloud_guard
 import (
 	"context"
 	"fmt"
+	"log"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -776,6 +779,102 @@ func CloudGuardTargetResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"target_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"security_zone_display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"security_zone_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"target_resource_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"target_security_zone_recipes": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"defined_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"description": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"lifecycle_details": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"owner": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"security_policies": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_updated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -829,7 +928,8 @@ type CloudGuardTargetResourceCrud struct {
 }
 
 func (s *CloudGuardTargetResourceCrud) ID() string {
-	return *s.Res.Id
+	response := *s.Res
+	return *response.Id
 }
 
 func (s *CloudGuardTargetResourceCrud) CreatedPending() []string {
@@ -1046,64 +1146,75 @@ func (s *CloudGuardTargetResourceCrud) Delete() error {
 }
 
 func (s *CloudGuardTargetResourceCrud) SetData() error {
-	if s.Res.CompartmentId != nil {
-		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	response := *s.Res
+	if response.CompartmentId != nil {
+		s.D.Set("compartment_id", response.CompartmentId)
 	}
 
-	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	if response.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(response.DefinedTags))
 	}
 
-	if s.Res.Description != nil {
-		s.D.Set("description", *s.Res.Description)
+	if response.Description != nil {
+		s.D.Set("description", response.Description)
 	}
 
-	if s.Res.DisplayName != nil {
-		s.D.Set("display_name", *s.Res.DisplayName)
+	if response.DisplayName != nil {
+		s.D.Set("display_name", response.DisplayName)
 	}
 
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
+	s.D.Set("freeform_tags", response.FreeformTags)
 
-	s.D.Set("inherited_by_compartments", s.Res.InheritedByCompartments)
+	s.D.Set("inherited_by_compartments", response.InheritedByCompartments)
 
-	if s.Res.LifecyleDetails != nil {
-		s.D.Set("lifecyle_details", *s.Res.LifecyleDetails)
+	if response.LifecyleDetails != nil {
+		s.D.Set("lifecyle_details", response.LifecyleDetails)
 	}
 
-	if s.Res.RecipeCount != nil {
-		s.D.Set("recipe_count", *s.Res.RecipeCount)
+	if response.RecipeCount != nil {
+		s.D.Set("recipe_count", response.RecipeCount)
 	}
 
-	s.D.Set("state", s.Res.LifecycleState)
+	s.D.Set("state", response.LifecycleState)
 
-	if s.Res.SystemTags != nil {
-		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	if response.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(response.SystemTags))
+	}
+
+	if s.Res.TargetDetails != nil {
+		targetDetailsArray := []interface{}{}
+		if targetDetailsMap := TargetDetailsToMap(&s.Res.TargetDetails); targetDetailsMap != nil {
+			targetDetailsArray = append(targetDetailsArray, targetDetailsMap)
+		}
+		s.D.Set("target_details", targetDetailsArray)
+	} else {
+		s.D.Set("target_details", nil)
 	}
 
 	targetDetectorRecipes := []interface{}{}
-	for _, item := range s.Res.TargetDetectorRecipes {
+	for _, item := range response.TargetDetectorRecipes {
 		targetDetectorRecipes = append(targetDetectorRecipes, TargetDetectorRecipeToMap(item))
 	}
 	s.D.Set("target_detector_recipes", targetDetectorRecipes)
 
-	if s.Res.TargetResourceId != nil {
-		s.D.Set("target_resource_id", *s.Res.TargetResourceId)
+	if response.TargetResourceId != nil {
+		s.D.Set("target_resource_id", response.TargetResourceId)
 	}
 
-	s.D.Set("target_resource_type", s.Res.TargetResourceType)
+	s.D.Set("target_resource_type", response.TargetResourceType)
 
 	targetResponderRecipes := []interface{}{}
-	for _, item := range s.Res.TargetResponderRecipes {
+	for _, item := range response.TargetResponderRecipes {
 		targetResponderRecipes = append(targetResponderRecipes, TargetResponderRecipeToMap(item))
 	}
 	s.D.Set("target_responder_recipes", targetResponderRecipes)
 
-	if s.Res.TimeCreated != nil {
-		s.D.Set("time_created", s.Res.TimeCreated.String())
+	if response.TimeCreated != nil {
+		s.D.Set("time_created", response.TimeCreated.String())
 	}
 
-	if s.Res.TimeUpdated != nil {
-		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	if response.TimeUpdated != nil {
+		s.D.Set("time_updated", response.TimeUpdated.String())
 	}
 
 	return nil
@@ -1301,6 +1412,211 @@ func (s *CloudGuardTargetResourceCrud) mapToResponderConfiguration(fieldKeyForma
 	}
 
 	return result, nil
+}
+
+func CloudGuardResponderConfigurationToMap(obj oci_cloud_guard.ResponderConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ConfigKey != nil {
+		result["config_key"] = string(*obj.ConfigKey)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func CloudGuardResponderRuleDetailsToMap(obj *oci_cloud_guard.ResponderRuleDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Condition != nil {
+		result["condition"] = obj.Condition.(string)
+	}
+
+	configurations := []interface{}{}
+	for _, item := range obj.Configurations {
+		configurations = append(configurations, ResponderConfigurationToMap(item))
+	}
+	result["configurations"] = configurations
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	result["mode"] = string(obj.Mode)
+
+	return result
+}
+
+func (s *CloudGuardTargetResourceCrud) mapToSecurityRecipe(fieldKeyFormat string) (oci_cloud_guard.SecurityRecipe, error) {
+	result := oci_cloud_guard.SecurityRecipe{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+		tmp := description.(string)
+		result.Description = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	if lifecycleDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lifecycle_details")); ok {
+		tmp := lifecycleDetails.(string)
+		result.LifecycleDetails = &tmp
+	}
+
+	if owner, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "owner")); ok {
+		result.Owner = oci_cloud_guard.OwnerTypeEnum(owner.(string))
+	}
+
+	if securityPolicies, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_policies")); ok {
+		interfaces := securityPolicies.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "security_policies")) {
+			result.SecurityPolicies = tmp
+		}
+	}
+
+	if state, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "state")); ok {
+		result.LifecycleState = oci_cloud_guard.LifecycleStateEnum(state.(string))
+	}
+
+	if systemTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "system_tags")); ok {
+		tmp, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert system_tags, encountered error: %v", err)
+		}
+		result.SystemTags = tmp
+	}
+
+	if timeCreated, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_created")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeCreated.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeCreated = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if timeUpdated, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_updated")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeUpdated.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeUpdated = &oci_common.SDKTime{Time: tmp}
+	}
+
+	return result, nil
+}
+
+func SecurityRecipeToMap(obj oci_cloud_guard.SecurityRecipe) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	result["owner"] = string(obj.Owner)
+
+	result["security_policies"] = obj.SecurityPolicies
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.Format(time.RFC3339Nano)
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.Format(time.RFC3339Nano)
+	}
+
+	return result
+}
+
+func TargetDetailsToMap(obj *oci_cloud_guard.TargetDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_cloud_guard.SecurityZoneTargetDetails:
+		result["target_resource_type"] = "SECURITY_ZONE"
+
+		if v.SecurityZoneDisplayName != nil {
+			result["security_zone_display_name"] = string(*v.SecurityZoneDisplayName)
+		}
+
+		if v.SecurityZoneId != nil {
+			result["security_zone_id"] = string(*v.SecurityZoneId)
+		}
+
+		targetSecurityZoneRecipes := []interface{}{}
+		for _, item := range v.TargetSecurityZoneRecipes {
+			targetSecurityZoneRecipes = append(targetSecurityZoneRecipes, SecurityRecipeToMap(item))
+		}
+		result["target_security_zone_recipes"] = targetSecurityZoneRecipes
+	default:
+		log.Printf("[WARN] Received 'target_resource_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
 }
 
 func TargetDetectorDetailsToMap(obj *oci_cloud_guard.TargetDetectorDetails) map[string]interface{} {

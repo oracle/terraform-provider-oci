@@ -37,9 +37,15 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) Compartment Identifier
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `description` - (Optional) (Updatable) ManagedList description
-* `display_name` - (Required) (Updatable) ManagedList display name
-* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `description` - (Optional) (Updatable) Managed list description. 
+
+	Avoid entering confidential information. 
+* `display_name` - (Required) (Updatable) Managed list display name. 
+
+	Avoid entering confidential information. 
+* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
+
+	Avoid entering confidential information. 
 * `list_items` - (Optional) (Updatable) List of ManagedListItem
 * `list_type` - (Optional) type of the list
 * `source_managed_list_id` - (Optional) OCID of the Source ManagedList
@@ -54,10 +60,12 @@ The following attributes are exported:
 
 * `compartment_id` - Compartment Identifier where the resource is created
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `description` - ManagedList description
-* `display_name` - ManagedList display name
+* `description` - ManagedList description.
+* `display_name` - ManagedList display name.
 * `feed_provider` - provider of the feed
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
+
+	Avoid entering confidential information. 
 * `id` - Unique identifier that is immutable on creation
 * `is_editable` - If this list is editable or not
 * `lifecyle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

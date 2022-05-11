@@ -95,7 +95,11 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-
+						"custom_action_timeout_in_mins": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						// Optional
 						"days_of_week": {
 							Type:     schema.TypeList,
@@ -123,6 +127,11 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 								Type: schema.TypeInt,
 							},
 						},
+						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -145,6 +154,11 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"patching_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"weeks_of_month": {
 							Type:     schema.TypeList,
@@ -179,6 +193,14 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 			},
 
 			// Computed
+			"available_autonomous_data_storage_size_in_tbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"available_container_databases": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"available_cpus": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -219,7 +241,11 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 						// Required
 
 						// Optional
-
+						"custom_action_timeout_in_mins": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						// Computed
 						"days_of_week": {
 							Type:     schema.TypeList,
@@ -245,6 +271,11 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 								Type: schema.TypeInt,
 							},
 						},
+						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -265,6 +296,11 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 									},
 								},
 							},
+						},
+						"patching_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"preference": {
 							Type:     schema.TypeString,
@@ -290,6 +326,10 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 			},
 			"ocpus_enabled": {
 				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"reclaimable_cpus": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"state": {
@@ -564,6 +604,14 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("autonomous_data_storage_size_in_tbs", *s.Res.AutonomousDataStorageSizeInTBs)
 	}
 
+	if s.Res.AvailableAutonomousDataStorageSizeInTBs != nil {
+		s.D.Set("available_autonomous_data_storage_size_in_tbs", *s.Res.AvailableAutonomousDataStorageSizeInTBs)
+	}
+
+	if s.Res.AvailableContainerDatabases != nil {
+		s.D.Set("available_container_databases", *s.Res.AvailableContainerDatabases)
+	}
+
 	if s.Res.AvailableCpus != nil {
 		s.D.Set("available_cpus", *s.Res.AvailableCpus)
 	}
@@ -646,6 +694,10 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("ocpus_enabled", *s.Res.OcpusEnabled)
 	}
 
+	if s.Res.ReclaimableCpus != nil {
+		s.D.Set("reclaimable_cpus", *s.Res.ReclaimableCpus)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -688,6 +740,11 @@ func AvmDayOfWeekToMap(obj oci_database.DayOfWeek) map[string]interface{} {
 func (s *DatabaseAutonomousVmClusterResourceCrud) mapToMaintenanceWindow(fieldKeyFormat string) (oci_database.MaintenanceWindow, error) {
 	result := oci_database.MaintenanceWindow{}
 
+	if customActionTimeoutInMins, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_action_timeout_in_mins")); ok {
+		tmp := customActionTimeoutInMins.(int)
+		result.CustomActionTimeoutInMins = &tmp
+	}
+
 	if daysOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "days_of_week")); ok {
 		interfaces := daysOfWeek.([]interface{})
 		tmp := make([]oci_database.DayOfWeek, len(interfaces))
@@ -718,6 +775,11 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) mapToMaintenanceWindow(fieldKe
 		}
 	}
 
+	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_action_timeout_enabled")); ok {
+		tmp := isCustomActionTimeoutEnabled.(bool)
+		result.IsCustomActionTimeoutEnabled = &tmp
+	}
+
 	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
 		tmp := leadTimeInWeeks.(int)
 		result.LeadTimeInWeeks = &tmp
@@ -738,6 +800,10 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) mapToMaintenanceWindow(fieldKe
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "months")) {
 			result.Months = tmp
 		}
+	}
+
+	if patchingMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patching_mode")); ok {
+		result.PatchingMode = oci_database.MaintenanceWindowPatchingModeEnum(patchingMode.(string))
 	}
 
 	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {

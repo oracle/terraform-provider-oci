@@ -113,6 +113,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateConnectionFromAtp{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BIP_CONNECTION":
+		mm := CreateConnectionFromBip{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_ADWC_CONNECTION":
 		mm := CreateConnectionFromAdwc{}
 		err = json.Unmarshal(data, &mm)
@@ -204,6 +208,7 @@ const (
 	CreateConnectionDetailsModelTypeGenericJdbcConnection         CreateConnectionDetailsModelTypeEnum = "GENERIC_JDBC_CONNECTION"
 	CreateConnectionDetailsModelTypeBiccConnection                CreateConnectionDetailsModelTypeEnum = "BICC_CONNECTION"
 	CreateConnectionDetailsModelTypeAmazonS3Connection            CreateConnectionDetailsModelTypeEnum = "AMAZON_S3_CONNECTION"
+	CreateConnectionDetailsModelTypeBipConnection                 CreateConnectionDetailsModelTypeEnum = "BIP_CONNECTION"
 )
 
 var mappingCreateConnectionDetailsModelTypeEnum = map[string]CreateConnectionDetailsModelTypeEnum{
@@ -215,6 +220,7 @@ var mappingCreateConnectionDetailsModelTypeEnum = map[string]CreateConnectionDet
 	"GENERIC_JDBC_CONNECTION":          CreateConnectionDetailsModelTypeGenericJdbcConnection,
 	"BICC_CONNECTION":                  CreateConnectionDetailsModelTypeBiccConnection,
 	"AMAZON_S3_CONNECTION":             CreateConnectionDetailsModelTypeAmazonS3Connection,
+	"BIP_CONNECTION":                   CreateConnectionDetailsModelTypeBipConnection,
 }
 
 var mappingCreateConnectionDetailsModelTypeEnumLowerCase = map[string]CreateConnectionDetailsModelTypeEnum{
@@ -226,6 +232,7 @@ var mappingCreateConnectionDetailsModelTypeEnumLowerCase = map[string]CreateConn
 	"generic_jdbc_connection":          CreateConnectionDetailsModelTypeGenericJdbcConnection,
 	"bicc_connection":                  CreateConnectionDetailsModelTypeBiccConnection,
 	"amazon_s3_connection":             CreateConnectionDetailsModelTypeAmazonS3Connection,
+	"bip_connection":                   CreateConnectionDetailsModelTypeBipConnection,
 }
 
 // GetCreateConnectionDetailsModelTypeEnumValues Enumerates the set of values for CreateConnectionDetailsModelTypeEnum
@@ -248,6 +255,7 @@ func GetCreateConnectionDetailsModelTypeEnumStringValues() []string {
 		"GENERIC_JDBC_CONNECTION",
 		"BICC_CONNECTION",
 		"AMAZON_S3_CONNECTION",
+		"BIP_CONNECTION",
 	}
 }
 

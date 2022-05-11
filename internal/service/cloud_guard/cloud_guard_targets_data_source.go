@@ -34,6 +34,10 @@ func CloudGuardTargetsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_non_security_zone_targets_only_query": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -94,6 +98,11 @@ func (s *CloudGuardTargetsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if isNonSecurityZoneTargetsOnlyQuery, ok := s.D.GetOkExists("is_non_security_zone_targets_only_query"); ok {
+		tmp := isNonSecurityZoneTargetsOnlyQuery.(bool)
+		request.IsNonSecurityZoneTargetsOnlyQuery = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {

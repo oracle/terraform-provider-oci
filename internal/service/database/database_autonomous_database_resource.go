@@ -256,6 +256,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					string(oci_database.CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeAutomatic),
 					string(oci_database.UpdateAutonomousDatabaseDetailsRefreshableModeAutomatic),
 					string(oci_database.UpdateAutonomousDatabaseDetailsRefreshableModeManual),
+					"",
 				}, false),
 			},
 			"scheduled_operations": {
@@ -653,6 +654,13 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"private_endpoint_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"provisionable_cpus": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeFloat,
+				},
 			},
 			"refreshable_status": {
 				Type:     schema.TypeString,
@@ -1594,6 +1602,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	if s.Res.PrivateEndpointLabel != nil {
 		s.D.Set("private_endpoint_label", *s.Res.PrivateEndpointLabel)
 	}
+
+	s.D.Set("provisionable_cpus", s.Res.ProvisionableCpus)
+
+	//s.D.Set("refreshable_mode", s.Res.RefreshableMode)
 
 	if s.Res.RefreshableMode != "" {
 		s.D.Set("refreshable_mode", s.Res.RefreshableMode)
@@ -3275,7 +3287,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) validateSwitchoverDatabase() er
 							fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "standby_db", 0)
 							if standbyState, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "state")); ok {
 								wantedStandByState := oci_database.AutonomousDatabaseStandbySummaryLifecycleStateEnum(strings.ToUpper(standbyState.(string)))
-								if wantedStandByState == oci_database.AutonomousDatabaseStandbySummaryLifecycleStateAvailable {
+								if (wantedStandByState == oci_database.AutonomousDatabaseStandbySummaryLifecycleStateAvailable) || (wantedStandByState == oci_database.AutonomousDatabaseStandbySummaryLifecycleStateStandby) {
 									if err := s.switchoverDatabase(""); err != nil {
 										s.D.Set("switchover_to", oldRaw.(string))
 										return err

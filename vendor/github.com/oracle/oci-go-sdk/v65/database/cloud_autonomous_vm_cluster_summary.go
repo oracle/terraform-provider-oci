@@ -111,6 +111,30 @@ type CloudAutonomousVmClusterSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// CPU cores available for allocation to Autonomous Databases.
+	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`
+
+	// CPU cores that are not released to available pool after an Autonomous Database is terminated (Requires Autonomous Container Database restart).
+	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`
+
+	// The number of Autonomous Container Databases that can be created with the currently available local storage.
+	AvailableContainerDatabases *int `mandatory:"false" json:"availableContainerDatabases"`
+
+	// The total number of Autonomous Container Databases that can be created with the allocated local storage.
+	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
+
+	// The data disk group size available for Autonomous Databases, in TBs.
+	AvailableAutonomousDataStorageSizeInTBs *float64 `mandatory:"false" json:"availableAutonomousDataStorageSizeInTBs"`
+
+	// The data disk group size allocated for Autonomous Databases, in TBs.
+	AutonomousDataStorageSizeInTBs *float64 `mandatory:"false" json:"autonomousDataStorageSizeInTBs"`
+
+	// The local node storage allocated in GBs.
+	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
+
+	// The amount of memory (in GBs) enabled per each OCPU core.
+	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 }
 
 func (m CloudAutonomousVmClusterSummary) String() string {
