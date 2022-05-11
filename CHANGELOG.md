@@ -1,4 +1,4 @@
-## 4.75.0 (Unreleased)
+## 4.75.0 (May 11, 2022)
 
 ### Added
 - Support for securityzones
