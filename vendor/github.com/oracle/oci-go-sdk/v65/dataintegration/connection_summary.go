@@ -140,6 +140,10 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := ConnectionSummaryFromMySql{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BIP_CONNECTION":
+		mm := ConnectionSummaryFromBip{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_OBJECT_STORAGE_CONNECTION":
 		mm := ConnectionSummaryFromObjectStorage{}
 		err = json.Unmarshal(data, &mm)
@@ -243,6 +247,7 @@ const (
 	ConnectionSummaryModelTypeGenericJdbcConnection         ConnectionSummaryModelTypeEnum = "GENERIC_JDBC_CONNECTION"
 	ConnectionSummaryModelTypeBiccConnection                ConnectionSummaryModelTypeEnum = "BICC_CONNECTION"
 	ConnectionSummaryModelTypeAmazonS3Connection            ConnectionSummaryModelTypeEnum = "AMAZON_S3_CONNECTION"
+	ConnectionSummaryModelTypeBipConnection                 ConnectionSummaryModelTypeEnum = "BIP_CONNECTION"
 )
 
 var mappingConnectionSummaryModelTypeEnum = map[string]ConnectionSummaryModelTypeEnum{
@@ -254,6 +259,7 @@ var mappingConnectionSummaryModelTypeEnum = map[string]ConnectionSummaryModelTyp
 	"GENERIC_JDBC_CONNECTION":          ConnectionSummaryModelTypeGenericJdbcConnection,
 	"BICC_CONNECTION":                  ConnectionSummaryModelTypeBiccConnection,
 	"AMAZON_S3_CONNECTION":             ConnectionSummaryModelTypeAmazonS3Connection,
+	"BIP_CONNECTION":                   ConnectionSummaryModelTypeBipConnection,
 }
 
 var mappingConnectionSummaryModelTypeEnumLowerCase = map[string]ConnectionSummaryModelTypeEnum{
@@ -265,6 +271,7 @@ var mappingConnectionSummaryModelTypeEnumLowerCase = map[string]ConnectionSummar
 	"generic_jdbc_connection":          ConnectionSummaryModelTypeGenericJdbcConnection,
 	"bicc_connection":                  ConnectionSummaryModelTypeBiccConnection,
 	"amazon_s3_connection":             ConnectionSummaryModelTypeAmazonS3Connection,
+	"bip_connection":                   ConnectionSummaryModelTypeBipConnection,
 }
 
 // GetConnectionSummaryModelTypeEnumValues Enumerates the set of values for ConnectionSummaryModelTypeEnum
@@ -287,6 +294,7 @@ func GetConnectionSummaryModelTypeEnumStringValues() []string {
 		"GENERIC_JDBC_CONNECTION",
 		"BICC_CONNECTION",
 		"AMAZON_S3_CONNECTION",
+		"BIP_CONNECTION",
 	}
 }
 

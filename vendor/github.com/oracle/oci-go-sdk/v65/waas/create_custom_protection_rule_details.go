@@ -47,7 +47,7 @@ type CreateCustomProtectionRuleDetails struct {
 	//   ```
 	//
 	// The example contains two `SecRules` each having distinct regex expression to match the `Cookie` header value during the second input analysis phase.
-	// For more information about custom protection rules, see Custom Protection Rules (https://docs.cloud.oracle.com/Content/WAF/tasks/customprotectionrules.htm).
+	// For more information about custom protection rules, see Custom Protection Rules (https://docs.cloud.oracle.com/Content/WAF/Tasks/customprotectionrules.htm).
 	// For more information about ModSecurity syntax, see Making Rules: The Basic Syntax (https://www.modsecurity.org/CRS/Documentation/making.html).
 	// For more information about ModSecurity's open source WAF rules, see Mod Security's OWASP Core Rule Set documentation (https://www.modsecurity.org/CRS/Documentation/index.html).
 	Template *string `mandatory:"true" json:"template"`

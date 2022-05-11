@@ -19,6 +19,14 @@ import (
 // ReadOperationConfig The information about the read operation.
 type ReadOperationConfig struct {
 
+	// This map is used for passing extra metatdata configuration that is required by read / write operation.
+	MetadataConfigProperties map[string]string `mandatory:"false" json:"metadataConfigProperties"`
+
+	// this map is used for passing BIP report parameter values.
+	DerivedAttributes map[string]string `mandatory:"false" json:"derivedAttributes"`
+
+	CallAttribute *BipCallAttribute `mandatory:"false" json:"callAttribute"`
+
 	// The object key.
 	Key *string `mandatory:"false" json:"key"`
 
@@ -38,6 +46,21 @@ type ReadOperationConfig struct {
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
+}
+
+//GetMetadataConfigProperties returns MetadataConfigProperties
+func (m ReadOperationConfig) GetMetadataConfigProperties() map[string]string {
+	return m.MetadataConfigProperties
+}
+
+//GetDerivedAttributes returns DerivedAttributes
+func (m ReadOperationConfig) GetDerivedAttributes() map[string]string {
+	return m.DerivedAttributes
+}
+
+//GetCallAttribute returns CallAttribute
+func (m ReadOperationConfig) GetCallAttribute() *BipCallAttribute {
+	return m.CallAttribute
 }
 
 func (m ReadOperationConfig) String() string {
@@ -73,14 +96,17 @@ func (m ReadOperationConfig) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *ReadOperationConfig) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Key             *string               `json:"key"`
-		ModelVersion    *string               `json:"modelVersion"`
-		ParentRef       *ParentReference      `json:"parentRef"`
-		Operations      []pushdownoperation   `json:"operations"`
-		DataFormat      *DataFormat           `json:"dataFormat"`
-		PartitionConfig partitionconfig       `json:"partitionConfig"`
-		ReadAttribute   abstractreadattribute `json:"readAttribute"`
-		ObjectStatus    *int                  `json:"objectStatus"`
+		MetadataConfigProperties map[string]string     `json:"metadataConfigProperties"`
+		DerivedAttributes        map[string]string     `json:"derivedAttributes"`
+		CallAttribute            *BipCallAttribute     `json:"callAttribute"`
+		Key                      *string               `json:"key"`
+		ModelVersion             *string               `json:"modelVersion"`
+		ParentRef                *ParentReference      `json:"parentRef"`
+		Operations               []pushdownoperation   `json:"operations"`
+		DataFormat               *DataFormat           `json:"dataFormat"`
+		PartitionConfig          partitionconfig       `json:"partitionConfig"`
+		ReadAttribute            abstractreadattribute `json:"readAttribute"`
+		ObjectStatus             *int                  `json:"objectStatus"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -88,6 +114,12 @@ func (m *ReadOperationConfig) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.MetadataConfigProperties = model.MetadataConfigProperties
+
+	m.DerivedAttributes = model.DerivedAttributes
+
+	m.CallAttribute = model.CallAttribute
+
 	m.Key = model.Key
 
 	m.ModelVersion = model.ModelVersion

@@ -272,6 +272,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("private_endpoint_label", *s.Res.PrivateEndpointLabel)
 	}
 
+	s.D.Set("provisionable_cpus", s.Res.ProvisionableCpus)
+
 	s.D.Set("refreshable_mode", s.Res.RefreshableMode)
 
 	s.D.Set("refreshable_status", s.Res.RefreshableStatus)

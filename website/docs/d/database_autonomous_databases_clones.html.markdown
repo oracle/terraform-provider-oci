@@ -152,6 +152,7 @@ The following attributes are exported:
 * `private_endpoint` - The private endpoint for the resource.
 * `private_endpoint_ip` - The private endpoint Ip address for the resource.
 * `private_endpoint_label` - The private endpoint label for the resource. Setting this to an empty string, after the private endpoint database gets created, will change the same private endpoint database to the public endpoint database.
+* `provisionable_cpus` - An array of CPU values that an Autonomous Database can be scaled to.
 * `refreshable_mode` - The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
 * `refreshable_status` - The refresh status of the clone. REFRESHING indicates that the clone is currently being refreshed with data from the source Autonomous Database.
 * `role` - The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled. 

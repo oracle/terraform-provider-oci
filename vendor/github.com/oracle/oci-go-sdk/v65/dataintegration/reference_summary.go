@@ -79,6 +79,15 @@ const (
 	ReferenceSummaryTypeOracleAdwcDataAsset          ReferenceSummaryTypeEnum = "ORACLE_ADWC_DATA_ASSET"
 	ReferenceSummaryTypeMysqlDataAsset               ReferenceSummaryTypeEnum = "MYSQL_DATA_ASSET"
 	ReferenceSummaryTypeGenericJdbcDataAsset         ReferenceSummaryTypeEnum = "GENERIC_JDBC_DATA_ASSET"
+	ReferenceSummaryTypeFusionAppDataAsset           ReferenceSummaryTypeEnum = "FUSION_APP_DATA_ASSET"
+	ReferenceSummaryTypeAmazonS3DataAsset            ReferenceSummaryTypeEnum = "AMAZON_S3_DATA_ASSET"
+	ReferenceSummaryTypeSchema                       ReferenceSummaryTypeEnum = "SCHEMA"
+	ReferenceSummaryTypeIntegrationTask              ReferenceSummaryTypeEnum = "INTEGRATION_TASK"
+	ReferenceSummaryTypeDataLoaderTask               ReferenceSummaryTypeEnum = "DATA_LOADER_TASK"
+	ReferenceSummaryTypeSqlTask                      ReferenceSummaryTypeEnum = "SQL_TASK"
+	ReferenceSummaryTypeOciDataflowTask              ReferenceSummaryTypeEnum = "OCI_DATAFLOW_TASK"
+	ReferenceSummaryTypePipelineTask                 ReferenceSummaryTypeEnum = "PIPELINE_TASK"
+	ReferenceSummaryTypeRestTask                     ReferenceSummaryTypeEnum = "REST_TASK"
 )
 
 var mappingReferenceSummaryTypeEnum = map[string]ReferenceSummaryTypeEnum{
@@ -88,6 +97,15 @@ var mappingReferenceSummaryTypeEnum = map[string]ReferenceSummaryTypeEnum{
 	"ORACLE_ADWC_DATA_ASSET":           ReferenceSummaryTypeOracleAdwcDataAsset,
 	"MYSQL_DATA_ASSET":                 ReferenceSummaryTypeMysqlDataAsset,
 	"GENERIC_JDBC_DATA_ASSET":          ReferenceSummaryTypeGenericJdbcDataAsset,
+	"FUSION_APP_DATA_ASSET":            ReferenceSummaryTypeFusionAppDataAsset,
+	"AMAZON_S3_DATA_ASSET":             ReferenceSummaryTypeAmazonS3DataAsset,
+	"SCHEMA":                           ReferenceSummaryTypeSchema,
+	"INTEGRATION_TASK":                 ReferenceSummaryTypeIntegrationTask,
+	"DATA_LOADER_TASK":                 ReferenceSummaryTypeDataLoaderTask,
+	"SQL_TASK":                         ReferenceSummaryTypeSqlTask,
+	"OCI_DATAFLOW_TASK":                ReferenceSummaryTypeOciDataflowTask,
+	"PIPELINE_TASK":                    ReferenceSummaryTypePipelineTask,
+	"REST_TASK":                        ReferenceSummaryTypeRestTask,
 }
 
 var mappingReferenceSummaryTypeEnumLowerCase = map[string]ReferenceSummaryTypeEnum{
@@ -97,6 +115,15 @@ var mappingReferenceSummaryTypeEnumLowerCase = map[string]ReferenceSummaryTypeEn
 	"oracle_adwc_data_asset":           ReferenceSummaryTypeOracleAdwcDataAsset,
 	"mysql_data_asset":                 ReferenceSummaryTypeMysqlDataAsset,
 	"generic_jdbc_data_asset":          ReferenceSummaryTypeGenericJdbcDataAsset,
+	"fusion_app_data_asset":            ReferenceSummaryTypeFusionAppDataAsset,
+	"amazon_s3_data_asset":             ReferenceSummaryTypeAmazonS3DataAsset,
+	"schema":                           ReferenceSummaryTypeSchema,
+	"integration_task":                 ReferenceSummaryTypeIntegrationTask,
+	"data_loader_task":                 ReferenceSummaryTypeDataLoaderTask,
+	"sql_task":                         ReferenceSummaryTypeSqlTask,
+	"oci_dataflow_task":                ReferenceSummaryTypeOciDataflowTask,
+	"pipeline_task":                    ReferenceSummaryTypePipelineTask,
+	"rest_task":                        ReferenceSummaryTypeRestTask,
 }
 
 // GetReferenceSummaryTypeEnumValues Enumerates the set of values for ReferenceSummaryTypeEnum
@@ -117,6 +144,15 @@ func GetReferenceSummaryTypeEnumStringValues() []string {
 		"ORACLE_ADWC_DATA_ASSET",
 		"MYSQL_DATA_ASSET",
 		"GENERIC_JDBC_DATA_ASSET",
+		"FUSION_APP_DATA_ASSET",
+		"AMAZON_S3_DATA_ASSET",
+		"SCHEMA",
+		"INTEGRATION_TASK",
+		"DATA_LOADER_TASK",
+		"SQL_TASK",
+		"OCI_DATAFLOW_TASK",
+		"PIPELINE_TASK",
+		"REST_TASK",
 	}
 }
 

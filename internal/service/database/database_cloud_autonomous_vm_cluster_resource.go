@@ -81,8 +81,24 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 			},
 
 			// Computed
+			"autonomous_data_storage_size_in_tbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 			"availability_domain": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"available_autonomous_data_storage_size_in_tbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"available_container_databases": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"available_cpus": {
+				Type:     schema.TypeFloat,
 				Computed: true,
 			},
 			"cpu_core_count": {
@@ -95,6 +111,10 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 			},
 			"data_storage_size_in_tbs": {
 				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"db_node_storage_size_in_gbs": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"domain": {
@@ -117,6 +137,10 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"memory_per_oracle_compute_unit_in_gbs": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"memory_size_in_gbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -130,6 +154,10 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Computed: true,
 			},
 			"ocpu_count": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"reclaimable_cpus": {
 				Type:     schema.TypeFloat,
 				Computed: true,
 			},
@@ -147,6 +175,10 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 			},
 			"time_updated": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"total_container_databases": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"rotate_ords_certs_trigger": {
@@ -474,8 +506,24 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Delete() error {
 }
 
 func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
+	if s.Res.AutonomousDataStorageSizeInTBs != nil {
+		s.D.Set("autonomous_data_storage_size_in_tbs", *s.Res.AutonomousDataStorageSizeInTBs)
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
+	}
+
+	if s.Res.AvailableAutonomousDataStorageSizeInTBs != nil {
+		s.D.Set("available_autonomous_data_storage_size_in_tbs", *s.Res.AvailableAutonomousDataStorageSizeInTBs)
+	}
+
+	if s.Res.AvailableContainerDatabases != nil {
+		s.D.Set("available_container_databases", *s.Res.AvailableContainerDatabases)
+	}
+
+	if s.Res.AvailableCpus != nil {
+		s.D.Set("available_cpus", *s.Res.AvailableCpus)
 	}
 
 	if s.Res.CloudExadataInfrastructureId != nil {
@@ -496,6 +544,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.DataStorageSizeInTBs != nil {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
+	}
+
+	if s.Res.DbNodeStorageSizeInGBs != nil {
+		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
 	}
 
 	if s.Res.DefinedTags != nil {
@@ -534,6 +586,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
+		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
+	}
+
 	if s.Res.MemorySizeInGBs != nil {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
@@ -556,6 +612,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("ocpu_count", *s.Res.OcpuCount)
 	}
 
+	if s.Res.ReclaimableCpus != nil {
+		s.D.Set("reclaimable_cpus", *s.Res.ReclaimableCpus)
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
@@ -572,6 +632,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.TotalContainerDatabases != nil {
+		s.D.Set("total_container_databases", *s.Res.TotalContainerDatabases)
 	}
 
 	return nil

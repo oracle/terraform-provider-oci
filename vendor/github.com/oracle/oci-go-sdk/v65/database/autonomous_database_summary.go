@@ -79,6 +79,9 @@ type AutonomousDatabaseSummary struct {
 	// **Note:** This parameter cannot be used with the `cpuCoreCount` parameter.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
+	// An array of CPU values that an Autonomous Database can be scaled to.
+	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
+
 	// The amount of memory (in GBs) enabled per each OCPU core in Autonomous VM Cluster.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
@@ -407,6 +410,7 @@ const (
 	AutonomousDatabaseSummaryLifecycleStateRoleChangeInProgress    AutonomousDatabaseSummaryLifecycleStateEnum = "ROLE_CHANGE_IN_PROGRESS"
 	AutonomousDatabaseSummaryLifecycleStateUpgrading               AutonomousDatabaseSummaryLifecycleStateEnum = "UPGRADING"
 	AutonomousDatabaseSummaryLifecycleStateInaccessible            AutonomousDatabaseSummaryLifecycleStateEnum = "INACCESSIBLE"
+	AutonomousDatabaseSummaryLifecycleStateStandby                 AutonomousDatabaseSummaryLifecycleStateEnum = "STANDBY"
 )
 
 var mappingAutonomousDatabaseSummaryLifecycleStateEnum = map[string]AutonomousDatabaseSummaryLifecycleStateEnum{
@@ -430,6 +434,7 @@ var mappingAutonomousDatabaseSummaryLifecycleStateEnum = map[string]AutonomousDa
 	"ROLE_CHANGE_IN_PROGRESS":   AutonomousDatabaseSummaryLifecycleStateRoleChangeInProgress,
 	"UPGRADING":                 AutonomousDatabaseSummaryLifecycleStateUpgrading,
 	"INACCESSIBLE":              AutonomousDatabaseSummaryLifecycleStateInaccessible,
+	"STANDBY":                   AutonomousDatabaseSummaryLifecycleStateStandby,
 }
 
 var mappingAutonomousDatabaseSummaryLifecycleStateEnumLowerCase = map[string]AutonomousDatabaseSummaryLifecycleStateEnum{
@@ -453,6 +458,7 @@ var mappingAutonomousDatabaseSummaryLifecycleStateEnumLowerCase = map[string]Aut
 	"role_change_in_progress":   AutonomousDatabaseSummaryLifecycleStateRoleChangeInProgress,
 	"upgrading":                 AutonomousDatabaseSummaryLifecycleStateUpgrading,
 	"inaccessible":              AutonomousDatabaseSummaryLifecycleStateInaccessible,
+	"standby":                   AutonomousDatabaseSummaryLifecycleStateStandby,
 }
 
 // GetAutonomousDatabaseSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseSummaryLifecycleStateEnum
@@ -487,6 +493,7 @@ func GetAutonomousDatabaseSummaryLifecycleStateEnumStringValues() []string {
 		"ROLE_CHANGE_IN_PROGRESS",
 		"UPGRADING",
 		"INACCESSIBLE",
+		"STANDBY",
 	}
 }
 

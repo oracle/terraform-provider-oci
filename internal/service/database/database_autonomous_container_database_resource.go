@@ -396,6 +396,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"available_cpus": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 			"infrastructure_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -538,6 +542,17 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"provisionable_cpus": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeFloat,
+				},
+			},
+			"reclaimable_cpus": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 			"role": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -548,6 +563,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 			},
 			"time_created": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"total_cpus": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 		},
@@ -951,6 +970,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	if s.Res.AvailableCpus != nil {
+		s.D.Set("available_cpus", *s.Res.AvailableCpus)
+	}
+
 	if s.Res.BackupConfig != nil {
 		s.D.Set("backup_config", []interface{}{AutonomousContainerDatabaseBackupConfigToMap(s.Res.BackupConfig, s, false)})
 	} else {
@@ -1035,6 +1058,12 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("patch_model", s.Res.PatchModel)
 
+	s.D.Set("provisionable_cpus", s.Res.ProvisionableCpus)
+
+	if s.Res.ReclaimableCpus != nil {
+		s.D.Set("reclaimable_cpus", *s.Res.ReclaimableCpus)
+	}
+
 	s.D.Set("role", s.Res.Role)
 
 	s.D.Set("service_level_agreement_type", s.Res.ServiceLevelAgreementType)
@@ -1047,6 +1076,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TotalCpus != nil {
+		s.D.Set("total_cpus", *s.Res.TotalCpus)
 	}
 
 	if s.Res.VaultId != nil {

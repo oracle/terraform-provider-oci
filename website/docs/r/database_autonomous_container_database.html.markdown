@@ -97,7 +97,9 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 
 The following arguments are supported:
 
-* `autonomous_exadata_infrastructure_id` - (End of Life) The OCID of the Autonomous Exadata Infrastructure. Please use cloud_autonomous_vm_cluster_id instead.
+
+* `autonomous_exadata_infrastructure_id` - (Optional) **No longer used.** This parameter is no longer used for Autonomous Database on dedicated Exadata infrasture. Specify a `cloudAutonomousVmClusterId` instead. Using this parameter will cause the operation to fail. 
+
 * `autonomous_vm_cluster_id` - (Optional) The OCID of the Autonomous VM Cluster.
 * `cloud_autonomous_vm_cluster_id` - (Optional) The OCID of the Cloud Autonomous VM Cluster.
 * `backup_config` - (Optional) (Updatable) Backup options for the Autonomous Container Database. 
@@ -144,7 +146,9 @@ The following arguments are supported:
 		* `vpc_password` - (Optional) For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
 		* `vpc_user` - (Optional) For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
 	* `recovery_window_in_days` - (Optional) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
-* `peer_autonomous_container_database_compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where the standby Autonomous Container Database will be created. 
+* `peer_autonomous_container_database_compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where the standby Autonomous Container Database will be created.
+* `peer_autonomous_container_database_display_name` - (Optional) The display name for the peer Autonomous Container Database.
+* `peer_autonomous_exadata_infrastructure_id` - (Optional) *No longer used.* This parameter is no longer used for Autonomous Database on dedicated Exadata infrasture. Specify a `peerCloudAutonomousVmClusterId` instead. Using this parameter will cause the operation to fail.
 * `peer_autonomous_vm_cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the peer Autonomous VM cluster for Autonomous Data Guard. Required to enable Data Guard. 
 * `peer_db_unique_name` - (Optional) **Deprecated.** The `DB_UNIQUE_NAME` of the peer Autonomous Container Database in a Data Guard association is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail. 
 * `protection_mode` - (Optional) The protection mode of this Autonomous Data Guard association. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
@@ -162,10 +166,11 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `autonomous_exadata_infrastructure_id` - (End of Life)The OCID of the Autonomous Exadata Infrastructure. Please use cloud_autonomous_vm_cluster_id instead.
+* `autonomous_exadata_infrastructure_id` - **No longer used.** For Autonomous Database on dedicated Exadata infrastructure, the container database is created within a specified `cloudAutonomousVmCluster`.  
 * `autonomous_vm_cluster_id` - The OCID of the Autonomous VM Cluster.
 * `cloud_autonomous_vm_cluster_id` - The OCID of the Cloud Autonomous VM Cluster.
 * `availability_domain` - The availability domain of the Autonomous Container Database.
+* `available_cpus` - Sum of OCPUs available on the Autonomous VM Cluster + Sum of Fractional OCPUs available in the Autonomous Container Database.
 * `backup_config` - Backup options for the Autonomous Container Database. 
 	* `backup_destination_details` - Backup destination details.
 		* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
@@ -212,11 +217,14 @@ The following attributes are exported:
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 * `patch_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch applied on the system.
 * `patch_model` - Database patch model preference.
-* `role` - The role of the dataguard enabled Autonomous Container Database.
+* `provisionable_cpus` - An array of CPU values that can be used to successfully provision a single Autonomous Database.
+* `reclaimable_cpus` - CPU cores that are not released to available pool after an Autonomous Database is terminated (Requires Autonomous Container Database restart).
+* `role` - The role of the Autonomous Data Guard-enabled Autonomous Container Database.
 * `service_level_agreement_type` - The service level agreement type of the container database. The default is STANDARD.
 * `standby_maintenance_buffer_in_days` - The scheduling detail for the quarterly maintenance window of the standby Autonomous Container Database. This value represents the number of days before scheduled maintenance of the primary database. 
 * `state` - The current state of the Autonomous Container Database.
 * `time_created` - The date and time the Autonomous Container Database was created.
+* `total_cpus` - The number of CPU cores allocated to the Autonomous VM cluster.
 * `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 
 ## Timeouts

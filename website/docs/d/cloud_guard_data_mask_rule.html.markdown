@@ -32,13 +32,15 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `compartment_id` - Compartment Identifier where the resource is created
+* `compartment_id` - Compartment Identifier where the resource is created.
 * `data_mask_categories` - Data Mask Categories
 * `data_mask_rule_status` - The status of the dataMaskRule.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - The data mask rule description.
-* `display_name` - Data Mask Rule Identifier, can be renamed
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `display_name` - Data Mask Rule Identifier, can be renamed.
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
+
+	Avoid entering confidential information. 
 * `iam_group_id` - IAM Group id associated with the data mask rule
 * `id` - Unique identifier that is immutable on creation
 * `lifecyle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

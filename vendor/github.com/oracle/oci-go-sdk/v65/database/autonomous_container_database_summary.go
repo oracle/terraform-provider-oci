@@ -112,6 +112,18 @@ type AutonomousContainerDatabaseSummary struct {
 
 	// The amount of memory (in GBs) enabled per each OCPU core in Autonomous VM Cluster.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
+
+	// Sum of OCPUs available on the Autonomous VM Cluster + Sum of Fractional OCPUs available in the Autonomous Container Database.
+	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`
+
+	// The number of CPU cores allocated to the Autonomous VM cluster.
+	TotalCpus *int `mandatory:"false" json:"totalCpus"`
+
+	// CPU cores that are not released to available pool after an Autonomous Database is terminated (Requires Autonomous Container Database restart).
+	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`
+
+	// An array of CPU values that can be used to successfully provision a single Autonomous Database.
+	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
 }
 
 func (m AutonomousContainerDatabaseSummary) String() string {
