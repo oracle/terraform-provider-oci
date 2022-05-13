@@ -275,6 +275,44 @@ func DevopsBuildRunResource() *schema.Resource {
 								},
 							},
 						},
+						"vulnerability_audit_summary_collection": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"items": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"build_stage_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"commit_hash": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"vulnerability_audit_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -765,6 +803,10 @@ func BuildOutputsToMap(obj *oci_devops.BuildOutputs) map[string]interface{} {
 
 	if obj.ExportedVariables != nil {
 		result["exported_variables"] = []interface{}{ExportedVariableCollectionToMap(obj.ExportedVariables)}
+	}
+
+	if obj.VulnerabilityAuditSummaryCollection != nil {
+		result["vulnerability_audit_summary_collection"] = []interface{}{VulnerabilityAuditSummaryCollectionToMap(obj.VulnerabilityAuditSummaryCollection)}
 	}
 
 	return result
@@ -1729,6 +1771,36 @@ func TriggerInfoToMap(obj *oci_devops.TriggerInfo) map[string]interface{} {
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	return result
+}
+
+func VulnerabilityAuditSummaryToMap(obj oci_devops.VulnerabilityAuditSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BuildStageId != nil {
+		result["build_stage_id"] = string(*obj.BuildStageId)
+	}
+
+	if obj.CommitHash != nil {
+		result["commit_hash"] = string(*obj.CommitHash)
+	}
+
+	if obj.VulnerabilityAuditId != nil {
+		result["vulnerability_audit_id"] = string(*obj.VulnerabilityAuditId)
+	}
+
+	return result
+}
+
+func VulnerabilityAuditSummaryCollectionToMap(obj *oci_devops.VulnerabilityAuditSummaryCollection) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	items := []interface{}{}
+	for _, item := range obj.Items {
+		items = append(items, VulnerabilityAuditSummaryToMap(item))
+	}
+	result["items"] = items
 
 	return result
 }
