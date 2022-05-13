@@ -202,6 +202,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["backup_config"] = nil
 		}
 
+		if r.CharacterSet != nil {
+			autonomousDatabase["character_set"] = *r.CharacterSet
+		}
+
 		if r.ConnectionStrings != nil {
 			autonomousDatabase["connection_strings"] = []interface{}{AutonomousDatabaseConnectionStringsToMap(r.ConnectionStrings)}
 		} else {
@@ -362,6 +366,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.MaxCpuCoreCount != nil {
 			autonomousDatabase["max_cpu_core_count"] = *r.MaxCpuCoreCount
+		}
+
+		if r.NcharacterSet != nil {
+			autonomousDatabase["ncharacter_set"] = *r.NcharacterSet
 		}
 
 		autonomousDatabase["nsg_ids"] = r.NsgIds
