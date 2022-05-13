@@ -84,7 +84,7 @@ The following arguments are supported:
 * `build_source_collection` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Collection of build sources.
 	* `items` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Collection of build sources. In case of UPDATE operation, replaces existing build sources list. Merging with existing build sources is not supported.
 		* `branch` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Branch name.
-		* `connection_id` - (Required when connection_type=GITHUB | GITLAB) (Updatable) Connection identifier pertinent to GitHub source provider.
+		* `connection_id` - (Required when connection_type=BITBUCKET_CLOUD | GITHUB | GITLAB) (Updatable) Connection identifier pertinent to Bitbucket Cloud source provider
 		* `connection_type` - (Required) (Updatable) The type of source provider.
 		* `name` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Name of the build source. This must be unique within a build source collection. The name can be used by customers to locate the working directory pertinent to this repository.
 		* `repository_id` - (Required when connection_type=DEVOPS_CODE_REPOSITORY) (Updatable) The DevOps code repository ID.
@@ -123,7 +123,7 @@ The following attributes are exported:
 * `build_source_collection` - Collection of build sources.
 	* `items` - Collection of build sources. In case of UPDATE operation, replaces existing build sources list. Merging with existing build sources is not supported.
 		* `branch` - Branch name.
-		* `connection_id` - Connection identifier pertinent to GitHub source provider.
+		* `connection_id` - Connection identifier pertinent to Bitbucket Cloud source provider
 		* `connection_type` - The type of source provider.
 		* `name` - Name of the build source. This must be unique within a build source collection. The name can be used by customers to locate the working directory pertinent to this repository.
 		* `repository_id` - The DevOps code repository ID.

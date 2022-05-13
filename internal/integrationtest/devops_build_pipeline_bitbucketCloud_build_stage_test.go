@@ -19,31 +19,31 @@ import (
 )
 
 var (
-	BuildPipelineBuildStageGitlabRequiredOnlyResource = BuildPipelineBuildStageGitlabResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Required, acctest.Create, buildPipelineBuildStageGitlabRepresentation)
+	BuildPipelineBuildStageBitbucketCloudRequiredOnlyResource = BuildPipelineBuildStageBitbucketCloudResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Required, acctest.Create, buildPipelineBuildStageBitbucketCloudRepresentation)
 
-	BuildPipelineBuildStageGitlabResourceConfig = BuildPipelineBuildStageGitlabResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Optional, acctest.Update, buildPipelineBuildStageGitlabRepresentation)
+	BuildPipelineBuildStageBitbucketCloudResourceConfig = BuildPipelineBuildStageBitbucketCloudResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Optional, acctest.Update, buildPipelineBuildStageBitbucketCloudRepresentation)
 
-	buildPipelineBuildStageGitlabSingularDataSourceRepresentation = map[string]interface{}{
+	buildPipelineBuildStageBitbucketCloudSingularDataSourceRepresentation = map[string]interface{}{
 		"build_pipeline_stage_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_build_pipeline_stage.test_build_pipeline_stage.id}`},
 	}
 
-	buildPipelineBuildStageGitlabDataSourceRepresentation = map[string]interface{}{
+	buildPipelineBuildStageBitbucketCloudDataSourceRepresentation = map[string]interface{}{
 		"build_pipeline_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_build_pipeline.test_build_pipeline.id}`},
 		"compartment_id":    acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_build_pipeline_stage.test_build_pipeline_stage.id}`},
 		"state":             acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":            acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineBuildStageGitlabDataSourceFilterRepresentation}}
-	buildPipelineBuildStageGitlabDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":            acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineBuildStageBitbucketCloudDataSourceFilterRepresentation}}
+	buildPipelineBuildStageBitbucketCloudDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_devops_build_pipeline_stage.test_build_pipeline_stage.id}`}},
 	}
 
-	buildPipelineBuildStageGitlabRepresentation = map[string]interface{}{
+	buildPipelineBuildStageBitbucketCloudRepresentation = map[string]interface{}{
 		"build_pipeline_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_build_pipeline.test_build_pipeline.id}`},
-		"build_pipeline_stage_predecessor_collection": acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineBuildStageBuildPipelineStageGitlabPredecessorCollectionRepresentation},
+		"build_pipeline_stage_predecessor_collection": acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineBuildStageBuildPipelineStageBitbucketCloudPredecessorCollectionRepresentation},
 		"build_pipeline_stage_type":                   acctest.Representation{RepType: acctest.Required, Create: `BUILD`},
 		"defined_tags":                                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":                                 acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
@@ -52,47 +52,47 @@ var (
 		"build_spec_file":                             acctest.Representation{RepType: acctest.Required, Create: `buildSpecFile`, Update: `buildSpecFile2`},
 		"image":                                       acctest.Representation{RepType: acctest.Required, Create: `OL7_X86_64_STANDARD_10`},
 		"primary_build_source":                        acctest.Representation{RepType: acctest.Required, Create: `primaryBuildSource`, Update: `primaryBuildSource2`},
-		"build_source_collection":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineStageGitlabBuildSourceCollectionRepresentation},
+		"build_source_collection":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineStageBitbucketCloudBuildSourceCollectionRepresentation},
 		"stage_execution_timeout_in_seconds":          acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"lifecycle":                                   acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
-	buildPipelineBuildStageBuildPipelineStageGitlabPredecessorCollectionRepresentation = map[string]interface{}{
-		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineBuildStageGitlabBuildPipelineStagePredecessorCollectionItemsRepresentation},
+	buildPipelineBuildStageBuildPipelineStageBitbucketCloudPredecessorCollectionRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineBuildStageBitbucketCloudBuildPipelineStagePredecessorCollectionItemsRepresentation},
 	}
 
-	buildPipelineStageGitlabBuildSourceCollectionRepresentation = map[string]interface{}{
-		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineStageGitlabBuildSourceCollectionItemsRepresentation},
+	buildPipelineStageBitbucketCloudBuildSourceCollectionRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineStageBitbucketCloudBuildSourceCollectionItemsRepresentation},
 	}
 
-	buildPipelineBuildStageGitlabBuildPipelineStagePredecessorCollectionItemsRepresentation = map[string]interface{}{
+	buildPipelineBuildStageBitbucketCloudBuildPipelineStagePredecessorCollectionItemsRepresentation = map[string]interface{}{
 		"id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_build_pipeline.test_build_pipeline.id}`},
 	}
 
-	gitlabRepositoryUrl  = "https://gitlab.com/dlcbld/docktest"
-	gitlabRepositoryUrl2 = "https://gitlab.com/dlcbld/deliver-artifact-test"
+	bitbucketCloudRepositoryUrl  = "https://bitbucket.org/dlcbld/docktest"
+	bitbucketCloudRepositoryUrl2 = "https://bitbucket.org/dlcbld/deliver-artifact-test"
 
-	buildPipelineStageGitlabBuildSourceCollectionItemsRepresentation = map[string]interface{}{
-		"connection_type": acctest.Representation{RepType: acctest.Required, Create: `GITLAB`},
+	buildPipelineStageBitbucketCloudBuildSourceCollectionItemsRepresentation = map[string]interface{}{
+		"connection_type": acctest.Representation{RepType: acctest.Required, Create: `BITBUCKET_CLOUD`},
 		"branch":          acctest.Representation{RepType: acctest.Required, Create: `branch`, Update: `branch2`},
 		"connection_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_connection.test_connection.id}`},
 		"name":            acctest.Representation{RepType: acctest.Required, Create: `primaryBuildSource`, Update: `primaryBuildSource2`},
-		"repository_url":  acctest.Representation{RepType: acctest.Required, Create: gitlabRepositoryUrl, Update: gitlabRepositoryUrl2},
+		"repository_url":  acctest.Representation{RepType: acctest.Required, Create: bitbucketCloudRepositoryUrl, Update: bitbucketCloudRepositoryUrl2},
 	}
 
-	gitlabAccessTokenVaultId    = utils.GetEnvSettingWithBlankDefault("github_access_token_vault_id")
-	gitlabAccessTokenVaultIdStr = fmt.Sprintf("variable \"gitlab_access_token_vault_id\" { default = \"%s\" }\n", gitlabAccessTokenVaultId)
+	bitbucketCloudAccessTokenVaultId    = utils.GetEnvSettingWithBlankDefault("github_access_token_vault_id")
+	bitbucketCloudAccessTokenVaultIdStr = fmt.Sprintf("variable \"bitbucket_cloud_app_password_vault_id\" { default = \"%s\" }\n", bitbucketCloudAccessTokenVaultId)
 
-	BuildPipelineBuildStageGitlabResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, buildPipelineRepresentation) +
+	BuildPipelineBuildStageBitbucketCloudResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, buildPipelineRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
 		DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation) +
-		gitlabAccessTokenVaultIdStr +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, devopsGitlabConnectionRepresentation)
+		bitbucketCloudAccessTokenVaultIdStr +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, devopsBitbucketCloudConnectionRepresentation)
 )
 
 // issue-routing-tag: devops/default
-func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestDevopsBuildPipelineBuildStageGitlabResource_basic")
+func TestDevopsBuildPipelineBuildStageBitbucketCloudResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDevopsBuildPipelineBuildStageBitbucketCloudResource_basic")
 	defer httpreplay.SaveScenario()
 
 	provider := acctest.TestAccProvider
@@ -107,11 +107,11 @@ func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+BuildPipelineBuildStageGitlabResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Optional, acctest.Create, buildPipelineBuildStageGitlabRepresentation), "devops", "buildPipelineStage", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+BuildPipelineBuildStageBitbucketCloudResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Optional, acctest.Create, buildPipelineBuildStageBitbucketCloudRepresentation), "devops", "buildPipelineStage", t)
 
-	conf := config + compartmentIdVariableStr + BuildPipelineBuildStageGitlabResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Optional, acctest.Create, buildPipelineBuildStageGitlabRepresentation)
+	conf := config + compartmentIdVariableStr + BuildPipelineBuildStageBitbucketCloudResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Optional, acctest.Create, buildPipelineBuildStageBitbucketCloudRepresentation)
 	print(conf)
 
 	resource.Test(t, resource.TestCase{
@@ -123,8 +123,8 @@ func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + BuildPipelineBuildStageGitlabResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Required, acctest.Create, buildPipelineBuildStageGitlabRepresentation),
+				Config: config + compartmentIdVariableStr + BuildPipelineBuildStageBitbucketCloudResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Required, acctest.Create, buildPipelineBuildStageBitbucketCloudRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "build_pipeline_id"),
 					resource.TestCheckResourceAttr(resourceName, "build_pipeline_stage_predecessor_collection.#", "1"),
@@ -135,9 +135,9 @@ func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.branch", "branch"),
 					resource.TestCheckResourceAttrSet(resourceName, "build_source_collection.0.items.0.connection_id"),
-					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.connection_type", "GITLAB"),
+					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.connection_type", "BITBUCKET_CLOUD"),
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.name", "primaryBuildSource"),
-					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.repository_url", "https://gitlab.com/dlcbld/docktest"),
+					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.repository_url", "https://bitbucket.org/dlcbld/docktest"),
 					resource.TestCheckResourceAttr(resourceName, "image", "OL7_X86_64_STANDARD_10"),
 
 					func(s *terraform.State) (err error) {
@@ -149,12 +149,12 @@ func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
 			},
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + BuildPipelineBuildStageGitlabResourceDependencies,
+				Config: config + compartmentIdVariableStr + BuildPipelineBuildStageBitbucketCloudResourceDependencies,
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + BuildPipelineBuildStageGitlabResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Optional, acctest.Create, buildPipelineBuildStageGitlabRepresentation),
+				Config: config + compartmentIdVariableStr + BuildPipelineBuildStageBitbucketCloudResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Optional, acctest.Create, buildPipelineBuildStageBitbucketCloudRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "build_pipeline_id"),
 					resource.TestCheckResourceAttr(resourceName, "build_pipeline_stage_predecessor_collection.#", "1"),
@@ -173,9 +173,9 @@ func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.branch", "branch"),
 					resource.TestCheckResourceAttrSet(resourceName, "build_source_collection.0.items.0.connection_id"),
-					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.connection_type", "GITLAB"),
+					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.connection_type", "BITBUCKET_CLOUD"),
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.name", "primaryBuildSource"),
-					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.repository_url", "https://gitlab.com/dlcbld/docktest"),
+					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.repository_url", "https://bitbucket.org/dlcbld/docktest"),
 					resource.TestCheckResourceAttr(resourceName, "image", "OL7_X86_64_STANDARD_10"),
 					resource.TestCheckResourceAttr(resourceName, "stage_execution_timeout_in_seconds", "10"),
 					func(s *terraform.State) (err error) {
@@ -192,8 +192,8 @@ func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
 			},
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + BuildPipelineBuildStageGitlabResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Optional, acctest.Update, buildPipelineBuildStageGitlabRepresentation),
+				Config: config + compartmentIdVariableStr + BuildPipelineBuildStageBitbucketCloudResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Optional, acctest.Update, buildPipelineBuildStageBitbucketCloudRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "build_pipeline_id"),
 					resource.TestCheckResourceAttr(resourceName, "build_pipeline_stage_predecessor_collection.#", "1"),
@@ -211,9 +211,9 @@ func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.branch", "branch2"),
 					resource.TestCheckResourceAttrSet(resourceName, "build_source_collection.0.items.0.connection_id"),
-					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.connection_type", "GITLAB"),
+					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.connection_type", "BITBUCKET_CLOUD"),
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.name", "primaryBuildSource2"),
-					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.repository_url", "https://gitlab.com/dlcbld/deliver-artifact-test"),
+					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.repository_url", "https://bitbucket.org/dlcbld/deliver-artifact-test"),
 					resource.TestCheckResourceAttr(resourceName, "image", "OL7_X86_64_STANDARD_10"),
 
 					func(s *terraform.State) (err error) {
@@ -229,9 +229,9 @@ func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_devops_build_pipeline_stages", "test_build_pipeline_stages", acctest.Optional, acctest.Update, buildPipelineBuildStageGitlabDataSourceRepresentation) +
-					compartmentIdVariableStr + BuildPipelineBuildStageGitlabResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Optional, acctest.Update, buildPipelineBuildStageGitlabRepresentation),
+					acctest.GenerateDataSourceFromRepresentationMap("oci_devops_build_pipeline_stages", "test_build_pipeline_stages", acctest.Optional, acctest.Update, buildPipelineBuildStageBitbucketCloudDataSourceRepresentation) +
+					compartmentIdVariableStr + BuildPipelineBuildStageBitbucketCloudResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Optional, acctest.Update, buildPipelineBuildStageBitbucketCloudRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "build_pipeline_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -243,8 +243,8 @@ func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Required, acctest.Create, buildPipelineBuildStageGitlabSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + BuildPipelineBuildStageGitlabResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Required, acctest.Create, buildPipelineBuildStageBitbucketCloudSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + BuildPipelineBuildStageBitbucketCloudResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "build_pipeline_stage_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_pipeline_stage_predecessor_collection.#", "1"),
@@ -253,9 +253,9 @@ func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.0.items.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.0.items.0.branch", "branch2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.0.items.0.connection_type", "GITLAB"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.0.items.0.connection_type", "BITBUCKET_CLOUD"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.0.items.0.name", "primaryBuildSource2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.0.items.0.repository_url", "https://gitlab.com/dlcbld/deliver-artifact-test"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.0.items.0.repository_url", "https://bitbucket.org/dlcbld/deliver-artifact-test"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_spec_file", "buildSpecFile2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
