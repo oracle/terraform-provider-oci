@@ -67,6 +67,7 @@ func DevopsTriggerResource() *schema.Resource {
 										Required:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"BITBUCKET_CLOUD",
 											"DEVOPS_CODE_REPOSITORY",
 											"GITHUB",
 											"GITLAB",
@@ -128,6 +129,7 @@ func DevopsTriggerResource() *schema.Resource {
 				Required:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
+					"BITBUCKET_CLOUD",
 					"DEVOPS_CODE_REPOSITORY",
 					"GITHUB",
 					"GITLAB",
@@ -451,6 +453,58 @@ func (s *DevopsTriggerResourceCrud) Delete() error {
 
 func (s *DevopsTriggerResourceCrud) SetData() error {
 	switch v := (*s.Res).(type) {
+	case oci_devops.BitbucketCloudTrigger:
+		s.D.Set("trigger_source", "BITBUCKET_CLOUD")
+
+		if v.TriggerUrl != nil {
+			s.D.Set("trigger_url", *v.TriggerUrl)
+		}
+
+		actions := []interface{}{}
+		for _, item := range v.Actions {
+			actions = append(actions, TriggerActionToMap(item))
+		}
+		s.D.Set("actions", actions)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_devops.DevopsCodeRepositoryTrigger:
 		s.D.Set("trigger_source", "DEVOPS_CODE_REPOSITORY")
 
@@ -614,6 +668,22 @@ func (s *DevopsTriggerResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *DevopsTriggerResourceCrud) mapToBitbucketCloudFilterAttributes(fieldKeyFormat string) (oci_devops.BitbucketCloudFilterAttributes, error) {
+	result := oci_devops.BitbucketCloudFilterAttributes{}
+
+	if baseRef, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "base_ref")); ok {
+		tmp := baseRef.(string)
+		result.BaseRef = &tmp
+	}
+
+	if headRef, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "head_ref")); ok {
+		tmp := headRef.(string)
+		result.HeadRef = &tmp
+	}
+
+	return result, nil
+}
+
 func (s *DevopsTriggerResourceCrud) mapToDevopsCodeRepositoryFilterAttributes(fieldKeyFormat string) (oci_devops.DevopsCodeRepositoryFilterAttributes, error) {
 	result := oci_devops.DevopsCodeRepositoryFilterAttributes{}
 
@@ -636,6 +706,31 @@ func (s *DevopsTriggerResourceCrud) mapToFilter(fieldKeyFormat string) (oci_devo
 		triggerSource = "" // default value
 	}
 	switch strings.ToLower(triggerSource) {
+	case strings.ToLower("BITBUCKET_CLOUD"):
+		details := oci_devops.BitbucketCloudFilter{}
+		if events, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "events")); ok {
+			interfaces := events.([]interface{})
+			tmp := make([]oci_devops.BitbucketCloudFilterEventsEnum, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = oci_devops.BitbucketCloudFilterEventsEnum(interfaces[i].(string))
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "events")) {
+				details.Events = tmp
+			}
+		}
+		if include, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "include")); ok {
+			if tmpList := include.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "include"), 0)
+				tmp, err := s.mapToBitbucketCloudFilterAttributes(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert include, encountered error: %v", err)
+				}
+				details.Include = &tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("DEVOPS_CODE_REPOSITORY"):
 		details := oci_devops.DevopsCodeRepositoryFilter{}
 		if events, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "events")); ok {
@@ -857,6 +952,8 @@ func TriggerSummaryToMap(obj oci_devops.TriggerSummary) map[string]interface{} {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.GetDefinedTags())
 	}
 	switch v := (obj).(type) {
+	case oci_devops.BitbucketCloudTriggerSummary:
+		result["trigger_source"] = "BITBUCKET_CLOUD"
 	case oci_devops.DevopsCodeRepositoryTriggerSummary:
 		result["trigger_source"] = "DEVOPS_CODE_REPOSITORY"
 
@@ -885,6 +982,47 @@ func (s *DevopsTriggerResourceCrud) populateTopLevelPolymorphicCreateTriggerRequ
 		triggerSource = "" // default value
 	}
 	switch strings.ToLower(triggerSource) {
+	case strings.ToLower("BITBUCKET_CLOUD"):
+		details := oci_devops.CreateBitbucketCloudTriggerDetails{}
+		if actions, ok := s.D.GetOkExists("actions"); ok {
+			interfaces := actions.([]interface{})
+			tmp := make([]oci_devops.TriggerAction, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "actions", stateDataIndex)
+				converted, err := s.mapToTriggerAction(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("actions") {
+				details.Actions = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if projectId, ok := s.D.GetOkExists("project_id"); ok {
+			tmp := projectId.(string)
+			details.ProjectId = &tmp
+		}
+		request.CreateTriggerDetails = details
 	case strings.ToLower("DEVOPS_CODE_REPOSITORY"):
 		details := oci_devops.CreateDevopsCodeRepositoryTriggerDetails{}
 		if repositoryId, ok := s.D.GetOkExists("repository_id"); ok {
@@ -1028,6 +1166,45 @@ func (s *DevopsTriggerResourceCrud) populateTopLevelPolymorphicUpdateTriggerRequ
 		triggerSource = "" // default value
 	}
 	switch strings.ToLower(triggerSource) {
+	case strings.ToLower("BITBUCKET_CLOUD"):
+		details := oci_devops.UpdateBitbucketCloudTriggerDetails{}
+		if actions, ok := s.D.GetOkExists("actions"); ok {
+			interfaces := actions.([]interface{})
+			tmp := make([]oci_devops.TriggerAction, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "actions", stateDataIndex)
+				converted, err := s.mapToTriggerAction(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("actions") {
+				details.Actions = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		tmp := s.D.Id()
+		request.TriggerId = &tmp
+		request.UpdateTriggerDetails = details
 	case strings.ToLower("DEVOPS_CODE_REPOSITORY"):
 		details := oci_devops.UpdateDevopsCodeRepositoryTriggerDetails{}
 		if repositoryId, ok := s.D.GetOkExists("repository_id"); ok {

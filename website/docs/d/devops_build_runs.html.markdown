@@ -95,7 +95,7 @@ The following attributes are exported:
 		* `build_source_collection` - Collection of build sources.
 			* `items` - Collection of build sources. In case of UPDATE operation, replaces existing build sources list. Merging with existing build sources is not supported.
 				* `branch` - Branch name.
-				* `connection_id` - Connection identifier pertinent to GitHub source provider.
+				* `connection_id` - Connection identifier pertinent to Bitbucket Cloud source provider
 				* `connection_type` - The type of source provider.
 				* `name` - Name of the build source. This must be unique within a build source collection. The name can be used by customers to locate the working directory pertinent to this repository.
 				* `repository_id` - The DevOps code repository ID.

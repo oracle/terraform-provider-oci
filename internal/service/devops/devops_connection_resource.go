@@ -33,15 +33,12 @@ func DevopsConnectionResource() *schema.Resource {
 		Delete:   deleteDevopsConnection,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"access_token": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"connection_type": {
 				Type:             schema.TypeString,
 				Required:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
+					"BITBUCKET_CLOUD_APP_PASSWORD",
 					"GITHUB_ACCESS_TOKEN",
 					"GITLAB_ACCESS_TOKEN",
 				}, true),
@@ -53,6 +50,17 @@ func DevopsConnectionResource() *schema.Resource {
 			},
 
 			// Optional
+			"access_token": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"app_password": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				Sensitive: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -75,6 +83,11 @@ func DevopsConnectionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"username": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Computed
@@ -356,6 +369,52 @@ func (s *DevopsConnectionResourceCrud) Delete() error {
 
 func (s *DevopsConnectionResourceCrud) SetData() error {
 	switch v := (*s.Res).(type) {
+	case oci_devops.BitbucketCloudAppPasswordConnection:
+		s.D.Set("connection_type", "BITBUCKET_CLOUD_APP_PASSWORD")
+
+		if v.AppPassword != nil {
+			s.D.Set("app_password", *v.AppPassword)
+		}
+
+		if v.Username != nil {
+			s.D.Set("username", *v.Username)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_devops.GithubAccessTokenConnection:
 		s.D.Set("connection_type", "GITHUB_ACCESS_TOKEN")
 
@@ -493,6 +552,16 @@ func devopsConnectionSummaryToMap(obj oci_devops.ConnectionSummary) map[string]i
 	}
 
 	switch v := (obj).(type) {
+	case oci_devops.BitbucketCloudAppPasswordConnectionSummary:
+		result["connection_type"] = "BITBUCKET_CLOUD_APP_PASSWORD"
+
+		if v.AppPassword != nil {
+			result["app_password"] = string(*v.AppPassword)
+		}
+
+		if v.Username != nil {
+			result["username"] = string(*v.Username)
+		}
 	case oci_devops.GithubAccessTokenConnectionSummary:
 		result["connection_type"] = "GITHUB_ACCESS_TOKEN"
 
@@ -523,6 +592,39 @@ func (s *DevopsConnectionResourceCrud) populateTopLevelPolymorphicCreateConnecti
 		connectionType = "" // default value
 	}
 	switch strings.ToLower(connectionType) {
+	case strings.ToLower("BITBUCKET_CLOUD_APP_PASSWORD"):
+		details := oci_devops.CreateBitbucketCloudAppPasswordConnectionDetails{}
+		if appPassword, ok := s.D.GetOkExists("app_password"); ok {
+			tmp := appPassword.(string)
+			details.AppPassword = &tmp
+		}
+		if username, ok := s.D.GetOkExists("username"); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if projectId, ok := s.D.GetOkExists("project_id"); ok {
+			tmp := projectId.(string)
+			details.ProjectId = &tmp
+		}
+		request.CreateConnectionDetails = details
 	case strings.ToLower("GITHUB_ACCESS_TOKEN"):
 		details := oci_devops.CreateGithubAccessTokenConnectionDetails{}
 		if accessToken, ok := s.D.GetOkExists("access_token"); ok {
@@ -597,6 +699,37 @@ func (s *DevopsConnectionResourceCrud) populateTopLevelPolymorphicUpdateConnecti
 		connectionType = "" // default value
 	}
 	switch strings.ToLower(connectionType) {
+	case strings.ToLower("BITBUCKET_CLOUD_APP_PASSWORD"):
+		details := oci_devops.UpdateBitbucketCloudAppPasswordConnectionDetails{}
+		if appPassword, ok := s.D.GetOkExists("app_password"); ok {
+			tmp := appPassword.(string)
+			details.AppPassword = &tmp
+		}
+		if username, ok := s.D.GetOkExists("username"); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConnectionId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateConnectionDetails = details
 	case strings.ToLower("GITHUB_ACCESS_TOKEN"):
 		details := oci_devops.UpdateGithubAccessTokenConnectionDetails{}
 		if accessToken, ok := s.D.GetOkExists("access_token"); ok {
