@@ -267,6 +267,7 @@ func init() {
 	RegisterResource("oci_database_autonomous_container_database_dataguard_association_operation", tf_database.DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResource())
 	RegisterResource("oci_database_autonomous_database", tf_database.DatabaseAutonomousDatabaseResource())
 	RegisterResource("oci_database_autonomous_database_backup", tf_database.DatabaseAutonomousDatabaseBackupResource())
+	RegisterDatasource("oci_database_autonomous_database_character_sets", tf_database.DatabaseAutonomousDatabaseCharacterSetsDataSource())
 	RegisterResource("oci_database_autonomous_database_instance_wallet_management", tf_database.DatabaseAutonomousDatabaseInstanceWalletManagementResource())
 	RegisterResource("oci_database_autonomous_database_regional_wallet_management", tf_database.DatabaseAutonomousDatabaseRegionalWalletManagementResource())
 	RegisterResource("oci_database_autonomous_database_wallet", tf_database.DatabaseAutonomousDatabaseWalletResource())

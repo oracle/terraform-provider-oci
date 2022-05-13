@@ -80,6 +80,23 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   rotate_key_trigger = "true"
 }
 
+resource "oci_database_autonomous_database" "test_autonomous_database_character_set_support" {
+  #Required
+  admin_password           = random_string.autonomous_database_admin_password.result
+  compartment_id           = var.compartment_ocid
+  cpu_core_count           = "1"
+  data_storage_size_in_tbs = "1"
+  db_name                  = "atpdb2"
+
+  #Optional
+  autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
+  db_workload                      = "OLTP"
+  display_name                     = "example_autonomous_database-008"
+  is_dedicated                     = "true"
+  character_set                    = "AL32UTF8"
+  ncharacter_set                   = "AL16UTF16"
+}
+
 data "oci_database_autonomous_container_databases" "test_autonomous_container_databases" {
   #Required
   compartment_id = var.compartment_ocid

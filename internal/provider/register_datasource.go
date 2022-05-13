@@ -491,6 +491,7 @@ func init() {
 	RegisterDatasource("oci_database_autonomous_container_patches", tf_database.DatabaseAutonomousContainerPatchesDataSource())
 	RegisterDatasource("oci_database_autonomous_database", tf_database.DatabaseAutonomousDatabaseDataSource())
 	RegisterDatasource("oci_database_autonomous_database_backup", tf_database.DatabaseAutonomousDatabaseBackupDataSource())
+	RegisterDatasource("oci_database_autonomous_database_character_sets", tf_database.DatabaseAutonomousDatabaseCharacterSetsDataSource())
 	RegisterDatasource("oci_database_autonomous_database_backups", tf_database.DatabaseAutonomousDatabaseBackupsDataSource())
 	RegisterDatasource("oci_database_autonomous_database_dataguard_association", tf_database.DatabaseAutonomousDatabaseDataguardAssociationDataSource())
 	RegisterDatasource("oci_database_autonomous_database_dataguard_associations", tf_database.DatabaseAutonomousDatabaseDataguardAssociationsDataSource())

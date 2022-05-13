@@ -98,6 +98,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("backup_config", nil)
 	}
 
+	if s.Res.CharacterSet != nil {
+		s.D.Set("character_set", *s.Res.CharacterSet)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -258,6 +262,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.MaxCpuCoreCount != nil {
 		s.D.Set("max_cpu_core_count", *s.Res.MaxCpuCoreCount)
+	}
+
+	if s.Res.NcharacterSet != nil {
+		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
 	}
 
 	s.D.Set("nsg_ids", s.Res.NsgIds)

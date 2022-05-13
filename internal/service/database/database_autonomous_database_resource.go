@@ -82,6 +82,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"character_set": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"clone_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -232,6 +238,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"ncharacter_set": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
@@ -1468,6 +1480,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("backup_config", nil)
 	}
 
+	if s.Res.CharacterSet != nil {
+		s.D.Set("character_set", *s.Res.CharacterSet)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -1628,6 +1644,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.MaxCpuCoreCount != nil {
 		s.D.Set("max_cpu_core_count", *s.Res.MaxCpuCoreCount)
+	}
+
+	if s.Res.NcharacterSet != nil {
+		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
 	}
 
 	nsgIds := []interface{}{}
@@ -2038,6 +2058,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
+			tmp := characterSet.(string)
+			details.CharacterSet = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -2140,6 +2164,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
 			tmp := maxCpuCoreCount.(int)
 			details.MaxCpuCoreCount = &tmp
+		}
+		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
+			tmp := ncharacterSet.(string)
+			details.NcharacterSet = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -2244,6 +2272,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
+			tmp := characterSet.(string)
+			details.CharacterSet = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -2346,6 +2378,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
 			tmp := maxCpuCoreCount.(int)
 			details.MaxCpuCoreCount = &tmp
+		}
+		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
+			tmp := ncharacterSet.(string)
+			details.NcharacterSet = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -2443,6 +2479,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
+			tmp := characterSet.(string)
+			details.CharacterSet = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -2545,6 +2585,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
 			tmp := maxCpuCoreCount.(int)
 			details.MaxCpuCoreCount = &tmp
+		}
+		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
+			tmp := ncharacterSet.(string)
+			details.NcharacterSet = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -2833,6 +2877,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
+			tmp := characterSet.(string)
+			details.CharacterSet = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -2939,6 +2987,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
 			tmp := maxCpuCoreCount.(int)
 			details.MaxCpuCoreCount = &tmp
+		}
+		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
+			tmp := ncharacterSet.(string)
+			details.NcharacterSet = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -3027,6 +3079,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
+			tmp := characterSet.(string)
+			details.CharacterSet = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -3133,6 +3189,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
 			tmp := maxCpuCoreCount.(int)
 			details.MaxCpuCoreCount = &tmp
+		}
+		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
+			tmp := ncharacterSet.(string)
+			details.NcharacterSet = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
