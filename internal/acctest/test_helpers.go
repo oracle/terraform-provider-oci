@@ -295,16 +295,16 @@ func GetRepresentationCopyWithMultipleRemovedProperties(propertyNames []string, 
 
 func RepresentationCopyWithRemovedNestedProperties(propertyNameStr string, representation map[string]interface{}) map[string]interface{} {
 	propertyNames := strings.Split(propertyNameStr, ".")
-	return updateNestedRepresentationRemoveProperty(0, propertyNames, cloneRepresentation(representation))
+	return UpdateNestedRepresentationRemoveProperty(0, propertyNames, cloneRepresentation(representation))
 }
 
-func updateNestedRepresentationRemoveProperty(currIndex int, propertyNames []string, representation map[string]interface{}) map[string]interface{} {
+func UpdateNestedRepresentationRemoveProperty(currIndex int, propertyNames []string, representation map[string]interface{}) map[string]interface{} {
 	//recursively search the property to remove
 	for prop := range representation {
 		if prop == propertyNames[currIndex] {
 			representationGroup, ok := representation[prop].(RepresentationGroup)
 			if ok && currIndex+1 < len(propertyNames) {
-				updateNestedRepresentationRemoveProperty(currIndex+1, propertyNames, representationGroup.Group)
+				UpdateNestedRepresentationRemoveProperty(currIndex+1, propertyNames, representationGroup.Group)
 			} else {
 				delete(representation, prop)
 			}

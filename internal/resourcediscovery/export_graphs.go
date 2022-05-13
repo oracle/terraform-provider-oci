@@ -73,6 +73,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"resourcemanager":         resourcemanagerResourceGraph,
 	"sch":                     schResourceGraph,
 	"stack_monitoring":        stackMonitoringResourceGraph,
+	"service_mesh":            serviceMeshResourceGraph,
 	"vault":                   vaultResourceGraph,
 	"vulnerability_scanning":  vulnerabilityScanningResourceGraph,
 	"waas":                    waasResourceGraph,
@@ -1218,6 +1219,18 @@ var resourcemanagerResourceGraph = TerraformResourceGraph{
 var schResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportSchServiceConnectorHints},
+	},
+}
+
+var serviceMeshResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportServiceMeshVirtualServiceHints},
+		{TerraformResourceHints: exportServiceMeshAccessPolicyHints},
+		{TerraformResourceHints: exportServiceMeshMeshHints},
+		{TerraformResourceHints: exportServiceMeshIngressGatewayRouteTableHints},
+		{TerraformResourceHints: exportServiceMeshVirtualServiceRouteTableHints},
+		{TerraformResourceHints: exportServiceMeshVirtualDeploymentHints},
+		{TerraformResourceHints: exportServiceMeshIngressGatewayHints},
 	},
 }
 
