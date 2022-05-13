@@ -63,8 +63,6 @@ const (
 	FailureDetailsCodeTerraformObjectStorageConfigSourceEmptyBucket           FailureDetailsCodeEnum = "TERRAFORM_OBJECT_STORAGE_CONFIG_SOURCE_EMPTY_BUCKET"
 	FailureDetailsCodeTerraformObjectStorageConfigSourceNoTfFilePresent       FailureDetailsCodeEnum = "TERRAFORM_OBJECT_STORAGE_CONFIG_SOURCE_NO_TF_FILE_PRESENT"
 	FailureDetailsCodeTerraformObjectStorageConfigSourceUnsupportedObjectSize FailureDetailsCodeEnum = "TERRAFORM_OBJECT_STORAGE_CONFIG_SOURCE_UNSUPPORTED_OBJECT_SIZE"
-	FailureDetailsCodeCustomTerraformProviderBucketNotFound                   FailureDetailsCodeEnum = "CUSTOM_TERRAFORM_PROVIDER_BUCKET_NOT_FOUND"
-	FailureDetailsCodeCustomTerraformProviderUnsupportedObjectSize            FailureDetailsCodeEnum = "CUSTOM_TERRAFORM_PROVIDER_UNSUPPORTED_OBJECT_SIZE"
 )
 
 var mappingFailureDetailsCodeEnum = map[string]FailureDetailsCodeEnum{
@@ -79,8 +77,6 @@ var mappingFailureDetailsCodeEnum = map[string]FailureDetailsCodeEnum{
 	"TERRAFORM_OBJECT_STORAGE_CONFIG_SOURCE_EMPTY_BUCKET":            FailureDetailsCodeTerraformObjectStorageConfigSourceEmptyBucket,
 	"TERRAFORM_OBJECT_STORAGE_CONFIG_SOURCE_NO_TF_FILE_PRESENT":      FailureDetailsCodeTerraformObjectStorageConfigSourceNoTfFilePresent,
 	"TERRAFORM_OBJECT_STORAGE_CONFIG_SOURCE_UNSUPPORTED_OBJECT_SIZE": FailureDetailsCodeTerraformObjectStorageConfigSourceUnsupportedObjectSize,
-	"CUSTOM_TERRAFORM_PROVIDER_BUCKET_NOT_FOUND":                     FailureDetailsCodeCustomTerraformProviderBucketNotFound,
-	"CUSTOM_TERRAFORM_PROVIDER_UNSUPPORTED_OBJECT_SIZE":              FailureDetailsCodeCustomTerraformProviderUnsupportedObjectSize,
 }
 
 var mappingFailureDetailsCodeEnumLowerCase = map[string]FailureDetailsCodeEnum{
@@ -95,8 +91,6 @@ var mappingFailureDetailsCodeEnumLowerCase = map[string]FailureDetailsCodeEnum{
 	"terraform_object_storage_config_source_empty_bucket":            FailureDetailsCodeTerraformObjectStorageConfigSourceEmptyBucket,
 	"terraform_object_storage_config_source_no_tf_file_present":      FailureDetailsCodeTerraformObjectStorageConfigSourceNoTfFilePresent,
 	"terraform_object_storage_config_source_unsupported_object_size": FailureDetailsCodeTerraformObjectStorageConfigSourceUnsupportedObjectSize,
-	"custom_terraform_provider_bucket_not_found":                     FailureDetailsCodeCustomTerraformProviderBucketNotFound,
-	"custom_terraform_provider_unsupported_object_size":              FailureDetailsCodeCustomTerraformProviderUnsupportedObjectSize,
 }
 
 // GetFailureDetailsCodeEnumValues Enumerates the set of values for FailureDetailsCodeEnum
@@ -122,8 +116,6 @@ func GetFailureDetailsCodeEnumStringValues() []string {
 		"TERRAFORM_OBJECT_STORAGE_CONFIG_SOURCE_EMPTY_BUCKET",
 		"TERRAFORM_OBJECT_STORAGE_CONFIG_SOURCE_NO_TF_FILE_PRESENT",
 		"TERRAFORM_OBJECT_STORAGE_CONFIG_SOURCE_UNSUPPORTED_OBJECT_SIZE",
-		"CUSTOM_TERRAFORM_PROVIDER_BUCKET_NOT_FOUND",
-		"CUSTOM_TERRAFORM_PROVIDER_UNSUPPORTED_OBJECT_SIZE",
 	}
 }
 

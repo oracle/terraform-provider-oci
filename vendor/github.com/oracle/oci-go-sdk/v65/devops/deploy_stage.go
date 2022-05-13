@@ -167,6 +167,10 @@ func (m *deploystage) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		mm := WaitDeployStage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OKE_HELM_CHART_DEPLOYMENT":
+		mm := OkeHelmChartDeployStage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT":
 		mm := ComputeInstanceGroupBlueGreenDeployStage{}
 		err = json.Unmarshal(data, &mm)
@@ -361,6 +365,7 @@ const (
 	DeployStageDeployStageTypeInvokeFunction                            DeployStageDeployStageTypeEnum = "INVOKE_FUNCTION"
 	DeployStageDeployStageTypeLoadBalancerTrafficShift                  DeployStageDeployStageTypeEnum = "LOAD_BALANCER_TRAFFIC_SHIFT"
 	DeployStageDeployStageTypeManualApproval                            DeployStageDeployStageTypeEnum = "MANUAL_APPROVAL"
+	DeployStageDeployStageTypeOkeHelmChartDeployment                    DeployStageDeployStageTypeEnum = "OKE_HELM_CHART_DEPLOYMENT"
 )
 
 var mappingDeployStageDeployStageTypeEnum = map[string]DeployStageDeployStageTypeEnum{
@@ -381,6 +386,7 @@ var mappingDeployStageDeployStageTypeEnum = map[string]DeployStageDeployStageTyp
 	"INVOKE_FUNCTION":                                 DeployStageDeployStageTypeInvokeFunction,
 	"LOAD_BALANCER_TRAFFIC_SHIFT":                     DeployStageDeployStageTypeLoadBalancerTrafficShift,
 	"MANUAL_APPROVAL":                                 DeployStageDeployStageTypeManualApproval,
+	"OKE_HELM_CHART_DEPLOYMENT":                       DeployStageDeployStageTypeOkeHelmChartDeployment,
 }
 
 var mappingDeployStageDeployStageTypeEnumLowerCase = map[string]DeployStageDeployStageTypeEnum{
@@ -401,6 +407,7 @@ var mappingDeployStageDeployStageTypeEnumLowerCase = map[string]DeployStageDeplo
 	"invoke_function":                                 DeployStageDeployStageTypeInvokeFunction,
 	"load_balancer_traffic_shift":                     DeployStageDeployStageTypeLoadBalancerTrafficShift,
 	"manual_approval":                                 DeployStageDeployStageTypeManualApproval,
+	"oke_helm_chart_deployment":                       DeployStageDeployStageTypeOkeHelmChartDeployment,
 }
 
 // GetDeployStageDeployStageTypeEnumValues Enumerates the set of values for DeployStageDeployStageTypeEnum
@@ -432,6 +439,7 @@ func GetDeployStageDeployStageTypeEnumStringValues() []string {
 		"INVOKE_FUNCTION",
 		"LOAD_BALANCER_TRAFFIC_SHIFT",
 		"MANUAL_APPROVAL",
+		"OKE_HELM_CHART_DEPLOYMENT",
 	}
 }
 

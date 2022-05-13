@@ -136,6 +136,10 @@ func (m *deploystageexecutionprogress) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := OkeBlueGreenTrafficShiftDeployStageExecutionProgress{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OKE_HELM_CHART_DEPLOYMENT":
+		mm := OkeHelmChartDeploymentStageExecutionProgress{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "INVOKE_FUNCTION":
 		mm := InvokeFunctionDeployStageExecutionProgress{}
 		err = json.Unmarshal(data, &mm)

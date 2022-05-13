@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// NetworkChannel Specifies the configuration needed when the target OCI resource, OKE cluster resides
-//  in the customer's private network.
+// NetworkChannel Specifies the configuration needed when the target OCI resource, i.e., OKE cluster, resides
+//  in customer's private network.
 type NetworkChannel interface {
 }
 

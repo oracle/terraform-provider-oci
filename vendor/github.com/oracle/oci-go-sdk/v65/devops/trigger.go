@@ -127,6 +127,10 @@ func (m *trigger) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := DevopsCodeRepositoryTrigger{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BITBUCKET_CLOUD":
+		mm := BitbucketCloudTrigger{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -261,18 +265,21 @@ type TriggerTriggerSourceEnum string
 const (
 	TriggerTriggerSourceGithub               TriggerTriggerSourceEnum = "GITHUB"
 	TriggerTriggerSourceGitlab               TriggerTriggerSourceEnum = "GITLAB"
+	TriggerTriggerSourceBitbucketCloud       TriggerTriggerSourceEnum = "BITBUCKET_CLOUD"
 	TriggerTriggerSourceDevopsCodeRepository TriggerTriggerSourceEnum = "DEVOPS_CODE_REPOSITORY"
 )
 
 var mappingTriggerTriggerSourceEnum = map[string]TriggerTriggerSourceEnum{
 	"GITHUB":                 TriggerTriggerSourceGithub,
 	"GITLAB":                 TriggerTriggerSourceGitlab,
+	"BITBUCKET_CLOUD":        TriggerTriggerSourceBitbucketCloud,
 	"DEVOPS_CODE_REPOSITORY": TriggerTriggerSourceDevopsCodeRepository,
 }
 
 var mappingTriggerTriggerSourceEnumLowerCase = map[string]TriggerTriggerSourceEnum{
 	"github":                 TriggerTriggerSourceGithub,
 	"gitlab":                 TriggerTriggerSourceGitlab,
+	"bitbucket_cloud":        TriggerTriggerSourceBitbucketCloud,
 	"devops_code_repository": TriggerTriggerSourceDevopsCodeRepository,
 }
 
@@ -290,6 +297,7 @@ func GetTriggerTriggerSourceEnumStringValues() []string {
 	return []string{
 		"GITHUB",
 		"GITLAB",
+		"BITBUCKET_CLOUD",
 		"DEVOPS_CODE_REPOSITORY",
 	}
 }

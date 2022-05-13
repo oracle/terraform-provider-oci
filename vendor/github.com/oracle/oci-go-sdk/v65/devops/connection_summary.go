@@ -105,6 +105,10 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 
 	var err error
 	switch m.ConnectionType {
+	case "BITBUCKET_CLOUD_APP_PASSWORD":
+		mm := BitbucketCloudAppPasswordConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB_ACCESS_TOKEN":
 		mm := GithubAccessTokenConnectionSummary{}
 		err = json.Unmarshal(data, &mm)

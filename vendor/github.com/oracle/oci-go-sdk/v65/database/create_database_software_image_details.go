@@ -40,7 +40,7 @@ type CreateDatabaseSoftwareImageDetails struct {
 	// List of one-off patches for Database Homes.
 	DatabaseSoftwareImageOneOffPatches []string `mandatory:"false" json:"databaseSoftwareImageOneOffPatches"`
 
-	// output from lsinventory which will get passed as a string
+	// The output from the OPatch lsInventory command, which is passed as a string.
 	LsInventory *string `mandatory:"false" json:"lsInventory"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

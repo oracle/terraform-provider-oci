@@ -24,6 +24,7 @@ const (
 	AccessRequestLifecycleStatesApprovalwaiting   AccessRequestLifecycleStatesEnum = "APPROVALWAITING"
 	AccessRequestLifecycleStatesPreapproved       AccessRequestLifecycleStatesEnum = "PREAPPROVED"
 	AccessRequestLifecycleStatesApproved          AccessRequestLifecycleStatesEnum = "APPROVED"
+	AccessRequestLifecycleStatesMoreinfo          AccessRequestLifecycleStatesEnum = "MOREINFO"
 	AccessRequestLifecycleStatesRejected          AccessRequestLifecycleStatesEnum = "REJECTED"
 	AccessRequestLifecycleStatesDeployed          AccessRequestLifecycleStatesEnum = "DEPLOYED"
 	AccessRequestLifecycleStatesDeployfailed      AccessRequestLifecycleStatesEnum = "DEPLOYFAILED"
@@ -49,6 +50,7 @@ var mappingAccessRequestLifecycleStatesEnum = map[string]AccessRequestLifecycleS
 	"APPROVALWAITING":   AccessRequestLifecycleStatesApprovalwaiting,
 	"PREAPPROVED":       AccessRequestLifecycleStatesPreapproved,
 	"APPROVED":          AccessRequestLifecycleStatesApproved,
+	"MOREINFO":          AccessRequestLifecycleStatesMoreinfo,
 	"REJECTED":          AccessRequestLifecycleStatesRejected,
 	"DEPLOYED":          AccessRequestLifecycleStatesDeployed,
 	"DEPLOYFAILED":      AccessRequestLifecycleStatesDeployfailed,
@@ -74,6 +76,7 @@ var mappingAccessRequestLifecycleStatesEnumLowerCase = map[string]AccessRequestL
 	"approvalwaiting":   AccessRequestLifecycleStatesApprovalwaiting,
 	"preapproved":       AccessRequestLifecycleStatesPreapproved,
 	"approved":          AccessRequestLifecycleStatesApproved,
+	"moreinfo":          AccessRequestLifecycleStatesMoreinfo,
 	"rejected":          AccessRequestLifecycleStatesRejected,
 	"deployed":          AccessRequestLifecycleStatesDeployed,
 	"deployfailed":      AccessRequestLifecycleStatesDeployfailed,
@@ -110,6 +113,7 @@ func GetAccessRequestLifecycleStatesEnumStringValues() []string {
 		"APPROVALWAITING",
 		"PREAPPROVED",
 		"APPROVED",
+		"MOREINFO",
 		"REJECTED",
 		"DEPLOYED",
 		"DEPLOYFAILED",

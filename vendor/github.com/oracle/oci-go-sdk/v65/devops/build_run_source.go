@@ -62,6 +62,10 @@ func (m *buildrunsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := ManualBuildRunSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BITBUCKET_CLOUD":
+		mm := BitbucketCloudBuildRunSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITLAB":
 		mm := GitlabBuildRunSource{}
 		err = json.Unmarshal(data, &mm)
@@ -95,6 +99,7 @@ const (
 	BuildRunSourceSourceTypeManual               BuildRunSourceSourceTypeEnum = "MANUAL"
 	BuildRunSourceSourceTypeGithub               BuildRunSourceSourceTypeEnum = "GITHUB"
 	BuildRunSourceSourceTypeGitlab               BuildRunSourceSourceTypeEnum = "GITLAB"
+	BuildRunSourceSourceTypeBitbucketCloud       BuildRunSourceSourceTypeEnum = "BITBUCKET_CLOUD"
 	BuildRunSourceSourceTypeDevopsCodeRepository BuildRunSourceSourceTypeEnum = "DEVOPS_CODE_REPOSITORY"
 )
 
@@ -102,6 +107,7 @@ var mappingBuildRunSourceSourceTypeEnum = map[string]BuildRunSourceSourceTypeEnu
 	"MANUAL":                 BuildRunSourceSourceTypeManual,
 	"GITHUB":                 BuildRunSourceSourceTypeGithub,
 	"GITLAB":                 BuildRunSourceSourceTypeGitlab,
+	"BITBUCKET_CLOUD":        BuildRunSourceSourceTypeBitbucketCloud,
 	"DEVOPS_CODE_REPOSITORY": BuildRunSourceSourceTypeDevopsCodeRepository,
 }
 
@@ -109,6 +115,7 @@ var mappingBuildRunSourceSourceTypeEnumLowerCase = map[string]BuildRunSourceSour
 	"manual":                 BuildRunSourceSourceTypeManual,
 	"github":                 BuildRunSourceSourceTypeGithub,
 	"gitlab":                 BuildRunSourceSourceTypeGitlab,
+	"bitbucket_cloud":        BuildRunSourceSourceTypeBitbucketCloud,
 	"devops_code_repository": BuildRunSourceSourceTypeDevopsCodeRepository,
 }
 
@@ -127,6 +134,7 @@ func GetBuildRunSourceSourceTypeEnumStringValues() []string {
 		"MANUAL",
 		"GITHUB",
 		"GITLAB",
+		"BITBUCKET_CLOUD",
 		"DEVOPS_CODE_REPOSITORY",
 	}
 }

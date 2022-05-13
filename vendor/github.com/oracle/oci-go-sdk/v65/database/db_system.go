@@ -69,13 +69,19 @@ type DbSystem struct {
 	// **Subnet Restriction:** See the subnet restrictions information for **subnetId**.
 	BackupSubnetId *string `mandatory:"false" json:"backupSubnetId"`
 
-	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
+	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
-	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty.
+	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds list cannot be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems.
 	BackupNetworkNsgIds []string `mandatory:"false" json:"backupNetworkNsgIds"`
+
+	// Memory allocated to the DB system, in gigabytes.
+	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
+
+	// The block storage volume performance level. Valid values are `BALANCED` and `HIGH_PERFORMANCE`. See Block Volume Performance (https://docs.cloud.oracle.com/Content/Block/Concepts/blockvolumeperformance.htm) for more information.
+	StorageVolumePerformanceMode DbSystemStorageVolumePerformanceModeEnum `mandatory:"false" json:"storageVolumePerformanceMode,omitempty"`
 
 	DbSystemOptions *DbSystemOptions `mandatory:"false" json:"dbSystemOptions"`
 
@@ -190,6 +196,9 @@ func (m DbSystem) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbSystemLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDbSystemStorageVolumePerformanceModeEnum(string(m.StorageVolumePerformanceMode)); !ok && m.StorageVolumePerformanceMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageVolumePerformanceMode: %s. Supported values are: %s.", m.StorageVolumePerformanceMode, strings.Join(GetDbSystemStorageVolumePerformanceModeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingDbSystemDiskRedundancyEnum(string(m.DiskRedundancy)); !ok && m.DiskRedundancy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DiskRedundancy: %s. Supported values are: %s.", m.DiskRedundancy, strings.Join(GetDbSystemDiskRedundancyEnumStringValues(), ",")))
 	}
@@ -200,6 +209,48 @@ func (m DbSystem) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// DbSystemStorageVolumePerformanceModeEnum Enum with underlying type: string
+type DbSystemStorageVolumePerformanceModeEnum string
+
+// Set of constants representing the allowable values for DbSystemStorageVolumePerformanceModeEnum
+const (
+	DbSystemStorageVolumePerformanceModeBalanced        DbSystemStorageVolumePerformanceModeEnum = "BALANCED"
+	DbSystemStorageVolumePerformanceModeHighPerformance DbSystemStorageVolumePerformanceModeEnum = "HIGH_PERFORMANCE"
+)
+
+var mappingDbSystemStorageVolumePerformanceModeEnum = map[string]DbSystemStorageVolumePerformanceModeEnum{
+	"BALANCED":         DbSystemStorageVolumePerformanceModeBalanced,
+	"HIGH_PERFORMANCE": DbSystemStorageVolumePerformanceModeHighPerformance,
+}
+
+var mappingDbSystemStorageVolumePerformanceModeEnumLowerCase = map[string]DbSystemStorageVolumePerformanceModeEnum{
+	"balanced":         DbSystemStorageVolumePerformanceModeBalanced,
+	"high_performance": DbSystemStorageVolumePerformanceModeHighPerformance,
+}
+
+// GetDbSystemStorageVolumePerformanceModeEnumValues Enumerates the set of values for DbSystemStorageVolumePerformanceModeEnum
+func GetDbSystemStorageVolumePerformanceModeEnumValues() []DbSystemStorageVolumePerformanceModeEnum {
+	values := make([]DbSystemStorageVolumePerformanceModeEnum, 0)
+	for _, v := range mappingDbSystemStorageVolumePerformanceModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbSystemStorageVolumePerformanceModeEnumStringValues Enumerates the set of values in String for DbSystemStorageVolumePerformanceModeEnum
+func GetDbSystemStorageVolumePerformanceModeEnumStringValues() []string {
+	return []string{
+		"BALANCED",
+		"HIGH_PERFORMANCE",
+	}
+}
+
+// GetMappingDbSystemStorageVolumePerformanceModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbSystemStorageVolumePerformanceModeEnum(val string) (DbSystemStorageVolumePerformanceModeEnum, bool) {
+	enum, ok := mappingDbSystemStorageVolumePerformanceModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // DbSystemDatabaseEditionEnum Enum with underlying type: string

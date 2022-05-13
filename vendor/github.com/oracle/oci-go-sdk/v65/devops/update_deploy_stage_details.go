@@ -82,6 +82,10 @@ func (m *updatedeploystagedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		mm := UpdateOkeCanaryDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OKE_HELM_CHART_DEPLOYMENT":
+		mm := UpdateOkeHelmChartDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT":
 		mm := UpdateComputeInstanceGroupDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)

@@ -54,6 +54,10 @@ func (m *deployartifactsource) UnmarshalPolymorphicJSON(data []byte) (interface{
 		mm := GenericDeployArtifactSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "HELM_CHART":
+		mm := HelmRepositoryDeployArtifactSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OCIR":
 		mm := OcirDeployArtifactSource{}
 		err = json.Unmarshal(data, &mm)
@@ -91,18 +95,21 @@ const (
 	DeployArtifactSourceDeployArtifactSourceTypeInline          DeployArtifactSourceDeployArtifactSourceTypeEnum = "INLINE"
 	DeployArtifactSourceDeployArtifactSourceTypeOcir            DeployArtifactSourceDeployArtifactSourceTypeEnum = "OCIR"
 	DeployArtifactSourceDeployArtifactSourceTypeGenericArtifact DeployArtifactSourceDeployArtifactSourceTypeEnum = "GENERIC_ARTIFACT"
+	DeployArtifactSourceDeployArtifactSourceTypeHelmChart       DeployArtifactSourceDeployArtifactSourceTypeEnum = "HELM_CHART"
 )
 
 var mappingDeployArtifactSourceDeployArtifactSourceTypeEnum = map[string]DeployArtifactSourceDeployArtifactSourceTypeEnum{
 	"INLINE":           DeployArtifactSourceDeployArtifactSourceTypeInline,
 	"OCIR":             DeployArtifactSourceDeployArtifactSourceTypeOcir,
 	"GENERIC_ARTIFACT": DeployArtifactSourceDeployArtifactSourceTypeGenericArtifact,
+	"HELM_CHART":       DeployArtifactSourceDeployArtifactSourceTypeHelmChart,
 }
 
 var mappingDeployArtifactSourceDeployArtifactSourceTypeEnumLowerCase = map[string]DeployArtifactSourceDeployArtifactSourceTypeEnum{
 	"inline":           DeployArtifactSourceDeployArtifactSourceTypeInline,
 	"ocir":             DeployArtifactSourceDeployArtifactSourceTypeOcir,
 	"generic_artifact": DeployArtifactSourceDeployArtifactSourceTypeGenericArtifact,
+	"helm_chart":       DeployArtifactSourceDeployArtifactSourceTypeHelmChart,
 }
 
 // GetDeployArtifactSourceDeployArtifactSourceTypeEnumValues Enumerates the set of values for DeployArtifactSourceDeployArtifactSourceTypeEnum
@@ -120,6 +127,7 @@ func GetDeployArtifactSourceDeployArtifactSourceTypeEnumStringValues() []string 
 		"INLINE",
 		"OCIR",
 		"GENERIC_ARTIFACT",
+		"HELM_CHART",
 	}
 }
 

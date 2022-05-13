@@ -88,9 +88,9 @@ type LaunchDbSystemBase interface {
 	// **Subnet Restrictions:** See the subnet restrictions information for **subnetId**.
 	GetBackupSubnetId() *string
 
-	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
+	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
-	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty.
+	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds list cannot be empty.
 	GetNsgIds() []string
 
 	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems.
@@ -100,6 +100,9 @@ type LaunchDbSystemBase interface {
 	GetTimeZone() *string
 
 	GetDbSystemOptions() *DbSystemOptions
+
+	// The block storage volume performance level. Valid values are `BALANCED` and `HIGH_PERFORMANCE`. See Block Volume Performance (https://docs.cloud.oracle.com/Content/Block/Concepts/blockvolumeperformance.htm) for more information.
+	GetStorageVolumePerformanceMode() LaunchDbSystemBaseStorageVolumePerformanceModeEnum
 
 	// If true, Sparse Diskgroup is configured for Exadata dbsystem. If False, Sparse diskgroup is not configured.
 	GetSparseDiskgroup() *bool
@@ -144,33 +147,34 @@ type LaunchDbSystemBase interface {
 }
 
 type launchdbsystembase struct {
-	JsonData                   []byte
-	CompartmentId              *string                           `mandatory:"true" json:"compartmentId"`
-	AvailabilityDomain         *string                           `mandatory:"true" json:"availabilityDomain"`
-	SubnetId                   *string                           `mandatory:"true" json:"subnetId"`
-	Shape                      *string                           `mandatory:"true" json:"shape"`
-	SshPublicKeys              []string                          `mandatory:"true" json:"sshPublicKeys"`
-	Hostname                   *string                           `mandatory:"true" json:"hostname"`
-	CpuCoreCount               *int                              `mandatory:"true" json:"cpuCoreCount"`
-	FaultDomains               []string                          `mandatory:"false" json:"faultDomains"`
-	DisplayName                *string                           `mandatory:"false" json:"displayName"`
-	BackupSubnetId             *string                           `mandatory:"false" json:"backupSubnetId"`
-	NsgIds                     []string                          `mandatory:"false" json:"nsgIds"`
-	BackupNetworkNsgIds        []string                          `mandatory:"false" json:"backupNetworkNsgIds"`
-	TimeZone                   *string                           `mandatory:"false" json:"timeZone"`
-	DbSystemOptions            *DbSystemOptions                  `mandatory:"false" json:"dbSystemOptions"`
-	SparseDiskgroup            *bool                             `mandatory:"false" json:"sparseDiskgroup"`
-	Domain                     *string                           `mandatory:"false" json:"domain"`
-	ClusterName                *string                           `mandatory:"false" json:"clusterName"`
-	DataStoragePercentage      *int                              `mandatory:"false" json:"dataStoragePercentage"`
-	InitialDataStorageSizeInGB *int                              `mandatory:"false" json:"initialDataStorageSizeInGB"`
-	KmsKeyId                   *string                           `mandatory:"false" json:"kmsKeyId"`
-	KmsKeyVersionId            *string                           `mandatory:"false" json:"kmsKeyVersionId"`
-	NodeCount                  *int                              `mandatory:"false" json:"nodeCount"`
-	FreeformTags               map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags                map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	PrivateIp                  *string                           `mandatory:"false" json:"privateIp"`
-	Source                     string                            `json:"source"`
+	JsonData                     []byte
+	CompartmentId                *string                                            `mandatory:"true" json:"compartmentId"`
+	AvailabilityDomain           *string                                            `mandatory:"true" json:"availabilityDomain"`
+	SubnetId                     *string                                            `mandatory:"true" json:"subnetId"`
+	Shape                        *string                                            `mandatory:"true" json:"shape"`
+	SshPublicKeys                []string                                           `mandatory:"true" json:"sshPublicKeys"`
+	Hostname                     *string                                            `mandatory:"true" json:"hostname"`
+	CpuCoreCount                 *int                                               `mandatory:"true" json:"cpuCoreCount"`
+	FaultDomains                 []string                                           `mandatory:"false" json:"faultDomains"`
+	DisplayName                  *string                                            `mandatory:"false" json:"displayName"`
+	BackupSubnetId               *string                                            `mandatory:"false" json:"backupSubnetId"`
+	NsgIds                       []string                                           `mandatory:"false" json:"nsgIds"`
+	BackupNetworkNsgIds          []string                                           `mandatory:"false" json:"backupNetworkNsgIds"`
+	TimeZone                     *string                                            `mandatory:"false" json:"timeZone"`
+	DbSystemOptions              *DbSystemOptions                                   `mandatory:"false" json:"dbSystemOptions"`
+	StorageVolumePerformanceMode LaunchDbSystemBaseStorageVolumePerformanceModeEnum `mandatory:"false" json:"storageVolumePerformanceMode,omitempty"`
+	SparseDiskgroup              *bool                                              `mandatory:"false" json:"sparseDiskgroup"`
+	Domain                       *string                                            `mandatory:"false" json:"domain"`
+	ClusterName                  *string                                            `mandatory:"false" json:"clusterName"`
+	DataStoragePercentage        *int                                               `mandatory:"false" json:"dataStoragePercentage"`
+	InitialDataStorageSizeInGB   *int                                               `mandatory:"false" json:"initialDataStorageSizeInGB"`
+	KmsKeyId                     *string                                            `mandatory:"false" json:"kmsKeyId"`
+	KmsKeyVersionId              *string                                            `mandatory:"false" json:"kmsKeyVersionId"`
+	NodeCount                    *int                                               `mandatory:"false" json:"nodeCount"`
+	FreeformTags                 map[string]string                                  `mandatory:"false" json:"freeformTags"`
+	DefinedTags                  map[string]map[string]interface{}                  `mandatory:"false" json:"definedTags"`
+	PrivateIp                    *string                                            `mandatory:"false" json:"privateIp"`
+	Source                       string                                             `json:"source"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -198,6 +202,7 @@ func (m *launchdbsystembase) UnmarshalJSON(data []byte) error {
 	m.BackupNetworkNsgIds = s.Model.BackupNetworkNsgIds
 	m.TimeZone = s.Model.TimeZone
 	m.DbSystemOptions = s.Model.DbSystemOptions
+	m.StorageVolumePerformanceMode = s.Model.StorageVolumePerformanceMode
 	m.SparseDiskgroup = s.Model.SparseDiskgroup
 	m.Domain = s.Model.Domain
 	m.ClusterName = s.Model.ClusterName
@@ -314,6 +319,11 @@ func (m launchdbsystembase) GetDbSystemOptions() *DbSystemOptions {
 	return m.DbSystemOptions
 }
 
+//GetStorageVolumePerformanceMode returns StorageVolumePerformanceMode
+func (m launchdbsystembase) GetStorageVolumePerformanceMode() LaunchDbSystemBaseStorageVolumePerformanceModeEnum {
+	return m.StorageVolumePerformanceMode
+}
+
 //GetSparseDiskgroup returns SparseDiskgroup
 func (m launchdbsystembase) GetSparseDiskgroup() *bool {
 	return m.SparseDiskgroup
@@ -379,10 +389,55 @@ func (m launchdbsystembase) String() string {
 func (m launchdbsystembase) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingLaunchDbSystemBaseStorageVolumePerformanceModeEnum(string(m.StorageVolumePerformanceMode)); !ok && m.StorageVolumePerformanceMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageVolumePerformanceMode: %s. Supported values are: %s.", m.StorageVolumePerformanceMode, strings.Join(GetLaunchDbSystemBaseStorageVolumePerformanceModeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// LaunchDbSystemBaseStorageVolumePerformanceModeEnum Enum with underlying type: string
+type LaunchDbSystemBaseStorageVolumePerformanceModeEnum string
+
+// Set of constants representing the allowable values for LaunchDbSystemBaseStorageVolumePerformanceModeEnum
+const (
+	LaunchDbSystemBaseStorageVolumePerformanceModeBalanced        LaunchDbSystemBaseStorageVolumePerformanceModeEnum = "BALANCED"
+	LaunchDbSystemBaseStorageVolumePerformanceModeHighPerformance LaunchDbSystemBaseStorageVolumePerformanceModeEnum = "HIGH_PERFORMANCE"
+)
+
+var mappingLaunchDbSystemBaseStorageVolumePerformanceModeEnum = map[string]LaunchDbSystemBaseStorageVolumePerformanceModeEnum{
+	"BALANCED":         LaunchDbSystemBaseStorageVolumePerformanceModeBalanced,
+	"HIGH_PERFORMANCE": LaunchDbSystemBaseStorageVolumePerformanceModeHighPerformance,
+}
+
+var mappingLaunchDbSystemBaseStorageVolumePerformanceModeEnumLowerCase = map[string]LaunchDbSystemBaseStorageVolumePerformanceModeEnum{
+	"balanced":         LaunchDbSystemBaseStorageVolumePerformanceModeBalanced,
+	"high_performance": LaunchDbSystemBaseStorageVolumePerformanceModeHighPerformance,
+}
+
+// GetLaunchDbSystemBaseStorageVolumePerformanceModeEnumValues Enumerates the set of values for LaunchDbSystemBaseStorageVolumePerformanceModeEnum
+func GetLaunchDbSystemBaseStorageVolumePerformanceModeEnumValues() []LaunchDbSystemBaseStorageVolumePerformanceModeEnum {
+	values := make([]LaunchDbSystemBaseStorageVolumePerformanceModeEnum, 0)
+	for _, v := range mappingLaunchDbSystemBaseStorageVolumePerformanceModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetLaunchDbSystemBaseStorageVolumePerformanceModeEnumStringValues Enumerates the set of values in String for LaunchDbSystemBaseStorageVolumePerformanceModeEnum
+func GetLaunchDbSystemBaseStorageVolumePerformanceModeEnumStringValues() []string {
+	return []string{
+		"BALANCED",
+		"HIGH_PERFORMANCE",
+	}
+}
+
+// GetMappingLaunchDbSystemBaseStorageVolumePerformanceModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingLaunchDbSystemBaseStorageVolumePerformanceModeEnum(val string) (LaunchDbSystemBaseStorageVolumePerformanceModeEnum, bool) {
+	enum, ok := mappingLaunchDbSystemBaseStorageVolumePerformanceModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // LaunchDbSystemBaseSourceEnum Enum with underlying type: string

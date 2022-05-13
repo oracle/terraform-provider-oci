@@ -54,6 +54,10 @@ func (m *filter) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := DevopsCodeRepositoryFilter{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BITBUCKET_CLOUD":
+		mm := BitbucketCloudFilter{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITLAB":
 		mm := GitlabFilter{}
 		err = json.Unmarshal(data, &mm)
