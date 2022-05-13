@@ -165,6 +165,7 @@ const (
 	DeployArtifactDeployArtifactTypeKubernetesManifest DeployArtifactDeployArtifactTypeEnum = "KUBERNETES_MANIFEST"
 	DeployArtifactDeployArtifactTypeGenericFile        DeployArtifactDeployArtifactTypeEnum = "GENERIC_FILE"
 	DeployArtifactDeployArtifactTypeDockerImage        DeployArtifactDeployArtifactTypeEnum = "DOCKER_IMAGE"
+	DeployArtifactDeployArtifactTypeHelmChart          DeployArtifactDeployArtifactTypeEnum = "HELM_CHART"
 )
 
 var mappingDeployArtifactDeployArtifactTypeEnum = map[string]DeployArtifactDeployArtifactTypeEnum{
@@ -173,6 +174,7 @@ var mappingDeployArtifactDeployArtifactTypeEnum = map[string]DeployArtifactDeplo
 	"KUBERNETES_MANIFEST": DeployArtifactDeployArtifactTypeKubernetesManifest,
 	"GENERIC_FILE":        DeployArtifactDeployArtifactTypeGenericFile,
 	"DOCKER_IMAGE":        DeployArtifactDeployArtifactTypeDockerImage,
+	"HELM_CHART":          DeployArtifactDeployArtifactTypeHelmChart,
 }
 
 var mappingDeployArtifactDeployArtifactTypeEnumLowerCase = map[string]DeployArtifactDeployArtifactTypeEnum{
@@ -181,6 +183,7 @@ var mappingDeployArtifactDeployArtifactTypeEnumLowerCase = map[string]DeployArti
 	"kubernetes_manifest": DeployArtifactDeployArtifactTypeKubernetesManifest,
 	"generic_file":        DeployArtifactDeployArtifactTypeGenericFile,
 	"docker_image":        DeployArtifactDeployArtifactTypeDockerImage,
+	"helm_chart":          DeployArtifactDeployArtifactTypeHelmChart,
 }
 
 // GetDeployArtifactDeployArtifactTypeEnumValues Enumerates the set of values for DeployArtifactDeployArtifactTypeEnum
@@ -200,6 +203,7 @@ func GetDeployArtifactDeployArtifactTypeEnumStringValues() []string {
 		"KUBERNETES_MANIFEST",
 		"GENERIC_FILE",
 		"DOCKER_IMAGE",
+		"HELM_CHART",
 	}
 }
 

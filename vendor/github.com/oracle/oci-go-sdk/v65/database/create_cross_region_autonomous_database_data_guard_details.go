@@ -17,6 +17,10 @@ import (
 )
 
 // CreateCrossRegionAutonomousDatabaseDataGuardDetails Details to create an Autonomous Data Guard association for an existing Autonomous Database where the standby is in a different (remote) region from the source primary database.
+// *IMPORTANT*
+// Note the following for creating standby databases in cross-region Autonomous Data Guard associations:
+//   - To create your standby database in a region different from the region of the primary, use the API endpoint of the region in which the standby will be located. For example, if the primary database is in the IAD region, and you want to create the standby in the PHX region, make the API call using the PHX endpoint (https://database.us-phoenix-1.oraclecloud.com). See API Endpoints (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#REST_APIs) for the list of Database Service API endpoints.
+//   - In the request to create the standby database, the `sourceId` value should be the OCID of the primary database.
 // The following parameters are required for the cross-region standby database and must contain the same values as the source Autonomous Database:
 //   - dbName
 //   - cpuCoreCount
@@ -32,7 +36,7 @@ import (
 //   - whitelistedIps
 //   - isMtlsConnectionRequired
 // Example I - Creating a cross-region standby with required parameters only:
-//     {
+//     `{
 //       "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
 //       "cpuCoreCount": 1,
 //       "dbName": "adatabasedb1",
@@ -40,9 +44,9 @@ import (
 //       "dataStorageSizeInTBs": 1,
 //       "source": "CROSS_REGION_DATAGUARD",
 //       "adminPassword" : "<var>&lt;password&gt;</var>",
-//     }
+//     }`
 //  Example II - Creating a cross-region standby that specifies optional parameters in addition to the required parameters:
-//     {
+//     `{
 //       "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
 //       "cpuCoreCount": 1,
 //       "dbName": "adatabasedb1",
@@ -53,17 +57,25 @@ import (
 //       "dbVersion": "19c",
 //       "licenseModel": "LICENSE_INCLUDED",
 //       "isAutoScalingForStorageEnabled": "true"
-//     }
+//     }`
 type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
-	DbName *string `mandatory:"true" json:"dbName"`
-
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that will be used to create a new standby database for the Data Guard association.
 	SourceId *string `mandatory:"true" json:"sourceId"`
+
+	// The character set for the autonomous database.  The default is AL32UTF8. Allowed values are:
+	// AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8859P6, AR8MSWIN1256, AR8MUSSAD768, AR8NAFITHA711, AR8NAFITHA721, AR8SAKHR706, AR8SAKHR707, AZ8ISO8859P9E, BG8MSWIN, BG8PC437S, BLT8CP921, BLT8ISO8859P13, BLT8MSWIN1257, BLT8PC775, BN8BSCII, CDN8PC863, CEL8ISO8859P14, CL8ISO8859P5, CL8ISOIR111, CL8KOI8R, CL8KOI8U, CL8MACCYRILLICS, CL8MSWIN1251, EE8ISO8859P2, EE8MACCES, EE8MACCROATIANS, EE8MSWIN1250, EE8PC852, EL8DEC, EL8ISO8859P7, EL8MACGREEKS, EL8MSWIN1253, EL8PC437S, EL8PC851, EL8PC869, ET8MSWIN923, HU8ABMOD, HU8CWI2, IN8ISCII, IS8PC861, IW8ISO8859P8, IW8MACHEBREWS, IW8MSWIN1255, IW8PC1507, JA16EUC, JA16EUCTILDE, JA16SJIS, JA16SJISTILDE, JA16VMS, KO16KSC5601, KO16KSCCS, KO16MSWIN949, LA8ISO6937, LA8PASSPORT, LT8MSWIN921, LT8PC772, LT8PC774, LV8PC1117, LV8PC8LR, LV8RST104090, N8PC865, NE8ISO8859P10, NEE8ISO8859P4, RU8BESTA, RU8PC855, RU8PC866, SE8ISO8859P3, TH8MACTHAIS, TH8TISASCII, TR8DEC, TR8MACTURKISHS, TR8MSWIN1254, TR8PC857, US7ASCII, US8PC437, UTF8, VN8MSWIN1258, VN8VN3, WE8DEC, WE8DG, WE8ISO8859P1, WE8ISO8859P15, WE8ISO8859P9, WE8MACROMAN8S, WE8MSWIN1252, WE8NCR4970, WE8NEXTSTEP, WE8PC850, WE8PC858, WE8PC860, WE8ROMAN8, ZHS16CGB231280, ZHS16GBK, ZHT16BIG5, ZHT16CCDC, ZHT16DBT, ZHT16HKSCS, ZHT16MSWIN950, ZHT32EUC, ZHT32SOPS, ZHT32TRIS
+	CharacterSet *string `mandatory:"false" json:"characterSet"`
+
+	// The national character set for the autonomous database.  The default is AL16UTF16. Allowed values are:
+	// AL16UTF16 or UTF8.
+	NcharacterSet *string `mandatory:"false" json:"ncharacterSet"`
+
+	// The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
+	DbName *string `mandatory:"false" json:"dbName"`
 
 	// The number of OCPU cores to be made available to the database. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
@@ -147,8 +159,11 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	// For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
 	StandbyWhitelistedIps []string `mandatory:"false" json:"standbyWhitelistedIps"`
 
-	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
+	// **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 	IsDataGuardEnabled *bool `mandatory:"false" json:"isDataGuardEnabled"`
+
+	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
+	IsLocalDataGuardEnabled *bool `mandatory:"false" json:"isLocalDataGuardEnabled"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 	// **Subnet Restrictions:**
@@ -160,9 +175,9 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	// This restriction applies to both the client subnet and the backup subnet.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
-	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
+	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
-	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty.
+	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds list cannot be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// The private endpoint label for the resource. Setting this to an empty string, after the private endpoint database gets created, will change the same private endpoint database to the public endpoint database.
@@ -219,6 +234,16 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 //GetCompartmentId returns CompartmentId
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetCompartmentId() *string {
 	return m.CompartmentId
+}
+
+//GetCharacterSet returns CharacterSet
+func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetCharacterSet() *string {
+	return m.CharacterSet
+}
+
+//GetNcharacterSet returns NcharacterSet
+func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetNcharacterSet() *string {
+	return m.NcharacterSet
 }
 
 //GetDbName returns DbName
@@ -324,6 +349,11 @@ func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetStandbyWhitelist
 //GetIsDataGuardEnabled returns IsDataGuardEnabled
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetIsDataGuardEnabled() *bool {
 	return m.IsDataGuardEnabled
+}
+
+//GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
+func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetIsLocalDataGuardEnabled() *bool {
+	return m.IsLocalDataGuardEnabled
 }
 
 //GetSubnetId returns SubnetId

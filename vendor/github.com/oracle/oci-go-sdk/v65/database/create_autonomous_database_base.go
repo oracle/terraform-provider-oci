@@ -27,6 +27,14 @@ type CreateAutonomousDatabaseBase interface {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
 	GetCompartmentId() *string
 
+	// The character set for the autonomous database.  The default is AL32UTF8. Allowed values are:
+	// AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8859P6, AR8MSWIN1256, AR8MUSSAD768, AR8NAFITHA711, AR8NAFITHA721, AR8SAKHR706, AR8SAKHR707, AZ8ISO8859P9E, BG8MSWIN, BG8PC437S, BLT8CP921, BLT8ISO8859P13, BLT8MSWIN1257, BLT8PC775, BN8BSCII, CDN8PC863, CEL8ISO8859P14, CL8ISO8859P5, CL8ISOIR111, CL8KOI8R, CL8KOI8U, CL8MACCYRILLICS, CL8MSWIN1251, EE8ISO8859P2, EE8MACCES, EE8MACCROATIANS, EE8MSWIN1250, EE8PC852, EL8DEC, EL8ISO8859P7, EL8MACGREEKS, EL8MSWIN1253, EL8PC437S, EL8PC851, EL8PC869, ET8MSWIN923, HU8ABMOD, HU8CWI2, IN8ISCII, IS8PC861, IW8ISO8859P8, IW8MACHEBREWS, IW8MSWIN1255, IW8PC1507, JA16EUC, JA16EUCTILDE, JA16SJIS, JA16SJISTILDE, JA16VMS, KO16KSC5601, KO16KSCCS, KO16MSWIN949, LA8ISO6937, LA8PASSPORT, LT8MSWIN921, LT8PC772, LT8PC774, LV8PC1117, LV8PC8LR, LV8RST104090, N8PC865, NE8ISO8859P10, NEE8ISO8859P4, RU8BESTA, RU8PC855, RU8PC866, SE8ISO8859P3, TH8MACTHAIS, TH8TISASCII, TR8DEC, TR8MACTURKISHS, TR8MSWIN1254, TR8PC857, US7ASCII, US8PC437, UTF8, VN8MSWIN1258, VN8VN3, WE8DEC, WE8DG, WE8ISO8859P1, WE8ISO8859P15, WE8ISO8859P9, WE8MACROMAN8S, WE8MSWIN1252, WE8NCR4970, WE8NEXTSTEP, WE8PC850, WE8PC858, WE8PC860, WE8ROMAN8, ZHS16CGB231280, ZHS16GBK, ZHT16BIG5, ZHT16CCDC, ZHT16DBT, ZHT16HKSCS, ZHT16MSWIN950, ZHT32EUC, ZHT32SOPS, ZHT32TRIS
+	GetCharacterSet() *string
+
+	// The national character set for the autonomous database.  The default is AL16UTF16. Allowed values are:
+	// AL16UTF16 or UTF8.
+	GetNcharacterSet() *string
+
 	// The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
 	GetDbName() *string
 
@@ -125,8 +133,11 @@ type CreateAutonomousDatabaseBase interface {
 	// For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
 	GetStandbyWhitelistedIps() []string
 
-	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
+	// **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 	GetIsDataGuardEnabled() *bool
+
+	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
+	GetIsLocalDataGuardEnabled() *bool
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 	// **Subnet Restrictions:**
@@ -138,9 +149,9 @@ type CreateAutonomousDatabaseBase interface {
 	// This restriction applies to both the client subnet and the backup subnet.
 	GetSubnetId() *string
 
-	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
+	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
-	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty.
+	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds list cannot be empty.
 	GetNsgIds() []string
 
 	// The private endpoint label for the resource. Setting this to an empty string, after the private endpoint database gets created, will change the same private endpoint database to the public endpoint database.
@@ -184,7 +195,9 @@ type CreateAutonomousDatabaseBase interface {
 type createautonomousdatabasebase struct {
 	JsonData                                 []byte
 	CompartmentId                            *string                                                           `mandatory:"true" json:"compartmentId"`
-	DbName                                   *string                                                           `mandatory:"true" json:"dbName"`
+	CharacterSet                             *string                                                           `mandatory:"false" json:"characterSet"`
+	NcharacterSet                            *string                                                           `mandatory:"false" json:"ncharacterSet"`
+	DbName                                   *string                                                           `mandatory:"false" json:"dbName"`
 	CpuCoreCount                             *int                                                              `mandatory:"false" json:"cpuCoreCount"`
 	OcpuCount                                *float32                                                          `mandatory:"false" json:"ocpuCount"`
 	DbWorkload                               CreateAutonomousDatabaseBaseDbWorkloadEnum                        `mandatory:"false" json:"dbWorkload,omitempty"`
@@ -205,6 +218,7 @@ type createautonomousdatabasebase struct {
 	ArePrimaryWhitelistedIpsUsed             *bool                                                             `mandatory:"false" json:"arePrimaryWhitelistedIpsUsed"`
 	StandbyWhitelistedIps                    []string                                                          `mandatory:"false" json:"standbyWhitelistedIps"`
 	IsDataGuardEnabled                       *bool                                                             `mandatory:"false" json:"isDataGuardEnabled"`
+	IsLocalDataGuardEnabled                  *bool                                                             `mandatory:"false" json:"isLocalDataGuardEnabled"`
 	SubnetId                                 *string                                                           `mandatory:"false" json:"subnetId"`
 	NsgIds                                   []string                                                          `mandatory:"false" json:"nsgIds"`
 	PrivateEndpointLabel                     *string                                                           `mandatory:"false" json:"privateEndpointLabel"`
@@ -233,6 +247,8 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.CompartmentId = s.Model.CompartmentId
+	m.CharacterSet = s.Model.CharacterSet
+	m.NcharacterSet = s.Model.NcharacterSet
 	m.DbName = s.Model.DbName
 	m.CpuCoreCount = s.Model.CpuCoreCount
 	m.OcpuCount = s.Model.OcpuCount
@@ -254,6 +270,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.ArePrimaryWhitelistedIpsUsed = s.Model.ArePrimaryWhitelistedIpsUsed
 	m.StandbyWhitelistedIps = s.Model.StandbyWhitelistedIps
 	m.IsDataGuardEnabled = s.Model.IsDataGuardEnabled
+	m.IsLocalDataGuardEnabled = s.Model.IsLocalDataGuardEnabled
 	m.SubnetId = s.Model.SubnetId
 	m.NsgIds = s.Model.NsgIds
 	m.PrivateEndpointLabel = s.Model.PrivateEndpointLabel
@@ -313,6 +330,16 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 //GetCompartmentId returns CompartmentId
 func (m createautonomousdatabasebase) GetCompartmentId() *string {
 	return m.CompartmentId
+}
+
+//GetCharacterSet returns CharacterSet
+func (m createautonomousdatabasebase) GetCharacterSet() *string {
+	return m.CharacterSet
+}
+
+//GetNcharacterSet returns NcharacterSet
+func (m createautonomousdatabasebase) GetNcharacterSet() *string {
+	return m.NcharacterSet
 }
 
 //GetDbName returns DbName
@@ -418,6 +445,11 @@ func (m createautonomousdatabasebase) GetStandbyWhitelistedIps() []string {
 //GetIsDataGuardEnabled returns IsDataGuardEnabled
 func (m createautonomousdatabasebase) GetIsDataGuardEnabled() *bool {
 	return m.IsDataGuardEnabled
+}
+
+//GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
+func (m createautonomousdatabasebase) GetIsLocalDataGuardEnabled() *bool {
+	return m.IsLocalDataGuardEnabled
 }
 
 //GetSubnetId returns SubnetId

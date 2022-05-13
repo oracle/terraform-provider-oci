@@ -9378,6 +9378,63 @@ func (client DatabaseClient) listAutonomousDatabaseBackups(ctx context.Context, 
 	return response, err
 }
 
+// ListAutonomousDatabaseCharacterSets Gets a list of supported character sets.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousDatabaseCharacterSets.go.html to see an example of how to use ListAutonomousDatabaseCharacterSets API.
+func (client DatabaseClient) ListAutonomousDatabaseCharacterSets(ctx context.Context, request ListAutonomousDatabaseCharacterSetsRequest) (response ListAutonomousDatabaseCharacterSetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutonomousDatabaseCharacterSets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAutonomousDatabaseCharacterSetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAutonomousDatabaseCharacterSetsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutonomousDatabaseCharacterSetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutonomousDatabaseCharacterSetsResponse")
+	}
+	return
+}
+
+// listAutonomousDatabaseCharacterSets implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAutonomousDatabaseCharacterSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabaseCharacterSets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutonomousDatabaseCharacterSetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseCharacterSets/ListAutonomousDatabaseCharacterSets"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousDatabaseCharacterSets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListAutonomousDatabaseClones Lists the Autonomous Database clones for the specified Autonomous Database.
 //
 // See also
@@ -10861,6 +10918,63 @@ func (client DatabaseClient) listDbServers(ctx context.Context, request common.O
 	return response, err
 }
 
+// ListDbSystemComputePerformances Gets a list of expected compute performance parameters for a virtual machine DB system based on system configuration.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDbSystemComputePerformances.go.html to see an example of how to use ListDbSystemComputePerformances API.
+func (client DatabaseClient) ListDbSystemComputePerformances(ctx context.Context, request ListDbSystemComputePerformancesRequest) (response ListDbSystemComputePerformancesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDbSystemComputePerformances, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDbSystemComputePerformancesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDbSystemComputePerformancesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDbSystemComputePerformancesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDbSystemComputePerformancesResponse")
+	}
+	return
+}
+
+// listDbSystemComputePerformances implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listDbSystemComputePerformances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystemComputePerformance", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDbSystemComputePerformancesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystemComputePerformanceSummary/ListDbSystemComputePerformances"
+		err = common.PostProcessServiceError(err, "Database", "ListDbSystemComputePerformances", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListDbSystemPatchHistoryEntries Gets the history of the patch actions performed on the specified DB system.
 //
 // See also
@@ -11025,6 +11139,63 @@ func (client DatabaseClient) listDbSystemShapes(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystemShapeSummary/ListDbSystemShapes"
 		err = common.PostProcessServiceError(err, "Database", "ListDbSystemShapes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDbSystemStoragePerformances Gets a list of possible expected storage performance parameters of a VMDB System based on Configuration.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDbSystemStoragePerformances.go.html to see an example of how to use ListDbSystemStoragePerformances API.
+func (client DatabaseClient) ListDbSystemStoragePerformances(ctx context.Context, request ListDbSystemStoragePerformancesRequest) (response ListDbSystemStoragePerformancesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDbSystemStoragePerformances, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDbSystemStoragePerformancesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDbSystemStoragePerformancesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDbSystemStoragePerformancesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDbSystemStoragePerformancesResponse")
+	}
+	return
+}
+
+// listDbSystemStoragePerformances implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listDbSystemStoragePerformances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystemStoragePerformance", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDbSystemStoragePerformancesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystemStoragePerformanceSummary/ListDbSystemStoragePerformances"
+		err = common.PostProcessServiceError(err, "Database", "ListDbSystemStoragePerformances", apiReferenceLink)
 		return response, err
 	}
 

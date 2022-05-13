@@ -68,6 +68,11 @@ type VbInstance struct {
 
 	// The entitlement used for billing purposes.
 	ConsumptionModel VbInstanceConsumptionModelEnum `mandatory:"false" json:"consumptionModel,omitempty"`
+
+	IdcsInfo *IdcsInfoDetails `mandatory:"false" json:"idcsInfo"`
+
+	// A list of associated attachments to other services
+	Attachments []AttachmentDetails `mandatory:"false" json:"attachments"`
 }
 
 func (m VbInstance) String() string {
