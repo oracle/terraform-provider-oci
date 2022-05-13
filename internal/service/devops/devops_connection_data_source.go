@@ -108,6 +108,8 @@ func (s *DevopsConnectionDataSourceCrud) SetData() error {
 		s.D.Set("connection_type", "GITHUB_ACCESS_TOKEN")
 	case oci_devops.GitlabAccessTokenConnection:
 		s.D.Set("connection_type", "GITLAB_ACCESS_TOKEN")
+	case oci_devops.BitbucketCloudAppPasswordConnection:
+		s.D.Set("connection_type", "BITBUCKET_CLOUD_APP_PASSWORD")
 	default:
 		log.Printf("[WARN] Received 'connection_type' of unknown type %v", v)
 		return nil
