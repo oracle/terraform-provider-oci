@@ -4,7 +4,7 @@
 package client
 
 import (
-	oci_service_mesh "github.com/oracle/oci-go-sdk/v65/servicemesh"
+	oci_service_mesh "github.com/oracle/oci-go-sdk/v65/service"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
