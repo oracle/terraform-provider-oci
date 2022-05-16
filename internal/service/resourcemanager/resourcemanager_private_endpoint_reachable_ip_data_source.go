@@ -84,8 +84,8 @@ func (s *ResourcemanagerPrivateEndpointReachableIpDataSourceCrud) SetData() erro
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("ResourcemanagerPrivateEndpointReachableIpDataSource-", ResourcemanagerPrivateEndpointReachableIpDataSource(), s.D))
 
-	if s.Res.ReachableIp.IpAddress != nil {
-		s.D.Set("reachable_ip", *s.Res.ReachableIp.IpAddress)
+	if s.Res.ReachableIp.ReachableIp != nil {
+		s.D.Set("reachable_ip", *s.Res.ReachableIp.ReachableIp)
 	}
 
 	return nil
