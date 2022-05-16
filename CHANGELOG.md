@@ -1,3 +1,16 @@
+## 4.76.0 (Unreleased)
+
+### Added
+- Support for AMD E4 shape for VMDB
+Helm chart Support in OCI DevOps
+- support for ADBD CharacterSet
+support for Service Mesh
+- Terraform Changes for ADM Support in DLC Build Service
+- New ADBS fields to distinguish between cross-region and local dg
+- Data plane events ExaCC V1
+### Bug Fix
+- Improve description of isHighlyAvailable option for updateDbSystem operation
+
 ## 4.75.0 (Unreleased)
 
 ### Added
