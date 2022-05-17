@@ -52,8 +52,10 @@ var (
 		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Example Private Endpoint`, Update: `description2`},
+		"dns_zones":      acctest.Representation{RepType: acctest.Optional, Create: []string{`dnsZones`}, Update: []string{`dnsZones2`}},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"nsg_id_list":    acctest.Representation{RepType: acctest.Optional, Create: []string{`nsgIdList`}, Update: []string{`nsgIdList2`}},
+		"is_used_with_configuration_source_provider": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"nsg_id_list": acctest.Representation{RepType: acctest.Optional, Create: []string{`nsgIdList`}, Update: []string{`nsgIdList2`}},
 	}
 
 	ResourceManagerPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
@@ -104,7 +106,7 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr,
+			Config: config + compartmentIdVariableStr + ResourceManagerPrivateEndpointResourceDependencies,
 		},
 		// verify Create with optionals
 		{
@@ -114,8 +116,10 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Example Private Endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My Private Endpoint"),
+				resource.TestCheckResourceAttr(resourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_used_with_configuration_source_provider", "false"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_id_list.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -143,8 +147,10 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "Example Private Endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My Private Endpoint"),
+				resource.TestCheckResourceAttr(resourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_used_with_configuration_source_provider", "false"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_id_list.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -167,8 +173,10 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_used_with_configuration_source_provider", "true"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_id_list.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -200,7 +208,7 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config +
+			Config: config + compartmentIdVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Required, acctest.Create, resourceManagerprivateEndpointSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ResourceManagerPrivateEndpointResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -212,6 +220,7 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_used_with_configuration_source_provider", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "nsg_id_list.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source_ips.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

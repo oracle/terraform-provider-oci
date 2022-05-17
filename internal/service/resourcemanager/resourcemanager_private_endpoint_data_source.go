@@ -86,6 +86,10 @@ func (s *ResourcemanagerPrivateEndpointDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsUsedWithConfigurationSourceProvider != nil {
+		s.D.Set("is_used_with_configuration_source_provider", *s.Res.IsUsedWithConfigurationSourceProvider)
+	}
+
 	s.D.Set("nsg_id_list", s.Res.NsgIdList)
 
 	s.D.Set("source_ips", s.Res.SourceIps)
