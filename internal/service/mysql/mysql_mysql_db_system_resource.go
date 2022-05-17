@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"terraform-provider-oci/internal/client"
 	"terraform-provider-oci/internal/tfresource"
@@ -15,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_mysql "github.com/oracle/oci-go-sdk/v65/mysql"
 )
 
@@ -98,6 +100,22 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
+						},
+						"pitr_policy": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"is_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+								},
+							},
 						},
 						"retention_in_days": {
 							Type:     schema.TypeInt,
@@ -261,6 +279,7 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"BACKUP",
 								"NONE",
+								"PITR",
 							}, true),
 						},
 
@@ -270,6 +289,19 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"db_system_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"recovery_point": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 
 						// Computed
@@ -578,6 +610,27 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"point_in_time_recovery_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"time_earliest_recovery_point": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_latest_recovery_point": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -1112,6 +1165,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 		s.D.Set("mysql_version", *s.Res.MysqlVersion)
 	}
 
+	if s.Res.PointInTimeRecoveryDetails != nil {
+		s.D.Set("point_in_time_recovery_details", []interface{}{PointInTimeRecoveryDetailsToMap(s.Res.PointInTimeRecoveryDetails)})
+	} else {
+		s.D.Set("point_in_time_recovery_details", nil)
+	}
+
 	if s.Res.Port != nil {
 		s.D.Set("port", *s.Res.Port)
 	}
@@ -1358,6 +1417,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateBackupPolicyDetails(fieldKey
 		result.IsEnabled = &tmp
 	}
 
+	if pitrPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pitr_policy")); ok {
+		if tmpList := pitrPolicy.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "pitr_policy"), 0)
+			tmp, err := s.mapToPitrPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert pitr_policy, encountered error: %v", err)
+			}
+			result.PitrPolicy = &tmp
+		}
+	}
+
 	if retentionInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_in_days")); ok {
 		tmp := retentionInDays.(int)
 		result.RetentionInDays = &tmp
@@ -1392,6 +1462,20 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateDbSystemSourceDetails(fieldK
 	case strings.ToLower("NONE"):
 		details := oci_mysql.CreateDbSystemSourceFromNoneDetails{}
 		baseObject = details
+	case strings.ToLower("PITR"):
+		details := oci_mysql.CreateDbSystemSourceFromPitrDetails{}
+		if dbSystemId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_system_id")); ok {
+			tmp := dbSystemId.(string)
+			details.DbSystemId = &tmp
+		}
+		if recoveryPoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_point")); ok {
+			tmp, err := time.Parse(time.RFC3339, recoveryPoint.(string))
+			if err != nil {
+				return details, err
+			}
+			details.RecoveryPoint = &oci_common.SDKTime{Time: tmp}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
 	}
@@ -1407,8 +1491,18 @@ func DbSystemSourceToMap(obj *oci_mysql.DbSystemSource) map[string]interface{} {
 		if v.BackupId != nil {
 			result["backup_id"] = string(*v.BackupId)
 		}
-	case oci_mysql.CreateDbSystemSourceFromNoneDetails:
+	case oci_mysql.DbSystemSourceFromNone:
 		result["source_type"] = "NONE"
+	case oci_mysql.DbSystemSourceFromPitr:
+		result["source_type"] = "PITR"
+
+		if v.DbSystemId != nil {
+			result["db_system_id"] = string(*v.DbSystemId)
+		}
+
+		if v.RecoveryPoint != nil {
+			result["recovery_point"] = v.RecoveryPoint.Format(time.RFC3339Nano)
+		}
 	default:
 		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
 		return nil
@@ -1518,6 +1612,41 @@ func HeatWaveClusterSummaryToMap(obj *oci_mysql.HeatWaveClusterSummary) map[stri
 	return result
 }
 
+func (s *MysqlMysqlDbSystemResourceCrud) mapToPitrPolicy(fieldKeyFormat string) (oci_mysql.PitrPolicy, error) {
+	result := oci_mysql.PitrPolicy{}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	return result, nil
+}
+
+func PitrPolicyToMap(obj *oci_mysql.PitrPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	return result
+}
+
+func PointInTimeRecoveryDetailsToMap(obj *oci_mysql.PointInTimeRecoveryDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.TimeEarliestRecoveryPoint != nil {
+		result["time_earliest_recovery_point"] = obj.TimeEarliestRecoveryPoint.String()
+	}
+
+	if obj.TimeLatestRecoveryPoint != nil {
+		result["time_latest_recovery_point"] = obj.TimeLatestRecoveryPoint.String()
+	}
+
+	return result
+}
+
 func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateBackupPolicyDetails(fieldKeyFormat string) (oci_mysql.UpdateBackupPolicyDetails, error) {
 	result := oci_mysql.UpdateBackupPolicyDetails{}
 
@@ -1546,6 +1675,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateBackupPolicyDetails(fieldKey
 	if windowStartTime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "window_start_time")); ok {
 		tmp := windowStartTime.(string)
 		result.WindowStartTime = &tmp
+	}
+
+	if pitrPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pitr_policy")); ok {
+		if tmpList := pitrPolicy.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "pitr_policy"), 0)
+			tmp, err := s.mapToPitrPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert pitr_policy, encountered error: %v", err)
+			}
+			result.PitrPolicy = &tmp
+		}
 	}
 
 	return result, nil

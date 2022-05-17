@@ -72,6 +72,8 @@ The following attributes are exported:
 
 			Example: `{"bar-key": "value"}` 
 		* `is_enabled` - If automated backups are enabled or disabled.
+		* `pitr_policy` - The PITR policy for the DB System.
+			* `is_enabled` - Specifies if PITR is enabled or disabled.
 		* `retention_in_days` - The number of days automated backups are retained. 
 		* `window_start_time` - The start of a 30-minute window of time in which daily, automated backups occur.
 
