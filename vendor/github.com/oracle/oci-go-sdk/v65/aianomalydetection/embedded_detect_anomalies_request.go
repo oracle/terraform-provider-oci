@@ -27,12 +27,28 @@ type EmbeddedDetectAnomaliesRequest struct {
 
 	Content []byte `mandatory:"true" json:"content"`
 
+	// The value estimated during training would be used by default. Cutomer can choose to provide a custom value.
+	Sensitivity *float32 `mandatory:"false" json:"sensitivity"`
+
+	// State of the asset's behaviour calculated based on current and/or previous inference requests.
+	InferenceState *string `mandatory:"false" json:"inferenceState"`
+
 	ContentType EmbeddedDetectAnomaliesRequestContentTypeEnum `mandatory:"false" json:"contentType,omitempty"`
 }
 
 //GetModelId returns ModelId
 func (m EmbeddedDetectAnomaliesRequest) GetModelId() *string {
 	return m.ModelId
+}
+
+//GetSensitivity returns Sensitivity
+func (m EmbeddedDetectAnomaliesRequest) GetSensitivity() *float32 {
+	return m.Sensitivity
+}
+
+//GetInferenceState returns InferenceState
+func (m EmbeddedDetectAnomaliesRequest) GetInferenceState() *string {
+	return m.InferenceState
 }
 
 func (m EmbeddedDetectAnomaliesRequest) String() string {

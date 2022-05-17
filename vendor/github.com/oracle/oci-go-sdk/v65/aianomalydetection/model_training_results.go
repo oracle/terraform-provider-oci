@@ -26,6 +26,18 @@ type ModelTrainingResults struct {
 	// The model accuracy metric on timestamp level.
 	MultivariateFap *float32 `mandatory:"false" json:"multivariateFap"`
 
+	// Total inference rows accepted during dectect call in a single call.
+	MaxInferenceSyncRows *int `mandatory:"false" json:"maxInferenceSyncRows"`
+
+	// Window size defined during training or deduced by the algorithm.
+	WindowSize *int `mandatory:"false" json:"windowSize"`
+
+	// Root mean square error. Measure of error of predicted values.
+	Rmse *float32 `mandatory:"false" json:"rmse"`
+
+	// Mean Absolute Error. Measure of error of predicted values.
+	Mae *float32 `mandatory:"false" json:"mae"`
+
 	// A boolean value to indicate if train goal/targetFap is achieved for trained model
 	IsTrainingGoalAchieved *bool `mandatory:"false" json:"isTrainingGoalAchieved"`
 

@@ -23,32 +23,17 @@ import (
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 type QueryObjectDetails struct {
 
-	// The name of the object on which the query will be ran.
-	ObjectName *string `mandatory:"true" json:"objectName"`
+	// SQL like query to execute on the file.
+	Expression *string `mandatory:"true" json:"expression"`
 
-	// Columns to be returned in the response.
-	Columns *string `mandatory:"true" json:"columns"`
-
-	// Field to specify the logical expression to be used to filter rows.
-	Predicates *string `mandatory:"true" json:"predicates"`
-
-	// Field to specify the column(s) to be used for aggregation.
-	Aggregations *string `mandatory:"true" json:"aggregations"`
+	// Field to specify the data format of the results. The default ResultFormat is JSON.
+	ResultFormat QueryObjectDetailsResultFormatEnum `mandatory:"true" json:"resultFormat"`
 
 	// Optional field to specify the version ID of the object.
 	VersionId *string `mandatory:"false" json:"versionId"`
 
-	// SQL like query to execute on the file.
-	Expression *string `mandatory:"false" json:"expression"`
-
-	// Optional field to specify the number of rows to be returned.
-	Limit *int `mandatory:"false" json:"limit"`
-
 	// Optional field to specify the data format of the target object. By default, this is autodetected.
-	DataFormat *string `mandatory:"false" json:"dataFormat"`
-
-	// Optional field to specify the data format of the results. The default ResultFormat is JSON.
-	ResultFormat *string `mandatory:"false" json:"resultFormat"`
+	DataFormat QueryObjectDetailsDataFormatEnum `mandatory:"false" json:"dataFormat,omitempty"`
 }
 
 func (m QueryObjectDetails) String() string {
@@ -60,9 +45,107 @@ func (m QueryObjectDetails) String() string {
 // Not recommended for calling this function directly
 func (m QueryObjectDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingQueryObjectDetailsResultFormatEnum(string(m.ResultFormat)); !ok && m.ResultFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResultFormat: %s. Supported values are: %s.", m.ResultFormat, strings.Join(GetQueryObjectDetailsResultFormatEnumStringValues(), ",")))
+	}
 
+	if _, ok := GetMappingQueryObjectDetailsDataFormatEnum(string(m.DataFormat)); !ok && m.DataFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataFormat: %s. Supported values are: %s.", m.DataFormat, strings.Join(GetQueryObjectDetailsDataFormatEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// QueryObjectDetailsDataFormatEnum Enum with underlying type: string
+type QueryObjectDetailsDataFormatEnum string
+
+// Set of constants representing the allowable values for QueryObjectDetailsDataFormatEnum
+const (
+	QueryObjectDetailsDataFormatCsv     QueryObjectDetailsDataFormatEnum = "CSV"
+	QueryObjectDetailsDataFormatJson    QueryObjectDetailsDataFormatEnum = "JSON"
+	QueryObjectDetailsDataFormatParquet QueryObjectDetailsDataFormatEnum = "PARQUET"
+	QueryObjectDetailsDataFormatOrc     QueryObjectDetailsDataFormatEnum = "ORC"
+)
+
+var mappingQueryObjectDetailsDataFormatEnum = map[string]QueryObjectDetailsDataFormatEnum{
+	"CSV":     QueryObjectDetailsDataFormatCsv,
+	"JSON":    QueryObjectDetailsDataFormatJson,
+	"PARQUET": QueryObjectDetailsDataFormatParquet,
+	"ORC":     QueryObjectDetailsDataFormatOrc,
+}
+
+var mappingQueryObjectDetailsDataFormatEnumLowerCase = map[string]QueryObjectDetailsDataFormatEnum{
+	"csv":     QueryObjectDetailsDataFormatCsv,
+	"json":    QueryObjectDetailsDataFormatJson,
+	"parquet": QueryObjectDetailsDataFormatParquet,
+	"orc":     QueryObjectDetailsDataFormatOrc,
+}
+
+// GetQueryObjectDetailsDataFormatEnumValues Enumerates the set of values for QueryObjectDetailsDataFormatEnum
+func GetQueryObjectDetailsDataFormatEnumValues() []QueryObjectDetailsDataFormatEnum {
+	values := make([]QueryObjectDetailsDataFormatEnum, 0)
+	for _, v := range mappingQueryObjectDetailsDataFormatEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetQueryObjectDetailsDataFormatEnumStringValues Enumerates the set of values in String for QueryObjectDetailsDataFormatEnum
+func GetQueryObjectDetailsDataFormatEnumStringValues() []string {
+	return []string{
+		"CSV",
+		"JSON",
+		"PARQUET",
+		"ORC",
+	}
+}
+
+// GetMappingQueryObjectDetailsDataFormatEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingQueryObjectDetailsDataFormatEnum(val string) (QueryObjectDetailsDataFormatEnum, bool) {
+	enum, ok := mappingQueryObjectDetailsDataFormatEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// QueryObjectDetailsResultFormatEnum Enum with underlying type: string
+type QueryObjectDetailsResultFormatEnum string
+
+// Set of constants representing the allowable values for QueryObjectDetailsResultFormatEnum
+const (
+	QueryObjectDetailsResultFormatCsv  QueryObjectDetailsResultFormatEnum = "CSV"
+	QueryObjectDetailsResultFormatJson QueryObjectDetailsResultFormatEnum = "JSON"
+)
+
+var mappingQueryObjectDetailsResultFormatEnum = map[string]QueryObjectDetailsResultFormatEnum{
+	"CSV":  QueryObjectDetailsResultFormatCsv,
+	"JSON": QueryObjectDetailsResultFormatJson,
+}
+
+var mappingQueryObjectDetailsResultFormatEnumLowerCase = map[string]QueryObjectDetailsResultFormatEnum{
+	"csv":  QueryObjectDetailsResultFormatCsv,
+	"json": QueryObjectDetailsResultFormatJson,
+}
+
+// GetQueryObjectDetailsResultFormatEnumValues Enumerates the set of values for QueryObjectDetailsResultFormatEnum
+func GetQueryObjectDetailsResultFormatEnumValues() []QueryObjectDetailsResultFormatEnum {
+	values := make([]QueryObjectDetailsResultFormatEnum, 0)
+	for _, v := range mappingQueryObjectDetailsResultFormatEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetQueryObjectDetailsResultFormatEnumStringValues Enumerates the set of values in String for QueryObjectDetailsResultFormatEnum
+func GetQueryObjectDetailsResultFormatEnumStringValues() []string {
+	return []string{
+		"CSV",
+		"JSON",
+	}
+}
+
+// GetMappingQueryObjectDetailsResultFormatEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingQueryObjectDetailsResultFormatEnum(val string) (QueryObjectDetailsResultFormatEnum, bool) {
+	enum, ok := mappingQueryObjectDetailsResultFormatEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -24,6 +24,9 @@ type SummarizeHostInsightTopProcessesUsageTrendRequest struct {
 	// Supported values are CPU, MEMORY, VIIRTUAL_MEMORY.
 	ResourceMetric *string `mandatory:"true" contributesTo:"query" name:"resourceMetric"`
 
+	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
+	HostId *string `mandatory:"true" contributesTo:"query" name:"hostId"`
+
 	// Specify time period in ISO 8601 format with respect to current time.
 	// Default is last 30 days represented by P30D.
 	// If timeInterval is specified, then timeIntervalStart and timeIntervalEnd will be ignored.
@@ -58,6 +61,10 @@ type SummarizeHostInsightTopProcessesUsageTrendRequest struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// Filter by one or more host types.
+	// Possible values are CLOUD-HOST, EXTERNAL-HOST
+	HostType []SummarizeHostInsightTopProcessesUsageTrendHostTypeEnum `contributesTo:"query" name:"hostType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -95,6 +102,12 @@ func (request SummarizeHostInsightTopProcessesUsageTrendRequest) RetryPolicy() *
 // Not recommended for calling this function directly
 func (request SummarizeHostInsightTopProcessesUsageTrendRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	for _, val := range request.HostType {
+		if _, ok := GetMappingSummarizeHostInsightTopProcessesUsageTrendHostTypeEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HostType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeHostInsightTopProcessesUsageTrendHostTypeEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -127,4 +140,46 @@ func (response SummarizeHostInsightTopProcessesUsageTrendResponse) String() stri
 // HTTPResponse implements the OCIResponse interface
 func (response SummarizeHostInsightTopProcessesUsageTrendResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// SummarizeHostInsightTopProcessesUsageTrendHostTypeEnum Enum with underlying type: string
+type SummarizeHostInsightTopProcessesUsageTrendHostTypeEnum string
+
+// Set of constants representing the allowable values for SummarizeHostInsightTopProcessesUsageTrendHostTypeEnum
+const (
+	SummarizeHostInsightTopProcessesUsageTrendHostTypeExternalHost SummarizeHostInsightTopProcessesUsageTrendHostTypeEnum = "EXTERNAL-HOST"
+	SummarizeHostInsightTopProcessesUsageTrendHostTypeCloudHost    SummarizeHostInsightTopProcessesUsageTrendHostTypeEnum = "CLOUD-HOST"
+)
+
+var mappingSummarizeHostInsightTopProcessesUsageTrendHostTypeEnum = map[string]SummarizeHostInsightTopProcessesUsageTrendHostTypeEnum{
+	"EXTERNAL-HOST": SummarizeHostInsightTopProcessesUsageTrendHostTypeExternalHost,
+	"CLOUD-HOST":    SummarizeHostInsightTopProcessesUsageTrendHostTypeCloudHost,
+}
+
+var mappingSummarizeHostInsightTopProcessesUsageTrendHostTypeEnumLowerCase = map[string]SummarizeHostInsightTopProcessesUsageTrendHostTypeEnum{
+	"external-host": SummarizeHostInsightTopProcessesUsageTrendHostTypeExternalHost,
+	"cloud-host":    SummarizeHostInsightTopProcessesUsageTrendHostTypeCloudHost,
+}
+
+// GetSummarizeHostInsightTopProcessesUsageTrendHostTypeEnumValues Enumerates the set of values for SummarizeHostInsightTopProcessesUsageTrendHostTypeEnum
+func GetSummarizeHostInsightTopProcessesUsageTrendHostTypeEnumValues() []SummarizeHostInsightTopProcessesUsageTrendHostTypeEnum {
+	values := make([]SummarizeHostInsightTopProcessesUsageTrendHostTypeEnum, 0)
+	for _, v := range mappingSummarizeHostInsightTopProcessesUsageTrendHostTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSummarizeHostInsightTopProcessesUsageTrendHostTypeEnumStringValues Enumerates the set of values in String for SummarizeHostInsightTopProcessesUsageTrendHostTypeEnum
+func GetSummarizeHostInsightTopProcessesUsageTrendHostTypeEnumStringValues() []string {
+	return []string{
+		"EXTERNAL-HOST",
+		"CLOUD-HOST",
+	}
+}
+
+// GetMappingSummarizeHostInsightTopProcessesUsageTrendHostTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSummarizeHostInsightTopProcessesUsageTrendHostTypeEnum(val string) (SummarizeHostInsightTopProcessesUsageTrendHostTypeEnum, bool) {
+	enum, ok := mappingSummarizeHostInsightTopProcessesUsageTrendHostTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -20,6 +20,9 @@ type ListHostedEntitiesRequest struct {
 	// Required OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host insight resource.
 	Id *string `mandatory:"true" contributesTo:"query" name:"id"`
 
+	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
+	HostId *string `mandatory:"true" contributesTo:"query" name:"hostId"`
+
 	// Specify time period in ISO 8601 format with respect to current time.
 	// Default is last 30 days represented by P30D.
 	// If timeInterval is specified, then timeIntervalStart and timeIntervalEnd will be ignored.
@@ -69,6 +72,10 @@ type ListHostedEntitiesRequest struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Filter by one or more host types.
+	// Possible values are CLOUD-HOST, EXTERNAL-HOST
+	HostType []ListHostedEntitiesHostTypeEnum `contributesTo:"query" name:"hostType" omitEmpty:"true" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -117,6 +124,12 @@ func (request ListHostedEntitiesRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListHostedEntitiesSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListHostedEntitiesSortByEnumStringValues(), ",")))
 	}
+	for _, val := range request.HostType {
+		if _, ok := GetMappingListHostedEntitiesHostTypeEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HostType: %s. Supported values are: %s.", val, strings.Join(GetListHostedEntitiesHostTypeEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -282,5 +295,47 @@ func GetListHostedEntitiesSortByEnumStringValues() []string {
 // GetMappingListHostedEntitiesSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListHostedEntitiesSortByEnum(val string) (ListHostedEntitiesSortByEnum, bool) {
 	enum, ok := mappingListHostedEntitiesSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListHostedEntitiesHostTypeEnum Enum with underlying type: string
+type ListHostedEntitiesHostTypeEnum string
+
+// Set of constants representing the allowable values for ListHostedEntitiesHostTypeEnum
+const (
+	ListHostedEntitiesHostTypeExternalHost ListHostedEntitiesHostTypeEnum = "EXTERNAL-HOST"
+	ListHostedEntitiesHostTypeCloudHost    ListHostedEntitiesHostTypeEnum = "CLOUD-HOST"
+)
+
+var mappingListHostedEntitiesHostTypeEnum = map[string]ListHostedEntitiesHostTypeEnum{
+	"EXTERNAL-HOST": ListHostedEntitiesHostTypeExternalHost,
+	"CLOUD-HOST":    ListHostedEntitiesHostTypeCloudHost,
+}
+
+var mappingListHostedEntitiesHostTypeEnumLowerCase = map[string]ListHostedEntitiesHostTypeEnum{
+	"external-host": ListHostedEntitiesHostTypeExternalHost,
+	"cloud-host":    ListHostedEntitiesHostTypeCloudHost,
+}
+
+// GetListHostedEntitiesHostTypeEnumValues Enumerates the set of values for ListHostedEntitiesHostTypeEnum
+func GetListHostedEntitiesHostTypeEnumValues() []ListHostedEntitiesHostTypeEnum {
+	values := make([]ListHostedEntitiesHostTypeEnum, 0)
+	for _, v := range mappingListHostedEntitiesHostTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListHostedEntitiesHostTypeEnumStringValues Enumerates the set of values in String for ListHostedEntitiesHostTypeEnum
+func GetListHostedEntitiesHostTypeEnumStringValues() []string {
+	return []string{
+		"EXTERNAL-HOST",
+		"CLOUD-HOST",
+	}
+}
+
+// GetMappingListHostedEntitiesHostTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListHostedEntitiesHostTypeEnum(val string) (ListHostedEntitiesHostTypeEnum, bool) {
+	enum, ok := mappingListHostedEntitiesHostTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

@@ -23,11 +23,20 @@ type ModelTrainingDetails struct {
 	// The list of OCIDs of the data assets to train the model. The dataAssets have to be in the same project where the ai model would reside.
 	DataAssetIds []string `mandatory:"true" json:"dataAssetIds"`
 
+	// User can choose specific algorithm for training.
+	AlgorithmHint *string `mandatory:"false" json:"algorithmHint"`
+
 	// A target model accuracy metric user provides as their requirement
 	TargetFap *float32 `mandatory:"false" json:"targetFap"`
 
 	// Fraction of total data that is used for training the model. The remaining is used for validation of the model.
 	TrainingFraction *float32 `mandatory:"false" json:"trainingFraction"`
+
+	// This value would determine the window size of the training algorithm.
+	WindowSize *int `mandatory:"false" json:"windowSize"`
+
+	// If set to true then backend will try to finish the training under 24 hrs.
+	IsQuickModeEnabled *bool `mandatory:"false" json:"isQuickModeEnabled"`
 }
 
 func (m ModelTrainingDetails) String() string {

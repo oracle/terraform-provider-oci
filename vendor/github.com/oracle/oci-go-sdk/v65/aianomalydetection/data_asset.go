@@ -59,8 +59,8 @@ type DataAsset struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
+	SystemTags map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m DataAsset) String() string {
@@ -90,7 +90,7 @@ func (m *DataAsset) UnmarshalJSON(data []byte) (e error) {
 		PrivateEndpointId *string                           `json:"privateEndpointId"`
 		FreeformTags      map[string]string                 `json:"freeformTags"`
 		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags        map[string]map[string]interface{} `json:"systemTags"`
+		SystemTags        map[string]interface{}            `json:"systemTags"`
 		Id                *string                           `json:"id"`
 		CompartmentId     *string                           `json:"compartmentId"`
 		DisplayName       *string                           `json:"displayName"`

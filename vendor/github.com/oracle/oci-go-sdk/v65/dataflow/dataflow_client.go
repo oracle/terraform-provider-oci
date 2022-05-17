@@ -595,9 +595,10 @@ func (client DataFlowClient) deleteRun(ctx context.Context, request common.OCIRe
 }
 
 // GetApplication Retrieves an application using an `applicationId`.
+// A default retry strategy applies to this operation GetApplication()
 func (client DataFlowClient) GetApplication(ctx context.Context, request GetApplicationRequest) (response GetApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -648,9 +649,10 @@ func (client DataFlowClient) getApplication(ctx context.Context, request common.
 }
 
 // GetPrivateEndpoint Retrieves an private endpoint using a `privateEndpointId`.
+// A default retry strategy applies to this operation GetPrivateEndpoint()
 func (client DataFlowClient) GetPrivateEndpoint(ctx context.Context, request GetPrivateEndpointRequest) (response GetPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -701,9 +703,10 @@ func (client DataFlowClient) getPrivateEndpoint(ctx context.Context, request com
 }
 
 // GetRun Retrieves the run for the specified `runId`.
+// A default retry strategy applies to this operation GetRun()
 func (client DataFlowClient) GetRun(ctx context.Context, request GetRunRequest) (response GetRunResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -754,9 +757,10 @@ func (client DataFlowClient) getRun(ctx context.Context, request common.OCIReque
 }
 
 // GetRunLog Retrieves the content of an run log.
+// A default retry strategy applies to this operation GetRunLog()
 func (client DataFlowClient) GetRunLog(ctx context.Context, request GetRunLogRequest) (response GetRunLogResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -806,9 +810,10 @@ func (client DataFlowClient) getRunLog(ctx context.Context, request common.OCIRe
 }
 
 // GetWorkRequest Gets the status of the work request with the given OCID.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client DataFlowClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -859,9 +864,10 @@ func (client DataFlowClient) getWorkRequest(ctx context.Context, request common.
 }
 
 // ListApplications Lists all applications in the specified compartment. Only one parameter other than compartmentId may also be included in a query. The query must include compartmentId. If the query does not include compartmentId, or includes compartmentId but two or more other parameters an error is returned.
+// A default retry strategy applies to this operation ListApplications()
 func (client DataFlowClient) ListApplications(ctx context.Context, request ListApplicationsRequest) (response ListApplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -911,10 +917,11 @@ func (client DataFlowClient) listApplications(ctx context.Context, request commo
 	return response, err
 }
 
-// ListPrivateEndpoints Lists all private endpoints in the specified compartment.
+// ListPrivateEndpoints Lists all private endpoints in the specified compartment. The query must include compartmentId. The query may also include one other parameter. If the query does not include compartmentId, or includes compartmentId, but with two or more other parameters, an error is returned.
+// A default retry strategy applies to this operation ListPrivateEndpoints()
 func (client DataFlowClient) ListPrivateEndpoints(ctx context.Context, request ListPrivateEndpointsRequest) (response ListPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -965,9 +972,10 @@ func (client DataFlowClient) listPrivateEndpoints(ctx context.Context, request c
 }
 
 // ListRunLogs Retrieves summaries of the run's logs.
+// A default retry strategy applies to this operation ListRunLogs()
 func (client DataFlowClient) ListRunLogs(ctx context.Context, request ListRunLogsRequest) (response ListRunLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1018,9 +1026,10 @@ func (client DataFlowClient) listRunLogs(ctx context.Context, request common.OCI
 }
 
 // ListRuns Lists all runs of an application in the specified compartment.  Only one parameter other than compartmentId may also be included in a query. The query must include compartmentId. If the query does not include compartmentId, or includes compartmentId but two or more other parameters an error is returned.
+// A default retry strategy applies to this operation ListRuns()
 func (client DataFlowClient) ListRuns(ctx context.Context, request ListRunsRequest) (response ListRunsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1071,9 +1080,10 @@ func (client DataFlowClient) listRuns(ctx context.Context, request common.OCIReq
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DataFlowClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1124,9 +1134,10 @@ func (client DataFlowClient) listWorkRequestErrors(ctx context.Context, request 
 }
 
 // ListWorkRequestLogs Return a paginated list of logs for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DataFlowClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1177,9 +1188,10 @@ func (client DataFlowClient) listWorkRequestLogs(ctx context.Context, request co
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client DataFlowClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

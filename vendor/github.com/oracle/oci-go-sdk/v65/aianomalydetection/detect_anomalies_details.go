@@ -24,12 +24,20 @@ type DetectAnomaliesDetails interface {
 
 	// The OCID of the trained model。
 	GetModelId() *string
+
+	// The value estimated during training would be used by default. Cutomer can choose to provide a custom value.
+	GetSensitivity() *float32
+
+	// State of the asset's behaviour calculated based on current and/or previous inference requests.
+	GetInferenceState() *string
 }
 
 type detectanomaliesdetails struct {
-	JsonData    []byte
-	ModelId     *string `mandatory:"true" json:"modelId"`
-	RequestType string  `json:"requestType"`
+	JsonData       []byte
+	ModelId        *string  `mandatory:"true" json:"modelId"`
+	Sensitivity    *float32 `mandatory:"false" json:"sensitivity"`
+	InferenceState *string  `mandatory:"false" json:"inferenceState"`
+	RequestType    string   `json:"requestType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -44,6 +52,8 @@ func (m *detectanomaliesdetails) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.ModelId = s.Model.ModelId
+	m.Sensitivity = s.Model.Sensitivity
+	m.InferenceState = s.Model.InferenceState
 	m.RequestType = s.Model.RequestType
 
 	return err
@@ -74,6 +84,16 @@ func (m *detectanomaliesdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 //GetModelId returns ModelId
 func (m detectanomaliesdetails) GetModelId() *string {
 	return m.ModelId
+}
+
+//GetSensitivity returns Sensitivity
+func (m detectanomaliesdetails) GetSensitivity() *float32 {
+	return m.Sensitivity
+}
+
+//GetInferenceState returns InferenceState
+func (m detectanomaliesdetails) GetInferenceState() *string {
+	return m.InferenceState
 }
 
 func (m detectanomaliesdetails) String() string {

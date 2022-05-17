@@ -36,6 +36,9 @@ type PrivateEndpointSummary struct {
 	// General description of the private endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
+	// When `true`, allows the private endpoint to be used with a configuration source provider.
+	IsUsedWithConfigurationSourceProvider *bool `mandatory:"false" json:"isUsedWithConfigurationSourceProvider"`
+
 	// DNS Proxy forwards any DNS FQDN queries over into the consumer DNS resolver if the DNS FQDN is included in the dns zones list otherwise it goes to service provider VCN resolver.
 	DnsZones []string `mandatory:"false" json:"dnsZones"`
 

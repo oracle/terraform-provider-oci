@@ -51,8 +51,8 @@ type AiPrivateEndpoint struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
+	SystemTags map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	// The current state of the private endpoint resource.
 	LifecycleState AiPrivateEndpointLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`

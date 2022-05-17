@@ -31,11 +31,27 @@ type InlineDetectAnomaliesRequest struct {
 
 	// Array containing data.
 	Data []DataItem `mandatory:"true" json:"data"`
+
+	// The value estimated during training would be used by default. Cutomer can choose to provide a custom value.
+	Sensitivity *float32 `mandatory:"false" json:"sensitivity"`
+
+	// State of the asset's behaviour calculated based on current and/or previous inference requests.
+	InferenceState *string `mandatory:"false" json:"inferenceState"`
 }
 
 //GetModelId returns ModelId
 func (m InlineDetectAnomaliesRequest) GetModelId() *string {
 	return m.ModelId
+}
+
+//GetSensitivity returns Sensitivity
+func (m InlineDetectAnomaliesRequest) GetSensitivity() *float32 {
+	return m.Sensitivity
+}
+
+//GetInferenceState returns InferenceState
+func (m InlineDetectAnomaliesRequest) GetInferenceState() *string {
+	return m.InferenceState
 }
 
 func (m InlineDetectAnomaliesRequest) String() string {

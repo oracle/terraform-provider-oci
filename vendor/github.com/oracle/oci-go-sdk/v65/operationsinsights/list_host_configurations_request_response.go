@@ -14,6 +14,9 @@ import (
 // ListHostConfigurationsRequest wrapper for the ListHostConfigurations operation
 type ListHostConfigurationsRequest struct {
 
+	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
+	HostId *string `mandatory:"true" contributesTo:"query" name:"hostId"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
@@ -81,6 +84,10 @@ type ListHostConfigurationsRequest struct {
 	// A flag to search all resources within a given compartment and all sub-compartments.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
+	// Filter by one or more host types.
+	// Possible values are CLOUD-HOST, EXTERNAL-HOST
+	HostType []ListHostConfigurationsHostTypeEnum `contributesTo:"query" name:"hostType" omitEmpty:"true" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -129,6 +136,12 @@ func (request ListHostConfigurationsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListHostConfigurationsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListHostConfigurationsSortByEnumStringValues(), ",")))
 	}
+	for _, val := range request.HostType {
+		if _, ok := GetMappingListHostConfigurationsHostTypeEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HostType: %s. Supported values are: %s.", val, strings.Join(GetListHostConfigurationsHostTypeEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -297,5 +310,47 @@ func GetListHostConfigurationsSortByEnumStringValues() []string {
 // GetMappingListHostConfigurationsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListHostConfigurationsSortByEnum(val string) (ListHostConfigurationsSortByEnum, bool) {
 	enum, ok := mappingListHostConfigurationsSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListHostConfigurationsHostTypeEnum Enum with underlying type: string
+type ListHostConfigurationsHostTypeEnum string
+
+// Set of constants representing the allowable values for ListHostConfigurationsHostTypeEnum
+const (
+	ListHostConfigurationsHostTypeExternalHost ListHostConfigurationsHostTypeEnum = "EXTERNAL-HOST"
+	ListHostConfigurationsHostTypeCloudHost    ListHostConfigurationsHostTypeEnum = "CLOUD-HOST"
+)
+
+var mappingListHostConfigurationsHostTypeEnum = map[string]ListHostConfigurationsHostTypeEnum{
+	"EXTERNAL-HOST": ListHostConfigurationsHostTypeExternalHost,
+	"CLOUD-HOST":    ListHostConfigurationsHostTypeCloudHost,
+}
+
+var mappingListHostConfigurationsHostTypeEnumLowerCase = map[string]ListHostConfigurationsHostTypeEnum{
+	"external-host": ListHostConfigurationsHostTypeExternalHost,
+	"cloud-host":    ListHostConfigurationsHostTypeCloudHost,
+}
+
+// GetListHostConfigurationsHostTypeEnumValues Enumerates the set of values for ListHostConfigurationsHostTypeEnum
+func GetListHostConfigurationsHostTypeEnumValues() []ListHostConfigurationsHostTypeEnum {
+	values := make([]ListHostConfigurationsHostTypeEnum, 0)
+	for _, v := range mappingListHostConfigurationsHostTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListHostConfigurationsHostTypeEnumStringValues Enumerates the set of values in String for ListHostConfigurationsHostTypeEnum
+func GetListHostConfigurationsHostTypeEnumStringValues() []string {
+	return []string{
+		"EXTERNAL-HOST",
+		"CLOUD-HOST",
+	}
+}
+
+// GetMappingListHostConfigurationsHostTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListHostConfigurationsHostTypeEnum(val string) (ListHostConfigurationsHostTypeEnum, bool) {
+	enum, ok := mappingListHostConfigurationsHostTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

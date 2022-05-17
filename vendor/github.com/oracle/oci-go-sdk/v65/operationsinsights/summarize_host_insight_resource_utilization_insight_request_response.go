@@ -21,6 +21,9 @@ type SummarizeHostInsightResourceUtilizationInsightRequest struct {
 	// Supported values are CPU, MEMORY, and LOGICAL_MEMORY.
 	ResourceMetric *string `mandatory:"true" contributesTo:"query" name:"resourceMetric"`
 
+	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
+	HostId *string `mandatory:"true" contributesTo:"query" name:"hostId"`
+
 	// Specify time period in ISO 8601 format with respect to current time.
 	// Default is last 30 days represented by P30D.
 	// If timeInterval is specified, then timeIntervalStart and timeIntervalEnd will be ignored.
@@ -91,6 +94,10 @@ type SummarizeHostInsightResourceUtilizationInsightRequest struct {
 	// A flag to search all resources within a given compartment and all sub-compartments.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
+	// Filter by one or more host types.
+	// Possible values are CLOUD-HOST, EXTERNAL-HOST
+	HostType []SummarizeHostInsightResourceUtilizationInsightHostTypeEnum `contributesTo:"query" name:"hostType" omitEmpty:"true" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -130,6 +137,12 @@ func (request SummarizeHostInsightResourceUtilizationInsightRequest) ValidateEnu
 	for _, val := range request.PlatformType {
 		if _, ok := GetMappingSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.HostType {
+		if _, ok := GetMappingSummarizeHostInsightResourceUtilizationInsightHostTypeEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HostType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeHostInsightResourceUtilizationInsightHostTypeEnumStringValues(), ",")))
 		}
 	}
 
@@ -209,5 +222,47 @@ func GetSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnumStringValu
 // GetMappingSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum(val string) (SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum, bool) {
 	enum, ok := mappingSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// SummarizeHostInsightResourceUtilizationInsightHostTypeEnum Enum with underlying type: string
+type SummarizeHostInsightResourceUtilizationInsightHostTypeEnum string
+
+// Set of constants representing the allowable values for SummarizeHostInsightResourceUtilizationInsightHostTypeEnum
+const (
+	SummarizeHostInsightResourceUtilizationInsightHostTypeExternalHost SummarizeHostInsightResourceUtilizationInsightHostTypeEnum = "EXTERNAL-HOST"
+	SummarizeHostInsightResourceUtilizationInsightHostTypeCloudHost    SummarizeHostInsightResourceUtilizationInsightHostTypeEnum = "CLOUD-HOST"
+)
+
+var mappingSummarizeHostInsightResourceUtilizationInsightHostTypeEnum = map[string]SummarizeHostInsightResourceUtilizationInsightHostTypeEnum{
+	"EXTERNAL-HOST": SummarizeHostInsightResourceUtilizationInsightHostTypeExternalHost,
+	"CLOUD-HOST":    SummarizeHostInsightResourceUtilizationInsightHostTypeCloudHost,
+}
+
+var mappingSummarizeHostInsightResourceUtilizationInsightHostTypeEnumLowerCase = map[string]SummarizeHostInsightResourceUtilizationInsightHostTypeEnum{
+	"external-host": SummarizeHostInsightResourceUtilizationInsightHostTypeExternalHost,
+	"cloud-host":    SummarizeHostInsightResourceUtilizationInsightHostTypeCloudHost,
+}
+
+// GetSummarizeHostInsightResourceUtilizationInsightHostTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceUtilizationInsightHostTypeEnum
+func GetSummarizeHostInsightResourceUtilizationInsightHostTypeEnumValues() []SummarizeHostInsightResourceUtilizationInsightHostTypeEnum {
+	values := make([]SummarizeHostInsightResourceUtilizationInsightHostTypeEnum, 0)
+	for _, v := range mappingSummarizeHostInsightResourceUtilizationInsightHostTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSummarizeHostInsightResourceUtilizationInsightHostTypeEnumStringValues Enumerates the set of values in String for SummarizeHostInsightResourceUtilizationInsightHostTypeEnum
+func GetSummarizeHostInsightResourceUtilizationInsightHostTypeEnumStringValues() []string {
+	return []string{
+		"EXTERNAL-HOST",
+		"CLOUD-HOST",
+	}
+}
+
+// GetMappingSummarizeHostInsightResourceUtilizationInsightHostTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSummarizeHostInsightResourceUtilizationInsightHostTypeEnum(val string) (SummarizeHostInsightResourceUtilizationInsightHostTypeEnum, bool) {
+	enum, ok := mappingSummarizeHostInsightResourceUtilizationInsightHostTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

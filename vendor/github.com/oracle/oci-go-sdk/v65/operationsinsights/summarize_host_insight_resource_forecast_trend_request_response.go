@@ -21,6 +21,9 @@ type SummarizeHostInsightResourceForecastTrendRequest struct {
 	// Supported values are CPU, MEMORY, and LOGICAL_MEMORY.
 	ResourceMetric *string `mandatory:"true" contributesTo:"query" name:"resourceMetric"`
 
+	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
+	HostId *string `mandatory:"true" contributesTo:"query" name:"hostId"`
+
 	// Specify time period in ISO 8601 format with respect to current time.
 	// Default is last 30 days represented by P30D.
 	// If timeInterval is specified, then timeIntervalStart and timeIntervalEnd will be ignored.
@@ -115,6 +118,10 @@ type SummarizeHostInsightResourceForecastTrendRequest struct {
 	// A flag to search all resources within a given compartment and all sub-compartments.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
+	// Filter by one or more host types.
+	// Possible values are CLOUD-HOST, EXTERNAL-HOST
+	HostType []SummarizeHostInsightResourceForecastTrendHostTypeEnum `contributesTo:"query" name:"hostType" omitEmpty:"true" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -166,6 +173,12 @@ func (request SummarizeHostInsightResourceForecastTrendRequest) ValidateEnumValu
 	if _, ok := GetMappingSummarizeHostInsightResourceForecastTrendUtilizationLevelEnum(string(request.UtilizationLevel)); !ok && request.UtilizationLevel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UtilizationLevel: %s. Supported values are: %s.", request.UtilizationLevel, strings.Join(GetSummarizeHostInsightResourceForecastTrendUtilizationLevelEnumStringValues(), ",")))
 	}
+	for _, val := range request.HostType {
+		if _, ok := GetMappingSummarizeHostInsightResourceForecastTrendHostTypeEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HostType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeHostInsightResourceForecastTrendHostTypeEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -380,5 +393,47 @@ func GetSummarizeHostInsightResourceForecastTrendUtilizationLevelEnumStringValue
 // GetMappingSummarizeHostInsightResourceForecastTrendUtilizationLevelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSummarizeHostInsightResourceForecastTrendUtilizationLevelEnum(val string) (SummarizeHostInsightResourceForecastTrendUtilizationLevelEnum, bool) {
 	enum, ok := mappingSummarizeHostInsightResourceForecastTrendUtilizationLevelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// SummarizeHostInsightResourceForecastTrendHostTypeEnum Enum with underlying type: string
+type SummarizeHostInsightResourceForecastTrendHostTypeEnum string
+
+// Set of constants representing the allowable values for SummarizeHostInsightResourceForecastTrendHostTypeEnum
+const (
+	SummarizeHostInsightResourceForecastTrendHostTypeExternalHost SummarizeHostInsightResourceForecastTrendHostTypeEnum = "EXTERNAL-HOST"
+	SummarizeHostInsightResourceForecastTrendHostTypeCloudHost    SummarizeHostInsightResourceForecastTrendHostTypeEnum = "CLOUD-HOST"
+)
+
+var mappingSummarizeHostInsightResourceForecastTrendHostTypeEnum = map[string]SummarizeHostInsightResourceForecastTrendHostTypeEnum{
+	"EXTERNAL-HOST": SummarizeHostInsightResourceForecastTrendHostTypeExternalHost,
+	"CLOUD-HOST":    SummarizeHostInsightResourceForecastTrendHostTypeCloudHost,
+}
+
+var mappingSummarizeHostInsightResourceForecastTrendHostTypeEnumLowerCase = map[string]SummarizeHostInsightResourceForecastTrendHostTypeEnum{
+	"external-host": SummarizeHostInsightResourceForecastTrendHostTypeExternalHost,
+	"cloud-host":    SummarizeHostInsightResourceForecastTrendHostTypeCloudHost,
+}
+
+// GetSummarizeHostInsightResourceForecastTrendHostTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceForecastTrendHostTypeEnum
+func GetSummarizeHostInsightResourceForecastTrendHostTypeEnumValues() []SummarizeHostInsightResourceForecastTrendHostTypeEnum {
+	values := make([]SummarizeHostInsightResourceForecastTrendHostTypeEnum, 0)
+	for _, v := range mappingSummarizeHostInsightResourceForecastTrendHostTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSummarizeHostInsightResourceForecastTrendHostTypeEnumStringValues Enumerates the set of values in String for SummarizeHostInsightResourceForecastTrendHostTypeEnum
+func GetSummarizeHostInsightResourceForecastTrendHostTypeEnumStringValues() []string {
+	return []string{
+		"EXTERNAL-HOST",
+		"CLOUD-HOST",
+	}
+}
+
+// GetMappingSummarizeHostInsightResourceForecastTrendHostTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSummarizeHostInsightResourceForecastTrendHostTypeEnum(val string) (SummarizeHostInsightResourceForecastTrendHostTypeEnum, bool) {
+	enum, ok := mappingSummarizeHostInsightResourceForecastTrendHostTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
