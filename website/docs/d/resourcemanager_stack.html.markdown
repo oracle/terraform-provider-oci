@@ -43,5 +43,5 @@ The following attributes are exported:
 * `id` - Unique identifier ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) for the stack.
 * `state` - The current lifecycle state of the stack.
 * `time_created` - The date and time at which the stack was created.
-* `variables` - Terraform variables associated with this resource. Maximum number of variables supported is 100. The maximum size of each variable, including both name and value, is 4096 bytes. Example: `{"CompartmentId": "compartment-id-value"}` 
+* `variables` - Terraform variables associated with this resource. Maximum number of variables supported is 100. The maximum size of each variable, including both name and value, is 4096 bytes. Example: `{"CompartmentId": "compartment-id-value"}`
 
