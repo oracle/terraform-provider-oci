@@ -133,6 +133,23 @@ func MysqlMysqlBackupResource() *schema.Resource {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
+									"pitr_policy": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"is_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"retention_in_days": {
 										Type:     schema.TypeInt,
 										Computed: true,
@@ -624,6 +641,10 @@ func BackupPolicyToMap(obj *oci_mysql.BackupPolicy) map[string]interface{} {
 
 	if obj.IsEnabled != nil {
 		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	if obj.PitrPolicy != nil {
+		result["pitr_policy"] = []interface{}{PitrPolicyToMap(obj.PitrPolicy)}
 	}
 
 	if obj.RetentionInDays != nil {
