@@ -142,6 +142,12 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 			cloudVmCluster["cpu_core_count"] = *r.CpuCoreCount
 		}
 
+		if r.DataCollectionOptions != nil {
+			cloudVmCluster["data_collection_options"] = []interface{}{DataCollectionOptionsToMap(r.DataCollectionOptions)}
+		} else {
+			cloudVmCluster["data_collection_options"] = nil
+		}
+
 		if r.DataStoragePercentage != nil {
 			cloudVmCluster["data_storage_percentage"] = *r.DataStoragePercentage
 		}
