@@ -20,6 +20,11 @@ var (
 		"backup_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_backup.test_mysql_backup.id}`},
 	}
 
+	mysqlDbSystemSourcePitrRepresentation = map[string]interface{}{
+		"source_type":  acctest.Representation{RepType: acctest.Required, Create: `PITR`},
+		"db_system_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_pitr_db_system.id}`},
+	}
+
 	mysqlHADbSystemRepresentation = map[string]interface{}{
 		"admin_password":          acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"admin_username":          acctest.Representation{RepType: acctest.Required, Create: `adminUser`},
@@ -77,7 +82,71 @@ var (
 	MysqlDbSystemSourceBackupResourceDependencies = MysqlMysqlDbSystemResourceDependencies + utils.MysqlHAConfigurationIdVariable +
 		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Required, acctest.Create, MysqlMysqlBackupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", acctest.Required, acctest.Create, MysqlMysqlDbSystemRepresentation)
+
+	MysqlDbSystemSourcePitrResourceDependencies = MysqlMysqlDbSystemResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_pitr_db_system", acctest.Optional, acctest.Update, MysqlMysqlDbSystemRepresentation)
 )
+
+func TestMysqlMysqlDbSystemResource_sourcePitr(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_sourcePitr")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_sytem_source_pitr"
+
+	// changing admin_password RepType to Optional. As it is an optional parameter for restore operation.
+	updatedAdminPasswordRepresentation := acctest.GetUpdatedRepresentationCopy("admin_password", acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`},
+		MysqlMysqlDbSystemRepresentation)
+
+	// changing admin_username RepType to Optional. As it is an optional parameter for restore operation.
+	updatedAdminUsernameRepresentation := acctest.GetUpdatedRepresentationCopy("admin_username", acctest.Representation{RepType: acctest.Optional, Create: `adminUser`},
+		updatedAdminPasswordRepresentation)
+
+	sourcePitrRepresentation := acctest.GetUpdatedRepresentationCopy("ip_address", acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.8`},
+		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(updatedAdminUsernameRepresentation, []string{"data_storage_size_in_gb"}), map[string]interface{}{
+			"source": acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemSourcePitrRepresentation},
+		}))
+
+	acctest.ResourceTest(t, testAccCheckMysqlMysqlDbSystemDestroy, []resource.TestStep{
+		// Verify PointInTimeRecovery
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemSourcePitrResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_sytem_source_pitr", acctest.Optional, acctest.Create, sourcePitrRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.retention_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.window_start_time", "01:00-00:00"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "description", "MySQL Database Service"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "DBSystem001"),
+				resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.8"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
+				resource.TestCheckResourceAttr(resourceName, "port", "3306"),
+				resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "PITR"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+			),
+		},
+	})
+}
 
 // issue-routing-tag: mysql/default
 func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
