@@ -1101,6 +1101,7 @@ func init() {
 	// resourcemanager service
 	RegisterDatasource("oci_resourcemanager_private_endpoint", tf_resourcemanager.ResourcemanagerPrivateEndpointDataSource())
 	RegisterDatasource("oci_resourcemanager_private_endpoint_reachable_ip", tf_resourcemanager.ResourcemanagerPrivateEndpointReachableIpDataSource())
+	RegisterDatasource("oci_resourcemanager_private_endpoints", tf_resourcemanager.ResourcemanagerPrivateEndpointsDataSource())
 	RegisterDatasource("oci_resourcemanager_stack", tf_resourcemanager.ResourcemanagerStackDataSource())
 	RegisterDatasource("oci_resourcemanager_stack_tf_state", tf_resourcemanager.ResourcemanagerStackTfStateDataSource())
 	RegisterDatasource("oci_resourcemanager_stacks", tf_resourcemanager.ResourcemanagerStacksDataSource())

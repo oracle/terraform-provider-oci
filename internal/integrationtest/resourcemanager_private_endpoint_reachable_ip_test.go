@@ -50,6 +50,7 @@ func TestResourcemanagerPrivateEndpointReachableIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "private_ip", "privateIp"),
 
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "ip_address"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "reachable_ip"),
 			),
 		},
