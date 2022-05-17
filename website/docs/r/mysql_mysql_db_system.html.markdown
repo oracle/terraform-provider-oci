@@ -32,6 +32,10 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 		defined_tags = {"foo-namespace.bar-key"= "value"}
 		freeform_tags = {"bar-key"= "value"}
 		is_enabled = var.mysql_db_system_backup_policy_is_enabled
+		pitr_policy {
+			#Required
+			is_enabled = var.mysql_db_system_backup_policy_pitr_policy_is_enabled
+		}
 		retention_in_days = var.mysql_db_system_backup_policy_retention_in_days
 		window_start_time = var.mysql_db_system_backup_policy_window_start_time
 	}
@@ -92,6 +96,8 @@ The following arguments are supported:
 
 		Example: `{"bar-key": "value"}` 
 	* `is_enabled` - (Optional) (Updatable) Specifies if automatic backups are enabled. 
+	* `pitr_policy` - (Optional) (Updatable) The PITR policy for the DB System.
+		* `is_enabled` - (Required) (Updatable) Specifies if PITR is enabled or disabled.
 	* `retention_in_days` - (Optional) (Updatable) Number of days to retain an automatic backup.
 	* `window_start_time` - (Optional) (Updatable) The start of a 30-minute window of time in which daily, automated backups occur.
 
@@ -138,6 +144,8 @@ The following arguments are supported:
 	* CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes) operation. 
 * `source` - (Optional) Parameters detailing how to provision the initial data of the system. 
 	* `backup_id` - (Required when source_type=BACKUP) The OCID of the backup to be used as the source for the new DB System. 
+	* `db_system_id` - (Required when source_type=PITR) The OCID of the DB System from which a backup shall be selected to be restored when creating the new DB System. Use this together with recovery point to perform a point in time recovery operation. 
+	* `recovery_point` - (Applicable when source_type=PITR) The date and time, as per RFC 3339, of the change up to which the new DB System shall be restored to, using a backup and logs from the original DB System. In case no point in time is specified, then this new DB System shall be restored up to the latest change recorded for the original DB System. 
 	* `source_type` - (Required) The specific source identifier. Use `BACKUP` for creating a new database by restoring from a backup.
 * `subnet_id` - (Required) The OCID of the subnet the DB System is associated with. 
 * `state` - (Optional) (Updatable) The target state for the DB System. Could be set to `ACTIVE` or `INACTIVE`. 
@@ -173,6 +181,8 @@ The following attributes are exported:
 
 		Example: `{"bar-key": "value"}` 
 	* `is_enabled` - If automated backups are enabled or disabled.
+	* `pitr_policy` - The PITR policy for the DB System.
+		* `is_enabled` - Specifies if PITR is enabled or disabled.
 	* `retention_in_days` - The number of days automated backups are retained. 
 	* `window_start_time` - The start of a 30-minute window of time in which daily, automated backups occur.
 
@@ -261,11 +271,16 @@ The following attributes are exported:
 
 		"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero. 
 * `mysql_version` - Name of the MySQL Version in use for the DB System.
+* `point_in_time_recovery_details` - Point-in-time Recovery details like earliest and latest recovery time point for the DB System. 
+	* `time_earliest_recovery_point` - Earliest recovery time point for the DB System, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
+	* `time_latest_recovery_point` - Latest recovery time point for the DB System, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `port` - The port for primary endpoint of the DB System to listen on.
 * `port_x` - The network port on which X Plugin listens for TCP/IP connections. This is the X Plugin equivalent of port. 
 * `shape_name` - The shape of the primary instances of the DB System. The shape determines resources allocated to a DB System - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use (the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20181021/ShapeSummary/ListShapes) operation. 
 * `source` - Parameters detailing how to provision the initial data of the DB System. 
 	* `backup_id` - The OCID of the backup to be used as the source for the new DB System. 
+	* `db_system_id` - The OCID of the DB System from which a backup shall be selected to be restored when creating the new DB System. Use this together with recovery point to perform a point in time recovery operation. 
+	* `recovery_point` - The date and time, as per RFC 3339, of the change up to which the new DB System shall be restored to, using a backup and logs from the original DB System. In case no point in time is specified, then this new DB System shall be restored up to the latest change recorded for the original DB System. 
 	* `source_type` - The specific source identifier. 
 * `state` - The current state of the DB System.
 * `subnet_id` - The OCID of the subnet the DB System is associated with. 
