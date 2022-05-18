@@ -310,5 +310,11 @@
         "realmDomainComponent": "oraclecloud.com", 
         "regionIdentifier": "me-neom-1", 
         "realmKey": "oc1"
+    }, 
+    {
+        "regionKey": "gcn", 
+        "realmDomainComponent": "oraclecloud17.com", 
+        "regionIdentifier": "us-dcc-phoenix-2", 
+        "realmKey": "oc17"
     }
 ]
