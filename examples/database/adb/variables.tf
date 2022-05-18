@@ -52,3 +52,11 @@ variable "autonomous_database_is_dedicated" {
 variable "autonomous_database_autonomous_maintenance_schedule_type" {
   default = "EARLY"
 }
+
+variable "autonomous_database_character_set" {
+  default = "AL32UTF8"
+}
+
+variable "autonomous_database_ncharacter_set" {
+  default = "AL16UTF16"
+}

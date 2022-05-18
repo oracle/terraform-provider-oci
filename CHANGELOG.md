@@ -7,7 +7,7 @@
 ### Bug Fix
 - Fixed the test cases for APIGateway Client mTLS feature
 
-## 4.74.0 (Unreleased)
+## 4.74.0 (last week)
 
 ### Added
 - E4 Dense Availability for OCVS

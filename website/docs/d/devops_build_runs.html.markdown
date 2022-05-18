@@ -71,6 +71,11 @@ The following attributes are exported:
 		* `items` - List of exported variables.
 			* `name` - Name of the parameter (case-sensitive). Parameter name must be ^[a-zA-Z][a-zA-Z_0-9]*$. 
 			* `value` - Value of the argument.
+	* `vulnerability_audit_summary_collection` - List of vulnerability audit summary.
+		* `items` - List of vulnerability audit summary.
+			* `build_stage_id` - Build stage OCID where scan was configured.
+			* `commit_hash` - Commit hash used while retrieving the pom file for vulnerabilityAudit.
+			* `vulnerability_audit_id` - The OCID of the vulnerability audit.
 * `build_pipeline_id` - The OCID of the build pipeline.
 * `build_run_arguments` - Specifies list of arguments passed along with the build run. 
 	* `items` - List of arguments provided at the time of running the build.

@@ -43,6 +43,7 @@ import (
 	oci_osmanagement "github.com/oracle/oci-go-sdk/v65/osmanagement"
 	oci_resourcemanager "github.com/oracle/oci-go-sdk/v65/resourcemanager"
 	oci_sch "github.com/oracle/oci-go-sdk/v65/sch"
+	oci_service_mesh "github.com/oracle/oci-go-sdk/v65/servicemesh"
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 	oci_streaming "github.com/oracle/oci-go-sdk/v65/streaming"
 	oci_metering_computation "github.com/oracle/oci-go-sdk/v65/usageapi"
@@ -3149,6 +3150,89 @@ var exportSchServiceConnectorHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_sch.LifecycleStateActive),
+	},
+}
+var exportServiceMeshVirtualServiceHints = &TerraformResourceHints{
+	resourceClass:          "oci_service_mesh_virtual_service",
+	datasourceClass:        "oci_service_mesh_virtual_services",
+	datasourceItemsAttr:    "virtual_service_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "virtual_service",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_service_mesh.VirtualServiceLifecycleStateActive),
+	},
+}
+
+var exportServiceMeshAccessPolicyHints = &TerraformResourceHints{
+	resourceClass:          "oci_service_mesh_access_policy",
+	datasourceClass:        "oci_service_mesh_access_policies",
+	datasourceItemsAttr:    "access_policy_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "access_policy",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_service_mesh.AccessPolicyLifecycleStateActive),
+	},
+}
+
+var exportServiceMeshMeshHints = &TerraformResourceHints{
+	resourceClass:          "oci_service_mesh_mesh",
+	datasourceClass:        "oci_service_mesh_meshes",
+	datasourceItemsAttr:    "mesh_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "mesh",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_service_mesh.MeshLifecycleStateActive),
+	},
+}
+
+var exportServiceMeshIngressGatewayRouteTableHints = &TerraformResourceHints{
+	resourceClass:          "oci_service_mesh_ingress_gateway_route_table",
+	datasourceClass:        "oci_service_mesh_ingress_gateway_route_tables",
+	datasourceItemsAttr:    "ingress_gateway_route_table_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "ingress_gateway_route_table",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_service_mesh.IngressGatewayRouteTableLifecycleStateActive),
+	},
+}
+
+var exportServiceMeshVirtualServiceRouteTableHints = &TerraformResourceHints{
+	resourceClass:          "oci_service_mesh_virtual_service_route_table",
+	datasourceClass:        "oci_service_mesh_virtual_service_route_tables",
+	datasourceItemsAttr:    "virtual_service_route_table_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "virtual_service_route_table",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_service_mesh.VirtualServiceRouteTableLifecycleStateActive),
+	},
+}
+
+var exportServiceMeshVirtualDeploymentHints = &TerraformResourceHints{
+	resourceClass:          "oci_service_mesh_virtual_deployment",
+	datasourceClass:        "oci_service_mesh_virtual_deployments",
+	datasourceItemsAttr:    "virtual_deployment_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "virtual_deployment",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_service_mesh.VirtualDeploymentLifecycleStateActive),
+	},
+}
+
+var exportServiceMeshIngressGatewayHints = &TerraformResourceHints{
+	resourceClass:          "oci_service_mesh_ingress_gateway",
+	datasourceClass:        "oci_service_mesh_ingress_gateways",
+	datasourceItemsAttr:    "ingress_gateway_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "ingress_gateway",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_service_mesh.IngressGatewayLifecycleStateActive),
 	},
 }
 

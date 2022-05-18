@@ -117,6 +117,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 								},
 							},
 						},
+						"character_set": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"compartment_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -452,6 +456,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						},
 						"max_cpu_core_count": {
 							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"ncharacter_set": {
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"nsg_ids": {
@@ -795,6 +803,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["backup_config"] = nil
 		}
 
+		if r.CharacterSet != nil {
+			autonomousDatabasesClone["character_set"] = *r.CharacterSet
+		}
+
 		if r.ConnectionStrings != nil {
 			autonomousDatabasesClone["connection_strings"] = []interface{}{AutonomousDatabaseConnectionStringsToMap(r.ConnectionStrings)}
 		} else {
@@ -955,6 +967,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.MaxCpuCoreCount != nil {
 			autonomousDatabasesClone["max_cpu_core_count"] = *r.MaxCpuCoreCount
+		}
+
+		if r.NcharacterSet != nil {
+			autonomousDatabasesClone["ncharacter_set"] = *r.NcharacterSet
 		}
 
 		autonomousDatabasesClone["nsg_ids"] = r.NsgIds
