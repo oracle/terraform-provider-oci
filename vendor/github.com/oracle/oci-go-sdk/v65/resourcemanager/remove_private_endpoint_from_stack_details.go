@@ -18,24 +18,21 @@ import (
 	"strings"
 )
 
-// ReachableIp A reachableIp ip address used by Resource Manager Service to connect to the private resource.
-type ReachableIp struct {
+// RemovePrivateEndpointFromStackDetails The details for removing a private endpoint from a stack.
+type RemovePrivateEndpointFromStackDetails struct {
 
-	// A reachableIp IP address used by Resource Manager Service to connect to the private resource.
-	ReachableIp *string `mandatory:"true" json:"reachableIp"`
-
-	// An IP address for the Resource Manager service to use for connection to the private resource.
-	IpAddress *string `mandatory:"false" json:"ipAddress"`
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a private endpoint that you want to remove from the stack.
+	PrivateEndpointId *string `mandatory:"true" json:"privateEndpointId"`
 }
 
-func (m ReachableIp) String() string {
+func (m RemovePrivateEndpointFromStackDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ReachableIp) ValidateEnumValue() (bool, error) {
+func (m RemovePrivateEndpointFromStackDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

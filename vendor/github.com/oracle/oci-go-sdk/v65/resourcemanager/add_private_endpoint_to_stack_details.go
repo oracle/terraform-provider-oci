@@ -18,24 +18,21 @@ import (
 	"strings"
 )
 
-// ReachableIp A reachableIp ip address used by Resource Manager Service to connect to the private resource.
-type ReachableIp struct {
+// AddPrivateEndpointToStackDetails The details for adding a private endpoint to a stack.
+type AddPrivateEndpointToStackDetails struct {
 
-	// A reachableIp IP address used by Resource Manager Service to connect to the private resource.
-	ReachableIp *string `mandatory:"true" json:"reachableIp"`
-
-	// An IP address for the Resource Manager service to use for connection to the private resource.
-	IpAddress *string `mandatory:"false" json:"ipAddress"`
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a private endpoint that you want to associate with the stack.
+	PrivateEndpointId *string `mandatory:"true" json:"privateEndpointId"`
 }
 
-func (m ReachableIp) String() string {
+func (m AddPrivateEndpointToStackDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ReachableIp) ValidateEnumValue() (bool, error) {
+func (m AddPrivateEndpointToStackDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
