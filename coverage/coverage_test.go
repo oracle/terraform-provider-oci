@@ -53,4 +53,7 @@ func TestCoverage(t *testing.T) {
 		t.Fatalf("Your code coverage is %v. Please add more unit tests to reach code coverage: %v", iCoverage, CodeCoverageThreshold)
 	}
 	assert.Equal(t, iCoverage, CodeCoverageThreshold)
+
 }
+
+// jst some test commits
