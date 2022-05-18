@@ -29,6 +29,8 @@ type UpdateGithubAccessTokenConfigurationSourceProviderDetails struct {
 	// Description of the configuration source provider. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
+	PrivateServerConfigDetails *PrivateServerConfigDetails `mandatory:"false" json:"privateServerConfigDetails"`
+
 	// Free-form tags associated with the resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -55,6 +57,11 @@ func (m UpdateGithubAccessTokenConfigurationSourceProviderDetails) GetDisplayNam
 //GetDescription returns Description
 func (m UpdateGithubAccessTokenConfigurationSourceProviderDetails) GetDescription() *string {
 	return m.Description
+}
+
+//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+func (m UpdateGithubAccessTokenConfigurationSourceProviderDetails) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
+	return m.PrivateServerConfigDetails
 }
 
 //GetFreeformTags returns FreeformTags
