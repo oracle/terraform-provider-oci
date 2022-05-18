@@ -85,18 +85,27 @@ const (
 	WorkRequestOperationTypeChangeStackCompartment     WorkRequestOperationTypeEnum = "CHANGE_STACK_COMPARTMENT"
 	WorkRequestOperationTypeCreateStackFromCompartment WorkRequestOperationTypeEnum = "CREATE_STACK_FROM_COMPARTMENT"
 	WorkRequestOperationTypeDriftDetection             WorkRequestOperationTypeEnum = "DRIFT_DETECTION"
+	WorkRequestOperationTypeCreatePrivateEndpoint      WorkRequestOperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
+	WorkRequestOperationTypeUpdatePrivateEndpoint      WorkRequestOperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
+	WorkRequestOperationTypeDeletePrivateEndpoint      WorkRequestOperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
 	"CHANGE_STACK_COMPARTMENT":      WorkRequestOperationTypeChangeStackCompartment,
 	"CREATE_STACK_FROM_COMPARTMENT": WorkRequestOperationTypeCreateStackFromCompartment,
 	"DRIFT_DETECTION":               WorkRequestOperationTypeDriftDetection,
+	"CREATE_PRIVATE_ENDPOINT":       WorkRequestOperationTypeCreatePrivateEndpoint,
+	"UPDATE_PRIVATE_ENDPOINT":       WorkRequestOperationTypeUpdatePrivateEndpoint,
+	"DELETE_PRIVATE_ENDPOINT":       WorkRequestOperationTypeDeletePrivateEndpoint,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
 	"change_stack_compartment":      WorkRequestOperationTypeChangeStackCompartment,
 	"create_stack_from_compartment": WorkRequestOperationTypeCreateStackFromCompartment,
 	"drift_detection":               WorkRequestOperationTypeDriftDetection,
+	"create_private_endpoint":       WorkRequestOperationTypeCreatePrivateEndpoint,
+	"update_private_endpoint":       WorkRequestOperationTypeUpdatePrivateEndpoint,
+	"delete_private_endpoint":       WorkRequestOperationTypeDeletePrivateEndpoint,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -114,6 +123,9 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"CHANGE_STACK_COMPARTMENT",
 		"CREATE_STACK_FROM_COMPARTMENT",
 		"DRIFT_DETECTION",
+		"CREATE_PRIVATE_ENDPOINT",
+		"UPDATE_PRIVATE_ENDPOINT",
+		"DELETE_PRIVATE_ENDPOINT",
 	}
 }
 
