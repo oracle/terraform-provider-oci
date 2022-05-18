@@ -30,9 +30,6 @@ type UpdateStackDetails struct {
 
 	ConfigSource UpdateConfigSourceDetails `mandatory:"false" json:"configSource"`
 
-	// The OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of private endpoints associated with the stack.
-	PrivateEndpointIds []string `mandatory:"false" json:"privateEndpointIds"`
-
 	// Terraform variables associated with this resource.
 	// The maximum number of variables supported is 250.
 	// The maximum size of each variable, including both name and value, is 8192 bytes.
@@ -72,14 +69,13 @@ func (m UpdateStackDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateStackDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName        *string                           `json:"displayName"`
-		Description        *string                           `json:"description"`
-		ConfigSource       updateconfigsourcedetails         `json:"configSource"`
-		PrivateEndpointIds []string                          `json:"privateEndpointIds"`
-		Variables          map[string]string                 `json:"variables"`
-		TerraformVersion   *string                           `json:"terraformVersion"`
-		FreeformTags       map[string]string                 `json:"freeformTags"`
-		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName      *string                           `json:"displayName"`
+		Description      *string                           `json:"description"`
+		ConfigSource     updateconfigsourcedetails         `json:"configSource"`
+		Variables        map[string]string                 `json:"variables"`
+		TerraformVersion *string                           `json:"terraformVersion"`
+		FreeformTags     map[string]string                 `json:"freeformTags"`
+		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -99,11 +95,6 @@ func (m *UpdateStackDetails) UnmarshalJSON(data []byte) (e error) {
 		m.ConfigSource = nn.(UpdateConfigSourceDetails)
 	} else {
 		m.ConfigSource = nil
-	}
-
-	m.PrivateEndpointIds = make([]string, len(model.PrivateEndpointIds))
-	for i, n := range model.PrivateEndpointIds {
-		m.PrivateEndpointIds[i] = n
 	}
 
 	m.Variables = model.Variables
