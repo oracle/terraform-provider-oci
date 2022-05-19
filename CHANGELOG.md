@@ -1,4 +1,4 @@
-## 4.76.0 (Unreleased)
+## 4.76.0 (May 19, 2022)
 
 ### Added
 - Support for AMD E4 shape for VMDB
