@@ -74,6 +74,7 @@ import (
 	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
 	tf_sch "github.com/terraform-providers/terraform-provider-oci/internal/service/sch"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
+	tf_service_mesh "github.com/terraform-providers/terraform-provider-oci/internal/service/service_mesh"
 	tf_stack_monitoring "github.com/terraform-providers/terraform-provider-oci/internal/service/stack_monitoring"
 	tf_streaming "github.com/terraform-providers/terraform-provider-oci/internal/service/streaming"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
@@ -266,6 +267,7 @@ func init() {
 	RegisterResource("oci_database_autonomous_container_database_dataguard_association_operation", tf_database.DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResource())
 	RegisterResource("oci_database_autonomous_database", tf_database.DatabaseAutonomousDatabaseResource())
 	RegisterResource("oci_database_autonomous_database_backup", tf_database.DatabaseAutonomousDatabaseBackupResource())
+	RegisterDatasource("oci_database_autonomous_database_character_sets", tf_database.DatabaseAutonomousDatabaseCharacterSetsDataSource())
 	RegisterResource("oci_database_autonomous_database_instance_wallet_management", tf_database.DatabaseAutonomousDatabaseInstanceWalletManagementResource())
 	RegisterResource("oci_database_autonomous_database_regional_wallet_management", tf_database.DatabaseAutonomousDatabaseRegionalWalletManagementResource())
 	RegisterResource("oci_database_autonomous_database_wallet", tf_database.DatabaseAutonomousDatabaseWalletResource())
@@ -559,6 +561,14 @@ func init() {
 	RegisterResource("oci_service_catalog_service_catalog", tf_service_catalog.ServiceCatalogServiceCatalogResource())
 	RegisterResource("oci_service_catalog_service_catalog_association", tf_service_catalog.ServiceCatalogServiceCatalogAssociationResource())
 	// service_manager_proxy service
+	// service_mesh service
+	RegisterResource("oci_service_mesh_access_policy", tf_service_mesh.ServiceMeshAccessPolicyResource())
+	RegisterResource("oci_service_mesh_ingress_gateway", tf_service_mesh.ServiceMeshIngressGatewayResource())
+	RegisterResource("oci_service_mesh_ingress_gateway_route_table", tf_service_mesh.ServiceMeshIngressGatewayRouteTableResource())
+	RegisterResource("oci_service_mesh_mesh", tf_service_mesh.ServiceMeshMeshResource())
+	RegisterResource("oci_service_mesh_virtual_deployment", tf_service_mesh.ServiceMeshVirtualDeploymentResource())
+	RegisterResource("oci_service_mesh_virtual_service", tf_service_mesh.ServiceMeshVirtualServiceResource())
+	RegisterResource("oci_service_mesh_virtual_service_route_table", tf_service_mesh.ServiceMeshVirtualServiceRouteTableResource())
 	// stack_monitoring service
 	RegisterResource("oci_stack_monitoring_discovery_job", tf_stack_monitoring.StackMonitoringDiscoveryJobResource())
 	RegisterResource("oci_stack_monitoring_monitored_resource", tf_stack_monitoring.StackMonitoringMonitoredResourceResource())

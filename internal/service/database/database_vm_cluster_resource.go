@@ -5,6 +5,7 @@ package database
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -66,6 +67,27 @@ func DatabaseVmClusterResource() *schema.Resource {
 			},
 
 			// Optional
+			"data_collection_options": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_diagnostics_events_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"data_storage_size_in_gb": {
 				Type:     schema.TypeFloat,
 				Optional: true,
@@ -272,6 +294,17 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 		request.CpuCoreCount = &tmp
 	}
 
+	if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+		if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+			tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DataCollectionOptions = &tmp
+		}
+	}
+
 	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
 		tmp := dataStorageSizeInGB.(float64)
 		request.DataStorageSizeInGBs = &tmp
@@ -421,6 +454,17 @@ func (s *DatabaseVmClusterResourceCrud) Update() error {
 		request.CpuCoreCount = &tmp
 	}
 
+	if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+		if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+			tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DataCollectionOptions = &tmp
+		}
+	}
+
 	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
 		tmp := dataStorageSizeInGB.(float64)
 		request.DataStorageSizeInGBs = &tmp
@@ -511,6 +555,12 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 		s.D.Set("cpu_core_count", *s.Res.CpusEnabled)
 	}
 
+	if s.Res.DataCollectionOptions != nil {
+		s.D.Set("data_collection_options", []interface{}{DataCollectionOptionsToMap(s.Res.DataCollectionOptions)})
+	} else {
+		s.D.Set("data_collection_options", nil)
+	}
+
 	if s.Res.DataStorageSizeInGBs != nil {
 		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
 	}
@@ -598,6 +648,27 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *DatabaseVmClusterResourceCrud) mapToDataCollectionOptions(fieldKeyFormat string) (oci_database.DataCollectionOptions, error) {
+	result := oci_database.DataCollectionOptions{}
+
+	if isDiagnosticsEventsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_diagnostics_events_enabled")); ok {
+		tmp := isDiagnosticsEventsEnabled.(bool)
+		result.IsDiagnosticsEventsEnabled = &tmp
+	}
+
+	return result, nil
+}
+
+func DataCollectionOptionsToMap(obj *oci_database.DataCollectionOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsDiagnosticsEventsEnabled != nil {
+		result["is_diagnostics_events_enabled"] = bool(*obj.IsDiagnosticsEventsEnabled)
+	}
+
+	return result
 }
 
 func (s *DatabaseVmClusterResourceCrud) updateCompartment(compartment interface{}) error {

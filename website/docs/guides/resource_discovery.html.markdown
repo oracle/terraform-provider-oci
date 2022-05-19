@@ -178,6 +178,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
+    *`service_mesh` - Discovers service_mesh resources within the specified compartment
     * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
@@ -296,9 +297,7 @@ ai_anomaly_detection
 * oci\_ai\_anomaly\_detection\_ai\_private\_endpoint
 
 ai_vision
-    
-* oci\_ai\_vision\_document\_job
-* oci\_ai\_vision\_image\_job
+
 * oci\_ai\_vision\_project
 * oci\_ai\_vision\_model
 
@@ -769,6 +768,16 @@ osp_gateway
 sch
     
 * oci\_sch\_service\_connector
+
+service_mesh
+
+* oci\_service\_mesh\_virtual\_service
+* oci\_service\_mesh\_access\_policy
+* oci\_service\_mesh\_mesh
+* oci\_service\_mesh\_ingress\_gateway\_route\_table
+* oci\_service\_mesh\_virtual\_service\_route\_table
+* oci\_service\_mesh\_virtual\_deployment
+* oci\_service\_mesh\_ingress\_gateway
 
 stack_monitoring
     

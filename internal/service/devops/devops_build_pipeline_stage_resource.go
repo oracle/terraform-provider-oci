@@ -106,6 +106,7 @@ func DevopsBuildPipelineStageResource() *schema.Resource {
 										Required:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"BITBUCKET_CLOUD",
 											"DEVOPS_CODE_REPOSITORY",
 											"GITHUB",
 											"GITLAB",
@@ -967,6 +968,25 @@ func (s *DevopsBuildPipelineStageResourceCrud) mapToBuildSource(fieldKeyFormat s
 		connectionType = "" // default value
 	}
 	switch strings.ToLower(connectionType) {
+	case strings.ToLower("BITBUCKET_CLOUD"):
+		details := oci_devops.BitbucketCloudBuildSource{}
+		if connectionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_id")); ok {
+			tmp := connectionId.(string)
+			details.ConnectionId = &tmp
+		}
+		if branch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
+			tmp := branch.(string)
+			details.Branch = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		if repositoryUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repository_url")); ok {
+			tmp := repositoryUrl.(string)
+			details.RepositoryUrl = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("DEVOPS_CODE_REPOSITORY"):
 		details := oci_devops.DevopsCodeRepositoryBuildSource{}
 		if repositoryId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repository_id")); ok {
@@ -1046,6 +1066,12 @@ func BuildSourceToMap(obj oci_devops.BuildSource) map[string]interface{} {
 	}
 
 	switch v := (obj).(type) {
+	case oci_devops.BitbucketCloudBuildSource:
+		result["connection_type"] = "BITBUCKET_CLOUD"
+
+		if v.ConnectionId != nil {
+			result["connection_id"] = string(*v.ConnectionId)
+		}
 	case oci_devops.DevopsCodeRepositoryBuildSource:
 		result["connection_type"] = "DEVOPS_CODE_REPOSITORY"
 

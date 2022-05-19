@@ -125,6 +125,12 @@ func (s *DevopsTriggerDataSourceCrud) SetData() error {
 		if v.TriggerUrl != nil {
 			s.D.Set("trigger_url", v.TriggerUrl)
 		}
+	case oci_devops.BitbucketCloudTrigger:
+		s.D.Set("trigger_source", "BITBUCKET_CLOUD")
+
+		if v.TriggerUrl != nil {
+			s.D.Set("trigger_url", v.TriggerUrl)
+		}
 	case oci_devops.DevopsCodeRepositoryTrigger:
 		s.D.Set("trigger_source", "DEVOPS_CODE_REPOSITORY")
 

@@ -30,6 +30,9 @@ type DbSystemShapeSummary struct {
 	// The family of the shape used for the DB system.
 	ShapeFamily *string `mandatory:"false" json:"shapeFamily"`
 
+	// The shape type for the virtual machine DB system. Shape type is determined by CPU hardware. Valid values are `AMD` and `INTEL`.
+	ShapeType DbSystemShapeSummaryShapeTypeEnum `mandatory:"false" json:"shapeType,omitempty"`
+
 	// Deprecated. Use `name` instead of `shape`.
 	Shape *string `mandatory:"false" json:"shape"`
 
@@ -95,8 +98,53 @@ func (m DbSystemShapeSummary) String() string {
 func (m DbSystemShapeSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingDbSystemShapeSummaryShapeTypeEnum(string(m.ShapeType)); !ok && m.ShapeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeType: %s. Supported values are: %s.", m.ShapeType, strings.Join(GetDbSystemShapeSummaryShapeTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// DbSystemShapeSummaryShapeTypeEnum Enum with underlying type: string
+type DbSystemShapeSummaryShapeTypeEnum string
+
+// Set of constants representing the allowable values for DbSystemShapeSummaryShapeTypeEnum
+const (
+	DbSystemShapeSummaryShapeTypeAmd   DbSystemShapeSummaryShapeTypeEnum = "AMD"
+	DbSystemShapeSummaryShapeTypeIntel DbSystemShapeSummaryShapeTypeEnum = "INTEL"
+)
+
+var mappingDbSystemShapeSummaryShapeTypeEnum = map[string]DbSystemShapeSummaryShapeTypeEnum{
+	"AMD":   DbSystemShapeSummaryShapeTypeAmd,
+	"INTEL": DbSystemShapeSummaryShapeTypeIntel,
+}
+
+var mappingDbSystemShapeSummaryShapeTypeEnumLowerCase = map[string]DbSystemShapeSummaryShapeTypeEnum{
+	"amd":   DbSystemShapeSummaryShapeTypeAmd,
+	"intel": DbSystemShapeSummaryShapeTypeIntel,
+}
+
+// GetDbSystemShapeSummaryShapeTypeEnumValues Enumerates the set of values for DbSystemShapeSummaryShapeTypeEnum
+func GetDbSystemShapeSummaryShapeTypeEnumValues() []DbSystemShapeSummaryShapeTypeEnum {
+	values := make([]DbSystemShapeSummaryShapeTypeEnum, 0)
+	for _, v := range mappingDbSystemShapeSummaryShapeTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbSystemShapeSummaryShapeTypeEnumStringValues Enumerates the set of values in String for DbSystemShapeSummaryShapeTypeEnum
+func GetDbSystemShapeSummaryShapeTypeEnumStringValues() []string {
+	return []string{
+		"AMD",
+		"INTEL",
+	}
+}
+
+// GetMappingDbSystemShapeSummaryShapeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbSystemShapeSummaryShapeTypeEnum(val string) (DbSystemShapeSummaryShapeTypeEnum, bool) {
+	enum, ok := mappingDbSystemShapeSummaryShapeTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

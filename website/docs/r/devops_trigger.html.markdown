@@ -59,9 +59,9 @@ The following arguments are supported:
 	* `filter` - (Optional) (Updatable) The filters for the trigger.
 		* `events` - (Optional) (Updatable) The events, for example, PUSH, PULL_REQUEST_MERGE.
 		* `include` - (Optional) (Updatable) Attributes to filter DevOps code repository events.
-			* `base_ref` - (Applicable when trigger_source=GITHUB | GITLAB) (Updatable) The target branch for pull requests; not applicable for push requests.
+			* `base_ref` - (Applicable when trigger_source=BITBUCKET_CLOUD | GITHUB | GITLAB) (Updatable) The target branch for pull requests; not applicable for push requests.
 			* `head_ref` - (Optional) (Updatable) Branch for push event; source branch for pull requests.
-		* `trigger_source` - (Required) (Updatable) Source of the trigger. Allowed values are, GITHUB and GITLAB.
+		* `trigger_source` - (Required) (Updatable) Source of the trigger. Allowed values are, GITHUB, GITLAB and BITBUCKET_CLOUD.
 	* `type` - (Required) (Updatable) The type of action that will be taken. Allowed value is TRIGGER_BUILD_PIPELINE.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
 * `description` - (Optional) (Updatable) Optional description about the trigger.
@@ -69,7 +69,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 * `project_id` - (Required) The OCID of the DevOps project to which the trigger belongs to.
 * `repository_id` - (Applicable when trigger_source=DEVOPS_CODE_REPOSITORY) (Updatable) The OCID of the DevOps code repository.
-* `trigger_source` - (Required) (Updatable) Source of the trigger. Allowed values are, GITHUB and GITLAB.
+* `trigger_source` - (Required) (Updatable) Source of the trigger. Allowed values are, GITHUB,GITLAB and BITBUCKET_CLOUD.
 
 
 ** IMPORTANT **
@@ -86,7 +86,7 @@ The following attributes are exported:
 		* `include` - Attributes to filter DevOps code repository events.
 			* `base_ref` - The target branch for pull requests; not applicable for push requests.
 			* `head_ref` - Branch for push event; source branch for pull requests.
-		* `trigger_source` - Source of the trigger. Allowed values are, GITHUB and GITLAB.
+		* `trigger_source` - Source of the trigger. Allowed values are, GITHUB, GITLAB and BITBUCKET_CLOUD.
 	* `type` - The type of action that will be taken. Allowed value is TRIGGER_BUILD_PIPELINE.
 * `compartment_id` - The OCID of the compartment that contains the trigger.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
@@ -101,7 +101,7 @@ The following attributes are exported:
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}`
 * `time_created` - The time the trigger was created. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `time_updated` - The time the trigger was updated. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
-* `trigger_source` - Source of the trigger. Allowed values are, GITHUB, GITLAB and DEVOPS_CODE_REPOSITORY.
+* `trigger_source` - Source of the trigger. Allowed values are, GITHUB, GITLAB, BITBUCKET_CLOUD and DEVOPS_CODE_REPOSITORY.
 * `trigger_url` - The endpoint that listens to trigger events.
 
 ## Timeouts

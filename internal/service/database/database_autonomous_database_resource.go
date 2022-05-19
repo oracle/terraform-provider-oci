@@ -82,6 +82,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"character_set": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"clone_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -197,6 +203,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_local_data_guard_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_mtls_connection_required": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -227,6 +238,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"ncharacter_set": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
@@ -571,6 +588,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"is_remote_data_guard_enabled": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"key_history_entry": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -619,6 +640,35 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"local_standby_db": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"lag_time_in_seconds": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_data_guard_role_changed": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"memory_per_oracle_compute_unit_in_gbs": {
 				Type:     schema.TypeInt,
@@ -1257,6 +1307,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.IsFreeTier = &tmp
 	}
 
+	if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok && s.D.HasChange("is_local_data_guard_enabled") {
+		tmp := isLocalDataGuardEnabled.(bool)
+		request.IsLocalDataGuardEnabled = &tmp
+	}
+
 	if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok && s.D.HasChange("is_mtls_connection_required") {
 		tmp := isMtlsConnectionRequired.(bool)
 		request.IsMtlsConnectionRequired = &tmp
@@ -1425,6 +1480,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("backup_config", nil)
 	}
 
+	if s.Res.CharacterSet != nil {
+		s.D.Set("character_set", *s.Res.CharacterSet)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -1517,6 +1576,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("is_free_tier", *s.Res.IsFreeTier)
 	}
 
+	if s.Res.IsLocalDataGuardEnabled != nil {
+		s.D.Set("is_local_data_guard_enabled", *s.Res.IsLocalDataGuardEnabled)
+	}
+
 	if s.Res.IsMtlsConnectionRequired != nil {
 		s.D.Set("is_mtls_connection_required", *s.Res.IsMtlsConnectionRequired)
 	}
@@ -1531,6 +1594,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.IsRefreshableClone != nil {
 		s.D.Set("is_refreshable_clone", *s.Res.IsRefreshableClone)
+	}
+
+	if s.Res.IsRemoteDataGuardEnabled != nil {
+		s.D.Set("is_remote_data_guard_enabled", *s.Res.IsRemoteDataGuardEnabled)
 	}
 
 	keyHistoryEntry := []interface{}{}
@@ -1565,12 +1632,22 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.LocalStandbyDb != nil {
+		s.D.Set("local_standby_db", []interface{}{AutonomousDatabaseStandbySummaryToMap(s.Res.LocalStandbyDb)})
+	} else {
+		s.D.Set("local_standby_db", nil)
+	}
+
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
 		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
 
 	if s.Res.MaxCpuCoreCount != nil {
 		s.D.Set("max_cpu_core_count", *s.Res.MaxCpuCoreCount)
+	}
+
+	if s.Res.NcharacterSet != nil {
+		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
 	}
 
 	nsgIds := []interface{}{}
@@ -1981,6 +2058,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
+			tmp := characterSet.(string)
+			details.CharacterSet = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -2061,6 +2142,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
+		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+			tmp := isLocalDataGuardEnabled.(bool)
+			details.IsLocalDataGuardEnabled = &tmp
+		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
 			details.IsMtlsConnectionRequired = &tmp
@@ -2079,6 +2164,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
 			tmp := maxCpuCoreCount.(int)
 			details.MaxCpuCoreCount = &tmp
+		}
+		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
+			tmp := ncharacterSet.(string)
+			details.NcharacterSet = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -2183,6 +2272,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
+			tmp := characterSet.(string)
+			details.CharacterSet = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -2263,6 +2356,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
+		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+			tmp := isLocalDataGuardEnabled.(bool)
+			details.IsLocalDataGuardEnabled = &tmp
+		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
 			details.IsMtlsConnectionRequired = &tmp
@@ -2281,6 +2378,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
 			tmp := maxCpuCoreCount.(int)
 			details.MaxCpuCoreCount = &tmp
+		}
+		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
+			tmp := ncharacterSet.(string)
+			details.NcharacterSet = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -2378,6 +2479,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
+			tmp := characterSet.(string)
+			details.CharacterSet = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -2458,6 +2563,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
+		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+			tmp := isLocalDataGuardEnabled.(bool)
+			details.IsLocalDataGuardEnabled = &tmp
+		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
 			details.IsMtlsConnectionRequired = &tmp
@@ -2476,6 +2585,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
 			tmp := maxCpuCoreCount.(int)
 			details.MaxCpuCoreCount = &tmp
+		}
+		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
+			tmp := ncharacterSet.(string)
+			details.NcharacterSet = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -2650,6 +2763,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
+		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+			tmp := isLocalDataGuardEnabled.(bool)
+			details.IsLocalDataGuardEnabled = &tmp
+		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
 			details.IsMtlsConnectionRequired = &tmp
@@ -2760,6 +2877,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
+			tmp := characterSet.(string)
+			details.CharacterSet = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -2844,6 +2965,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
+		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+			tmp := isLocalDataGuardEnabled.(bool)
+			details.IsLocalDataGuardEnabled = &tmp
+		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
 			details.IsMtlsConnectionRequired = &tmp
@@ -2862,6 +2987,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
 			tmp := maxCpuCoreCount.(int)
 			details.MaxCpuCoreCount = &tmp
+		}
+		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
+			tmp := ncharacterSet.(string)
+			details.NcharacterSet = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -2950,6 +3079,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
+			tmp := characterSet.(string)
+			details.CharacterSet = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -3034,6 +3167,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
+		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+			tmp := isLocalDataGuardEnabled.(bool)
+			details.IsLocalDataGuardEnabled = &tmp
+		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
 			details.IsMtlsConnectionRequired = &tmp
@@ -3052,6 +3189,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
 			tmp := maxCpuCoreCount.(int)
 			details.MaxCpuCoreCount = &tmp
+		}
+		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
+			tmp := ncharacterSet.(string)
+			details.NcharacterSet = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)

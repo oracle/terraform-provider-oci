@@ -81,6 +81,7 @@ import (
 	tf_secrets "github.com/terraform-providers/terraform-provider-oci/internal/service/secrets"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 	tf_service_manager_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/service_manager_proxy"
+	tf_service_mesh "github.com/terraform-providers/terraform-provider-oci/internal/service/service_mesh"
 	tf_stack_monitoring "github.com/terraform-providers/terraform-provider-oci/internal/service/stack_monitoring"
 	tf_streaming "github.com/terraform-providers/terraform-provider-oci/internal/service/streaming"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
@@ -490,6 +491,7 @@ func init() {
 	RegisterDatasource("oci_database_autonomous_container_patches", tf_database.DatabaseAutonomousContainerPatchesDataSource())
 	RegisterDatasource("oci_database_autonomous_database", tf_database.DatabaseAutonomousDatabaseDataSource())
 	RegisterDatasource("oci_database_autonomous_database_backup", tf_database.DatabaseAutonomousDatabaseBackupDataSource())
+	RegisterDatasource("oci_database_autonomous_database_character_sets", tf_database.DatabaseAutonomousDatabaseCharacterSetsDataSource())
 	RegisterDatasource("oci_database_autonomous_database_backups", tf_database.DatabaseAutonomousDatabaseBackupsDataSource())
 	RegisterDatasource("oci_database_autonomous_database_dataguard_association", tf_database.DatabaseAutonomousDatabaseDataguardAssociationDataSource())
 	RegisterDatasource("oci_database_autonomous_database_dataguard_associations", tf_database.DatabaseAutonomousDatabaseDataguardAssociationsDataSource())
@@ -536,11 +538,12 @@ func init() {
 	RegisterDatasource("oci_database_db_node_console_connections", tf_database.DatabaseDbNodeConsoleConnectionsDataSource())
 	RegisterDatasource("oci_database_db_nodes", tf_database.DatabaseDbNodesDataSource())
 	RegisterDatasource("oci_database_db_server", tf_database.DatabaseDbServerDataSource())
-	RegisterDatasource("oci_database_db_servers", tf_database.DatabaseDbServersDataSource())
-	RegisterDatasource("oci_database_db_system_patch_history_entries", tf_database.DatabaseDbSystemPatchHistoryEntriesDataSource())
-	RegisterDatasource("oci_database_db_system_patches", tf_database.DatabaseDbSystemPatchesDataSource())
-	RegisterDatasource("oci_database_db_system_shapes", tf_database.DatabaseDbSystemShapesDataSource())
 	RegisterDatasource("oci_database_db_systems", tf_database.DatabaseDbSystemsDataSource())
+	RegisterDatasource("oci_database_db_system_compute_performances", tf_database.DatabaseDbSystemComputePerformancesDataSource())
+	RegisterDatasource("oci_database_db_system_patches", tf_database.DatabaseDbSystemPatchesDataSource())
+	RegisterDatasource("oci_database_db_system_patch_history_entries", tf_database.DatabaseDbSystemPatchHistoryEntriesDataSource())
+	RegisterDatasource("oci_database_db_system_shapes", tf_database.DatabaseDbSystemShapesDataSource())
+	RegisterDatasource("oci_database_db_system_storage_performances", tf_database.DatabaseDbSystemStoragePerformancesDataSource())
 	RegisterDatasource("oci_database_db_versions", tf_database.DatabaseDbVersionsDataSource())
 	RegisterDatasource("oci_database_exadata_infrastructure", tf_database.DatabaseExadataInfrastructureDataSource())
 	RegisterDatasource("oci_database_exadata_infrastructure_download_config_file", tf_database.DatabaseExadataInfrastructureDownloadConfigFileDataSource())
@@ -1098,6 +1101,7 @@ func init() {
 	// resourcemanager service
 	RegisterDatasource("oci_resourcemanager_private_endpoint", tf_resourcemanager.ResourcemanagerPrivateEndpointDataSource())
 	RegisterDatasource("oci_resourcemanager_private_endpoint_reachable_ip", tf_resourcemanager.ResourcemanagerPrivateEndpointReachableIpDataSource())
+	RegisterDatasource("oci_resourcemanager_private_endpoints", tf_resourcemanager.ResourcemanagerPrivateEndpointsDataSource())
 	RegisterDatasource("oci_resourcemanager_stack", tf_resourcemanager.ResourcemanagerStackDataSource())
 	RegisterDatasource("oci_resourcemanager_stack_tf_state", tf_resourcemanager.ResourcemanagerStackTfStateDataSource())
 	RegisterDatasource("oci_resourcemanager_stacks", tf_resourcemanager.ResourcemanagerStacksDataSource())
@@ -1119,6 +1123,22 @@ func init() {
 	// service_manager_proxy service
 	RegisterDatasource("oci_service_manager_proxy_service_environment", tf_service_manager_proxy.ServiceManagerProxyServiceEnvironmentDataSource())
 	RegisterDatasource("oci_service_manager_proxy_service_environments", tf_service_manager_proxy.ServiceManagerProxyServiceEnvironmentsDataSource())
+	// service_mesh service
+	RegisterDatasource("oci_service_mesh_access_policies", tf_service_mesh.ServiceMeshAccessPoliciesDataSource())
+	RegisterDatasource("oci_service_mesh_access_policy", tf_service_mesh.ServiceMeshAccessPolicyDataSource())
+	RegisterDatasource("oci_service_mesh_ingress_gateway", tf_service_mesh.ServiceMeshIngressGatewayDataSource())
+	RegisterDatasource("oci_service_mesh_ingress_gateway_route_table", tf_service_mesh.ServiceMeshIngressGatewayRouteTableDataSource())
+	RegisterDatasource("oci_service_mesh_ingress_gateway_route_tables", tf_service_mesh.ServiceMeshIngressGatewayRouteTablesDataSource())
+	RegisterDatasource("oci_service_mesh_ingress_gateways", tf_service_mesh.ServiceMeshIngressGatewaysDataSource())
+	RegisterDatasource("oci_service_mesh_mesh", tf_service_mesh.ServiceMeshMeshDataSource())
+	RegisterDatasource("oci_service_mesh_meshes", tf_service_mesh.ServiceMeshMeshesDataSource())
+	RegisterDatasource("oci_service_mesh_proxy_detail", tf_service_mesh.ServiceMeshProxyDetailDataSource())
+	RegisterDatasource("oci_service_mesh_virtual_deployment", tf_service_mesh.ServiceMeshVirtualDeploymentDataSource())
+	RegisterDatasource("oci_service_mesh_virtual_deployments", tf_service_mesh.ServiceMeshVirtualDeploymentsDataSource())
+	RegisterDatasource("oci_service_mesh_virtual_service", tf_service_mesh.ServiceMeshVirtualServiceDataSource())
+	RegisterDatasource("oci_service_mesh_virtual_service_route_table", tf_service_mesh.ServiceMeshVirtualServiceRouteTableDataSource())
+	RegisterDatasource("oci_service_mesh_virtual_service_route_tables", tf_service_mesh.ServiceMeshVirtualServiceRouteTablesDataSource())
+	RegisterDatasource("oci_service_mesh_virtual_services", tf_service_mesh.ServiceMeshVirtualServicesDataSource())
 	// stack_monitoring service
 	RegisterDatasource("oci_stack_monitoring_discovery_job", tf_stack_monitoring.StackMonitoringDiscoveryJobDataSource())
 	RegisterDatasource("oci_stack_monitoring_discovery_jobs", tf_stack_monitoring.StackMonitoringDiscoveryJobsDataSource())

@@ -55,22 +55,26 @@ var (
 		})
 
 	autonomousDatabaseDedicatedRepresentation = acctest.RepresentationCopyWithNewProperties(
-		acctest.RepresentationCopyWithRemovedProperties(acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbDedicatedName}, autonomousDatabaseRepresentation), []string{"license_model", "whitelisted_ips", "db_version", "is_auto_scaling_enabled", "customer_contacts", "kms_key_id", "vault_id", "autonomous_maintenance_schedule_type", "scheduled_operations"}),
+		acctest.RepresentationCopyWithRemovedProperties(acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbDedicatedName}, autonomousDatabaseRepresentation), []string{"license_model", "whitelisted_ips", "db_version", "is_auto_scaling_enabled", "customer_contacts", "kms_key_id", "vault_id", "autonomous_maintenance_schedule_type", "scheduled_operations", "character_set", "ncharacter_set"}),
 		map[string]interface{}{
 			"autonomous_container_database_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 			"is_dedicated":                     acctest.Representation{RepType: acctest.Optional, Create: `true`},
 			"display_name":                     acctest.Representation{RepType: acctest.Optional, Create: adDedicatedName, Update: adDedicatedUpdateName},
 			"data_safe_status":                 acctest.Representation{RepType: acctest.Optional, Create: `REGISTERED`, Update: `NOT_REGISTERED`},
 			"is_mtls_connection_required":      acctest.Representation{RepType: acctest.Optional, Create: `false`},
+			"character_set":                    acctest.Representation{RepType: acctest.Optional, Create: `AR8ADOS710`},
+			"ncharacter_set":                   acctest.Representation{RepType: acctest.Optional, Create: `UTF8`},
 		})
 
 	autonomousDatabaseDedicatedRepresentationForClone = acctest.RepresentationCopyWithNewProperties(
-		acctest.RepresentationCopyWithRemovedProperties(acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbDedicatedCloneName}, autonomousDatabaseDedicatedRepresentation), []string{"license_model"}),
+		acctest.RepresentationCopyWithRemovedProperties(acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbDedicatedCloneName}, autonomousDatabaseDedicatedRepresentation), []string{"license_model", "character_set", "ncharacter_set"}),
 		map[string]interface{}{
-			"clone_type":   acctest.Representation{RepType: acctest.Optional, Create: `FULL`},
-			"display_name": acctest.Representation{RepType: acctest.Optional, Create: "example_autonomous_database_dedicated"},
-			"source":       acctest.Representation{RepType: acctest.Optional, Create: `DATABASE`},
-			"source_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
+			"clone_type":     acctest.Representation{RepType: acctest.Optional, Create: `FULL`},
+			"display_name":   acctest.Representation{RepType: acctest.Optional, Create: "example_autonomous_database_dedicated"},
+			"source":         acctest.Representation{RepType: acctest.Optional, Create: `DATABASE`},
+			"source_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
+			"character_set":  acctest.Representation{RepType: acctest.Optional, Create: `AR8ADOS710`},
+			"ncharacter_set": acctest.Representation{RepType: acctest.Optional, Create: `UTF8`},
 		})
 
 	autonomousDatabaseDtaSafeStatusRepresentation = map[string]interface{}{
@@ -264,6 +268,8 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
 				resource.TestCheckResourceAttr(resourceName, "rotate_key_trigger", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "character_set", "AR8ADOS710"),
+				resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "UTF8"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -458,6 +464,9 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 				"is_auto_scaling_for_storage_enabled",
 				"rotate_key_trigger",
 				"is_mtls_connection_required",
+				"character_set",
+				"is_auto_scaling_for_storage_enabled",
+				"ncharacter_set",
 			},
 			ResourceName: resourceName,
 		},
@@ -485,6 +494,8 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "character_set", "AR8ADOS710"),
+				resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "UTF8"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -1061,11 +1072,6 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 		//0. Create dependencies
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
-			Check: func(s *terraform.State) (err error) {
-				log.Printf("[DEBUG] Source ADB should be at least 2hrs old. Time Sleep for 2hrs")
-				time.Sleep(2 * time.Hour)
-				return nil
-			},
 		},
 		//1. verify create
 		{
@@ -1129,14 +1135,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testi
 	resourceName := "oci_database_autonomous_database.test_autonomous_database_from_backuptimestamp"
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		//1. Create dependencies, To Create clone the source db must be atleast 2 hrs old
+		//1. Create dependencies
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
-			Check: func(s *terraform.State) (err error) {
-				log.Printf("[DEBUG] Source ADB should be at least 2hrs old. Time Sleep for 2hrs")
-				time.Sleep(2 * time.Hour)
-				return nil
-			},
 		},
 		//2. verify create
 		{
@@ -1735,6 +1736,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -1752,7 +1756,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseDataGuardRepresentation, map[string]interface{}{
-						"is_data_guard_enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
+						"is_local_data_guard_enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
@@ -1768,6 +1772,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_data_guard_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
@@ -1807,6 +1814,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),

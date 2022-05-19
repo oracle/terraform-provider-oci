@@ -127,6 +127,10 @@ func (m *triggercreateresult) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := DevopsCodeRepositoryTriggerCreateResult{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BITBUCKET_CLOUD":
+		mm := BitbucketCloudTriggerCreateResult{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}

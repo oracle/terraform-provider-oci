@@ -61,6 +61,7 @@ var (
 		"admin_password":                       acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
 		"db_version":                           acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
 		"db_workload":                          acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
+		"character_set":                        acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
 		"defined_tags":                         acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":                         acctest.Representation{RepType: acctest.Optional, Create: `example_autonomous_database`, Update: `displayName2`},
 		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -78,6 +79,7 @@ var (
 		"whitelisted_ips":            acctest.Representation{RepType: acctest.Optional, Create: []string{`1.1.1.1/28`}},
 		"operations_insights_status": acctest.Representation{RepType: acctest.Optional, Create: `NOT_ENABLED`, Update: `ENABLED`},
 		"timeouts":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: autonomousDatabaseTimeoutsRepresentation},
+		"ncharacter_set":             acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
 		"state":                      acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 	}
 
@@ -181,6 +183,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+				resource.TestCheckResourceAttr(resourceName, "character_set", "AL32UTF8"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
@@ -197,11 +200,15 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_for_storage_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
 				resource.TestCheckResourceAttr(resourceName, "max_cpu_core_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "AL16UTF16"),
 				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.0.name", "MONDAY"),
@@ -289,6 +296,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+				resource.TestCheckResourceAttr(resourceName, "character_set", "AL32UTF8"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
@@ -309,6 +317,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
+				resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "AL16UTF16"),
 				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.0.name", "MONDAY"),
@@ -389,6 +398,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+				resource.TestCheckResourceAttr(resourceName, "character_set", "AL32UTF8"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
@@ -411,6 +421,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "operations_insights_status", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "database_management_status", "NOT_ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "permission_level", "UNRESTRICTED"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -618,6 +631,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "AL16UTF16"),
 				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.0.name", "TUESDAY"),
@@ -734,6 +748,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_begin"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_end"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 			),
 		},
 		// verify singular datasource
@@ -772,6 +787,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_scaling_for_storage_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_scaling_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "local_standby_db.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_preview"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				// @Codegen:  memory_per_oracle_compute_unit_in_gbs is used only by exacc at the moment
@@ -794,6 +812,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_maintenance_begin"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_maintenance_end"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 			),
 		},
 		// verify resource import
@@ -813,6 +834,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				// Need this workaround due to import behavior change introduced by https://github.com/hashicorp/terraform/issues/20985
 				"used_data_storage_size_in_tbs",
 				"is_shrink_only",
+				"character_set",
+				"ncharacter_set",
 			},
 			ResourceName: resourceName,
 		},
@@ -842,6 +865,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -875,6 +901,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -948,6 +977,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
