@@ -52,6 +52,9 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// To get a list of all shapes, use the ListDbSystemShapes operation.
 	Shape *string `mandatory:"false" json:"shape"`
 
+	// The number of OCPU cores available for AMD-based virtual machine DB systems.
+	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
+
 	// The OCID of the subnet the DB system is associated with.
 	// **Subnet Restrictions:**
 	// - For 1- and 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.16.16/28
@@ -60,9 +63,9 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// This restriction applies to both the client subnet and backup subnet.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
-	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
+	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
-	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty.
+	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds list cannot be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems.
@@ -70,6 +73,9 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 
 	// The hostname for the DB node.
 	Hostname *string `mandatory:"false" json:"hostname"`
+
+	// The block storage volume performance level. Valid values are `BALANCED` and `HIGH_PERFORMANCE`. See Block Volume Performance (https://docs.cloud.oracle.com/Content/Block/Concepts/blockvolumeperformance.htm) for more information.
+	StorageVolumePerformanceMode CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum `mandatory:"false" json:"storageVolumePerformanceMode,omitempty"`
 
 	// The protection mode to set up between the primary and standby databases. For more information, see
 	// Oracle Data Guard Protection Modes (http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000)
@@ -132,6 +138,9 @@ func (m CreateDataGuardAssociationWithNewDbSystemDetails) String() string {
 // Not recommended for calling this function directly
 func (m CreateDataGuardAssociationWithNewDbSystemDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum(string(m.StorageVolumePerformanceMode)); !ok && m.StorageVolumePerformanceMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageVolumePerformanceMode: %s. Supported values are: %s.", m.StorageVolumePerformanceMode, strings.Join(GetCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnumStringValues(), ",")))
+	}
 
 	if _, ok := GetMappingCreateDataGuardAssociationDetailsProtectionModeEnum(string(m.ProtectionMode)); !ok && m.ProtectionMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProtectionMode: %s. Supported values are: %s.", m.ProtectionMode, strings.Join(GetCreateDataGuardAssociationDetailsProtectionModeEnumStringValues(), ",")))
@@ -157,4 +166,46 @@ func (m CreateDataGuardAssociationWithNewDbSystemDetails) MarshalJSON() (buff []
 	}
 
 	return json.Marshal(&s)
+}
+
+// CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum Enum with underlying type: string
+type CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum string
+
+// Set of constants representing the allowable values for CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum
+const (
+	CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeBalanced        CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum = "BALANCED"
+	CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeHighPerformance CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum = "HIGH_PERFORMANCE"
+)
+
+var mappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum = map[string]CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum{
+	"BALANCED":         CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeBalanced,
+	"HIGH_PERFORMANCE": CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeHighPerformance,
+}
+
+var mappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnumLowerCase = map[string]CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum{
+	"balanced":         CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeBalanced,
+	"high_performance": CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeHighPerformance,
+}
+
+// GetCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnumValues Enumerates the set of values for CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum
+func GetCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnumValues() []CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum {
+	values := make([]CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum, 0)
+	for _, v := range mappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnumStringValues Enumerates the set of values in String for CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum
+func GetCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnumStringValues() []string {
+	return []string{
+		"BALANCED",
+		"HIGH_PERFORMANCE",
+	}
+}
+
+// GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum(val string) (CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum, bool) {
+	enum, ok := mappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

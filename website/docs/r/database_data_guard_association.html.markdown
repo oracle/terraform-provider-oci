@@ -35,6 +35,7 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 	#Optional
 	availability_domain = var.data_guard_association_availability_domain
 	backup_network_nsg_ids = var.data_guard_association_backup_network_nsg_ids
+	cpu_core_count = var.data_guard_association_cpu_core_count
 	database_software_image_id = oci_database_database_software_image.test_database_software_image.id
 	display_name = var.data_guard_association_display_name
 	hostname = var.data_guard_association_hostname
@@ -46,6 +47,7 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 	peer_sid_prefix = var.data_guard_association_peer_sid_prefix
 	peer_vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 	shape = var.data_guard_association_shape
+	storage_volume_performance_mode = var.data_guard_association_storage_volume_performance_mode
 	subnet_id = oci_core_subnet.test_subnet.id
 }
 ```
@@ -56,6 +58,7 @@ The following arguments are supported:
 
 * `availability_domain` - (Applicable when creation_type=NewDbSystem) The name of the availability domain that the standby database DB system will be located in. For example- "Uocm:PHX-AD-1".
 * `backup_network_nsg_ids` - (Applicable when creation_type=NewDbSystem) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems. 
+* `cpu_core_count` - (Applicable when creation_type=NewDbSystem) The number of OCPU cores available for AMD-based virtual machine DB systems.
 * `creation_type` - (Required) Specifies whether to create the peer database in an existing DB system or in a new DB system. 
 * `database_admin_password` - (Required) (Updatable) A strong password for the `SYS`, `SYSTEM`, and `PDB Admin` users to apply during standby creation.
 
@@ -84,7 +87,8 @@ The following arguments are supported:
     **IMPORTANT** - The only protection mode currently supported by the Database service is MAXIMUM_PERFORMANCE. 
 * `shape` - (Applicable when creation_type=NewDbSystem) The virtual machine DB system shape to launch for the standby database in the Data Guard association. The shape determines the number of CPU cores and the amount of memory available for the DB system. Only virtual machine shapes are valid options. If you do not supply this parameter, the default shape is the shape of the primary DB system.
 
-    To get a list of all shapes, use the [ListDbSystemShapes](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbSystemShapeSummary/ListDbSystemShapes) operation. 
+	To get a list of all shapes, use the [ListDbSystemShapes](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbSystemShapeSummary/ListDbSystemShapes) operation. 
+* `storage_volume_performance_mode` - (Applicable when creation_type=NewDbSystem) The block storage volume performance level. Valid values are `BALANCED` and `HIGH_PERFORMANCE`. See [Block Volume Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm) for more information.
 * `subnet_id` - (Applicable when creation_type=NewDbSystem) The OCID of the subnet the DB system is associated with. **Subnet Restrictions:**
     * For 1- and 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.16.16/28
 

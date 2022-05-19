@@ -202,6 +202,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["backup_config"] = nil
 		}
 
+		if r.CharacterSet != nil {
+			autonomousDatabase["character_set"] = *r.CharacterSet
+		}
+
 		if r.ConnectionStrings != nil {
 			autonomousDatabase["connection_strings"] = []interface{}{AutonomousDatabaseConnectionStringsToMap(r.ConnectionStrings)}
 		} else {
@@ -294,6 +298,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["is_free_tier"] = *r.IsFreeTier
 		}
 
+		if r.IsLocalDataGuardEnabled != nil {
+			autonomousDatabase["is_local_data_guard_enabled"] = *r.IsLocalDataGuardEnabled
+		}
+
 		if r.IsMtlsConnectionRequired != nil {
 			autonomousDatabase["is_mtls_connection_required"] = *r.IsMtlsConnectionRequired
 		}
@@ -308,6 +316,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.IsRefreshableClone != nil {
 			autonomousDatabase["is_refreshable_clone"] = *r.IsRefreshableClone
+		}
+
+		if r.IsRemoteDataGuardEnabled != nil {
+			autonomousDatabase["is_remote_data_guard_enabled"] = *r.IsRemoteDataGuardEnabled
 		}
 
 		keyHistoryEntry := []interface{}{}
@@ -342,12 +354,22 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.LocalStandbyDb != nil {
+			autonomousDatabase["local_standby_db"] = []interface{}{AutonomousDatabaseStandbySummaryToMap(r.LocalStandbyDb)}
+		} else {
+			autonomousDatabase["local_standby_db"] = nil
+		}
+
 		if r.MemoryPerOracleComputeUnitInGBs != nil {
 			autonomousDatabase["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
 		}
 
 		if r.MaxCpuCoreCount != nil {
 			autonomousDatabase["max_cpu_core_count"] = *r.MaxCpuCoreCount
+		}
+
+		if r.NcharacterSet != nil {
+			autonomousDatabase["ncharacter_set"] = *r.NcharacterSet
 		}
 
 		autonomousDatabase["nsg_ids"] = r.NsgIds

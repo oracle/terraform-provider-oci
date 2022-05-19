@@ -117,6 +117,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 								},
 							},
 						},
+						"character_set": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"compartment_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -336,6 +340,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"is_local_data_guard_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"is_mtls_connection_required": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -349,6 +357,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"is_refreshable_clone": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_remote_data_guard_enabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -409,12 +421,45 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"local_standby_db": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"lag_time_in_seconds": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"lifecycle_details": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_data_guard_role_changed": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"memory_per_oracle_compute_unit_in_gbs": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"max_cpu_core_count": {
 							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"ncharacter_set": {
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"nsg_ids": {
@@ -758,6 +803,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["backup_config"] = nil
 		}
 
+		if r.CharacterSet != nil {
+			autonomousDatabasesClone["character_set"] = *r.CharacterSet
+		}
+
 		if r.ConnectionStrings != nil {
 			autonomousDatabasesClone["connection_strings"] = []interface{}{AutonomousDatabaseConnectionStringsToMap(r.ConnectionStrings)}
 		} else {
@@ -850,6 +899,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["is_free_tier"] = *r.IsFreeTier
 		}
 
+		if r.IsLocalDataGuardEnabled != nil {
+			autonomousDatabasesClone["is_local_data_guard_enabled"] = *r.IsLocalDataGuardEnabled
+		}
+
 		if r.IsMtlsConnectionRequired != nil {
 			autonomousDatabasesClone["is_mtls_connection_required"] = *r.IsMtlsConnectionRequired
 		}
@@ -864,6 +917,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.IsRefreshableClone != nil {
 			autonomousDatabasesClone["is_refreshable_clone"] = *r.IsRefreshableClone
+		}
+
+		if r.IsRemoteDataGuardEnabled != nil {
+			autonomousDatabasesClone["is_remote_data_guard_enabled"] = *r.IsRemoteDataGuardEnabled
 		}
 
 		keyHistoryEntry := []interface{}{}
@@ -898,12 +955,22 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.LocalStandbyDb != nil {
+			autonomousDatabasesClone["local_standby_db"] = []interface{}{AutonomousDatabaseStandbySummaryToMap(r.LocalStandbyDb)}
+		} else {
+			autonomousDatabasesClone["local_standby_db"] = nil
+		}
+
 		if r.MemoryPerOracleComputeUnitInGBs != nil {
 			autonomousDatabasesClone["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
 		}
 
 		if r.MaxCpuCoreCount != nil {
 			autonomousDatabasesClone["max_cpu_core_count"] = *r.MaxCpuCoreCount
+		}
+
+		if r.NcharacterSet != nil {
+			autonomousDatabasesClone["ncharacter_set"] = *r.NcharacterSet
 		}
 
 		autonomousDatabasesClone["nsg_ids"] = r.NsgIds

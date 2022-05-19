@@ -68,12 +68,15 @@ var (
 		"id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_build_pipeline.test_build_pipeline.id}`},
 	}
 
+	gitlabRepositoryUrl  = "https://gitlab.com/dlcbld/docktest"
+	gitlabRepositoryUrl2 = "https://gitlab.com/dlcbld/deliver-artifact-test"
+
 	buildPipelineStageGitlabBuildSourceCollectionItemsRepresentation = map[string]interface{}{
 		"connection_type": acctest.Representation{RepType: acctest.Required, Create: `GITLAB`},
 		"branch":          acctest.Representation{RepType: acctest.Required, Create: `branch`, Update: `branch2`},
 		"connection_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_connection.test_connection.id}`},
 		"name":            acctest.Representation{RepType: acctest.Required, Create: `primaryBuildSource`, Update: `primaryBuildSource2`},
-		"repository_url":  acctest.Representation{RepType: acctest.Required, Create: `repositoryUrl`, Update: `repositoryUrl2`},
+		"repository_url":  acctest.Representation{RepType: acctest.Required, Create: gitlabRepositoryUrl, Update: gitlabRepositoryUrl2},
 	}
 
 	gitlabAccessTokenVaultId    = utils.GetEnvSettingWithBlankDefault("github_access_token_vault_id")
@@ -134,7 +137,7 @@ func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "build_source_collection.0.items.0.connection_id"),
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.connection_type", "GITLAB"),
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.name", "primaryBuildSource"),
-					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.repository_url", "repositoryUrl"),
+					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.repository_url", "https://gitlab.com/dlcbld/docktest"),
 					resource.TestCheckResourceAttr(resourceName, "image", "OL7_X86_64_STANDARD_10"),
 
 					func(s *terraform.State) (err error) {
@@ -172,7 +175,7 @@ func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "build_source_collection.0.items.0.connection_id"),
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.connection_type", "GITLAB"),
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.name", "primaryBuildSource"),
-					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.repository_url", "repositoryUrl"),
+					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.repository_url", "https://gitlab.com/dlcbld/docktest"),
 					resource.TestCheckResourceAttr(resourceName, "image", "OL7_X86_64_STANDARD_10"),
 					resource.TestCheckResourceAttr(resourceName, "stage_execution_timeout_in_seconds", "10"),
 					func(s *terraform.State) (err error) {
@@ -210,7 +213,7 @@ func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "build_source_collection.0.items.0.connection_id"),
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.connection_type", "GITLAB"),
 					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.name", "primaryBuildSource2"),
-					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.repository_url", "repositoryUrl2"),
+					resource.TestCheckResourceAttr(resourceName, "build_source_collection.0.items.0.repository_url", "https://gitlab.com/dlcbld/deliver-artifact-test"),
 					resource.TestCheckResourceAttr(resourceName, "image", "OL7_X86_64_STANDARD_10"),
 
 					func(s *terraform.State) (err error) {
@@ -252,7 +255,7 @@ func TestDevopsBuildPipelineBuildStageGitlabResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.0.items.0.branch", "branch2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.0.items.0.connection_type", "GITLAB"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.0.items.0.name", "primaryBuildSource2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.0.items.0.repository_url", "repositoryUrl2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.0.items.0.repository_url", "https://gitlab.com/dlcbld/deliver-artifact-test"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_spec_file", "buildSpecFile2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),

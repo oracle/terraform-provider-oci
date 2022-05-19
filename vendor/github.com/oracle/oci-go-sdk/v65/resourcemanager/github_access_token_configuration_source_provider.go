@@ -40,6 +40,8 @@ type GithubAccessTokenConfigurationSourceProvider struct {
 	// Example: `2020-01-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	PrivateServerConfigDetails *PrivateServerConfigDetails `mandatory:"false" json:"privateServerConfigDetails"`
+
 	// Free-form tags associated with this resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -88,6 +90,11 @@ func (m GithubAccessTokenConfigurationSourceProvider) GetTimeCreated() *common.S
 //GetLifecycleState returns LifecycleState
 func (m GithubAccessTokenConfigurationSourceProvider) GetLifecycleState() ConfigurationSourceProviderLifecycleStateEnum {
 	return m.LifecycleState
+}
+
+//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+func (m GithubAccessTokenConfigurationSourceProvider) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
+	return m.PrivateServerConfigDetails
 }
 
 //GetFreeformTags returns FreeformTags

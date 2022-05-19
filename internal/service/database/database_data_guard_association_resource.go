@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -90,6 +91,12 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"cpu_core_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"database_software_image_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -150,6 +157,12 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"storage_volume_performance_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -542,6 +555,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 				details.BackupNetworkNsgIds = tmp
 			}
 		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
@@ -566,6 +583,9 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
 			details.Shape = &tmp
+		}
+		if storageVolumePerformanceMode, ok := s.D.GetOkExists("storage_volume_performance_mode"); ok {
+			details.StorageVolumePerformanceMode = oci_database.CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum(storageVolumePerformanceMode.(string))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -622,7 +642,6 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Delete() error {
 		return fmt.Errorf("creation_type could not be established during the delete")
 	}
 	if strings.ToLower(creationType.(string)) == strings.ToLower("ExistingDbSystem") {
-		deleteDBrequest := oci_database.DeleteDatabaseRequest{}
 
 		var standbyDatabaseId *string
 		if s.Res.PeerRole == oci_database.DataGuardAssociationPeerRoleStandby {
@@ -637,11 +656,46 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Delete() error {
 			return fmt.Errorf("could not delete the dataguard association as the standby Database Id could not be obtained")
 		}
 
-		deleteDBrequest.DatabaseId = standbyDatabaseId
-		deleteDBrequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+		var dbSystemId, err = s.GetDbSystemIdFromDatabaseId(standbyDatabaseId)
 
-		if _, err = s.Client.DeleteDatabase(context.Background(), deleteDBrequest); err != nil {
-			return fmt.Errorf("failed to delete the standby database")
+		if err != nil {
+			log.Printf("failed to get the standby dbSystemId")
+			return err
+		}
+
+		getDbSystemRequest := oci_database.GetDbSystemRequest{}
+		getDbSystemRequest.DbSystemId = dbSystemId
+		getDbSystemRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+		dbSystem, err := s.Client.GetDbSystem(context.Background(), getDbSystemRequest)
+
+		if err != nil {
+			log.Printf("failed to get the standby dbSystem")
+			return err
+		}
+
+		fmt.Printf("Trying to delete the standby DbHome with shape : %s \n", *dbSystem.Shape)
+
+		if strings.Contains(*dbSystem.Shape, "BM") {
+			dbHomeId, err := s.GetDbHomeIdFromDatabaseId(standbyDatabaseId)
+			if err != nil {
+				log.Printf("failed to get the standby dbHomeId")
+				return err
+			}
+			deleteDbHomeRequest := oci_database.DeleteDbHomeRequest{}
+			deleteDbHomeRequest.DbHomeId = dbHomeId
+			deleteDbHomeRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+			if _, err = s.Client.DeleteDbHome(context.Background(), deleteDbHomeRequest); err != nil {
+				log.Printf("failed to delete the standby DbHome on BM")
+				return err
+			}
+		} else {
+			deleteDBrequest := oci_database.DeleteDatabaseRequest{}
+			deleteDBrequest.DatabaseId = standbyDatabaseId
+			deleteDBrequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+			if _, err = s.Client.DeleteDatabase(context.Background(), deleteDBrequest); err != nil {
+				return fmt.Errorf("failed to delete the standby database")
+			}
 		}
 
 		getDatabaseRequest := oci_database.GetDatabaseRequest{}

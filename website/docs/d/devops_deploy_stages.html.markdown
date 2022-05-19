@@ -90,6 +90,7 @@ The following attributes are exported:
 * `function_timeout_in_seconds` - Timeout for execution of the Function. Value in seconds.
 * `green_backend_ips` - Collection of backend environment IP addresses.
 	* `items` - The IP address of the backend server. A server could be a compute instance or a load balancer.
+* `helm_chart_deploy_artifact_id` - Helm chart artifact OCID. 
 * `id` - Unique identifier that is immutable on creation.
 * `is_async` - A boolean flag specifies whether this stage executes asynchronously.
 * `is_validation_enabled` - A boolean flag specifies whether the invoked function must be validated.
@@ -110,6 +111,7 @@ The following attributes are exported:
 	* `listener_name` - Name of the load balancer listener.
 	* `load_balancer_id` - The OCID of the load balancer.
 * `project_id` - The OCID of a project.
+* `release_name` - Release name of the Helm chart.
 * `rollback_policy` - Specifies the rollback policy. This is initiated on the failure of certain stage types.
 	* `policy_type` - Specifies type of the deployment stage rollback policy.
 * `rollout_policy` - Description of rollout policy for load balancer traffic shift stage.
@@ -126,7 +128,9 @@ The following attributes are exported:
 	* `load_balancer_id` - The OCID of the load balancer.
 * `time_created` - Time the deployment stage was created. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `time_updated` - Time the deployment stage was updated. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
+* `timeout_in_seconds` - Time to wait for execution of a helm stage. Defaults to 300 seconds.
 * `traffic_shift_target` - Specifies the target or destination backend set.
+* `values_artifact_ids` - List of values.yaml file artifact OCIDs.
 * `wait_criteria` - Specifies wait criteria for the Wait stage.
 	* `wait_duration` - The absolute wait duration. An ISO 8601 formatted duration string. Minimum waitDuration should be 5 seconds. Maximum waitDuration can be up to 2 days.
 	* `wait_type` - Wait criteria type.

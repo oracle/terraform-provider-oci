@@ -45,6 +45,9 @@ type PrivateEndpoint struct {
 	// An array of network security groups (NSG) that the customer can optionally provide.
 	NsgIdList []string `mandatory:"false" json:"nsgIdList"`
 
+	// When `true`, allows the private endpoint to be used with a configuration source provider.
+	IsUsedWithConfigurationSourceProvider *bool `mandatory:"false" json:"isUsedWithConfigurationSourceProvider"`
+
 	// DNS Proxy forwards any DNS FQDN queries over into the consumer DNS resolver if the DNS FQDN is included in the dns zones list otherwise it goes to service provider VCN resolver.
 	DnsZones []string `mandatory:"false" json:"dnsZones"`
 

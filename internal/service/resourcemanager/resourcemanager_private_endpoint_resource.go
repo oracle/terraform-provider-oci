@@ -56,11 +56,24 @@ func ResourcemanagerPrivateEndpointResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"dns_zones": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"is_used_with_configuration_source_provider": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 			},
 			"nsg_id_list": {
 				Type:     schema.TypeList,
@@ -72,13 +85,6 @@ func ResourcemanagerPrivateEndpointResource() *schema.Resource {
 			},
 
 			// Computed
-			"dns_zones": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
 			"source_ips": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -192,8 +198,26 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if dnsZones, ok := s.D.GetOkExists("dns_zones"); ok {
+		interfaces := dnsZones.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("dns_zones") {
+			request.DnsZones = tmp
+		}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isUsedWithConfigurationSourceProvider, ok := s.D.GetOkExists("is_used_with_configuration_source_provider"); ok {
+		tmp := isUsedWithConfigurationSourceProvider.(bool)
+		request.IsUsedWithConfigurationSourceProvider = &tmp
 	}
 
 	if nsgIdList, ok := s.D.GetOkExists("nsg_id_list"); ok {
@@ -277,8 +301,26 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
+	if dnsZones, ok := s.D.GetOkExists("dns_zones"); ok {
+		interfaces := dnsZones.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("dns_zones") {
+			request.DnsZones = tmp
+		}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isUsedWithConfigurationSourceProvider, ok := s.D.GetOkExists("is_used_with_configuration_source_provider"); ok {
+		tmp := isUsedWithConfigurationSourceProvider.(bool)
+		request.IsUsedWithConfigurationSourceProvider = &tmp
 	}
 
 	if nsgIdList, ok := s.D.GetOkExists("nsg_id_list"); ok {
@@ -351,6 +393,10 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsUsedWithConfigurationSourceProvider != nil {
+		s.D.Set("is_used_with_configuration_source_provider", *s.Res.IsUsedWithConfigurationSourceProvider)
+	}
+
 	s.D.Set("nsg_id_list", s.Res.NsgIdList)
 
 	s.D.Set("source_ips", s.Res.SourceIps)
@@ -397,6 +443,10 @@ func PrivateEndpointSummaryToMap(obj oci_resourcemanager.PrivateEndpointSummary)
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsUsedWithConfigurationSourceProvider != nil {
+		result["is_used_with_configuration_source_provider"] = bool(*obj.IsUsedWithConfigurationSourceProvider)
 	}
 
 	result["state"] = string(obj.LifecycleState)

@@ -147,6 +147,10 @@ func (m *deploystagesummary) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := InvokeFunctionDeployStageSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OKE_HELM_CHART_DEPLOYMENT":
+		mm := OkeHelmChartDeployStageSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OKE_CANARY_TRAFFIC_SHIFT":
 		mm := OkeCanaryTrafficShiftDeployStageSummary{}
 		err = json.Unmarshal(data, &mm)

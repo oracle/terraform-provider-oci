@@ -56,7 +56,7 @@ The following attributes are exported:
 	* `bucket` - The name of the ObjectStorage bucket that contains the input data file.
 	* `dataset_id` - The OCID of the Data Science Labeling Dataset.
 	* `dataset_type` - Type of the Dataset.
-	* `namespace` - The namespace name of the ObjectStorage bucket that contains the input data file.
+	* `namespace_name` - The namespace name of the ObjectStorage bucket that contains the input data file.
 	* `object` - The object name of the input data file.
 * `time_created` - The time the Model was created. An RFC3339 formatted datetime string
 * `time_updated` - The time the Model was updated. An RFC3339 formatted datetime string
@@ -66,12 +66,12 @@ The following attributes are exported:
 	* `bucket` - The name of the ObjectStorage bucket that contains the input data file.
 	* `dataset_id` - The OCID of the Data Science Labeling Dataset.
 	* `dataset_type` - Type of the Dataset.
-	* `namespace` - The namespace name of the ObjectStorage bucket that contains the input data file.
+	* `namespace_name` - The namespace name of the ObjectStorage bucket that contains the input data file.
 	* `object` - The object name of the input data file.
 * `validation_dataset` - The base entity for a Dataset, which is the input for Model creation.
 	* `bucket` - The name of the ObjectStorage bucket that contains the input data file.
 	* `dataset_id` - The OCID of the Data Science Labeling Dataset.
 	* `dataset_type` - Type of the Dataset.
-	* `namespace` - The namespace name of the ObjectStorage bucket that contains the input data file.
+	* `namespace_name` - The namespace name of the ObjectStorage bucket that contains the input data file.
 	* `object` - The object name of the input data file.
 

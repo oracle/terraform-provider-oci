@@ -23,6 +23,9 @@ type ReachableIp struct {
 
 	// A reachableIp IP address used by Resource Manager Service to connect to the private resource.
 	ReachableIp *string `mandatory:"true" json:"reachableIp"`
+
+	// An IP address for the Resource Manager service to use for connection to the private resource.
+	IpAddress *string `mandatory:"false" json:"ipAddress"`
 }
 
 func (m ReachableIp) String() string {

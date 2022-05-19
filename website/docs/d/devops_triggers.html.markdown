@@ -70,6 +70,6 @@ The following attributes are exported:
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}`
 * `time_created` - The time the trigger was created. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `time_updated` - The time the trigger was updated. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
-* `trigger_source` - Source of the trigger. Allowed values are, GITHUB, GITLAB and DEVOPS_CODE_REPOSITORY.
+* `trigger_source` - Source of the trigger. Allowed values are, GITHUB and GITLAB. 
 * `trigger_url` - The endpoint that listens to trigger events.
 

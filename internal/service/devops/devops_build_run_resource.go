@@ -275,6 +275,44 @@ func DevopsBuildRunResource() *schema.Resource {
 								},
 							},
 						},
+						"vulnerability_audit_summary_collection": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"items": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"build_stage_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"commit_hash": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"vulnerability_audit_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -722,6 +760,36 @@ func ActualBuildRunnerShapeConfigToMap(obj *oci_devops.ActualBuildRunnerShapeCon
 	return result
 }
 
+func (s *DevopsBuildRunResourceCrud) mapToBitbucketCloudFilterAttributes(fieldKeyFormat string) (oci_devops.BitbucketCloudFilterAttributes, error) {
+	result := oci_devops.BitbucketCloudFilterAttributes{}
+
+	if baseRef, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "base_ref")); ok {
+		tmp := baseRef.(string)
+		result.BaseRef = &tmp
+	}
+
+	if headRef, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "head_ref")); ok {
+		tmp := headRef.(string)
+		result.HeadRef = &tmp
+	}
+
+	return result, nil
+}
+
+func BitbucketCloudFilterAttributesToMap(obj *oci_devops.BitbucketCloudFilterAttributes) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BaseRef != nil {
+		result["base_ref"] = string(*obj.BaseRef)
+	}
+
+	if obj.HeadRef != nil {
+		result["head_ref"] = string(*obj.HeadRef)
+	}
+
+	return result
+}
+
 func BuildOutputsToMap(obj *oci_devops.BuildOutputs) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -735,6 +803,10 @@ func BuildOutputsToMap(obj *oci_devops.BuildOutputs) map[string]interface{} {
 
 	if obj.ExportedVariables != nil {
 		result["exported_variables"] = []interface{}{ExportedVariableCollectionToMap(obj.ExportedVariables)}
+	}
+
+	if obj.VulnerabilityAuditSummaryCollection != nil {
+		result["vulnerability_audit_summary_collection"] = []interface{}{VulnerabilityAuditSummaryCollectionToMap(obj.VulnerabilityAuditSummaryCollection)}
 	}
 
 	return result
@@ -799,6 +871,16 @@ func BuildRunProgressSummaryToMap(obj *oci_devops.BuildRunProgressSummary) map[s
 func BuildRunSourceToMap(obj *oci_devops.BuildRunSource) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_devops.BitbucketCloudBuildRunSource:
+		result["source_type"] = "BITBUCKET_CLOUD"
+
+		if v.TriggerId != nil {
+			result["trigger_id"] = string(*v.TriggerId)
+		}
+
+		if v.TriggerInfo != nil {
+			result["trigger_info"] = []interface{}{TriggerInfoToMap(v.TriggerInfo)}
+		}
 	case oci_devops.DevopsCodeRepositoryBuildRunSource:
 		result["source_type"] = "DEVOPS_CODE_REPOSITORY"
 
@@ -924,6 +1006,25 @@ func (s *DevopsBuildRunResourceCrud) mapToBuildSource(fieldKeyFormat string) (oc
 		connectionType = "" // default value
 	}
 	switch strings.ToLower(connectionType) {
+	case strings.ToLower("BITBUCKET_CLOUD"):
+		details := oci_devops.BitbucketCloudBuildSource{}
+		if connectionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_id")); ok {
+			tmp := connectionId.(string)
+			details.ConnectionId = &tmp
+		}
+		if branch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
+			tmp := branch.(string)
+			details.Branch = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		if repositoryUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repository_url")); ok {
+			tmp := repositoryUrl.(string)
+			details.RepositoryUrl = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("DEVOPS_CODE_REPOSITORY"):
 		details := oci_devops.DevopsCodeRepositoryBuildSource{}
 		if repositoryId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repository_id")); ok {
@@ -1387,6 +1488,31 @@ func (s *DevopsBuildRunResourceCrud) mapToFilter(fieldKeyFormat string) (oci_dev
 		triggerSource = "" // default value
 	}
 	switch strings.ToLower(triggerSource) {
+	case strings.ToLower("BITBUCKET_CLOUD"):
+		details := oci_devops.BitbucketCloudFilter{}
+		if events, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "events")); ok {
+			interfaces := events.([]interface{})
+			tmp := make([]oci_devops.BitbucketCloudFilterEventsEnum, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = oci_devops.BitbucketCloudFilterEventsEnum(interfaces[i].(string))
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "events")) {
+				details.Events = tmp
+			}
+		}
+		if include, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "include")); ok {
+			if tmpList := include.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "include"), 0)
+				tmp, err := s.mapToBitbucketCloudFilterAttributes(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert include, encountered error: %v", err)
+				}
+				details.Include = &tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("DEVOPS_CODE_REPOSITORY"):
 		details := oci_devops.DevopsCodeRepositoryFilter{}
 		if events, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "events")); ok {
@@ -1471,6 +1597,14 @@ func (s *DevopsBuildRunResourceCrud) mapToFilter(fieldKeyFormat string) (oci_dev
 func FilterToMap(obj *oci_devops.Filter) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_devops.BitbucketCloudFilter:
+		result["trigger_source"] = "BITBUCKET_CLOUD"
+
+		result["events"] = v.Events
+
+		if v.Include != nil {
+			result["include"] = []interface{}{BitbucketCloudFilterAttributesToMap(v.Include)}
+		}
 	case oci_devops.DevopsCodeRepositoryFilter:
 		result["trigger_source"] = "DEVOPS_CODE_REPOSITORY"
 
@@ -1637,6 +1771,36 @@ func TriggerInfoToMap(obj *oci_devops.TriggerInfo) map[string]interface{} {
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	return result
+}
+
+func VulnerabilityAuditSummaryToMap(obj oci_devops.VulnerabilityAuditSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BuildStageId != nil {
+		result["build_stage_id"] = string(*obj.BuildStageId)
+	}
+
+	if obj.CommitHash != nil {
+		result["commit_hash"] = string(*obj.CommitHash)
+	}
+
+	if obj.VulnerabilityAuditId != nil {
+		result["vulnerability_audit_id"] = string(*obj.VulnerabilityAuditId)
+	}
+
+	return result
+}
+
+func VulnerabilityAuditSummaryCollectionToMap(obj *oci_devops.VulnerabilityAuditSummaryCollection) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	items := []interface{}{}
+	for _, item := range obj.Items {
+		items = append(items, VulnerabilityAuditSummaryToMap(item))
+	}
+	result["items"] = items
 
 	return result
 }

@@ -28,6 +28,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	autonomous_database_backup_id = oci_database_autonomous_database_backup.test_autonomous_database_backup.id
 	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
 	autonomous_maintenance_schedule_type = var.autonomous_database_autonomous_maintenance_schedule_type
+	character_set = var.autonomous_database_character_set
 	clone_type = var.autonomous_database_clone_type
 	cpu_core_count = var.autonomous_database_cpu_core_count
 	customer_contacts {
@@ -50,11 +51,13 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	is_data_guard_enabled = var.autonomous_database_is_data_guard_enabled
 	is_dedicated = var.autonomous_database_is_dedicated
 	is_free_tier = var.autonomous_database_is_free_tier
+	is_local_data_guard_enabled = var.autonomous_database_is_local_data_guard_enabled
 	is_mtls_connection_required = var.autonomous_database_is_mtls_connection_required
 	is_preview_version_with_service_terms_accepted = var.autonomous_database_is_preview_version_with_service_terms_accepted
 	kms_key_id = oci_kms_key.test_key.id
 	license_model = var.autonomous_database_license_model
 	max_cpu_core_count = var.autonomous_database_max_cpu_core_count
+	ncharacter_set = var.autonomous_database_ncharacter_set
 	nsg_ids = var.autonomous_database_nsg_ids
 	ocpu_count = var.autonomous_database_ocpu_count
 	private_endpoint_label = var.autonomous_database_private_endpoint_label
@@ -90,6 +93,9 @@ The following arguments are supported:
 * `autonomous_database_backup_id` - (Required when source=BACKUP_FROM_ID) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database Backup that you will clone to create a new Autonomous Database.
 * `autonomous_database_id` - (Required when source=BACKUP_FROM_TIMESTAMP) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that you will clone to create a new Autonomous Database.
 * `autonomous_maintenance_schedule_type` - (Optional) The maintenance schedule type of the Autonomous Database on shared Exadata infrastructure. The EARLY maintenance schedule of this Autonomous Database follows a schedule that applies patches prior to the REGULAR schedule.The REGULAR maintenance schedule of this Autonomous Database follows the normal cycle. 
+* `character_set` - (Optional) The character set for the autonomous database.  The default is AL32UTF8. Allowed values are:
+
+	AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8859P6, AR8MSWIN1256, AR8MUSSAD768, AR8NAFITHA711, AR8NAFITHA721, AR8SAKHR706, AR8SAKHR707, AZ8ISO8859P9E, BG8MSWIN, BG8PC437S, BLT8CP921, BLT8ISO8859P13, BLT8MSWIN1257, BLT8PC775, BN8BSCII, CDN8PC863, CEL8ISO8859P14, CL8ISO8859P5, CL8ISOIR111, CL8KOI8R, CL8KOI8U, CL8MACCYRILLICS, CL8MSWIN1251, EE8ISO8859P2, EE8MACCES, EE8MACCROATIANS, EE8MSWIN1250, EE8PC852, EL8DEC, EL8ISO8859P7, EL8MACGREEKS, EL8MSWIN1253, EL8PC437S, EL8PC851, EL8PC869, ET8MSWIN923, HU8ABMOD, HU8CWI2, IN8ISCII, IS8PC861, IW8ISO8859P8, IW8MACHEBREWS, IW8MSWIN1255, IW8PC1507, JA16EUC, JA16EUCTILDE, JA16SJIS, JA16SJISTILDE, JA16VMS, KO16KSC5601, KO16KSCCS, KO16MSWIN949, LA8ISO6937, LA8PASSPORT, LT8MSWIN921, LT8PC772, LT8PC774, LV8PC1117, LV8PC8LR, LV8RST104090, N8PC865, NE8ISO8859P10, NEE8ISO8859P4, RU8BESTA, RU8PC855, RU8PC866, SE8ISO8859P3, TH8MACTHAIS, TH8TISASCII, TR8DEC, TR8MACTURKISHS, TR8MSWIN1254, TR8PC857, US7ASCII, US8PC437, UTF8, VN8MSWIN1258, VN8VN3, WE8DEC, WE8DG, WE8ISO8859P1, WE8ISO8859P15, WE8ISO8859P9, WE8MACROMAN8S, WE8MSWIN1252, WE8NCR4970, WE8NEXTSTEP, WE8PC850, WE8PC858, WE8PC860, WE8ROMAN8, ZHS16CGB231280, ZHS16GBK, ZHT16BIG5, ZHT16CCDC, ZHT16DBT, ZHT16HKSCS, ZHT16MSWIN950, ZHT32EUC, ZHT32SOPS, ZHT32TRIS 
 * `clone_type` - (Required when source=BACKUP_FROM_ID | BACKUP_FROM_TIMESTAMP | DATABASE) The Autonomous Database clone type.
 	* `FULL` - This option creates a new database that includes all source database data.
 	* `METADATA` - This option creates a new database that includes the source database schema and select metadata, but not the source database data.
@@ -122,7 +128,9 @@ The following arguments are supported:
 * `is_access_control_enabled` - (Optional) (Updatable) Indicates if the database-level access control is enabled. If disabled, database access is defined by the network security rules. If enabled, database access is restricted to the IP addresses defined by the rules specified with the `whitelistedIps` property. While specifying `whitelistedIps` rules is optional, if database-level access control is enabled and no rules are specified, the database will become inaccessible. The rules can be added later using the `UpdateAutonomousDatabase` API operation or edit option in console. When creating a database clone, the desired access control setting should be specified. By default, database-level access control will be disabled for the clone.
 
 	This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform. 
-* `is_auto_scaling_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Autonomous Database OCPU core count. The default value is `FALSE`.
+* `is_auto_scaling_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Autonomous Database OCPU core count. The default value is `FALSE`. 
+* `is_data_guard_enabled` - (Optional) (Updatable) **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure. 
+* `is_local_data_guard_enabled` - (Optional) (Updatable) Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 * `is_data_guard_enabled` - (Optional) (Updatable) Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to  Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure. 
 * `is_auto_scaling_for_storage_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`. 
 * `is_dedicated` - (Optional) True if the database is on [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm). 
@@ -133,6 +141,7 @@ The following arguments are supported:
 * `max_cpu_core_count` - (Optional) (Updatable) The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled. 
 * `is_refreshable_clone` - (Applicable when source=CLONE_TO_REFRESHABLE) (Updatable) True for creating a refreshable clone and False for detaching the clone from source Autonomous Database. Detaching is one time operation and clone becomes a regular Autonomous Database.
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle PaaS and IaaS services in the cloud. License Included allows you to subscribe to new Oracle Database software licenses and the Database service. Note that when provisioning an Autonomous Database on [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the Autonomous Exadata Infrastructure level. When using [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`. It is a required field when `db_workload` is AJD and needs to be set to `LICENSE_INCLUDED` as AJD does not support default `license_model` value `BRING_YOUR_OWN_LICENSE`.
+* `ncharacter_set` - (Optional) The national character set for the autonomous database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8.
 * `nsg_ids` - (Optional) (Updatable) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty. 
 * `ocpu_count` - (Optional) (Updatable) The number of OCPU cores to be made available to the database. 
@@ -204,6 +213,9 @@ The following attributes are exported:
 * `backup_config` - Autonomous Database configuration details for storing [manual backups](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/backup-restore.html#GUID-9035DFB8-4702-4CEB-8281-C2A303820809) in the [Object Storage](https://docs.cloud.oracle.com/iaas/Content/Object/Concepts/objectstorageoverview.htm) service. 
 	* `manual_backup_bucket_name` - Name of [Object Storage](https://docs.cloud.oracle.com/iaas/Content/Object/Concepts/objectstorageoverview.htm) bucket to use for storing manual backups.
 	* `manual_backup_type` - The manual backup destination type.
+* `character_set` - The character set for the autonomous database.  The default is AL32UTF8. Allowed values are:
+
+	AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8859P6, AR8MSWIN1256, AR8MUSSAD768, AR8NAFITHA711, AR8NAFITHA721, AR8SAKHR706, AR8SAKHR707, AZ8ISO8859P9E, BG8MSWIN, BG8PC437S, BLT8CP921, BLT8ISO8859P13, BLT8MSWIN1257, BLT8PC775, BN8BSCII, CDN8PC863, CEL8ISO8859P14, CL8ISO8859P5, CL8ISOIR111, CL8KOI8R, CL8KOI8U, CL8MACCYRILLICS, CL8MSWIN1251, EE8ISO8859P2, EE8MACCES, EE8MACCROATIANS, EE8MSWIN1250, EE8PC852, EL8DEC, EL8ISO8859P7, EL8MACGREEKS, EL8MSWIN1253, EL8PC437S, EL8PC851, EL8PC869, ET8MSWIN923, HU8ABMOD, HU8CWI2, IN8ISCII, IS8PC861, IW8ISO8859P8, IW8MACHEBREWS, IW8MSWIN1255, IW8PC1507, JA16EUC, JA16EUCTILDE, JA16SJIS, JA16SJISTILDE, JA16VMS, KO16KSC5601, KO16KSCCS, KO16MSWIN949, LA8ISO6937, LA8PASSPORT, LT8MSWIN921, LT8PC772, LT8PC774, LV8PC1117, LV8PC8LR, LV8RST104090, N8PC865, NE8ISO8859P10, NEE8ISO8859P4, RU8BESTA, RU8PC855, RU8PC866, SE8ISO8859P3, TH8MACTHAIS, TH8TISASCII, TR8DEC, TR8MACTURKISHS, TR8MSWIN1254, TR8PC857, US7ASCII, US8PC437, UTF8, VN8MSWIN1258, VN8VN3, WE8DEC, WE8DG, WE8ISO8859P1, WE8ISO8859P15, WE8ISO8859P9, WE8MACROMAN8S, WE8MSWIN1252, WE8NCR4970, WE8NEXTSTEP, WE8PC850, WE8PC858, WE8PC860, WE8ROMAN8, ZHS16CGB231280, ZHS16GBK, ZHT16BIG5, ZHT16CCDC, ZHT16DBT, ZHT16HKSCS, ZHT16MSWIN950, ZHT32EUC, ZHT32SOPS, ZHT32TRIS 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `connection_strings` - The connection string used to connect to the Autonomous Database. The username for the Service Console is ADMIN. Use the password you entered when creating the Autonomous Database for the password value.
 	* `all_connection_strings` - Returns all connection strings that can be used to connect to the Autonomous Database. For more information, please see [Predefined Database Service Names for Autonomous Transaction Processing](https://docs.oracle.com/en/cloud/paas/atp-cloud/atpug/connect-predefined.html#GUID-9747539B-FD46-44F1-8FF8-F5AC650F15BE) 
@@ -254,13 +266,15 @@ The following attributes are exported:
 	This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform. 
 * `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Autonomous Database CPU core count. 
 * `is_auto_scaling_for_storage_enabled` - Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`. 
-* `is_data_guard_enabled` - Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
+* `is_data_guard_enabled` - **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure. 
 * `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html). 
 * `is_free_tier` - Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled. 
+* `is_local_data_guard_enabled` - Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 * `is_mtls_connection_required` - Indicates whether the Autonomous Database requires mTLS connections.
 * `is_preview` - Indicates if the Autonomous Database version is a preview version.
 * `is_reconnect_clone_enabled` - Indicates if the refreshable clone can be reconnected to its source database.
 * `is_refreshable_clone` - Indicates whether the Autonomous Database is a refreshable clone.
+* `is_remote_data_guard_enabled` - Indicates whether the Autonomous Database has Cross Region Data Guard enabled. Not applicable to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 * `key_history_entry` - Key History Entry.
 	* `id` - The id of the Autonomous Database [Vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts) service key management history entry.
 	* `kms_key_version_id` - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. 
@@ -273,8 +287,14 @@ The following attributes are exported:
 * `kms_key_version_id` - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. 
 * `license_model` - The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle PaaS and IaaS services in the cloud. License Included allows you to subscribe to new Oracle Database software licenses and the Database service. Note that when provisioning an Autonomous Database on [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null because the attribute is already set at the Autonomous Exadata Infrastructure level. When using [shared Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`. 
 * `lifecycle_details` - Information about the current lifecycle state.
+* `local_standby_db` - Autonomous Data Guard standby database details. 
+	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
+	* `lifecycle_details` - Additional information about the current lifecycle state.
+	* `state` - The current state of the Autonomous Database.
+	* `time_data_guard_role_changed` - The date and time the Autonomous Data Guard role was switched for the standby Autonomous Database.
 * `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per each OCPU core in Autonomous VM Cluster.
-* `max_cpu_core_count` - The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled. 
+* `max_cpu_core_count` - The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
+* `ncharacter_set` - The national character set for the autonomous database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8. 
 * `nsg_ids` - A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty. 
 * `ocpu_count` - The number of OCPU cores to be made available to the database. 
@@ -304,7 +324,7 @@ The following attributes are exported:
 	* `scheduled_stop_time` - auto stop time. value must be of ISO-8601 format "HH:mm"
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.
 * `source_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that was cloned to create the current Autonomous Database.
-* `standby_db` - Autonomous Data Guard standby database details. 
+* `standby_db` - **Deprecated** Autonomous Data Guard standby database details. 
 	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
 	* `lifecycle_details` - Additional information about the current lifecycle state.
 	* `state` - The current state of the Autonomous Database.

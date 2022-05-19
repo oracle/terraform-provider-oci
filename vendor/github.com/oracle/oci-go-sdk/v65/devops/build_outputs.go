@@ -22,6 +22,8 @@ type BuildOutputs struct {
 	DeliveredArtifacts *DeliveredArtifactCollection `mandatory:"false" json:"deliveredArtifacts"`
 
 	ArtifactOverrideParameters *DeployArtifactOverrideArgumentCollection `mandatory:"false" json:"artifactOverrideParameters"`
+
+	VulnerabilityAuditSummaryCollection *VulnerabilityAuditSummaryCollection `mandatory:"false" json:"vulnerabilityAuditSummaryCollection"`
 }
 
 func (m BuildOutputs) String() string {

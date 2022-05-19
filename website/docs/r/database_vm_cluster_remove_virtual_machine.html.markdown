@@ -44,6 +44,8 @@ The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `cpus_enabled` - The number of enabled CPU cores.
+* `data_collection_options` - Indicates user preferences for the various diagnostic collection options for the VM cluster. 
+	* `is_diagnostics_events_enabled` - Indicates whether diagnostic collection is enabled for the VM cluster. Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues. Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system. You can enable diagnostic collection during VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` API. 
 * `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group.
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
 * `db_servers` - The list of Db server.

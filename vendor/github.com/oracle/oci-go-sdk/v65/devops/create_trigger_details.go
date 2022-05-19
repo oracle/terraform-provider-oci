@@ -88,6 +88,10 @@ func (m *createtriggerdetails) UnmarshalPolymorphicJSON(data []byte) (interface{
 		mm := CreateDevopsCodeRepositoryTriggerDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BITBUCKET_CLOUD":
+		mm := CreateBitbucketCloudTriggerDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITLAB":
 		mm := CreateGitlabTriggerDetails{}
 		err = json.Unmarshal(data, &mm)
