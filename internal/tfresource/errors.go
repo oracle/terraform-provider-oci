@@ -42,6 +42,7 @@ type customError struct {
 	Suggestion    string
 	VersionError  string
 	ResourceDocs  string
+	SdkApiDocs    string
 }
 
 // Create new error format for Terraform output
@@ -61,6 +62,7 @@ func newCustomError(sync interface{}, err error) error {
 			RequestTarget: failure.GetRequestTarget(),
 			Service:       getServiceName(sync),
 			ResourceDocs:  getResourceDocsURL(sync),
+			SdkApiDocs:    failure.GetOperationReferenceLink(),
 		}
 	} else if strings.Contains(errorMessage, "timeout while waiting for state") {
 		// Timeout error
@@ -103,12 +105,13 @@ func (tfE customError) Error() error {
 		return fmt.Errorf("%d-%s, %s \n"+
 			"Suggestion: %s\n"+
 			"Documentation: %s \n"+
+			"API Reference: %s \n"+
 			"Request Target: %s \n"+
 			"%s \n"+
 			"Service: %s \n"+
 			"Operation Name: %s \n"+
 			"OPC request ID: %s \n",
-			tfE.ErrorCode, tfE.ErrorCodeName, tfE.Message, tfE.Suggestion, tfE.ResourceDocs, tfE.RequestTarget,
+			tfE.ErrorCode, tfE.ErrorCodeName, tfE.Message, tfE.Suggestion, tfE.ResourceDocs, tfE.SdkApiDocs, tfE.RequestTarget,
 			tfE.VersionError, tfE.Service, tfE.OperationName, tfE.OpcRequestID)
 	case TimeoutError:
 		return fmt.Errorf("%s \n"+
