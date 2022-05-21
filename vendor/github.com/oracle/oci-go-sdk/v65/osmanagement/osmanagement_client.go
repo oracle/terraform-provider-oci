@@ -1080,6 +1080,137 @@ func (client OsManagementClient) detachParentSoftwareSourceFromManagedInstance(c
 	return response, err
 }
 
+// DisableModuleStreamOnManagedInstance Disables a module stream on a managed instance.  After the stream is
+// disabled, it is no longer possible to install the profiles that are
+// contained by the stream.  All installed profiles must be removed prior
+// to disabling a module stream.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/DisableModuleStreamOnManagedInstance.go.html to see an example of how to use DisableModuleStreamOnManagedInstance API.
+func (client OsManagementClient) DisableModuleStreamOnManagedInstance(ctx context.Context, request DisableModuleStreamOnManagedInstanceRequest) (response DisableModuleStreamOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableModuleStreamOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableModuleStreamOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableModuleStreamOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableModuleStreamOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableModuleStreamOnManagedInstanceResponse")
+	}
+	return
+}
+
+// disableModuleStreamOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client OsManagementClient) disableModuleStreamOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/moduleStreams/disable", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableModuleStreamOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ModuleStreamDetails/DisableModuleStreamOnManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "DisableModuleStreamOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableModuleStreamOnManagedInstance Enables a module stream on a managed instance.  After the stream is
+// enabled, it is possible to install the profiles that are contained
+// by the stream.  Enabling a stream that is already enabled will
+// succeed.  Attempting to enable a different stream for a module that
+// already has a stream enabled results in an error.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/EnableModuleStreamOnManagedInstance.go.html to see an example of how to use EnableModuleStreamOnManagedInstance API.
+func (client OsManagementClient) EnableModuleStreamOnManagedInstance(ctx context.Context, request EnableModuleStreamOnManagedInstanceRequest) (response EnableModuleStreamOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableModuleStreamOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableModuleStreamOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableModuleStreamOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableModuleStreamOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableModuleStreamOnManagedInstanceResponse")
+	}
+	return
+}
+
+// enableModuleStreamOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client OsManagementClient) enableModuleStreamOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/moduleStreams/enable", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableModuleStreamOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ModuleStreamDetails/EnableModuleStreamOnManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "EnableModuleStreamOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetErratum Returns a specific erratum.
 //
 // See also
@@ -1244,6 +1375,120 @@ func (client OsManagementClient) getManagedInstanceGroup(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstanceGroup/GetManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "OsManagement", "GetManagedInstanceGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetModuleStream Retrieve a detailed description of a module stream from a software source.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetModuleStream.go.html to see an example of how to use GetModuleStream API.
+func (client OsManagementClient) GetModuleStream(ctx context.Context, request GetModuleStreamRequest) (response GetModuleStreamResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getModuleStream, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetModuleStreamResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetModuleStreamResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetModuleStreamResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetModuleStreamResponse")
+	}
+	return
+}
+
+// getModuleStream implements the OCIOperation interface (enables retrying operations)
+func (client OsManagementClient) getModuleStream(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources/{softwareSourceId}/modules/{moduleName}/streams/{streamName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetModuleStreamResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ModuleStream/GetModuleStream"
+		err = common.PostProcessServiceError(err, "OsManagement", "GetModuleStream", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetModuleStreamProfile Retrieve a detailed description of a module stream profile from a software source.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetModuleStreamProfile.go.html to see an example of how to use GetModuleStreamProfile API.
+func (client OsManagementClient) GetModuleStreamProfile(ctx context.Context, request GetModuleStreamProfileRequest) (response GetModuleStreamProfileResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getModuleStreamProfile, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetModuleStreamProfileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetModuleStreamProfileResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetModuleStreamProfileResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetModuleStreamProfileResponse")
+	}
+	return
+}
+
+// getModuleStreamProfile implements the OCIOperation interface (enables retrying operations)
+func (client OsManagementClient) getModuleStreamProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources/{softwareSourceId}/modules/{moduleName}/streams/{streamName}/profiles/{profileName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetModuleStreamProfileResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ModuleStreamProfile/GetModuleStreamProfile"
+		err = common.PostProcessServiceError(err, "OsManagement", "GetModuleStreamProfile", apiReferenceLink)
 		return response, err
 	}
 
@@ -1715,6 +1960,70 @@ func (client OsManagementClient) installAllWindowsUpdatesOnManagedInstance(ctx c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/InstallAllWindowsUpdatesOnManagedInstance"
 		err = common.PostProcessServiceError(err, "OsManagement", "InstallAllWindowsUpdatesOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// InstallModuleStreamProfileOnManagedInstance Installs a profile for an module stream.  The stream must be
+// enabled before a profile can be installed.  If a module stream
+// defines multiple profiles, each one can be installed independently.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/InstallModuleStreamProfileOnManagedInstance.go.html to see an example of how to use InstallModuleStreamProfileOnManagedInstance API.
+func (client OsManagementClient) InstallModuleStreamProfileOnManagedInstance(ctx context.Context, request InstallModuleStreamProfileOnManagedInstanceRequest) (response InstallModuleStreamProfileOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.installModuleStreamProfileOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InstallModuleStreamProfileOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InstallModuleStreamProfileOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(InstallModuleStreamProfileOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into InstallModuleStreamProfileOnManagedInstanceResponse")
+	}
+	return
+}
+
+// installModuleStreamProfileOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client OsManagementClient) installModuleStreamProfileOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/streamProfiles/install", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response InstallModuleStreamProfileOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ModuleStreamProfileDetails/InstallModuleStreamProfileOnManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "InstallModuleStreamProfileOnManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -2364,6 +2673,296 @@ func (client OsManagementClient) listManagedInstances(ctx context.Context, reque
 	return response, err
 }
 
+// ListModuleStreamProfiles Retrieve a list of module stream profiles from a software source.
+// Filters may be applied to select a subset of module stream profiles
+// based on the filter criteria.
+// The "moduleName", "streamName", and "profileName" attributes combine
+// to form a set of filters on the list of module stream profiles.  If
+// a "moduleName" is provided, only profiles that belong to that module
+// are returned.  If both a "moduleName" and "streamName" are given,
+// only profiles belonging to that module stream are returned.  Finally,
+// if all three are given then only the particular profile indicated
+// by the triple is returned.  It is not valid to supply a "streamName"
+// without a "moduleName".  It is also not valid to supply a "profileName"
+// without a "streamName".
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListModuleStreamProfiles.go.html to see an example of how to use ListModuleStreamProfiles API.
+func (client OsManagementClient) ListModuleStreamProfiles(ctx context.Context, request ListModuleStreamProfilesRequest) (response ListModuleStreamProfilesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listModuleStreamProfiles, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListModuleStreamProfilesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListModuleStreamProfilesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListModuleStreamProfilesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListModuleStreamProfilesResponse")
+	}
+	return
+}
+
+// listModuleStreamProfiles implements the OCIOperation interface (enables retrying operations)
+func (client OsManagementClient) listModuleStreamProfiles(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources/{softwareSourceId}/streamProfiles", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListModuleStreamProfilesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ModuleStreamProfileSummary/ListModuleStreamProfiles"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListModuleStreamProfiles", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListModuleStreamProfilesOnManagedInstance Retrieve a list of module stream profiles, along with a summary of their
+// of their status, from a managed instance.  Filters may be applied to
+// select a subset of profiles based on the filter criteria.
+// The "moduleName", "streamName", and "profileName" attributes combine
+// to form a set of filters on the list of module stream profiles.  If
+// a "modulName" is provided, only profiles that belong to that module
+// are returned.  If both a "moduleName" and "streamName" are given,
+// only profiles belonging to that module stream are returned.  Finally,
+// if all three are given then only the particular profile indicated
+// by the triple is returned.  It is not valid to supply a "streamName"
+// without a "moduleName".  It is also not valid to supply a "profileName"
+// without a "streamName".
+// The "status" attribute filters against the state of a module stream
+// profile.  Valid values are "INSTALLED" and "AVAILABLE".  If the
+// attribute is set to "INSTALLED", only module stream profiles that
+// are installed are included in the result set.  If the attribute is
+// set to "AVAILABLE", only module stream profiles that are not
+// installed are included in the result set.  If the attribute is not
+// defined, the request is not subject to this filter.
+// When sorting by display name, the result set is sorted first by
+// module name, then by stream name, and finally by profile name.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListModuleStreamProfilesOnManagedInstance.go.html to see an example of how to use ListModuleStreamProfilesOnManagedInstance API.
+func (client OsManagementClient) ListModuleStreamProfilesOnManagedInstance(ctx context.Context, request ListModuleStreamProfilesOnManagedInstanceRequest) (response ListModuleStreamProfilesOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listModuleStreamProfilesOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListModuleStreamProfilesOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListModuleStreamProfilesOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListModuleStreamProfilesOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListModuleStreamProfilesOnManagedInstanceResponse")
+	}
+	return
+}
+
+// listModuleStreamProfilesOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client OsManagementClient) listModuleStreamProfilesOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/streamProfiles", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListModuleStreamProfilesOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/ListModuleStreamProfilesOnManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListModuleStreamProfilesOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListModuleStreams Retrieve a list of module streams from a software source.
+// Filters may be applied to select a subset of module streams
+// based on the filter criteria.
+// The 'moduleName' attribute filters against the name of a module.
+// It accepts strings of the format "<module>".  If this attribute
+// is defined, only streams that belong to the specified module are
+// included in the result set.  If it is not defined, the request is
+// not subject to this filter.  The 'streamName' attribute filters
+// against the name of a stream of a module.  If this attribute is
+// defined, only the particular module stream that matches both the
+// module and stream names is included in the result set.  It is
+// not valid to supply 'streamName' without also supplying a
+// 'moduleName'.
+// When sorting by display name, the result set is sorted first by
+// module name, then by stream name.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListModuleStreams.go.html to see an example of how to use ListModuleStreams API.
+func (client OsManagementClient) ListModuleStreams(ctx context.Context, request ListModuleStreamsRequest) (response ListModuleStreamsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listModuleStreams, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListModuleStreamsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListModuleStreamsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListModuleStreamsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListModuleStreamsResponse")
+	}
+	return
+}
+
+// listModuleStreams implements the OCIOperation interface (enables retrying operations)
+func (client OsManagementClient) listModuleStreams(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources/{softwareSourceId}/moduleStreams", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListModuleStreamsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ModuleStreamSummary/ListModuleStreams"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListModuleStreams", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListModuleStreamsOnManagedInstance Retrieve a list of module streams, along with a summary of their
+// status, from a managed instance.  Filters may be applied to select
+// a subset of module streams based on the filter criteria.
+// The 'moduleName' attribute filters against the name of a module.
+// It accepts strings of the format "<module>".  If this attribute
+// is defined, only streams that belong to the specified module are
+// included in the result set.  If it is not defined, the request is
+// not subject to this filter.
+// The "status" attribute filters against the state of a module stream.
+// Valid values are "ENABLED", "DISABLED", and "ACTIVE".  If the
+// attribute is set to "ENABLED", only module streams that are enabled
+// are included in the result set.  If the attribute is set to "DISABLED",
+// only module streams that are not enabled are included in the result
+// set.  If the attribute is set to "ACTIVE", only module streams that
+// are active are included in the result set.  If the attribute is not
+// defined, the request is not subject to this filter.
+// When sorting by the display name, the result set is sorted first
+// by the module name and then by the stream name.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListModuleStreamsOnManagedInstance.go.html to see an example of how to use ListModuleStreamsOnManagedInstance API.
+func (client OsManagementClient) ListModuleStreamsOnManagedInstance(ctx context.Context, request ListModuleStreamsOnManagedInstanceRequest) (response ListModuleStreamsOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listModuleStreamsOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListModuleStreamsOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListModuleStreamsOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListModuleStreamsOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListModuleStreamsOnManagedInstanceResponse")
+	}
+	return
+}
+
+// listModuleStreamsOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client OsManagementClient) listModuleStreamsOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/moduleStreams", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListModuleStreamsOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/ListModuleStreamsOnManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListModuleStreamsOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListPackagesInstalledOnManagedInstance Returns a list of installed packages on the Managed Instance.
 //
 // See also
@@ -2934,6 +3533,183 @@ func (client OsManagementClient) listWorkRequests(ctx context.Context, request c
 	return response, err
 }
 
+// ManageModuleStreamsOnManagedInstance Perform an operation involving modules, streams, and profiles on a
+// managed instance.  Each operation may enable or disable an arbitrary
+// amount of module streams, and install or remove an arbitrary number
+// of module stream profiles.  When the operation is complete, the
+// state of the modules, streams, and profiles on the managed instance
+// will match the state indicated in the operation.
+// Each module stream specified in the list of module streams to enable
+// will be in the "ENABLED" state upon completion of the operation.
+// If there was already a stream of that module enabled, any work
+// required to switch from the current stream to the new stream is
+// performed implicitly.
+// Each module stream specified in the list of module streams to disable
+// will be in the "DISABLED" state upon completion of the operation.
+// Any profiles that are installed for the module stream will be removed
+// as part of the operation.
+// Each module stream profile specified in the list of profiles to install
+// will be in the "INSTALLED" state upon completion of the operation,
+// indicating that any packages that are part of the profile are installed
+// on the managed instance.  If the module stream containing the profile
+// is not enabled, it will be enabled as part of the operation.  There
+// is an exception when attempting to install a stream of a profile when
+// another stream of the same module is enabled.  It is an error to attempt
+// to install a profile of another module stream, unless enabling the
+// new module stream is explicitly included in this operation.
+// Each module stream profile specified in the list of profiles to remove
+// will be in the "AVAILABLE" state upon completion of the operation.
+// The status of packages within the profile after the operation is
+// complete is defined by the package manager on the managed instance.
+// Operations that contain one or more elements that are not allowed
+// are rejected.
+// The result of this request is a WorkRequest object.  The returned
+// WorkRequest is the parent of a structure of other WorkRequests.  Taken
+// as a whole, this structure indicates the entire set of work to be
+// performed to complete the operation.
+// This interface can also be used to perform a dry run of the operation
+// rather than committing it to a managed instance.  If a dry run is
+// requested, the OS Management Service will evaluate the operation
+// against the current module, stream, and profile state on the managed
+// instance.  It will calculate the impact of the operation on all
+// modules, streams, and profiles on the managed instance, including those
+// that are implicitly impacted by the operation.
+// The WorkRequest resulting from a dry run behaves differently than
+// a WorkRequest resulting from a committable operation.  Dry run
+// WorkRequests are always singletons and never have children.  The
+// impact of the operation is returned using the log and error
+// facilities of WorkRequests.  The impact of operations that are
+// allowed by the OS Management Service are communicated as one or
+// more work request log entries.  Operations that are not allowed
+// by the OS Management Service are communicated as one or more
+// work requst error entries.  Each entry, for either logs or errors,
+// contains a structured message containing the results of one
+// or more operations.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ManageModuleStreamsOnManagedInstance.go.html to see an example of how to use ManageModuleStreamsOnManagedInstance API.
+func (client OsManagementClient) ManageModuleStreamsOnManagedInstance(ctx context.Context, request ManageModuleStreamsOnManagedInstanceRequest) (response ManageModuleStreamsOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.manageModuleStreamsOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ManageModuleStreamsOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ManageModuleStreamsOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ManageModuleStreamsOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ManageModuleStreamsOnManagedInstanceResponse")
+	}
+	return
+}
+
+// manageModuleStreamsOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client OsManagementClient) manageModuleStreamsOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/moduleStreams/manage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ManageModuleStreamsOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/ManageModuleStreamsOnManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "ManageModuleStreamsOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveModuleStreamProfileFromManagedInstance Removes a profile for a module stream that is installed on a managed instance.
+// If a module stream is provided, rather than a fully qualified profile, all
+// profiles that have been installed for the module stream will be removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/RemoveModuleStreamProfileFromManagedInstance.go.html to see an example of how to use RemoveModuleStreamProfileFromManagedInstance API.
+func (client OsManagementClient) RemoveModuleStreamProfileFromManagedInstance(ctx context.Context, request RemoveModuleStreamProfileFromManagedInstanceRequest) (response RemoveModuleStreamProfileFromManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeModuleStreamProfileFromManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveModuleStreamProfileFromManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveModuleStreamProfileFromManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveModuleStreamProfileFromManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveModuleStreamProfileFromManagedInstanceResponse")
+	}
+	return
+}
+
+// removeModuleStreamProfileFromManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client OsManagementClient) removeModuleStreamProfileFromManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/streamProfiles/remove", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveModuleStreamProfileFromManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ModuleStreamProfileDetails/RemoveModuleStreamProfileFromManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "RemoveModuleStreamProfileFromManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RemovePackageFromManagedInstance Removes an installed package from a managed instance.
 //
 // See also
@@ -3230,6 +4006,71 @@ func (client OsManagementClient) skipNextScheduledJobExecution(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ScheduledJob/SkipNextScheduledJobExecution"
 		err = common.PostProcessServiceError(err, "OsManagement", "SkipNextScheduledJobExecution", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SwitchModuleStreamOnManagedInstance Enables a new stream for a module that already has a stream enabled.
+// If any profiles or packages from the original module are installed,
+// switching to a new stream will remove the existing packages and
+// install their counterparts in the new stream.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/SwitchModuleStreamOnManagedInstance.go.html to see an example of how to use SwitchModuleStreamOnManagedInstance API.
+func (client OsManagementClient) SwitchModuleStreamOnManagedInstance(ctx context.Context, request SwitchModuleStreamOnManagedInstanceRequest) (response SwitchModuleStreamOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.switchModuleStreamOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SwitchModuleStreamOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SwitchModuleStreamOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SwitchModuleStreamOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SwitchModuleStreamOnManagedInstanceResponse")
+	}
+	return
+}
+
+// switchModuleStreamOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client OsManagementClient) switchModuleStreamOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/moduleStreams/switch", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SwitchModuleStreamOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ModuleStreamDetails/SwitchModuleStreamOnManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "SwitchModuleStreamOnManagedInstance", apiReferenceLink)
 		return response, err
 	}
 

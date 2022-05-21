@@ -52,9 +52,6 @@ type StackSummary struct {
 	// The version of Terraform specified for the stack. Example: `0.12.x`
 	TerraformVersion *string `mandatory:"false" json:"terraformVersion"`
 
-	// The OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of private endpoints associated with the stack.
-	PrivateEndpointIds []string `mandatory:"false" json:"privateEndpointIds"`
-
 	// Free-form tags associated with this resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

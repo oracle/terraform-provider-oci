@@ -123,6 +123,9 @@ type CreateSddcDetails struct {
 	// Indicates whether shielded instance is enabled for this SDDC.
 	IsShieldedInstanceEnabled *bool `mandatory:"false" json:"isShieldedInstanceEnabled"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

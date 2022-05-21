@@ -24,8 +24,7 @@ type UpdateOdaInstanceDetails struct {
 	// Description of the Digital Assistant instance.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for
-	// cross-compatibility only.
+	// Simple key-value pair that is applied without any predefined name, type, or scope.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
