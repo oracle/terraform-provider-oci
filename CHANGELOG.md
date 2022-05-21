@@ -1,3 +1,14 @@
+## 4.77.0 (Unreleased)
+
+### Added
+- Support for customer managed encryption keys in Oracle Analytics Cloud
+- Increase lsInventory size when creating db software image for VMBM.
+- Support for Oracle Linux 8 Application Streams to the OS Management Service
+- Supporting Usage plan and Subscriber in API Gateway
+### Bug Fix
+- Fix defaults and backwards compatibility tests
+- Fix for configurationId and dataStorageSizeGB update in DbSystem
+
 ## 4.76.0 (May 19, 2022)
 
 ### Added
