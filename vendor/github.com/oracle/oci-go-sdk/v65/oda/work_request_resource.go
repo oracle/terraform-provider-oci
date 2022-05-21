@@ -66,42 +66,69 @@ type WorkRequestResourceResourceActionEnum string
 
 // Set of constants representing the allowable values for WorkRequestResourceResourceActionEnum
 const (
-	WorkRequestResourceResourceActionCreate                     WorkRequestResourceResourceActionEnum = "CREATE"
-	WorkRequestResourceResourceActionDelete                     WorkRequestResourceResourceActionEnum = "DELETE"
-	WorkRequestResourceResourceActionPurge                      WorkRequestResourceResourceActionEnum = "PURGE"
-	WorkRequestResourceResourceActionRecover                    WorkRequestResourceResourceActionEnum = "RECOVER"
-	WorkRequestResourceResourceActionStop                       WorkRequestResourceResourceActionEnum = "STOP"
-	WorkRequestResourceResourceActionStart                      WorkRequestResourceResourceActionEnum = "START"
-	WorkRequestResourceResourceActionChangeCompartment          WorkRequestResourceResourceActionEnum = "CHANGE_COMPARTMENT"
-	WorkRequestResourceResourceActionCreateAssociation          WorkRequestResourceResourceActionEnum = "CREATE_ASSOCIATION"
-	WorkRequestResourceResourceActionDeleteAssociation          WorkRequestResourceResourceActionEnum = "DELETE_ASSOCIATION"
-	WorkRequestResourceResourceActionUpdateEntitlementsForCacct WorkRequestResourceResourceActionEnum = "UPDATE_ENTITLEMENTS_FOR_CACCT"
+	WorkRequestResourceResourceActionCreate                      WorkRequestResourceResourceActionEnum = "CREATE"
+	WorkRequestResourceResourceActionDelete                      WorkRequestResourceResourceActionEnum = "DELETE"
+	WorkRequestResourceResourceActionPurge                       WorkRequestResourceResourceActionEnum = "PURGE"
+	WorkRequestResourceResourceActionRecover                     WorkRequestResourceResourceActionEnum = "RECOVER"
+	WorkRequestResourceResourceActionStop                        WorkRequestResourceResourceActionEnum = "STOP"
+	WorkRequestResourceResourceActionStart                       WorkRequestResourceResourceActionEnum = "START"
+	WorkRequestResourceResourceActionChangeCompartment           WorkRequestResourceResourceActionEnum = "CHANGE_COMPARTMENT"
+	WorkRequestResourceResourceActionChangeCustEncKey            WorkRequestResourceResourceActionEnum = "CHANGE_CUST_ENC_KEY"
+	WorkRequestResourceResourceActionDeactCustEncKey             WorkRequestResourceResourceActionEnum = "DEACT_CUST_ENC_KEY"
+	WorkRequestResourceResourceActionCreateAssociation           WorkRequestResourceResourceActionEnum = "CREATE_ASSOCIATION"
+	WorkRequestResourceResourceActionDeleteAssociation           WorkRequestResourceResourceActionEnum = "DELETE_ASSOCIATION"
+	WorkRequestResourceResourceActionUpdateEntitlementsForCacct  WorkRequestResourceResourceActionEnum = "UPDATE_ENTITLEMENTS_FOR_CACCT"
+	WorkRequestResourceResourceActionCreateOdaInstanceAttachment WorkRequestResourceResourceActionEnum = "CREATE_ODA_INSTANCE_ATTACHMENT"
+	WorkRequestResourceResourceActionUpdateOdaInstanceAttachment WorkRequestResourceResourceActionEnum = "UPDATE_ODA_INSTANCE_ATTACHMENT"
+	WorkRequestResourceResourceActionDeleteOdaInstanceAttachment WorkRequestResourceResourceActionEnum = "DELETE_ODA_INSTANCE_ATTACHMENT"
+	WorkRequestResourceResourceActionCreateImportedPackage       WorkRequestResourceResourceActionEnum = "CREATE_IMPORTED_PACKAGE"
+	WorkRequestResourceResourceActionUpdateImportedPackage       WorkRequestResourceResourceActionEnum = "UPDATE_IMPORTED_PACKAGE"
+	WorkRequestResourceResourceActionDeleteImportedPackage       WorkRequestResourceResourceActionEnum = "DELETE_IMPORTED_PACKAGE"
+	WorkRequestResourceResourceActionExport                      WorkRequestResourceResourceActionEnum = "EXPORT"
 )
 
 var mappingWorkRequestResourceResourceActionEnum = map[string]WorkRequestResourceResourceActionEnum{
-	"CREATE":                        WorkRequestResourceResourceActionCreate,
-	"DELETE":                        WorkRequestResourceResourceActionDelete,
-	"PURGE":                         WorkRequestResourceResourceActionPurge,
-	"RECOVER":                       WorkRequestResourceResourceActionRecover,
-	"STOP":                          WorkRequestResourceResourceActionStop,
-	"START":                         WorkRequestResourceResourceActionStart,
-	"CHANGE_COMPARTMENT":            WorkRequestResourceResourceActionChangeCompartment,
-	"CREATE_ASSOCIATION":            WorkRequestResourceResourceActionCreateAssociation,
-	"DELETE_ASSOCIATION":            WorkRequestResourceResourceActionDeleteAssociation,
-	"UPDATE_ENTITLEMENTS_FOR_CACCT": WorkRequestResourceResourceActionUpdateEntitlementsForCacct,
+	"CREATE":                         WorkRequestResourceResourceActionCreate,
+	"DELETE":                         WorkRequestResourceResourceActionDelete,
+	"PURGE":                          WorkRequestResourceResourceActionPurge,
+	"RECOVER":                        WorkRequestResourceResourceActionRecover,
+	"STOP":                           WorkRequestResourceResourceActionStop,
+	"START":                          WorkRequestResourceResourceActionStart,
+	"CHANGE_COMPARTMENT":             WorkRequestResourceResourceActionChangeCompartment,
+	"CHANGE_CUST_ENC_KEY":            WorkRequestResourceResourceActionChangeCustEncKey,
+	"DEACT_CUST_ENC_KEY":             WorkRequestResourceResourceActionDeactCustEncKey,
+	"CREATE_ASSOCIATION":             WorkRequestResourceResourceActionCreateAssociation,
+	"DELETE_ASSOCIATION":             WorkRequestResourceResourceActionDeleteAssociation,
+	"UPDATE_ENTITLEMENTS_FOR_CACCT":  WorkRequestResourceResourceActionUpdateEntitlementsForCacct,
+	"CREATE_ODA_INSTANCE_ATTACHMENT": WorkRequestResourceResourceActionCreateOdaInstanceAttachment,
+	"UPDATE_ODA_INSTANCE_ATTACHMENT": WorkRequestResourceResourceActionUpdateOdaInstanceAttachment,
+	"DELETE_ODA_INSTANCE_ATTACHMENT": WorkRequestResourceResourceActionDeleteOdaInstanceAttachment,
+	"CREATE_IMPORTED_PACKAGE":        WorkRequestResourceResourceActionCreateImportedPackage,
+	"UPDATE_IMPORTED_PACKAGE":        WorkRequestResourceResourceActionUpdateImportedPackage,
+	"DELETE_IMPORTED_PACKAGE":        WorkRequestResourceResourceActionDeleteImportedPackage,
+	"EXPORT":                         WorkRequestResourceResourceActionExport,
 }
 
 var mappingWorkRequestResourceResourceActionEnumLowerCase = map[string]WorkRequestResourceResourceActionEnum{
-	"create":                        WorkRequestResourceResourceActionCreate,
-	"delete":                        WorkRequestResourceResourceActionDelete,
-	"purge":                         WorkRequestResourceResourceActionPurge,
-	"recover":                       WorkRequestResourceResourceActionRecover,
-	"stop":                          WorkRequestResourceResourceActionStop,
-	"start":                         WorkRequestResourceResourceActionStart,
-	"change_compartment":            WorkRequestResourceResourceActionChangeCompartment,
-	"create_association":            WorkRequestResourceResourceActionCreateAssociation,
-	"delete_association":            WorkRequestResourceResourceActionDeleteAssociation,
-	"update_entitlements_for_cacct": WorkRequestResourceResourceActionUpdateEntitlementsForCacct,
+	"create":                         WorkRequestResourceResourceActionCreate,
+	"delete":                         WorkRequestResourceResourceActionDelete,
+	"purge":                          WorkRequestResourceResourceActionPurge,
+	"recover":                        WorkRequestResourceResourceActionRecover,
+	"stop":                           WorkRequestResourceResourceActionStop,
+	"start":                          WorkRequestResourceResourceActionStart,
+	"change_compartment":             WorkRequestResourceResourceActionChangeCompartment,
+	"change_cust_enc_key":            WorkRequestResourceResourceActionChangeCustEncKey,
+	"deact_cust_enc_key":             WorkRequestResourceResourceActionDeactCustEncKey,
+	"create_association":             WorkRequestResourceResourceActionCreateAssociation,
+	"delete_association":             WorkRequestResourceResourceActionDeleteAssociation,
+	"update_entitlements_for_cacct":  WorkRequestResourceResourceActionUpdateEntitlementsForCacct,
+	"create_oda_instance_attachment": WorkRequestResourceResourceActionCreateOdaInstanceAttachment,
+	"update_oda_instance_attachment": WorkRequestResourceResourceActionUpdateOdaInstanceAttachment,
+	"delete_oda_instance_attachment": WorkRequestResourceResourceActionDeleteOdaInstanceAttachment,
+	"create_imported_package":        WorkRequestResourceResourceActionCreateImportedPackage,
+	"update_imported_package":        WorkRequestResourceResourceActionUpdateImportedPackage,
+	"delete_imported_package":        WorkRequestResourceResourceActionDeleteImportedPackage,
+	"export":                         WorkRequestResourceResourceActionExport,
 }
 
 // GetWorkRequestResourceResourceActionEnumValues Enumerates the set of values for WorkRequestResourceResourceActionEnum
@@ -123,9 +150,18 @@ func GetWorkRequestResourceResourceActionEnumStringValues() []string {
 		"STOP",
 		"START",
 		"CHANGE_COMPARTMENT",
+		"CHANGE_CUST_ENC_KEY",
+		"DEACT_CUST_ENC_KEY",
 		"CREATE_ASSOCIATION",
 		"DELETE_ASSOCIATION",
 		"UPDATE_ENTITLEMENTS_FOR_CACCT",
+		"CREATE_ODA_INSTANCE_ATTACHMENT",
+		"UPDATE_ODA_INSTANCE_ATTACHMENT",
+		"DELETE_ODA_INSTANCE_ATTACHMENT",
+		"CREATE_IMPORTED_PACKAGE",
+		"UPDATE_IMPORTED_PACKAGE",
+		"DELETE_IMPORTED_PACKAGE",
+		"EXPORT",
 	}
 }
 
