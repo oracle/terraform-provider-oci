@@ -92,9 +92,9 @@ func (s *ResourcemanagerPrivateEndpointReachableIpDataSourceCrud) SetData() erro
 		s.D.Set("ip_address", *s.Res.IpAddress)
 	}
 
-	if s.Res.ReachableIp.ReachableIp != nil {
-		s.D.Set("reachable_ip", *s.Res.ReachableIp.ReachableIp)
-	}
+	//	if s.Res.ReachableIp.ReachableIp != nil {
+	//		s.D.Set("reachable_ip", *s.Res.ReachableIp.ReachableIp)
+	//	}
 
 	return nil
 }
