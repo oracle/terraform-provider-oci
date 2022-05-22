@@ -20,8 +20,8 @@ type ListDedicatedVantagePointsRequest struct {
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// For list pagination. The maximum number of results per page, or items to return in a paginated
-	// "List" call. For important details about how pagination works, see
+	// The maximum number of results per page, or items to return in a paginated
+	// "List" call. For information on how pagination works, see
 	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
@@ -32,7 +32,7 @@ type ListDedicatedVantagePointsRequest struct {
 	// The field to sort by. Only one sort order may be provided.
 	// Default order of displayName is ascending.
 	// Default order of timeCreated and timeUpdated is descending.
-	// The displayName sort by is case sensitive.
+	// The displayName sort by is case-sensitive.
 	SortBy ListDedicatedVantagePointsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// A filter to return only the resources that match the entire display name.

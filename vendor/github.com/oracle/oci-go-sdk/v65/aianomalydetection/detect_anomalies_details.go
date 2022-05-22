@@ -22,7 +22,7 @@ import (
 // be used for deciding what type of request this is.
 type DetectAnomaliesDetails interface {
 
-	// The OCID of the trained model。
+	// The OCID of the trained model.
 	GetModelId() *string
 
 	// The value estimated during training would be used by default. Cutomer can choose to provide a custom value.

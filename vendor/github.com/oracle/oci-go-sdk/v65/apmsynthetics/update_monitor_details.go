@@ -65,6 +65,15 @@ type UpdateMonitorDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// If isRunNow is enabled, then the monitor will run now.
+	IsRunNow *bool `mandatory:"false" json:"isRunNow"`
+
+	// Scheduling policy on Vantage points.
+	SchedulingPolicy SchedulingPolicyEnum `mandatory:"false" json:"schedulingPolicy,omitempty"`
+
+	// Time interval between 2 runs in round robin batch mode (*SchedulingPolicy - BATCHED_ROUND_ROBIN).
+	BatchIntervalInSeconds *int `mandatory:"false" json:"batchIntervalInSeconds"`
 }
 
 func (m UpdateMonitorDetails) String() string {
@@ -79,6 +88,9 @@ func (m UpdateMonitorDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingMonitorStatusEnum(string(m.Status)); !ok && m.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetMonitorStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSchedulingPolicyEnum(string(m.SchedulingPolicy)); !ok && m.SchedulingPolicy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SchedulingPolicy: %s. Supported values are: %s.", m.SchedulingPolicy, strings.Join(GetSchedulingPolicyEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -101,6 +113,9 @@ func (m *UpdateMonitorDetails) UnmarshalJSON(data []byte) (e error) {
 		Configuration           monitorconfiguration              `json:"configuration"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		IsRunNow                *bool                             `json:"isRunNow"`
+		SchedulingPolicy        SchedulingPolicyEnum              `json:"schedulingPolicy"`
+		BatchIntervalInSeconds  *int                              `json:"batchIntervalInSeconds"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -145,6 +160,12 @@ func (m *UpdateMonitorDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.IsRunNow = model.IsRunNow
+
+	m.SchedulingPolicy = model.SchedulingPolicy
+
+	m.BatchIntervalInSeconds = model.BatchIntervalInSeconds
 
 	return
 }

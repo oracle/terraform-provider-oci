@@ -165,19 +165,16 @@ type CreateBucketDetailsStorageTierEnum string
 const (
 	CreateBucketDetailsStorageTierStandard CreateBucketDetailsStorageTierEnum = "Standard"
 	CreateBucketDetailsStorageTierArchive  CreateBucketDetailsStorageTierEnum = "Archive"
-	CreateBucketDetailsStorageTierQuery    CreateBucketDetailsStorageTierEnum = "Query"
 )
 
 var mappingCreateBucketDetailsStorageTierEnum = map[string]CreateBucketDetailsStorageTierEnum{
 	"Standard": CreateBucketDetailsStorageTierStandard,
 	"Archive":  CreateBucketDetailsStorageTierArchive,
-	"Query":    CreateBucketDetailsStorageTierQuery,
 }
 
 var mappingCreateBucketDetailsStorageTierEnumLowerCase = map[string]CreateBucketDetailsStorageTierEnum{
 	"standard": CreateBucketDetailsStorageTierStandard,
 	"archive":  CreateBucketDetailsStorageTierArchive,
-	"query":    CreateBucketDetailsStorageTierQuery,
 }
 
 // GetCreateBucketDetailsStorageTierEnumValues Enumerates the set of values for CreateBucketDetailsStorageTierEnum
@@ -194,7 +191,6 @@ func GetCreateBucketDetailsStorageTierEnumStringValues() []string {
 	return []string{
 		"Standard",
 		"Archive",
-		"Query",
 	}
 }
 

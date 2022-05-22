@@ -202,21 +202,18 @@ const (
 	PutObjectStorageTierStandard         PutObjectStorageTierEnum = "Standard"
 	PutObjectStorageTierInfrequentaccess PutObjectStorageTierEnum = "InfrequentAccess"
 	PutObjectStorageTierArchive          PutObjectStorageTierEnum = "Archive"
-	PutObjectStorageTierQuery            PutObjectStorageTierEnum = "Query"
 )
 
 var mappingPutObjectStorageTierEnum = map[string]PutObjectStorageTierEnum{
 	"Standard":         PutObjectStorageTierStandard,
 	"InfrequentAccess": PutObjectStorageTierInfrequentaccess,
 	"Archive":          PutObjectStorageTierArchive,
-	"Query":            PutObjectStorageTierQuery,
 }
 
 var mappingPutObjectStorageTierEnumLowerCase = map[string]PutObjectStorageTierEnum{
 	"standard":         PutObjectStorageTierStandard,
 	"infrequentaccess": PutObjectStorageTierInfrequentaccess,
 	"archive":          PutObjectStorageTierArchive,
-	"query":            PutObjectStorageTierQuery,
 }
 
 // GetPutObjectStorageTierEnumValues Enumerates the set of values for PutObjectStorageTierEnum
@@ -234,7 +231,6 @@ func GetPutObjectStorageTierEnumStringValues() []string {
 		"Standard",
 		"InfrequentAccess",
 		"Archive",
-		"Query",
 	}
 }
 

@@ -22,6 +22,8 @@ type RestMonitorConfiguration struct {
 	// If isFailureRetried is enabled, then a failed call will be retried.
 	IsFailureRetried *bool `mandatory:"false" json:"isFailureRetried"`
 
+	DnsConfiguration *DnsConfiguration `mandatory:"false" json:"dnsConfiguration"`
+
 	// If redirection enabled, then redirects will be allowed while accessing target URL.
 	IsRedirectionEnabled *bool `mandatory:"false" json:"isRedirectionEnabled"`
 
@@ -58,6 +60,11 @@ type RestMonitorConfiguration struct {
 //GetIsFailureRetried returns IsFailureRetried
 func (m RestMonitorConfiguration) GetIsFailureRetried() *bool {
 	return m.IsFailureRetried
+}
+
+//GetDnsConfiguration returns DnsConfiguration
+func (m RestMonitorConfiguration) GetDnsConfiguration() *DnsConfiguration {
+	return m.DnsConfiguration
 }
 
 func (m RestMonitorConfiguration) String() string {

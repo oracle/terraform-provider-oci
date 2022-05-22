@@ -30,11 +30,11 @@ type CreateNodePoolDetails struct {
 	// The name of the node pool. Avoid entering confidential information.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The version of Kubernetes to install on the nodes in the node pool.
-	KubernetesVersion *string `mandatory:"true" json:"kubernetesVersion"`
-
 	// The name of the node shape of the nodes in the node pool.
 	NodeShape *string `mandatory:"true" json:"nodeShape"`
+
+	// The version of Kubernetes to install on the nodes in the node pool.
+	KubernetesVersion *string `mandatory:"false" json:"kubernetesVersion"`
 
 	// A list of key/value pairs to add to each underlying OCI instance in the node pool on launch.
 	NodeMetadata map[string]string `mandatory:"false" json:"nodeMetadata"`
@@ -101,6 +101,7 @@ func (m CreateNodePoolDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		KubernetesVersion            *string                           `json:"kubernetesVersion"`
 		NodeMetadata                 map[string]string                 `json:"nodeMetadata"`
 		NodeImageName                *string                           `json:"nodeImageName"`
 		NodeSourceDetails            nodesourcedetails                 `json:"nodeSourceDetails"`
@@ -116,7 +117,6 @@ func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 		CompartmentId                *string                           `json:"compartmentId"`
 		ClusterId                    *string                           `json:"clusterId"`
 		Name                         *string                           `json:"name"`
-		KubernetesVersion            *string                           `json:"kubernetesVersion"`
 		NodeShape                    *string                           `json:"nodeShape"`
 	}{}
 
@@ -125,6 +125,8 @@ func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.KubernetesVersion = model.KubernetesVersion
+
 	m.NodeMetadata = model.NodeMetadata
 
 	m.NodeImageName = model.NodeImageName
@@ -168,8 +170,6 @@ func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ClusterId = model.ClusterId
 
 	m.Name = model.Name
-
-	m.KubernetesVersion = model.KubernetesVersion
 
 	m.NodeShape = model.NodeShape
 

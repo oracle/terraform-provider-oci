@@ -151,9 +151,6 @@ type HeadObjectResponse struct {
 	// The storage tier that the object is stored in.
 	StorageTier HeadObjectStorageTierEnum `presentIn:"header" name:"storage-tier"`
 
-	// Query state of an object. This field is set only for objects in Query tier.
-	QueryState HeadObjectQueryStateEnum `presentIn:"header" name:"query-state"`
-
 	// Archival state of an object. This field is set only for objects in Archive tier.
 	ArchivalState HeadObjectArchivalStateEnum `presentIn:"header" name:"archival-state"`
 
@@ -187,21 +184,18 @@ const (
 	HeadObjectStorageTierStandard         HeadObjectStorageTierEnum = "Standard"
 	HeadObjectStorageTierInfrequentaccess HeadObjectStorageTierEnum = "InfrequentAccess"
 	HeadObjectStorageTierArchive          HeadObjectStorageTierEnum = "Archive"
-	HeadObjectStorageTierQuery            HeadObjectStorageTierEnum = "Query"
 )
 
 var mappingHeadObjectStorageTierEnum = map[string]HeadObjectStorageTierEnum{
 	"Standard":         HeadObjectStorageTierStandard,
 	"InfrequentAccess": HeadObjectStorageTierInfrequentaccess,
 	"Archive":          HeadObjectStorageTierArchive,
-	"Query":            HeadObjectStorageTierQuery,
 }
 
 var mappingHeadObjectStorageTierEnumLowerCase = map[string]HeadObjectStorageTierEnum{
 	"standard":         HeadObjectStorageTierStandard,
 	"infrequentaccess": HeadObjectStorageTierInfrequentaccess,
 	"archive":          HeadObjectStorageTierArchive,
-	"query":            HeadObjectStorageTierQuery,
 }
 
 // GetHeadObjectStorageTierEnumValues Enumerates the set of values for HeadObjectStorageTierEnum
@@ -219,59 +213,12 @@ func GetHeadObjectStorageTierEnumStringValues() []string {
 		"Standard",
 		"InfrequentAccess",
 		"Archive",
-		"Query",
 	}
 }
 
 // GetMappingHeadObjectStorageTierEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingHeadObjectStorageTierEnum(val string) (HeadObjectStorageTierEnum, bool) {
 	enum, ok := mappingHeadObjectStorageTierEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// HeadObjectQueryStateEnum Enum with underlying type: string
-type HeadObjectQueryStateEnum string
-
-// Set of constants representing the allowable values for HeadObjectQueryStateEnum
-const (
-	HeadObjectQueryStateNotqueryable      HeadObjectQueryStateEnum = "NotQueryable"
-	HeadObjectQueryStateMovingtoquerytier HeadObjectQueryStateEnum = "MovingToQueryTier"
-	HeadObjectQueryStateQueryable         HeadObjectQueryStateEnum = "Queryable"
-)
-
-var mappingHeadObjectQueryStateEnum = map[string]HeadObjectQueryStateEnum{
-	"NotQueryable":      HeadObjectQueryStateNotqueryable,
-	"MovingToQueryTier": HeadObjectQueryStateMovingtoquerytier,
-	"Queryable":         HeadObjectQueryStateQueryable,
-}
-
-var mappingHeadObjectQueryStateEnumLowerCase = map[string]HeadObjectQueryStateEnum{
-	"notqueryable":      HeadObjectQueryStateNotqueryable,
-	"movingtoquerytier": HeadObjectQueryStateMovingtoquerytier,
-	"queryable":         HeadObjectQueryStateQueryable,
-}
-
-// GetHeadObjectQueryStateEnumValues Enumerates the set of values for HeadObjectQueryStateEnum
-func GetHeadObjectQueryStateEnumValues() []HeadObjectQueryStateEnum {
-	values := make([]HeadObjectQueryStateEnum, 0)
-	for _, v := range mappingHeadObjectQueryStateEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetHeadObjectQueryStateEnumStringValues Enumerates the set of values in String for HeadObjectQueryStateEnum
-func GetHeadObjectQueryStateEnumStringValues() []string {
-	return []string{
-		"NotQueryable",
-		"MovingToQueryTier",
-		"Queryable",
-	}
-}
-
-// GetMappingHeadObjectQueryStateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingHeadObjectQueryStateEnum(val string) (HeadObjectQueryStateEnum, bool) {
-	enum, ok := mappingHeadObjectQueryStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

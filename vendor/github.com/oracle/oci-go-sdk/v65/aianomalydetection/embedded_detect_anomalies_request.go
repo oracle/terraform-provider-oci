@@ -22,7 +22,7 @@ import (
 // The default type of the data is CSV and can be JSON by setting the 'contentType'.
 type EmbeddedDetectAnomaliesRequest struct {
 
-	// The OCID of the trained model。
+	// The OCID of the trained model.
 	ModelId *string `mandatory:"true" json:"modelId"`
 
 	Content []byte `mandatory:"true" json:"content"`

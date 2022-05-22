@@ -23,7 +23,7 @@ import (
 // request or contains embedded data.
 type InlineDetectAnomaliesRequest struct {
 
-	// The OCID of the trained model。
+	// The OCID of the trained model.
 	ModelId *string `mandatory:"true" json:"modelId"`
 
 	// List of signal names.

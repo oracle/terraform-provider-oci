@@ -258,6 +258,59 @@ func (client AnomalyDetectionClient) changeDataAssetCompartment(ctx context.Cont
 	return response, err
 }
 
+// ChangeDetectAnomalyJobCompartment Moves a async anomaly detect job resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
+func (client AnomalyDetectionClient) ChangeDetectAnomalyJobCompartment(ctx context.Context, request ChangeDetectAnomalyJobCompartmentRequest) (response ChangeDetectAnomalyJobCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeDetectAnomalyJobCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDetectAnomalyJobCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDetectAnomalyJobCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDetectAnomalyJobCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDetectAnomalyJobCompartmentResponse")
+	}
+	return
+}
+
+// changeDetectAnomalyJobCompartment implements the OCIOperation interface (enables retrying operations)
+func (client AnomalyDetectionClient) changeDetectAnomalyJobCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/detectAnomalyJobs/{detectAnomalyJobId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDetectAnomalyJobCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeDetectAnomalyJobCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeModelCompartment Moves a Model resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
 func (client AnomalyDetectionClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -490,6 +543,64 @@ func (client AnomalyDetectionClient) createDataAsset(ctx context.Context, reques
 	return response, err
 }
 
+// CreateDetectAnomalyJob Creates a job to perform anomaly detection.
+func (client AnomalyDetectionClient) CreateDetectAnomalyJob(ctx context.Context, request CreateDetectAnomalyJobRequest) (response CreateDetectAnomalyJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDetectAnomalyJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDetectAnomalyJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDetectAnomalyJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDetectAnomalyJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDetectAnomalyJobResponse")
+	}
+	return
+}
+
+// createDetectAnomalyJob implements the OCIOperation interface (enables retrying operations)
+func (client AnomalyDetectionClient) createDetectAnomalyJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/detectAnomalyJobs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDetectAnomalyJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateDetectAnomalyJob", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateModel Creates a new Model.
 func (client AnomalyDetectionClient) CreateModel(ctx context.Context, request CreateModelRequest) (response CreateModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -705,6 +816,59 @@ func (client AnomalyDetectionClient) deleteDataAsset(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteDataAsset", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteDetectAnomalyJob Deletes an accepted but not not started detect anomaly async job.
+func (client AnomalyDetectionClient) DeleteDetectAnomalyJob(ctx context.Context, request DeleteDetectAnomalyJobRequest) (response DeleteDetectAnomalyJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDetectAnomalyJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDetectAnomalyJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDetectAnomalyJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDetectAnomalyJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDetectAnomalyJobResponse")
+	}
+	return
+}
+
+// deleteDetectAnomalyJob implements the OCIOperation interface (enables retrying operations)
+func (client AnomalyDetectionClient) deleteDetectAnomalyJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/detectAnomalyJobs/{detectAnomalyJobId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDetectAnomalyJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteDetectAnomalyJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -982,6 +1146,59 @@ func (client AnomalyDetectionClient) getDataAsset(ctx context.Context, request c
 	return response, err
 }
 
+// GetDetectAnomalyJob Gets a detect anomaly async job by identifier.
+func (client AnomalyDetectionClient) GetDetectAnomalyJob(ctx context.Context, request GetDetectAnomalyJobRequest) (response GetDetectAnomalyJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDetectAnomalyJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDetectAnomalyJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDetectAnomalyJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDetectAnomalyJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDetectAnomalyJobResponse")
+	}
+	return
+}
+
+// getDetectAnomalyJob implements the OCIOperation interface (enables retrying operations)
+func (client AnomalyDetectionClient) getDetectAnomalyJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectAnomalyJobs/{detectAnomalyJobId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDetectAnomalyJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetDetectAnomalyJob", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetModel Gets a Model by identifier
 func (client AnomalyDetectionClient) GetModel(ctx context.Context, request GetModelRequest) (response GetModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1240,6 +1457,59 @@ func (client AnomalyDetectionClient) listDataAssets(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListDataAssets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDetectAnomalyJobs Returns a list of all the AI Service Anomaly Jobs in the specified compartment.
+func (client AnomalyDetectionClient) ListDetectAnomalyJobs(ctx context.Context, request ListDetectAnomalyJobsRequest) (response ListDetectAnomalyJobsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDetectAnomalyJobs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDetectAnomalyJobsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDetectAnomalyJobsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDetectAnomalyJobsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDetectAnomalyJobsResponse")
+	}
+	return
+}
+
+// listDetectAnomalyJobs implements the OCIOperation interface (enables retrying operations)
+func (client AnomalyDetectionClient) listDetectAnomalyJobs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectAnomalyJobs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDetectAnomalyJobsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListDetectAnomalyJobs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1611,6 +1881,59 @@ func (client AnomalyDetectionClient) updateDataAsset(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateDataAsset", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDetectAnomalyJob Updates the detect anomaly async job by identifier.
+func (client AnomalyDetectionClient) UpdateDetectAnomalyJob(ctx context.Context, request UpdateDetectAnomalyJobRequest) (response UpdateDetectAnomalyJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDetectAnomalyJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDetectAnomalyJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDetectAnomalyJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDetectAnomalyJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDetectAnomalyJobResponse")
+	}
+	return
+}
+
+// updateDetectAnomalyJob implements the OCIOperation interface (enables retrying operations)
+func (client AnomalyDetectionClient) updateDetectAnomalyJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/detectAnomalyJobs/{detectAnomalyJobId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDetectAnomalyJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateDetectAnomalyJob", apiReferenceLink)
 		return response, err
 	}
 

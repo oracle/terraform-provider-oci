@@ -23,21 +23,18 @@ const (
 	StorageTierStandard         StorageTierEnum = "Standard"
 	StorageTierInfrequentAccess StorageTierEnum = "InfrequentAccess"
 	StorageTierArchive          StorageTierEnum = "Archive"
-	StorageTierQuery            StorageTierEnum = "Query"
 )
 
 var mappingStorageTierEnum = map[string]StorageTierEnum{
 	"Standard":         StorageTierStandard,
 	"InfrequentAccess": StorageTierInfrequentAccess,
 	"Archive":          StorageTierArchive,
-	"Query":            StorageTierQuery,
 }
 
 var mappingStorageTierEnumLowerCase = map[string]StorageTierEnum{
 	"standard":         StorageTierStandard,
 	"infrequentaccess": StorageTierInfrequentAccess,
 	"archive":          StorageTierArchive,
-	"query":            StorageTierQuery,
 }
 
 // GetStorageTierEnumValues Enumerates the set of values for StorageTierEnum
@@ -55,7 +52,6 @@ func GetStorageTierEnumStringValues() []string {
 		"Standard",
 		"InfrequentAccess",
 		"Archive",
-		"Query",
 	}
 }
 

@@ -141,9 +141,10 @@ func (client QuotasClient) addQuotaLock(ctx context.Context, request common.OCIR
 }
 
 // CreateQuota Creates a new quota with the details supplied.
+// A default retry strategy applies to this operation CreateQuota()
 func (client QuotasClient) CreateQuota(ctx context.Context, request CreateQuotaRequest) (response CreateQuotaResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -199,9 +200,10 @@ func (client QuotasClient) createQuota(ctx context.Context, request common.OCIRe
 }
 
 // DeleteQuota Deletes the quota corresponding to the given OCID.
+// A default retry strategy applies to this operation DeleteQuota()
 func (client QuotasClient) DeleteQuota(ctx context.Context, request DeleteQuotaRequest) (response DeleteQuotaResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -252,9 +254,10 @@ func (client QuotasClient) deleteQuota(ctx context.Context, request common.OCIRe
 }
 
 // GetQuota Gets the quota for the OCID specified.
+// A default retry strategy applies to this operation GetQuota()
 func (client QuotasClient) GetQuota(ctx context.Context, request GetQuotaRequest) (response GetQuotaResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -305,9 +308,10 @@ func (client QuotasClient) getQuota(ctx context.Context, request common.OCIReque
 }
 
 // ListQuotas Lists all quotas on resources from the given compartment.
+// A default retry strategy applies to this operation ListQuotas()
 func (client QuotasClient) ListQuotas(ctx context.Context, request ListQuotasRequest) (response ListQuotasResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -411,9 +415,10 @@ func (client QuotasClient) removeQuotaLock(ctx context.Context, request common.O
 }
 
 // UpdateQuota Updates the quota corresponding to given OCID with the details supplied.
+// A default retry strategy applies to this operation UpdateQuota()
 func (client QuotasClient) UpdateQuota(ctx context.Context, request UpdateQuotaRequest) (response UpdateQuotaResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

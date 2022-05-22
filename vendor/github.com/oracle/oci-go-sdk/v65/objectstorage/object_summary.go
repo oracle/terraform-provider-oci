@@ -44,9 +44,6 @@ type ObjectSummary struct {
 	// Archival state of an object. This field is set only for objects in Archive tier.
 	ArchivalState ArchivalStateEnum `mandatory:"false" json:"archivalState,omitempty"`
 
-	// Query state of an object. This field is set only for objects in Query tier.
-	QueryState QueryStateEnum `mandatory:"false" json:"queryState,omitempty"`
-
 	// The date and time the object was modified, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616), section 14.29.
 	TimeModified *common.SDKTime `mandatory:"false" json:"timeModified"`
 }
@@ -66,9 +63,6 @@ func (m ObjectSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingArchivalStateEnum(string(m.ArchivalState)); !ok && m.ArchivalState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ArchivalState: %s. Supported values are: %s.", m.ArchivalState, strings.Join(GetArchivalStateEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingQueryStateEnum(string(m.QueryState)); !ok && m.QueryState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for QueryState: %s. Supported values are: %s.", m.QueryState, strings.Join(GetQueryStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
