@@ -126,7 +126,7 @@ func (s *DatabaseExternalDatabaseConnectorDataSourceCrud) SetData() error {
 			s.D.Set("time_created", v.TimeCreated.String())
 		}
 	default:
-		log.Printf("[WARN] Received 'connector_type' of unknown type %v", *s.Res)
+		log.Printf("[WARN] Received 'connector_type' of unknown type %v", s.Res.ExternalDatabaseConnector)
 		return nil
 	}
 

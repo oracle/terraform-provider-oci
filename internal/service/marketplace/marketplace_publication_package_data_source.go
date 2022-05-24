@@ -175,34 +175,26 @@ func (s *MarketplacePublicationPackageDataSourceCrud) SetData() error {
 	s.D.SetId(tfresource.GenerateDataSourceHashID("MarketplacePublicationPackageDataSource-", MarketplacePublicationPackageDataSource(), s.D))
 	switch v := (s.Res.PublicationPackage).(type) {
 	case oci_marketplace.ImagePublicationPackage:
+		s.D.Set("package_type", "IMAGE")
+
 		if v.AppCatalogListingId != nil {
-			s.D.Set("app_catalog_listing_id", v.AppCatalogListingId)
+			s.D.Set("app_catalog_listing_id", *v.AppCatalogListingId)
 		}
 
 		if v.AppCatalogListingResourceVersion != nil {
-			s.D.Set("app_catalog_listing_resource_version", v.AppCatalogListingResourceVersion)
+			s.D.Set("app_catalog_listing_resource_version", *v.AppCatalogListingResourceVersion)
 		}
 
 		if v.ImageId != nil {
-			s.D.Set("image_id", v.ImageId)
+			s.D.Set("image_id", *v.ImageId)
 		}
 
 		if v.Description != nil {
-			s.D.Set("description", v.Description)
+			s.D.Set("description", *v.Description)
 		}
 
 		if v.ListingId != nil {
-			s.D.Set("listing_id", v.ListingId)
-		}
-
-		s.D.Set("package_type", oci_marketplace.PackageTypeEnumImage)
-
-		if v.ResourceId != nil {
-			s.D.Set("resource_id", v.ResourceId)
-		}
-
-		if v.TimeCreated != nil {
-			s.D.Set("time_created", v.TimeCreated.String())
+			s.D.Set("listing_id", *v.ListingId)
 		}
 
 		if v.OperatingSystem != nil {
@@ -211,31 +203,36 @@ func (s *MarketplacePublicationPackageDataSourceCrud) SetData() error {
 			s.D.Set("operating_system", nil)
 		}
 
-		if v.Version != nil {
-			s.D.Set("version", v.Version)
-		}
-
-	case oci_marketplace.OrchestrationPublicationPackage:
-		if v.Description != nil {
-			s.D.Set("description", v.Description)
-		}
-
-		if v.ListingId != nil {
-			s.D.Set("Listing_id", v.ListingId)
-		}
-
-		s.D.Set("package_type", oci_marketplace.PackageTypeEnumOrchestration)
-
 		if v.ResourceId != nil {
-			s.D.Set("resource_id", v.ResourceId)
+			s.D.Set("resource_id", *v.ResourceId)
 		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.Version != nil {
+			s.D.Set("version", *v.Version)
+		}
+	case oci_marketplace.OrchestrationPublicationPackage:
+		s.D.Set("package_type", "ORCHESTRATION")
 
 		if v.ResourceLink != nil {
-			s.D.Set("resource_link", v.ResourceLink)
+			s.D.Set("resource_link", *v.ResourceLink)
 		}
 
-		if v.TimeCreated != nil {
-			s.D.Set("time_created", v.TimeCreated.String())
+		variables := []interface{}{}
+		for _, item := range v.Variables {
+			variables = append(variables, MarketplacePublicationPackageOrchestrationVariableToMap(item))
+		}
+		s.D.Set("variables", variables)
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.ListingId != nil {
+			s.D.Set("listing_id", *v.ListingId)
 		}
 
 		if v.OperatingSystem != nil {
@@ -244,20 +241,19 @@ func (s *MarketplacePublicationPackageDataSourceCrud) SetData() error {
 			s.D.Set("operating_system", nil)
 		}
 
-		if v.Variables != nil {
-			variables := []interface{}{}
-			for _, item := range v.Variables {
-				variables = append(variables, MarketplacePublicationPackageOrchestrationVariableToMap(item))
-			}
-			s.D.Set("variables", variables)
+		if v.ResourceId != nil {
+			s.D.Set("resource_id", *v.ResourceId)
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
 		}
 
 		if v.Version != nil {
-			s.D.Set("version", v.Version)
+			s.D.Set("version", *v.Version)
 		}
-
 	default:
-		log.Printf("[WARN] Received 'ListingPackage' of unknown type %v", *s.Res)
+		log.Printf("[WARN] Received 'package_type' of unknown type %v", s.Res.PublicationPackage)
 		return nil
 	}
 

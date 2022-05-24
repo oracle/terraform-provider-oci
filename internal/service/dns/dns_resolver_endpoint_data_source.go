@@ -129,7 +129,7 @@ func (s *DnsResolverEndpointDataSourceCrud) SetData() error {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
 	default:
-		log.Printf("[WARN] Received 'endpoint_type' of unknown type %v", *s.Res)
+		log.Printf("[WARN] Received 'endpoint_type' of unknown type %v", s.Res.ResolverEndpoint)
 		return nil
 	}
 

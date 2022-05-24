@@ -34,7 +34,7 @@ func readSingularOpsiDatabaseInsight(d *schema.ResourceData, m interface{}) erro
 type OpsiDatabaseInsightDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_opsi.OperationsInsightsClient
-	Res    *oci_opsi.DatabaseInsight
+	Res    *oci_opsi.GetDatabaseInsightResponse
 }
 
 func (s *OpsiDatabaseInsightDataSourceCrud) VoidState() {
@@ -56,7 +56,7 @@ func (s *OpsiDatabaseInsightDataSourceCrud) Get() error {
 		return err
 	}
 
-	s.Res = &response.DatabaseInsight
+	s.Res = &response
 	return nil
 }
 
@@ -66,8 +66,7 @@ func (s *OpsiDatabaseInsightDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("OpsiDatabaseInsightsSingularDataSource-", OpsiDatabaseInsightsDataSource(), s.D))
-
-	switch v := (*s.Res).(type) {
+	switch v := (s.Res.DatabaseInsight).(type) {
 	case oci_opsi.EmManagedExternalDatabaseInsight:
 		s.D.Set("entity_source", "EM_MANAGED_EXTERNAL_DATABASE")
 
@@ -93,6 +92,10 @@ func (s *OpsiDatabaseInsightDataSourceCrud) SetData() error {
 
 		if v.EnterpriseManagerIdentifier != nil {
 			s.D.Set("enterprise_manager_identifier", *v.EnterpriseManagerIdentifier)
+		}
+
+		if v.ExadataInsightId != nil {
+			s.D.Set("exadata_insight_id", *v.ExadataInsightId)
 		}
 
 		if v.CompartmentId != nil {
@@ -121,10 +124,6 @@ func (s *OpsiDatabaseInsightDataSourceCrud) SetData() error {
 			s.D.Set("processor_count", *v.ProcessorCount)
 		}
 
-		if v.ExadataInsightId != nil {
-			s.D.Set("exadata_insight_id", *v.ExadataInsightId)
-		}
-
 		s.D.Set("state", v.LifecycleState)
 
 		s.D.Set("status", v.Status)
@@ -142,24 +141,6 @@ func (s *OpsiDatabaseInsightDataSourceCrud) SetData() error {
 		}
 	case oci_opsi.PeComanagedDatabaseInsight:
 		s.D.Set("entity_source", "PE_COMANAGED_DATABASE")
-
-		s.D.SetId(*v.GetId())
-
-		if v.GetCompartmentId() != nil {
-			s.D.Set("compartment_id", *v.GetCompartmentId())
-		}
-
-		if v.GetDefinedTags() != nil {
-			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.GetDefinedTags()))
-		}
-
-		s.D.Set("freeform_tags", v.GetFreeformTags())
-
-		if v.DatabaseConnectionStatusDetails != nil {
-			s.D.Set("database_connection_status_details", v.DatabaseConnectionStatusDetails)
-		} else {
-			s.D.Set("database_connection_status_details", nil)
-		}
 
 		if v.CredentialDetails != nil {
 			credentialDetailsArray := []interface{}{}
@@ -187,13 +168,27 @@ func (s *OpsiDatabaseInsightDataSourceCrud) SetData() error {
 			s.D.Set("database_resource_type", *v.DatabaseResourceType)
 		}
 
+		if v.OpsiPrivateEndpointId != nil {
+			s.D.Set("opsi_private_endpoint_id", *v.OpsiPrivateEndpointId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DatabaseConnectionStatusDetails != nil {
+			s.D.Set("database_connection_status_details", *v.DatabaseConnectionStatusDetails)
+		}
+
 		if v.DatabaseType != nil {
 			s.D.Set("database_type", *v.DatabaseType)
 		}
 
-		if v.OpsiPrivateEndpointId != nil {
-			s.D.Set("opsi_private_endpoint_id", *v.OpsiPrivateEndpointId)
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
 		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -210,9 +205,9 @@ func (s *OpsiDatabaseInsightDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
-
 	default:
-		log.Printf("[WARN] Received 'entity_source' of unknown type %v", *s.Res)
+		log.Printf("[WARN] Received 'entity_source' of unknown type %v", s.Res.DatabaseInsight)
+		return nil
 	}
 
 	return nil

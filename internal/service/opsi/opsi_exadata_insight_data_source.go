@@ -34,7 +34,7 @@ func readSingularOpsiExadataInsight(d *schema.ResourceData, m interface{}) error
 type OpsiExadataInsightDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_opsi.OperationsInsightsClient
-	Res    *oci_opsi.ExadataInsight
+	Res    *oci_opsi.GetExadataInsightResponse
 }
 
 func (s *OpsiExadataInsightDataSourceCrud) VoidState() {
@@ -56,7 +56,7 @@ func (s *OpsiExadataInsightDataSourceCrud) Get() error {
 		return err
 	}
 
-	s.Res = &response.ExadataInsight
+	s.Res = &response
 	return nil
 }
 
@@ -66,18 +66,9 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("OpsiExadataInsightsSingularDataSource-", OpsiExadataInsightDataSource(), s.D))
-
-	switch v := (*s.Res).(type) {
+	switch v := (s.Res.ExadataInsight).(type) {
 	case oci_opsi.EmManagedExternalExadataInsight:
 		s.D.Set("entity_source", "EM_MANAGED_EXTERNAL_EXADATA")
-
-		if v.CompartmentId != nil {
-			s.D.Set("compartment_id", *v.CompartmentId)
-		}
-
-		if v.DefinedTags != nil {
-			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
-		}
 
 		if v.EnterpriseManagerBridgeId != nil {
 			s.D.Set("enterprise_manager_bridge_id", *v.EnterpriseManagerBridgeId)
@@ -103,6 +94,18 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 			s.D.Set("enterprise_manager_identifier", *v.EnterpriseManagerIdentifier)
 		}
 
+		if v.IsAutoSyncEnabled != nil {
+			s.D.Set("is_auto_sync_enabled", *v.IsAutoSyncEnabled)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
 		if v.ExadataDisplayName != nil {
 			s.D.Set("exadata_display_name", *v.ExadataDisplayName)
 		}
@@ -117,14 +120,6 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
-		s.D.Set("state", v.LifecycleState)
-
-		s.D.Set("status", v.Status)
-
-		if v.IsAutoSyncEnabled != nil {
-			s.D.Set("is_auto_sync_enabled", *v.IsAutoSyncEnabled)
-		}
-
 		if v.IsVirtualizedExadata != nil {
 			s.D.Set("is_virtualized_exadata", *v.IsVirtualizedExadata)
 		}
@@ -132,6 +127,10 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
 
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
@@ -144,9 +143,9 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
-
 	default:
-		log.Printf("[WARN] Received 'entity_source' of unknown type %v", *s.Res)
+		log.Printf("[WARN] Received 'entity_source' of unknown type %v", s.Res.ExadataInsight)
+		return nil
 	}
 
 	return nil
