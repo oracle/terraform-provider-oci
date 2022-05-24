@@ -33,9 +33,6 @@ type CreateStackDetails struct {
 	// Description of the stack.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of private endpoints associated with the stack.
-	PrivateEndpointIds []string `mandatory:"false" json:"privateEndpointIds"`
-
 	// Terraform variables associated with this resource.
 	// Maximum number of variables supported is 250.
 	// The maximum size of each variable, including both name and value, is 8192 bytes.
@@ -75,15 +72,14 @@ func (m CreateStackDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateStackDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName        *string                           `json:"displayName"`
-		Description        *string                           `json:"description"`
-		PrivateEndpointIds []string                          `json:"privateEndpointIds"`
-		Variables          map[string]string                 `json:"variables"`
-		TerraformVersion   *string                           `json:"terraformVersion"`
-		FreeformTags       map[string]string                 `json:"freeformTags"`
-		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
-		CompartmentId      *string                           `json:"compartmentId"`
-		ConfigSource       createconfigsourcedetails         `json:"configSource"`
+		DisplayName      *string                           `json:"displayName"`
+		Description      *string                           `json:"description"`
+		Variables        map[string]string                 `json:"variables"`
+		TerraformVersion *string                           `json:"terraformVersion"`
+		FreeformTags     map[string]string                 `json:"freeformTags"`
+		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
+		CompartmentId    *string                           `json:"compartmentId"`
+		ConfigSource     createconfigsourcedetails         `json:"configSource"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -94,11 +90,6 @@ func (m *CreateStackDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Description = model.Description
-
-	m.PrivateEndpointIds = make([]string, len(model.PrivateEndpointIds))
-	for i, n := range model.PrivateEndpointIds {
-		m.PrivateEndpointIds[i] = n
-	}
 
 	m.Variables = model.Variables
 
