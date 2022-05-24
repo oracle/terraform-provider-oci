@@ -5,6 +5,7 @@ package artifacts
 
 import (
 	"context"
+	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_artifacts "github.com/oracle/oci-go-sdk/v65/artifacts"
@@ -65,33 +66,36 @@ func (s *ArtifactsRepositoryDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.GetId())
+	switch v := (s.Res.Repository).(type) {
+	case oci_artifacts.GenericRepository:
+		s.D.Set("repository_type", "GENERIC")
 
-	if s.Res.GetCompartmentId() != nil {
-		s.D.Set("compartment_id", *s.Res.GetCompartmentId())
-	}
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
 
-	if s.Res.GetDefinedTags() != nil {
-		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.GetDefinedTags()))
-	}
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
 
-	if s.Res.GetDescription() != nil {
-		s.D.Set("description", *s.Res.GetDescription())
-	}
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
 
-	if s.Res.GetDisplayName() != nil {
-		s.D.Set("display_name", *s.Res.GetDisplayName())
-	}
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
 
-	s.D.Set("freeform_tags", s.Res.GetFreeformTags())
+		s.D.Set("freeform_tags", v.FreeformTags)
 
-	if s.Res.GetIsImmutable() != nil {
-		s.D.Set("is_immutable", *s.Res.GetIsImmutable())
-	}
+		if v.IsImmutable != nil {
+			s.D.Set("is_immutable", *v.IsImmutable)
+		}
 
-	s.D.Set("state", s.Res.GetLifecycleState())
-
-	if s.Res.GetTimeCreated() != nil {
-		s.D.Set("time_created", s.Res.GetTimeCreated().String())
+		s.D.Set("state", v.LifecycleState)
+	default:
+		log.Printf("[WARN] Received 'repository_type' of unknown type %v", s.Res.Repository)
+		return nil
 	}
 
 	return nil
