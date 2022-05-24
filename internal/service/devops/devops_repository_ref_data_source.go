@@ -75,16 +75,24 @@ func (s *DevopsRepositoryRefDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("DevopsRepositoryRefDataSource-", DevopsRepositoryRefDataSource(), s.D))
-
 	switch v := (s.Res.RepositoryRef).(type) {
 	case oci_devops.RepositoryBranch:
-
 		s.D.Set("ref_type", "BRANCH")
 
 		if v.CommitId != nil {
 			s.D.Set("commit_id", *v.CommitId)
 		}
 
+		if v.CommitId != nil {
+			s.D.Set("commit_id", *v.CommitId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
 		if v.FullRefName != nil {
 			s.D.Set("full_ref_name", *v.FullRefName)
 		}
@@ -96,21 +104,19 @@ func (s *DevopsRepositoryRefDataSourceCrud) SetData() error {
 		if v.RepositoryId != nil {
 			s.D.Set("repository_id", *v.RepositoryId)
 		}
-
-		s.D.Set("freeform_tags", s.Res.GetFreeformTags())
-
-		if s.Res.GetDefinedTags() != nil {
-			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.GetDefinedTags()))
-		}
-
 	case oci_devops.RepositoryTag:
-
 		s.D.Set("ref_type", "TAG")
 
 		if v.ObjectId != nil {
 			s.D.Set("object_id", *v.ObjectId)
 		}
 
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
 		if v.FullRefName != nil {
 			s.D.Set("full_ref_name", *v.FullRefName)
 		}
@@ -122,17 +128,9 @@ func (s *DevopsRepositoryRefDataSourceCrud) SetData() error {
 		if v.RepositoryId != nil {
 			s.D.Set("repository_id", *v.RepositoryId)
 		}
-
-		s.D.Set("freeform_tags", s.Res.GetFreeformTags())
-
-		if s.Res.GetDefinedTags() != nil {
-			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.GetDefinedTags()))
-		}
-
 	default:
-		log.Printf("[WARN] Received 'ref_type' of unknown type %v", v)
+		log.Printf("[WARN] Received 'ref_type' of unknown type %v", s.Res.RepositoryRef)
 		return nil
-
 	}
 
 	return nil
