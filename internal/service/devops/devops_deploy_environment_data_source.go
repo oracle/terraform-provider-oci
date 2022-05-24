@@ -66,56 +66,136 @@ func (s *DevopsDeployEnvironmentDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.GetId())
-
-	if s.Res.GetCompartmentId() != nil {
-		s.D.Set("compartment_id", *s.Res.GetCompartmentId())
-	}
-
-	if s.Res.GetDefinedTags() != nil {
-		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.GetDefinedTags()))
-	}
-
-	if s.Res.GetDescription() != nil {
-		s.D.Set("description", *s.Res.GetDescription())
-	}
-
-	if s.Res.GetDisplayName() != nil {
-		s.D.Set("display_name", *s.Res.GetDisplayName())
-	}
-
-	s.D.Set("freeform_tags", s.Res.GetFreeformTags())
-
-	if s.Res.GetLifecycleDetails() != nil {
-		s.D.Set("lifecycle_details", *s.Res.GetLifecycleDetails())
-	}
-
-	if s.Res.GetProjectId() != nil {
-		s.D.Set("project_id", *s.Res.GetProjectId())
-	}
-
-	s.D.Set("state", s.Res.GetLifecycleState())
-
-	if s.Res.GetSystemTags() != nil {
-		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.GetSystemTags()))
-	}
-
-	if s.Res.GetTimeCreated() != nil {
-		s.D.Set("time_created", s.Res.GetTimeCreated().String())
-	}
-
-	if s.Res.GetTimeUpdated() != nil {
-		s.D.Set("time_updated", s.Res.GetTimeUpdated().String())
-	}
-
-	switch (s.Res.DeployEnvironment).(type) {
+	switch v := (s.Res.DeployEnvironment).(type) {
 	case oci_devops.ComputeInstanceGroupDeployEnvironment:
 		s.D.Set("deploy_environment_type", "COMPUTE_INSTANCE_GROUP")
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_devops.FunctionDeployEnvironment:
 		s.D.Set("deploy_environment_type", "FUNCTION")
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_devops.OkeClusterDeployEnvironment:
 		s.D.Set("deploy_environment_type", "OKE_CLUSTER")
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	default:
 		log.Printf("[WARN] Received 'deploy_environment_type' of unknown type %v", s.Res.DeployEnvironment)
+		return nil
 	}
 
 	return nil

@@ -67,24 +67,6 @@ func (s *WaaWebAppAccelerationDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.GetId())
 
-	if s.Res.GetCompartmentId() != nil {
-		s.D.Set("compartment_id", *s.Res.GetCompartmentId())
-	}
-
-	if s.Res.GetDefinedTags() != nil {
-		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.GetDefinedTags()))
-	}
-
-	if s.Res.GetDisplayName() != nil {
-		s.D.Set("display_name", *s.Res.GetDisplayName())
-	}
-
-	s.D.Set("freeform_tags", s.Res.GetFreeformTags())
-
-	if s.Res.GetLifecycleDetails() != nil {
-		s.D.Set("lifecycle_details", *s.Res.GetLifecycleDetails())
-	}
-
 	switch v := (s.Res.WebAppAcceleration).(type) {
 	case oci_waa.WebAppAccelerationLoadBalancer:
 		s.D.Set("backend_type", "LOAD_BALANCER")
@@ -92,27 +74,45 @@ func (s *WaaWebAppAccelerationDataSourceCrud) SetData() error {
 		if v.LoadBalancerId != nil {
 			s.D.Set("load_balancer_id", *v.LoadBalancerId)
 		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.WebAppAccelerationPolicyId != nil {
+			s.D.Set("web_app_acceleration_policy_id", *v.WebAppAccelerationPolicyId)
+		}
 	default:
-		log.Printf("[WARN] Received unknown 'type': %v", s.Res.WebAppAcceleration)
+		log.Printf("[WARN] Received 'backend_type' of unknown type %v", s.Res.WebAppAcceleration)
 		return nil
-	}
-
-	s.D.Set("state", s.Res.GetLifecycleState())
-
-	if s.Res.GetSystemTags() != nil {
-		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.GetSystemTags()))
-	}
-
-	if s.Res.GetTimeCreated() != nil {
-		s.D.Set("time_created", s.Res.GetTimeCreated().String())
-	}
-
-	if s.Res.GetTimeUpdated() != nil {
-		s.D.Set("time_updated", s.Res.GetTimeUpdated().String())
-	}
-
-	if s.Res.GetWebAppAccelerationPolicyId() != nil {
-		s.D.Set("web_app_acceleration_policy_id", *s.Res.GetWebAppAccelerationPolicyId())
 	}
 
 	return nil
