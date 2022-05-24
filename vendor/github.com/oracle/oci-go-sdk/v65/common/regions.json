@@ -316,5 +316,11 @@
         "realmDomainComponent": "oraclecloud17.com", 
         "regionIdentifier": "us-dcc-phoenix-2", 
         "realmKey": "oc17"
+    }, 
+    {
+        "regionKey": "dtm", 
+        "realmDomainComponent": "oraclecloud14.com", 
+        "regionIdentifier": "eu-dcc-rating-2", 
+        "realmKey": "oc14"
     }
 ]
