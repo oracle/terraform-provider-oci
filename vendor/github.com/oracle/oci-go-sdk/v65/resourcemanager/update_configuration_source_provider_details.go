@@ -28,8 +28,6 @@ type UpdateConfigurationSourceProviderDetails interface {
 	// Description of the configuration source provider. Avoid entering confidential information.
 	GetDescription() *string
 
-	GetPrivateServerConfigDetails() *PrivateServerConfigDetails
-
 	// Free-form tags associated with the resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -42,13 +40,12 @@ type UpdateConfigurationSourceProviderDetails interface {
 }
 
 type updateconfigurationsourceproviderdetails struct {
-	JsonData                   []byte
-	DisplayName                *string                           `mandatory:"false" json:"displayName"`
-	Description                *string                           `mandatory:"false" json:"description"`
-	PrivateServerConfigDetails *PrivateServerConfigDetails       `mandatory:"false" json:"privateServerConfigDetails"`
-	FreeformTags               map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags                map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	ConfigSourceProviderType   string                            `json:"configSourceProviderType"`
+	JsonData                 []byte
+	DisplayName              *string                           `mandatory:"false" json:"displayName"`
+	Description              *string                           `mandatory:"false" json:"description"`
+	FreeformTags             map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags              map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	ConfigSourceProviderType string                            `json:"configSourceProviderType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -64,7 +61,6 @@ func (m *updateconfigurationsourceproviderdetails) UnmarshalJSON(data []byte) er
 	}
 	m.DisplayName = s.Model.DisplayName
 	m.Description = s.Model.Description
-	m.PrivateServerConfigDetails = s.Model.PrivateServerConfigDetails
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.ConfigSourceProviderType = s.Model.ConfigSourceProviderType
@@ -102,11 +98,6 @@ func (m updateconfigurationsourceproviderdetails) GetDisplayName() *string {
 //GetDescription returns Description
 func (m updateconfigurationsourceproviderdetails) GetDescription() *string {
 	return m.Description
-}
-
-//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
-func (m updateconfigurationsourceproviderdetails) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
-	return m.PrivateServerConfigDetails
 }
 
 //GetFreeformTags returns FreeformTags

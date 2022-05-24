@@ -46,8 +46,6 @@ type ConfigurationSourceProviderSummary interface {
 	// - ACTIVE
 	GetLifecycleState() ConfigurationSourceProviderLifecycleStateEnum
 
-	GetPrivateServerConfigDetails() *PrivateServerConfigDetails
-
 	// Free-form tags associated with this resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -60,17 +58,16 @@ type ConfigurationSourceProviderSummary interface {
 }
 
 type configurationsourceprovidersummary struct {
-	JsonData                   []byte
-	Id                         *string                                       `mandatory:"false" json:"id"`
-	CompartmentId              *string                                       `mandatory:"false" json:"compartmentId"`
-	DisplayName                *string                                       `mandatory:"false" json:"displayName"`
-	Description                *string                                       `mandatory:"false" json:"description"`
-	TimeCreated                *common.SDKTime                               `mandatory:"false" json:"timeCreated"`
-	LifecycleState             ConfigurationSourceProviderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
-	PrivateServerConfigDetails *PrivateServerConfigDetails                   `mandatory:"false" json:"privateServerConfigDetails"`
-	FreeformTags               map[string]string                             `mandatory:"false" json:"freeformTags"`
-	DefinedTags                map[string]map[string]interface{}             `mandatory:"false" json:"definedTags"`
-	ConfigSourceProviderType   string                                        `json:"configSourceProviderType"`
+	JsonData                 []byte
+	Id                       *string                                       `mandatory:"false" json:"id"`
+	CompartmentId            *string                                       `mandatory:"false" json:"compartmentId"`
+	DisplayName              *string                                       `mandatory:"false" json:"displayName"`
+	Description              *string                                       `mandatory:"false" json:"description"`
+	TimeCreated              *common.SDKTime                               `mandatory:"false" json:"timeCreated"`
+	LifecycleState           ConfigurationSourceProviderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	FreeformTags             map[string]string                             `mandatory:"false" json:"freeformTags"`
+	DefinedTags              map[string]map[string]interface{}             `mandatory:"false" json:"definedTags"`
+	ConfigSourceProviderType string                                        `json:"configSourceProviderType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -90,7 +87,6 @@ func (m *configurationsourceprovidersummary) UnmarshalJSON(data []byte) error {
 	m.Description = s.Model.Description
 	m.TimeCreated = s.Model.TimeCreated
 	m.LifecycleState = s.Model.LifecycleState
-	m.PrivateServerConfigDetails = s.Model.PrivateServerConfigDetails
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.ConfigSourceProviderType = s.Model.ConfigSourceProviderType
@@ -148,11 +144,6 @@ func (m configurationsourceprovidersummary) GetTimeCreated() *common.SDKTime {
 //GetLifecycleState returns LifecycleState
 func (m configurationsourceprovidersummary) GetLifecycleState() ConfigurationSourceProviderLifecycleStateEnum {
 	return m.LifecycleState
-}
-
-//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
-func (m configurationsourceprovidersummary) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
-	return m.PrivateServerConfigDetails
 }
 
 //GetFreeformTags returns FreeformTags
