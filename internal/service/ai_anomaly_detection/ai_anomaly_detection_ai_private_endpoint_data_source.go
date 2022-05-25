@@ -95,7 +95,7 @@ func (s *AiAnomalyDetectionAiPrivateEndpointDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.SystemTags != nil {
-		//s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TimeCreated != nil {

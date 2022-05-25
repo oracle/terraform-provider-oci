@@ -427,7 +427,7 @@ func (s *AiAnomalyDetectionProjectResourceCrud) SetData() error {
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
-		//s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TimeCreated != nil {
@@ -469,7 +469,7 @@ func aiAnomalyDetectionProjectSummaryToMap(obj oci_ai_anomaly_detection.ProjectS
 	result["state"] = string(obj.LifecycleState)
 
 	if obj.SystemTags != nil {
-		//result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
 
 	if obj.TimeCreated != nil {
