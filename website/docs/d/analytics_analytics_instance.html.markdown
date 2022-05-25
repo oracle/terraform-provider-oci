@@ -43,6 +43,7 @@ The following attributes are exported:
 * `feature_set` - Analytics feature set. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The resource OCID. 
+* `kms_key_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure Vault Key encrypting the customer data stored in this Analytics instance. A null value indicates Oracle managed default encryption. 
 * `license_type` - The license used for the service. 
 * `name` - The name of the Analytics instance. This name must be unique in the tenancy and cannot be changed. 
 * `network_endpoint_details` - Base representation of a network endpoint. 

@@ -156,9 +156,10 @@ func (client GatewayClient) changeGatewayCompartment(ctx context.Context, reques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateGateway.go.html to see an example of how to use CreateGateway API.
+// A default retry strategy applies to this operation CreateGateway()
 func (client GatewayClient) CreateGateway(ctx context.Context, request CreateGatewayRequest) (response CreateGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -275,9 +276,10 @@ func (client GatewayClient) deleteGateway(ctx context.Context, request common.OC
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetGateway.go.html to see an example of how to use GetGateway API.
+// A default retry strategy applies to this operation GetGateway()
 func (client GatewayClient) GetGateway(ctx context.Context, request GetGatewayRequest) (response GetGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -332,9 +334,10 @@ func (client GatewayClient) getGateway(ctx context.Context, request common.OCIRe
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListGateways.go.html to see an example of how to use ListGateways API.
+// A default retry strategy applies to this operation ListGateways()
 func (client GatewayClient) ListGateways(ctx context.Context, request ListGatewaysRequest) (response ListGatewaysResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

@@ -61,6 +61,12 @@ type WorkRequest struct {
 
 	// The Operating System type of the managed instance.
 	OsFamily OsFamiliesEnum `mandatory:"false" json:"osFamily,omitempty"`
+
+	// The parent of this work request, if one exists.
+	ParentId *string `mandatory:"false" json:"parentId"`
+
+	// A list of the IDs of any children of this work request
+	ChildrenIds []string `mandatory:"false" json:"childrenIds"`
 }
 
 func (m WorkRequest) String() string {

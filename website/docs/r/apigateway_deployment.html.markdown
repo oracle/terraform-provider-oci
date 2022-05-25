@@ -21,11 +21,6 @@ resource "oci_apigateway_deployment" "test_deployment" {
 	compartment_id = var.compartment_id
 	gateway_id = oci_apigateway_gateway.test_gateway.id
 	path_prefix = var.deployment_path_prefix
-
-	#Optional
-	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = var.deployment_display_name
-	freeform_tags = {"Department"= "Finance"}
 	specification {
 
 		#Optional
@@ -112,6 +107,10 @@ resource "oci_apigateway_deployment" "test_deployment" {
 				#Required
 				rate_in_requests_per_second = var.deployment_specification_request_policies_rate_limiting_rate_in_requests_per_second
 				rate_key = var.deployment_specification_request_policies_rate_limiting_rate_key
+			}
+			usage_plans {
+				#Required
+				token_locations = var.deployment_specification_request_policies_usage_plans_token_locations
 			}
 		}
 		routes {
@@ -325,6 +324,11 @@ resource "oci_apigateway_deployment" "test_deployment" {
 			}
 		}
 	}
+
+	#Optional
+	defined_tags = {"Operations.CostCenter"= "42"}
+	display_name = var.deployment_display_name
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 
@@ -338,7 +342,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `gateway_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
 * `path_prefix` - (Required) A path on which to deploy all routes contained in the API deployment specification. For more information, see [Deploying an API on an API Gateway by Creating an API Deployment](https://docs.cloud.oracle.com/iaas/Content/APIGateway/Tasks/apigatewaycreatingdeployment.htm). 
-* `specification` - (Optional) (Updatable) The logical configuration of the API exposed by a deployment.
+* `specification` - (Required) (Updatable) The logical configuration of the API exposed by a deployment.
 	* `logging_policies` - (Optional) (Updatable) Policies controlling the pushing of logs to Oracle Cloud Infrastructure Public Logging. 
 		* `access_log` - (Optional) (Updatable) Configures the logging policies for the access logs of an API Deployment. 
 			* `is_enabled` - (Optional) (Updatable) Enables pushing of access logs to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.
@@ -396,7 +400,13 @@ The following arguments are supported:
 		* `rate_limiting` - (Optional) (Updatable) Limit the number of requests that should be handled for the specified window using a specfic key.
 			* `rate_in_requests_per_second` - (Required) (Updatable) The maximum number of requests per second to allow.
 			* `rate_key` - (Required) (Updatable) The key used to group requests together.
-	* `routes` - (Required) (Updatable) A list of routes that this API exposes.
+		* `usage_plans` - (Optional) (Updatable) Usage plan policies for this deployment
+			* `token_locations` - (Required) (Updatable) A list of context variables specifying where API tokens may be located in a request. Example locations:
+				* "request.headers[token]"
+				* "request.query[token]"
+				* "request.auth[Token]"
+				* "request.path[TOKEN]" 
+	* `routes` - (Optional) (Updatable) A list of routes that this API exposes.
 		* `backend` - (Required) (Updatable) The backend to forward requests to. 
 			* `body` - (Applicable when type=STOCK_RESPONSE_BACKEND) (Updatable) The body of the stock response from the mock backend.
 			* `connect_timeout_in_seconds` - (Applicable when type=HTTP_BACKEND) (Updatable) Defines a timeout for establishing a connection with a proxied server. 
@@ -608,6 +618,12 @@ The following attributes are exported:
 		* `rate_limiting` - Limit the number of requests that should be handled for the specified window using a specfic key.
 			* `rate_in_requests_per_second` - The maximum number of requests per second to allow.
 			* `rate_key` - The key used to group requests together.
+		* `usage_plans` - Usage plan policies for this deployment
+			* `token_locations` - A list of context variables specifying where API tokens may be located in a request. Example locations:
+				* "request.headers[token]"
+				* "request.query[token]"
+				* "request.auth[Token]"
+				* "request.path[TOKEN]" 
 	* `routes` - A list of routes that this API exposes.
 		* `backend` - The backend to forward requests to. 
 			* `body` - The body of the stock response from the mock backend.

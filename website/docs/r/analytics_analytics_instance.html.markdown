@@ -35,6 +35,7 @@ resource "oci_analytics_analytics_instance" "test_analytics_instance" {
 	description = var.analytics_instance_description
 	email_notification = var.analytics_instance_email_notification
 	freeform_tags = {"Department"= "Finance"}
+	kms_key_id = oci_kms_key.test_key.id
 	network_endpoint_details {
 		#Required
 		network_endpoint_type = var.analytics_instance_network_endpoint_details_network_endpoint_type
@@ -67,6 +68,7 @@ The following arguments are supported:
 * `feature_set` - (Required) Analytics feature set. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `idcs_access_token` - (Required) IDCS access token identifying a stripe and service administrator user. 
+* `kms_key_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure Vault Key encrypting the customer data stored in this Analytics instance. Omitting this value or specifying an empty string (i.e. "") indicates to use Oracle managed default encryption. 
 * `license_type` - (Required) (Updatable) The license used for the service. 
 * `name` - (Required) The name of the Analytics instance. This name must be unique in the tenancy and cannot be changed. 
 * `network_endpoint_details` - (Optional) Base representation of a network endpoint. 
@@ -97,6 +99,7 @@ The following attributes are exported:
 * `feature_set` - Analytics feature set. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The resource OCID. 
+* `kms_key_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure Vault Key encrypting the customer data stored in this Analytics instance. Omitting this value or specifying an empty string (i.e. "") indicates to use Oracle managed default encryption. 
 * `license_type` - The license used for the service. 
 * `name` - The name of the Analytics instance. This name must be unique in the tenancy and cannot be changed. 
 * `network_endpoint_details` - Base representation of a network endpoint. 

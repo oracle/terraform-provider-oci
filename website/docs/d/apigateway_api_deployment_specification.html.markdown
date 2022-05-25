@@ -89,6 +89,12 @@ The following attributes are exported:
 	* `rate_limiting` - Limit the number of requests that should be handled for the specified window using a specfic key.
 		* `rate_in_requests_per_second` - The maximum number of requests per second to allow.
 		* `rate_key` - The key used to group requests together.
+	* `usage_plans` - Usage plan policies for this deployment
+		* `token_locations` - A list of context variables specifying where API tokens may be located in a request. Example locations:
+			* "request.headers[token]"
+			* "request.query[token]"
+			* "request.auth[Token]"
+			* "request.path[TOKEN]" 
 * `routes` - A list of routes that this API exposes.
 	* `backend` - The backend to forward requests to. 
 		* `body` - The body of the stock response from the mock backend.
