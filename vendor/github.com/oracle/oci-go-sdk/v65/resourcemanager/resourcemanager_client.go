@@ -90,6 +90,65 @@ func (client *ResourceManagerClient) ConfigurationProvider() *common.Configurati
 	return client.config
 }
 
+// AddPrivateEndpointToStack Adds a private endpoint to a stack.
+// A default retry strategy applies to this operation AddPrivateEndpointToStack()
+func (client ResourceManagerClient) AddPrivateEndpointToStack(ctx context.Context, request AddPrivateEndpointToStackRequest) (response AddPrivateEndpointToStackResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addPrivateEndpointToStack, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddPrivateEndpointToStackResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddPrivateEndpointToStackResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddPrivateEndpointToStackResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddPrivateEndpointToStackResponse")
+	}
+	return
+}
+
+// addPrivateEndpointToStack implements the OCIOperation interface (enables retrying operations)
+func (client ResourceManagerClient) addPrivateEndpointToStack(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/stacks/{stackId}/actions/addPrivateEndpoint", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddPrivateEndpointToStackResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/AddPrivateEndpointToStack"
+		err = common.PostProcessServiceError(err, "ResourceManager", "AddPrivateEndpointToStack", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelJob Indicates the intention to cancel the specified job.
 // Cancellation of the job is not immediate, and may be delayed,
 // or may not happen at all.
@@ -2546,6 +2605,65 @@ func (client ResourceManagerClient) listWorkRequests(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "ResourceManager", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemovePrivateEndpointFromStack Removes a private endpoint from a stack.
+// A default retry strategy applies to this operation RemovePrivateEndpointFromStack()
+func (client ResourceManagerClient) RemovePrivateEndpointFromStack(ctx context.Context, request RemovePrivateEndpointFromStackRequest) (response RemovePrivateEndpointFromStackResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removePrivateEndpointFromStack, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemovePrivateEndpointFromStackResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemovePrivateEndpointFromStackResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemovePrivateEndpointFromStackResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemovePrivateEndpointFromStackResponse")
+	}
+	return
+}
+
+// removePrivateEndpointFromStack implements the OCIOperation interface (enables retrying operations)
+func (client ResourceManagerClient) removePrivateEndpointFromStack(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/stacks/{stackId}/actions/removePrivateEndpoint", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemovePrivateEndpointFromStackResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/RemovePrivateEndpointFromStack"
+		err = common.PostProcessServiceError(err, "ResourceManager", "RemovePrivateEndpointFromStack", apiReferenceLink)
 		return response, err
 	}
 
