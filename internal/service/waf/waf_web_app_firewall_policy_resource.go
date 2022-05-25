@@ -217,7 +217,7 @@ func WafWebAppFirewallPolicyResource() *schema.Resource {
 						"body_inspection_size_limit_in_bytes": {
 							Type:     schema.TypeInt,
 							Optional: true,
-							Computed: true,
+							Default:  8192,
 						},
 						"rules": {
 							Type:     schema.TypeList,
@@ -364,27 +364,27 @@ func WafWebAppFirewallPolicyResource() *schema.Resource {
 												"max_http_request_header_length": {
 													Type:     schema.TypeInt,
 													Optional: true,
-													Computed: true,
+													Default:  8000,
 												},
 												"max_http_request_headers": {
 													Type:     schema.TypeInt,
 													Optional: true,
-													Computed: true,
+													Default:  25,
 												},
 												"max_number_of_arguments": {
 													Type:     schema.TypeInt,
 													Optional: true,
-													Computed: true,
+													Default:  255,
 												},
 												"max_single_argument_length": {
 													Type:     schema.TypeInt,
 													Optional: true,
-													Computed: true,
+													Default:  400,
 												},
 												"max_total_argument_length": {
 													Type:     schema.TypeInt,
 													Optional: true,
-													Computed: true,
+													Default:  64000,
 												},
 
 												// Computed
@@ -687,27 +687,27 @@ func WafWebAppFirewallPolicyResource() *schema.Resource {
 												"max_http_request_header_length": {
 													Type:     schema.TypeInt,
 													Optional: true,
-													Computed: true,
+													Default:  8000,
 												},
 												"max_http_request_headers": {
 													Type:     schema.TypeInt,
 													Optional: true,
-													Computed: true,
+													Default:  25,
 												},
 												"max_number_of_arguments": {
 													Type:     schema.TypeInt,
 													Optional: true,
-													Computed: true,
+													Default:  255,
 												},
 												"max_single_argument_length": {
 													Type:     schema.TypeInt,
 													Optional: true,
-													Computed: true,
+													Default:  400,
 												},
 												"max_total_argument_length": {
 													Type:     schema.TypeInt,
 													Optional: true,
-													Computed: true,
+													Default:  64000,
 												},
 
 												// Computed
@@ -1519,12 +1519,12 @@ func HttpResponseBodyToMap(obj *oci_waf.HttpResponseBody) map[string]interface{}
 func (s *WafWebAppFirewallPolicyResourceCrud) mapToProtectionCapability(fieldKeyFormat string) (oci_waf.ProtectionCapability, error) {
 	result := oci_waf.ProtectionCapability{}
 
-	if actionName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "action_name")); ok {
+	if actionName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "action_name")); ok && actionName.(string) != "" {
 		tmp := actionName.(string)
 		result.ActionName = &tmp
 	}
 
-	if collaborativeActionThreshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "collaborative_action_threshold")); ok {
+	if collaborativeActionThreshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "collaborative_action_threshold")); ok && collaborativeActionThreshold.(int) != 0 {
 		tmp := collaborativeActionThreshold.(int)
 		result.CollaborativeActionThreshold = &tmp
 	}
@@ -1724,7 +1724,7 @@ func (s *WafWebAppFirewallPolicyResourceCrud) mapToProtectionRule(fieldKeyFormat
 		result.ActionName = &tmp
 	}
 
-	if condition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "condition")); ok {
+	if condition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "condition")); ok && condition.(string) != "" {
 		tmp := condition.(string)
 		result.Condition = &tmp
 	}
@@ -1857,7 +1857,7 @@ func RequestAccessControlToMap(obj *oci_waf.RequestAccessControl) map[string]int
 func (s *WafWebAppFirewallPolicyResourceCrud) mapToRequestProtection(fieldKeyFormat string) (oci_waf.RequestProtection, error) {
 	result := oci_waf.RequestProtection{}
 
-	if bodyInspectionSizeLimitExceededActionName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "body_inspection_size_limit_exceeded_action_name")); ok {
+	if bodyInspectionSizeLimitExceededActionName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "body_inspection_size_limit_exceeded_action_name")); ok && bodyInspectionSizeLimitExceededActionName.(string) != "" {
 		tmp := bodyInspectionSizeLimitExceededActionName.(string)
 		result.BodyInspectionSizeLimitExceededActionName = &tmp
 	}
@@ -1989,7 +1989,7 @@ func (s *WafWebAppFirewallPolicyResourceCrud) mapToRequestRateLimitingRule(field
 		result.ActionName = &tmp
 	}
 
-	if condition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "condition")); ok {
+	if condition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "condition")); ok && condition.(string) != "" {
 		tmp := condition.(string)
 		result.Condition = &tmp
 	}

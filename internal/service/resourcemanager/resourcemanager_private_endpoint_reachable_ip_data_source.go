@@ -31,10 +31,6 @@ func ResourcemanagerPrivateEndpointReachableIpDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"reachable_ip": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 		},
 	}
 }
@@ -90,10 +86,6 @@ func (s *ResourcemanagerPrivateEndpointReachableIpDataSourceCrud) SetData() erro
 
 	if s.Res.IpAddress != nil {
 		s.D.Set("ip_address", *s.Res.IpAddress)
-	}
-
-	if s.Res.ReachableIp.ReachableIp != nil {
-		s.D.Set("reachable_ip", *s.Res.ReachableIp.ReachableIp)
 	}
 
 	return nil

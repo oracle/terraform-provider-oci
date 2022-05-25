@@ -64,7 +64,7 @@ The following attributes are exported:
 * `included_patches_summary` - The patches included in the image and the version of the image
 * `is_upgrade_supported` - True if this Database software image is supported for Upgrade.
 * `lifecycle_details` - Detailed message for the lifecycle state.
-* `ls_inventory` - output from lsinventory which will get passed as a string
+* `ls_inventory` - The output from the OPatch lsInventory command, which is passed as a string.
 * `patch_set` - The PSU or PBP or Release Updates. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
 * `state` - The current state of the database software image.
 * `time_created` - The date and time the database software image was created.

@@ -110,6 +110,8 @@ func (s *OdaOdaInstancesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		odaInstance["attachment_types"] = r.AttachmentTypes
+
 		if r.DefinedTags != nil {
 			odaInstance["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
@@ -126,6 +128,16 @@ func (s *OdaOdaInstancesDataSourceCrud) SetData() error {
 
 		if r.Id != nil {
 			odaInstance["id"] = *r.Id
+		}
+
+		if r.IdentityDomain != nil {
+			odaInstance["identity_domain"] = *r.IdentityDomain
+		}
+
+		odaInstance["imported_package_names"] = r.ImportedPackageNames
+
+		if r.IsRoleBasedAccess != nil {
+			odaInstance["is_role_based_access"] = *r.IsRoleBasedAccess
 		}
 
 		odaInstance["lifecycle_sub_state"] = r.LifecycleSubState

@@ -93,6 +93,12 @@ const (
 	WorkRequestOperationTypeValidateApi       WorkRequestOperationTypeEnum = "VALIDATE_API"
 	WorkRequestOperationTypeCreateSdk         WorkRequestOperationTypeEnum = "CREATE_SDK"
 	WorkRequestOperationTypeDeleteSdk         WorkRequestOperationTypeEnum = "DELETE_SDK"
+	WorkRequestOperationTypeCreateUsagePlan   WorkRequestOperationTypeEnum = "CREATE_USAGE_PLAN"
+	WorkRequestOperationTypeUpdateUsagePlan   WorkRequestOperationTypeEnum = "UPDATE_USAGE_PLAN"
+	WorkRequestOperationTypeDeleteUsagePlan   WorkRequestOperationTypeEnum = "DELETE_USAGE_PLAN"
+	WorkRequestOperationTypeCreateSubscriber  WorkRequestOperationTypeEnum = "CREATE_SUBSCRIBER"
+	WorkRequestOperationTypeUpdateSubscriber  WorkRequestOperationTypeEnum = "UPDATE_SUBSCRIBER"
+	WorkRequestOperationTypeDeleteSubscriber  WorkRequestOperationTypeEnum = "DELETE_SUBSCRIBER"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -111,6 +117,12 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"VALIDATE_API":       WorkRequestOperationTypeValidateApi,
 	"CREATE_SDK":         WorkRequestOperationTypeCreateSdk,
 	"DELETE_SDK":         WorkRequestOperationTypeDeleteSdk,
+	"CREATE_USAGE_PLAN":  WorkRequestOperationTypeCreateUsagePlan,
+	"UPDATE_USAGE_PLAN":  WorkRequestOperationTypeUpdateUsagePlan,
+	"DELETE_USAGE_PLAN":  WorkRequestOperationTypeDeleteUsagePlan,
+	"CREATE_SUBSCRIBER":  WorkRequestOperationTypeCreateSubscriber,
+	"UPDATE_SUBSCRIBER":  WorkRequestOperationTypeUpdateSubscriber,
+	"DELETE_SUBSCRIBER":  WorkRequestOperationTypeDeleteSubscriber,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -129,6 +141,12 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"validate_api":       WorkRequestOperationTypeValidateApi,
 	"create_sdk":         WorkRequestOperationTypeCreateSdk,
 	"delete_sdk":         WorkRequestOperationTypeDeleteSdk,
+	"create_usage_plan":  WorkRequestOperationTypeCreateUsagePlan,
+	"update_usage_plan":  WorkRequestOperationTypeUpdateUsagePlan,
+	"delete_usage_plan":  WorkRequestOperationTypeDeleteUsagePlan,
+	"create_subscriber":  WorkRequestOperationTypeCreateSubscriber,
+	"update_subscriber":  WorkRequestOperationTypeUpdateSubscriber,
+	"delete_subscriber":  WorkRequestOperationTypeDeleteSubscriber,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -158,6 +176,12 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"VALIDATE_API",
 		"CREATE_SDK",
 		"DELETE_SDK",
+		"CREATE_USAGE_PLAN",
+		"UPDATE_USAGE_PLAN",
+		"DELETE_USAGE_PLAN",
+		"CREATE_SUBSCRIBER",
+		"UPDATE_SUBSCRIBER",
+		"DELETE_SUBSCRIBER",
 	}
 }
 

@@ -55,6 +55,10 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"specification":  acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentSpecificationRepresentation},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesDeploymentRepresentation},
+	}
+	ignoreChangesDeploymentRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 	deploymentSpecificationRepresentation = map[string]interface{}{
 		"logging_policies": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationLoggingPoliciesRepresentation},
@@ -70,6 +74,7 @@ var (
 		"cors":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRequestPoliciesCorsRepresentation},
 		"mutual_tls":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRequestPoliciesMutualTlsRepresentation},
 		"rate_limiting":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRequestPoliciesRateLimitingRepresentation},
+		"usage_plans":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRequestPoliciesUsagePlansRepresentation},
 	}
 	deploymentSpecificationRoutesRepresentation = map[string]interface{}{
 		"backend":           acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentSpecificationRoutesBackendRepresentation},
@@ -116,6 +121,9 @@ var (
 	deploymentSpecificationRequestPoliciesRateLimitingRepresentation = map[string]interface{}{
 		"rate_in_requests_per_second": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"rate_key":                    acctest.Representation{RepType: acctest.Required, Create: `CLIENT_IP`, Update: `TOTAL`},
+	}
+	deploymentSpecificationRequestPoliciesUsagePlansRepresentation = map[string]interface{}{
+		"token_locations": acctest.Representation{RepType: acctest.Required, Create: []string{`request.headers[apiKeyLocation]`}, Update: []string{`request.path[apiKeyLocation]`}},
 	}
 	deploymentSpecificationRoutesBackendRepresentation = map[string]interface{}{
 		"type": acctest.Representation{RepType: acctest.Required, Create: `HTTP_BACKEND`, Update: `HTTP_BACKEND`},
@@ -325,8 +333,8 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DeploymentResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentation), "apigateway", "deployment", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+imageVariableStr+DeploymentResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuth), "apigateway", "deployment", t)
 
 	acctest.ResourceTest(t, testAccCheckApigatewayDeploymentDestroy, []resource.TestStep{
 		// verify Create
@@ -337,6 +345,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 				resource.TestCheckResourceAttr(resourceName, "path_prefix", "/v1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.#", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -388,6 +397,8 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.0.rate_in_requests_per_second", "10"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.0.rate_key", "CLIENT_IP"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.usage_plans.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.usage_plans.0.token_locations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "specification.0.routes.0.backend.0.connect_timeout_in_seconds"),
@@ -526,6 +537,8 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.0.rate_in_requests_per_second", "10"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.0.rate_key", "CLIENT_IP"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.usage_plans.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.usage_plans.0.token_locations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "specification.0.routes.0.backend.0.connect_timeout_in_seconds"),
@@ -659,6 +672,8 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.0.rate_in_requests_per_second", "11"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.0.rate_key", "TOTAL"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.usage_plans.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.usage_plans.0.token_locations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "specification.0.routes.0.backend.0.connect_timeout_in_seconds"),
@@ -809,6 +824,8 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.rate_limiting.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.rate_limiting.0.rate_in_requests_per_second", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.rate_limiting.0.rate_key", "TOTAL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.usage_plans.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.usage_plans.0.token_locations.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "specification.0.routes.0.backend.0.connect_timeout_in_seconds"),

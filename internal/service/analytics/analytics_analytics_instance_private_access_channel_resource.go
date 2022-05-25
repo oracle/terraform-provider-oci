@@ -484,10 +484,9 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Delete() er
 
 func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) SetData() error {
 
-	analyticsInstanceId, privateAccessChannelKey, err := parseAnalyticsInstancePrivateAccessChannelCompositeId(s.D.Id())
+	analyticsInstanceId, _, err := parseAnalyticsInstancePrivateAccessChannelCompositeId(s.D.Id())
 	if err == nil {
 		s.D.Set("analytics_instance_id", &analyticsInstanceId)
-		s.D.Set("private_access_channel_key", &privateAccessChannelKey)
 	} else {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}

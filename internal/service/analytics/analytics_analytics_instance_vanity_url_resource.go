@@ -477,8 +477,6 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) SetData() error {
 	}
 	s.D.Set("hosts", s.Res.Hosts)
 
-	s.D.Set("urls", s.Res.Urls)
-
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}

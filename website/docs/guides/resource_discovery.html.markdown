@@ -311,6 +311,8 @@ apigateway
 * oci\_apigateway\_gateway
 * oci\_apigateway\_deployment
 * oci\_apigateway\_certificate
+* oci\_apigateway\_subscriber
+* oci\_apigateway\_usage\_plan
 
 apm
     

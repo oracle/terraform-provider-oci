@@ -27,6 +27,8 @@ type ApiSpecificationRequestPolicies struct {
 	Cors *CorsPolicy `mandatory:"false" json:"cors"`
 
 	MutualTls *MutualTlsDetails `mandatory:"false" json:"mutualTls"`
+
+	UsagePlans *UsagePlansPolicy `mandatory:"false" json:"usagePlans"`
 }
 
 func (m ApiSpecificationRequestPolicies) String() string {
@@ -52,6 +54,7 @@ func (m *ApiSpecificationRequestPolicies) UnmarshalJSON(data []byte) (e error) {
 		RateLimiting   *RateLimitingPolicy  `json:"rateLimiting"`
 		Cors           *CorsPolicy          `json:"cors"`
 		MutualTls      *MutualTlsDetails    `json:"mutualTls"`
+		UsagePlans     *UsagePlansPolicy    `json:"usagePlans"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -74,6 +77,8 @@ func (m *ApiSpecificationRequestPolicies) UnmarshalJSON(data []byte) (e error) {
 	m.Cors = model.Cors
 
 	m.MutualTls = model.MutualTls
+
+	m.UsagePlans = model.UsagePlans
 
 	return
 }

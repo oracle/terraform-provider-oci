@@ -110,6 +110,11 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Default:  "",
+			},
 			"network_endpoint_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -200,11 +205,6 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 			},
 
 			// Computed
-			"private_access_channels": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
 			"service_url": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -216,11 +216,6 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 			"time_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
-			},
-			"vanity_url_details": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
 			},
 		},
 	}
@@ -252,6 +247,25 @@ func createAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 
 }
 
+func (s *AnalyticsAnalyticsInstanceResourceCrud) SetKmsKey(kmsKeyId *string) error {
+	request := oci_analytics.SetKmsKeyRequest{}
+
+	tmp := s.D.Id()
+	request.AnalyticsInstanceId = &tmp
+	request.KmsKeyId = kmsKeyId
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+
+	response, err := s.Client.SetKmsKey(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	_, err = analyticsInstanceWaitForWorkRequest(workId, "analytics",
+		oci_analytics.WorkRequestActionResultCreated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+	return err
+}
+
 func readAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
@@ -281,6 +295,16 @@ func updateAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 			return err
 		}
 		sync.D.Set("state", oci_analytics.AnalyticsInstanceLifecycleStateActive)
+	}
+	if sync.D.HasChange("kms_key_id") {
+		wantedKmsKeyId := sync.D.Get("kms_key_id").(string)
+		if err := sync.SetKmsKey(&wantedKmsKeyId); err != nil {
+			// Re-read the instance to update the state file with correct values after failure
+			err = tfresource.ReadResource(sync)
+			return err
+		}
+
+		sync.D.Set("kms_key_id", wantedKmsKeyId)
 	}
 
 	if err := tfresource.UpdateResource(d, sync); err != nil {
@@ -389,6 +413,11 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 	if idcsAccessToken, ok := s.D.GetOkExists("idcs_access_token"); ok {
 		tmp := idcsAccessToken.(string)
 		request.IdcsAccessToken = &tmp
+	}
+
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+		tmp := kmsKeyId.(string)
+		request.KmsKeyId = &tmp
 	}
 
 	if licenseType, ok := s.D.GetOkExists("license_type"); ok {
@@ -514,7 +543,7 @@ func analyticsInstanceWaitForWorkRequest(wId *string, entityType string, action 
 
 	var identifier *string
 	// The work request response contains an array of objects that finished the operation
-	for _, res := range response.WorkRequest.Resources {
+	for _, res := range response.Resources {
 		if res.ResourceType == "ANALYTICS_INSTANCE" {
 			if res.ActionResult == action {
 				identifier = res.Identifier
@@ -698,6 +727,10 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
 	s.D.Set("license_type", s.Res.LicenseType)
 
 	if s.Res.Name != nil {
@@ -714,8 +747,6 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 		s.D.Set("network_endpoint_details", nil)
 	}
 
-	s.D.Set("private_access_channels", s.Res.PrivateAccessChannels)
-
 	if s.Res.ServiceUrl != nil {
 		s.D.Set("service_url", *s.Res.ServiceUrl)
 	}
@@ -729,8 +760,6 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
-
-	s.D.Set("vanity_url_details", s.Res.VanityUrlDetails)
 
 	return nil
 }

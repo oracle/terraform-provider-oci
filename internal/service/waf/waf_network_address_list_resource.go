@@ -51,7 +51,7 @@ func WafNetworkAddressListResource() *schema.Resource {
 			"addresses": {
 				Type:     schema.TypeList,
 				Optional: true,
-				Computed: true,
+				Computed: false,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},

@@ -173,6 +173,8 @@ var apigatewayResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportApigatewayGatewayHints},
 		{TerraformResourceHints: exportApigatewayDeploymentHints},
 		{TerraformResourceHints: exportApigatewayCertificateHints},
+		{TerraformResourceHints: exportApigatewaySubscriberHints},
+		{TerraformResourceHints: exportApigatewayUsagePlanHints},
 	},
 }
 
