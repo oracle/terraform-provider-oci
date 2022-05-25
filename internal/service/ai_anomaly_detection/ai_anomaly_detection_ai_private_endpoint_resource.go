@@ -474,7 +474,7 @@ func (s *AiAnomalyDetectionAiPrivateEndpointResourceCrud) SetData() error {
 	}
 
 	if s.Res.SystemTags != nil {
-		//s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TimeCreated != nil {
@@ -522,7 +522,7 @@ func AiPrivateEndpointSummaryToMap(obj oci_ai_anomaly_detection.AiPrivateEndpoin
 	}
 
 	if obj.SystemTags != nil {
-		//result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
 
 	if obj.TimeCreated != nil {

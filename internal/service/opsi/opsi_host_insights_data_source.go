@@ -117,7 +117,7 @@ func (s *OpsiHostInsightsDataSourceCrud) Get() error {
 			}
 		}
 		if len(tmp) != 0 || s.D.HasChange("host_type") {
-			//request.HostType = tmp
+			request.HostType = tmp
 		}
 	}
 
