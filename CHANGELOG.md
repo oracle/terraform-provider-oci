@@ -1,4 +1,4 @@
-## 4.77.0 (Unreleased)
+## 4.77.0 (May 25, 2022)
 
 ### Added
 - Support for customer managed encryption keys in Oracle Analytics Cloud
