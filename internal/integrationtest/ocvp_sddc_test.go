@@ -69,6 +69,7 @@ var (
 		"vmware_software_version":      acctest.Representation{RepType: acctest.Required, Create: `test-L2`, Update: `6.5 update 3`},
 		"vsan_vlan_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vsan_net_vlan.id}`},
 		"vsphere_vlan_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vsphere_net_vlan.id}`},
+		"capacity_reservation_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
 		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: sddcDisplayName1, Update: sddcDisplayName2},
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -102,6 +103,31 @@ data "oci_core_services" "test_services" {}
 
 data "oci_identity_availability_domains" "ADs" {
     compartment_id = "${var.compartment_id}"
+}
+
+resource "oci_core_compute_capacity_reservation" "test_compute_capacity_reservation" {
+    #Required
+    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+    compartment_id = var.compartment_id
+
+	instance_reservation_configs {
+			#Required
+			instance_shape = "BM.DenseIO2.52"
+			reserved_count = 2
+            fault_domain = "FAULT-DOMAIN-1"
+		}
+	instance_reservation_configs {
+			#Required
+			instance_shape = "BM.DenseIO2.52"
+			reserved_count = 1
+			fault_domain = "FAULT-DOMAIN-2"
+		}
+	instance_reservation_configs {
+			#Required
+			instance_shape = "BM.DenseIO2.52"
+			reserved_count = 1
+			fault_domain = "FAULT-DOMAIN-3"
+		}
 }
 
 resource "oci_core_vcn" "test_vcn_ocvp" {
@@ -424,7 +450,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Create, sddcRepresentation), "ocvp", "sddc", t)
 
 	acctest.ResourceTest(t, testAccCheckOcvpSddcDestroy, []resource.TestStep{
-		//verify Create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Create, sddcRepresentation),
@@ -432,8 +458,6 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
@@ -491,12 +515,13 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Create, sddcV7Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", sddcDisplayName1),
 				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", "52"),
@@ -549,12 +574,13 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", sddcDisplayName1),
 				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", "52"),
@@ -603,12 +629,13 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Update, sddcV7Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", sddcDisplayName2),
 				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", "52"),
@@ -673,7 +700,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_updated"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.state", "ACTIVE"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.freeform_tags.%"),
 			),
 		},
 		// verify singular datasource
@@ -683,13 +710,13 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				compartmentIdVariableStr + SddcV7ResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sddc_id"),
-
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "capacity_reservation_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", sddcDisplayName2),
 				resource.TestCheckResourceAttr(singularDatasourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "actual_esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_fqdn"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_initial_password"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_on_prem_key"),

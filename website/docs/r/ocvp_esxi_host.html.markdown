@@ -26,6 +26,7 @@ resource "oci_ocvp_esxi_host" "test_esxi_host" {
 	sddc_id = oci_ocvp_sddc.test_sddc.id
 
 	#Optional
+	capacity_reservation_id = oci_ocvp_capacity_reservation.test_capacity_reservation.id
 	compute_availability_domain = var.esxi_host_compute_availability_domain
 	current_sku = var.esxi_host_current_sku
 	defined_tags = {"Operations.CostCenter"= "42"}
@@ -42,6 +43,7 @@ resource "oci_ocvp_esxi_host" "test_esxi_host" {
 
 The following arguments are supported:
 
+* `capacity_reservation_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
 * `compute_availability_domain` - (Optional) The availability domain to create the ESXi host in. If keep empty, for AD-specific SDDC, new ESXi host will be created in the same availability domain; for multi-AD SDDC, new ESXi host will be auto assigned to the next availability domain following evenly distribution strategy.
 * `current_sku` - (Optional) The billing option currently used by the ESXi host. [ListSupportedSkus](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedSkuSummary/ListSupportedSkus).
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
@@ -66,7 +68,8 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `billing_contract_end_date` - Current billing cycle end date. If the value in `currentSku` and `nextSku` are different, the value specified in `nextSku` becomes the new `currentSKU` when the `contractEndDate` is reached. Example: `2016-08-25T21:10:29.600Z`
+* `billing_contract_end_date` - Current billing cycle end date. If the value in `currentSku` and `nextSku` are different, the value specified in `nextSku` becomes the new `currentSKU` when the `contractEndDate` is reached. Example: `2016-08-25T21:10:29.600Z` 
+* `capacity_reservation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the SDDC.
 * `compute_availability_domain` - The availability domain of the ESXi host.
 * `compute_instance_id` - In terms of implementation, an ESXi host is a Compute instance that is configured with the chosen bundle of VMware software. The `computeInstanceId` is the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of that Compute instance.
