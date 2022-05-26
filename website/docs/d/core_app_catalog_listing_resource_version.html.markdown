@@ -38,12 +38,12 @@ The following attributes are exported:
 * `allowed_actions` - Allowed actions for the listing resource.
 * `available_regions` - List of regions that this listing resource version is available.
 
-	For information about Regions, see [Regions](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm).
+	For information about regions, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm).
 
 	Example: `["us-ashburn-1", "us-phoenix-1"]` 
 * `compatible_shapes` - Array of shapes compatible with this resource.
 
-	You may enumerate all available shapes by calling [ListShapes] (https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes).
+	You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes).
 
 	Example: `["VM.Standard1.1", "VM.Standard1.2"]` 
 * `listing_id` - The OCID of the listing this resource version belongs to.

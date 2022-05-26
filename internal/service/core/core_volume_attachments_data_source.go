@@ -190,6 +190,10 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 				result["iqn"] = string(*v.Iqn)
 			}
 
+			if v.IsAgentAutoIscsiLoginEnabled != nil {
+				result["is_agent_auto_iscsi_login_enabled"] = bool(*v.IsAgentAutoIscsiLoginEnabled)
+			}
+
 			multipathDevices := []interface{}{}
 			for _, item := range v.MultipathDevices {
 				multipathDevices = append(multipathDevices, MultipathDeviceToMap(item))

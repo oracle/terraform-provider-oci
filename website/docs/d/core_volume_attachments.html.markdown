@@ -61,8 +61,9 @@ The following attributes are exported:
 * `encryption_in_transit_type` - Refer the top-level definition of encryptionInTransitType. The default value is NONE.
 * `id` - The OCID of the volume attachment.
 * `instance_id` - The OCID of the instance the volume is attached to.
-* `ipv4` - The volume's iSCSI IP address.  Example: `169.254.0.2`
-* `iqn` - The target volume's iSCSI Qualified Name in the format defined by [RFC 3720](https://tools.ietf.org/html/rfc3720#page-32).  Example: `iqn.2015-12.us.oracle.com:<CHAP_username>`
+* `ipv4` - The volume's iSCSI IP address.  Example: `169.254.0.2` 
+* `iqn` - The target volume's iSCSI Qualified Name in the format defined by [RFC 3720](https://tools.ietf.org/html/rfc3720#page-32).  Example: `iqn.2015-12.us.oracle.com:<CHAP_username>` 
+* `is_agent_auto_iscsi_login_enabled` - Whether Oracle Cloud Agent is enabled perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments. 
 * `is_multipath` - Whether the Iscsi or Paravirtualized attachment is multipath or not, it is not applicable to NVMe attachment.
 * `is_pv_encryption_in_transit_enabled` - Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
 * `is_read_only` - Whether the attachment was created in read-only mode.
