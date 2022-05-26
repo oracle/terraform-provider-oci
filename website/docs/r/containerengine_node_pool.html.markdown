@@ -19,7 +19,6 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 	#Required
 	cluster_id = oci_containerengine_cluster.test_cluster.id
 	compartment_id = var.compartment_id
-	kubernetes_version = var.node_pool_kubernetes_version
 	name = var.node_pool_name
 	node_shape = var.node_pool_node_shape
 
@@ -32,6 +31,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 		key = var.node_pool_initial_node_labels_key
 		value = var.node_pool_initial_node_labels_value
 	}
+	kubernetes_version = var.node_pool_kubernetes_version
 	node_config_details {
 		#Required
 		placement_configs {
@@ -85,7 +85,7 @@ The following arguments are supported:
 * `initial_node_labels` - (Optional) (Updatable) A list of key/value pairs to add to nodes after they join the Kubernetes cluster.
 	* `key` - (Optional) (Updatable) The key of the pair.
 	* `value` - (Optional) (Updatable) The value of the pair.
-* `kubernetes_version` - (Required) (Updatable) The version of Kubernetes to install on the nodes in the node pool.
+* `kubernetes_version` - (Optional) (Updatable) The version of Kubernetes to install on the nodes in the node pool.
 * `name` - (Required) (Updatable) The name of the node pool. Avoid entering confidential information.
 * `node_config_details` - (Optional) (Updatable) The configuration of nodes in the node pool. Exactly one of the subnetIds or nodeConfigDetails properties must be specified. 
 	* `is_pv_encryption_in_transit_enabled` - (Optional) (Updatable) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.

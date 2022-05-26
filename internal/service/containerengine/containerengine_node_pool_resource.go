@@ -52,10 +52,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"kubernetes_version": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -102,6 +98,11 @@ func ContainerengineNodePoolResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"kubernetes_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"node_config_details": {
 				Type:          schema.TypeList,
