@@ -46,21 +46,29 @@ var (
 	}
 
 	invokeRunRepresentation = map[string]interface{}{
-		"application_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_dataflow_application.test_application.id}`},
-		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `test_wordcount_run`},
-		"arguments":            acctest.Representation{RepType: acctest.Optional, Create: []string{`arguments`}},
-		"configuration":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"spark.shuffle.io.maxRetries": "10"}},
-		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"driver_shape":         acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.1`},
-		"executor_shape":       acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.1`},
-		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"logs_bucket_uri":      acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_logs_bucket_uri}`},
-		"metastore_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.metastore_id}`},
-		"num_executors":        acctest.Representation{RepType: acctest.Optional, Create: `1`},
-		"parameters":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: invokeRunParametersRepresentation},
-		"type":                 acctest.Representation{RepType: acctest.Optional, Create: `BATCH`},
-		"warehouse_bucket_uri": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
+		"application_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_dataflow_application.test_application.id}`},
+		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `test_wordcount_run`},
+		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"arguments":             acctest.Representation{RepType: acctest.Optional, Create: []string{`arguments`}},
+		"configuration":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"spark.shuffle.io.maxRetries": "10"}},
+		"driver_shape_config":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: invokeRunDriverShapeConfigRepresentation},
+		"executor_shape":        acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.1`},
+		"executor_shape_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: invokeRunExecutorShapeConfigRepresentation},
+		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"logs_bucket_uri":       acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_logs_bucket_uri}`},
+		"metastore_id":          acctest.Representation{RepType: acctest.Optional, Create: `${var.metastore_id}`},
+		"num_executors":         acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"parameters":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: invokeRunParametersRepresentation},
+		"type":                  acctest.Representation{RepType: acctest.Optional, Create: `BATCH`},
+		"warehouse_bucket_uri":  acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
+	}
+	invokeRunDriverShapeConfigRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `15`},
+		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1`},
+	}
+	invokeRunExecutorShapeConfigRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `15`},
+		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1`},
 	}
 	invokeRunParametersRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Required, Create: `name`},
@@ -71,7 +79,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Optional, acctest.Create, privateEndpointRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Create, dataFlowApplicationRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Create, dataflowApplicationRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -139,7 +147,13 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_run"),
 				resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.0.ocpus", "1"),
 				resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.0.ocpus", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "file_uri"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -186,7 +200,13 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_run"),
 				resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.0.ocpus", "1"),
 				resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.0.ocpus", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "file_uri"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -225,7 +245,13 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_run"),
 				resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.0.ocpus", "1"),
 				resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.0.ocpus", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "file_uri"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -298,7 +324,13 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_written_in_bytes"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "test_wordcount_run"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "driver_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "driver_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "driver_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "driver_shape_config.0.ocpus", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "executor_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "executor_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "executor_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "executor_shape_config.0.ocpus", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "file_uri"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
