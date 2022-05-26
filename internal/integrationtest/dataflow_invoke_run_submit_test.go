@@ -33,7 +33,6 @@ var (
 	invokeRunSubmitSingularDataSourceRepresentation = map[string]interface{}{
 		"run_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dataflow_invoke_run.test_invoke_run_submit.id}`},
 	}
-
 	invokeRunSubmitDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: invokeRunSubmitDataSourceFilterRepresentation}}
@@ -45,7 +44,6 @@ var (
 	invokeRunSubmitRepresentation = map[string]interface{}{
 		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"archive_uri":          acctest.Representation{RepType: acctest.Optional, Create: utils.GetEnvSettingWithBlankDefault("dataflow_archive_uri")},
-		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `test_wordcount_runsubmit`},
 		"driver_shape":         acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.1`},
 		"execute":              acctest.Representation{RepType: acctest.Required, Create: `--conf spark.shuffle.io.maxRetries=10 ` + utils.GetEnvSettingWithBlankDefault("dataflow_file_uri") + ` arguments`},
