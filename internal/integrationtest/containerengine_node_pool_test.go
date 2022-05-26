@@ -172,7 +172,6 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
