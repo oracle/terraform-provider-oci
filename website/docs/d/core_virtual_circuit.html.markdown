@@ -33,7 +33,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `bandwidth_shape_name` - The provisioned data rate of the connection. To get a list of the available bandwidth levels (that is, shapes), see [ListFastConnectProviderServiceVirtualCircuitBandwidthShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderVirtualCircuitBandwidthShapes).  Example: `10 Gbps` 
-* `bgp_admin_state` - Set to ENABLED to activate the  bgp session of virtual circuit, DISABLED to deactivate. 
+* `bgp_admin_state` - Set to `ENABLED` (the default) to activate the BGP session of the virtual circuit, set to `DISABLED` to deactivate the virtual circuit. 
 * `bgp_ipv6session_state` - The state of the Ipv6 BGP session associated with the virtual circuit.
 * `bgp_management` - Deprecated. Instead use the information in [FastConnectProviderService](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/). 
 * `bgp_session_state` - The state of the Ipv4 BGP session associated with the virtual circuit.
@@ -74,7 +74,7 @@ The following attributes are exported:
 * `gateway_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's [dynamic routing gateway (DRG)](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Drg) that this virtual circuit uses. Applicable only to private virtual circuits. 
 * `id` - The virtual circuit's Oracle ID ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 * `ip_mtu` - The layer 3 IP MTU to use on this virtual circuit.
-* `is_bfd_enabled` - Set to true to enable BFD for ipv4 Bgp Peering, false to disable. If not set, default is false
+* `is_bfd_enabled` - Set to `true` to enable BFD for IPv4 BGP peering, or set to `false` to disable BFD. If this is not set, the default is `false`. 
 * `oracle_bgp_asn` - The Oracle BGP ASN.
 * `provider_service_id` - The OCID of the service offered by the provider (if the customer is connecting via a provider). 
 * `provider_service_key_name` - The service key name offered by the provider (if the customer is connecting via a provider). 
