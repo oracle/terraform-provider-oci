@@ -28,8 +28,20 @@ resource "oci_dataflow_invoke_run" "test_invoke_run" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.invoke_run_display_name
 	driver_shape = var.invoke_run_driver_shape
+	driver_shape_config {
+
+		#Optional
+		memory_in_gbs = var.invoke_run_driver_shape_config_memory_in_gbs
+		ocpus = var.invoke_run_driver_shape_config_ocpus
+	}
 	execute = var.invoke_run_execute
 	executor_shape = var.invoke_run_executor_shape
+	executor_shape_config {
+
+		#Optional
+		memory_in_gbs = var.invoke_run_executor_shape_config_memory_in_gbs
+		ocpus = var.invoke_run_executor_shape_config_ocpus
+	}
 	freeform_tags = {"Department"= "Finance"}
 	logs_bucket_uri = var.invoke_run_logs_bucket_uri
 	metastore_id = var.metastore_id
@@ -58,8 +70,14 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) A user-friendly name that does not have to be unique. Avoid entering confidential information. If this value is not specified, it will be derived from the associated application's displayName or set by API using fileUri's application file name. 
 * `driver_shape` - (Optional) The VM shape for the driver. Sets the driver cores and memory. 
+* `driver_shape_config` - (Optional) This is used to configure the shape of the driver or executor if a flexible shape is used. 
+	* `memory_in_gbs` - (Optional) The amount of memory used for the driver or executors. 
+	* `ocpus` - (Optional) The total number of OCPUs used for the driver or executors. See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `execute` - (Optional) The input used for spark-submit command. For more details see https://spark.apache.org/docs/latest/submitting-applications.html#launching-applications-with-spark-submit. Supported options include ``--class``, ``--file``, ``--jars``, ``--conf``, ``--py-files``, and main application file with arguments. Example: ``--jars oci://path/to/a.jar,oci://path/to/b.jar --files oci://path/to/a.json,oci://path/to/b.csv --py-files oci://path/to/a.py,oci://path/to/b.py --conf spark.sql.crossJoin.enabled=true --class org.apache.spark.examples.SparkPi oci://path/to/main.jar 10`` Note: If execute is specified together with applicationId, className, configuration, fileUri, language, arguments, parameters during application create/update, or run create/submit, Data Flow service will use derived information from execute input only. 
 * `executor_shape` - (Optional) The VM shape for the executors. Sets the executor cores and memory. 
+* `executor_shape_config` - (Optional) This is used to configure the shape of the driver or executor if a flexible shape is used. 
+	* `memory_in_gbs` - (Optional) The amount of memory used for the driver or executors. 
+	* `ocpus` - (Optional) The total number of OCPUs used for the driver or executors. See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `logs_bucket_uri` - (Optional) An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
 * `metastore_id` - (Optional) The OCID of Oracle Cloud Infrastructure Hive Metastore. 
@@ -90,8 +108,14 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. This name is not necessarily unique. 
 * `driver_shape` - The VM shape for the driver. Sets the driver cores and memory. 
+* `driver_shape_config` - This is used to configure the shape of the driver or executor if a flexible shape is used. 
+	* `memory_in_gbs` - The amount of memory used for the driver or executors. 
+	* `ocpus` - The total number of OCPUs used for the driver or executors. See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `execute` - The input used for spark-submit command. For more details see https://spark.apache.org/docs/latest/submitting-applications.html#launching-applications-with-spark-submit. Supported options include ``--class``, ``--file``, ``--jars``, ``--conf``, ``--py-files``, and main application file with arguments. Example: ``--jars oci://path/to/a.jar,oci://path/to/b.jar --files oci://path/to/a.json,oci://path/to/b.csv --py-files oci://path/to/a.py,oci://path/to/b.py --conf spark.sql.crossJoin.enabled=true --class org.apache.spark.examples.SparkPi oci://path/to/main.jar 10`` Note: If execute is specified together with applicationId, className, configuration, fileUri, language, arguments, parameters during application create/update, or run create/submit, Data Flow service will use derived information from execute input only. 
 * `executor_shape` - The VM shape for the executors. Sets the executor cores and memory. 
+* `executor_shape_config` - This is used to configure the shape of the driver or executor if a flexible shape is used. 
+	* `memory_in_gbs` - The amount of memory used for the driver or executors. 
+	* `ocpus` - The total number of OCPUs used for the driver or executors. See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `file_uri` - An Oracle Cloud Infrastructure URI of the file containing the application to execute. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The ID of a run. 
