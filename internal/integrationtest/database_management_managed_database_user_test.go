@@ -17,12 +17,12 @@ import (
 
 var (
 	managedDatabaseUserSingularDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_managed_database.test_managed_database.id}`},
-		"user_name":           acctest.Representation{RepType: acctest.Required, Create: `{}`},
+		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
+		"user_name":           acctest.Representation{RepType: acctest.Required, Create: `${var.test_user_name}`},
 	}
 
 	managedDatabaseUserDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_managed_database.test_managed_database.id}`},
+		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
 		"name":                acctest.Representation{RepType: acctest.Optional, Create: `name`},
 	}
 
@@ -31,7 +31,6 @@ var (
 
 // issue-routing-tag: database_management/default
 func TestDatabaseManagementManagedDatabaseUserResource_basic(t *testing.T) {
-	t.Skip("Skip this test till Database Management service provides a better way of testing this. It requires a live managed database instance")
 	httpreplay.SetScenario("TestDatabaseManagementManagedDatabaseUserResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -39,6 +38,12 @@ func TestDatabaseManagementManagedDatabaseUserResource_basic(t *testing.T) {
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	testManagedDatabaseId := utils.GetEnvSettingWithBlankDefault("test_managed_database_id")
+	testManagedDatabaseIdVariableStr := fmt.Sprintf("variable \"test_managed_database_id\" { default = \"%s\" }\n", testManagedDatabaseId)
+
+	testUserName := utils.GetEnvSettingWithBlankDefault("test_user_name")
+	testUserNameVariableStr := fmt.Sprintf("variable \"test_user_name\" { default = \"%s\" }\n", testUserName)
 
 	datasourceName := "data.oci_database_management_managed_database_users.test_managed_database_users"
 	singularDatasourceName := "data.oci_database_management_managed_database_user.test_managed_database_user"
@@ -50,7 +55,7 @@ func TestDatabaseManagementManagedDatabaseUserResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_users", "test_managed_database_users", acctest.Required, acctest.Create, managedDatabaseUserDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedDatabaseUserResourceConfig,
+				compartmentIdVariableStr + testManagedDatabaseIdVariableStr + ManagedDatabaseUserResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_id"),
 
@@ -61,7 +66,7 @@ func TestDatabaseManagementManagedDatabaseUserResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user", "test_managed_database_user", acctest.Required, acctest.Create, managedDatabaseUserSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedDatabaseUserResourceConfig,
+				compartmentIdVariableStr + testManagedDatabaseIdVariableStr + testUserNameVariableStr + ManagedDatabaseUserResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_name"),

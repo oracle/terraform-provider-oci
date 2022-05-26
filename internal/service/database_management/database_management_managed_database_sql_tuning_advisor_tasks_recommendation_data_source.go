@@ -58,6 +58,10 @@ func DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationDataSou
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"is_parallel_execution": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"rationale": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -182,6 +186,10 @@ func SqlTuningAdvisorTaskRecommendationSummaryToMap(obj oci_database_management.
 
 	if obj.ImplementActionSql != nil {
 		result["implement_action_sql"] = string(*obj.ImplementActionSql)
+	}
+
+	if obj.IsParallelExecution != nil {
+		result["is_parallel_execution"] = bool(*obj.IsParallelExecution)
 	}
 
 	if obj.Rationale != nil {

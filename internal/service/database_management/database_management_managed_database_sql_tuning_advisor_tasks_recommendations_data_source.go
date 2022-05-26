@@ -63,6 +63,10 @@ func DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationsDataSo
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"is_parallel_execution": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"rationale": {
 										Type:     schema.TypeString,
 										Computed: true,
