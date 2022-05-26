@@ -22,8 +22,7 @@ func DatabaseVmClusterRecommendedNetworkDataSource() *schema.Resource {
 			// Required
 			"compartment_id": {
 				Type:     schema.TypeString,
-<<<<<<< ours
-				Computed: true,
+				Required: true,
 			},
 			"db_servers": {
 				Type:     schema.TypeList,
@@ -31,14 +30,6 @@ func DatabaseVmClusterRecommendedNetworkDataSource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-=======
-				Required: true,
->>>>>>> theirs
 			},
 			"display_name": {
 				Type:     schema.TypeString,

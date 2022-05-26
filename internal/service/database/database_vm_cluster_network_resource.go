@@ -12,12 +12,15 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	"github.com/oracle/oci-go-sdk/v65/database"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
@@ -113,7 +116,6 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Required: true,
 									},
-
 									// Optional
 									"db_server_id": {
 										Type:     schema.TypeString,
@@ -140,7 +142,6 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 								},
 							},
 						},
-
 						// Optional
 						"domain_name": {
 							Type:     schema.TypeString,
@@ -162,7 +163,6 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
 						// Computed
 					},
 				},
@@ -220,6 +220,14 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 			"vm_cluster_id": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"action": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					"ADD_DBSERVER_NETWORK",
+					"REMOVE_DBSERVER_NETWORK",
+				}, true),
 			},
 		},
 	}
@@ -468,6 +476,53 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Get() error {
 
 func (s *DatabaseVmClusterNetworkResourceCrud) Update() error {
 
+	if action, ok := s.D.GetOkExists("action"); ok && s.D.HasChange("action") {
+
+		request := oci_database.ResizeVmClusterNetworkRequest{}
+		request.Action = action.(database.ResizeVmClusterNetworkDetailsActionEnum)
+
+		if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
+			tmp := exadataInfrastructureId.(string)
+			request.ExadataInfrastructureId = &tmp
+		}
+
+		if vmNetworks, ok := s.D.GetOkExists("vm_networks"); ok {
+			request.VmNetworks = []oci_database.VmNetworkDetails{}
+			set := vmNetworks.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]oci_database.VmNetworkDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := vmNetworksHashCodeForSets(interfaces[i])
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "vm_networks", stateDataIndex)
+				converted, err := s.mapToVmNetworkDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("vm_networks") {
+				request.VmNetworks = tmp
+			}
+		}
+
+		tmp := s.D.Id()
+		request.VmClusterNetworkId = &tmp
+
+		response, err := s.Client.ResizeVmClusterNetwork(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		s.Res = &response.VmClusterNetwork
+
+		if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+			return waitErr
+		}
+
+		return nil
+
+	}
+
 	if s.D.Get("state").(string) == string(oci_database.VmClusterNetworkLifecycleStateValidated) ||
 		s.D.Get("state").(string) == string(oci_database.VmClusterNetworkLifecycleStateAllocated) {
 		return fmt.Errorf("Update not allowed on validated vm cluster network")
@@ -708,15 +763,11 @@ func (s *DatabaseVmClusterNetworkResourceCrud) mapToNodeDetails(fieldKeyFormat s
 		result.Ip = &tmp
 	}
 
-<<<<<<< ours
 	if state, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "state")); ok {
 		result.LifecycleState = oci_database.NodeDetailsLifecycleStateEnum(state.(string))
 	}
 
-	if vip, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vip")); ok {
-=======
 	if vip, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vip")); ok && vip != "" {
->>>>>>> theirs
 		tmp := vip.(string)
 		result.Vip = &tmp
 	}
@@ -743,7 +794,6 @@ func NodeDetailsToMap(obj oci_database.NodeDetails) map[string]interface{} {
 	if obj.Ip != nil {
 		result["ip"] = string(*obj.Ip)
 	}
-
 	result["state"] = string(obj.LifecycleState)
 
 	if obj.Vip != nil {

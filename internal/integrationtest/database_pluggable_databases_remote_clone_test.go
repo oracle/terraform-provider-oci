@@ -53,19 +53,6 @@ var (
 		display_name = "-tf-internet-gateway-clone"
 	}
 
-<<<<<<< ours
-	DatabasePluggableDatabasesRemoteCloneResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, backupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, databaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentation) +
-		BackupResourceDependencies +
-		GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Create, backupDestinationNFSRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update, RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{RepType: Optional, Update: activationFilePath}})) +
-		GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, exadataInfrastructureRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, pluggableDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create, vmClusterNetworkRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, vmClusterRepresentation)
-=======
 	resource "oci_core_subnet" "tClone" {
 		availability_domain = "${data.oci_identity_availability_domains.ADsClone.availability_domains.0.name}"
 		cidr_block          = "10.1.20.0/24"
@@ -174,7 +161,6 @@ var (
 		}`
 
 	DatabasePluggableDatabasesRemoteCloneResourceDependencies = ResourcePluggableDatabaseBaseCloneConfig + dbSystemForPluggableDbCloneRepresentation
->>>>>>> theirs
 )
 
 // issue-routing-tag: database/default

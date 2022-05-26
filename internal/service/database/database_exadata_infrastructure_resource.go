@@ -101,7 +101,6 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"contacts": {
 				Type:     schema.TypeList,
@@ -273,14 +272,17 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+
 			"additional_compute_count": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+
 			"additional_compute_system_model": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+
 			"additional_storage_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -654,15 +656,6 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 	}
 
 	request := oci_database.UpdateExadataInfrastructureRequest{}
-
-	if additionalComputeCount, ok := s.D.GetOkExists("additional_compute_count"); ok {
-		tmp := additionalComputeCount.(int)
-		request.AdditionalComputeCount = &tmp
-	}
-
-	if additionalComputeSystemModel, ok := s.D.GetOkExists("additional_compute_system_model"); ok {
-		request.AdditionalComputeSystemModel = oci_database.UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum(additionalComputeSystemModel.(string))
-	}
 
 	if additionalStorageCount, ok := s.D.GetOkExists("additional_storage_count"); ok {
 		tmp := additionalStorageCount.(int)

@@ -58,15 +58,8 @@ var (
 		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: vmClusterNetworkIgnoreChangesHalfRackRepresentation},
 	}
 	vmClusterNetworkIgnoreChangesHalfRackRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`validate_vm_cluster_network`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`validate_vm_cluster_network`, `vm_networks`}},
 	}
-
-<<<<<<< ours
-	DatabaseVmClusterAddVirtualMachineResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, dbServerDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, exadataInfrastructureRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create, vmClusterNetworkRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, vmClusterRepresentation)
-=======
 	vmClusterNetworkScansHalfRackRepresentation = map[string]interface{}{
 		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix1-ivmmj-scan`, Update: `myprefix2-ivmmj-scan`},
 		"ips":      acctest.Representation{RepType: acctest.Required, Create: []string{`192.168.19.7`, `192.168.19.6`, `192.168.19.8`}, Update: []string{`192.168.19.7`, `192.168.19.8`, `192.168.19.9`}},
@@ -93,40 +86,48 @@ var (
 		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.10`, Update: `192.168.19.11`},
 		"vip":          acctest.Representation{RepType: acctest.Optional, Create: `192.168.19.12`, Update: `192.168.19.13`},
 		"vip_hostname": acctest.Representation{RepType: acctest.Optional, Create: `myprefix2-xapb21-vip`, Update: `myprefix2-xapb22-vip`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`},
 	}
 	vmClusterNetworkVmNetworksClientNodes2HalfRackRepresentation = map[string]interface{}{
 		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb25`, Update: `myprefix2-xapb26`},
 		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.14`, Update: `192.168.19.15`},
 		"vip":          acctest.Representation{RepType: acctest.Optional, Create: `192.168.19.16`, Update: `192.168.19.17`},
 		"vip_hostname": acctest.Representation{RepType: acctest.Optional, Create: `myprefix2-xapb25-vip`, Update: `myprefix2-xapb26-vip`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.1.id}`},
 	}
 	vmClusterNetworkVmNetworksClientNodes3HalfRackRepresentation = map[string]interface{}{
 		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb29`, Update: `myprefix2-xapb30`},
 		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.18`, Update: `192.168.19.19`},
 		"vip":          acctest.Representation{RepType: acctest.Optional, Create: `192.168.19.20`, Update: `192.168.19.21`},
 		"vip_hostname": acctest.Representation{RepType: acctest.Optional, Create: `myprefix2-xapb29-vip`, Update: `myprefix2-xapb30-vip`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.2.id}`},
 	}
 	vmClusterNetworkVmNetworksClientNodes4HalfRackRepresentation = map[string]interface{}{
 		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb33`, Update: `myprefix2-xapb34`},
 		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.22`, Update: `192.168.19.23`},
 		"vip":          acctest.Representation{RepType: acctest.Optional, Create: `192.168.19.24`, Update: `192.168.19.25`},
 		"vip_hostname": acctest.Representation{RepType: acctest.Optional, Create: `myprefix2-xapb33-vip`, Update: `myprefix2-xapb34-vip`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.3.id}`},
 	}
 	vmClusterNetworkVmNetworksBackupNodes1HalfRackRepresentation = map[string]interface{}{
-		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb23`, Update: `myprefix2-xapb24`},
-		"ip":       acctest.Representation{RepType: acctest.Required, Create: `192.169.19.26`, Update: `192.169.19.27`},
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb23`, Update: `myprefix2-xapb24`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.169.19.26`, Update: `192.169.19.27`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`},
 	}
 	vmClusterNetworkVmNetworksBackupNodes2HalfRackRepresentation = map[string]interface{}{
-		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb27`, Update: `myprefix2-xapb28`},
-		"ip":       acctest.Representation{RepType: acctest.Required, Create: `192.169.19.28`, Update: `192.169.19.29`},
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb27`, Update: `myprefix2-xapb28`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.169.19.28`, Update: `192.169.19.29`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.1.id}`},
 	}
 	vmClusterNetworkVmNetworksBackupNodes3HalfRackRepresentation = map[string]interface{}{
-		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb31`, Update: `myprefix2-xapb32`},
-		"ip":       acctest.Representation{RepType: acctest.Required, Create: `192.169.19.30`, Update: `192.169.19.31`},
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb31`, Update: `myprefix2-xapb32`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.169.19.30`, Update: `192.169.19.31`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.2.id}`},
 	}
 	vmClusterNetworkVmNetworksBackupNodes4HalfRackRepresentation = map[string]interface{}{
-		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb35`, Update: `myprefix2-xapb36`},
-		"ip":       acctest.Representation{RepType: acctest.Required, Create: `192.169.19.32`, Update: `192.169.19.33`},
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb35`, Update: `myprefix2-xapb36`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.169.19.32`, Update: `192.169.19.33`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.3.id}`},
 	}
 
 	vmClusterDbServerRepresentation = map[string]interface{}{
@@ -162,7 +163,6 @@ var (
 			})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, vmClusterNetworkValidateHalfRackRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, vmClusterDbServerRepresentation)
->>>>>>> theirs
 )
 
 // issue-routing-tag: database/ExaCC
