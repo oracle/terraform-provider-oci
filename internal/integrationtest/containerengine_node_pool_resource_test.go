@@ -44,6 +44,7 @@ var (
 	nodePoolNodeConfigDetailsPlacementConfigsRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`, Update: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.node_pool_regional_subnet_1.id}`, Update: `${oci_core_subnet.node_pool_regional_subnet_2.id}`},
+		"fault_domains":       acctest.Representation{RepType: acctest.Optional, Create: []string{"FAULT-DOMAIN-1"}, Update: []string{"FAULT-DOMAIN-1"}},
 	}
 
 	nodePoolSingularDataSourceRepresentationForImageId = map[string]interface{}{
@@ -203,6 +204,8 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "2"),
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.placement_configs.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.placement_configs.0.fault_domains.0", "FAULT-DOMAIN-1"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -238,6 +241,8 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.placement_configs.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.placement_configs.0.fault_domains.0", "FAULT-DOMAIN-1"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
