@@ -41,6 +41,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 
 			#Optional
 			capacity_reservation_id = oci_containerengine_capacity_reservation.test_capacity_reservation.id
+			fault_domains = var.node_pool_node_config_details_placement_configs_fault_domains
 		}
 		size = var.node_pool_node_config_details_size
 
@@ -97,6 +98,7 @@ The following arguments are supported:
 		To use the node pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
 		* `availability_domain` - (Required) (Updatable) The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - (Optional) (Updatable) The OCID of the compute capacity reservation in which to place the compute instance.
+		* `fault_domains` - (Optional) (Updatable) A list of fault domains in which to place nodes. 
 		* `subnet_id` - (Required) (Updatable) The OCID of the subnet in which to place nodes.
 	* `size` - (Required) (Updatable) The number of nodes that should be in the node pool. 
 * `node_image_name` - (Optional) Deprecated. Use `nodeSourceDetails` instead. If you specify values for both, this value is ignored. The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
@@ -142,6 +144,7 @@ The following attributes are exported:
 		To use the node pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
 		* `availability_domain` - The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - The OCID of the compute capacity reservation in which to place the compute instance.
+		* `fault_domains` - A list of fault domains in which to place nodes. 
 		* `subnet_id` - The OCID of the subnet in which to place nodes.
 	* `size` - The number of nodes in the node pool. 
 * `node_image_id` - Deprecated. see `nodeSource`. The OCID of the image running on the nodes in the node pool. 

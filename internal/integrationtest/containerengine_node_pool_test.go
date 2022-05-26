@@ -139,7 +139,11 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
-		DefinedTagsDependencies
+		DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(computeCapacityReservationRepresentation, map[string]interface{}{
+			"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`}, "instance_reservation_configs": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(computeCapacityReservationInstanceReservationConfigsRepresentation, map[string]interface{}{
+				"instance_shape": acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`}, "fault_domain": acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-1`}, "reserved_count": acctest.Representation{RepType: acctest.Required, Create: `6`},
+			})}}))
 )
 
 // issue-routing-tag: containerengine/default
@@ -172,7 +176,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
-
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "node_config_details.0.placement_configs", nil, []string{"capacity_reservation_id"}),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
@@ -203,6 +207,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "node_config_details.0.placement_configs", nil, []string{"capacity_reservation_id"}),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -338,6 +343,7 @@ func testAccCheckContainerengineNodePoolDestroy(s *terraform.State) error {
 			}
 		}
 	}
+
 	if noResourceFound {
 		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
 	}

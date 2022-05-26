@@ -136,6 +136,14 @@ func ContainerengineNodePoolResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"fault_domains": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 
 									// Computed
 								},
@@ -1356,6 +1364,19 @@ func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolPlacementConfigDetail
 		result.CapacityReservationId = &tmp
 	}
 
+	if faultDomains, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fault_domains")); ok {
+		interfaces := faultDomains.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "fault_domains")) {
+			result.FaultDomains = tmp
+		}
+	}
+
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
@@ -1374,6 +1395,8 @@ func NodePoolPlacementConfigDetailsToMap(obj oci_containerengine.NodePoolPlaceme
 	if obj.CapacityReservationId != nil {
 		result["capacity_reservation_id"] = string(*obj.CapacityReservationId)
 	}
+
+	result["fault_domains"] = obj.FaultDomains
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
