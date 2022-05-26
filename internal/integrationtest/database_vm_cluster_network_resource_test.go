@@ -10,10 +10,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -41,7 +42,7 @@ var (
 		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: vmClusterNetworkIgnoreChangesRepresentation},
 	}
 	vmClusterNetworkIgnoreChangesRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`validate_vm_cluster_network`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`validate_vm_cluster_network`, `vm_networks`}},
 	}
 	vmClusterNetworkValidateUpdateRepresentation = map[string]interface{}{
 		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -54,9 +55,11 @@ var (
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"ntp":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.20`}, Update: []string{`192.168.10.22`}},
 		"validate_vm_cluster_network": acctest.Representation{RepType: acctest.Optional, Create: "true", Update: "true"},
+		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: vmClusterNetworkIgnoreNetworkRepresentation},
 	}
 
 	VmClusterNetworkValidateResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabaseDatabaseDbServerDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update,
 			acctest.RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
 				"activation_file":    acctest.Representation{RepType: acctest.Optional, Update: activationFilePath},
@@ -99,9 +102,6 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
-					"domain_name":  "oracle.com",
-					"gateway":      "192.169.20.2",
-					"netmask":      "255.255.192.0",
 					"network_type": "BACKUP",
 					"nodes.#":      "2",
 				},
@@ -136,9 +136,6 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
-					"domain_name":  "oracle.com",
-					"gateway":      "192.169.20.1",
-					"netmask":      "255.255.0.0",
 					"network_type": "BACKUP",
 					"nodes.#":      "2",
 				},
@@ -173,9 +170,6 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
-					"domain_name":  "oracle.com",
-					"gateway":      "192.169.20.2",
-					"netmask":      "255.255.192.0",
 					"network_type": "BACKUP",
 					"nodes.#":      "2",
 				},
@@ -193,7 +187,7 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify Update after validation
+		//verify Update after validation
 		{
 			Config: config + compartmentIdVariableStr + DatabaseVmClusterNetworkResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Create, DatabaseVmClusterNetworkRepresentation),
