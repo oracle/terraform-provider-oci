@@ -44,6 +44,7 @@ The following attributes are exported:
 	* `benefit` - The percentage benefit of this implementation.
 	* `finding` - Summary of the issue found in the SQL statement.
 	* `implement_action_sql` - Action sql to be implemented based on the recommendation result.
+	* `is_parallel_execution` - Indicates whether a SQL Profile recommendation uses parallel execution.
 	* `rationale` - Describes the reasoning behind the recommendation and how it relates to the finding.
 	* `recommendation` - The recommendation for a specific finding.
 	* `recommendation_key` - The unique identifier of the recommendation in the scope of the task.
