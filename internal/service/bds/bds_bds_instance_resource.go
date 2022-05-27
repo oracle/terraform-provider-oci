@@ -242,6 +242,12 @@ func BdsBdsInstanceResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"kerberos_realm_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"network_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -620,6 +626,11 @@ func (s *BdsBdsInstanceResourceCrud) Create() error {
 		request.IsSecure = &tmp
 	}
 
+	if kerberosRealmName, ok := s.D.GetOkExists("kerberos_realm_name"); ok {
+		tmp := kerberosRealmName.(string)
+		request.KerberosRealmName = &tmp
+	}
+
 	if networkConfig, ok := s.D.GetOkExists("network_config"); ok {
 		if tmpList := networkConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_config", 0)
@@ -964,7 +975,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		tmpNew := newRaw.(int)
 		if tmpNew > tmpOld {
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-				err := s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld)
+				err := s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker)
 				if err != nil {
 					return err
 				}
@@ -1432,9 +1443,9 @@ func (s *BdsBdsInstanceResourceCrud) updateWorkerBlockStorage(id string, cluster
 	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateWorkerNode(id string, clusterAdminPassword interface{}, numberOfWorker int) error {
+func (s *BdsBdsInstanceResourceCrud) updateWorkerNode(id string, clusterAdminPassword interface{}, numberOfWorker int, addWorkerNodesDetailsNodeTypeWorker oci_bds.AddWorkerNodesDetailsNodeTypeEnum) error {
 	addWorkerNodesRequest := oci_bds.AddWorkerNodesRequest{}
-
+	addWorkerNodesRequest.NodeType = addWorkerNodesDetailsNodeTypeWorker
 	addWorkerNodesRequest.BdsInstanceId = &id
 
 	clusterAdminPasswordTmp := clusterAdminPassword.(string)
