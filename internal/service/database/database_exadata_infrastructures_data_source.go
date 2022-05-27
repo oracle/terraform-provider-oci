@@ -188,6 +188,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["infini_band_network_cidr"] = *r.InfiniBandNetworkCIDR
 		}
 
+		if r.IsCpsOfflineReportEnabled != nil {
+			exadataInfrastructure["is_cps_offline_report_enabled"] = *r.IsCpsOfflineReportEnabled
+		}
+
 		if r.LifecycleDetails != nil {
 			exadataInfrastructure["lifecycle_details"] = *r.LifecycleDetails
 		}

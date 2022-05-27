@@ -87,7 +87,6 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"create_async": {
 				Type:     schema.TypeBool,
@@ -155,6 +154,11 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"is_cps_offline_report_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 			},
 			"maintenance_window": {
 				Type:     schema.TypeList,
@@ -529,6 +533,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 		request.InfiniBandNetworkCIDR = &tmp
 	}
 
+	if isCpsOfflineReportEnabled, ok := s.D.GetOkExists("is_cps_offline_report_enabled"); ok {
+		tmp := isCpsOfflineReportEnabled.(bool)
+		request.IsCpsOfflineReportEnabled = &tmp
+	}
+
 	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
 		if tmpList := maintenanceWindow.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window", 0)
@@ -710,6 +719,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 		request.InfiniBandNetworkCIDR = &tmp
 	}
 
+	if isCpsOfflineReportEnabled, ok := s.D.GetOkExists("is_cps_offline_report_enabled"); ok && s.D.HasChange("is_cps_offline_report_enabled") {
+		tmp := isCpsOfflineReportEnabled.(bool)
+		request.IsCpsOfflineReportEnabled = &tmp
+	}
+
 	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
 		if tmpList := maintenanceWindow.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window", 0)
@@ -864,6 +878,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.InfiniBandNetworkCIDR != nil {
 		s.D.Set("infini_band_network_cidr", *s.Res.InfiniBandNetworkCIDR)
+	}
+
+	if s.Res.IsCpsOfflineReportEnabled != nil {
+		s.D.Set("is_cps_offline_report_enabled", *s.Res.IsCpsOfflineReportEnabled)
 	}
 
 	if s.Res.LifecycleDetails != nil {
