@@ -50,6 +50,7 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 	#Optional
 	defined_tags = var.bds_instance_defined_tags
 	freeform_tags = var.bds_instance_freeform_tags
+	kerberos_realm_name = var.bds_instance_kerberos_realm_name
 	network_config {
 
 		#Optional
@@ -72,6 +73,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. For example, `{"bar-key": "value"}` 
 * `is_high_availability` - (Required) Boolean flag specifying whether or not the cluster is highly available (HA).
 * `is_secure` - (Required) Boolean flag specifying whether or not the cluster should be set up as secure.
+* `kerberos_realm_name` - (Optional) The user-defined kerberos realm name.
 * `network_config` - (Optional) Additional configuration of the user's network.
 	* `cidr_block` - (Optional) The CIDR IP address block of the VCN.
 	* `is_nat_gateway_required` - (Optional) A boolean flag whether to configure a NAT gateway.
