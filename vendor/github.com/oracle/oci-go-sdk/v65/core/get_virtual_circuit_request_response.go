@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVirtualCircuit.go.html to see an example of how to use GetVirtualCircuitRequest.
 type GetVirtualCircuitRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the virtual circuit.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual circuit.
 	VirtualCircuitId *string `mandatory:"true" contributesTo:"path" name:"virtualCircuitId"`
 
 	// Unique Oracle-assigned identifier for the request.

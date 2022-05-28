@@ -34,11 +34,11 @@ type DrgRouteTable struct {
 	// DRG route table.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment the DRG is in. The DRG route table
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment the DRG is in. The DRG route table
 	// is always in the same compartment as the DRG.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DRG the DRG that contains this route table.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG the DRG that contains this route table.
 	DrgId *string `mandatory:"true" json:"drgId"`
 
 	// The date and time the DRG route table was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
@@ -67,7 +67,7 @@ type DrgRouteTable struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the import route distribution used to specify how incoming route advertisements from
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the import route distribution used to specify how incoming route advertisements from
 	// referenced attachments are inserted into the DRG route table.
 	ImportDrgRouteDistributionId *string `mandatory:"false" json:"importDrgRouteDistributionId"`
 }

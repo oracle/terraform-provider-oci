@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/BulkAddVirtualCircuitPublicPrefixes.go.html to see an example of how to use BulkAddVirtualCircuitPublicPrefixesRequest.
 type BulkAddVirtualCircuitPublicPrefixesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the virtual circuit.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual circuit.
 	VirtualCircuitId *string `mandatory:"true" contributesTo:"path" name:"virtualCircuitId"`
 
 	// Request with publix prefixes to be added to the virtual circuit

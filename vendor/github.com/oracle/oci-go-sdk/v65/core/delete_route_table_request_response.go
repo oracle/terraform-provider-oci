@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteRouteTable.go.html to see an example of how to use DeleteRouteTableRequest.
 type DeleteRouteTableRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the route table.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table.
 	RtId *string `mandatory:"true" contributesTo:"path" name:"rtId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

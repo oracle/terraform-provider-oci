@@ -91,6 +91,9 @@ type IScsiVolumeAttachment struct {
 	// A list of secondary multipath devices
 	MultipathDevices []MultipathDevice `mandatory:"false" json:"multipathDevices"`
 
+	// Whether Oracle Cloud Agent is enabled perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments.
+	IsAgentAutoIscsiLoginEnabled *bool `mandatory:"false" json:"isAgentAutoIscsiLoginEnabled"`
+
 	// The current state of the volume attachment.
 	LifecycleState VolumeAttachmentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 

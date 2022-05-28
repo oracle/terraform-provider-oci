@@ -18,7 +18,7 @@ import (
 )
 
 // TimeSeriesMetricDefinition The response object representing time series metric details
-// for a specific database at a particular time.
+// for a specific Managed Database at a particular time.
 type TimeSeriesMetricDefinition struct {
 
 	// The name of the metric the time series data corresponds to.

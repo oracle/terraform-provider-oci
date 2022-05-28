@@ -47,9 +47,6 @@ type Stack struct {
 
 	ConfigSource ConfigSource `mandatory:"false" json:"configSource"`
 
-	// The OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of private endpoints associated with the stack.
-	PrivateEndpointIds []string `mandatory:"false" json:"privateEndpointIds"`
-
 	// Terraform variables associated with this resource.
 	// Maximum number of variables supported is 250.
 	// The maximum size of each variable, including both name and value, is 8192 bytes.
@@ -111,7 +108,6 @@ func (m *Stack) UnmarshalJSON(data []byte) (e error) {
 		TimeCreated          *common.SDKTime                   `json:"timeCreated"`
 		LifecycleState       StackLifecycleStateEnum           `json:"lifecycleState"`
 		ConfigSource         configsource                      `json:"configSource"`
-		PrivateEndpointIds   []string                          `json:"privateEndpointIds"`
 		Variables            map[string]string                 `json:"variables"`
 		TerraformVersion     *string                           `json:"terraformVersion"`
 		StackDriftStatus     StackStackDriftStatusEnum         `json:"stackDriftStatus"`
@@ -145,11 +141,6 @@ func (m *Stack) UnmarshalJSON(data []byte) (e error) {
 		m.ConfigSource = nn.(ConfigSource)
 	} else {
 		m.ConfigSource = nil
-	}
-
-	m.PrivateEndpointIds = make([]string, len(model.PrivateEndpointIds))
-	for i, n := range model.PrivateEndpointIds {
-		m.PrivateEndpointIds[i] = n
 	}
 
 	m.Variables = model.Variables
