@@ -1,3 +1,19 @@
+## 4.78.0 (Unreleased)
+
+### Added
+- Support for License Manager service
+- Support for Customizable realm name
+- Support for ExaCC CPS offline diagnostic report
+- support for flexible shapes
+- support for optional Kubernetes version when creating a node pool
+- Support for OKE Fault domain placement
+- Changes for list dbusers and sql tuning recommendations
+- Support for Auto Attach iSCSI Volumes through OCA
+Support for Capacity Reservation for OCVP
+### Bug Fix
+- Add nsgIds, tags and etc in updateNodePool request
+- Updated description for base64encoded_content in documentation for oci_devops_deploy_artifact
+
 ## 4.77.0 (Unreleased)
 
 ### Added
