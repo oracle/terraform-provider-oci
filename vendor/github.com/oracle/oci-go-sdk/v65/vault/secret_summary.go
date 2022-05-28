@@ -10,6 +10,7 @@
 package vault
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -63,6 +64,11 @@ type SecretSummary struct {
 	// An optional property indicating when to delete the secret, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2019-04-03T21:10:29.600Z`
 	TimeOfDeletion *common.SDKTime `mandatory:"false" json:"timeOfDeletion"`
+
+	SecretGenerationContext SecretGenerationContext `mandatory:"false" json:"secretGenerationContext"`
+
+	// The value of this flag determines whether or not secret content will be generated automatically.
+	IsAutoGenerationEnabled *bool `mandatory:"false" json:"isAutoGenerationEnabled"`
 }
 
 func (m SecretSummary) String() string {
@@ -82,6 +88,72 @@ func (m SecretSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *SecretSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
+		Description                *string                           `json:"description"`
+		FreeformTags               map[string]string                 `json:"freeformTags"`
+		KeyId                      *string                           `json:"keyId"`
+		LifecycleDetails           *string                           `json:"lifecycleDetails"`
+		TimeOfCurrentVersionExpiry *common.SDKTime                   `json:"timeOfCurrentVersionExpiry"`
+		TimeOfDeletion             *common.SDKTime                   `json:"timeOfDeletion"`
+		SecretGenerationContext    secretgenerationcontext           `json:"secretGenerationContext"`
+		IsAutoGenerationEnabled    *bool                             `json:"isAutoGenerationEnabled"`
+		CompartmentId              *string                           `json:"compartmentId"`
+		Id                         *string                           `json:"id"`
+		LifecycleState             SecretSummaryLifecycleStateEnum   `json:"lifecycleState"`
+		SecretName                 *string                           `json:"secretName"`
+		TimeCreated                *common.SDKTime                   `json:"timeCreated"`
+		VaultId                    *string                           `json:"vaultId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DefinedTags = model.DefinedTags
+
+	m.Description = model.Description
+
+	m.FreeformTags = model.FreeformTags
+
+	m.KeyId = model.KeyId
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.TimeOfCurrentVersionExpiry = model.TimeOfCurrentVersionExpiry
+
+	m.TimeOfDeletion = model.TimeOfDeletion
+
+	nn, e = model.SecretGenerationContext.UnmarshalPolymorphicJSON(model.SecretGenerationContext.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SecretGenerationContext = nn.(SecretGenerationContext)
+	} else {
+		m.SecretGenerationContext = nil
+	}
+
+	m.IsAutoGenerationEnabled = model.IsAutoGenerationEnabled
+
+	m.CompartmentId = model.CompartmentId
+
+	m.Id = model.Id
+
+	m.LifecycleState = model.LifecycleState
+
+	m.SecretName = model.SecretName
+
+	m.TimeCreated = model.TimeCreated
+
+	m.VaultId = model.VaultId
+
+	return
 }
 
 // SecretSummaryLifecycleStateEnum Enum with underlying type: string

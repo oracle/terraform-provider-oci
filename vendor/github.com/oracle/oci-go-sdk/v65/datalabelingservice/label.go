@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// Label Represents a label.
+// Label It represents a label.
 type Label struct {
 
 	// An unique name for a label within its dataset.

@@ -75,6 +75,11 @@ type Secret struct {
 	// An optional property indicating when to delete the secret, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2019-04-03T21:10:29.600Z`
 	TimeOfDeletion *common.SDKTime `mandatory:"false" json:"timeOfDeletion"`
+
+	SecretGenerationContext SecretGenerationContext `mandatory:"false" json:"secretGenerationContext"`
+
+	// The value of this flag determines whether or not secret content will be generated automatically.
+	IsAutoGenerationEnabled *bool `mandatory:"false" json:"isAutoGenerationEnabled"`
 }
 
 func (m Secret) String() string {
@@ -109,6 +114,8 @@ func (m *Secret) UnmarshalJSON(data []byte) (e error) {
 		SecretRules                []secretrule                      `json:"secretRules"`
 		TimeOfCurrentVersionExpiry *common.SDKTime                   `json:"timeOfCurrentVersionExpiry"`
 		TimeOfDeletion             *common.SDKTime                   `json:"timeOfDeletion"`
+		SecretGenerationContext    secretgenerationcontext           `json:"secretGenerationContext"`
+		IsAutoGenerationEnabled    *bool                             `json:"isAutoGenerationEnabled"`
 		CompartmentId              *string                           `json:"compartmentId"`
 		Id                         *string                           `json:"id"`
 		LifecycleState             SecretLifecycleStateEnum          `json:"lifecycleState"`
@@ -152,6 +159,18 @@ func (m *Secret) UnmarshalJSON(data []byte) (e error) {
 	m.TimeOfCurrentVersionExpiry = model.TimeOfCurrentVersionExpiry
 
 	m.TimeOfDeletion = model.TimeOfDeletion
+
+	nn, e = model.SecretGenerationContext.UnmarshalPolymorphicJSON(model.SecretGenerationContext.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SecretGenerationContext = nn.(SecretGenerationContext)
+	} else {
+		m.SecretGenerationContext = nil
+	}
+
+	m.IsAutoGenerationEnabled = model.IsAutoGenerationEnabled
 
 	m.CompartmentId = model.CompartmentId
 

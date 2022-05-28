@@ -45,6 +45,10 @@ type ListSnapshotsRequest struct {
 	// shown in alphabetical order.
 	SortBy ListSnapshotsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Filesystem Snapshot Policy
+	// that is associated with the filesystems or used to create the snapshots.
+	FilesystemSnapshotPolicyId *string `mandatory:"false" contributesTo:"query" name:"filesystemSnapshotPolicyId"`
+
 	// The sort order to use, either 'asc' or 'desc', where 'asc' is
 	// ascending and 'desc' is descending. The default order is 'desc'
 	// except for numeric values.

@@ -46,6 +46,11 @@ type UpdateSecretDetails struct {
 
 	// A list of rules to control how the secret is used and managed.
 	SecretRules []SecretRule `mandatory:"false" json:"secretRules"`
+
+	SecretGenerationContext SecretGenerationContext `mandatory:"false" json:"secretGenerationContext"`
+
+	// The value of this flag determines whether or not secret content will be generated automatically.
+	EnableAutoGeneration *bool `mandatory:"false" json:"enableAutoGeneration"`
 }
 
 func (m UpdateSecretDetails) String() string {
@@ -67,13 +72,15 @@ func (m UpdateSecretDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateSecretDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		CurrentVersionNumber *int64                            `json:"currentVersionNumber"`
-		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
-		Description          *string                           `json:"description"`
-		FreeformTags         map[string]string                 `json:"freeformTags"`
-		Metadata             map[string]interface{}            `json:"metadata"`
-		SecretContent        secretcontentdetails              `json:"secretContent"`
-		SecretRules          []secretrule                      `json:"secretRules"`
+		CurrentVersionNumber    *int64                            `json:"currentVersionNumber"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		Description             *string                           `json:"description"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		Metadata                map[string]interface{}            `json:"metadata"`
+		SecretContent           secretcontentdetails              `json:"secretContent"`
+		SecretRules             []secretrule                      `json:"secretRules"`
+		SecretGenerationContext secretgenerationcontext           `json:"secretGenerationContext"`
+		EnableAutoGeneration    *bool                             `json:"enableAutoGeneration"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -113,6 +120,18 @@ func (m *UpdateSecretDetails) UnmarshalJSON(data []byte) (e error) {
 			m.SecretRules[i] = nil
 		}
 	}
+
+	nn, e = model.SecretGenerationContext.UnmarshalPolymorphicJSON(model.SecretGenerationContext.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SecretGenerationContext = nn.(SecretGenerationContext)
+	} else {
+		m.SecretGenerationContext = nil
+	}
+
+	m.EnableAutoGeneration = model.EnableAutoGeneration
 
 	return
 }

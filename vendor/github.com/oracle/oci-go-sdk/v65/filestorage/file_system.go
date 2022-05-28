@@ -97,6 +97,10 @@ type FileSystem struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication target associated with the file system.
 	// Empty if the file system is not being used as target in a replication.
 	ReplicationTargetId *string `mandatory:"false" json:"replicationTargetId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated Filesystem Snapshot Policy, which
+	// controls the frequency of snapshot creation and retention period of the taken snapshots.
+	FilesystemSnapshotPolicyId *string `mandatory:"false" json:"filesystemSnapshotPolicyId"`
 }
 
 func (m FileSystem) String() string {

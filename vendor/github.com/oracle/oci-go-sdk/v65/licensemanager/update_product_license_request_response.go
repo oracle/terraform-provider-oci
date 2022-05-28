@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-package resourcemanager
+package licensemanager
 
 import (
 	"fmt"
@@ -11,42 +11,35 @@ import (
 	"strings"
 )
 
-// AddPrivateEndpointToStackRequest wrapper for the AddPrivateEndpointToStack operation
-type AddPrivateEndpointToStackRequest struct {
+// UpdateProductLicenseRequest wrapper for the UpdateProductLicense operation
+type UpdateProductLicenseRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stack.
-	StackId *string `mandatory:"true" contributesTo:"path" name:"stackId"`
+	// Unique product license identifier.
+	ProductLicenseId *string `mandatory:"true" contributesTo:"path" name:"productLicenseId"`
 
-	// The details for adding a private endpoint to a stack.
-	AddPrivateEndpointToStackDetails `contributesTo:"body"`
+	// The list of images that needs to be updated.
+	UpdateProductLicenseDetails `contributesTo:"body"`
 
-	// For optimistic concurrency control. In the `PUT` or `DELETE` call for a resource, set the `if-match`
-	// parameter to the value of the etag from a previous `GET` or `POST` response for that resource.  The resource
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or
-	// server error without risk of retrying the same action. Retry tokens expire after
-	// 24 hours, but can be invalidated before then due to conflicting operations. For example,
-	// if a resource has been deleted and purged from the system, then a retry of the original
-	// creation request may be rejected.
-	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request AddPrivateEndpointToStackRequest) String() string {
+func (request UpdateProductLicenseRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request AddPrivateEndpointToStackRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request UpdateProductLicenseRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -56,21 +49,21 @@ func (request AddPrivateEndpointToStackRequest) HTTPRequest(method, path string,
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request AddPrivateEndpointToStackRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request UpdateProductLicenseRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddPrivateEndpointToStackRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateProductLicenseRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request AddPrivateEndpointToStackRequest) ValidateEnumValue() (bool, error) {
+func (request UpdateProductLicenseRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -78,21 +71,28 @@ func (request AddPrivateEndpointToStackRequest) ValidateEnumValue() (bool, error
 	return false, nil
 }
 
-// AddPrivateEndpointToStackResponse wrapper for the AddPrivateEndpointToStack operation
-type AddPrivateEndpointToStackResponse struct {
+// UpdateProductLicenseResponse wrapper for the UpdateProductLicense operation
+type UpdateProductLicenseResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// Unique identifier for the request.
+	// The ProductLicense instance
+	ProductLicense `presentIn:"body"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
+
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response AddPrivateEndpointToStackResponse) String() string {
+func (response UpdateProductLicenseResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response AddPrivateEndpointToStackResponse) HTTPResponse() *http.Response {
+func (response UpdateProductLicenseResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

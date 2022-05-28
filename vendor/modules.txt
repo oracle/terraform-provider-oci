@@ -329,6 +329,7 @@ github.com/oracle/oci-go-sdk/v65/identitydataplane
 github.com/oracle/oci-go-sdk/v65/integration
 github.com/oracle/oci-go-sdk/v65/jms
 github.com/oracle/oci-go-sdk/v65/keymanagement
+github.com/oracle/oci-go-sdk/v65/licensemanager
 github.com/oracle/oci-go-sdk/v65/limits
 github.com/oracle/oci-go-sdk/v65/loadbalancer
 github.com/oracle/oci-go-sdk/v65/loganalytics

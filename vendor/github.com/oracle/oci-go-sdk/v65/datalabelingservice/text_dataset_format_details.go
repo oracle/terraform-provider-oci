@@ -16,8 +16,9 @@ import (
 	"strings"
 )
 
-// TextDatasetFormatDetails Indicates the dataset is comprised of txt files.
+// TextDatasetFormatDetails It indicates the dataset is comprised of TXT files.
 type TextDatasetFormatDetails struct {
+	TextFileTypeMetadata TextFileTypeMetadata `mandatory:"false" json:"textFileTypeMetadata"`
 }
 
 func (m TextDatasetFormatDetails) String() string {
@@ -48,4 +49,28 @@ func (m TextDatasetFormatDetails) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *TextDatasetFormatDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		TextFileTypeMetadata textfiletypemetadata `json:"textFileTypeMetadata"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	nn, e = model.TextFileTypeMetadata.UnmarshalPolymorphicJSON(model.TextFileTypeMetadata.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.TextFileTypeMetadata = nn.(TextFileTypeMetadata)
+	} else {
+		m.TextFileTypeMetadata = nil
+	}
+
+	return
 }

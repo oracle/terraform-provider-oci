@@ -43,6 +43,10 @@ type UpdateFunctionDetails struct {
 
 	ProvisionedConcurrencyConfig FunctionProvisionedConcurrencyConfig `mandatory:"false" json:"provisionedConcurrencyConfig"`
 
+	SuccessDestination SuccessDestinationDetails `mandatory:"false" json:"successDestination"`
+
+	FailureDestination FailureDestinationDetails `mandatory:"false" json:"failureDestination"`
+
 	TraceConfig *FunctionTraceConfig `mandatory:"false" json:"traceConfig"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -80,6 +84,8 @@ func (m *UpdateFunctionDetails) UnmarshalJSON(data []byte) (e error) {
 		Config                       map[string]string                    `json:"config"`
 		TimeoutInSeconds             *int                                 `json:"timeoutInSeconds"`
 		ProvisionedConcurrencyConfig functionprovisionedconcurrencyconfig `json:"provisionedConcurrencyConfig"`
+		SuccessDestination           successdestinationdetails            `json:"successDestination"`
+		FailureDestination           failuredestinationdetails            `json:"failureDestination"`
 		TraceConfig                  *FunctionTraceConfig                 `json:"traceConfig"`
 		FreeformTags                 map[string]string                    `json:"freeformTags"`
 		DefinedTags                  map[string]map[string]interface{}    `json:"definedTags"`
@@ -108,6 +114,26 @@ func (m *UpdateFunctionDetails) UnmarshalJSON(data []byte) (e error) {
 		m.ProvisionedConcurrencyConfig = nn.(FunctionProvisionedConcurrencyConfig)
 	} else {
 		m.ProvisionedConcurrencyConfig = nil
+	}
+
+	nn, e = model.SuccessDestination.UnmarshalPolymorphicJSON(model.SuccessDestination.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SuccessDestination = nn.(SuccessDestinationDetails)
+	} else {
+		m.SuccessDestination = nil
+	}
+
+	nn, e = model.FailureDestination.UnmarshalPolymorphicJSON(model.FailureDestination.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.FailureDestination = nn.(FailureDestinationDetails)
+	} else {
+		m.FailureDestination = nil
 	}
 
 	m.TraceConfig = model.TraceConfig

@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DatasetFormatDetails Specifies how to process the data. Supported formats include DOCUMENT, IMAGE and TEXT.
+// DatasetFormatDetails It specifies how to process the data. Supported formats include DOCUMENT, IMAGE, and TEXT.
 type DatasetFormatDetails interface {
 }
 

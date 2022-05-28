@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// InitialRecordGenerationConfiguration Initial Generate Records configuration, generates records from the Dataset's source.
+// InitialRecordGenerationConfiguration The initial generate records configuration. It generates records from the dataset's source.
 type InitialRecordGenerationConfiguration struct {
 
-	// the maximum number of records to generate.
+	// The maximum number of records to generate.
 	Limit *float32 `mandatory:"false" json:"limit"`
 }
 

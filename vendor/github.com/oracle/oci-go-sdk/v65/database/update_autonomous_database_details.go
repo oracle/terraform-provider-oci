@@ -53,8 +53,8 @@ type UpdateAutonomousDatabaseDetails struct {
 	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 
 	// New name for this Autonomous Database.
-	// For databases using dedicated Exadata infrastructure, the name must begin with an alphabetic character, and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
-	// For databases using shared Exadata infrastructure, the name must begin with an alphabetic character, and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
+	// For databases using dedicated Exadata infrastructure, the database name must start with an alphabetic character followed with up to 7 alphanumeric characters. Special characters are prohibited.
+	// For databases using shared Exadata infrastructure, the database name must start with an alphabetic character followed with up to 13 alphanumeric characters. Special characters are prohibited. The database name must be unique within the compartment in the region.
 	DbName *string `mandatory:"false" json:"dbName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

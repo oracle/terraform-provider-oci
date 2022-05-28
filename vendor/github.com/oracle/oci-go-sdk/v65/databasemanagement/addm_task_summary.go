@@ -42,7 +42,7 @@ type AddmTaskSummary struct {
 	HowCreated AddmTaskSummaryHowCreatedEnum `mandatory:"false" json:"howCreated,omitempty"`
 
 	// The timestamp of the beginning AWR snapshot used in the ADDM task as defined by date-time RFC3339 format.
-	StartSnapShotTime *common.SDKTime `mandatory:"false" json:"startSnapShotTime"`
+	StartSnapshotTime *common.SDKTime `mandatory:"false" json:"startSnapshotTime"`
 
 	// The timestamp of the ending AWR snapshot used in the ADDM task as defined by date-time RFC3339 format.
 	EndSnapshotTime *common.SDKTime `mandatory:"false" json:"endSnapshotTime"`
