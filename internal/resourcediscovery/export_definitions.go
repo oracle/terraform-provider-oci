@@ -27,6 +27,7 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/v65/filestorage"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 	oci_integration "github.com/oracle/oci-go-sdk/v65/integration"
+	oci_license_manager "github.com/oracle/oci-go-sdk/v65/licensemanager"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 	oci_logging "github.com/oracle/oci-go-sdk/v65/logging"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v65/managementagent"
@@ -2510,6 +2511,36 @@ var exportKmsSignHints = &TerraformResourceHints{
 var exportKmsVerifyHints = &TerraformResourceHints{
 	resourceClass:        "oci_kms_verify",
 	resourceAbbreviation: "verify",
+}
+
+var exportLicenseManagerConfigurationHints = &TerraformResourceHints{
+	resourceClass:        "oci_license_manager_configuration",
+	datasourceClass:      "oci_license_manager_configuration",
+	resourceAbbreviation: "configuration",
+}
+
+var exportLicenseManagerProductLicenseHints = &TerraformResourceHints{
+	resourceClass:          "oci_license_manager_product_license",
+	datasourceClass:        "oci_license_manager_product_licenses",
+	datasourceItemsAttr:    "product_license_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "product_license",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_license_manager.LifeCycleStateActive),
+	},
+}
+
+var exportLicenseManagerLicenseRecordHints = &TerraformResourceHints{
+	resourceClass:          "oci_license_manager_license_record",
+	datasourceClass:        "oci_license_manager_license_records",
+	datasourceItemsAttr:    "license_record_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "license_record",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_license_manager.LifeCycleStateActive),
+	},
 }
 
 var exportKmsCreateReplicaHints = &TerraformResourceHints{
