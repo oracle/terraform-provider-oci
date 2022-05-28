@@ -49,6 +49,7 @@ import (
 	tf_integration "github.com/terraform-providers/terraform-provider-oci/internal/service/integration"
 	tf_jms "github.com/terraform-providers/terraform-provider-oci/internal/service/jms"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
+	tf_license_manager "github.com/terraform-providers/terraform-provider-oci/internal/service/license_manager"
 	tf_limits "github.com/terraform-providers/terraform-provider-oci/internal/service/limits"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	tf_log_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
@@ -448,6 +449,10 @@ func init() {
 	RegisterResource("oci_kms_vault", tf_kms.KmsVaultResource())
 	RegisterResource("oci_kms_vault_replication", tf_kms.KmsVaultReplicationResource())
 	RegisterResource("oci_kms_verify", tf_kms.KmsVerifyResource())
+	// license_manager service
+	RegisterResource("oci_license_manager_configuration", tf_license_manager.LicenseManagerConfigurationResource())
+	RegisterResource("oci_license_manager_license_record", tf_license_manager.LicenseManagerLicenseRecordResource())
+	RegisterResource("oci_license_manager_product_license", tf_license_manager.LicenseManagerProductLicenseResource())
 	// limits service
 	RegisterResource("oci_limits_quota", tf_limits.LimitsQuotaResource())
 	// load_balancer service
