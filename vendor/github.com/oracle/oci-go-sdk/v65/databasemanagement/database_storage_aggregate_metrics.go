@@ -23,7 +23,7 @@ type DatabaseStorageAggregateMetrics struct {
 
 	StorageUsed *MetricDataPoint `mandatory:"false" json:"storageUsed"`
 
-	// A list of the storage metrics grouped by TableSpace for a specific database.
+	// A list of the storage metrics grouped by TableSpace for a specific Managed Database.
 	StorageUsedByTableSpace []MetricDataPoint `mandatory:"false" json:"storageUsedByTableSpace"`
 }
 

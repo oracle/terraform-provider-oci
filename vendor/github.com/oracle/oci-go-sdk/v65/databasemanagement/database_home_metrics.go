@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// DatabaseHomeMetrics The response containing the metric collection for a specific database.
+// DatabaseHomeMetrics The response containing the metric collection for a specific Managed Database.
 type DatabaseHomeMetrics struct {
 	DatabaseHomeMetrics *DatabaseHomeMetricDefinition `mandatory:"true" json:"databaseHomeMetrics"`
 

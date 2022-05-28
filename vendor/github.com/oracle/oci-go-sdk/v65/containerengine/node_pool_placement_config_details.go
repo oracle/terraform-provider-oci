@@ -29,6 +29,9 @@ type NodePoolPlacementConfigDetails struct {
 
 	// The OCID of the compute capacity reservation in which to place the compute instance.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
+	// A list of fault domains in which to place nodes.
+	FaultDomains []string `mandatory:"false" json:"faultDomains"`
 }
 
 func (m NodePoolPlacementConfigDetails) String() string {

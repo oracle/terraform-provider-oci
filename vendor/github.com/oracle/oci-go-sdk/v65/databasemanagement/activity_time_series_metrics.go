@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ActivityTimeSeriesMetrics The response object representing activityMetric details for a specific database at a particular time.
+// ActivityTimeSeriesMetrics The response object representing activityMetric details for a specific Managed Database at a particular time.
 type ActivityTimeSeriesMetrics struct {
 
 	// The date and time the activity metric was created.

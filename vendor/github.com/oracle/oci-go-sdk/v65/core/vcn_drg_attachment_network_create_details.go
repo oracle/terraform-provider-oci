@@ -23,10 +23,10 @@ import (
 // VcnDrgAttachmentNetworkCreateDetails Specifies the VCN Attachment
 type VcnDrgAttachmentNetworkCreateDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	Id *string `mandatory:"true" json:"id"`
 
-	// This is the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the route table that is used to route the traffic as it enters a VCN through this attachment.
+	// This is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table that is used to route the traffic as it enters a VCN through this attachment.
 	// For information about why you would associate a route table with a DRG attachment, see
 	// Advanced Scenario: Transit Routing (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm).
 	// For information about why you would associate a route table with a DRG attachment, see:

@@ -22,16 +22,19 @@ type CompareTypeEnum string
 const (
 	CompareTypeHour CompareTypeEnum = "HOUR"
 	CompareTypeDay  CompareTypeEnum = "DAY"
+	CompareTypeWeek CompareTypeEnum = "WEEK"
 )
 
 var mappingCompareTypeEnum = map[string]CompareTypeEnum{
 	"HOUR": CompareTypeHour,
 	"DAY":  CompareTypeDay,
+	"WEEK": CompareTypeWeek,
 }
 
 var mappingCompareTypeEnumLowerCase = map[string]CompareTypeEnum{
 	"hour": CompareTypeHour,
 	"day":  CompareTypeDay,
+	"week": CompareTypeWeek,
 }
 
 // GetCompareTypeEnumValues Enumerates the set of values for CompareTypeEnum
@@ -48,6 +51,7 @@ func GetCompareTypeEnumStringValues() []string {
 	return []string{
 		"HOUR",
 		"DAY",
+		"WEEK",
 	}
 }
 
