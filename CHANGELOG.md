@@ -1,4 +1,4 @@
-## 4.78.0 (Unreleased)
+## 4.78.0 (June 01, 2022)
 
 ### Added
 - Support for License Manager service
