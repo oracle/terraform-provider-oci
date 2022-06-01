@@ -2,10 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Vault Service Key Management API
+// Vault Key Management API
 //
-// API for managing and performing operations with keys and vaults. (For the API for managing secrets, see the Vault Service
-// Secret Management API. For the API for retrieving secrets, see the Vault Service Secret Retrieval API.)
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
 package keymanagement
@@ -128,7 +127,7 @@ func (client KmsManagementClient) backupKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/BackupKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "BackupKey", apiReferenceLink)
 		return response, err
 	}
@@ -192,7 +191,7 @@ func (client KmsManagementClient) cancelKeyDeletion(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/CancelKeyDeletion"
 		err = common.PostProcessServiceError(err, "KmsManagement", "CancelKeyDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -256,7 +255,7 @@ func (client KmsManagementClient) cancelKeyVersionDeletion(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/KeyVersion/CancelKeyVersionDeletion"
 		err = common.PostProcessServiceError(err, "KmsManagement", "CancelKeyVersionDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -320,7 +319,7 @@ func (client KmsManagementClient) changeKeyCompartment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/ChangeKeyCompartment"
 		err = common.PostProcessServiceError(err, "KmsManagement", "ChangeKeyCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -382,7 +381,7 @@ func (client KmsManagementClient) createKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/CreateKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "CreateKey", apiReferenceLink)
 		return response, err
 	}
@@ -445,7 +444,7 @@ func (client KmsManagementClient) createKeyVersion(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/KeyVersion/CreateKeyVersion"
 		err = common.PostProcessServiceError(err, "KmsManagement", "CreateKeyVersion", apiReferenceLink)
 		return response, err
 	}
@@ -508,7 +507,7 @@ func (client KmsManagementClient) disableKey(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/DisableKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "DisableKey", apiReferenceLink)
 		return response, err
 	}
@@ -571,7 +570,7 @@ func (client KmsManagementClient) enableKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/EnableKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "EnableKey", apiReferenceLink)
 		return response, err
 	}
@@ -628,7 +627,7 @@ func (client KmsManagementClient) getKey(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/GetKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "GetKey", apiReferenceLink)
 		return response, err
 	}
@@ -685,7 +684,7 @@ func (client KmsManagementClient) getKeyVersion(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/KeyVersion/GetKeyVersion"
 		err = common.PostProcessServiceError(err, "KmsManagement", "GetKeyVersion", apiReferenceLink)
 		return response, err
 	}
@@ -741,7 +740,7 @@ func (client KmsManagementClient) getReplicationStatus(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/ReplicationStatusDetails/GetReplicationStatus"
 		err = common.PostProcessServiceError(err, "KmsManagement", "GetReplicationStatus", apiReferenceLink)
 		return response, err
 	}
@@ -795,7 +794,7 @@ func (client KmsManagementClient) getWrappingKey(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/WrappingKey/GetWrappingKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "GetWrappingKey", apiReferenceLink)
 		return response, err
 	}
@@ -855,7 +854,7 @@ func (client KmsManagementClient) importKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/ImportKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "ImportKey", apiReferenceLink)
 		return response, err
 	}
@@ -917,7 +916,7 @@ func (client KmsManagementClient) importKeyVersion(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/KeyVersion/ImportKeyVersion"
 		err = common.PostProcessServiceError(err, "KmsManagement", "ImportKeyVersion", apiReferenceLink)
 		return response, err
 	}
@@ -975,7 +974,7 @@ func (client KmsManagementClient) listKeyVersions(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/KeyVersionSummary/ListKeyVersions"
 		err = common.PostProcessServiceError(err, "KmsManagement", "ListKeyVersions", apiReferenceLink)
 		return response, err
 	}
@@ -1032,7 +1031,7 @@ func (client KmsManagementClient) listKeys(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/KeySummary/ListKeys"
 		err = common.PostProcessServiceError(err, "KmsManagement", "ListKeys", apiReferenceLink)
 		return response, err
 	}
@@ -1092,7 +1091,7 @@ func (client KmsManagementClient) restoreKeyFromFile(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/RestoreKeyFromFile"
 		err = common.PostProcessServiceError(err, "KmsManagement", "RestoreKeyFromFile", apiReferenceLink)
 		return response, err
 	}
@@ -1152,7 +1151,7 @@ func (client KmsManagementClient) restoreKeyFromObjectStore(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/RestoreKeyFromObjectStore"
 		err = common.PostProcessServiceError(err, "KmsManagement", "RestoreKeyFromObjectStore", apiReferenceLink)
 		return response, err
 	}
@@ -1215,7 +1214,7 @@ func (client KmsManagementClient) scheduleKeyDeletion(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/ScheduleKeyDeletion"
 		err = common.PostProcessServiceError(err, "KmsManagement", "ScheduleKeyDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -1278,7 +1277,7 @@ func (client KmsManagementClient) scheduleKeyVersionDeletion(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/KeyVersion/ScheduleKeyVersionDeletion"
 		err = common.PostProcessServiceError(err, "KmsManagement", "ScheduleKeyVersionDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -1337,7 +1336,7 @@ func (client KmsManagementClient) updateKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/UpdateKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "UpdateKey", apiReferenceLink)
 		return response, err
 	}

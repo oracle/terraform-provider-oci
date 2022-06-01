@@ -2,10 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Vault Service Key Management API
+// Vault Key Management API
 //
-// API for managing and performing operations with keys and vaults. (For the API for managing secrets, see the Vault Service
-// Secret Management API. For the API for retrieving secrets, see the Vault Service Secret Retrieval API.)
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
 package keymanagement
@@ -122,7 +121,7 @@ func (client KmsCryptoClient) decrypt(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/DecryptedData/Decrypt"
 		err = common.PostProcessServiceError(err, "KmsCrypto", "Decrypt", apiReferenceLink)
 		return response, err
 	}
@@ -176,7 +175,7 @@ func (client KmsCryptoClient) encrypt(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/EncryptedData/Encrypt"
 		err = common.PostProcessServiceError(err, "KmsCrypto", "Encrypt", apiReferenceLink)
 		return response, err
 	}
@@ -231,7 +230,7 @@ func (client KmsCryptoClient) exportKey(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/ExportedKeyData/ExportKey"
 		err = common.PostProcessServiceError(err, "KmsCrypto", "ExportKey", apiReferenceLink)
 		return response, err
 	}
@@ -284,7 +283,7 @@ func (client KmsCryptoClient) generateDataEncryptionKey(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/GeneratedKey/GenerateDataEncryptionKey"
 		err = common.PostProcessServiceError(err, "KmsCrypto", "GenerateDataEncryptionKey", apiReferenceLink)
 		return response, err
 	}
@@ -339,7 +338,7 @@ func (client KmsCryptoClient) sign(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/SignedData/Sign"
 		err = common.PostProcessServiceError(err, "KmsCrypto", "Sign", apiReferenceLink)
 		return response, err
 	}
@@ -394,7 +393,7 @@ func (client KmsCryptoClient) verify(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/VerifiedData/Verify"
 		err = common.PostProcessServiceError(err, "KmsCrypto", "Verify", apiReferenceLink)
 		return response, err
 	}
