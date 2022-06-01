@@ -116,16 +116,19 @@ type GetPdbMetricsCompareTypeEnum string
 const (
 	GetPdbMetricsCompareTypeHour GetPdbMetricsCompareTypeEnum = "HOUR"
 	GetPdbMetricsCompareTypeDay  GetPdbMetricsCompareTypeEnum = "DAY"
+	GetPdbMetricsCompareTypeWeek GetPdbMetricsCompareTypeEnum = "WEEK"
 )
 
 var mappingGetPdbMetricsCompareTypeEnum = map[string]GetPdbMetricsCompareTypeEnum{
 	"HOUR": GetPdbMetricsCompareTypeHour,
 	"DAY":  GetPdbMetricsCompareTypeDay,
+	"WEEK": GetPdbMetricsCompareTypeWeek,
 }
 
 var mappingGetPdbMetricsCompareTypeEnumLowerCase = map[string]GetPdbMetricsCompareTypeEnum{
 	"hour": GetPdbMetricsCompareTypeHour,
 	"day":  GetPdbMetricsCompareTypeDay,
+	"week": GetPdbMetricsCompareTypeWeek,
 }
 
 // GetGetPdbMetricsCompareTypeEnumValues Enumerates the set of values for GetPdbMetricsCompareTypeEnum
@@ -142,6 +145,7 @@ func GetGetPdbMetricsCompareTypeEnumStringValues() []string {
 	return []string{
 		"HOUR",
 		"DAY",
+		"WEEK",
 	}
 }
 

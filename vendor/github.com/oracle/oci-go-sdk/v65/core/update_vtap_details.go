@@ -36,16 +36,16 @@ type UpdateVtapDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source point where packets are captured.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source point where packets are captured.
 	SourceId *string `mandatory:"false" json:"sourceId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the destination resource where mirrored packets are sent.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the destination resource where mirrored packets are sent.
 	TargetId *string `mandatory:"false" json:"targetId"`
 
 	// The IP address of the destination resource where mirrored packets are sent.
 	TargetIp *string `mandatory:"false" json:"targetIp"`
 
-	// The capture filter's Oracle ID (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)).
+	// The capture filter's Oracle ID (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 	CaptureFilterId *string `mandatory:"false" json:"captureFilterId"`
 
 	// Defines an encapsulation header type for the VTAP's mirrored traffic.
@@ -68,7 +68,7 @@ type UpdateVtapDetails struct {
 	// The IP Address of the source private endpoint.
 	SourcePrivateEndpointIp *string `mandatory:"false" json:"sourcePrivateEndpointIp"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet that source private endpoint belongs to.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet that source private endpoint belongs to.
 	SourcePrivateEndpointSubnetId *string `mandatory:"false" json:"sourcePrivateEndpointSubnetId"`
 
 	// The target type for the VTAP.

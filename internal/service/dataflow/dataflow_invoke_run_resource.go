@@ -81,6 +81,35 @@ func DataflowInvokeRunResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"driver_shape_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"memory_in_gbs": {
+							Type:     schema.TypeFloat,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"ocpus": {
+							Type:     schema.TypeFloat,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"execute": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -92,6 +121,35 @@ func DataflowInvokeRunResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"executor_shape_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"memory_in_gbs": {
+							Type:     schema.TypeFloat,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"ocpus": {
+							Type:     schema.TypeFloat,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
@@ -400,6 +458,17 @@ func (s *DataflowInvokeRunResourceCrud) Create() error {
 		request.DriverShape = &tmp
 	}
 
+	if driverShapeConfig, ok := s.D.GetOkExists("driver_shape_config"); ok {
+		if tmpList := driverShapeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "driver_shape_config", 0)
+			tmp, err := s.mapToShapeConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DriverShapeConfig = &tmp
+		}
+	}
+
 	if execute, ok := s.D.GetOkExists("execute"); ok {
 		tmp := execute.(string)
 		request.Execute = &tmp
@@ -408,6 +477,17 @@ func (s *DataflowInvokeRunResourceCrud) Create() error {
 	if executorShape, ok := s.D.GetOkExists("executor_shape"); ok {
 		tmp := executorShape.(string)
 		request.ExecutorShape = &tmp
+	}
+
+	if executorShapeConfig, ok := s.D.GetOkExists("executor_shape_config"); ok {
+		if tmpList := executorShapeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "executor_shape_config", 0)
+			tmp, err := s.mapToShapeConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ExecutorShapeConfig = &tmp
+		}
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -594,12 +674,24 @@ func (s *DataflowInvokeRunResourceCrud) SetData() error {
 		s.D.Set("driver_shape", *s.Res.DriverShape)
 	}
 
+	if s.Res.DriverShapeConfig != nil {
+		s.D.Set("driver_shape_config", []interface{}{ShapeConfigToMap(s.Res.DriverShapeConfig)})
+	} else {
+		s.D.Set("driver_shape_config", nil)
+	}
+
 	if s.Res.Execute != nil {
 		s.D.Set("execute", *s.Res.Execute)
 	}
 
 	if s.Res.ExecutorShape != nil {
 		s.D.Set("executor_shape", *s.Res.ExecutorShape)
+	}
+
+	if s.Res.ExecutorShapeConfig != nil {
+		s.D.Set("executor_shape_config", []interface{}{ShapeConfigToMap(s.Res.ExecutorShapeConfig)})
+	} else {
+		s.D.Set("executor_shape_config", nil)
 	}
 
 	if s.Res.FileUri != nil {
@@ -702,6 +794,22 @@ func (s *DataflowInvokeRunResourceCrud) mapToApplicationParameter(fieldKeyFormat
 	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
 		tmp := value.(string)
 		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DataflowInvokeRunResourceCrud) mapToShapeConfig(fieldKeyFormat string) (oci_dataflow.ShapeConfig, error) {
+	result := oci_dataflow.ShapeConfig{}
+
+	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := float32(memoryInGBs.(float64))
+		result.MemoryInGBs = &tmp
+	}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := float32(ocpus.(float64))
+		result.Ocpus = &tmp
 	}
 
 	return result, nil

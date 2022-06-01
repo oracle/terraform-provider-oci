@@ -20,6 +20,8 @@ import (
 // CpuUtilizationAggregateMetrics The CPU utilization metrics for Autonomous Databases.
 type CpuUtilizationAggregateMetrics struct {
 	CpuUtilization *MetricDataPoint `mandatory:"false" json:"cpuUtilization"`
+
+	CpuStatistics *MetricStatisticsDefinition `mandatory:"false" json:"cpuStatistics"`
 }
 
 func (m CpuUtilizationAggregateMetrics) String() string {

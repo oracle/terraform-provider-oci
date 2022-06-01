@@ -46,6 +46,9 @@ type SqlTuningAdvisorTaskRecommendationSummary struct {
 
 	// Action sql to be implemented based on the recommendation result.
 	ImplementActionSql *string `mandatory:"false" json:"implementActionSql"`
+
+	// Indicates whether a SQL Profile recommendation uses parallel execution.
+	IsParallelExecution *bool `mandatory:"false" json:"isParallelExecution"`
 }
 
 func (m SqlTuningAdvisorTaskRecommendationSummary) String() string {

@@ -52,10 +52,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"kubernetes_version": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -103,6 +99,11 @@ func ContainerengineNodePoolResource() *schema.Resource {
 					},
 				},
 			},
+			"kubernetes_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"node_config_details": {
 				Type:          schema.TypeList,
 				Optional:      true,
@@ -135,6 +136,14 @@ func ContainerengineNodePoolResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
+									},
+									"fault_domains": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
 									},
 
 									// Computed
@@ -873,15 +882,11 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 	if nodeConfigDetails, ok := s.D.GetOkExists("node_config_details"); ok && s.D.HasChange("node_config_details") {
 		if tmpList := nodeConfigDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_config_details", 0)
-			_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_configs"))
-			_, exists := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size"))
-			if (ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "placement_configs"))) || (exists && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "size"))) {
-				tmp, err := s.mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				request.NodeConfigDetails = &tmp
+			tmp, err := s.mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
 			}
+			request.NodeConfigDetails = &tmp
 		}
 	}
 
@@ -1356,6 +1361,19 @@ func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolPlacementConfigDetail
 		result.CapacityReservationId = &tmp
 	}
 
+	if faultDomains, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fault_domains")); ok {
+		interfaces := faultDomains.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "fault_domains")) {
+			result.FaultDomains = tmp
+		}
+	}
+
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
@@ -1374,6 +1392,8 @@ func NodePoolPlacementConfigDetailsToMap(obj oci_containerengine.NodePoolPlaceme
 	if obj.CapacityReservationId != nil {
 		result["capacity_reservation_id"] = string(*obj.CapacityReservationId)
 	}
+
+	result["fault_domains"] = obj.FaultDomains
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
@@ -1498,6 +1518,41 @@ func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodePoolNodeConfigDetai
 	if size, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size")); ok {
 		tmp := size.(int)
 		result.Size = &tmp
+	}
+
+	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
+		tmp := isPvEncryptionInTransitEnabled.(bool)
+		result.IsPvEncryptionInTransitEnabled = &tmp
+	}
+
+	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+		tmp := kmsKeyId.(string)
+		result.KmsKeyId = &tmp
+	}
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+			result.NsgIds = tmp
+		}
 	}
 
 	return result, nil

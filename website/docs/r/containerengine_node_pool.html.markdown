@@ -19,7 +19,6 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 	#Required
 	cluster_id = oci_containerengine_cluster.test_cluster.id
 	compartment_id = var.compartment_id
-	kubernetes_version = var.node_pool_kubernetes_version
 	name = var.node_pool_name
 	node_shape = var.node_pool_node_shape
 
@@ -32,6 +31,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 		key = var.node_pool_initial_node_labels_key
 		value = var.node_pool_initial_node_labels_value
 	}
+	kubernetes_version = var.node_pool_kubernetes_version
 	node_config_details {
 		#Required
 		placement_configs {
@@ -41,6 +41,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 
 			#Optional
 			capacity_reservation_id = oci_containerengine_capacity_reservation.test_capacity_reservation.id
+			fault_domains = var.node_pool_node_config_details_placement_configs_fault_domains
 		}
 		size = var.node_pool_node_config_details_size
 
@@ -84,7 +85,7 @@ The following arguments are supported:
 * `initial_node_labels` - (Optional) (Updatable) A list of key/value pairs to add to nodes after they join the Kubernetes cluster.
 	* `key` - (Optional) (Updatable) The key of the pair.
 	* `value` - (Optional) (Updatable) The value of the pair.
-* `kubernetes_version` - (Required) (Updatable) The version of Kubernetes to install on the nodes in the node pool.
+* `kubernetes_version` - (Optional) (Updatable) The version of Kubernetes to install on the nodes in the node pool.
 * `name` - (Required) (Updatable) The name of the node pool. Avoid entering confidential information.
 * `node_config_details` - (Optional) (Updatable) The configuration of nodes in the node pool. Exactly one of the subnetIds or nodeConfigDetails properties must be specified. 
 	* `is_pv_encryption_in_transit_enabled` - (Optional) (Updatable) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
@@ -97,6 +98,7 @@ The following arguments are supported:
 		To use the node pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
 		* `availability_domain` - (Required) (Updatable) The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - (Optional) (Updatable) The OCID of the compute capacity reservation in which to place the compute instance.
+		* `fault_domains` - (Optional) (Updatable) A list of fault domains in which to place nodes. 
 		* `subnet_id` - (Required) (Updatable) The OCID of the subnet in which to place nodes.
 	* `size` - (Required) (Updatable) The number of nodes that should be in the node pool. 
 * `node_image_name` - (Optional) Deprecated. Use `nodeSourceDetails` instead. If you specify values for both, this value is ignored. The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
@@ -142,6 +144,7 @@ The following attributes are exported:
 		To use the node pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
 		* `availability_domain` - The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - The OCID of the compute capacity reservation in which to place the compute instance.
+		* `fault_domains` - A list of fault domains in which to place nodes. 
 		* `subnet_id` - The OCID of the subnet in which to place nodes.
 	* `size` - The number of nodes in the node pool. 
 * `node_image_id` - Deprecated. see `nodeSource`. The OCID of the image running on the nodes in the node pool. 

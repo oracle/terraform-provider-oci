@@ -93,6 +93,12 @@ func OcvpSddcResource() *schema.Resource {
 			},
 
 			// Optional
+			"capacity_reservation_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -388,6 +394,11 @@ func (s *OcvpSddcResourceCrud) DeletedTarget() []string {
 
 func (s *OcvpSddcResourceCrud) Create() error {
 	request := oci_ocvp.CreateSddcRequest{}
+
+	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
+		tmp := capacityReservationId.(string)
+		request.CapacityReservationId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -906,6 +917,10 @@ func (s *OcvpSddcResourceCrud) Delete() error {
 }
 
 func (s *OcvpSddcResourceCrud) SetData() error {
+	if s.Res.CapacityReservationId != nil {
+		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

@@ -283,5 +283,9 @@ func UserSummaryToMap(obj oci_database_management.UserSummary) map[string]interf
 		result["time_expiring"] = obj.TimeExpiring.String()
 	}
 
+	if obj.TimeLocked != nil {
+		result["time_locked"] = obj.TimeLocked.String()
+	}
+
 	return result
 }

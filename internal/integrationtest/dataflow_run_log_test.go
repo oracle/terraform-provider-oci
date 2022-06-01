@@ -25,7 +25,7 @@ var (
 		"run_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dataflow_invoke_run.test_invoke_run.id}`},
 	}
 
-	RunLogResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Required, acctest.Create, dataFlowApplicationRepresentation) +
+	RunLogResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Required, acctest.Create, dataflowApplicationRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(invokeRunRepresentation, map[string]interface{}{
 			"asynchronous": acctest.Representation{RepType: acctest.Required, Create: `false`},
 		}))

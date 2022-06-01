@@ -98,12 +98,24 @@ func (s *DataflowApplicationDataSourceCrud) SetData() error {
 		s.D.Set("driver_shape", *s.Res.DriverShape)
 	}
 
+	if s.Res.DriverShapeConfig != nil {
+		s.D.Set("driver_shape_config", []interface{}{ShapeConfigToMap(s.Res.DriverShapeConfig)})
+	} else {
+		s.D.Set("driver_shape_config", nil)
+	}
+
 	if s.Res.Execute != nil {
 		s.D.Set("execute", *s.Res.Execute)
 	}
 
 	if s.Res.ExecutorShape != nil {
 		s.D.Set("executor_shape", *s.Res.ExecutorShape)
+	}
+
+	if s.Res.ExecutorShapeConfig != nil {
+		s.D.Set("executor_shape_config", []interface{}{ShapeConfigToMap(s.Res.ExecutorShapeConfig)})
+	} else {
+		s.D.Set("executor_shape_config", nil)
 	}
 
 	if s.Res.FileUri != nil {

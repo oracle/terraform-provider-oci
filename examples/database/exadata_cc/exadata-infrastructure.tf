@@ -47,6 +47,7 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   activation_file             = "activation.zip"
   storage_count               = 3
   compute_count               = 2
+  is_cps_offline_report_enabled = false
 
   #Optional
   contacts {

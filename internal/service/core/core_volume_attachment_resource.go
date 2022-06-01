@@ -70,6 +70,12 @@ func CoreVolumeAttachmentResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_agent_auto_iscsi_login_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"is_pv_encryption_in_transit_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -353,6 +359,10 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("iqn", *v.Iqn)
 		}
 
+		if v.IsAgentAutoIscsiLoginEnabled != nil {
+			s.D.Set("is_agent_auto_iscsi_login_enabled", *v.IsAgentAutoIscsiLoginEnabled)
+		}
+
 		multipathDevices := []interface{}{}
 		for _, item := range v.MultipathDevices {
 			multipathDevices = append(multipathDevices, MultipathDeviceToMap(item))
@@ -550,6 +560,10 @@ func (s *CoreVolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolu
 		details := oci_core.AttachIScsiVolumeDetails{}
 		if encryptionInTransitType, ok := s.D.GetOkExists("encryption_in_transit_type"); ok {
 			details.EncryptionInTransitType = oci_core.EncryptionInTransitTypeEnum(encryptionInTransitType.(string))
+		}
+		if isAgentAutoIscsiLoginEnabled, ok := s.D.GetOkExists("is_agent_auto_iscsi_login_enabled"); ok {
+			tmp := isAgentAutoIscsiLoginEnabled.(bool)
+			details.IsAgentAutoIscsiLoginEnabled = &tmp
 		}
 		if useChap, ok := s.D.GetOkExists("use_chap"); ok {
 			tmp := useChap.(bool)

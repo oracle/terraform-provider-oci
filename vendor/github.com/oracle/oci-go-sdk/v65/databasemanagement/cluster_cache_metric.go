@@ -21,7 +21,7 @@ import (
 // Oracle Real Application Clusters (Oracle RAC) database.
 type ClusterCacheMetric struct {
 
-	// A list of cluster cache metrics for a specific database.
+	// A list of cluster cache metrics for a specific Managed Database.
 	ClusterCacheMetrics []TimeSeriesMetricDefinition `mandatory:"true" json:"clusterCacheMetrics"`
 }
 
