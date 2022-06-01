@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVtap.go.html to see an example of how to use GetVtapRequest.
 type GetVtapRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VTAP.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VTAP.
 	VtapId *string `mandatory:"true" contributesTo:"path" name:"vtapId"`
 
 	// Unique identifier for the request.

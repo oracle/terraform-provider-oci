@@ -22,16 +22,16 @@ import (
 // CreateVtapDetails These details are included in a request to create a virtual test access point (VTAP).
 type CreateVtapDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the `Vtap` resource.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the `Vtap` resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VCN containing the `Vtap` resource.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN containing the `Vtap` resource.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source point where packets are captured.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source point where packets are captured.
 	SourceId *string `mandatory:"true" json:"sourceId"`
 
-	// The capture filter's Oracle ID (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)).
+	// The capture filter's Oracle ID (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 	CaptureFilterId *string `mandatory:"true" json:"captureFilterId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -48,7 +48,7 @@ type CreateVtapDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the destination resource where mirrored packets are sent.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the destination resource where mirrored packets are sent.
 	TargetId *string `mandatory:"false" json:"targetId"`
 
 	// The IP address of the destination resource where mirrored packets are sent.
@@ -80,7 +80,7 @@ type CreateVtapDetails struct {
 	// The IP Address of the source private endpoint.
 	SourcePrivateEndpointIp *string `mandatory:"false" json:"sourcePrivateEndpointIp"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet that source private endpoint belongs to.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet that source private endpoint belongs to.
 	SourcePrivateEndpointSubnetId *string `mandatory:"false" json:"sourcePrivateEndpointSubnetId"`
 }
 

@@ -200,6 +200,32 @@ resource "oci_dataflow_application" "test_application" {
   metastore_id = var.metastore_id
 }
 
+resource "oci_dataflow_application" "test_flex_application" {
+  compartment_id = var.compartment_id
+
+  display_name   = "test_wordcount_app_flex"
+  driver_shape   = "VM.Standard.E4.Flex"
+  executor_shape = "VM.Standard.E4.Flex"
+
+  driver_shape_config {
+    ocpus = 1
+    memory_in_gbs = 16
+  }
+  executor_shape_config {
+    ocpus = 1
+    memory_in_gbs = 16
+  }
+
+  file_uri       = var.application_file_uri
+
+  language        = "PYTHON"
+  logs_bucket_uri = var.dataflow_logs_bucket_uri
+  num_executors   = "1"
+
+  spark_version        = "2.4"
+  warehouse_bucket_uri = var.dataflow_warehouse_bucket_uri
+}
+
 resource "oci_dataflow_invoke_run" "test_invoke_run" {
   application_id = oci_dataflow_application.test_application.id
   compartment_id = var.compartment_id

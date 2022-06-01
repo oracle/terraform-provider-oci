@@ -20,7 +20,7 @@ import (
 // MemoryAggregateMetrics The memory aggregate metric details.
 type MemoryAggregateMetrics struct {
 
-	// A list of the memory usage metrics grouped by memorypool for a specific database.
+	// The Memory Usage metrics grouped by memorypool for a specific Managed Database.
 	MemoryUsage []MetricDataPoint `mandatory:"false" json:"memoryUsage"`
 }
 

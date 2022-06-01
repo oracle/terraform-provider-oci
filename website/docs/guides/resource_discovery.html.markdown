@@ -156,6 +156,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `integration` - Discovers integration resources within the specified compartment
     * `jms` - Discovers jms resources within the specified compartment
     * `kms` - Discovers kms resources within the specified compartment
+    * `license_manager` - Discovers license_manager resources within the specified compartment
     * `limits` - Discovers limits resources across the entire tenancy
     * `load_balancer` - Discovers load balancer resources within the specified compartment
     * `log_analytics` - Discovers log_analytics resources within the specified compartment
@@ -637,6 +638,12 @@ kms
 * oci\_kms\_vault
 * oci\_kms\_sign
 * oci\_kms\_verify
+
+license_manager
+    
+* oci\_license\_manager\_configuration
+* oci\_license\_manager\_product\_license
+* oci\_license\_manager\_license\_record
 
 limits
     

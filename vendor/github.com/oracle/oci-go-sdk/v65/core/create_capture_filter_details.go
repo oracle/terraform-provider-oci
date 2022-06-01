@@ -22,7 +22,7 @@ import (
 // CreateCaptureFilterDetails A capture filter contains a set of rules governing what traffic a VTAP mirrors.
 type CreateCaptureFilterDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the capture filter.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the capture filter.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Indicates which service will use this capture filter

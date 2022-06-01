@@ -48,6 +48,9 @@ type AttachIScsiVolumeDetails struct {
 	// Whether to use CHAP authentication for the volume attachment. Defaults to false.
 	UseChap *bool `mandatory:"false" json:"useChap"`
 
+	// Whether to enable Oracle Cloud Agent to perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments.
+	IsAgentAutoIscsiLoginEnabled *bool `mandatory:"false" json:"isAgentAutoIscsiLoginEnabled"`
+
 	// Refer the top-level definition of encryptionInTransitType.
 	// The default value is NONE.
 	EncryptionInTransitType EncryptionInTransitTypeEnum `mandatory:"false" json:"encryptionInTransitType,omitempty"`

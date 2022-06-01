@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateCaptureFilter.go.html to see an example of how to use UpdateCaptureFilterRequest.
 type UpdateCaptureFilterRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the capture filter.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the capture filter.
 	CaptureFilterId *string `mandatory:"true" contributesTo:"path" name:"captureFilterId"`
 
 	// Details object for updating a VTAP.

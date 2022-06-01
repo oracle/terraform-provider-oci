@@ -40,6 +40,12 @@ func OcvpEsxiHostResource() *schema.Resource {
 			},
 
 			// Optional
+			"capacity_reservation_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"compute_availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -205,6 +211,11 @@ func (s *OcvpEsxiHostResourceCrud) DeletedTarget() []string {
 
 func (s *OcvpEsxiHostResourceCrud) Create() error {
 	request := oci_ocvp.CreateEsxiHostRequest{}
+
+	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
+		tmp := capacityReservationId.(string)
+		request.CapacityReservationId = &tmp
+	}
 
 	if computeAvailabilityDomain, ok := s.D.GetOkExists("compute_availability_domain"); ok {
 		tmp := computeAvailabilityDomain.(string)
@@ -460,6 +471,10 @@ func (s *OcvpEsxiHostResourceCrud) Delete() error {
 func (s *OcvpEsxiHostResourceCrud) SetData() error {
 	if s.Res.BillingContractEndDate != nil {
 		s.D.Set("billing_contract_end_date", s.Res.BillingContractEndDate.String())
+	}
+
+	if s.Res.CapacityReservationId != nil {
+		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
 	}
 
 	if s.Res.CompartmentId != nil {

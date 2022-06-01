@@ -10,7 +10,7 @@ description: |-
 # oci_core_drg_route_distribution
 This resource provides the Drg Route Distribution resource in Oracle Cloud Infrastructure Core service.
 
-Creates a new route distribution for the specified DRG. 
+Creates a new route distribution for the specified DRG.
 Assign the route distribution as an import distribution to a DRG route table using the `UpdateDrgRouteTable` or `CreateDrgRouteTable` operations.
 Assign the route distribution as an export distribution to a DRG attachment
 using the `UpdateDrgAttachment` or `CreateDrgAttachment` operations.

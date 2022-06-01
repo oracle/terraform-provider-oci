@@ -272,6 +272,8 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
       #Required
       availability_domain = data.oci_identity_availability_domain.ad1.name
       subnet_id           = oci_core_subnet.nodePool_Subnet_1.id
+      #optional
+      fault_domains = ["FAULT-DOMAIN-1", "FAULT-DOMAIN-3"]
     }
     size = var.node_pool_node_config_details_size
 

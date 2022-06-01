@@ -144,6 +144,10 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("infini_band_network_cidr", *s.Res.InfiniBandNetworkCIDR)
 	}
 
+	if s.Res.IsCpsOfflineReportEnabled != nil {
+		s.D.Set("is_cps_offline_report_enabled", *s.Res.IsCpsOfflineReportEnabled)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

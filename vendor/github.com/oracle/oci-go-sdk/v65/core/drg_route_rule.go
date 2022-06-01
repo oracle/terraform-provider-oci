@@ -40,7 +40,7 @@ type DrgRouteRule struct {
 	//     particular `Service` through a service gateway).
 	DestinationType DrgRouteRuleDestinationTypeEnum `mandatory:"true" json:"destinationType"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the next hop DRG attachment responsible
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next hop DRG attachment responsible
 	// for reaching the network destination.
 	// A value of `BLACKHOLE` means traffic for this route is discarded without notification.
 	NextHopDrgAttachmentId *string `mandatory:"true" json:"nextHopDrgAttachmentId"`

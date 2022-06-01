@@ -23,10 +23,10 @@ import (
 // The capture filter is created with no rules defined, and it must have at least one rule for the VTAP to start mirroring traffic.
 type CaptureFilter struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the capture filter.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the capture filter.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The capture filter's Oracle ID (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)).
+	// The capture filter's Oracle ID (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 	Id *string `mandatory:"true" json:"id"`
 
 	// The capture filter's current administrative state.

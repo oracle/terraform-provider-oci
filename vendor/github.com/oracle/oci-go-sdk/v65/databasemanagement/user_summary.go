@@ -35,11 +35,14 @@ type UserSummary struct {
 	// The date and time the user was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The User resource profile name.
+	// The profile name of the user.
 	Profile *string `mandatory:"true" json:"profile"`
 
 	// The date and time of the expiration of the user account.
 	TimeExpiring *common.SDKTime `mandatory:"false" json:"timeExpiring"`
+
+	// The date the account was locked, if the status of the account is LOCKED.
+	TimeLocked *common.SDKTime `mandatory:"false" json:"timeLocked"`
 }
 
 func (m UserSummary) String() string {

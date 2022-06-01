@@ -31,7 +31,7 @@ type ObjectStorageJobExecutionResultDetails struct {
 	// The name of the object containing the job execution result.
 	ObjectName *string `mandatory:"false" json:"objectName"`
 
-	// The number of rows returned in the result. Only applicable for QUERY SqlType.
+	// The number of rows returned in the result for the Query SqlType.
 	RowCount *int `mandatory:"false" json:"rowCount"`
 }
 

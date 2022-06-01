@@ -50,6 +50,7 @@ import (
 	tf_integration "github.com/terraform-providers/terraform-provider-oci/internal/service/integration"
 	tf_jms "github.com/terraform-providers/terraform-provider-oci/internal/service/jms"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
+	tf_license_manager "github.com/terraform-providers/terraform-provider-oci/internal/service/license_manager"
 	tf_limits "github.com/terraform-providers/terraform-provider-oci/internal/service/limits"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	tf_log_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
@@ -861,6 +862,16 @@ func init() {
 	RegisterDatasource("oci_kms_vault_replicas", tf_kms.KmsVaultReplicasDataSource())
 	RegisterDatasource("oci_kms_vault_usage", tf_kms.KmsVaultUsageDataSource())
 	RegisterDatasource("oci_kms_vaults", tf_kms.KmsVaultsDataSource())
+	// license_manager service
+	RegisterDatasource("oci_license_manager_configuration", tf_license_manager.LicenseManagerConfigurationDataSource())
+	RegisterDatasource("oci_license_manager_license_metric", tf_license_manager.LicenseManagerLicenseMetricDataSource())
+	RegisterDatasource("oci_license_manager_license_record", tf_license_manager.LicenseManagerLicenseRecordDataSource())
+	RegisterDatasource("oci_license_manager_license_records", tf_license_manager.LicenseManagerLicenseRecordsDataSource())
+	RegisterDatasource("oci_license_manager_product_license", tf_license_manager.LicenseManagerProductLicenseDataSource())
+	RegisterDatasource("oci_license_manager_product_license_consumers", tf_license_manager.LicenseManagerProductLicenseConsumersDataSource())
+	RegisterDatasource("oci_license_manager_product_licenses", tf_license_manager.LicenseManagerProductLicensesDataSource())
+	RegisterDatasource("oci_license_manager_top_utilized_product_licenses", tf_license_manager.LicenseManagerTopUtilizedProductLicensesDataSource())
+	RegisterDatasource("oci_license_manager_top_utilized_resources", tf_license_manager.LicenseManagerTopUtilizedResourcesDataSource())
 	// limits service
 	RegisterDatasource("oci_limits_limit_definitions", tf_limits.LimitsLimitDefinitionsDataSource())
 	RegisterDatasource("oci_limits_limit_values", tf_limits.LimitsLimitValuesDataSource())

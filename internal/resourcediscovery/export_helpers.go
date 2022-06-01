@@ -36,6 +36,7 @@ import (
 
 	tf_blockchain "github.com/terraform-providers/terraform-provider-oci/internal/service/blockchain"
 	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
+	tf_license_manager "github.com/terraform-providers/terraform-provider-oci/internal/service/license_manager"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	network_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/network_load_balancer"
 	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
@@ -79,6 +80,7 @@ func init() {
 	exportIdentityDbCredentialHints.getIdFn = getIdentityDbCredentialId
 	exportKmsKeyHints.getIdFn = getKmsKeyId
 	exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
+	exportLicenseManagerConfigurationHints.getIdFn = getLicenseManagerConfigurationId
 	exportLoadBalancerBackendHints.getIdFn = getLoadBalancerBackendId
 	exportLoadBalancerBackendSetHints.getIdFn = getLoadBalancerBackendSetId
 	exportLoadBalancerCertificateHints.getIdFn = getLoadBalancerCertificateId
@@ -497,6 +499,16 @@ func getKmsKeyVersionId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find keyVersionId for Kms KeyVersion")
 	}
 	return tf_kms.GetCompositeKeyVersionId(managementEndpoint, keyId, keyVersionId), nil
+}
+
+func getLicenseManagerConfigurationId(resource *OCIResource) (string, error) {
+
+	compartmentId, ok := resource.sourceAttributes["compartment_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find compartment_id for Licensemanager Configuration")
+	}
+
+	return tf_license_manager.GetConfigurationId(compartmentId), nil
 }
 
 func getLoadBalancerBackendId(resource *OCIResource) (string, error) {

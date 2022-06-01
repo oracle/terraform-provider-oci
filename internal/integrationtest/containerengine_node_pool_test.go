@@ -50,15 +50,29 @@ var (
 		"kubernetes_version":  acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
 		"name":                acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"node_image_name":     acctest.Representation{RepType: acctest.Required, Create: `Oracle-Linux-7.6`},
-		"node_shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.2`},
+		"node_shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`, Update: `VM.Standard2.1`},
 		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"subnet_ids":          acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
 		"initial_node_labels": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nodePoolInitialNodeLabelsRepresentation},
 		"node_metadata":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"nodeMetadata": "nodeMetadata"}, Update: map[string]string{"nodeMetadata2": "nodeMetadata2"}},
-		"quantity_per_subnet": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
 		"ssh_public_key":      acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
+		"node_config_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: nodeConfigDetailsRepresentation},
 	}
+
+	nodeConfigDetailsRepresentation = map[string]interface{}{
+		"placement_configs":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: placementConfigsRepresentation},
+		"size":                                acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
+		"is_pv_encryption_in_transit_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"defined_tags":                        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+	}
+
+	placementConfigsRepresentation = map[string]interface{}{
+		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.nodePool_Subnet_1.id}`},
+		"capacity_reservation_id": acctest.Representation{RepType: acctest.Optional, Update: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
+	}
+
 	nodePoolInitialNodeLabelsRepresentation = map[string]interface{}{
 		"key":   acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`, Update: `value2`},
@@ -135,11 +149,14 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.21.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster2`}})) +
 		AvailabilityDomainConfig +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", acctest.Required, acctest.Create, clusterOptionSingularDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
-		DefinedTagsDependencies
+		DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(computeCapacityReservationRepresentation, map[string]interface{}{
+			"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`}, "instance_reservation_configs": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(computeCapacityReservationInstanceReservationConfigsRepresentation, map[string]interface{}{
+				"instance_shape": acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`}, "fault_domain": acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-1`}, "reserved_count": acctest.Representation{RepType: acctest.Required, Create: `6`},
+			})}}))
 )
 
 // issue-routing-tag: containerengine/default
@@ -168,11 +185,10 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
-				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.2"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
-
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "node_config_details.0.placement_configs", nil, []string{"capacity_reservation_id"}),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
@@ -199,10 +215,12 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
 				resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
 				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
-				resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.2"),
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "node_config_details.0.placement_configs", nil, []string{"capacity_reservation_id"}),
+				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.size", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.is_pv_encryption_in_transit_enabled", "false"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -231,10 +249,10 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "node_image_name"),
 				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.2"),
-				resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "2"),
+				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
-				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.size", "2"),
+				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.is_pv_encryption_in_transit_enabled", "true"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -268,9 +286,8 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.name", "name2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_name"),
-				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard2.2"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_source.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.quantity_per_subnet", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 			),
 		},
@@ -295,11 +312,9 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_metadata.%", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "node_shape", "VM.Standard2.2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_source.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "quantity_per_subnet", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "subnet_ids.#", "2"),
 			),
 		},
 		// verify resource import
@@ -338,6 +353,7 @@ func testAccCheckContainerengineNodePoolDestroy(s *terraform.State) error {
 			}
 		}
 	}
+
 	if noResourceFound {
 		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
 	}

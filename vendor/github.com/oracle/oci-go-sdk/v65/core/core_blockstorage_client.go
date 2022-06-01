@@ -572,7 +572,7 @@ func (client BlockstorageClient) copyVolumeBackup(ctx context.Context, request c
 }
 
 // CopyVolumeGroupBackup Creates a volume group backup copy in specified region. For general information about volume group backups,
-// see Overview of Block Volume Service Backups (https://docs.cloud.oracle.com/Content/Block/Concepts/blockvolumebackups.htm)
+// see Overview of Block Volume Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumebackups.htm).
 //
 // See also
 //

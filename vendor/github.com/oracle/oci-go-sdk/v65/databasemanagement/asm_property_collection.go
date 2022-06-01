@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// AsmPropertyCollection A collection of ASM properties for a specific database.
+// AsmPropertyCollection A collection of ASM properties for a specific Managed Database.
 type AsmPropertyCollection struct {
 
 	// An array of AsmPropertySummary resources.

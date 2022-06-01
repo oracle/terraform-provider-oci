@@ -53,6 +53,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"integration":             integrationResourceGraph,
 	"jms":                     jmsResourceGraph,
 	"kms":                     kmsResourceGraph,
+	"license_manager":         licenseManagerResourceGraph,
 	"load_balancer":           loadBalancerResourceGraph,
 	"logging":                 loggingResourceGraph,
 	"log_analytics":           logAnalyticsResourceGraph,
@@ -921,6 +922,21 @@ var kmsResourceGraph = TerraformResourceGraph{
 			TerraformResourceHints: exportKmsKeyHints,
 			datasourceQueryParams: map[string]string{
 				"management_endpoint": "management_endpoint",
+			},
+		},
+	},
+}
+
+var licenseManagerResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportLicenseManagerConfigurationHints},
+		{TerraformResourceHints: exportLicenseManagerProductLicenseHints},
+	},
+	"oci_license_manager_product_license": {
+		{
+			TerraformResourceHints: exportLicenseManagerLicenseRecordHints,
+			datasourceQueryParams: map[string]string{
+				"product_license_id": "id",
 			},
 		},
 	},
