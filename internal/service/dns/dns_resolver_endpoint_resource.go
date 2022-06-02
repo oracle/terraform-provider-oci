@@ -176,6 +176,18 @@ func (s *DnsResolverEndpointResourceCrud) CreatedTarget() []string {
 	}
 }
 
+func (s *DnsResolverEndpointResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_dns.ResolverEndpointLifecycleStateUpdating),
+	}
+}
+
+func (s *DnsResolverEndpointResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_dns.ResolverEndpointLifecycleStateActive),
+	}
+}
+
 func (s *DnsResolverEndpointResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_dns.ResolverEndpointLifecycleStateDeleting),

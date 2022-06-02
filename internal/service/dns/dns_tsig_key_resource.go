@@ -139,6 +139,18 @@ func (s *DnsTsigKeyResourceCrud) CreatedTarget() []string {
 	}
 }
 
+func (s *DnsTsigKeyResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_dns.TsigKeyLifecycleStateUpdating),
+	}
+}
+
+func (s *DnsTsigKeyResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_dns.TsigKeyLifecycleStateActive),
+	}
+}
+
 func (s *DnsTsigKeyResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_dns.TsigKeyLifecycleStateDeleting),
