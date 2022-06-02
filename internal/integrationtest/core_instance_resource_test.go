@@ -30,17 +30,38 @@ var (
 		"is_trusted_platform_module_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 	instanceBMMilanPlatformConfigRepresentation = map[string]interface{}{
-		"type":                               acctest.Representation{RepType: acctest.Required, Create: `AMD_MILAN_BM`},
-		"is_measured_boot_enabled":           acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_secure_boot_enabled":             acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_trusted_platform_module_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"numa_nodes_per_socket":              acctest.Representation{RepType: acctest.Optional, Create: `NPS1`},
+		"type":                                           acctest.Representation{RepType: acctest.Required, Create: `AMD_MILAN_BM`},
+		"are_virtual_instructions_enabled":               acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_access_control_service_enabled":              acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_input_output_memory_management_unit_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_measured_boot_enabled":                       acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_secure_boot_enabled":                         acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"is_symmetric_multi_threading_enabled":           acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_trusted_platform_module_enabled":             acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"numa_nodes_per_socket":                          acctest.Representation{RepType: acctest.Required, Create: `NPS1`},
+		"percentage_of_cores_enabled":                    acctest.Representation{RepType: acctest.Required, Create: `25`},
 	}
 	instanceBMRomeShieldedPlatformConfigRepresentation = map[string]interface{}{
-		"type":                               acctest.Representation{RepType: acctest.Required, Create: `AMD_ROME_BM`},
-		"is_measured_boot_enabled":           acctest.Representation{RepType: acctest.Required, Create: `false`},
-		"is_secure_boot_enabled":             acctest.Representation{RepType: acctest.Required, Create: `true`},
-		"is_trusted_platform_module_enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"type":                                           acctest.Representation{RepType: acctest.Required, Create: `AMD_ROME_BM`},
+		"are_virtual_instructions_enabled":               acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_access_control_service_enabled":              acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_input_output_memory_management_unit_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_measured_boot_enabled":                       acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_secure_boot_enabled":                         acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"is_symmetric_multi_threading_enabled":           acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_trusted_platform_module_enabled":             acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"numa_nodes_per_socket":                          acctest.Representation{RepType: acctest.Required, Create: `NPS1`},
+		"percentage_of_cores_enabled":                    acctest.Representation{RepType: acctest.Required, Create: `25`},
+	}
+	instanceBMIcelakePlatformConfigRepresentation = map[string]interface{}{
+		"type": acctest.Representation{RepType: acctest.Required, Create: `INTEL_ICELAKE_BM`},
+		"is_input_output_memory_management_unit_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_measured_boot_enabled":                       acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_secure_boot_enabled":                         acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"is_symmetric_multi_threading_enabled":           acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_trusted_platform_module_enabled":             acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"numa_nodes_per_socket":                          acctest.Representation{RepType: acctest.Required, Create: `NPS1`},
+		"percentage_of_cores_enabled":                    acctest.Representation{RepType: acctest.Required, Create: `25`},
 	}
 	instanceBMSkylakeShieldedPlatformConfigRepresentation = map[string]interface{}{
 		"type":                               acctest.Representation{RepType: acctest.Required, Create: `INTEL_SKYLAKE_BM`},
@@ -145,6 +166,14 @@ var (
 		"image":               acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
 		"platform_config":     acctest.RepresentationGroup{RepType: acctest.Required, Group: instanceBMRomeShieldedPlatformConfigRepresentation},
+	}), []string{
+		"dedicated_vm_host_id",
+	})
+	instanceWithBMIcelakePlatformConfigRepresentation = acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+		"shape":               acctest.Representation{RepType: acctest.Required, Create: `BM.Optimized3.36`},
+		"image":               acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+		"platform_config":     acctest.RepresentationGroup{RepType: acctest.Required, Group: instanceBMIcelakePlatformConfigRepresentation},
 	}), []string{
 		"dedicated_vm_host_id",
 	})
@@ -1653,9 +1682,15 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "shape", "BM.Standard.E4.128"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "AMD_MILAN_BM"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.are_virtual_instructions_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_access_control_service_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_input_output_memory_management_unit_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_measured_boot_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_secure_boot_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_trusted_platform_module_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_symmetric_multi_threading_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.percentage_of_cores_enabled", "25"),
 
 					func(ts *terraform.State) (err error) {
 						return err
@@ -1673,9 +1708,15 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "BM.Standard.E4.128"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.type", "AMD_MILAN_BM"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.are_virtual_instructions_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_access_control_service_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_input_output_memory_management_unit_enabled", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_measured_boot_enabled", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_secure_boot_enabled", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_trusted_platform_module_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_symmetric_multi_threading_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_trusted_platform_module_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.numa_nodes_per_socket", "NPS1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.percentage_of_cores_enabled", "25"),
 				),
 			},
 			// verify singular datasource
@@ -1715,9 +1756,15 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "BM.Standard.E4.128"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.are_virtual_instructions_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_access_control_service_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_input_output_memory_management_unit_enabled", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_measured_boot_enabled", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_secure_boot_enabled", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_trusted_platform_module_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_symmetric_multi_threading_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.percentage_of_cores_enabled", "25"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.type", "AMD_MILAN_BM"),
 				),
 			},
@@ -1760,9 +1807,15 @@ func TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource(t *testing.T
 					resource.TestCheckResourceAttr(resourceName, "shape", "BM.Standard.E3.128"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "AMD_ROME_BM"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.are_virtual_instructions_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_access_control_service_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_input_output_memory_management_unit_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_measured_boot_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_symmetric_multi_threading_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.percentage_of_cores_enabled", "25"),
 
 					func(ts *terraform.State) (err error) {
 						return err
@@ -1782,9 +1835,15 @@ func TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource(t *testing.T
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "BM.Standard.E3.128"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.type", "AMD_ROME_BM"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.are_virtual_instructions_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_access_control_service_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_input_output_memory_management_unit_enabled", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_measured_boot_enabled", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_symmetric_multi_threading_enabled", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_trusted_platform_module_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.numa_nodes_per_socket", "NPS1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.percentage_of_cores_enabled", "25"),
 				),
 			},
 			// verify singular datasource
@@ -1824,10 +1883,136 @@ func TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource(t *testing.T
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "BM.Standard.E3.128"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.are_virtual_instructions_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_access_control_service_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_input_output_memory_management_unit_enabled", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_measured_boot_enabled", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_symmetric_multi_threading_enabled", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.percentage_of_cores_enabled", "25"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.type", "AMD_ROME_BM"),
+				),
+			},
+		},
+	})
+}
+
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
+func TestAccResourceCoreInstance_BM_Icelake_instance_resource(t *testing.T) {
+	if strings.Contains(utils.GetEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_BM_Icelake_instance_resource") {
+		t.Skip("Skipping suppressed TestAccResourceCoreInstance_BM_Icelake_instance_resource")
+	}
+
+	provider := acctest.TestAccProvider
+
+	config := `
+        provider oci {
+            test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+        }
+    ` + acctest.CommonTestVariables()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+	datasourceName := "data.oci_core_instances.test_instances"
+	singularDatasourceName := "data.oci_core_instance.test_instance"
+
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+			// Create with platform config
+			{
+				Config: config + compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create,
+						instanceWithBMIcelakePlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "shape", "BM.Optimized3.36"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "INTEL_ICELAKE_BM"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_input_output_memory_management_unit_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_measured_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_symmetric_multi_threading_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.percentage_of_cores_enabled", "25"),
+
+					func(ts *terraform.State) (err error) {
+						return err
+					},
+				),
+			},
+			// verify datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", acctest.Required, acctest.Create, instanceDataSourceRepresentation) +
+					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceWithBMIcelakePlatformConfigRepresentation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "BM.Optimized3.36"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.type", "INTEL_ICELAKE_BM"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_input_output_memory_management_unit_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_measured_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_symmetric_multi_threading_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_trusted_platform_module_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.numa_nodes_per_socket", "NPS1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.percentage_of_cores_enabled", "25"),
+				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceWithBMIcelakePlatformConfigRepresentation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "0"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "image"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "region"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.gpus"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.local_disks"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.local_disks_total_size_in_gbs"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.max_vnic_attachments"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.networking_bandwidth_in_gbps"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.processor_description"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "BM.Optimized3.36"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_input_output_memory_management_unit_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_measured_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_symmetric_multi_threading_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.percentage_of_cores_enabled", "25"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.type", "INTEL_ICELAKE_BM"),
 				),
 			},
 		},

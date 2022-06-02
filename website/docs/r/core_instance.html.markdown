@@ -127,10 +127,15 @@ resource "oci_core_instance" "test_instance" {
 		type = var.instance_platform_config_type
 
 		#Optional
+		are_virtual_instructions_enabled = var.instance_platform_config_are_virtual_instructions_enabled
+		is_access_control_service_enabled = var.instance_platform_config_is_access_control_service_enabled
+		is_input_output_memory_management_unit_enabled = var.instance_platform_config_is_input_output_memory_management_unit_enabled
 		is_measured_boot_enabled = var.instance_platform_config_is_measured_boot_enabled
 		is_secure_boot_enabled = var.instance_platform_config_is_secure_boot_enabled
+		is_symmetric_multi_threading_enabled = var.instance_platform_config_is_symmetric_multi_threading_enabled
 		is_trusted_platform_module_enabled = var.instance_platform_config_is_trusted_platform_module_enabled
 		numa_nodes_per_socket = var.instance_platform_config_numa_nodes_per_socket
+		percentage_of_cores_enabled = var.instance_platform_config_percentage_of_cores_enabled
 	}
 	preemptible_instance_config {
 		#Required
@@ -347,12 +352,18 @@ The following arguments are supported:
 
 	Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned.
 
-	For more information about shielded instances, see [Shielded Instances](https://docs.cloud.oracle.com/iaas/Content/Compute/References/shielded-instances.htm). 
+	For more information about shielded instances, see [Shielded Instances](https://docs.cloud.oracle. com/iaas/Content/Compute/References/shielded-instances.htm).
+
+	* `are_virtual_instructions_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether virtualization instructions are available.
+	* `is_access_control_service_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device passthrough.
+	* `is_input_output_memory_management_unit_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether the input-output memory management unit is enabled.
 	* `is_measured_boot_enabled` - (Optional) Whether the Measured Boot feature is enabled on the instance. 
 	* `is_secure_boot_enabled` - (Optional) Whether Secure Boot is enabled on the instance. 
-	* `is_trusted_platform_module_enabled` - (Optional) Whether the Trusted Platform Module (TPM) is enabled on the instance. 
-	* `numa_nodes_per_socket` - (Applicable when type=AMD_MILAN_BM) The number of NUMA nodes per socket (NPS). 
-	* `type` - (Required) The type of platform being configured. (Supported types=[INTEL_VM, AMD_MILAN_BM, AMD_ROME_BM, INTEL_SKYLAKE_BM])
+	* `is_symmetric_multi_threading_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether symmetric multi-threading is enabled on the instance.
+	* `is_trusted_platform_module_enabled` - (Optional) Whether the Trusted Platform Module (TPM) is enabled on the instance.
+	* `numa_nodes_per_socket` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) The number of NUMA nodes per socket (NPS).
+	* `percentage_of_cores_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | INTEL_ICELAKE_BM) The percentage of cores enabled.
+	* `type` - (Required) The type of platform being configured. (Supported types=[INTEL_VM, AMD_MILAN_BM, AMD_ROME_BM, AMD_ROME_BM_GPU, INTEL_ICELAKE_BM, INTEL_SKYLAKE_BM])
 * `preemptible_instance_config` - (Optional) Configuration options for preemptible instances. 
 	* `preemption_action` - (Required) The action to run when the preemptible instance is interrupted for eviction. 
 		* `preserve_boot_volume` - (Optional) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
@@ -481,12 +492,17 @@ The following attributes are exported:
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
 * `metadata` - Custom metadata that you provide.
-* `platform_config` - The platform configuration for the instance. 
-	* `is_measured_boot_enabled` - Whether the Measured Boot is to be enabled on the instance 
-	* `is_secure_boot_enabled` - Whether the Secure Boot is to be enabled on the instance 
-	* `is_trusted_platform_module_enabled` - Whether the Trusted Platform Module (TPM) is to be enabled on the instance 
+* `platform_config` - The platform configuration for the instance.
+	* `are_virtual_instructions_enabled` - Whether virtualization instructions are available.
+	* `is_access_control_service_enabled` - Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device passthrough.
+	* `is_input_output_memory_management_unit_enabled` - Whether the input-output memory management unit is enabled.
+	* `is_measured_boot_enabled` - Whether the Measured Boot feature is enabled on the instance.
+	* `is_secure_boot_enabled` - Whether Secure Boot is enabled on the instance.
+	* `is_symmetric_multi_threading_enabled` - Whether symmetric multi-threading is enabled on the instance.
+	* `is_trusted_platform_module_enabled` - Whether the Trusted Platform Module (TPM) is enabled on the instance.
 	* `numa_nodes_per_socket` - The number of NUMA nodes per socket (NPS). 
-	* `type` - The type of platform being configured. (Supported types=[INTEL_VM, AMD_MILAN_BM, AMD_ROME_BM, INTEL_SKYLAKE_BM])
+	* `percentage_of_cores_enabled` - The percentage of cores enabled.
+	* `type` - The type of platform being configured. (Supported types=[INTEL_VM, AMD_MILAN_BM, AMD_ROME_BM, AMD_ROME_BM_GPU, INTEL_ICELAKE_BM, INTEL_SKYLAKE_BM])
 * `preemptible_instance_config` - (Optional) Configuration options for preemptible instances. 
 	* `preemption_action` - (Required) The action to run when the preemptible instance is interrupted for eviction. 
 		* `preserve_boot_volume` - (Optional) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
