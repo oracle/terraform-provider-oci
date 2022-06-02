@@ -209,10 +209,15 @@ The following attributes are exported:
 			If you provide the parameter, the instance is created with the platform configuration that you specify. For any values that you omit, the instance uses the default configuration values for the `shape` that you specify. If you don't provide the parameter, the default values for the `shape` are used.
 
 			Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
+			* `are_virtual_instructions_enabled` - Whether virtualization instructions are available. 
+			* `is_access_control_service_enabled` - Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device passthrough. 
+			* `is_input_output_memory_management_unit_enabled` - Whether the input-output memory management unit is enabled. 
 			* `is_measured_boot_enabled` - Whether the Measured Boot feature is enabled on the instance. 
 			* `is_secure_boot_enabled` - Whether Secure Boot is enabled on the instance. 
+			* `is_symmetric_multi_threading_enabled` - Whether symmetric multi-threading is enabled on the instance. 
 			* `is_trusted_platform_module_enabled` - Whether the Trusted Platform Module (TPM) is enabled on the instance. 
 			* `numa_nodes_per_socket` - The number of NUMA nodes per socket (NPS). 
+			* `percentage_of_cores_enabled` - The percentage of cores enabled. 
 			* `type` - The type of platform being configured. 
 		* `preemptible_instance_config` - Configuration options for preemptible instances. 
 			* `preemption_action` - The action to run when the preemptible instance is interrupted for eviction. 
