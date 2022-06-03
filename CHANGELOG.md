@@ -1,3 +1,11 @@
+## 4.79.0 (Unreleased)
+
+### Added
+- BM Platform Config Support
+- Support for private endpoint in resource manager
+### Bug Fix
+- Resolve terraform not dropping resolver rules and view and async polling
+
 ## 4.78.0 (June 01, 2022)
 
 ### Added
