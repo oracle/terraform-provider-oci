@@ -244,5 +244,11 @@
         "realmDomainComponent": "oraclecloud10.com", 
         "regionIdentifier": "ap-dcc-canberra-1", 
         "realmKey": "oc10"
+    }, 
+    {
+        "regionKey": "cdg", 
+        "realmDomainComponent": "oraclecloud.com", 
+        "regionIdentifier": "eu-paris-1", 
+        "realmKey": "oc1"
     }
 ]

@@ -7,7 +7,6 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/gofrs/flock"
 	"os"
 	"runtime"
 	"strconv"
@@ -15,6 +14,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/gofrs/flock"
 )
 
 const (
@@ -391,8 +392,8 @@ func getGID() uint64 {
 // initialized yet.
 func initLogIfNecessary() {
 	if defaultLogger == nil {
-		l, _ := newSDKLogger()
-		setSDKLogger(l)
+		l, _ := NewSDKLogger()
+		SetSDKLogger(l)
 	}
 }
 
