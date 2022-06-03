@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// CreateRedeemableUserDetails A list of email IDs to be added to the list of users that can redeem rewards.
+// CreateRedeemableUserDetails A list of new user to be added to the list of user that can redeem rewards.
 type CreateRedeemableUserDetails struct {
 
-	// The list of email IDs to be added to the list of users that can redeem rewards.
+	// The list of new user to be added to the list of user that can redeem rewards.
 	Items []RedeemableUser `mandatory:"false" json:"items"`
 }
 

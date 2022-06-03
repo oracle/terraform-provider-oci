@@ -20,8 +20,8 @@ type ListSqlTuningSetsRequest struct {
 	// The owner of the SQL tuning set.
 	Owner *string `mandatory:"false" contributesTo:"query" name:"owner"`
 
-	// The name of the SQL tuning set.
-	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
+	// Allow searching the name of the SQL tuning set by partial matching. The search is case insensitive.
+	NameContains *string `mandatory:"false" contributesTo:"query" name:"nameContains"`
 
 	// The option to sort the SQL tuning set summary data.
 	SortBy ListSqlTuningSetsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`

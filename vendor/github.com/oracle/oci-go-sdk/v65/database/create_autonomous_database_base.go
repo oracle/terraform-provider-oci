@@ -195,6 +195,9 @@ type CreateAutonomousDatabaseBase interface {
 
 	// The Oracle Database Edition that applies to the Autonomous databases.
 	GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum
+
+	// List of database tools details.
+	GetDbToolsDetails() []DatabaseTool
 }
 
 type createautonomousdatabasebase struct {
@@ -238,6 +241,7 @@ type createautonomousdatabasebase struct {
 	IsAutoScalingForStorageEnabled           *bool                                                             `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
 	MaxCpuCoreCount                          *int                                                              `mandatory:"false" json:"maxCpuCoreCount"`
 	DatabaseEdition                          AutonomousDatabaseSummaryDatabaseEditionEnum                      `mandatory:"false" json:"databaseEdition,omitempty"`
+	DbToolsDetails                           []DatabaseTool                                                    `mandatory:"false" json:"dbToolsDetails"`
 	Source                                   string                                                            `json:"source"`
 }
 
@@ -291,6 +295,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.IsAutoScalingForStorageEnabled = s.Model.IsAutoScalingForStorageEnabled
 	m.MaxCpuCoreCount = s.Model.MaxCpuCoreCount
 	m.DatabaseEdition = s.Model.DatabaseEdition
+	m.DbToolsDetails = s.Model.DbToolsDetails
 	m.Source = s.Model.Source
 
 	return err
@@ -531,6 +536,11 @@ func (m createautonomousdatabasebase) GetMaxCpuCoreCount() *int {
 //GetDatabaseEdition returns DatabaseEdition
 func (m createautonomousdatabasebase) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
 	return m.DatabaseEdition
+}
+
+//GetDbToolsDetails returns DbToolsDetails
+func (m createautonomousdatabasebase) GetDbToolsDetails() []DatabaseTool {
+	return m.DbToolsDetails
 }
 
 func (m createautonomousdatabasebase) String() string {

@@ -108,6 +108,8 @@ const (
 	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M"
 	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g2m                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_2M"
 	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g3m                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_3M"
+	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m8ghost          UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M_8GHOST"
+	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m16ghost         UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M_16GHOST"
 	UpdateVnicShapeDetailsVnicShapeDynamicE350g                    UpdateVnicShapeDetailsVnicShapeEnum = "DYNAMIC_E3_50G"
 	UpdateVnicShapeDetailsVnicShapeFixed0040E350g                  UpdateVnicShapeDetailsVnicShapeEnum = "FIXED0040_E3_50G"
 	UpdateVnicShapeDetailsVnicShapeFixed0100E350g                  UpdateVnicShapeDetailsVnicShapeEnum = "FIXED0100_E3_50G"
@@ -1150,6 +1152,8 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnum = map[string]UpdateVnicShapeDetai
 	"VNICAAS_LBAAS_8G_1M":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m,
 	"VNICAAS_LBAAS_8G_2M":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g2m,
 	"VNICAAS_LBAAS_8G_3M":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g3m,
+	"VNICAAS_LBAAS_8G_1M_8GHOST":           UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m8ghost,
+	"VNICAAS_LBAAS_8G_1M_16GHOST":          UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m16ghost,
 	"DYNAMIC_E3_50G":                       UpdateVnicShapeDetailsVnicShapeDynamicE350g,
 	"FIXED0040_E3_50G":                     UpdateVnicShapeDetailsVnicShapeFixed0040E350g,
 	"FIXED0100_E3_50G":                     UpdateVnicShapeDetailsVnicShapeFixed0100E350g,
@@ -2192,6 +2196,8 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnumLowerCase = map[string]UpdateVnicS
 	"vnicaas_lbaas_8g_1m":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m,
 	"vnicaas_lbaas_8g_2m":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g2m,
 	"vnicaas_lbaas_8g_3m":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g3m,
+	"vnicaas_lbaas_8g_1m_8ghost":           UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m8ghost,
+	"vnicaas_lbaas_8g_1m_16ghost":          UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m16ghost,
 	"dynamic_e3_50g":                       UpdateVnicShapeDetailsVnicShapeDynamicE350g,
 	"fixed0040_e3_50g":                     UpdateVnicShapeDetailsVnicShapeFixed0040E350g,
 	"fixed0100_e3_50g":                     UpdateVnicShapeDetailsVnicShapeFixed0100E350g,
@@ -3245,6 +3251,8 @@ func GetUpdateVnicShapeDetailsVnicShapeEnumStringValues() []string {
 		"VNICAAS_LBAAS_8G_1M",
 		"VNICAAS_LBAAS_8G_2M",
 		"VNICAAS_LBAAS_8G_3M",
+		"VNICAAS_LBAAS_8G_1M_8GHOST",
+		"VNICAAS_LBAAS_8G_1M_16GHOST",
 		"DYNAMIC_E3_50G",
 		"FIXED0040_E3_50G",
 		"FIXED0100_E3_50G",

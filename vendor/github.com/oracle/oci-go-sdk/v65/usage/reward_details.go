@@ -33,7 +33,7 @@ type RewardDetails struct {
 	// The total number of available rewards for a given subscription ID.
 	TotalRewardsAvailable *float32 `mandatory:"false" json:"totalRewardsAvailable"`
 
-	// The redemption code used in the billing center during the reward redemption process
+	// The redemption code used in the Billing Center during the reward redemption process.
 	RedemptionCode *string `mandatory:"false" json:"redemptionCode"`
 }
 

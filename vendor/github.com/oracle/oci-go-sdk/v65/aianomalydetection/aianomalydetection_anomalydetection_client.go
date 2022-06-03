@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud AI Services API
+// Anomaly Detection API
 //
 // OCI AI Service solutions can help Enterprise customers integrate AI into their products immediately by using our proven,
 // pre-trained/custom models or containers, and without a need to set up in house team of AI and ML experts.
@@ -133,7 +133,7 @@ func (client AnomalyDetectionClient) cancelWorkRequest(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -191,7 +191,7 @@ func (client AnomalyDetectionClient) changeAiPrivateEndpointCompartment(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/AiPrivateEndpoint/ChangeAiPrivateEndpointCompartment"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeAiPrivateEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -249,7 +249,7 @@ func (client AnomalyDetectionClient) changeDataAssetCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DataAsset/ChangeDataAssetCompartment"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeDataAssetCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -302,7 +302,7 @@ func (client AnomalyDetectionClient) changeDetectAnomalyJobCompartment(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DetectAnomalyJob/ChangeDetectAnomalyJobCompartment"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeDetectAnomalyJobCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -360,7 +360,7 @@ func (client AnomalyDetectionClient) changeModelCompartment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Model/ChangeModelCompartment"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeModelCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -418,7 +418,7 @@ func (client AnomalyDetectionClient) changeProjectCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Project/ChangeProjectCompartment"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeProjectCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -476,7 +476,7 @@ func (client AnomalyDetectionClient) createAiPrivateEndpoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/AiPrivateEndpoint/CreateAiPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateAiPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -534,7 +534,7 @@ func (client AnomalyDetectionClient) createDataAsset(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DataAsset/CreateDataAsset"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateDataAsset", apiReferenceLink)
 		return response, err
 	}
@@ -592,7 +592,7 @@ func (client AnomalyDetectionClient) createDetectAnomalyJob(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DetectAnomalyJob/CreateDetectAnomalyJob"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateDetectAnomalyJob", apiReferenceLink)
 		return response, err
 	}
@@ -650,7 +650,7 @@ func (client AnomalyDetectionClient) createModel(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Model/CreateModel"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateModel", apiReferenceLink)
 		return response, err
 	}
@@ -708,7 +708,7 @@ func (client AnomalyDetectionClient) createProject(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Project/CreateProject"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateProject", apiReferenceLink)
 		return response, err
 	}
@@ -761,7 +761,7 @@ func (client AnomalyDetectionClient) deleteAiPrivateEndpoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/AiPrivateEndpoint/DeleteAiPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteAiPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -814,7 +814,7 @@ func (client AnomalyDetectionClient) deleteDataAsset(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DataAsset/DeleteDataAsset"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteDataAsset", apiReferenceLink)
 		return response, err
 	}
@@ -867,7 +867,7 @@ func (client AnomalyDetectionClient) deleteDetectAnomalyJob(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DetectAnomalyJob/DeleteDetectAnomalyJob"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteDetectAnomalyJob", apiReferenceLink)
 		return response, err
 	}
@@ -920,7 +920,7 @@ func (client AnomalyDetectionClient) deleteModel(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Model/DeleteModel"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteModel", apiReferenceLink)
 		return response, err
 	}
@@ -973,7 +973,7 @@ func (client AnomalyDetectionClient) deleteProject(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Project/DeleteProject"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteProject", apiReferenceLink)
 		return response, err
 	}
@@ -1031,7 +1031,7 @@ func (client AnomalyDetectionClient) detectAnomalies(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Model/DetectAnomalies"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "DetectAnomalies", apiReferenceLink)
 		return response, err
 	}
@@ -1084,7 +1084,7 @@ func (client AnomalyDetectionClient) getAiPrivateEndpoint(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/AiPrivateEndpoint/GetAiPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetAiPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -1137,7 +1137,7 @@ func (client AnomalyDetectionClient) getDataAsset(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DataAsset/GetDataAsset"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetDataAsset", apiReferenceLink)
 		return response, err
 	}
@@ -1190,7 +1190,7 @@ func (client AnomalyDetectionClient) getDetectAnomalyJob(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DetectAnomalyJob/GetDetectAnomalyJob"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetDetectAnomalyJob", apiReferenceLink)
 		return response, err
 	}
@@ -1243,7 +1243,7 @@ func (client AnomalyDetectionClient) getModel(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Model/GetModel"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetModel", apiReferenceLink)
 		return response, err
 	}
@@ -1296,7 +1296,7 @@ func (client AnomalyDetectionClient) getProject(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Project/GetProject"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetProject", apiReferenceLink)
 		return response, err
 	}
@@ -1349,7 +1349,7 @@ func (client AnomalyDetectionClient) getWorkRequest(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1402,7 +1402,7 @@ func (client AnomalyDetectionClient) listAiPrivateEndpoints(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/AiPrivateEndpointCollection/ListAiPrivateEndpoints"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListAiPrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -1455,7 +1455,7 @@ func (client AnomalyDetectionClient) listDataAssets(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DataAssetCollection/ListDataAssets"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListDataAssets", apiReferenceLink)
 		return response, err
 	}
@@ -1508,7 +1508,7 @@ func (client AnomalyDetectionClient) listDetectAnomalyJobs(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DetectAnomalyJobCollection/ListDetectAnomalyJobs"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListDetectAnomalyJobs", apiReferenceLink)
 		return response, err
 	}
@@ -1561,7 +1561,7 @@ func (client AnomalyDetectionClient) listModels(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Model/ListModels"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListModels", apiReferenceLink)
 		return response, err
 	}
@@ -1614,7 +1614,7 @@ func (client AnomalyDetectionClient) listProjects(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Project/ListProjects"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListProjects", apiReferenceLink)
 		return response, err
 	}
@@ -1667,7 +1667,7 @@ func (client AnomalyDetectionClient) listWorkRequestErrors(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1720,7 +1720,7 @@ func (client AnomalyDetectionClient) listWorkRequestLogs(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1773,7 +1773,7 @@ func (client AnomalyDetectionClient) listWorkRequests(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1826,7 +1826,7 @@ func (client AnomalyDetectionClient) updateAiPrivateEndpoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/AiPrivateEndpoint/UpdateAiPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateAiPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -1879,7 +1879,7 @@ func (client AnomalyDetectionClient) updateDataAsset(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DataAsset/UpdateDataAsset"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateDataAsset", apiReferenceLink)
 		return response, err
 	}
@@ -1932,7 +1932,7 @@ func (client AnomalyDetectionClient) updateDetectAnomalyJob(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DetectAnomalyJob/UpdateDetectAnomalyJob"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateDetectAnomalyJob", apiReferenceLink)
 		return response, err
 	}
@@ -1985,7 +1985,7 @@ func (client AnomalyDetectionClient) updateModel(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Model/UpdateModel"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateModel", apiReferenceLink)
 		return response, err
 	}
@@ -2038,7 +2038,7 @@ func (client AnomalyDetectionClient) updateProject(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Project/UpdateProject"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateProject", apiReferenceLink)
 		return response, err
 	}

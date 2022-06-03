@@ -171,6 +171,9 @@ type CreateAutonomousDatabaseDetails struct {
 	// The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
 	MaxCpuCoreCount *int `mandatory:"false" json:"maxCpuCoreCount"`
 
+	// List of database tools details.
+	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
+
 	// The Oracle Database Edition that applies to the Autonomous databases.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
@@ -385,6 +388,11 @@ func (m CreateAutonomousDatabaseDetails) GetMaxCpuCoreCount() *int {
 //GetDatabaseEdition returns DatabaseEdition
 func (m CreateAutonomousDatabaseDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
 	return m.DatabaseEdition
+}
+
+//GetDbToolsDetails returns DbToolsDetails
+func (m CreateAutonomousDatabaseDetails) GetDbToolsDetails() []DatabaseTool {
+	return m.DbToolsDetails
 }
 
 func (m CreateAutonomousDatabaseDetails) String() string {

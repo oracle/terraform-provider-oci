@@ -14,7 +14,7 @@ import (
 // CreateRedeemableUserRequest wrapper for the CreateRedeemableUser operation
 type CreateRedeemableUserRequest struct {
 
-	// CreateRedeemableUserDetails inforamtion.
+	// CreateRedeemableUserDetails information.
 	CreateRedeemableUserDetails `contributesTo:"body"`
 
 	// The OCID of the tenancy.

@@ -26,6 +26,10 @@ type Parameter struct {
 	// Parameter type. One of integer, string, boolean.
 	Type ParameterTypeEnum `mandatory:"true" json:"type"`
 
+	// The user-friendly display name. This must be unique within the enclosing resource,
+	// and it's changeable. Avoid entering confidential information.
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
 	// Java regex pattern to validate a parameter value.
 	Pattern *string `mandatory:"false" json:"pattern"`
 }

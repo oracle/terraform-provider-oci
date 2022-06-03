@@ -174,6 +174,9 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
 	MaxCpuCoreCount *int `mandatory:"false" json:"maxCpuCoreCount"`
 
+	// List of database tools details.
+	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
+
 	// The frequency at which the data is refreshed for a refreshable clone after auto-refresh is enabled. The minimum is 1 minute. The maximum is 1 day. The date and time that auto-refresh is enabled is controlled by the `timeOfAutoRefreshStart` parameter.
 	AutoRefreshFrequencyInSeconds *int `mandatory:"false" json:"autoRefreshFrequencyInSeconds"`
 
@@ -406,6 +409,11 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetMaxCpuCoreCount() *i
 //GetDatabaseEdition returns DatabaseEdition
 func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
 	return m.DatabaseEdition
+}
+
+//GetDbToolsDetails returns DbToolsDetails
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDbToolsDetails() []DatabaseTool {
+	return m.DbToolsDetails
 }
 
 func (m CreateRefreshableAutonomousDatabaseCloneDetails) String() string {

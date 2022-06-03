@@ -197,6 +197,9 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	// The Oracle Database Edition that applies to the Autonomous databases.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
+
+	// List of database tools details.
+	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {

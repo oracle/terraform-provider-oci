@@ -381,6 +381,8 @@ const (
 	CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M"
 	CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g2m                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_2M"
 	CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g3m                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_3M"
+	CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m8ghost          CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M_8GHOST"
+	CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m16ghost         CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M_16GHOST"
 	CreateInternalVnicDetailsVnicShapeDynamicE350g                    CreateInternalVnicDetailsVnicShapeEnum = "DYNAMIC_E3_50G"
 	CreateInternalVnicDetailsVnicShapeFixed0040E350g                  CreateInternalVnicDetailsVnicShapeEnum = "FIXED0040_E3_50G"
 	CreateInternalVnicDetailsVnicShapeFixed0100E350g                  CreateInternalVnicDetailsVnicShapeEnum = "FIXED0100_E3_50G"
@@ -1423,6 +1425,8 @@ var mappingCreateInternalVnicDetailsVnicShapeEnum = map[string]CreateInternalVni
 	"VNICAAS_LBAAS_8G_1M":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m,
 	"VNICAAS_LBAAS_8G_2M":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g2m,
 	"VNICAAS_LBAAS_8G_3M":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g3m,
+	"VNICAAS_LBAAS_8G_1M_8GHOST":           CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m8ghost,
+	"VNICAAS_LBAAS_8G_1M_16GHOST":          CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m16ghost,
 	"DYNAMIC_E3_50G":                       CreateInternalVnicDetailsVnicShapeDynamicE350g,
 	"FIXED0040_E3_50G":                     CreateInternalVnicDetailsVnicShapeFixed0040E350g,
 	"FIXED0100_E3_50G":                     CreateInternalVnicDetailsVnicShapeFixed0100E350g,
@@ -2465,6 +2469,8 @@ var mappingCreateInternalVnicDetailsVnicShapeEnumLowerCase = map[string]CreateIn
 	"vnicaas_lbaas_8g_1m":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m,
 	"vnicaas_lbaas_8g_2m":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g2m,
 	"vnicaas_lbaas_8g_3m":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g3m,
+	"vnicaas_lbaas_8g_1m_8ghost":           CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m8ghost,
+	"vnicaas_lbaas_8g_1m_16ghost":          CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m16ghost,
 	"dynamic_e3_50g":                       CreateInternalVnicDetailsVnicShapeDynamicE350g,
 	"fixed0040_e3_50g":                     CreateInternalVnicDetailsVnicShapeFixed0040E350g,
 	"fixed0100_e3_50g":                     CreateInternalVnicDetailsVnicShapeFixed0100E350g,
@@ -3518,6 +3524,8 @@ func GetCreateInternalVnicDetailsVnicShapeEnumStringValues() []string {
 		"VNICAAS_LBAAS_8G_1M",
 		"VNICAAS_LBAAS_8G_2M",
 		"VNICAAS_LBAAS_8G_3M",
+		"VNICAAS_LBAAS_8G_1M_8GHOST",
+		"VNICAAS_LBAAS_8G_1M_16GHOST",
 		"DYNAMIC_E3_50G",
 		"FIXED0040_E3_50G",
 		"FIXED0100_E3_50G",

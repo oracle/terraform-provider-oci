@@ -29,8 +29,8 @@ type SummarizeDatabaseInsightResourceCapacityTrendAggregationCollection struct {
 	// Defines the type of resource metric (example: CPU, STORAGE)
 	ResourceMetric SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum `mandatory:"true" json:"resourceMetric"`
 
-	// Identifies the units of the current resource metric (CORES, GB).
-	UsageUnit UsageUnitEnum `mandatory:"true" json:"usageUnit"`
+	// Displays usage unit ( CORES, GB , PERCENT, MBPS)
+	UsageUnit SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum `mandatory:"true" json:"usageUnit"`
 
 	// Time duration in milliseconds between data points (one hour or one day).
 	ItemDurationInMs *int64 `mandatory:"true" json:"itemDurationInMs"`
@@ -51,8 +51,8 @@ func (m SummarizeDatabaseInsightResourceCapacityTrendAggregationCollection) Vali
 	if _, ok := GetMappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum(string(m.ResourceMetric)); !ok && m.ResourceMetric != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceMetric: %s. Supported values are: %s.", m.ResourceMetric, strings.Join(GetSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingUsageUnitEnum(string(m.UsageUnit)); !ok && m.UsageUnit != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetUsageUnitEnumStringValues(), ",")))
+	if _, ok := GetMappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum(string(m.UsageUnit)); !ok && m.UsageUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
@@ -116,5 +116,59 @@ func GetSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResour
 // GetMappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum(val string) (SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum, bool) {
 	enum, ok := mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum Enum with underlying type: string
+type SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum string
+
+// Set of constants representing the allowable values for SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum
+const (
+	SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitCores   SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum = "CORES"
+	SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitGb      SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum = "GB"
+	SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitMbps    SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum = "MBPS"
+	SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitIops    SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum = "IOPS"
+	SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitPercent SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum = "PERCENT"
+)
+
+var mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum = map[string]SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum{
+	"CORES":   SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitCores,
+	"GB":      SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitGb,
+	"MBPS":    SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitMbps,
+	"IOPS":    SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitIops,
+	"PERCENT": SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitPercent,
+}
+
+var mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnumLowerCase = map[string]SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum{
+	"cores":   SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitCores,
+	"gb":      SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitGb,
+	"mbps":    SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitMbps,
+	"iops":    SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitIops,
+	"percent": SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitPercent,
+}
+
+// GetSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum
+func GetSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnumValues() []SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum {
+	values := make([]SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum, 0)
+	for _, v := range mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum
+func GetSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnumStringValues() []string {
+	return []string{
+		"CORES",
+		"GB",
+		"MBPS",
+		"IOPS",
+		"PERCENT",
+	}
+}
+
+// GetMappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum(val string) (SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum, bool) {
+	enum, ok := mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

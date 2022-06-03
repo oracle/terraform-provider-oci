@@ -148,6 +148,59 @@ func (client LoggingManagementClient) changeContinuousQueryCompartment(ctx conte
 	return response, err
 }
 
+// ChangeLogDataModelCompartment Change the compartment of the log data model within the same tenancy.
+func (client LoggingManagementClient) ChangeLogDataModelCompartment(ctx context.Context, request ChangeLogDataModelCompartmentRequest) (response ChangeLogDataModelCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeLogDataModelCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeLogDataModelCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeLogDataModelCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeLogDataModelCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeLogDataModelCompartmentResponse")
+	}
+	return
+}
+
+// changeLogDataModelCompartment implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) changeLogDataModelCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logDataModels/{logDataModelId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeLogDataModelCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogDataModel/ChangeLogDataModelCompartment"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ChangeLogDataModelCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeLogGroupCompartment Moves a log group into a different compartment within the same tenancy.  When provided, the If-Match is checked against the resource ETag values.
 // For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client LoggingManagementClient) ChangeLogGroupCompartment(ctx context.Context, request ChangeLogGroupCompartmentRequest) (response ChangeLogGroupCompartmentResponse, err error) {
@@ -490,6 +543,64 @@ func (client LoggingManagementClient) createLog(ctx context.Context, request com
 	return response, err
 }
 
+// CreateLogDataModel Create the log data model.
+func (client LoggingManagementClient) CreateLogDataModel(ctx context.Context, request CreateLogDataModelRequest) (response CreateLogDataModelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createLogDataModel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateLogDataModelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateLogDataModelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateLogDataModelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateLogDataModelResponse")
+	}
+	return
+}
+
+// createLogDataModel implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) createLogDataModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logDataModels", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateLogDataModelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogDataModel/CreateLogDataModel"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "CreateLogDataModel", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateLogGroup Create a new log group with a unique display name. This call fails
 // if the log group is already created with the same displayName in the compartment.
 func (client LoggingManagementClient) CreateLogGroup(ctx context.Context, request CreateLogGroupRequest) (response CreateLogGroupResponse, err error) {
@@ -764,6 +875,59 @@ func (client LoggingManagementClient) deleteLog(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/Log/DeleteLog"
 		err = common.PostProcessServiceError(err, "LoggingManagement", "DeleteLog", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteLogDataModel Delete the log data model.
+func (client LoggingManagementClient) DeleteLogDataModel(ctx context.Context, request DeleteLogDataModelRequest) (response DeleteLogDataModelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteLogDataModel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteLogDataModelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteLogDataModelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteLogDataModelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteLogDataModelResponse")
+	}
+	return
+}
+
+// deleteLogDataModel implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) deleteLogDataModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/logDataModels/{logDataModelId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteLogDataModelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogDataModel/DeleteLogDataModel"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "DeleteLogDataModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -1094,6 +1258,59 @@ func (client LoggingManagementClient) getLog(ctx context.Context, request common
 	return response, err
 }
 
+// GetLogDataModel Get the specified log data model.
+func (client LoggingManagementClient) GetLogDataModel(ctx context.Context, request GetLogDataModelRequest) (response GetLogDataModelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getLogDataModel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetLogDataModelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetLogDataModelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetLogDataModelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetLogDataModelResponse")
+	}
+	return
+}
+
+// getLogDataModel implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) getLogDataModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logDataModels/{logDataModelId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetLogDataModelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogDataModel/GetLogDataModel"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "GetLogDataModel", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetLogGroup Get the specified log group's information.
 func (client LoggingManagementClient) GetLogGroup(ctx context.Context, request GetLogGroupRequest) (response GetLogGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1352,6 +1569,59 @@ func (client LoggingManagementClient) listContinuousQuery(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/ContinuousQuery/ListContinuousQuery"
 		err = common.PostProcessServiceError(err, "LoggingManagement", "ListContinuousQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListLogDataModels List all the log data models in the specified compartment.
+func (client LoggingManagementClient) ListLogDataModels(ctx context.Context, request ListLogDataModelsRequest) (response ListLogDataModelsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listLogDataModels, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListLogDataModelsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListLogDataModelsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListLogDataModelsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListLogDataModelsResponse")
+	}
+	return
+}
+
+// listLogDataModels implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) listLogDataModels(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logDataModels", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListLogDataModelsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogDataModel/ListLogDataModels"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ListLogDataModels", apiReferenceLink)
 		return response, err
 	}
 
@@ -1890,6 +2160,59 @@ func (client LoggingManagementClient) updateLog(ctx context.Context, request com
 	return response, err
 }
 
+// UpdateLogDataModel Update the existing log data model.
+func (client LoggingManagementClient) UpdateLogDataModel(ctx context.Context, request UpdateLogDataModelRequest) (response UpdateLogDataModelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateLogDataModel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateLogDataModelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateLogDataModelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateLogDataModelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateLogDataModelResponse")
+	}
+	return
+}
+
+// updateLogDataModel implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) updateLogDataModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/logDataModels/{logDataModelId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateLogDataModelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogDataModel/UpdateLogDataModel"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "UpdateLogDataModel", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateLogGroup Updates the existing log group with the associated configuration. This call
 //       fails if the log group does not exist.
 func (client LoggingManagementClient) UpdateLogGroup(ctx context.Context, request UpdateLogGroupRequest) (response UpdateLogGroupResponse, err error) {
@@ -2044,6 +2367,59 @@ func (client LoggingManagementClient) updateUnifiedAgentConfiguration(ctx contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/UnifiedAgentConfiguration/UpdateUnifiedAgentConfiguration"
 		err = common.PostProcessServiceError(err, "LoggingManagement", "UpdateUnifiedAgentConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ValidateLogDataMappingRules Validate the log data mapping rules
+func (client LoggingManagementClient) ValidateLogDataMappingRules(ctx context.Context, request ValidateLogDataMappingRulesRequest) (response ValidateLogDataMappingRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.validateLogDataMappingRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ValidateLogDataMappingRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ValidateLogDataMappingRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ValidateLogDataMappingRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ValidateLogDataMappingRulesResponse")
+	}
+	return
+}
+
+// validateLogDataMappingRules implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) validateLogDataMappingRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logDataModels/actions/validateLogDataMappingRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ValidateLogDataMappingRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogDataModel/ValidateLogDataMappingRules"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ValidateLogDataMappingRules", apiReferenceLink)
 		return response, err
 	}
 

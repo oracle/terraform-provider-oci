@@ -58,6 +58,10 @@ func (m *instancepoweractiondetails) UnmarshalPolymorphicJSON(data []byte) (inte
 		mm := ResetActionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "rebootMigrate":
+		mm := RebootMigrateActionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "softreset":
 		mm := SoftResetActionDetails{}
 		err = json.Unmarshal(data, &mm)

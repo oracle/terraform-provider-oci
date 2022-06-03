@@ -177,6 +177,9 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 	// The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
 	MaxCpuCoreCount *int `mandatory:"false" json:"maxCpuCoreCount"`
 
+	// List of database tools details.
+	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
+
 	// The Autonomous Database clone type.
 	CloneType CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum `mandatory:"true" json:"cloneType"`
 
@@ -394,6 +397,11 @@ func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetMaxCpuCoreCount()
 //GetDatabaseEdition returns DatabaseEdition
 func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
 	return m.DatabaseEdition
+}
+
+//GetDbToolsDetails returns DbToolsDetails
+func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetDbToolsDetails() []DatabaseTool {
+	return m.DbToolsDetails
 }
 
 func (m CreateAutonomousDatabaseFromBackupTimestampDetails) String() string {

@@ -24,6 +24,8 @@ type CreateAutonomousContainerDatabaseDetails struct {
 	// Database Patch model preference.
 	PatchModel CreateAutonomousContainerDatabaseDetailsPatchModelEnum `mandatory:"true" json:"patchModel"`
 
+	NfsStorageDetails *NfsStorageDetails `mandatory:"false" json:"nfsStorageDetails"`
+
 	// **Deprecated.** The `DB_UNIQUE_NAME` value is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 

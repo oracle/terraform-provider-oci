@@ -174,6 +174,9 @@ type CreateAutonomousDatabaseCloneDetails struct {
 	// The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
 	MaxCpuCoreCount *int `mandatory:"false" json:"maxCpuCoreCount"`
 
+	// List of database tools details.
+	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
+
 	// The Autonomous Database clone type.
 	CloneType CreateAutonomousDatabaseCloneDetailsCloneTypeEnum `mandatory:"true" json:"cloneType"`
 
@@ -391,6 +394,11 @@ func (m CreateAutonomousDatabaseCloneDetails) GetMaxCpuCoreCount() *int {
 //GetDatabaseEdition returns DatabaseEdition
 func (m CreateAutonomousDatabaseCloneDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
 	return m.DatabaseEdition
+}
+
+//GetDbToolsDetails returns DbToolsDetails
+func (m CreateAutonomousDatabaseCloneDetails) GetDbToolsDetails() []DatabaseTool {
+	return m.DbToolsDetails
 }
 
 func (m CreateAutonomousDatabaseCloneDetails) String() string {

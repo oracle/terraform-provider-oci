@@ -30,6 +30,9 @@ type AutonomousDatabaseConnectionUrls struct {
 
 	// The URL of the Graph Studio for the Autonomous Database.
 	GraphStudioUrl *string `mandatory:"false" json:"graphStudioUrl"`
+
+	// The URL of the MongoDB API for the Autonomous Database.
+	MongoDbUrl *string `mandatory:"false" json:"mongoDbUrl"`
 }
 
 func (m AutonomousDatabaseConnectionUrls) String() string {

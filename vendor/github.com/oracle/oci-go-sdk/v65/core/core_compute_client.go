@@ -3224,6 +3224,9 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // correctly, and try other troubleshooting steps (https://docs.cloud.oracle.com/iaas/Content/Compute/References/troubleshooting-compute-instances.htm).
 // Use diagnostic reboot as a final attempt to troubleshoot an unreachable instance. For virtual machine (VM) instances only.
 // For more information, see Performing a Diagnostic Reboot (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/diagnostic-reboot.htm).
+//
+// - **REBOOTMIGRATE** - Powers off the instance, moves it to new hardware, and then powers it back on.
+//
 // For more information about managing instance lifecycle states, see
 // Stopping and Starting an Instance (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/restartinginstance.htm).
 func (client ComputeClient) InstanceAction(ctx context.Context, request InstanceActionRequest) (response InstanceActionResponse, err error) {

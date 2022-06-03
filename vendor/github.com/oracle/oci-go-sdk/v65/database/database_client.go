@@ -1328,6 +1328,64 @@ func (client DatabaseClient) changeKeyStoreCompartment(ctx context.Context, requ
 	return response, err
 }
 
+// ChangeNfsStorageCompartment Move specified NFS Storage resource to a different compartment.
+func (client DatabaseClient) ChangeNfsStorageCompartment(ctx context.Context, request ChangeNfsStorageCompartmentRequest) (response ChangeNfsStorageCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeNfsStorageCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeNfsStorageCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeNfsStorageCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeNfsStorageCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeNfsStorageCompartmentResponse")
+	}
+	return
+}
+
+// changeNfsStorageCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeNfsStorageCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/nfsStorages/{nfsStorageId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeNfsStorageCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/NfsStorage/ChangeNfsStorageCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeNfsStorageCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeVmClusterCompartment Moves a VM cluster and its dependent resources to another compartment. Applies to Exadata Cloud@Customer instances only.
 // To move a cloud VM cluster in an Exadata Cloud Service instance to another compartment, use the ChangeCloudVmClusterCompartment operation.
 func (client DatabaseClient) ChangeVmClusterCompartment(ctx context.Context, request ChangeVmClusterCompartmentRequest) (response ChangeVmClusterCompartmentResponse, err error) {
@@ -2903,6 +2961,64 @@ func (client DatabaseClient) createKeyStore(ctx context.Context, request common.
 	return response, err
 }
 
+// CreateNfsStorage Creates a NFS Storage in an Exadata Cloud@Customer system.
+func (client DatabaseClient) CreateNfsStorage(ctx context.Context, request CreateNfsStorageRequest) (response CreateNfsStorageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createNfsStorage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateNfsStorageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateNfsStorageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateNfsStorageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateNfsStorageResponse")
+	}
+	return
+}
+
+// createNfsStorage implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createNfsStorage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/nfsStorages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateNfsStorageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/NfsStorage/CreateNfsStorage"
+		err = common.PostProcessServiceError(err, "Database", "CreateNfsStorage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreatePluggableDatabase Creates and starts a pluggable database in the specified container database.
 // Use the StartPluggableDatabase and StopPluggableDatabase APIs to start and stop the pluggable database.
 func (client DatabaseClient) CreatePluggableDatabase(ctx context.Context, request CreatePluggableDatabaseRequest) (response CreatePluggableDatabaseResponse, err error) {
@@ -4102,6 +4218,59 @@ func (client DatabaseClient) deleteKeyStore(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/KeyStore/DeleteKeyStore"
 		err = common.PostProcessServiceError(err, "Database", "DeleteKeyStore", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteNfsStorage Deletes a NFS Storage in an Exadata Cloud@Customer system.
+func (client DatabaseClient) DeleteNfsStorage(ctx context.Context, request DeleteNfsStorageRequest) (response DeleteNfsStorageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteNfsStorage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteNfsStorageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteNfsStorageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteNfsStorageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteNfsStorageResponse")
+	}
+	return
+}
+
+// deleteNfsStorage implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) deleteNfsStorage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/nfsStorages/{nfsStorageId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteNfsStorageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/NfsStorage/DeleteNfsStorage"
+		err = common.PostProcessServiceError(err, "Database", "DeleteNfsStorage", apiReferenceLink)
 		return response, err
 	}
 
@@ -8439,6 +8608,59 @@ func (client DatabaseClient) getMaintenanceRunHistory(ctx context.Context, reque
 	return response, err
 }
 
+// GetNfsStorage Gets information about the specified NFS Storage in an Exadata Cloud@Customer system.
+func (client DatabaseClient) GetNfsStorage(ctx context.Context, request GetNfsStorageRequest) (response GetNfsStorageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getNfsStorage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetNfsStorageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetNfsStorageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetNfsStorageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetNfsStorageResponse")
+	}
+	return
+}
+
+// getNfsStorage implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getNfsStorage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/nfsStorages/{nfsStorageId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetNfsStorageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/NfsStorage/GetNfsStorage"
+		err = common.PostProcessServiceError(err, "Database", "GetNfsStorage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetPdbConversionHistoryEntry Gets the details of operations performed to convert the specified database from non-container (non-CDB) to pluggable (PDB).
 func (client DatabaseClient) GetPdbConversionHistoryEntry(ctx context.Context, request GetPdbConversionHistoryEntryRequest) (response GetPdbConversionHistoryEntryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11655,6 +11877,59 @@ func (client DatabaseClient) listMaintenanceRuns(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/MaintenanceRun/ListMaintenanceRuns"
 		err = common.PostProcessServiceError(err, "Database", "ListMaintenanceRuns", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListNfsStorages Gets a list of NFS storage in the specified Compartment.
+func (client DatabaseClient) ListNfsStorages(ctx context.Context, request ListNfsStoragesRequest) (response ListNfsStoragesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listNfsStorages, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListNfsStoragesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListNfsStoragesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListNfsStoragesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListNfsStoragesResponse")
+	}
+	return
+}
+
+// listNfsStorages implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listNfsStorages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/nfsStorages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListNfsStoragesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/NfsStorageSummary/ListNfsStorages"
+		err = common.PostProcessServiceError(err, "Database", "ListNfsStorages", apiReferenceLink)
 		return response, err
 	}
 

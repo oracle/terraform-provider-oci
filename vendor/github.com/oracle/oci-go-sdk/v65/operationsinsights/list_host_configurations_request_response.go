@@ -14,9 +14,6 @@ import (
 // ListHostConfigurationsRequest wrapper for the ListHostConfigurations operation
 type ListHostConfigurationsRequest struct {
 
-	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
-	HostId *string `mandatory:"true" contributesTo:"query" name:"hostId"`
-
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
@@ -87,6 +84,9 @@ type ListHostConfigurationsRequest struct {
 	// Filter by one or more host types.
 	// Possible values are CLOUD-HOST, EXTERNAL-HOST
 	HostType []ListHostConfigurationsHostTypeEnum `contributesTo:"query" name:"hostType" omitEmpty:"true" collectionFormat:"multi"`
+
+	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
+	HostId *string `mandatory:"false" contributesTo:"query" name:"hostId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

@@ -21,6 +21,8 @@ type UpdateAutonomousContainerDatabaseDetails struct {
 	// The display name for the Autonomous Container Database.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	NfsStorageDetails *NfsStorageDetails `mandatory:"false" json:"nfsStorageDetails"`
+
 	// Database Patch model preference.
 	PatchModel UpdateAutonomousContainerDatabaseDetailsPatchModelEnum `mandatory:"false" json:"patchModel,omitempty"`
 

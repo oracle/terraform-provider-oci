@@ -21,9 +21,6 @@ type SummarizeHostInsightResourceForecastTrendRequest struct {
 	// Supported values are CPU, MEMORY, and LOGICAL_MEMORY.
 	ResourceMetric *string `mandatory:"true" contributesTo:"query" name:"resourceMetric"`
 
-	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
-	HostId *string `mandatory:"true" contributesTo:"query" name:"hostId"`
-
 	// Specify time period in ISO 8601 format with respect to current time.
 	// Default is last 30 days represented by P30D.
 	// If timeInterval is specified, then timeIntervalStart and timeIntervalEnd will be ignored.
@@ -121,6 +118,9 @@ type SummarizeHostInsightResourceForecastTrendRequest struct {
 	// Filter by one or more host types.
 	// Possible values are CLOUD-HOST, EXTERNAL-HOST
 	HostType []SummarizeHostInsightResourceForecastTrendHostTypeEnum `contributesTo:"query" name:"hostType" omitEmpty:"true" collectionFormat:"multi"`
+
+	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
+	HostId *string `mandatory:"false" contributesTo:"query" name:"hostId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

@@ -215,6 +215,9 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	// The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
 	MaxCpuCoreCount *int `mandatory:"false" json:"maxCpuCoreCount"`
 
+	// List of database tools details.
+	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
+
 	// The Oracle Database Edition that applies to the Autonomous databases.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
@@ -429,6 +432,11 @@ func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetMaxCpuCoreCount(
 //GetDatabaseEdition returns DatabaseEdition
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
 	return m.DatabaseEdition
+}
+
+//GetDbToolsDetails returns DbToolsDetails
+func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetDbToolsDetails() []DatabaseTool {
+	return m.DbToolsDetails
 }
 
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) String() string {
