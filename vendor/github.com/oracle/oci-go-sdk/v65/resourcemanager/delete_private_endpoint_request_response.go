@@ -12,6 +12,10 @@ import (
 )
 
 // DeletePrivateEndpointRequest wrapper for the DeletePrivateEndpoint operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/DeletePrivateEndpoint.go.html to see an example of how to use DeletePrivateEndpointRequest.
 type DeletePrivateEndpointRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.

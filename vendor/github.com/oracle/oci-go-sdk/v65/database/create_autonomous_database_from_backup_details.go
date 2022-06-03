@@ -136,7 +136,7 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
-	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds list cannot be empty.
+	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// The private endpoint label for the resource. Setting this to an empty string, after the private endpoint database gets created, will change the same private endpoint database to the public endpoint database.
