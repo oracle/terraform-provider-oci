@@ -102,6 +102,9 @@ terraform-provider-oci -command=export -compartment_id=<OCID of compartment to e
 This command will discover resources within your compartment and generates Terraform configuration files in the given `output_path`.
 The generated `.tf` files contain the Terraform configuration with the resources that the command has discovered.
 
+> **Note:**
+Make sure the `output_path` is empty before running resource discovery
+
 **Parameter Description**
 
 * `command` - Command to run. Supported commands include:
@@ -110,10 +113,13 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `list_export_services` - Lists the allowed values for services arguments along with scope in json format
 * `compartment_id` - OCID of a compartment to export. If `compartment_id`  or `compartment_name` is not specified, the root compartment will be used
 * `compartment_name` - The name of a compartment to export. Use this instead of `compartment_id` to provide a compartment name
+* `exclude_services` - Comma-separated list of service resources to exclude from export. If a service is present in both 'services' and 'exclude_services' argument, it will be excluded
 * `generate_state` - Provide this flag to import the discovered resources into a state file along with the Terraform configuration
-* `ids` - Comma-separated list of resource IDs to export. The ID could either be an OCID or a Terraform import ID. By default, all resources are exported
+* `ids` - Comma-separated list of tuples <resource Type:resource ID> e.g. `oci_core_instance:ocid.....`for resources to export. The ID could either be an OCID or a Terraform import ID. By default, all resources are exported
 * `list_export_services_path` - Path to output list of supported services in json format, must include json file name
 * `output_path` - Absolute path to output generated configurations and state files of the exported compartment
+* `parallelism` - The number of threads to use for resource discovery. By default the value is 1
+* `retry_timeout` - The time duration for which API calls will wait and retry operation in case of API errors. By default, the retry timeout duration is 15s
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
     * `adm` - Discovers adm resources within the specified compartment
     * `ai_anomaly_detection` - Discovers ai_anomaly_detection resources within the specified compartment
