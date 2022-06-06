@@ -37,6 +37,7 @@ import (
 	tf_datascience "terraform-provider-oci/internal/service/datascience"
 	tf_devops "terraform-provider-oci/internal/service/devops"
 	tf_dns "terraform-provider-oci/internal/service/dns"
+	tf_em_warehouse "terraform-provider-oci/internal/service/em_warehouse"
 	tf_email "terraform-provider-oci/internal/service/email"
 	tf_events "terraform-provider-oci/internal/service/events"
 	tf_file_storage "terraform-provider-oci/internal/service/file_storage"
@@ -375,6 +376,8 @@ func init() {
 	RegisterResource("oci_dns_tsig_key", tf_dns.DnsTsigKeyResource())
 	RegisterResource("oci_dns_view", tf_dns.DnsViewResource())
 	RegisterResource("oci_dns_zone", tf_dns.DnsZoneResource())
+	// em_warehouse service
+	RegisterResource("oci_em_warehouse_em_warehouse", tf_em_warehouse.EmWarehouseEmWarehouseResource())
 	// email service
 	RegisterResource("oci_email_dkim", tf_email.EmailDkimResource())
 	RegisterResource("oci_email_email_domain", tf_email.EmailEmailDomainResource())

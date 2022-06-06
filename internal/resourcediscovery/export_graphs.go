@@ -45,6 +45,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"datascience":             datascienceResourceGraph,
 	"devops":                  devopsResourceGraph,
 	"dns":                     dnsResourceGraph,
+	"em_warehouse":            emWarehouseResourceGraph,
 	"email":                   emailResourceGraph,
 	"events":                  eventsResourceGraph,
 	"file_storage":            fileStorageResourceGraph,
@@ -740,6 +741,12 @@ var dnsResourceGraph = TerraformResourceGraph{
 				"zone_name_or_id": "id",
 			},
 		},
+	},
+}
+
+var emWarehouseResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportEmWarehouseEmWarehouseHints},
 	},
 }
 
