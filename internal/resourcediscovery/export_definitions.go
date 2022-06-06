@@ -32,6 +32,7 @@ import (
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 	oci_dns "github.com/oracle/oci-go-sdk/v65/dns"
 	oci_email "github.com/oracle/oci-go-sdk/v65/email"
+	oci_em_warehouse "github.com/oracle/oci-go-sdk/v65/emwarehouse"
 	oci_events "github.com/oracle/oci-go-sdk/v65/events"
 	oci_file_storage "github.com/oracle/oci-go-sdk/v65/filestorage"
 	oci_functions "github.com/oracle/oci-go-sdk/v65/functions"
@@ -2024,6 +2025,18 @@ var exportDnsRrsetHints = &TerraformResourceHints{
 	resourceClass:        "oci_dns_rrset",
 	datasourceClass:      "oci_dns_rrset",
 	resourceAbbreviation: "rrset",
+}
+
+var exportEmWarehouseEmWarehouseHints = &TerraformResourceHints{
+	resourceClass:          "oci_em_warehouse_em_warehouse",
+	datasourceClass:        "oci_em_warehouse_em_warehouses",
+	datasourceItemsAttr:    "em_warehouse_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "em_warehouse",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_em_warehouse.EmWarehouseLifecycleStateActive),
+	},
 }
 
 var exportEmailSuppressionHints = &TerraformResourceHints{
