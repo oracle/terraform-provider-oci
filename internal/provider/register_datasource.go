@@ -39,6 +39,7 @@ import (
 	tf_datascience "terraform-provider-oci/internal/service/datascience"
 	tf_devops "terraform-provider-oci/internal/service/devops"
 	tf_dns "terraform-provider-oci/internal/service/dns"
+	tf_em_warehouse "terraform-provider-oci/internal/service/em_warehouse"
 	tf_email "terraform-provider-oci/internal/service/email"
 	tf_events "terraform-provider-oci/internal/service/events"
 	tf_file_storage "terraform-provider-oci/internal/service/file_storage"
@@ -763,6 +764,12 @@ func init() {
 	RegisterDatasource("oci_dns_view", tf_dns.DnsViewDataSource())
 	RegisterDatasource("oci_dns_views", tf_dns.DnsViewsDataSource())
 	RegisterDatasource("oci_dns_zones", tf_dns.DnsZonesDataSource())
+	// em_warehouse service
+	RegisterDatasource("oci_em_warehouse_em_warehouse", tf_em_warehouse.EmWarehouseEmWarehouseDataSource())
+	RegisterDatasource("oci_em_warehouse_em_warehouse_etl_run", tf_em_warehouse.EmWarehouseEmWarehouseEtlRunDataSource())
+	RegisterDatasource("oci_em_warehouse_em_warehouse_etl_runs", tf_em_warehouse.EmWarehouseEmWarehouseEtlRunsDataSource())
+	RegisterDatasource("oci_em_warehouse_em_warehouse_resource_usage", tf_em_warehouse.EmWarehouseEmWarehouseResourceUsageDataSource())
+	RegisterDatasource("oci_em_warehouse_em_warehouses", tf_em_warehouse.EmWarehouseEmWarehousesDataSource())
 	// email service
 	RegisterDatasource("oci_email_dkim", tf_email.EmailDkimDataSource())
 	RegisterDatasource("oci_email_dkims", tf_email.EmailDkimsDataSource())
