@@ -545,6 +545,7 @@ func init() {
 	RegisterDatasource("oci_database_db_node_console_connections", tf_database.DatabaseDbNodeConsoleConnectionsDataSource())
 	RegisterDatasource("oci_database_db_nodes", tf_database.DatabaseDbNodesDataSource())
 	RegisterDatasource("oci_database_db_server", tf_database.DatabaseDbServerDataSource())
+	RegisterDatasource("oci_database_db_servers", tf_database.DatabaseDbServersDataSource())
 	RegisterDatasource("oci_database_db_systems", tf_database.DatabaseDbSystemsDataSource())
 	RegisterDatasource("oci_database_db_system_compute_performances", tf_database.DatabaseDbSystemComputePerformancesDataSource())
 	RegisterDatasource("oci_database_db_system_patches", tf_database.DatabaseDbSystemPatchesDataSource())
