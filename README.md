@@ -19,10 +19,10 @@ Terraform Provider for Oracle Cloud Infrastructure
 Requirements
 ------------
 
-- [Terraform](https://www.terraform.io/downloads.html) v0.10.1 or greater
-- [Go](https://golang.org/doc/install) 1.15.5 (recommended)
+- [Terraform](https://www.terraform.io/downloads.html) v0.12.31 or greater
+- [Go](https://golang.org/doc/install) 1.17.2 (recommended)
 
-Note: You may use any version 1.8 or above to build the provider. However, the `goimports`, `go vet`, and `gofmt` code checks will only pass when using version 1.15.
+Note: You may use any version 1.8 or above to build the provider. However, the `goimports`, `go vet`, and `gofmt` code checks will only pass when using version 1.17.
 
 
 Building the Provider
