@@ -52,6 +52,7 @@ var (
 		{404, "NotAuthorizedOrNotFound"}:                true,
 		{409, "NotAuthorizedOrResourceAlreadyExists"}:   true,
 		{400, "InsufficientServicePermissions"}:         true,
+		{400, "ResourceDisabled"}:                       true,
 	}
 )
 

@@ -328,5 +328,11 @@
         "realmDomainComponent": "oraclecloud18.com", 
         "regionIdentifier": "us-dcc-phoenix-3", 
         "realmKey": "oc18"
+    }, 
+    {
+        "regionKey": "mxp", 
+        "realmDomainComponent": "oraclecloud14.com", 
+        "regionIdentifier": "eu-dcc-milan-2", 
+        "realmKey": "oc14"
     }
 ]
