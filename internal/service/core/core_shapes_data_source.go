@@ -229,6 +229,54 @@ func CoreShapesDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"access_control_service_options": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"allowed_values": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeBool,
+													},
+												},
+												"is_default_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"input_output_memory_management_unit_options": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"allowed_values": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeBool,
+													},
+												},
+												"is_default_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"measured_boot_options": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -277,7 +325,56 @@ func CoreShapesDataSource() *schema.Resource {
 											},
 										},
 									},
+									"percentage_of_cores_enabled_options": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"default_value": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"max": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"min": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"secure_boot_options": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"allowed_values": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeBool,
+													},
+												},
+												"is_default_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"symmetric_multi_threading_options": {
 										Type:     schema.TypeList,
 										Computed: true,
 										Elem: &schema.Resource{
@@ -328,6 +425,30 @@ func CoreShapesDataSource() *schema.Resource {
 									"type": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"virtual_instructions_options": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"allowed_values": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeBool,
+													},
+												},
+												"is_default_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+											},
+										},
 									},
 								},
 							},
@@ -591,11 +712,53 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 	return nil
 }
 
+func PercentageOfCoresEnabledOptionsToMap(obj *oci_core.PercentageOfCoresEnabledOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DefaultValue != nil {
+		result["default_value"] = int(*obj.DefaultValue)
+	}
+
+	if obj.Max != nil {
+		result["max"] = int(*obj.Max)
+	}
+
+	if obj.Min != nil {
+		result["min"] = int(*obj.Min)
+	}
+
+	return result
+}
+
+func ShapeAccessControlServiceEnabledPlatformOptionsToMap(obj *oci_core.ShapeAccessControlServiceEnabledPlatformOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["allowed_values"] = obj.AllowedValues
+
+	if obj.IsDefaultEnabled != nil {
+		result["is_default_enabled"] = bool(*obj.IsDefaultEnabled)
+	}
+
+	return result
+}
+
 func ShapeAlternativeObjectToMap(obj oci_core.ShapeAlternativeObject) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.ShapeName != nil {
 		result["shape_name"] = string(*obj.ShapeName)
+	}
+
+	return result
+}
+
+func ShapeInputOutputMemoryManagementUnitEnabledPlatformOptionsToMap(obj *oci_core.ShapeInputOutputMemoryManagementUnitEnabledPlatformOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["allowed_values"] = obj.AllowedValues
+
+	if obj.IsDefaultEnabled != nil {
+		result["is_default_enabled"] = bool(*obj.IsDefaultEnabled)
 	}
 
 	return result
@@ -704,6 +867,14 @@ func ShapeOcpuOptionsToMap(obj *oci_core.ShapeOcpuOptions) map[string]interface{
 func ShapePlatformConfigOptionsToMap(obj *oci_core.ShapePlatformConfigOptions) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.AccessControlServiceOptions != nil {
+		result["access_control_service_options"] = []interface{}{ShapeAccessControlServiceEnabledPlatformOptionsToMap(obj.AccessControlServiceOptions)}
+	}
+
+	if obj.InputOutputMemoryManagementUnitOptions != nil {
+		result["input_output_memory_management_unit_options"] = []interface{}{ShapeInputOutputMemoryManagementUnitEnabledPlatformOptionsToMap(obj.InputOutputMemoryManagementUnitOptions)}
+	}
+
 	if obj.MeasuredBootOptions != nil {
 		result["measured_boot_options"] = []interface{}{ShapeMeasuredBootOptionsToMap(obj.MeasuredBootOptions)}
 	}
@@ -712,8 +883,16 @@ func ShapePlatformConfigOptionsToMap(obj *oci_core.ShapePlatformConfigOptions) m
 		result["numa_nodes_per_socket_platform_options"] = []interface{}{ShapeNumaNodesPerSocketPlatformOptionsToMap(obj.NumaNodesPerSocketPlatformOptions)}
 	}
 
+	if obj.PercentageOfCoresEnabledOptions != nil {
+		result["percentage_of_cores_enabled_options"] = []interface{}{PercentageOfCoresEnabledOptionsToMap(obj.PercentageOfCoresEnabledOptions)}
+	}
+
 	if obj.SecureBootOptions != nil {
 		result["secure_boot_options"] = []interface{}{ShapeSecureBootOptionsToMap(obj.SecureBootOptions)}
+	}
+
+	if obj.SymmetricMultiThreadingOptions != nil {
+		result["symmetric_multi_threading_options"] = []interface{}{ShapeSymmetricMultiThreadingEnabledPlatformOptionsToMap(obj.SymmetricMultiThreadingOptions)}
 	}
 
 	if obj.TrustedPlatformModuleOptions != nil {
@@ -721,6 +900,10 @@ func ShapePlatformConfigOptionsToMap(obj *oci_core.ShapePlatformConfigOptions) m
 	}
 
 	result["type"] = string(obj.Type)
+
+	if obj.VirtualInstructionsOptions != nil {
+		result["virtual_instructions_options"] = []interface{}{ShapeVirtualInstructionsEnabledPlatformOptionsToMap(obj.VirtualInstructionsOptions)}
+	}
 
 	return result
 }
@@ -737,7 +920,31 @@ func ShapeSecureBootOptionsToMap(obj *oci_core.ShapeSecureBootOptions) map[strin
 	return result
 }
 
+func ShapeSymmetricMultiThreadingEnabledPlatformOptionsToMap(obj *oci_core.ShapeSymmetricMultiThreadingEnabledPlatformOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["allowed_values"] = obj.AllowedValues
+
+	if obj.IsDefaultEnabled != nil {
+		result["is_default_enabled"] = bool(*obj.IsDefaultEnabled)
+	}
+
+	return result
+}
+
 func ShapeTrustedPlatformModuleOptionsToMap(obj *oci_core.ShapeTrustedPlatformModuleOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["allowed_values"] = obj.AllowedValues
+
+	if obj.IsDefaultEnabled != nil {
+		result["is_default_enabled"] = bool(*obj.IsDefaultEnabled)
+	}
+
+	return result
+}
+
+func ShapeVirtualInstructionsEnabledPlatformOptionsToMap(obj *oci_core.ShapeVirtualInstructionsEnabledPlatformOptions) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["allowed_values"] = obj.AllowedValues
