@@ -19,6 +19,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/hashicorp/go-version"
+
 	"terraform-provider-oci/internal/globalvar"
 	"terraform-provider-oci/internal/tfresource"
 
@@ -65,10 +67,23 @@ var (
 	tfexecStateVar                      = tfexec.State
 	getProviderEnvSettingWithDefaultVar = utils.GetProviderEnvSettingWithDefault
 	getExportConfigVar                  = getExportConfig
-	terraformInitVar                    = func(ctx *resourceDiscoveryContext, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
+	osStatvar                           = os.Stat
+	tfInstallFindVar                    = tfinstall.Find
+	isDirVar                            = func(file os.FileInfo) bool {
+		return file.IsDir()
+	}
+	tfVersionVar = func(tf *tfexec.Terraform, backgroundCtx context.Context) (*version.Version, map[string]*version.Version, error) {
+		return tf.Version(backgroundCtx, true)
+	}
+	terraformInitVar = func(ctx *resourceDiscoveryContext, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
 		return ctx.terraform.Init(backgroundCtx, initArgs...)
 	}
-
+	tfProviderGetSdkConfigProvider  = tf_provider.GetSdkConfigProvider
+	sdkConfigProviderTenancyOCIDVar = func(sdkConfigProvider oci_common.ConfigurationProvider) (string, error) {
+		return sdkConfigProvider.TenancyOCID()
+	}
+	tfProviderBuildConfigureClientFn  = tf_provider.BuildConfigureClientFn
+	createSDKClientsVar               = tf_client.CreateSDKClients
 	identityClientListCompartmentsVar = func(clients *tf_client.OracleClients, req oci_identity.ListCompartmentsRequest) (oci_identity.ListCompartmentsResponse, error) {
 		return clients.IdentityClient().ListCompartments(context.Background(), req)
 	}
@@ -392,7 +407,7 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 	userAgentString := fmt.Sprintf(globalvar.ExportUserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, globalvar.Version)
 	httpClient := tf_provider.BuildHttpClient()
 
-	sdkConfigProvider, err := tf_provider.GetSdkConfigProvider(d, clients)
+	sdkConfigProvider, err := tfProviderGetSdkConfigProvider(d, clients)
 	if err != nil {
 		return nil, err
 	}
@@ -400,13 +415,13 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 
 	// Note: In case of Instance Principal auth, the TenancyOCID will return
 	// the ocid for the tenancy for the compute instance and not the one for the customer
-	clients.Configuration["tenancy_ocid"], err = sdkConfigProvider.TenancyOCID()
+	clients.Configuration["tenancy_ocid"], err = sdkConfigProviderTenancyOCIDVar(sdkConfigProvider)
 	if err != nil {
 		return nil, err
 	}
 
 	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
-	configureClientLocal, err := tf_provider.BuildConfigureClientFn(sdkConfigProvider, httpClient)
+	configureClientLocal, err := tfProviderBuildConfigureClientFn(sdkConfigProvider, httpClient)
 	if err != nil {
 		return nil, err
 	}
@@ -420,7 +435,7 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 	}
 	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
 	tf_client.ConfigureClientVar = configureClientWithUserAgent
-	err = tf_client.CreateSDKClients(clients, sdkConfigProvider, configureClientWithUserAgent)
+	err = createSDKClientsVar(clients, sdkConfigProvider, configureClientWithUserAgent)
 	if err != nil {
 		return nil, err
 	}
@@ -1867,18 +1882,18 @@ func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, string, 
 	utils.Logf("terraform bin path --- %s", terraformBinPath)
 	if terraformBinPath == "" {
 		utils.Logf("terraform bin path --- %s", terraformBinPath)
-		terraformBinPath, err = tfinstall.Find(context.Background(), tfinstall.LookPath())
+		terraformBinPath, err = tfInstallFindVar(context.Background(), tfinstall.LookPath())
 		if err != nil {
 			return nil, "", fmt.Errorf("[ERROR] error finding terraform CLI, either specify the path to terraform CLI "+
 				"including name using env var 'terraform_bin_path' or add terraform CLI to your system path: %s", err.Error())
 		}
 	} else {
 		// Validate the path provided
-		file, err := os.Stat(terraformBinPath)
+		file, err := osStatvar(terraformBinPath)
 		if err != nil {
 			return nil, "", fmt.Errorf("[ERROR]: error verifying the terraform binary path provided %s: %s", terraformBinPath, err)
 		}
-		if file.IsDir() {
+		if isDirVar(file) {
 			return nil, "", fmt.Errorf("[ERROR]: terraform CLI path provided is a directory: %s", terraformBinPath)
 		}
 
@@ -1906,7 +1921,7 @@ func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, string, 
 	tf.SetStdout(ioutil.Discard)
 
 	// validate Terraform CLI
-	if tfVersion, _, err := tf.Version(backgroundCtx, true); err != nil {
+	if tfVersion, _, err := tfVersionVar(tf, backgroundCtx); err != nil {
 		return nil, terraformBinPath, fmt.Errorf("[ERROR] error verifying the terraform binary provided: %s", err)
 	} else {
 		utils.Debugf("[DEBUG] version %v", tfVersion)
