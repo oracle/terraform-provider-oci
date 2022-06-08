@@ -140,6 +140,18 @@ func (s *DnsViewResourceCrud) CreatedTarget() []string {
 	}
 }
 
+func (s *DnsViewResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_dns.ViewLifecycleStateUpdating),
+	}
+}
+
+func (s *DnsViewResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_dns.ViewLifecycleStateActive),
+	}
+}
+
 func (s *DnsViewResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_dns.ViewLifecycleStateDeleting),

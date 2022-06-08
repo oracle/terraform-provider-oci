@@ -134,10 +134,15 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				type = var.instance_configuration_instance_details_launch_details_platform_config_type
 
 				#Optional
+				are_virtual_instructions_enabled = var.instance_configuration_instance_details_launch_details_platform_config_are_virtual_instructions_enabled
+				is_access_control_service_enabled = var.instance_configuration_instance_details_launch_details_platform_config_is_access_control_service_enabled
+				is_input_output_memory_management_unit_enabled = var.instance_configuration_instance_details_launch_details_platform_config_is_input_output_memory_management_unit_enabled
 				is_measured_boot_enabled = var.instance_configuration_instance_details_launch_details_platform_config_is_measured_boot_enabled
 				is_secure_boot_enabled = var.instance_configuration_instance_details_launch_details_platform_config_is_secure_boot_enabled
+				is_symmetric_multi_threading_enabled = var.instance_configuration_instance_details_launch_details_platform_config_is_symmetric_multi_threading_enabled
 				is_trusted_platform_module_enabled = var.instance_configuration_instance_details_launch_details_platform_config_is_trusted_platform_module_enabled
 				numa_nodes_per_socket = var.instance_configuration_instance_details_launch_details_platform_config_numa_nodes_per_socket
+				percentage_of_cores_enabled = var.instance_configuration_instance_details_launch_details_platform_config_percentage_of_cores_enabled
 			}
 			preemptible_instance_config {
 				#Required
@@ -367,10 +372,15 @@ The following arguments are supported:
 			If you provide the parameter, the instance is created with the platform configuration that you specify. For any values that you omit, the instance uses the default configuration values for the `shape` that you specify. If you don't provide the parameter, the default values for the `shape` are used.
 
 			Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
+			* `are_virtual_instructions_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether virtualization instructions are available. 
+			* `is_access_control_service_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device passthrough. 
+			* `is_input_output_memory_management_unit_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether the input-output memory management unit is enabled. 
 			* `is_measured_boot_enabled` - (Applicable when instance_type=compute) Whether the Measured Boot feature is enabled on the instance. 
 			* `is_secure_boot_enabled` - (Applicable when instance_type=compute) Whether Secure Boot is enabled on the instance. 
+			* `is_symmetric_multi_threading_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether symmetric multi-threading is enabled on the instance. 
 			* `is_trusted_platform_module_enabled` - (Applicable when instance_type=compute) Whether the Trusted Platform Module (TPM) is enabled on the instance. 
-			* `numa_nodes_per_socket` - (Applicable when type=AMD_MILAN_BM) The number of NUMA nodes per socket (NPS). 
+			* `numa_nodes_per_socket` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) The number of NUMA nodes per socket (NPS). 
+			* `percentage_of_cores_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | INTEL_ICELAKE_BM) The percentage of cores enabled. 
 			* `type` - (Required) The type of platform being configured. 
 		* `preemptible_instance_config` - (Optional) Configuration options for preemptible instances. 
 			* `preemption_action` - (Required) The action to run when the preemptible instance is interrupted for eviction. 
@@ -606,10 +616,15 @@ The following attributes are exported:
 			If you provide the parameter, the instance is created with the platform configuration that you specify. For any values that you omit, the instance uses the default configuration values for the `shape` that you specify. If you don't provide the parameter, the default values for the `shape` are used.
 
 			Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
+			* `are_virtual_instructions_enabled` - Whether virtualization instructions are available. 
+			* `is_access_control_service_enabled` - Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device passthrough. 
+			* `is_input_output_memory_management_unit_enabled` - Whether the input-output memory management unit is enabled. 
 			* `is_measured_boot_enabled` - Whether the Measured Boot feature is enabled on the instance. 
 			* `is_secure_boot_enabled` - Whether Secure Boot is enabled on the instance. 
+			* `is_symmetric_multi_threading_enabled` - Whether symmetric multi-threading is enabled on the instance. 
 			* `is_trusted_platform_module_enabled` - Whether the Trusted Platform Module (TPM) is enabled on the instance. 
 			* `numa_nodes_per_socket` - The number of NUMA nodes per socket (NPS). 
+			* `percentage_of_cores_enabled` - The percentage of cores enabled. 
 			* `type` - The type of platform being configured. 
 		* `preemptible_instance_config` - Configuration options for preemptible instances. 
 			* `preemption_action` - The action to run when the preemptible instance is interrupted for eviction. 
