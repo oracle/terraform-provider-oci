@@ -1,4 +1,4 @@
-## 4.79.0 (Unreleased)
+## 4.79.0 (June 08, 2022)
 
 ### Added
 - BM Platform Config Support
