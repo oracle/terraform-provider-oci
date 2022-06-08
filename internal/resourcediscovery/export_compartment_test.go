@@ -19,6 +19,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/hashicorp/terraform-exec/tfinstall"
+
+	"github.com/hashicorp/go-version"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+
 	"github.com/hashicorp/terraform-exec/tfexec"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
@@ -340,7 +345,24 @@ func testParentResource() *schema.Resource {
 		},
 	}
 }
-
+func getTypeSetResourceSchema() *schema.Schema {
+	return &schema.Schema{
+		Type:     schema.TypeSet,
+		Optional: true,
+		Computed: true,
+		ForceNew: true,
+		Elem: &schema.Resource{
+			Schema: map[string]*schema.Schema{
+				"nested_string": {
+					Type:     schema.TypeString,
+					Optional: true,
+					Computed: true,
+					ForceNew: true,
+				},
+			},
+		},
+	}
+}
 func testChildResource() *schema.Resource {
 	// Reuse the parent schema and add a parent dependency attribute
 	childResourceSchema := testParentResource().Schema
@@ -1305,7 +1327,6 @@ func TestUnitGenerateTerraformNameFromResource_basic(t *testing.T) {
 		expectError  bool
 		expectedName string
 	}
-
 	testResourceSchema := testParentResource().Schema
 	testCases := []testCase{
 		{
@@ -1433,6 +1454,33 @@ parent_id = "ocid1.parent.abcdefghiklmnop.3"
 		t.Log("resulting Hcl does not match expected Hcl")
 		t.Fail()
 	}
+}
+func TestUnitGetHCLStringFromMap(t *testing.T) {
+	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
+	rootResource := getRootCompartmentResource()
+
+	ctx := &resourceDiscoveryContext{}
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
+	if err != nil {
+		t.Logf("got error from findResources: %v", err)
+		t.Fail()
+	}
+
+	targetResourceOcid := getTestResourceId("child", len(childrenResources)-1)
+	var targetResource *OCIResource
+	for _, resource := range results {
+		if resource.id == targetResourceOcid {
+			targetResource = resource
+			break
+		}
+	}
+
+	// Test the syntax version generated
+	tfHclVersion = &TfHclVersion11{}
+	interpolationMap := map[string]string{targetResource.parent.id: targetResource.parent.getHclReferenceIdString()}
+	err = getHCLStringFromMap(&strings.Builder{}, targetResource.parent.sourceAttributes, testParentResource(), interpolationMap, rootResource, "")
+	assert.NoError(t, err)
 }
 
 // Test that HCL can be generated when optional or required fields are missing
@@ -1599,157 +1647,208 @@ func TestUnitGetExportConfig(t *testing.T) {
 	defer utils.RemoveFile(keyFile)
 	defer os.RemoveAll(path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName))
 }
+func TestUnitGetExportConfigWithFakeProviderClient(t *testing.T) {
+
+	tfProviderGetSdkConfigProvider = func(d *schema.ResourceData, clients *tf_client.OracleClients) (oci_common.ConfigurationProvider, error) {
+		return acctest.MockConfigurationProvider{}, nil
+	}
+	sdkConfigProviderTenancyOCIDVar = func(sdkConfigProvider oci_common.ConfigurationProvider) (string, error) {
+		return "fake ocid", nil
+	}
+	tfProviderBuildConfigureClientFn = func(configProvider oci_common.ConfigurationProvider, httpClient *http.Client) (tf_client.ConfigureClient, error) {
+		fakeConfigureClientFn := func(client *oci_common.BaseClient) error {
+			return nil
+		}
+		return fakeConfigureClientFn, nil
+	}
+	tests := []struct {
+		name      string
+		mock      func()
+		wantError bool
+	}{
+		{
+			name: "with sucessful client",
+			mock: func() {
+				createSDKClientsVar = func(clients *tf_client.OracleClients, configProvider oci_common.ConfigurationProvider, configureClient tf_client.ConfigureClient) (err error) {
+					return nil
+				}
+			},
+			wantError: false,
+		},
+		{
+			name: " client with error",
+			mock: func() {
+				createSDKClientsVar = func(clients *tf_client.OracleClients, configProvider oci_common.ConfigurationProvider, configureClient tf_client.ConfigureClient) (err error) {
+					return fmt.Errorf("expected error from createClient")
+				}
+			},
+			wantError: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.mock()
+			_, err := getExportConfig(nil)
+			if tt.wantError {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err, "")
+			}
+		})
+	}
+}
 
 /*
-This test is used to Create or destroy resources in a compartment using ORM stack
-Parameter:
-enable_create_destroy_rd_resources: true/false. Enable this run
-stack_id: stack for the job
-job_operation: APPLY/DESTROY. Job operation for the stack
-DO NOT RUN THIS TEST LOCALLY AS IT WILL DESTROY INFRASTRUCTURE
+   This test is used to Create or destroy resources in a compartment using ORM stack
+   Parameter:
+   enable_create_destroy_rd_resources: true/false. Enable this run
+   stack_id: stack for the job
+   job_operation: APPLY/DESTROY. Job operation for the stack
+   DO NOT RUN THIS TEST LOCALLY AS IT WILL DESTROY INFRASTRUCTURE
 */
 // issue-routing-tag: terraform/default
 /*
 
 
-func TestResourceDiscoveryApplyOrDestroyResourcesUsingStack(t *testing.T) {
-	// env var check so as to prevent local run of this test.
-	if reCreateResourceDiscoveryResources, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_create_destroy_rd_resources", "false")); !reCreateResourceDiscoveryResources {
-		t.Skip("This run is used to apply/destroy resource for RD")
-	}
-	resourceManagerClient := acctest.GetTestClients(&schema.ResourceData{}).resourceManagerClient()
-	stackId := GetEnvSettingWithBlankDefault("stack_id")
-	if stackId == "" {
-		t.Skip("Dependency stack_id not defined for test")
-	}
-	jobOperation := GetEnvSettingWithBlankDefault("job_operation")
-	operation := oci_resourcemanager.JobOperationEnum(jobOperation)
-	// Create resources using stack Create job
-	isAutoApproved := true
+   func TestResourceDiscoveryApplyOrDestroyResourcesUsingStack(t *testing.T) {
+   	// env var check so as to prevent local run of this test.
+   	if reCreateResourceDiscoveryResources, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_create_destroy_rd_resources", "false")); !reCreateResourceDiscoveryResources {
+   		t.Skip("This run is used to apply/destroy resource for RD")
+   	}
+   	resourceManagerClient := acctest.GetTestClients(&schema.ResourceData{}).resourceManagerClient()
+   	stackId := GetEnvSettingWithBlankDefault("stack_id")
+   	if stackId == "" {
+   		t.Skip("Dependency stack_id not defined for test")
+   	}
+   	jobOperation := GetEnvSettingWithBlankDefault("job_operation")
+   	operation := oci_resourcemanager.JobOperationEnum(jobOperation)
+   	// Create resources using stack Create job
+   	isAutoApproved := true
 
-	createJobRequest := oci_resourcemanager.CreateJobRequest{
-		CreateJobDetails: oci_resourcemanager.CreateJobDetails{
-			StackId:   &stackId,
-			Operation: operation,
-			ApplyJobPlanResolution: &oci_resourcemanager.ApplyJobPlanResolution{
-				IsAutoApproved: &isAutoApproved,
-			},
-		},
-		RequestMetadata: oci_common.RequestMetadata{
-			RetryPolicy: GetRetryPolicy(false, "resourcemanager"),
-		},
-	}
-	job_timeout_in_minutes, err := strconv.Atoi(GetEnvSettingWithDefault("job_timeout_in_minutes", "120"))
-	assert.NoError(t, err)
-	timeout := time.Duration(job_timeout_in_minutes) * time.Minute
-	// Many resources require long time to Create/destroy
-	createJobRequest.RequestMetadata.RetryPolicy.ShouldRetryOperation = ConditionShouldRetry(timeout, jobSuccessWaitCondition, "resourcemanager", false)
+   	createJobRequest := oci_resourcemanager.CreateJobRequest{
+   		CreateJobDetails: oci_resourcemanager.CreateJobDetails{
+   			StackId:   &stackId,
+   			Operation: operation,
+   			ApplyJobPlanResolution: &oci_resourcemanager.ApplyJobPlanResolution{
+   				IsAutoApproved: &isAutoApproved,
+   			},
+   		},
+   		RequestMetadata: oci_common.RequestMetadata{
+   			RetryPolicy: GetRetryPolicy(false, "resourcemanager"),
+   		},
+   	}
+   	job_timeout_in_minutes, err := strconv.Atoi(GetEnvSettingWithDefault("job_timeout_in_minutes", "120"))
+   	assert.NoError(t, err)
+   	timeout := time.Duration(job_timeout_in_minutes) * time.Minute
+   	// Many resources require long time to Create/destroy
+   	createJobRequest.RequestMetadata.RetryPolicy.ShouldRetryOperation = ConditionShouldRetry(timeout, jobSuccessWaitCondition, "resourcemanager", false)
 
-	createJobResponse, err := resourceManagerClient.CreateJob(context.Background(), createJobRequest)
+   	createJobResponse, err := resourceManagerClient.CreateJob(context.Background(), createJobRequest)
 
-	if err != nil {
-		log.Fatalf("[ERROR] error in destroy job for stack: %v", err)
-	}
-	assert.NoError(t, err)
+   	if err != nil {
+   		log.Fatalf("[ERROR] error in destroy job for stack: %v", err)
+   	}
+   	assert.NoError(t, err)
 
-	retryPolicy := GetRetryPolicy(false, "resourcemanager")
-	retryPolicy.ShouldRetryOperation = ConditionShouldRetry(time.Duration(15*time.Minute), jobSuccessWaitCondition, "resourcemanager", false)
+   	retryPolicy := GetRetryPolicy(false, "resourcemanager")
+   	retryPolicy.ShouldRetryOperation = ConditionShouldRetry(time.Duration(15*time.Minute), jobSuccessWaitCondition, "resourcemanager", false)
 
-	_, err = resourceManagerClient.GetJob(context.Background(), oci_resourcemanager.GetJobRequest{
-		JobId: createJobResponse.Id,
-		RequestMetadata: oci_common.RequestMetadata{
-			RetryPolicy: retryPolicy,
-		},
-	})
-	if err != nil {
-		log.Fatalf("[WARN] wait for jobSuccessWaitCondition failed for %s resource with error %v", *createJobResponse.Id, err)
-	} else {
-		log.Printf("[INFO] end of jobSuccessWaitCondition for resource %s ", *createJobResponse.Id)
-	}
-	assert.NoError(t, err)
-}
+   	_, err = resourceManagerClient.GetJob(context.Background(), oci_resourcemanager.GetJobRequest{
+   		JobId: createJobResponse.Id,
+   		RequestMetadata: oci_common.RequestMetadata{
+   			RetryPolicy: retryPolicy,
+   		},
+   	})
+   	if err != nil {
+   		log.Fatalf("[WARN] wait for jobSuccessWaitCondition failed for %s resource with error %v", *createJobResponse.Id, err)
+   	} else {
+   		log.Printf("[INFO] end of jobSuccessWaitCondition for resource %s ", *createJobResponse.Id)
+   	}
+   	assert.NoError(t, err)
+   }
 
-// issue-routing-tag: terraform/default
-func TestResourceDiscoveryUpdateStack(t *testing.T) {
-	stackId := GetEnvSettingWithBlankDefault("stack_id")
-	if stackId == "" {
-		t.Skip("Dependency stack_id not defined for test")
-	}
-	resourceType := GetEnvSettingWithBlankDefault("resource_type")
-	if resourceType == "" {
-		t.Skip("Dependency resource_type not defined for test")
-	}
-	resourceManagerClient := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
-	basePath := "../infrastructure/resource_discovery/" + resourceType + "/"
-	buf := new(bytes.Buffer)
-	zipWriter := zip.NewWriter(buf)
-	files, err := ioutil.ReadDir(basePath)
-	if err != nil {
-		log.Fatalf("[ERROR] unable to read files from resource manager example (%s): %v", basePath, err)
-	}
-	//Add files to zip
-	for _, file := range files {
-		if !strings.HasSuffix(file.Name(), ".tf") {
-			continue
-		}
-		data, err := ioutil.ReadFile(basePath + file.Name())
-		if err != nil {
-			log.Fatalf("[ERROR] read config file: %v", err)
-		}
+   // issue-routing-tag: terraform/default
+   func TestResourceDiscoveryUpdateStack(t *testing.T) {
+   	stackId := GetEnvSettingWithBlankDefault("stack_id")
+   	if stackId == "" {
+   		t.Skip("Dependency stack_id not defined for test")
+   	}
+   	resourceType := GetEnvSettingWithBlankDefault("resource_type")
+   	if resourceType == "" {
+   		t.Skip("Dependency resource_type not defined for test")
+   	}
+   	resourceManagerClient := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
+   	basePath := "../infrastructure/resource_discovery/" + resourceType + "/"
+   	buf := new(bytes.Buffer)
+   	zipWriter := zip.NewWriter(buf)
+   	files, err := ioutil.ReadDir(basePath)
+   	if err != nil {
+   		log.Fatalf("[ERROR] unable to read files from resource manager example (%s): %v", basePath, err)
+   	}
+   	//Add files to zip
+   	for _, file := range files {
+   		if !strings.HasSuffix(file.Name(), ".tf") {
+   			continue
+   		}
+   		data, err := ioutil.ReadFile(basePath + file.Name())
+   		if err != nil {
+   			log.Fatalf("[ERROR] read config file: %v", err)
+   		}
 
-		f, err := zipWriter.Create(file.Name())
-		if err != nil {
-			log.Fatalf("[ERROR] cannot Create file for zip configuration: %v", err)
-		}
-		_, err = f.Write(data)
-		if err != nil {
-			log.Fatalf("[ERROR] cannot write tf configuration to zip archive: %v", err)
-		}
-	}
-	// close zip writer
-	err = zipWriter.Close()
-	if err != nil {
-		log.Fatalf("[ERROR] cannot close zip writer: %v", err)
-	}
+   		f, err := zipWriter.Create(file.Name())
+   		if err != nil {
+   			log.Fatalf("[ERROR] cannot Create file for zip configuration: %v", err)
+   		}
+   		_, err = f.Write(data)
+   		if err != nil {
+   			log.Fatalf("[ERROR] cannot write tf configuration to zip archive: %v", err)
+   		}
+   	}
+   	// close zip writer
+   	err = zipWriter.Close()
+   	if err != nil {
+   		log.Fatalf("[ERROR] cannot close zip writer: %v", err)
+   	}
 
-	encoded := base64.StdEncoding.EncodeToString(buf.Bytes())
-	terraformVersion := GetEnvSettingWithDefault("terraform_version", "0.11.x")
+   	encoded := base64.StdEncoding.EncodeToString(buf.Bytes())
+   	terraformVersion := GetEnvSettingWithDefault("terraform_version", "0.11.x")
 
-	updateStackRequest := oci_resourcemanager.UpdateStackRequest{
-		StackId: &stackId,
-		UpdateStackDetails: oci_resourcemanager.UpdateStackDetails{
-			TerraformVersion: &terraformVersion,
-			ConfigSource: oci_resourcemanager.UpdateZipUploadConfigSourceDetails{
-				ZipFileBase64Encoded: &encoded,
-			},
-		},
-	}
-	_, err = resourceManagerClient.UpdateStack(context.Background(), updateStackRequest)
+   	updateStackRequest := oci_resourcemanager.UpdateStackRequest{
+   		StackId: &stackId,
+   		UpdateStackDetails: oci_resourcemanager.UpdateStackDetails{
+   			TerraformVersion: &terraformVersion,
+   			ConfigSource: oci_resourcemanager.UpdateZipUploadConfigSourceDetails{
+   				ZipFileBase64Encoded: &encoded,
+   			},
+   		},
+   	}
+   	_, err = resourceManagerClient.UpdateStack(context.Background(), updateStackRequest)
 
-	assert.NoError(t, err)
-}
-func jobSuccessWaitCondition(response oci_common.OCIOperationResponse) bool {
-	if jobResponse, ok := response.Response.(oci_resourcemanager.GetJobResponse); ok {
-		return jobResponse.LifecycleState != oci_resourcemanager.JobLifecycleStateSucceeded
-	}
-	return false
-}
+   	assert.NoError(t, err)
+   }
+   func jobSuccessWaitCondition(response oci_common.OCIOperationResponse) bool {
+   	if jobResponse, ok := response.Response.(oci_resourcemanager.GetJobResponse); ok {
+   		return jobResponse.LifecycleState != oci_resourcemanager.JobLifecycleStateSucceeded
+   	}
+   	return false
+   }
 
-// issue-routing-tag: terraform/default
-func TestResourceDiscoveryOnCompartment(t *testing.T) {
+   // issue-routing-tag: terraform/default
+   func TestResourceDiscoveryOnCompartment(t *testing.T) {
 
-	var exportCommandArgs ExportCommandArgs
-	for serviceName, _ := range tenancyResourceGraphs {
-		exportCommandArgs.Services = append(exportCommandArgs.Services, serviceName)
-	}
-	for serviceName, _ := range compartmentResourceGraphs {
-		exportCommandArgs.Services = append(exportCommandArgs.Services, serviceName)
-	}
-	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
-	exportCommandArgs.GenerateState = true
-	err := testExportCompartment(&compartmentId, &exportCommandArgs)
-	assert.NoError(t, err)
-}
+   	var exportCommandArgs ExportCommandArgs
+   	for serviceName, _ := range tenancyResourceGraphs {
+   		exportCommandArgs.Services = append(exportCommandArgs.Services, serviceName)
+   	}
+   	for serviceName, _ := range compartmentResourceGraphs {
+   		exportCommandArgs.Services = append(exportCommandArgs.Services, serviceName)
+   	}
+   	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
+   	exportCommandArgs.GenerateState = true
+   	err := testExportCompartment(&compartmentId, &exportCommandArgs)
+   	assert.NoError(t, err)
+   }
 */
 // issue-routing-tag: terraform/default
 func TestExportCommandArgs_finalizeServices(t *testing.T) {
@@ -1769,7 +1868,6 @@ func TestExportCommandArgs_finalizeServices(t *testing.T) {
 	tenancyScopeServices = []string{"tenancy_testing", "tenancy_testing_2"}
 	tenancyOcid := resourceDiscoveryTestTenancyOcid
 	compartmentId := resourceDiscoveryTestCompartmentOcid
-
 	type fields struct {
 		FinalizedServices []string
 	}
@@ -1899,7 +1997,7 @@ func TestUnitRunListExportableServicesCommand(t *testing.T) {
 
 // deleteInvalidReferences removes invalid reference from referenceMap if import fails for any resource
 // issue-routing-tag: terraform/default
-func Test_deleteInvalidReferences(t *testing.T) {
+func TestUnit_deleteInvalidReferences(t *testing.T) {
 	discoveredResources := []*OCIResource{
 		{
 			compartmentId: resourceDiscoveryTestCompartmentOcid,
@@ -1986,11 +2084,14 @@ func Test_createTerraformStruct(t *testing.T) {
 	}
 	defer os.RemoveAll(outputDir)
 }
-
 func TestUnitCreateTerraformStruct(t *testing.T) {
-	t.Skip("Skip for build service")
-
 	outputDir, err := os.Getwd()
+	osStatvar = func(name string) (os.FileInfo, error) {
+		return nil, nil
+	}
+	isDirVar = func(file os.FileInfo) bool {
+		return false
+	}
 	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
 	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
 		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
@@ -2008,9 +2109,12 @@ func TestUnitCreateTerraformStruct(t *testing.T) {
 				getEnvSettingWithBlankDefaultVar = func(varName string) string {
 					return ""
 				}
+				tfInstallFindVar = func(ctx context.Context, opts ...tfinstall.ExecPathFinder) (string, error) {
+					return "", fmt.Errorf("error")
+				}
 			},
-			wantError: false,
-			errorMsg:  "error not expected for unset variable",
+			wantError: true,
+			errorMsg:  "error  expected for unset variable",
 		},
 		{
 			name: "invalid path",
@@ -2031,6 +2135,39 @@ func TestUnitCreateTerraformStruct(t *testing.T) {
 			},
 			wantError: true,
 			errorMsg:  "error  expected for directory",
+		},
+		{
+			name: "with valid terraform bin path with nil version",
+			mock: func() {
+				getEnvSettingWithBlankDefaultVar = func(varName string) string {
+					return ""
+				}
+				tfVersionVar = func(tf *tfexec.Terraform, backgroundCtx context.Context) (*version.Version, map[string]*version.Version, error) {
+					return nil, nil, fmt.Errorf("mock")
+				}
+			},
+			wantError: true,
+			errorMsg:  "error  expected for nil version",
+		},
+		{
+			name: "with valid terraform bin path with  version 1.2.2",
+			mock: func() {
+				getEnvSettingWithBlankDefaultVar = func(varName string) string {
+					return "terraform_valid_bin"
+				}
+				tfVersionVar = func(tf *tfexec.Terraform, backgroundCtx context.Context) (*version.Version, map[string]*version.Version, error) {
+					dummyVersion, _ := version.NewVersion("1.2.2")
+					return dummyVersion, nil, nil
+				}
+				osStatvar = func(name string) (os.FileInfo, error) {
+					return nil, nil
+				}
+				isDirVar = func(file os.FileInfo) bool {
+					return false
+				}
+			},
+			wantError: false,
+			errorMsg:  "error  not expected for 1.2.2 version",
 		},
 	}
 	args := &ExportCommandArgs{
@@ -2172,7 +2309,28 @@ func TestUnitGetOciResource(t *testing.T) {
 	assert.Equal(t, "dummy", resource.compartmentId)
 	assert.Equal(t, "dummy resource id", resource.id)
 }
-
+func TestUnitConvertDatasourceItemToMap(t *testing.T) {
+	parentResource := testParentResource()
+	childResource := getTypeSetResourceSchema()
+	parentResource.Schema["a_nested_set"] = childResource
+	d := parentResource.TestResourceData()
+	dummyData := []interface{}{}
+	dummyData = append(dummyData, map[string]string{
+		"nested_string": "hello",
+	})
+	d.Set("a_nested_set", schema.NewSet(func(interface{}) int {
+		return 1
+	}, dummyData))
+	result, err := convertDatasourceItemToMap(d, "", parentResource.Schema)
+	assert.NoError(t, err)
+	assert.NotNil(t, result, "should return a map")
+}
+func TestUnitConvertResourceDataToMap(t *testing.T) {
+	parentResource := testParentResource()
+	d := parentResource.TestResourceData()
+	result := convertResourceDataToMap(parentResource.Schema, d)
+	assert.NotNil(t, result, "should return a map")
+}
 func TestUnitResolveCompartmentId(t *testing.T) {
 	client := getTestClients()
 	compartmentName := "dummy_commpartment"
@@ -2297,6 +2455,40 @@ func TestUnitGetDiscoverResourceSteps(t *testing.T) {
 	})
 
 }
+func TestUnitGetDiscoverResourceWithGraphSteps(t *testing.T) {
+
+	//without targetResource
+	initResourceDiscoveryTests()
+	t.Run("GetDiscoverResourceWithGraphSteps without targetResource", func(t *testing.T) {
+		ctx := getTestCtx()
+		ctx.targetSpecificResources = false
+		ctx.Services = []string{"identity"}
+		result, err := getDiscoverResourceWithGraphSteps(ctx)
+		assert.NoError(t, err)
+		assert.Equal(t, 0, len(result))
+	})
+
+	// With targetResource
+	t.Run("GetDiscoverResourceWithGraphSteps With targetResource", func(t *testing.T) {
+		ctx := getTestCtx()
+		ctx.targetSpecificResources = true
+		ctx.Services = []string{"budget"}
+		result, err := getDiscoverResourceWithGraphSteps(ctx)
+		assert.NoError(t, err)
+		assert.Equal(t, 0, len(result))
+	})
+	// With targetResource
+	t.Run("GetDiscoverResourceWithGraphSteps With tanaceyocid = compartment ocid", func(t *testing.T) {
+		ctx := getTestCtx()
+		ctx.targetSpecificResources = true
+		ctx.CompartmentId = &ctx.tenancyOcid
+		ctx.Services = []string{"budget"}
+		result, err := getDiscoverResourceWithGraphSteps(ctx)
+		assert.NoError(t, err)
+		assert.Equal(t, 1, len(result))
+	})
+
+}
 func TestUnitDeleteInvalidReferences(t *testing.T) {
 	t.Run("Zero Error resource", func(t *testing.T) {
 
@@ -2333,26 +2525,59 @@ func TestUnitDeleteInvalidReferences(t *testing.T) {
 		assert.False(t, ok, "Error resource should not be into referencemap")
 	})
 }
+func TestUnitHasFreeformTag(t *testing.T) {
+	resource := OCIResource{
+		sourceAttributes: map[string]interface{}{
+			"freeform_tags": map[string]interface{}{
+				"myPresentTag": "present",
+			},
+		},
+	}
+	assert.True(t, resource.hasFreeformTag("myPresentTag"), "should return True for present tag")
+	assert.False(t, resource.hasFreeformTag("myNotPresentTag"), "should return False for not present tag")
+}
+func TestUnitHasDefinedTag(t *testing.T) {
+	resource := OCIResource{
+		sourceAttributes: map[string]interface{}{
+			"defined_tags": map[string]interface{}{
+				"myDefinedTag": "YES",
+			},
+		},
+	}
+	assert.True(t, resource.hasDefinedTag("myDefinedTag", "YES"), "should return True for defined tag")
+	assert.False(t, resource.hasDefinedTag("myDefinedTag", "NO"), "should return False for Not Defined tag")
+}
+
+func TestUnitParseDeliveryPolicy(t *testing.T) {
+	policy := make(map[string]interface{})
+	policy["backoff_retry_policy"] = []interface{}{
+		map[string]interface{}{
+			"max_retry_duration": "2h",
+			"policy_type":        "NA",
+		},
+	}
+	assert.NotNil(t, parseDeliveryPolicy(policy))
+}
 
 /*
-func TestUnitDeleteInvalidReferencesWithReferenceResource(t *testing.T) {
-	t.Run("One Error resource with another reference resource", func(t *testing.T) {
-		referenceMap := make(map[string]string)
-		referenceMap["1"] = "ocid1.3.b.c"
-		referenceMap["2"] = "ocid2.a.b.c"
-		referenceMap["3"] = "ocid3.1.b.c"
+   func TestUnitDeleteInvalidReferencesWithReferenceResource(t *testing.T) {
+   	t.Run("One Error resource with another reference resource", func(t *testing.T) {
+   		referenceMap := make(map[string]string)
+   		referenceMap["1"] = "ocid1.3.b.c"
+   		referenceMap["2"] = "ocid2.a.b.c"
+   		referenceMap["3"] = "ocid3.1.b.c"
 
-		discoveredResources := make([]*OCIResource, 0, 3)
-		resource := OCIResource{
-			isErrorResource:   true,
-			TerraformResource: TerraformResource{id: "1", terraformName: "1"},
-		}
-		discoveredResources = append(discoveredResources, &resource)
-		deleteInvalidReferences(referenceMap, discoveredResources)
-		assert.Equal(t, 1, len(referenceMap), "Error resources should be removed")
-		_, ok := referenceMap["3"]
-		assert.False(t, ok, "Error resource should not be into referencemap")
-	})
-}
+   		discoveredResources := make([]*OCIResource, 0, 3)
+   		resource := OCIResource{
+   			isErrorResource:   true,
+   			TerraformResource: TerraformResource{id: "1", terraformName: "1"},
+   		}
+   		discoveredResources = append(discoveredResources, &resource)
+   		deleteInvalidReferences(referenceMap, discoveredResources)
+   		assert.Equal(t, 1, len(referenceMap), "Error resources should be removed")
+   		_, ok := referenceMap["3"]
+   		assert.False(t, ok, "Error resource should not be into referencemap")
+   	})
+   }
 
 */
