@@ -67,6 +67,76 @@ func (s *DatabaseToolsDatabaseToolsConnectionDataSourceCrud) SetData() error {
 	s.D.SetId(tfresource.GenerateDataSourceHashID("DatabaseToolsDatabaseToolsConnectionDataSource-", DatabaseToolsDatabaseToolsConnectionDataSource(), s.D))
 
 	switch v := (*s.Res).(type) {
+	case oci_database_tools.DatabaseToolsConnectionMySql:
+		s.D.Set("type", "MYSQL")
+
+		s.D.Set("advanced_properties", v.AdvancedProperties)
+
+		if v.ConnectionString != nil {
+			s.D.Set("connection_string", *v.ConnectionString)
+		}
+
+		keyStores := []interface{}{}
+		for _, item := range v.KeyStores {
+			keyStores = append(keyStores, DatabaseToolsKeyStoreMySqlToMap(item))
+		}
+		s.D.Set("key_stores", keyStores)
+
+		if v.PrivateEndpointId != nil {
+			s.D.Set("private_endpoint_id", *v.PrivateEndpointId)
+		}
+
+		if v.RelatedResource != nil {
+			s.D.Set("related_resource", []interface{}{DatabaseToolsRelatedResourceMySqlToMap(v.RelatedResource)})
+		} else {
+			s.D.Set("related_resource", nil)
+		}
+
+		if v.UserName != nil {
+			s.D.Set("user_name", *v.UserName)
+		}
+
+		if v.UserPassword != nil {
+			userPasswordArray := []interface{}{}
+			if userPasswordMap := DatabaseToolsUserPasswordToMap(&v.UserPassword); userPasswordMap != nil {
+				userPasswordArray = append(userPasswordArray, userPasswordMap)
+			}
+			s.D.Set("user_password", userPasswordArray)
+		} else {
+			s.D.Set("user_password", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_database_tools.DatabaseToolsConnectionOracleDatabase:
 		s.D.Set("type", "ORACLE_DATABASE")
 
