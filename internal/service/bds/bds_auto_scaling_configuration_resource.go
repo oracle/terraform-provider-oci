@@ -17,6 +17,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -53,9 +54,17 @@ func BdsAutoScalingConfigurationResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+
+			// Optional
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"policy": {
 				Type:     schema.TypeList,
-				Required: true,
+				Optional: true,
+				Computed: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -135,12 +144,459 @@ func BdsAutoScalingConfigurationResource() *schema.Resource {
 					},
 				},
 			},
-
-			// Optional
-			"display_name": {
-				Type:     schema.TypeString,
+			"policy_details": {
+				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"policy_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"METRIC_BASED_HORIZONTAL_SCALING_POLICY",
+								"METRIC_BASED_VERTICAL_SCALING_POLICY",
+								"SCHEDULE_BASED_HORIZONTAL_SCALING_POLICY",
+								"SCHEDULE_BASED_VERTICAL_SCALING_POLICY",
+							}, true),
+						},
+
+						// Optional
+						"scale_down_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"memory_step_size": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"metric": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"metric_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"threshold": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"duration_in_minutes": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+															},
+															"operator": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"value": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
+									"min_memory_per_node": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"min_ocpus_per_node": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"ocpu_step_size": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"scale_in_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"metric": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"metric_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"threshold": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"duration_in_minutes": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+															},
+															"operator": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"value": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
+									"min_node_count": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"step_size": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"scale_out_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"max_node_count": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"metric": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"metric_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"threshold": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"duration_in_minutes": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+															},
+															"operator": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"value": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
+									"step_size": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"scale_up_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"max_memory_per_node": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"max_ocpus_per_node": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"memory_step_size": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"metric": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"metric_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"threshold": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"duration_in_minutes": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+															},
+															"operator": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"value": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
+									"ocpu_step_size": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"schedule_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"schedule_type": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"DAY_BASED",
+										}, true),
+									},
+									"time_and_horizontal_scaling_config": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"target_node_count": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"time_recurrence": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"time_and_vertical_scaling_config": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"target_memory_per_node": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"target_ocpus_per_node": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"target_shape": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"time_recurrence": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+						"timezone": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"action_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"trigger_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 
 			// Computed
@@ -262,6 +718,17 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Create() error {
 				return err
 			}
 			request.Policy = &tmp
+		}
+	}
+
+	if policyDetails, ok := s.D.GetOkExists("policy_details"); ok {
+		if tmpList := policyDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "policy_details", 0)
+			tmp, err := s.mapToAddAutoScalePolicyDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PolicyDetails = tmp
 		}
 	}
 
@@ -497,6 +964,17 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Update() error {
 		}
 	}
 
+	if policyDetails, ok := s.D.GetOkExists("policy_details"); ok && s.D.HasChange("policy_details") {
+		if tmpList := policyDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "policy_details", 0)
+			tmp, err := s.mapToUpdateAutoScalePolicyDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PolicyDetails = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.UpdateAutoScalingConfiguration(context.Background(), request)
@@ -546,10 +1024,20 @@ func (s *BdsAutoScalingConfigurationResourceCrud) SetData() error {
 
 	s.D.Set("node_type", s.Res.NodeType)
 
-	if s.Res.Policy != nil {
+	if s.Res.Policy != nil && s.Res.Policy.PolicyType != oci_bds.AutoScalePolicyPolicyTypeNone {
 		s.D.Set("policy", []interface{}{AutoScalePolicyToMap(s.Res.Policy)})
 	} else {
 		s.D.Set("policy", nil)
+	}
+
+	if s.Res.PolicyDetails != nil {
+		policyDetailsArray := []interface{}{}
+		if policyDetailsMap := AutoScalePolicyDetailsToMap(&s.Res.PolicyDetails); policyDetailsMap != nil {
+			policyDetailsArray = append(policyDetailsArray, policyDetailsMap)
+		}
+		s.D.Set("policy_details", policyDetailsArray)
+	} else {
+		s.D.Set("policy_details", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -583,6 +1071,295 @@ func parseAutoScalingConfigurationCompositeId(compositeId string) (autoScalingCo
 	autoScalingConfigurationId, _ = url.PathUnescape(parts[3])
 
 	return
+}
+
+func (s *BdsAutoScalingConfigurationResourceCrud) mapToAddAutoScalePolicyDetails(fieldKeyFormat string) (oci_bds.AddAutoScalePolicyDetails, error) {
+	var baseObject oci_bds.AddAutoScalePolicyDetails
+	//discriminator
+	policyTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "policy_type"))
+	var policyType string
+	if ok {
+		policyType = policyTypeRaw.(string)
+	} else {
+		policyType = "" // default value
+	}
+	switch strings.ToLower(policyType) {
+	case strings.ToLower("METRIC_BASED_HORIZONTAL_SCALING_POLICY"):
+		details := oci_bds.AddMetricBasedHorizontalScalingPolicyDetails{}
+		if scaleInConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scale_in_config")); ok {
+			if tmpList := scaleInConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scale_in_config"), 0)
+				tmp, err := s.mapToMetricBasedHorizontalScaleInConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert scale_in_config, encountered error: %v", err)
+				}
+				details.ScaleInConfig = &tmp
+			}
+		}
+		if scaleOutConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scale_out_config")); ok {
+			if tmpList := scaleOutConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scale_out_config"), 0)
+				tmp, err := s.mapToMetricBasedHorizontalScaleOutConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert scale_out_config, encountered error: %v", err)
+				}
+				details.ScaleOutConfig = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("METRIC_BASED_VERTICAL_SCALING_POLICY"):
+		details := oci_bds.AddMetricBasedVerticalScalingPolicyDetails{}
+		if scaleDownConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scale_down_config")); ok {
+			if tmpList := scaleDownConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scale_down_config"), 0)
+				tmp, err := s.mapToMetricBasedVerticalScaleDownConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert scale_down_config, encountered error: %v", err)
+				}
+				details.ScaleDownConfig = &tmp
+			}
+		}
+		if scaleUpConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scale_up_config")); ok {
+			if tmpList := scaleUpConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scale_up_config"), 0)
+				tmp, err := s.mapToMetricBasedVerticalScaleUpConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert scale_up_config, encountered error: %v", err)
+				}
+				details.ScaleUpConfig = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("SCHEDULE_BASED_HORIZONTAL_SCALING_POLICY"):
+		details := oci_bds.AddScheduleBasedHorizontalScalingPolicyDetails{}
+		if scheduleDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "schedule_details")); ok {
+			interfaces := scheduleDetails.([]interface{})
+			tmp := make([]oci_bds.HorizontalScalingScheduleDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "schedule_details"), stateDataIndex)
+				converted, err := s.mapToHorizontalScalingScheduleDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "schedule_details")) {
+				details.ScheduleDetails = tmp
+			}
+		}
+		if timezone, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timezone")); ok {
+			tmp := timezone.(string)
+			details.Timezone = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("SCHEDULE_BASED_VERTICAL_SCALING_POLICY"):
+		details := oci_bds.AddScheduleBasedVerticalScalingPolicyDetails{}
+		if scheduleDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "schedule_details")); ok {
+			interfaces := scheduleDetails.([]interface{})
+			tmp := make([]oci_bds.VerticalScalingScheduleDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "schedule_details"), stateDataIndex)
+				converted, err := s.mapToVerticalScalingScheduleDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "schedule_details")) {
+				details.ScheduleDetails = tmp
+			}
+		}
+		if timezone, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timezone")); ok {
+			tmp := timezone.(string)
+			details.Timezone = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown policy_type '%v' was specified", policyType)
+	}
+	return baseObject, nil
+}
+
+func (s *BdsAutoScalingConfigurationResourceCrud) mapToUpdateAutoScalePolicyDetails(fieldKeyFormat string) (oci_bds.AddAutoScalePolicyDetails, error) {
+	var baseObject oci_bds.AddAutoScalePolicyDetails
+	//discriminator
+	policyTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "policy_type"))
+	var policyType string
+	if ok {
+		policyType = policyTypeRaw.(string)
+	} else {
+		policyType = "" // default value
+	}
+	switch strings.ToLower(policyType) {
+	case strings.ToLower("METRIC_BASED_HORIZONTAL_SCALING_POLICY"):
+		details := oci_bds.UpdateMetricBasedHorizontalScalingPolicyDetails{}
+		if scaleInConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scale_in_config")); ok {
+			if tmpList := scaleInConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scale_in_config"), 0)
+				tmp, err := s.mapToMetricBasedHorizontalScaleInConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert scale_in_config, encountered error: %v", err)
+				}
+				details.ScaleInConfig = &tmp
+			}
+		}
+		if scaleOutConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scale_out_config")); ok {
+			if tmpList := scaleOutConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scale_out_config"), 0)
+				tmp, err := s.mapToMetricBasedHorizontalScaleOutConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert scale_out_config, encountered error: %v", err)
+				}
+				details.ScaleOutConfig = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("METRIC_BASED_VERTICAL_SCALING_POLICY"):
+		details := oci_bds.UpdateMetricBasedVerticalScalingPolicyDetails{}
+		if scaleDownConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scale_down_config")); ok {
+			if tmpList := scaleDownConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scale_down_config"), 0)
+				tmp, err := s.mapToMetricBasedVerticalScaleDownConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert scale_down_config, encountered error: %v", err)
+				}
+				details.ScaleDownConfig = &tmp
+			}
+		}
+		if scaleUpConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scale_up_config")); ok {
+			if tmpList := scaleUpConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scale_up_config"), 0)
+				tmp, err := s.mapToMetricBasedVerticalScaleUpConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert scale_up_config, encountered error: %v", err)
+				}
+				details.ScaleUpConfig = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("SCHEDULE_BASED_HORIZONTAL_SCALING_POLICY"):
+		details := oci_bds.UpdateScheduleBasedHorizontalScalingPolicyDetails{}
+		if scheduleDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "schedule_details")); ok {
+			interfaces := scheduleDetails.([]interface{})
+			tmp := make([]oci_bds.HorizontalScalingScheduleDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "schedule_details"), stateDataIndex)
+				converted, err := s.mapToHorizontalScalingScheduleDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "schedule_details")) {
+				details.ScheduleDetails = tmp
+			}
+		}
+		if timezone, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timezone")); ok {
+			tmp := timezone.(string)
+			details.Timezone = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("SCHEDULE_BASED_VERTICAL_SCALING_POLICY"):
+		details := oci_bds.UpdateScheduleBasedVerticalScalingPolicyDetails{}
+		if scheduleDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "schedule_details")); ok {
+			interfaces := scheduleDetails.([]interface{})
+			tmp := make([]oci_bds.VerticalScalingScheduleDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "schedule_details"), stateDataIndex)
+				converted, err := s.mapToVerticalScalingScheduleDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "schedule_details")) {
+				details.ScheduleDetails = tmp
+			}
+		}
+		if timezone, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timezone")); ok {
+			tmp := timezone.(string)
+			details.Timezone = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown policy_type '%v' was specified", policyType)
+	}
+	return baseObject, nil
+}
+
+func AutoScalePolicyDetailsToMap(obj *oci_bds.AutoScalePolicyDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_bds.MetricBasedHorizontalScalingPolicyDetails:
+		result["policy_type"] = "METRIC_BASED_HORIZONTAL_SCALING_POLICY"
+
+		if v.ScaleInConfig != nil {
+			result["scale_in_config"] = []interface{}{MetricBasedHorizontalScaleInConfigToMap(v.ScaleInConfig)}
+		}
+
+		if v.ScaleOutConfig != nil {
+			result["scale_out_config"] = []interface{}{MetricBasedHorizontalScaleOutConfigToMap(v.ScaleOutConfig)}
+		}
+
+		result["action_type"] = string(v.ActionType)
+
+		result["trigger_type"] = string(v.TriggerType)
+	case oci_bds.MetricBasedVerticalScalingPolicyDetails:
+		result["policy_type"] = "METRIC_BASED_VERTICAL_SCALING_POLICY"
+
+		if v.ScaleDownConfig != nil {
+			result["scale_down_config"] = []interface{}{MetricBasedVerticalScaleDownConfigToMap(v.ScaleDownConfig)}
+		}
+
+		if v.ScaleUpConfig != nil {
+			result["scale_up_config"] = []interface{}{MetricBasedVerticalScaleUpConfigToMap(v.ScaleUpConfig)}
+		}
+
+		result["action_type"] = string(v.ActionType)
+
+		result["trigger_type"] = string(v.TriggerType)
+	case oci_bds.ScheduleBasedHorizontalScalingPolicyDetails:
+		result["policy_type"] = "SCHEDULE_BASED_HORIZONTAL_SCALING_POLICY"
+
+		scheduleDetails := []interface{}{}
+		for _, item := range v.ScheduleDetails {
+			scheduleDetails = append(scheduleDetails, HorizontalScalingScheduleDetailsToMap(item))
+		}
+		result["schedule_details"] = scheduleDetails
+
+		if v.Timezone != nil {
+			result["timezone"] = string(*v.Timezone)
+		}
+
+		result["action_type"] = string(v.ActionType)
+
+		result["trigger_type"] = string(v.TriggerType)
+	case oci_bds.ScheduleBasedVerticalScalingPolicyDetails:
+		result["policy_type"] = "SCHEDULE_BASED_VERTICAL_SCALING_POLICY"
+
+		scheduleDetails := []interface{}{}
+		for _, item := range v.ScheduleDetails {
+			scheduleDetails = append(scheduleDetails, VerticalScalingScheduleDetailsToMap(item))
+		}
+		result["schedule_details"] = scheduleDetails
+
+		if v.Timezone != nil {
+			result["timezone"] = string(*v.Timezone)
+		}
+
+		result["action_type"] = string(v.ActionType)
+
+		result["trigger_type"] = string(v.TriggerType)
+	default:
+		log.Printf("[WARN] Received 'policy_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
 }
 
 func (s *BdsAutoScalingConfigurationResourceCrud) mapToAutoScalePolicy(fieldKeyFormat string) (oci_bds.AutoScalePolicy, error) {
@@ -692,6 +1469,277 @@ func AutoScalePolicyRuleToMap(obj oci_bds.AutoScalePolicyRule) map[string]interf
 	return result
 }
 
+func (s *BdsAutoScalingConfigurationResourceCrud) mapToHorizontalScalingScheduleDetails(fieldKeyFormat string) (oci_bds.HorizontalScalingScheduleDetails, error) {
+	var baseObject oci_bds.HorizontalScalingScheduleDetails
+	//discriminator
+	scheduleTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "schedule_type"))
+	var scheduleType string
+	if ok {
+		scheduleType = scheduleTypeRaw.(string)
+	} else {
+		scheduleType = "" // default value
+	}
+	switch strings.ToLower(scheduleType) {
+	case strings.ToLower("DAY_BASED"):
+		details := oci_bds.DayBasedHorizontalScalingScheduleDetails{}
+		if timeAndHorizontalScalingConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_and_horizontal_scaling_config")); ok {
+			interfaces := timeAndHorizontalScalingConfig.([]interface{})
+			tmp := make([]oci_bds.TimeAndHorizontalScalingConfig, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "time_and_horizontal_scaling_config"), stateDataIndex)
+				converted, err := s.mapToTimeAndHorizontalScalingConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "time_and_horizontal_scaling_config")) {
+				details.TimeAndHorizontalScalingConfig = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown schedule_type '%v' was specified", scheduleType)
+	}
+	return baseObject, nil
+}
+
+func HorizontalScalingScheduleDetailsToMap(obj oci_bds.HorizontalScalingScheduleDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_bds.DayBasedHorizontalScalingScheduleDetails:
+		result["schedule_type"] = "DAY_BASED"
+
+		timeAndHorizontalScalingConfig := []interface{}{}
+		for _, item := range v.TimeAndHorizontalScalingConfig {
+			timeAndHorizontalScalingConfig = append(timeAndHorizontalScalingConfig, TimeAndHorizontalScalingConfigToMap(item))
+		}
+		result["time_and_horizontal_scaling_config"] = timeAndHorizontalScalingConfig
+	default:
+		log.Printf("[WARN] Received 'schedule_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *BdsAutoScalingConfigurationResourceCrud) mapToMetricBasedHorizontalScaleInConfig(fieldKeyFormat string) (oci_bds.MetricBasedHorizontalScaleInConfig, error) {
+	result := oci_bds.MetricBasedHorizontalScaleInConfig{}
+
+	if metric, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric")); ok {
+		if tmpList := metric.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "metric"), 0)
+			tmp, err := s.mapToAutoScalePolicyMetricRule(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert metric, encountered error: %v", err)
+			}
+			result.Metric = &tmp
+		}
+	}
+
+	if minNodeCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "min_node_count")); ok {
+		tmp := minNodeCount.(int)
+		result.MinNodeCount = &tmp
+	}
+
+	if stepSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_size")); ok {
+		tmp := stepSize.(int)
+		result.StepSize = &tmp
+	}
+
+	return result, nil
+}
+
+func MetricBasedHorizontalScaleInConfigToMap(obj *oci_bds.MetricBasedHorizontalScaleInConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Metric != nil {
+		result["metric"] = []interface{}{AutoScalePolicyMetricRuleToMap(obj.Metric)}
+	}
+
+	if obj.MinNodeCount != nil {
+		result["min_node_count"] = int(*obj.MinNodeCount)
+	}
+
+	if obj.StepSize != nil {
+		result["step_size"] = int(*obj.StepSize)
+	}
+
+	return result
+}
+
+func (s *BdsAutoScalingConfigurationResourceCrud) mapToMetricBasedHorizontalScaleOutConfig(fieldKeyFormat string) (oci_bds.MetricBasedHorizontalScaleOutConfig, error) {
+	result := oci_bds.MetricBasedHorizontalScaleOutConfig{}
+
+	if maxNodeCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_node_count")); ok {
+		tmp := maxNodeCount.(int)
+		result.MaxNodeCount = &tmp
+	}
+
+	if metric, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric")); ok {
+		if tmpList := metric.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "metric"), 0)
+			tmp, err := s.mapToAutoScalePolicyMetricRule(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert metric, encountered error: %v", err)
+			}
+			result.Metric = &tmp
+		}
+	}
+
+	if stepSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_size")); ok {
+		tmp := stepSize.(int)
+		result.StepSize = &tmp
+	}
+
+	return result, nil
+}
+
+func MetricBasedHorizontalScaleOutConfigToMap(obj *oci_bds.MetricBasedHorizontalScaleOutConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MaxNodeCount != nil {
+		result["max_node_count"] = int(*obj.MaxNodeCount)
+	}
+
+	if obj.Metric != nil {
+		result["metric"] = []interface{}{AutoScalePolicyMetricRuleToMap(obj.Metric)}
+	}
+
+	if obj.StepSize != nil {
+		result["step_size"] = int(*obj.StepSize)
+	}
+
+	return result
+}
+
+func (s *BdsAutoScalingConfigurationResourceCrud) mapToMetricBasedVerticalScaleDownConfig(fieldKeyFormat string) (oci_bds.MetricBasedVerticalScaleDownConfig, error) {
+	result := oci_bds.MetricBasedVerticalScaleDownConfig{}
+
+	if memoryStepSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_step_size")); ok {
+		tmp := memoryStepSize.(int)
+		result.MemoryStepSize = &tmp
+	}
+
+	if metric, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric")); ok {
+		if tmpList := metric.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "metric"), 0)
+			tmp, err := s.mapToAutoScalePolicyMetricRule(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert metric, encountered error: %v", err)
+			}
+			result.Metric = &tmp
+		}
+	}
+
+	if minMemoryPerNode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "min_memory_per_node")); ok {
+		tmp := minMemoryPerNode.(int)
+		result.MinMemoryPerNode = &tmp
+	}
+
+	if minOcpusPerNode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "min_ocpus_per_node")); ok {
+		tmp := minOcpusPerNode.(int)
+		result.MinOcpusPerNode = &tmp
+	}
+
+	if ocpuStepSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpu_step_size")); ok {
+		tmp := ocpuStepSize.(int)
+		result.OcpuStepSize = &tmp
+	}
+
+	return result, nil
+}
+
+func MetricBasedVerticalScaleDownConfigToMap(obj *oci_bds.MetricBasedVerticalScaleDownConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MemoryStepSize != nil {
+		result["memory_step_size"] = int(*obj.MemoryStepSize)
+	}
+
+	if obj.Metric != nil {
+		result["metric"] = []interface{}{AutoScalePolicyMetricRuleToMap(obj.Metric)}
+	}
+
+	if obj.MinMemoryPerNode != nil {
+		result["min_memory_per_node"] = int(*obj.MinMemoryPerNode)
+	}
+
+	if obj.MinOcpusPerNode != nil {
+		result["min_ocpus_per_node"] = int(*obj.MinOcpusPerNode)
+	}
+
+	if obj.OcpuStepSize != nil {
+		result["ocpu_step_size"] = int(*obj.OcpuStepSize)
+	}
+
+	return result
+}
+
+func (s *BdsAutoScalingConfigurationResourceCrud) mapToMetricBasedVerticalScaleUpConfig(fieldKeyFormat string) (oci_bds.MetricBasedVerticalScaleUpConfig, error) {
+	result := oci_bds.MetricBasedVerticalScaleUpConfig{}
+
+	if maxMemoryPerNode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_memory_per_node")); ok {
+		tmp := maxMemoryPerNode.(int)
+		result.MaxMemoryPerNode = &tmp
+	}
+
+	if maxOcpusPerNode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_ocpus_per_node")); ok {
+		tmp := maxOcpusPerNode.(int)
+		result.MaxOcpusPerNode = &tmp
+	}
+
+	if memoryStepSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_step_size")); ok {
+		tmp := memoryStepSize.(int)
+		result.MemoryStepSize = &tmp
+	}
+
+	if metric, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric")); ok {
+		if tmpList := metric.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "metric"), 0)
+			tmp, err := s.mapToAutoScalePolicyMetricRule(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert metric, encountered error: %v", err)
+			}
+			result.Metric = &tmp
+		}
+	}
+
+	if ocpuStepSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpu_step_size")); ok {
+		tmp := ocpuStepSize.(int)
+		result.OcpuStepSize = &tmp
+	}
+
+	return result, nil
+}
+
+func MetricBasedVerticalScaleUpConfigToMap(obj *oci_bds.MetricBasedVerticalScaleUpConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MaxMemoryPerNode != nil {
+		result["max_memory_per_node"] = int(*obj.MaxMemoryPerNode)
+	}
+
+	if obj.MaxOcpusPerNode != nil {
+		result["max_ocpus_per_node"] = int(*obj.MaxOcpusPerNode)
+	}
+
+	if obj.MemoryStepSize != nil {
+		result["memory_step_size"] = int(*obj.MemoryStepSize)
+	}
+
+	if obj.Metric != nil {
+		result["metric"] = []interface{}{AutoScalePolicyMetricRuleToMap(obj.Metric)}
+	}
+
+	if obj.OcpuStepSize != nil {
+		result["ocpu_step_size"] = int(*obj.OcpuStepSize)
+	}
+
+	return result
+}
+
 func (s *BdsAutoScalingConfigurationResourceCrud) mapToMetricThresholdRule(fieldKeyFormat string) (oci_bds.MetricThresholdRule, error) {
 	result := oci_bds.MetricThresholdRule{}
 
@@ -723,6 +1771,139 @@ func MetricThresholdRuleToMap(obj *oci_bds.MetricThresholdRule) map[string]inter
 
 	if obj.Value != nil {
 		result["value"] = int(*obj.Value)
+	}
+
+	return result
+}
+
+func (s *BdsAutoScalingConfigurationResourceCrud) mapToTimeAndHorizontalScalingConfig(fieldKeyFormat string) (oci_bds.TimeAndHorizontalScalingConfig, error) {
+	result := oci_bds.TimeAndHorizontalScalingConfig{}
+
+	if targetNodeCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_node_count")); ok {
+		tmp := targetNodeCount.(int)
+		result.TargetNodeCount = &tmp
+	}
+
+	if timeRecurrence, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_recurrence")); ok {
+		tmp := timeRecurrence.(string)
+		result.TimeRecurrence = &tmp
+	}
+
+	return result, nil
+}
+
+func TimeAndHorizontalScalingConfigToMap(obj oci_bds.TimeAndHorizontalScalingConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.TargetNodeCount != nil {
+		result["target_node_count"] = int(*obj.TargetNodeCount)
+	}
+
+	if obj.TimeRecurrence != nil {
+		result["time_recurrence"] = string(*obj.TimeRecurrence)
+	}
+
+	return result
+}
+
+func (s *BdsAutoScalingConfigurationResourceCrud) mapToTimeAndVerticalScalingConfig(fieldKeyFormat string) (oci_bds.TimeAndVerticalScalingConfig, error) {
+	result := oci_bds.TimeAndVerticalScalingConfig{}
+
+	if targetMemoryPerNode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_memory_per_node")); ok {
+		tmp := targetMemoryPerNode.(int)
+		result.TargetMemoryPerNode = &tmp
+	}
+
+	if targetOcpusPerNode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_ocpus_per_node")); ok {
+		tmp := targetOcpusPerNode.(int)
+		result.TargetOcpusPerNode = &tmp
+	}
+
+	if targetShape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_shape")); ok {
+		tmp := targetShape.(string)
+		result.TargetShape = &tmp
+	}
+
+	if timeRecurrence, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_recurrence")); ok {
+		tmp := timeRecurrence.(string)
+		result.TimeRecurrence = &tmp
+	}
+
+	return result, nil
+}
+
+func TimeAndVerticalScalingConfigToMap(obj oci_bds.TimeAndVerticalScalingConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.TargetMemoryPerNode != nil {
+		result["target_memory_per_node"] = int(*obj.TargetMemoryPerNode)
+	}
+
+	if obj.TargetOcpusPerNode != nil {
+		result["target_ocpus_per_node"] = int(*obj.TargetOcpusPerNode)
+	}
+
+	if obj.TargetShape != nil {
+		result["target_shape"] = string(*obj.TargetShape)
+	}
+
+	if obj.TimeRecurrence != nil {
+		result["time_recurrence"] = string(*obj.TimeRecurrence)
+	}
+
+	return result
+}
+
+func (s *BdsAutoScalingConfigurationResourceCrud) mapToVerticalScalingScheduleDetails(fieldKeyFormat string) (oci_bds.VerticalScalingScheduleDetails, error) {
+	var baseObject oci_bds.VerticalScalingScheduleDetails
+	//discriminator
+	scheduleTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "schedule_type"))
+	var scheduleType string
+	if ok {
+		scheduleType = scheduleTypeRaw.(string)
+	} else {
+		scheduleType = "" // default value
+	}
+	switch strings.ToLower(scheduleType) {
+	case strings.ToLower("DAY_BASED"):
+		details := oci_bds.DayBasedVerticalScalingScheduleDetails{}
+		if timeAndVerticalScalingConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_and_vertical_scaling_config")); ok {
+			interfaces := timeAndVerticalScalingConfig.([]interface{})
+			tmp := make([]oci_bds.TimeAndVerticalScalingConfig, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "time_and_vertical_scaling_config"), stateDataIndex)
+				converted, err := s.mapToTimeAndVerticalScalingConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "time_and_vertical_scaling_config")) {
+				details.TimeAndVerticalScalingConfig = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown schedule_type '%v' was specified", scheduleType)
+	}
+	return baseObject, nil
+}
+
+func VerticalScalingScheduleDetailsToMap(obj oci_bds.VerticalScalingScheduleDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_bds.DayBasedVerticalScalingScheduleDetails:
+		result["schedule_type"] = "DAY_BASED"
+
+		timeAndVerticalScalingConfig := []interface{}{}
+		for _, item := range v.TimeAndVerticalScalingConfig {
+			timeAndVerticalScalingConfig = append(timeAndVerticalScalingConfig, TimeAndVerticalScalingConfigToMap(item))
+		}
+		result["time_and_vertical_scaling_config"] = timeAndVerticalScalingConfig
+	default:
+		log.Printf("[WARN] Received 'schedule_type' of unknown type %v", obj)
+		return nil
 	}
 
 	return result

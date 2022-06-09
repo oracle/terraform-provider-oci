@@ -45,6 +45,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `bootstrap_script_url` - pre-authenticated URL of the bootstrap script in Object Store that can be downloaded and executed.
 * `cloud_sql_details` - The information about added Cloud SQL capability
 	* `block_volume_size_in_gbs` - The size of block volume in GB that needs to be attached to a given node. All the necessary details needed for attachment are managed by service itself. 
 	* `ip_address` - IP address of the Cloud SQL node.
@@ -64,6 +65,7 @@ The following attributes are exported:
 	* `csql_cell_version` - Big Data SQL version.
 	* `db_version` - Cloud SQL query server database version.
 	* `hue_server_url` - The URL of the Hue server.
+	* `jupyter_hub_url` - The URL of the Jupyterhub.
 	* `os_version` - Oracle Linux version installed in the cluster.
 	* `time_created` - The time the cluster was created, shown as an RFC 3339 formatted datetime string.
 	* `time_refreshed` - The time the cluster was automatically or manually refreshed, shown as an RFC 3339 formatted datetime string. 
@@ -91,7 +93,9 @@ The following attributes are exported:
 	* `image_id` - The OCID of the image from which the node was created.
 	* `instance_id` - The OCID of the underlying Oracle Cloud Infrastructure Compute instance.
 	* `ip_address` - IP address of the node.
+	* `memory_in_gbs` - The total amount of memory available to the node, in gigabytes.
 	* `node_type` - Cluster node type.
+	* `ocpus` - The total number of OCPUs available to the node.
 	* `shape` - Shape of the node.
 	* `ssh_fingerprint` - The fingerprint of the SSH key used for node access.
 	* `state` - The state of the node.

@@ -87,6 +87,16 @@ func (s *BdsAutoScalingConfigurationDataSourceCrud) SetData() error {
 		s.D.Set("policy", nil)
 	}
 
+	if s.Res.PolicyDetails != nil {
+		policyDetailsArray := []interface{}{}
+		if policyDetailsMap := AutoScalePolicyDetailsToMap(&s.Res.PolicyDetails); policyDetailsMap != nil {
+			policyDetailsArray = append(policyDetailsArray, policyDetailsMap)
+		}
+		s.D.Set("policy_details", policyDetailsArray)
+	} else {
+		s.D.Set("policy_details", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
