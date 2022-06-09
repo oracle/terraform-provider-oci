@@ -53,7 +53,7 @@ func TestDatabaseToolsDatabaseToolsEndpointServiceResource_basic(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// 0. verify datasource
+			// Step 1. Verify datasource
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, databaseToolsEndpointServiceDataSourceRepresentation) +
@@ -66,7 +66,7 @@ func TestDatabaseToolsDatabaseToolsEndpointServiceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "database_tools_endpoint_service_collection.0.items.0.time_created"),
 				),
 			},
-			// 1. verify singular datasource
+			// Step 2. Verify singular datasource
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, databaseToolsEndpointServiceSingularDataSourceRepresentation) +
