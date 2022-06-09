@@ -47,6 +47,12 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 			},
 
 			// Optional
+			"cluster_time_zone": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -317,6 +323,11 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 		request.CloudExadataInfrastructureId = &tmp
 	}
 
+	if clusterTimeZone, ok := s.D.GetOkExists("cluster_time_zone"); ok {
+		tmp := clusterTimeZone.(string)
+		request.ClusterTimeZone = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -528,6 +539,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.CloudExadataInfrastructureId != nil {
 		s.D.Set("cloud_exadata_infrastructure_id", *s.Res.CloudExadataInfrastructureId)
+	}
+
+	if s.Res.ClusterTimeZone != nil {
+		s.D.Set("cluster_time_zone", *s.Res.ClusterTimeZone)
 	}
 
 	if s.Res.CompartmentId != nil {

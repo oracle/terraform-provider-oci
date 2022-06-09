@@ -55,6 +55,7 @@ The following attributes are exported:
 * `available_container_databases` - The number of Autonomous Container Databases that can be created with the currently available local storage.
 * `available_cpus` - CPU cores available for allocation to Autonomous Databases.
 * `cloud_exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure.
+* `cluster_time_zone` - The time zone of the Cloud Autonomous VM Cluster.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `cpu_core_count` - The number of CPU cores enabled on the cloud Autonomous VM cluster.
 * `data_storage_size_in_gb` - The total data storage allocated, in gigabytes (GB).

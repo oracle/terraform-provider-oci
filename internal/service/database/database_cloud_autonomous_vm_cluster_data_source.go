@@ -90,6 +90,10 @@ func (s *DatabaseCloudAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("cloud_exadata_infrastructure_id", *s.Res.CloudExadataInfrastructureId)
 	}
 
+	if s.Res.ClusterTimeZone != nil {
+		s.D.Set("cluster_time_zone", *s.Res.ClusterTimeZone)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
