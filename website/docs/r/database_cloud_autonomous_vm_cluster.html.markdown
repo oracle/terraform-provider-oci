@@ -24,6 +24,7 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
 	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
+	cluster_time_zone = var.cloud_autonomous_vm_cluster_cluster_time_zone
 	defined_tags = var.cloud_autonomous_vm_cluster_defined_tags
 	description = var.cloud_autonomous_vm_cluster_description
 	freeform_tags = {"Department"= "Finance"}
@@ -37,6 +38,7 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
 The following arguments are supported:
 
 * `cloud_exadata_infrastructure_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure.
+* `cluster_time_zone` - (Optional) The time zone to use for the Cloud Autonomous VM cluster. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `description` - (Optional) (Updatable) User defined description of the cloud Autonomous VM cluster.
@@ -61,6 +63,7 @@ The following attributes are exported:
 * `available_container_databases` - The number of Autonomous Container Databases that can be created with the currently available local storage.
 * `available_cpus` - CPU cores available for allocation to Autonomous Databases.
 * `cloud_exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure.
+* `cluster_time_zone` - The time zone of the Cloud Autonomous VM Cluster.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `cpu_core_count` - The number of CPU cores enabled on the cloud Autonomous VM cluster.
 * `data_storage_size_in_gb` - The total data storage allocated, in gigabytes (GB).
