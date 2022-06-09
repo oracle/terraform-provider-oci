@@ -104,6 +104,28 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Required:     true,
 							ValidateFunc: validation.IntBetween(1, 2),
 						},
+
+						"shape_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: false,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+
+									// Optional
+									"memory_in_gbs": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+									"ocpus": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -139,6 +161,28 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Required:     true,
 							ValidateFunc: validation.IntBetween(1, 2),
 						},
+
+						"shape_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: false,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+
+									// Optional
+									"memory_in_gbs": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+									"ocpus": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -172,11 +216,98 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Required:     true,
 							ValidateFunc: validation.IntAtLeast(3),
 						},
+
+						"shape_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: false,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+
+									// Optional
+									"memory_in_gbs": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+									"ocpus": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+					},
+				},
+			},
+			"compute_only_worker_node": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"shape": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						"block_volume_size_in_gbs": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+
+						"number_of_nodes": {
+							Type:         schema.TypeInt,
+							Required:     true,
+							ValidateFunc: validation.IntAtLeast(1),
+						},
+
+						"shape_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: false,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+
+									// Optional
+									"memory_in_gbs": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+									"ocpus": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 					},
 				},
 			},
 
 			// Optional
+			"bootstrap_script_url": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"cloud_sql_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -327,6 +458,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"jupyter_hub_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"os_version": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -428,6 +563,14 @@ func BdsBdsInstanceResource() *schema.Resource {
 						},
 						"time_created": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ocpus": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"memory_in_gbs": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
@@ -579,6 +722,11 @@ func (s *BdsBdsInstanceResourceCrud) DeletedTarget() []string {
 
 func (s *BdsBdsInstanceResourceCrud) Create() error {
 	request := oci_bds.CreateBdsInstanceRequest{}
+
+	if bootstrapScriptUrl, ok := s.D.GetOkExists("bootstrap_script_url"); ok {
+		tmp := bootstrapScriptUrl.(string)
+		request.BootstrapScriptUrl = &tmp
+	}
 
 	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
 		tmp := clusterAdminPassword.(string)
@@ -736,7 +884,12 @@ func (s *BdsBdsInstanceResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	createResultError := s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	if createResultError != nil {
+		return createResultError
+	}
+	_, computeWorkerAdditionError := s.updateComputeWorkersIfRequired()
+	return computeWorkerAdditionError
 }
 
 func (s *BdsBdsInstanceResourceCrud) getBdsInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -936,6 +1089,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	workerNodeFieldKeyFormat := "worker_node.0.%s"
 	masterNodeFieldKeyFormat := "master_node.0.%s"
 	utilNodeFieldKeyFormat := "util_node.0.%s"
+	computeOnlyWorkerNodeFieldKeyFormat := "compute_only_worker_node.0.%s"
 	cloudSqlNodeFieldKeyFormat := "cloud_sql_details.0.%s"
 
 	_, blockVolumeSizeInGbsPresent := s.D.GetOkExists(fmt.Sprintf(workerNodeFieldKeyFormat, "block_volume_size_in_gbs"))
@@ -958,7 +1112,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		if tmpInt64New > tmpInt64Old {
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
 				dif := tmpInt64New - tmpInt64Old
-				err := s.updateWorkerBlockStorage(s.D.Id(), clusterAdminPassword, dif)
+				err := s.updateWorkerBlockStorage(s.D.Id(), clusterAdminPassword, dif, oci_bds.AddBlockStorageDetailsNodeTypeWorker)
 				if err != nil {
 					return err
 				}
@@ -975,7 +1129,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		tmpNew := newRaw.(int)
 		if tmpNew > tmpOld {
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-				err := s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker)
+				err := s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, nil, nil, nil)
 				if err != nil {
 					return err
 				}
@@ -985,24 +1139,55 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		}
 	}
 
+	isComputeWorkerAdded, computeWorkerErr := s.updateComputeWorkersIfRequired()
+	if computeWorkerErr != nil {
+		return computeWorkerErr
+	}
+
 	result := oci_bds.ChangeShapeNodes{}
 
 	changeShapeRequest := oci_bds.ChangeShapeRequest{}
 	workerNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(workerNodeFieldKeyFormat, "shape"))
-	if ok && s.D.HasChange(fmt.Sprintf(workerNodeFieldKeyFormat, "shape")) {
+	if ok && (s.D.HasChange(fmt.Sprintf(workerNodeFieldKeyFormat, "shape")) ||
+		s.D.HasChange(fmt.Sprintf(workerNodeFieldKeyFormat, "shape_config"))) {
 		tmp := workerNodeShape.(string)
 		result.Worker = &tmp
+		if nodeConfig, ok := s.D.GetOkExists("worker_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
+			workerShapeConfig, _ := s.mapToShapeConfigDetails("worker_node.0.shape_config.0.%s")
+			result.WorkerShapeConfig = &workerShapeConfig
+		}
 	}
 	masterNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(masterNodeFieldKeyFormat, "shape"))
-	if ok && s.D.HasChange(fmt.Sprintf(masterNodeFieldKeyFormat, "shape")) {
+	if ok && (s.D.HasChange(fmt.Sprintf(masterNodeFieldKeyFormat, "shape")) ||
+		s.D.HasChange(fmt.Sprintf(masterNodeFieldKeyFormat, "shape_config"))) {
 		tmp := masterNodeShape.(string)
 		result.Master = &tmp
+		if nodeConfig, ok := s.D.GetOkExists("master_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
+			masterShapeConfig, _ := s.mapToShapeConfigDetails("master_node.0.shape_config.0.%s")
+			result.MasterShapeConfig = &masterShapeConfig
+		}
 	}
 
 	utilNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(utilNodeFieldKeyFormat, "shape"))
-	if ok && s.D.HasChange(fmt.Sprintf(utilNodeFieldKeyFormat, "shape")) {
+	if ok && (s.D.HasChange(fmt.Sprintf(utilNodeFieldKeyFormat, "shape")) ||
+		s.D.HasChange(fmt.Sprintf(utilNodeFieldKeyFormat, "shape_config"))) {
 		tmp := utilNodeShape.(string)
 		result.Utility = &tmp
+		if nodeConfig, ok := s.D.GetOkExists("util_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
+			utilShapeConfig, _ := s.mapToShapeConfigDetails("util_node.0.shape_config.0.%s")
+			result.UtilityShapeConfig = &utilShapeConfig
+		}
+	}
+
+	computeWorker, ok := s.D.GetOkExists(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "shape"))
+	if ok && (!isComputeWorkerAdded) && (s.D.HasChange(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "shape")) ||
+		s.D.HasChange(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "shape_config"))) {
+		tmp := computeWorker.(string)
+		result.ComputeOnlyWorker = &tmp
+		if nodeConfig, ok := s.D.GetOkExists("compute_only_worker_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
+			computeWorkerShapeConfig, _ := s.mapToShapeConfigDetails("compute_only_worker_node.0.shape_config.0.%s")
+			result.ComputeOnlyWorkerShapeConfig = &computeWorkerShapeConfig
+		}
 	}
 
 	if _, ok := s.D.GetOkExists("is_cloud_sql_configured"); ok {
@@ -1039,6 +1224,11 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.BdsInstanceId = &tmp
 
+	if bootstrapScriptUrl, ok := s.D.GetOkExists("bootstrap_script_url"); ok {
+		tmp := bootstrapScriptUrl.(string)
+		request.BootstrapScriptUrl = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -1067,6 +1257,43 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
+func (s *BdsBdsInstanceResourceCrud) updateComputeWorkersIfRequired() (bool, error) {
+	areWorkersAdded := false
+	computeOnlyWorkerNodeFieldKeyFormat := "compute_only_worker_node.0.%s"
+	var computeWorkerBlockVolumeSizeGBInt int64
+	var computeWorkerBlockVolumeConversionError error
+	if computeOnlyWorkerBlockVolumeSizeInGBs, computeOnlyWorkerBlockVolumeSizeInGbsPresent := s.D.GetOkExists(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "block_volume_size_in_gbs")); computeOnlyWorkerBlockVolumeSizeInGbsPresent {
+		computeWorkerBlockVolumeSizeGBInt, computeWorkerBlockVolumeConversionError = strconv.ParseInt(computeOnlyWorkerBlockVolumeSizeInGBs.(string), 10, 64)
+		if computeWorkerBlockVolumeConversionError != nil {
+			return false, computeWorkerBlockVolumeConversionError
+		}
+	}
+	compute_worker_shape, _ := s.D.GetOkExists("compute_only_worker_node.0.shape")
+	compute_worker_shape_string := compute_worker_shape.(string)
+	compute_worker_shape_config, _ := s.mapToShapeConfigDetails("compute_only_worker_node.0.shape_config.0.%s")
+	_, numOfComputeOnlyWorkersPresent := s.D.GetOkExists(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "number_of_nodes"))
+	if numOfComputeOnlyWorkersPresent && s.D.HasChange(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "number_of_nodes")) {
+		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "number_of_nodes"))
+		var tmpOld = 0
+		if oldRaw != nil {
+			tmpOld = oldRaw.(int)
+		}
+		tmpNew := newRaw.(int)
+		if tmpNew > tmpOld {
+			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+				err := s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeComputeOnlyWorker, &computeWorkerBlockVolumeSizeGBInt, &compute_worker_shape_string, &compute_worker_shape_config)
+				if err != nil {
+					return false, err
+				}
+				areWorkersAdded = true
+			}
+		} else {
+			return false, fmt.Errorf("the new number of compute only worker node should be larger than previous one")
+		}
+	}
+	return areWorkersAdded, nil
+}
+
 func (s *BdsBdsInstanceResourceCrud) Delete() error {
 	request := oci_bds.DeleteBdsInstanceRequest{}
 
@@ -1088,6 +1315,10 @@ func (s *BdsBdsInstanceResourceCrud) Delete() error {
 }
 
 func (s *BdsBdsInstanceResourceCrud) SetData() error {
+	if s.Res.BootstrapScriptUrl != nil {
+		s.D.Set("bootstrap_script_url", *s.Res.BootstrapScriptUrl)
+	}
+
 	if s.Res.IsCloudSqlConfigured != nil {
 		s.D.Set("is_cloud_sql_configured", *s.Res.IsCloudSqlConfigured)
 	}
@@ -1146,10 +1377,22 @@ func (s *BdsBdsInstanceResourceCrud) SetData() error {
 		nodes = append(nodes, node)
 		PopulateNodeTemplate(item, nodeMap)
 	}
+	masterNodeConfig := nodeMap["MASTER"]
+	utilNodeConfig := nodeMap["UTILITY"]
+	workerNodeConfig := nodeMap["WORKER"]
+	computeOnlyWorkerNodeConfig := nodeMap["COMPUTE_ONLY_WORKER"]
+	s.deleteShapeConfigIfMissingInInput("master_node", masterNodeConfig)
+	s.deleteShapeConfigIfMissingInInput("util_node", utilNodeConfig)
+	s.deleteShapeConfigIfMissingInInput("worker_node", workerNodeConfig)
+	s.deleteShapeConfigIfMissingInInput("compute_only_worker_node", computeOnlyWorkerNodeConfig)
 	s.D.Set("nodes", nodes)
-	s.D.Set("master_node", []interface{}{nodeMap["MASTER"]})
-	s.D.Set("util_node", []interface{}{nodeMap["UTILITY"]})
-	s.D.Set("worker_node", []interface{}{nodeMap["WORKER"]})
+	s.D.Set("master_node", []interface{}{masterNodeConfig})
+	s.D.Set("util_node", []interface{}{utilNodeConfig})
+	s.D.Set("worker_node", []interface{}{workerNodeConfig})
+
+	if _, ok := nodeMap["COMPUTE_ONLY_WORKER"]; ok {
+		s.D.Set("compute_only_worker_node", []interface{}{computeOnlyWorkerNodeConfig})
+	}
 
 	if s.Res.NumberOfNodes != nil {
 		s.D.Set("number_of_nodes", *s.Res.NumberOfNodes)
@@ -1166,6 +1409,15 @@ func (s *BdsBdsInstanceResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *BdsBdsInstanceResourceCrud) deleteShapeConfigIfMissingInInput(node_type string, node_map map[string]interface{}) {
+	if _, ok := s.D.GetOkExists(node_type); ok {
+		fieldKey := fmt.Sprintf("%s.%d.%s", node_type, 0, "shape_config")
+		if nodeConfig, ok := s.D.GetOkExists(fieldKey); !ok || len(nodeConfig.([]interface{})) == 0 {
+			delete(node_map, "shape_config")
+		}
+	}
 }
 
 func CloudSqlDetailsToMap(obj *oci_bds.CloudSqlDetails) map[string]interface{} {
@@ -1239,6 +1491,10 @@ func ClusterDetailsToMap(obj *oci_bds.ClusterDetails) map[string]interface{} {
 		result["hue_server_url"] = string(*obj.HueServerUrl)
 	}
 
+	if obj.JupyterHubUrl != nil {
+		result["jupyter_hub_url"] = string(*obj.JupyterHubUrl)
+	}
+
 	if obj.OsVersion != nil {
 		result["os_version"] = string(*obj.OsVersion)
 	}
@@ -1271,6 +1527,17 @@ func (s *BdsBdsInstanceResourceCrud) mapToCreateNodeDetails(fieldKeyFormat, node
 	if shape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
 		tmp := shape.(string)
 		result.Shape = &tmp
+	}
+
+	if shapeConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_config")); ok {
+		if tmpList := shapeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "shape_config"), 0)
+			tmp, err := s.mapToShapeConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert shape_config, encountered error: %v", err)
+			}
+			result.ShapeConfig = &tmp
+		}
 	}
 
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
@@ -1319,7 +1586,15 @@ func BdsNodeToMap(obj oci_bds.Node) map[string]interface{} {
 		result["ip_address"] = string(*obj.IpAddress)
 	}
 
+	if obj.MemoryInGBs != nil {
+		result["memory_in_gbs"] = int(*obj.MemoryInGBs)
+	}
+
 	result["node_type"] = string(obj.NodeType)
+
+	if obj.Ocpus != nil {
+		result["ocpus"] = int(*obj.Ocpus)
+	}
 
 	if obj.Shape != nil {
 		result["shape"] = string(*obj.Shape)
@@ -1390,6 +1665,22 @@ func NetworkConfigToMap(obj *oci_bds.NetworkConfig) map[string]interface{} {
 	return result
 }
 
+func (s *BdsBdsInstanceResourceCrud) mapToShapeConfigDetails(fieldKeyFormat string) (oci_bds.ShapeConfigDetails, error) {
+	result := oci_bds.ShapeConfigDetails{}
+
+	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := memoryInGBs.(int)
+		result.MemoryInGBs = &tmp
+	}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := ocpus.(int)
+		result.Ocpus = &tmp
+	}
+
+	return result, nil
+}
+
 func VolumeAttachmentDetailToMap(obj oci_bds.VolumeAttachmentDetail) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1423,10 +1714,12 @@ func (s *BdsBdsInstanceResourceCrud) updateCompartment(compartment interface{}) 
 	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateWorkerBlockStorage(id string, clusterAdminPassword interface{}, blockVolumeSizeInGBs int64) error {
+func (s *BdsBdsInstanceResourceCrud) updateWorkerBlockStorage(id string, clusterAdminPassword interface{}, blockVolumeSizeInGBs int64, nodeType oci_bds.AddBlockStorageDetailsNodeTypeEnum) error {
 	addBlockStorageRequest := oci_bds.AddBlockStorageRequest{}
 
 	addBlockStorageRequest.BdsInstanceId = &id
+
+	addBlockStorageRequest.NodeType = nodeType
 
 	tmpClusterAdminPassword := clusterAdminPassword.(string)
 	addBlockStorageRequest.ClusterAdminPassword = &tmpClusterAdminPassword
@@ -1443,10 +1736,23 @@ func (s *BdsBdsInstanceResourceCrud) updateWorkerBlockStorage(id string, cluster
 	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateWorkerNode(id string, clusterAdminPassword interface{}, numberOfWorker int, addWorkerNodesDetailsNodeTypeWorker oci_bds.AddWorkerNodesDetailsNodeTypeEnum) error {
+func (s *BdsBdsInstanceResourceCrud) updateWorkerNode(id string, clusterAdminPassword interface{}, numberOfWorker int, nodeType oci_bds.AddWorkerNodesDetailsNodeTypeEnum, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
 	addWorkerNodesRequest := oci_bds.AddWorkerNodesRequest{}
-	addWorkerNodesRequest.NodeType = addWorkerNodesDetailsNodeTypeWorker
 	addWorkerNodesRequest.BdsInstanceId = &id
+
+	addWorkerNodesRequest.NodeType = nodeType
+
+	if shape != nil {
+		addWorkerNodesRequest.Shape = shape
+	}
+
+	if shapeConfig != nil {
+		addWorkerNodesRequest.ShapeConfig = shapeConfig
+	}
+
+	if blockVolumeSizeInGBs != nil {
+		addWorkerNodesRequest.BlockVolumeSizeInGBs = blockVolumeSizeInGBs
+	}
 
 	clusterAdminPasswordTmp := clusterAdminPassword.(string)
 	addWorkerNodesRequest.ClusterAdminPassword = &clusterAdminPasswordTmp
@@ -1501,6 +1807,12 @@ func PopulateNodeTemplate(obj oci_bds.Node, nodeMap map[string]map[string]interf
 		} else {
 			nodeMap["WORKER"] = BdsNodeToTemplateMap(obj)
 		}
+	case "COMPUTE_ONLY_WORKER":
+		if node, ok := nodeMap["COMPUTE_ONLY_WORKER"]; ok {
+			node["number_of_nodes"] = node["number_of_nodes"].(int) + 1
+		} else {
+			nodeMap["COMPUTE_ONLY_WORKER"] = BdsNodeToTemplateMap(obj)
+		}
 	}
 }
 
@@ -1524,6 +1836,13 @@ func BdsNodeToTemplateMap(obj oci_bds.Node) map[string]interface{} {
 	}
 
 	result["number_of_nodes"] = 1
+
+	if obj.Ocpus != nil && obj.MemoryInGBs != nil {
+		shapeConfigMap := map[string]interface{}{}
+		shapeConfigMap["ocpus"] = int(*obj.Ocpus)
+		shapeConfigMap["memory_in_gbs"] = int(*obj.MemoryInGBs)
+		result["shape_config"] = []interface{}{shapeConfigMap}
+	}
 
 	return result
 }
