@@ -152,6 +152,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["cloud_exadata_infrastructure_id"] = *r.CloudExadataInfrastructureId
 		}
 
+		if r.ClusterTimeZone != nil {
+			cloudAutonomousVmCluster["cluster_time_zone"] = *r.ClusterTimeZone
+		}
+
 		if r.CpuCoreCount != nil {
 			cloudAutonomousVmCluster["cpu_core_count"] = *r.CpuCoreCount
 		}
