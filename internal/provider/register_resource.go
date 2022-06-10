@@ -508,6 +508,7 @@ func init() {
 	RegisterResource("oci_network_load_balancer_backend_set", tf_network_load_balancer.NetworkLoadBalancerBackendSetResource())
 	RegisterResource("oci_network_load_balancer_listener", tf_network_load_balancer.NetworkLoadBalancerListenerResource())
 	RegisterResource("oci_network_load_balancer_network_load_balancer", tf_network_load_balancer.NetworkLoadBalancerNetworkLoadBalancerResource())
+	RegisterResource("oci_network_load_balancer_network_load_balancers_backend_sets_unified", tf_network_load_balancer.NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource())
 	// nosql service
 	RegisterResource("oci_nosql_index", tf_nosql.NosqlIndexResource())
 	RegisterResource("oci_nosql_table", tf_nosql.NosqlTableResource())
