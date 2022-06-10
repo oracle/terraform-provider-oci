@@ -83,6 +83,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"vault":                   vaultResourceGraph,
 	"visual_builder":          visualBuilderResourceGraph,
 	"vulnerability_scanning":  vulnerabilityScanningResourceGraph,
+	"waa":                     waaResourceGraph,
 	"waas":                    waasResourceGraph,
 	"waf":                     wafResourceGraph,
 }
@@ -1296,6 +1297,13 @@ var vulnerabilityScanningResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportVulnerabilityScanningHostScanTargetHints},
 		{TerraformResourceHints: exportVulnerabilityScanningContainerScanRecipeHints},
 		{TerraformResourceHints: exportVulnerabilityScanningContainerScanTargetHints},
+	},
+}
+
+var waaResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportWaaWebAppAccelerationPolicyHints},
+		{TerraformResourceHints: exportWaaWebAppAccelerationHints},
 	},
 }
 

@@ -68,6 +68,7 @@ import (
 	oci_vault "github.com/oracle/oci-go-sdk/v65/vault"
 	oci_visual_builder "github.com/oracle/oci-go-sdk/v65/visualbuilder"
 	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v65/vulnerabilityscanning"
+	oci_waa "github.com/oracle/oci-go-sdk/v65/waa"
 	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
 	oci_waf "github.com/oracle/oci-go-sdk/v65/waf"
 )
@@ -3404,6 +3405,30 @@ var exportVulnerabilityScanningContainerScanTargetHints = &TerraformResourceHint
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_vulnerability_scanning.LifecycleStateActive),
+	},
+}
+
+var exportWaaWebAppAccelerationPolicyHints = &TerraformResourceHints{
+	resourceClass:          "oci_waa_web_app_acceleration_policy",
+	datasourceClass:        "oci_waa_web_app_acceleration_policies",
+	datasourceItemsAttr:    "web_app_acceleration_policy_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "web_app_acceleration_policy",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_waa.WebAppAccelerationPolicyLifecycleStateActive),
+	},
+}
+
+var exportWaaWebAppAccelerationHints = &TerraformResourceHints{
+	resourceClass:          "oci_waa_web_app_acceleration",
+	datasourceClass:        "oci_waa_web_app_accelerations",
+	datasourceItemsAttr:    "web_app_acceleration_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "web_app_acceleration",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_waa.WebAppAccelerationLifecycleStateActive),
 	},
 }
 
