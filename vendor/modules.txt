@@ -369,6 +369,7 @@ github.com/oracle/oci-go-sdk/v65/usageapi
 github.com/oracle/oci-go-sdk/v65/vault
 github.com/oracle/oci-go-sdk/v65/visualbuilder
 github.com/oracle/oci-go-sdk/v65/vulnerabilityscanning
+github.com/oracle/oci-go-sdk/v65/waa
 github.com/oracle/oci-go-sdk/v65/waas
 github.com/oracle/oci-go-sdk/v65/waf
 github.com/oracle/oci-go-sdk/v65/workrequests
