@@ -82,6 +82,7 @@ import (
 	tf_vault "github.com/terraform-providers/terraform-provider-oci/internal/service/vault"
 	tf_visual_builder "github.com/terraform-providers/terraform-provider-oci/internal/service/visual_builder"
 	tf_vulnerability_scanning "github.com/terraform-providers/terraform-provider-oci/internal/service/vulnerability_scanning"
+	tf_waa "github.com/terraform-providers/terraform-provider-oci/internal/service/waa"
 	tf_waas "github.com/terraform-providers/terraform-provider-oci/internal/service/waas"
 	tf_waf "github.com/terraform-providers/terraform-provider-oci/internal/service/waf"
 )
@@ -601,6 +602,9 @@ func init() {
 	RegisterResource("oci_vulnerability_scanning_container_scan_target", tf_vulnerability_scanning.VulnerabilityScanningContainerScanTargetResource())
 	RegisterResource("oci_vulnerability_scanning_host_scan_recipe", tf_vulnerability_scanning.VulnerabilityScanningHostScanRecipeResource())
 	RegisterResource("oci_vulnerability_scanning_host_scan_target", tf_vulnerability_scanning.VulnerabilityScanningHostScanTargetResource())
+	// waa service
+	RegisterResource("oci_waa_web_app_acceleration", tf_waa.WaaWebAppAccelerationResource())
+	RegisterResource("oci_waa_web_app_acceleration_policy", tf_waa.WaaWebAppAccelerationPolicyResource())
 	// waas service
 	RegisterResource("oci_waas_address_list", tf_waas.WaasAddressListResource())
 	RegisterResource("oci_waas_certificate", tf_waas.WaasCertificateResource())
