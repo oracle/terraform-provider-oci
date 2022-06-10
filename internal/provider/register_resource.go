@@ -524,6 +524,7 @@ func init() {
 	RegisterResource("oci_ocvp_sddc", tf_ocvp.OcvpSddcResource())
 	// oda service
 	RegisterResource("oci_oda_oda_instance", tf_oda.OdaOdaInstanceResource())
+	// onesubscription service
 	// ons service
 	RegisterResource("oci_ons_notification_topic", tf_ons.OnsNotificationTopicResource())
 	RegisterResource("oci_ons_subscription", tf_ons.OnsSubscriptionResource())
