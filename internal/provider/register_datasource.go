@@ -67,6 +67,7 @@ import (
 	tf_oce "github.com/terraform-providers/terraform-provider-oci/internal/service/oce"
 	tf_ocvp "github.com/terraform-providers/terraform-provider-oci/internal/service/ocvp"
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
+	tf_onesubscription "github.com/terraform-providers/terraform-provider-oci/internal/service/onesubscription"
 	tf_ons "github.com/terraform-providers/terraform-provider-oci/internal/service/ons"
 	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
 	tf_opsi "github.com/terraform-providers/terraform-provider-oci/internal/service/opsi"
@@ -1033,6 +1034,20 @@ func init() {
 	// oda service
 	RegisterDatasource("oci_oda_oda_instance", tf_oda.OdaOdaInstanceDataSource())
 	RegisterDatasource("oci_oda_oda_instances", tf_oda.OdaOdaInstancesDataSource())
+	// onesubscription service
+	RegisterDatasource("oci_onesubscription_aggregated_computed_usages", tf_onesubscription.OnesubscriptionAggregatedComputedUsagesDataSource())
+	RegisterDatasource("oci_onesubscription_billing_schedules", tf_onesubscription.OnesubscriptionBillingSchedulesDataSource())
+	RegisterDatasource("oci_onesubscription_commitment", tf_onesubscription.OnesubscriptionCommitmentDataSource())
+	RegisterDatasource("oci_onesubscription_commitments", tf_onesubscription.OnesubscriptionCommitmentsDataSource())
+	RegisterDatasource("oci_onesubscription_computed_usage", tf_onesubscription.OnesubscriptionComputedUsageDataSource())
+	RegisterDatasource("oci_onesubscription_computed_usages", tf_onesubscription.OnesubscriptionComputedUsagesDataSource())
+	RegisterDatasource("oci_onesubscription_invoice_line_computed_usages", tf_onesubscription.OnesubscriptionInvoiceLineComputedUsagesDataSource())
+	RegisterDatasource("oci_onesubscription_invoices", tf_onesubscription.OnesubscriptionInvoicesDataSource())
+	RegisterDatasource("oci_onesubscription_organization_subscriptions", tf_onesubscription.OnesubscriptionOrganizationSubscriptionsDataSource())
+	RegisterDatasource("oci_onesubscription_ratecards", tf_onesubscription.OnesubscriptionRatecardsDataSource())
+	RegisterDatasource("oci_onesubscription_subscribed_service", tf_onesubscription.OnesubscriptionSubscribedServiceDataSource())
+	RegisterDatasource("oci_onesubscription_subscribed_services", tf_onesubscription.OnesubscriptionSubscribedServicesDataSource())
+	RegisterDatasource("oci_onesubscription_subscriptions", tf_onesubscription.OnesubscriptionSubscriptionsDataSource())
 	// ons service
 	RegisterDatasource("oci_ons_notification_topic", tf_ons.OnsNotificationTopicDataSource())
 	RegisterDatasource("oci_ons_notification_topics", tf_ons.OnsNotificationTopicsDataSource())
