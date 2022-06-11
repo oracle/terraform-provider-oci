@@ -15,13 +15,13 @@ import (
 )
 
 var (
-	limitDefinitionDataSourceRepresentation = map[string]interface{}{
+	LimitsLimitsLimitDefinitionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `custom-image-count`},
 		"service_name":   acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_limits_services.test_services.services.0.name}`},
 	}
 
-	LimitDefinitionResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_limits_services", "test_services", acctest.Required, acctest.Create, limitsServiceDataSourceRepresentation)
+	LimitsLimitDefinitionResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_limits_services", "test_services", acctest.Required, acctest.Create, LimitsLimitsServiceDataSourceRepresentation)
 )
 
 // issue-routing-tag: limits/default
@@ -43,8 +43,8 @@ func TestLimitsLimitDefinitionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_limit_definitions", "test_limit_definitions", acctest.Required, acctest.Create, limitDefinitionDataSourceRepresentation) +
-				compartmentIdVariableStr + LimitDefinitionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_limit_definitions", "test_limit_definitions", acctest.Required, acctest.Create, LimitsLimitsLimitDefinitionDataSourceRepresentation) +
+				compartmentIdVariableStr + LimitsLimitDefinitionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttrSet(datasourceName, "limit_definitions.#"),

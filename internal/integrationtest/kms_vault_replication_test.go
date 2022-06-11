@@ -17,7 +17,7 @@ var (
 		"vault_id":       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.id}`},
 	}
 
-	KmsVaultReplicationResourceDependencies = KeyResourceDependencies
+	KmsVaultReplicationResourceDependencies = KmsKeyResourceDependencies
 )
 
 // issue-routing-tag: kms/default

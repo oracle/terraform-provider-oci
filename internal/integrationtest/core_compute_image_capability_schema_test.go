@@ -24,28 +24,28 @@ import (
 )
 
 var (
-	ComputeImageCapabilitySchemaRequiredOnlyResource = ComputeImageCapabilitySchemaResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Required, acctest.Create, computeImageCapabilitySchemaRepresentation)
+	CoreComputeImageCapabilitySchemaRequiredOnlyResource = CoreComputeImageCapabilitySchemaResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Required, acctest.Create, CoreComputeImageCapabilitySchemaRepresentation)
 
-	ComputeImageCapabilitySchemaResourceConfig = ComputeImageCapabilitySchemaResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Optional, acctest.Update, computeImageCapabilitySchemaRepresentation)
+	CoreComputeImageCapabilitySchemaResourceConfig = CoreComputeImageCapabilitySchemaResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Optional, acctest.Update, CoreComputeImageCapabilitySchemaRepresentation)
 
-	computeImageCapabilitySchemaSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreComputeImageCapabilitySchemaSingularDataSourceRepresentation = map[string]interface{}{
 		"compute_image_capability_schema_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_compute_image_capability_schema.test_compute_image_capability_schema.id}`},
 		"is_merge_enabled":                   acctest.Representation{RepType: acctest.Required, Create: `false`},
 	}
 
-	computeImageCapabilitySchemaDataSourceRepresentation = map[string]interface{}{
+	CoreCoreComputeImageCapabilitySchemaDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"image_id":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_image_capability_schema.test_compute_image_capability_schema.image_id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: computeImageCapabilitySchemaDataSourceFilterRepresentation}}
-	computeImageCapabilitySchemaDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreComputeImageCapabilitySchemaDataSourceFilterRepresentation}}
+	CoreComputeImageCapabilitySchemaDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_compute_image_capability_schema.test_compute_image_capability_schema.id}`}},
 	}
 
-	computeImageCapabilitySchemaRepresentation = map[string]interface{}{
+	CoreComputeImageCapabilitySchemaRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compute_global_image_capability_schema_version_name": acctest.Representation{RepType: acctest.Required, Create: `02b83c1f-a4db-4867-80df-d50d50f3b759`},
 		"image_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_image.custom_image.id}`},
@@ -58,14 +58,14 @@ var (
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
-	computeImageCapabilitySchemaSchemaDataRepresentation = map[string]interface{}{
+	CoreComputeImageCapabilitySchemaSchemaDataRepresentation = map[string]interface{}{
 		"descriptor_type": acctest.Representation{RepType: acctest.Required, Create: `descriptorType`, Update: `descriptorType2`},
 		"source":          acctest.Representation{RepType: acctest.Required, Create: `source`, Update: `source2`},
 		"default_value":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"values":          acctest.Representation{RepType: acctest.Optional, Create: []string{`values`}, Update: []string{`values2`}},
 	}
 
-	ComputeImageCapabilitySchemaResourceDependencies = AvailabilityDomainConfig + `data "oci_core_images" "image_capability_images" {
+	CoreComputeImageCapabilitySchemaResourceDependencies = AvailabilityDomainConfig + `data "oci_core_images" "image_capability_images" {
 		compartment_id   = "${var.tenancy_ocid}"
 		display_name = "Windows-Server-2019-Standard-Edition-VM-E3-2020.06.10-0"
 	}
@@ -85,8 +85,8 @@ resource "oci_core_image" "custom_image" {
     compartment_id   = "${var.tenancy_ocid}"
     instance_id = "${oci_core_instance.t.id}"
 }` +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -110,14 +110,14 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ComputeImageCapabilitySchemaResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Optional, acctest.Create, computeImageCapabilitySchemaRepresentation), "core", "computeImageCapabilitySchema", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreComputeImageCapabilitySchemaResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Optional, acctest.Create, CoreComputeImageCapabilitySchemaRepresentation), "core", "computeImageCapabilitySchema", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreComputeImageCapabilitySchemaDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Required, acctest.Create, computeImageCapabilitySchemaRepresentation),
+			Config: config + compartmentIdVariableStr + CoreComputeImageCapabilitySchemaResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Required, acctest.Create, CoreComputeImageCapabilitySchemaRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_version_name"),
@@ -133,12 +133,12 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreComputeImageCapabilitySchemaResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Optional, acctest.Create, computeImageCapabilitySchemaRepresentation),
+			Config: config + compartmentIdVariableStr + CoreComputeImageCapabilitySchemaResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Optional, acctest.Create, CoreComputeImageCapabilitySchemaRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_id"),
@@ -164,9 +164,9 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreComputeImageCapabilitySchemaResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(computeImageCapabilitySchemaRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreComputeImageCapabilitySchemaRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -192,8 +192,8 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Optional, acctest.Update, computeImageCapabilitySchemaRepresentation),
+			Config: config + compartmentIdVariableStr + CoreComputeImageCapabilitySchemaResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Optional, acctest.Update, CoreComputeImageCapabilitySchemaRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_id"),
@@ -217,9 +217,9 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_image_capability_schemas", "test_compute_image_capability_schemas", acctest.Optional, acctest.Update, computeImageCapabilitySchemaDataSourceRepresentation) +
-				compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Optional, acctest.Update, computeImageCapabilitySchemaRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_image_capability_schemas", "test_compute_image_capability_schemas", acctest.Optional, acctest.Update, CoreCoreComputeImageCapabilitySchemaDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreComputeImageCapabilitySchemaResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Optional, acctest.Update, CoreComputeImageCapabilitySchemaRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -238,8 +238,8 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Required, acctest.Create, computeImageCapabilitySchemaSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", acctest.Required, acctest.Create, CoreCoreComputeImageCapabilitySchemaSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreComputeImageCapabilitySchemaResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_image_capability_schema_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_merge_enabled", "false"),
@@ -256,7 +256,7 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ComputeImageCapabilitySchemaRequiredOnlyResource,
+			Config:                  config + CoreComputeImageCapabilitySchemaRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -320,7 +320,7 @@ func init() {
 
 func sweepCoreComputeImageCapabilitySchemaResource(compartment string) error {
 	computeClient := acctest.GetTestClients(&schema.ResourceData{}).ComputeClient()
-	computeImageCapabilitySchemaIds, err := getComputeImageCapabilitySchemaIds(compartment)
+	computeImageCapabilitySchemaIds, err := getCoreComputeImageCapabilitySchemaIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -341,7 +341,7 @@ func sweepCoreComputeImageCapabilitySchemaResource(compartment string) error {
 	return nil
 }
 
-func getComputeImageCapabilitySchemaIds(compartment string) ([]string, error) {
+func getCoreComputeImageCapabilitySchemaIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ComputeImageCapabilitySchemaId")
 	if ids != nil {
 		return ids, nil

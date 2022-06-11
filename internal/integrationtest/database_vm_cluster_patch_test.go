@@ -16,17 +16,17 @@ import (
 )
 
 var (
-	vmClusterPatchSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseVmClusterPatchSingularDataSourceRepresentation = map[string]interface{}{
 		"patch_id":      acctest.Representation{RepType: acctest.Required, Create: `{}`},
 		"vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 
-	vmClusterPatchDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseVmClusterPatchDataSourceRepresentation = map[string]interface{}{
 		"vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 
-	VmClusterPatchResourceConfig = VmClusterNetworkValidatedResourceConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, vmClusterRepresentation)
+	DatabaseVmClusterPatchResourceConfig = VmClusterNetworkValidatedResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudAutonomousVmClusterRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -50,8 +50,8 @@ func TestDatabaseVmClusterPatchResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patches", "test_vm_cluster_patches", acctest.Required, acctest.Create, vmClusterPatchDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterPatchResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patches", "test_vm_cluster_patches", acctest.Required, acctest.Create, DatabaseDatabaseVmClusterPatchDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseVmClusterPatchResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_id"),
 
@@ -68,8 +68,8 @@ func TestDatabaseVmClusterPatchResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch", "test_vm_cluster_patch", acctest.Required, acctest.Create, vmClusterPatchSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterPatchResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch", "test_vm_cluster_patch", acctest.Required, acctest.Create, DatabaseDatabaseVmClusterPatchSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseVmClusterPatchResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),

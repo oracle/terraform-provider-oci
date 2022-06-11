@@ -26,29 +26,29 @@ import (
 )
 
 var (
-	EnterpriseManagerBridgeRequiredOnlyResource = EnterpriseManagerBridgeResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Required, acctest.Create, enterpriseManagerBridgeRepresentation)
+	OpsiEnterpriseManagerBridgeRequiredOnlyResource = OpsiEnterpriseManagerBridgeResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Required, acctest.Create, OpsiEnterpriseManagerBridgeRepresentation)
 
-	EnterpriseManagerBridgeResourceConfig = EnterpriseManagerBridgeResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Optional, acctest.Update, enterpriseManagerBridgeRepresentation)
+	OpsiEnterpriseManagerBridgeResourceConfig = OpsiEnterpriseManagerBridgeResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Optional, acctest.Update, OpsiEnterpriseManagerBridgeRepresentation)
 
-	enterpriseManagerBridgeSingularDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiEnterpriseManagerBridgeSingularDataSourceRepresentation = map[string]interface{}{
 		"enterprise_manager_bridge_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id}`},
 	}
 
-	enterpriseManagerBridgeDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiEnterpriseManagerBridgeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"id":                        acctest.Representation{RepType: acctest.Optional, Create: `${oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id}`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: enterpriseManagerBridgeDataSourceFilterRepresentation}}
-	enterpriseManagerBridgeDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: OpsiEnterpriseManagerBridgeDataSourceFilterRepresentation}}
+	OpsiEnterpriseManagerBridgeDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id}`}},
 	}
 
-	enterpriseManagerBridgeRepresentation = map[string]interface{}{
+	OpsiEnterpriseManagerBridgeRepresentation = map[string]interface{}{
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"object_storage_bucket_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
@@ -62,9 +62,9 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	EnterpriseManagerBridgeResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+	OpsiEnterpriseManagerBridgeResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: opsi/controlPlane
@@ -86,14 +86,14 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+EnterpriseManagerBridgeResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Optional, acctest.Create, enterpriseManagerBridgeRepresentation), "opsi", "enterpriseManagerBridge", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OpsiEnterpriseManagerBridgeResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Optional, acctest.Create, OpsiEnterpriseManagerBridgeRepresentation), "opsi", "enterpriseManagerBridge", t)
 
 	acctest.ResourceTest(t, testAccCheckOpsiEnterpriseManagerBridgeDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + EnterpriseManagerBridgeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Required, acctest.Create, enterpriseManagerBridgeRepresentation),
+			Config: config + compartmentIdVariableStr + OpsiEnterpriseManagerBridgeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Required, acctest.Create, OpsiEnterpriseManagerBridgeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -108,12 +108,12 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + EnterpriseManagerBridgeResourceDependencies,
+			Config: config + compartmentIdVariableStr + OpsiEnterpriseManagerBridgeResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + EnterpriseManagerBridgeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Optional, acctest.Create, enterpriseManagerBridgeRepresentation),
+			Config: config + compartmentIdVariableStr + OpsiEnterpriseManagerBridgeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Optional, acctest.Create, OpsiEnterpriseManagerBridgeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -139,9 +139,9 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + EnterpriseManagerBridgeResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OpsiEnterpriseManagerBridgeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(enterpriseManagerBridgeRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(OpsiEnterpriseManagerBridgeRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -167,8 +167,8 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + EnterpriseManagerBridgeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Optional, acctest.Update, enterpriseManagerBridgeRepresentation),
+			Config: config + compartmentIdVariableStr + OpsiEnterpriseManagerBridgeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Optional, acctest.Update, OpsiEnterpriseManagerBridgeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -192,9 +192,9 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_enterprise_manager_bridges", "test_enterprise_manager_bridges", acctest.Optional, acctest.Update, enterpriseManagerBridgeDataSourceRepresentation) +
-				compartmentIdVariableStr + EnterpriseManagerBridgeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Optional, acctest.Update, enterpriseManagerBridgeRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_enterprise_manager_bridges", "test_enterprise_manager_bridges", acctest.Optional, acctest.Update, OpsiOpsiEnterpriseManagerBridgeDataSourceRepresentation) +
+				compartmentIdVariableStr + OpsiEnterpriseManagerBridgeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Optional, acctest.Update, OpsiEnterpriseManagerBridgeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
@@ -209,8 +209,8 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Required, acctest.Create, enterpriseManagerBridgeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + EnterpriseManagerBridgeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", acctest.Required, acctest.Create, OpsiOpsiEnterpriseManagerBridgeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OpsiEnterpriseManagerBridgeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "enterprise_manager_bridge_id"),
 
@@ -228,7 +228,7 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + EnterpriseManagerBridgeRequiredOnlyResource,
+			Config:                  config + OpsiEnterpriseManagerBridgeRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -292,7 +292,7 @@ func init() {
 
 func sweepOpsiEnterpriseManagerBridgeResource(compartment string) error {
 	operationsInsightsClient := acctest.GetTestClients(&schema.ResourceData{}).OperationsInsightsClient()
-	enterpriseManagerBridgeIds, err := getEnterpriseManagerBridgeIds(compartment)
+	enterpriseManagerBridgeIds, err := getOpsiEnterpriseManagerBridgeIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -308,14 +308,14 @@ func sweepOpsiEnterpriseManagerBridgeResource(compartment string) error {
 				fmt.Printf("Error deleting EnterpriseManagerBridge %s %s, It is possible that the resource is already deleted. Please verify manually \n", enterpriseManagerBridgeId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &enterpriseManagerBridgeId, enterpriseManagerBridgeSweepWaitCondition, time.Duration(3*time.Minute),
-				enterpriseManagerBridgeSweepResponseFetchOperation, "opsi", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &enterpriseManagerBridgeId, OpsiEnterpriseManagerBridgeSweepWaitCondition, time.Duration(3*time.Minute),
+				OpsiEnterpriseManagerBridgeSweepResponseFetchOperation, "opsi", true)
 		}
 	}
 	return nil
 }
 
-func getEnterpriseManagerBridgeIds(compartment string) ([]string, error) {
+func getOpsiEnterpriseManagerBridgeIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "EnterpriseManagerBridgeId")
 	if ids != nil {
 		return ids, nil
@@ -340,7 +340,7 @@ func getEnterpriseManagerBridgeIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func enterpriseManagerBridgeSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OpsiEnterpriseManagerBridgeSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if enterpriseManagerBridgeResponse, ok := response.Response.(oci_opsi.GetEnterpriseManagerBridgeResponse); ok {
 		return enterpriseManagerBridgeResponse.LifecycleState != oci_opsi.LifecycleStateDeleted
@@ -348,7 +348,7 @@ func enterpriseManagerBridgeSweepWaitCondition(response common.OCIOperationRespo
 	return false
 }
 
-func enterpriseManagerBridgeSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OpsiEnterpriseManagerBridgeSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.OperationsInsightsClient().GetEnterpriseManagerBridge(context.Background(), oci_opsi.GetEnterpriseManagerBridgeRequest{
 		EnterpriseManagerBridgeId: resourceId,
 		RequestMetadata: common.RequestMetadata{

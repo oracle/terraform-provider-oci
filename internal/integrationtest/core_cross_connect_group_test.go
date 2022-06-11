@@ -25,52 +25,52 @@ import (
 )
 
 var (
-	CrossConnectGroupRequiredOnlyResource = CrossConnectGroupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Required, acctest.Create, crossConnectGroupRepresentation)
+	CoreCrossConnectGroupRequiredOnlyResource = CoreCrossConnectGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Required, acctest.Create, CoreCrossConnectGroupRepresentation)
 
-	CrossConnectGroupResourceConfig = CrossConnectGroupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Update, crossConnectGroupRepresentation)
+	CoreCrossConnectGroupResourceConfig = CoreCrossConnectGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Update, CoreCrossConnectGroupRepresentation)
 
-	CrossConnectGroupResourceConfigCopyForVC = CrossConnectGroupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Update, crossConnectGroupRepresentationCopyForVC)
+	CrossConnectGroupResourceConfigCopyForVC = CoreCrossConnectGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Update, CoreCrossConnectGroupRepresentationCopyForVC)
 
-	crossConnectGroupSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreCrossConnectGroupSingularDataSourceRepresentation = map[string]interface{}{
 		"cross_connect_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_cross_connect_group.test_cross_connect_group.id}`},
 	}
 
-	crossConnectGroupDataSourceRepresentation = map[string]interface{}{
+	CoreCoreCrossConnectGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: crossConnectGroupDataSourceFilterRepresentation}}
-	crossConnectGroupDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreCrossConnectGroupDataSourceFilterRepresentation}}
+	CoreCrossConnectGroupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_cross_connect_group.test_cross_connect_group.id}`}},
 	}
 
-	crossConnectGroupRepresentation = map[string]interface{}{
+	CoreCrossConnectGroupRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"customer_reference_name": acctest.Representation{RepType: acctest.Optional, Create: `customerReferenceName`, Update: `customerReferenceName2`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"macsec_properties":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: crossConnectGroupMacsecPropertiesRepresentation},
+		"macsec_properties":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreCrossConnectGroupMacsecPropertiesRepresentation},
 	}
 
-	crossConnectGroupRepresentationCopyForVC = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{"macsec_properties"}, crossConnectGroupRepresentation)
+	CoreCrossConnectGroupRepresentationCopyForVC = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{"macsec_properties"}, CoreCrossConnectGroupRepresentation)
 
-	crossConnectGroupMacsecPropertiesRepresentation = map[string]interface{}{
+	CoreCrossConnectGroupMacsecPropertiesRepresentation = map[string]interface{}{
 		"state":             acctest.Representation{RepType: acctest.Required, Create: `ENABLED`, Update: `ENABLED`},
 		"encryption_cipher": acctest.Representation{RepType: acctest.Optional, Create: `AES256_GCM`, Update: `AES256_GCM_XPN`},
-		"primary_key":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: crossConnectGroupMacsecPropertiesPrimaryKeyRepresentation},
+		"primary_key":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreCrossConnectGroupMacsecPropertiesPrimaryKeyRepresentation},
 	}
-	crossConnectGroupMacsecPropertiesPrimaryKeyRepresentation = map[string]interface{}{
+	CoreCrossConnectGroupMacsecPropertiesPrimaryKeyRepresentation = map[string]interface{}{
 		"connectivity_association_key_secret_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.secret_ocid_ckn}`},
 		"connectivity_association_name_secret_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.secret_ocid_cak}`},
 		"connectivity_association_key_secret_version":  acctest.Representation{RepType: acctest.Required, Create: `${var.secret_version_cak}`},
 		"connectivity_association_name_secret_version": acctest.Representation{RepType: acctest.Required, Create: `${var.secret_version_ckn}`},
 	}
 
-	CrossConnectGroupResourceDependencies = DefinedTagsDependencies
+	CoreCrossConnectGroupResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: core/default
@@ -104,14 +104,14 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CrossConnectGroupResourceDependencies+secretIdVariableStrCKN+secretIdVariableStrCAK+secretVersionStrCKN+secretVersionStrCAK+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Create, crossConnectGroupRepresentation), "core", "crossConnectGroup", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreCrossConnectGroupResourceDependencies+secretIdVariableStrCKN+secretIdVariableStrCAK+secretVersionStrCKN+secretVersionStrCAK+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Create, CoreCrossConnectGroupRepresentation), "core", "crossConnectGroup", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreCrossConnectGroupDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Required, acctest.Create, crossConnectGroupRepresentation),
+			Config: config + compartmentIdVariableStr + CoreCrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Required, acctest.Create, CoreCrossConnectGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -124,13 +124,13 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreCrossConnectGroupResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK +
+			Config: config + compartmentIdVariableStr + CoreCrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK +
 				secretVersionStrCKN + secretVersionStrCAK +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Create, crossConnectGroupRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Create, CoreCrossConnectGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
@@ -159,10 +159,10 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreCrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK +
 				secretVersionStrCAK + secretVersionStrCKN +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(crossConnectGroupRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreCrossConnectGroupRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -189,8 +189,8 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Update, crossConnectGroupRepresentation),
+			Config: config + compartmentIdVariableStr + CoreCrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Update, CoreCrossConnectGroupRepresentation),
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -216,9 +216,9 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_groups", "test_cross_connect_groups", acctest.Optional, acctest.Update, crossConnectGroupDataSourceRepresentation) +
-				compartmentIdVariableStr + CrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Update, crossConnectGroupRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_groups", "test_cross_connect_groups", acctest.Optional, acctest.Update, CoreCoreCrossConnectGroupDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreCrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Update, CoreCrossConnectGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -244,8 +244,8 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Required, acctest.Create, crossConnectGroupSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CrossConnectGroupResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Required, acctest.Create, CoreCoreCrossConnectGroupSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreCrossConnectGroupResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_group_id"),
 
@@ -266,7 +266,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + CrossConnectGroupRequiredOnlyResource,
+			Config:                  config + CoreCrossConnectGroupRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -330,7 +330,7 @@ func init() {
 
 func sweepCoreCrossConnectGroupResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	crossConnectGroupIds, err := getCrossConnectGroupIds(compartment)
+	crossConnectGroupIds, err := getCoreCrossConnectGroupIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -346,14 +346,14 @@ func sweepCoreCrossConnectGroupResource(compartment string) error {
 				fmt.Printf("Error deleting CrossConnectGroup %s %s, It is possible that the resource is already deleted. Please verify manually \n", crossConnectGroupId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &crossConnectGroupId, crossConnectGroupSweepWaitCondition, time.Duration(3*time.Minute),
-				crossConnectGroupSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &crossConnectGroupId, CoreCrossConnectGroupSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreCrossConnectGroupSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getCrossConnectGroupIds(compartment string) ([]string, error) {
+func getCoreCrossConnectGroupIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "CrossConnectGroupId")
 	if ids != nil {
 		return ids, nil
@@ -378,7 +378,7 @@ func getCrossConnectGroupIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func crossConnectGroupSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreCrossConnectGroupSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if crossConnectGroupResponse, ok := response.Response.(oci_core.GetCrossConnectGroupResponse); ok {
 		return crossConnectGroupResponse.LifecycleState != oci_core.CrossConnectGroupLifecycleStateTerminated
@@ -386,7 +386,7 @@ func crossConnectGroupSweepWaitCondition(response common.OCIOperationResponse) b
 	return false
 }
 
-func crossConnectGroupSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreCrossConnectGroupSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetCrossConnectGroup(context.Background(), oci_core.GetCrossConnectGroupRequest{
 		CrossConnectGroupId: resourceId,
 		RequestMetadata: common.RequestMetadata{

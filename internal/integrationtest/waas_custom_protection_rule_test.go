@@ -26,28 +26,28 @@ import (
 )
 
 var (
-	CustomProtectionRuleRequiredOnlyResource = CustomProtectionRuleResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Required, acctest.Create, customProtectionRuleRepresentation)
+	WaasCustomProtectionRuleRequiredOnlyResource = WaasCustomProtectionRuleResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Required, acctest.Create, WaasCustomProtectionRuleRepresentation)
 
-	CustomProtectionRuleRequiredResourceWithoutDependencies = acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Required, acctest.Create, customProtectionRuleRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule2", acctest.Optional, acctest.Update, customProtectionRuleRepresentation)
+	CustomProtectionRuleRequiredResourceWithoutDependencies = acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Required, acctest.Create, WaasCustomProtectionRuleRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule2", acctest.Optional, acctest.Update, WaasCustomProtectionRuleRepresentation)
 
-	CustomProtectionRuleResourceConfig = CustomProtectionRuleResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Optional, acctest.Update, customProtectionRuleRepresentation)
+	WaasCustomProtectionRuleResourceConfig = WaasCustomProtectionRuleResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Optional, acctest.Update, WaasCustomProtectionRuleRepresentation)
 
-	customProtectionRuleSingularDataSourceRepresentation = map[string]interface{}{
+	WaasWaasCustomProtectionRuleSingularDataSourceRepresentation = map[string]interface{}{
 		"custom_protection_rule_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_waas_custom_protection_rule.test_custom_protection_rule.id}`},
 	}
 
-	customProtectionRuleDataSourceRepresentation = map[string]interface{}{
+	WaasWaasCustomProtectionRuleDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_names":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`displayName`, `displayName2`}, Update: []string{`displayName2`, `displayName3`}},
 		"ids":                                   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_waas_custom_protection_rule.test_custom_protection_rule.id}`}},
 		"states":                                acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
 		"time_created_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2018-01-01T00:00:00.000Z`},
 		"time_created_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `2038-01-01T00:00:00.000Z`},
-		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: customProtectionRuleDataSourceFilterRepresentation}}
-	customProtectionRuleDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: WaasCustomProtectionRuleDataSourceFilterRepresentation}}
+	WaasCustomProtectionRuleDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_waas_custom_protection_rule.test_custom_protection_rule.id}`}},
 	}
@@ -55,7 +55,7 @@ var (
 	template1 = `SecRule REQUEST_URI / \"phase:2,   t:none,   capture,   msg:'Custom (XSS) Attack. Matched Data: %%{TX.0}   found within %%{MATCHED_VAR_NAME}: %%{MATCHED_VAR}',   id:{{id_1}},   ctl:ruleEngine={{mode}},   tag:'Custom',   severity:'2'\"`
 	template2 = `SecRule REQUEST_COOKIES / \"phase:2,   t:none,   capture,   msg:'Custom (XSS) Attack. Matched Data: %%{TX.0}   found within %%{MATCHED_VAR_NAME}: %%{MATCHED_VAR}',   id:{{id_1}},   ctl:ruleEngine={{mode}},   tag:'Custom',   severity:'2'\"`
 
-	customProtectionRuleRepresentation = map[string]interface{}{
+	WaasCustomProtectionRuleRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"template":       acctest.Representation{RepType: acctest.Required, Create: template1, Update: template2},
@@ -64,7 +64,7 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	CustomProtectionRuleResourceDependencies = DefinedTagsDependencies
+	WaasCustomProtectionRuleResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: waas/default
@@ -86,14 +86,14 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CustomProtectionRuleResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Optional, acctest.Create, customProtectionRuleRepresentation), "waas", "customProtectionRule", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+WaasCustomProtectionRuleResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Optional, acctest.Create, WaasCustomProtectionRuleRepresentation), "waas", "customProtectionRule", t)
 
 	acctest.ResourceTest(t, testAccCheckWaasCustomProtectionRuleDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CustomProtectionRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Required, acctest.Create, customProtectionRuleRepresentation),
+			Config: config + compartmentIdVariableStr + WaasCustomProtectionRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Required, acctest.Create, WaasCustomProtectionRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -108,12 +108,12 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + CustomProtectionRuleResourceDependencies,
+			Config: config + compartmentIdVariableStr + WaasCustomProtectionRuleResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + CustomProtectionRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Optional, acctest.Create, customProtectionRuleRepresentation),
+			Config: config + compartmentIdVariableStr + WaasCustomProtectionRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Optional, acctest.Create, WaasCustomProtectionRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -135,9 +135,9 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CustomProtectionRuleResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WaasCustomProtectionRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(customProtectionRuleRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(WaasCustomProtectionRuleRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -159,8 +159,8 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CustomProtectionRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Optional, acctest.Update, customProtectionRuleRepresentation),
+			Config: config + compartmentIdVariableStr + WaasCustomProtectionRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Optional, acctest.Update, WaasCustomProtectionRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -180,9 +180,9 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_custom_protection_rules", "test_custom_protection_rules", acctest.Optional, acctest.Update, customProtectionRuleDataSourceRepresentation) +
-				compartmentIdVariableStr + CustomProtectionRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Optional, acctest.Update, customProtectionRuleRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_custom_protection_rules", "test_custom_protection_rules", acctest.Optional, acctest.Update, WaasWaasCustomProtectionRuleDataSourceRepresentation) +
+				compartmentIdVariableStr + WaasCustomProtectionRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Optional, acctest.Update, WaasCustomProtectionRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_names.#", "2"),
@@ -204,8 +204,8 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Required, acctest.Create, customProtectionRuleSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CustomProtectionRuleResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", acctest.Required, acctest.Create, WaasWaasCustomProtectionRuleSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + WaasCustomProtectionRuleResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_protection_rule_id"),
 
@@ -222,7 +222,7 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + CustomProtectionRuleRequiredOnlyResource,
+			Config:                  config + WaasCustomProtectionRuleRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -286,7 +286,7 @@ func init() {
 
 func sweepWaasCustomProtectionRuleResource(compartment string) error {
 	waasClient := acctest.GetTestClients(&schema.ResourceData{}).WaasClient()
-	customProtectionRuleIds, err := getCustomProtectionRuleIds(compartment)
+	customProtectionRuleIds, err := getWaasCustomProtectionRuleIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -302,14 +302,14 @@ func sweepWaasCustomProtectionRuleResource(compartment string) error {
 				fmt.Printf("Error deleting CustomProtectionRule %s %s, It is possible that the resource is already deleted. Please verify manually \n", customProtectionRuleId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &customProtectionRuleId, customProtectionRuleSweepWaitCondition, time.Duration(3*time.Minute),
-				customProtectionRuleSweepResponseFetchOperation, "waas", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &customProtectionRuleId, WaasCustomProtectionRuleSweepWaitCondition, time.Duration(3*time.Minute),
+				WaasCustomProtectionRuleSweepResponseFetchOperation, "waas", true)
 		}
 	}
 	return nil
 }
 
-func getCustomProtectionRuleIds(compartment string) ([]string, error) {
+func getWaasCustomProtectionRuleIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "CustomProtectionRuleId")
 	if ids != nil {
 		return ids, nil
@@ -334,7 +334,7 @@ func getCustomProtectionRuleIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func customProtectionRuleSweepWaitCondition(response common.OCIOperationResponse) bool {
+func WaasCustomProtectionRuleSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if customProtectionRuleResponse, ok := response.Response.(oci_waas.GetCustomProtectionRuleResponse); ok {
 		return customProtectionRuleResponse.LifecycleState != oci_waas.LifecycleStatesDeleted
@@ -342,7 +342,7 @@ func customProtectionRuleSweepWaitCondition(response common.OCIOperationResponse
 	return false
 }
 
-func customProtectionRuleSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func WaasCustomProtectionRuleSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.WaasClient().GetCustomProtectionRule(context.Background(), oci_waas.GetCustomProtectionRuleRequest{
 		CustomProtectionRuleId: resourceId,
 		RequestMetadata: common.RequestMetadata{

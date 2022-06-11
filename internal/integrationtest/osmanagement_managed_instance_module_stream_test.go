@@ -17,8 +17,8 @@ import (
 
 var (
 	// OL8 Managed Instance with module support
-	managedInstanceOCID                                 = utils.GetEnvSettingWithBlankDefault("managed_instance_ocid")
-	managedInstanceModuleStreamDataSourceRepresentation = map[string]interface{}{
+	managedInstanceOCID                                                         = utils.GetEnvSettingWithBlankDefault("managed_instance_ocid")
+	OsmanagementOsmanagementManagedInstanceModuleStreamDataSourceRepresentation = map[string]interface{}{
 		"managed_instance_id": acctest.Representation{RepType: acctest.Required, Create: managedInstanceOCID},
 	}
 )
@@ -41,7 +41,7 @@ func TestOsmanagementManagedInstanceModuleStreamResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_module_streams", "test_managed_instance_module_streams", acctest.Required, acctest.Create, managedInstanceModuleStreamDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_module_streams", "test_managed_instance_module_streams", acctest.Required, acctest.Create, OsmanagementOsmanagementManagedInstanceModuleStreamDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_instance_id"),

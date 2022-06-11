@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	fastLaunchJobConfigDataSourceRepresentation = map[string]interface{}{
+	DatascienceDatascienceFastLaunchJobConfigDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	FastLaunchJobConfigResourceConfig = ""
+	DatascienceFastLaunchJobConfigResourceConfig = ""
 )
 
 // issue-routing-tag: datascience/default
@@ -41,8 +41,8 @@ func TestDatascienceFastLaunchJobConfigResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_fast_launch_job_configs", "test_fast_launch_job_configs", acctest.Required, acctest.Create, fastLaunchJobConfigDataSourceRepresentation) +
-				compartmentIdVariableStr + FastLaunchJobConfigResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_fast_launch_job_configs", "test_fast_launch_job_configs", acctest.Required, acctest.Create, DatascienceDatascienceFastLaunchJobConfigDataSourceRepresentation) +
+				compartmentIdVariableStr + DatascienceFastLaunchJobConfigResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

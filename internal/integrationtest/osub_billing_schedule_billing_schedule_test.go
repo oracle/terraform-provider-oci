@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	billingScheduleDataSourceRepresentation = map[string]interface{}{
+	OsubBillingScheduleOsubBillingScheduleBillingScheduleDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"subscription_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
 		"x_one_origin_region": acctest.Representation{RepType: acctest.Required, Create: `${var.x_one_origin_region}`},
@@ -47,7 +47,7 @@ func TestOsubBillingScheduleBillingScheduleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_billing_schedule_billing_schedules", "test_billing_schedules", acctest.Required, acctest.Create, billingScheduleDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_billing_schedule_billing_schedules", "test_billing_schedules", acctest.Required, acctest.Create, OsubBillingScheduleOsubBillingScheduleBillingScheduleDataSourceRepresentation) +
 				compartmentIdVariableStr + subscriptionIdVariableStr + oneRegionVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

@@ -15,21 +15,21 @@ import (
 )
 
 var (
-	subscriptionProductSingularDataSourceRepresentation = map[string]interface{}{
+	UsageProxyUsageProxySubscriptionProductSingularDataSourceRepresentation = map[string]interface{}{
 		"subscription_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
 		"tenancy_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"usage_period_key": acctest.Representation{RepType: acctest.Required, Create: `${var.usage_period_key}`},
 		"producttype":      acctest.Representation{RepType: acctest.Optional, Create: `ALL`},
 	}
 
-	subscriptionProductDataSourceRepresentation = map[string]interface{}{
+	UsageProxyUsageProxySubscriptionProductDataSourceRepresentation = map[string]interface{}{
 		"subscription_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
 		"tenancy_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"usage_period_key": acctest.Representation{RepType: acctest.Required, Create: `${var.usage_period_key}`},
 		"producttype":      acctest.Representation{RepType: acctest.Optional, Create: `ALL`},
 	}
 
-	SubscriptionProductResourceConfig = ""
+	UsageProxySubscriptionProductResourceConfig = ""
 )
 
 // issue-routing-tag: usage_proxy/default
@@ -57,8 +57,8 @@ func TestUsageProxySubscriptionProductResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_usage_proxy_subscription_products", "test_subscription_products", acctest.Required, acctest.Create, subscriptionProductDataSourceRepresentation) +
-				compartmentIdVariableStr + subscriptionIdVariableStr + usagePeriodVariableStr + SubscriptionProductResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_usage_proxy_subscription_products", "test_subscription_products", acctest.Required, acctest.Create, UsageProxyUsageProxySubscriptionProductDataSourceRepresentation) +
+				compartmentIdVariableStr + subscriptionIdVariableStr + usagePeriodVariableStr + UsageProxySubscriptionProductResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
@@ -71,8 +71,8 @@ func TestUsageProxySubscriptionProductResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_usage_proxy_subscription_product", "test_subscription_product", acctest.Required, acctest.Create, subscriptionProductSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + subscriptionIdVariableStr + usagePeriodVariableStr + SubscriptionProductResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_usage_proxy_subscription_product", "test_subscription_product", acctest.Required, acctest.Create, UsageProxyUsageProxySubscriptionProductSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + subscriptionIdVariableStr + usagePeriodVariableStr + UsageProxySubscriptionProductResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tenancy_id"),

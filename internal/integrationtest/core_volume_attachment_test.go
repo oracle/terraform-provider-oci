@@ -25,21 +25,21 @@ import (
 )
 
 var (
-	VolumeAttachmentRequiredOnlyResource = VolumeAttachmentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", acctest.Required, acctest.Create, volumeAttachmentRepresentation)
+	CoreVolumeAttachmentRequiredOnlyResource = CoreVolumeAttachmentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", acctest.Required, acctest.Create, CoreVolumeAttachmentRepresentation)
 
-	volumeAttachmentDataSourceRepresentation = map[string]interface{}{
+	CoreCoreVolumeAttachmentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"instance_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_instance.test_instance.id}`},
 		"volume_id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_volume.test_volume.id}`},
-		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: volumeAttachmentDataSourceFilterRepresentation}}
-	volumeAttachmentDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVolumeAttachmentDataSourceFilterRepresentation}}
+	CoreVolumeAttachmentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_volume_attachment.test_volume_attachment.id}`}},
 	}
 
-	volumeAttachmentRepresentation = map[string]interface{}{
+	CoreVolumeAttachmentRepresentation = map[string]interface{}{
 		"attachment_type":                     acctest.Representation{RepType: acctest.Required, Create: `iscsi`},
 		"instance_id":                         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
 		"volume_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_volume.test_volume.id}`},
@@ -52,11 +52,11 @@ var (
 		"is_shareable":                        acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
-	VolumeAttachmentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreVolumeAttachmentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", acctest.Required, acctest.Create, volumeRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", acctest.Required, acctest.Create, CoreVolumeRepresentation) +
 		AvailabilityDomainConfig
 )
 
@@ -75,14 +75,14 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+VolumeAttachmentResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", acctest.Optional, acctest.Create, volumeAttachmentRepresentation), "core", "volumeAttachment", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreVolumeAttachmentResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", acctest.Optional, acctest.Create, CoreVolumeAttachmentRepresentation), "core", "volumeAttachment", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreVolumeAttachmentDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", acctest.Required, acctest.Create, volumeAttachmentRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVolumeAttachmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", acctest.Required, acctest.Create, CoreVolumeAttachmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
@@ -92,12 +92,12 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreVolumeAttachmentResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", acctest.Optional, acctest.Create, volumeAttachmentRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVolumeAttachmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", acctest.Optional, acctest.Create, CoreVolumeAttachmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -132,9 +132,9 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_volume_attachments", "test_volume_attachments", acctest.Optional, acctest.Update, volumeAttachmentDataSourceRepresentation) +
-				compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", acctest.Optional, acctest.Update, volumeAttachmentRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_volume_attachments", "test_volume_attachments", acctest.Optional, acctest.Update, CoreCoreVolumeAttachmentDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreVolumeAttachmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", acctest.Optional, acctest.Update, CoreVolumeAttachmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -164,7 +164,7 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + VolumeAttachmentRequiredOnlyResource,
+			Config:            config + CoreVolumeAttachmentRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -230,7 +230,7 @@ func init() {
 
 func sweepCoreVolumeAttachmentResource(compartment string) error {
 	computeClient := acctest.GetTestClients(&schema.ResourceData{}).ComputeClient()
-	volumeAttachmentIds, err := getVolumeAttachmentIds(compartment)
+	volumeAttachmentIds, err := getCoreVolumeAttachmentIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -246,14 +246,14 @@ func sweepCoreVolumeAttachmentResource(compartment string) error {
 				fmt.Printf("Error deleting VolumeAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", volumeAttachmentId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &volumeAttachmentId, volumeAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
-				volumeAttachmentSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &volumeAttachmentId, CoreVolumeAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreVolumeAttachmentSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getVolumeAttachmentIds(compartment string) ([]string, error) {
+func getCoreVolumeAttachmentIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "VolumeAttachmentId")
 	if ids != nil {
 		return ids, nil
@@ -277,7 +277,7 @@ func getVolumeAttachmentIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func volumeAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreVolumeAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if volumeAttachmentResponse, ok := response.Response.(oci_core.GetVolumeAttachmentResponse); ok {
 		return volumeAttachmentResponse.GetLifecycleState() != oci_core.VolumeAttachmentLifecycleStateDetached
@@ -285,7 +285,7 @@ func volumeAttachmentSweepWaitCondition(response common.OCIOperationResponse) bo
 	return false
 }
 
-func volumeAttachmentSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreVolumeAttachmentSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ComputeClient().GetVolumeAttachment(context.Background(), oci_core.GetVolumeAttachmentRequest{
 		VolumeAttachmentId: resourceId,
 		RequestMetadata: common.RequestMetadata{

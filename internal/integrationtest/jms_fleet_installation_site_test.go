@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	fleetInstallationSiteSingularDataSourceRepresentation = map[string]interface{}{
+	JmsJmsFleetInstallationSiteSingularDataSourceRepresentation = map[string]interface{}{
 		"fleet_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
 		"application_id":      acctest.Representation{RepType: acctest.Optional, Create: `dummy.application.id`},
 		"installation_path":   acctest.Representation{RepType: acctest.Optional, Create: `installationPath`},
@@ -27,7 +27,7 @@ var (
 		"os_family":           acctest.Representation{RepType: acctest.Optional, Create: []string{`LINUX`}},
 	}
 
-	fleetInstallationSiteDataSourceRepresentation = map[string]interface{}{
+	JmsJmsFleetInstallationSiteDataSourceRepresentation = map[string]interface{}{
 		"fleet_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
 		"application_id":      acctest.Representation{RepType: acctest.Optional, Create: `dummy.application.id`},
 		"installation_path":   acctest.Representation{RepType: acctest.Optional, Create: `installationPath`},
@@ -42,8 +42,8 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Created Fleet for Installation Site`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet for Installation Site`},
-		"inventory_log":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: fleetInventoryLogRepresentation},
-		"operation_log":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: fleetOperationLogRepresentation},
+		"inventory_log":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetInventoryLogRepresentation},
+		"operation_log":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetInventoryLogRepresentation},
 	}
 
 	FleetInstallationSiteResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Required, acctest.Create, fleetForInstallationSiteRepresentation)
@@ -68,7 +68,7 @@ func TestJmsFleetInstallationSiteResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_jms_fleet_installation_sites", "test_fleet_installation_sites", acctest.Optional, acctest.Create, fleetInstallationSiteDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_jms_fleet_installation_sites", "test_fleet_installation_sites", acctest.Optional, acctest.Create, JmsJmsFleetInstallationSiteDataSourceRepresentation) +
 				compartmentIdVariableStr + FleetInstallationSiteResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_id"),
@@ -87,7 +87,7 @@ func TestJmsFleetInstallationSiteResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_jms_fleet_installation_site", "test_fleet_installation_site", acctest.Optional, acctest.Create, fleetInstallationSiteSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_jms_fleet_installation_site", "test_fleet_installation_site", acctest.Optional, acctest.Create, JmsJmsFleetInstallationSiteSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + FleetInstallationSiteResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "fleet_id"),

@@ -26,27 +26,27 @@ import (
 )
 
 var (
-	ApiGatewayCertificateRequiredOnlyResource = ApiGatewayCertificateResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Required, acctest.Create, apiGatewaycertificateRepresentation)
+	ApigatewayCertificateRequiredOnlyResource = ApigatewayCertificateResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Required, acctest.Create, ApigatewayCertificateRepresentation)
 
-	CertificateResourceConfig = ApiGatewayCertificateResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Optional, acctest.Update, apiGatewaycertificateRepresentation)
+	ApigatewayCertificateResourceConfig = ApigatewayCertificateResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Optional, acctest.Update, ApigatewayCertificateRepresentation)
 
-	apiGatewaycertificateSingularDataSourceRepresentation = map[string]interface{}{
+	ApigatewayCertificateSingularDataSourceRepresentation = map[string]interface{}{
 		"certificate_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_certificate.test_certificate.id}`},
 	}
 
-	apiGatewaycertificateDataSourceRepresentation = map[string]interface{}{
+	ApigatewayCertificateDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: apiGatewaycertificateDataSourceFilterRepresentation}}
-	apiGatewaycertificateDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayCertificateDataSourceFilterRepresentation}}
+	ApigatewayCertificateDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apigateway_certificate.test_certificate.id}`}},
 	}
 
-	apiGatewaycertificateRepresentation = map[string]interface{}{
+	ApigatewayCertificateRepresentation = map[string]interface{}{
 		"certificate":               acctest.Representation{RepType: acctest.Required, Create: "${var.api_certificate_value}"},
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"private_key":               acctest.Representation{RepType: acctest.Required, Create: "${var.api_private_key_value}"},
@@ -65,7 +65,7 @@ var (
 	apiIntermediateCertificate            = utils.GetEnvSettingWithBlankDefault("api_intermediate_certificate")
 	apiIntermediateCertificateVariableStr = fmt.Sprintf("variable \"api_intermediate_certificate_value\" { default = \"%s\" }\n", apiIntermediateCertificate)
 
-	ApiGatewayCertificateResourceDependencies = DefinedTagsDependencies + apiCertificateVariableStr + apiPrivateKeyVariableStr + apiIntermediateCertificateVariableStr
+	ApigatewayCertificateResourceDependencies = DefinedTagsDependencies + apiCertificateVariableStr + apiPrivateKeyVariableStr + apiIntermediateCertificateVariableStr
 )
 
 // issue-routing-tag: apigateway/default
@@ -93,8 +93,8 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckApigatewayCertificateDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ApiGatewayCertificateResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Required, acctest.Create, apiGatewaycertificateRepresentation),
+			Config: config + compartmentIdVariableStr + ApigatewayCertificateResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Required, acctest.Create, ApigatewayCertificateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "certificate", regexp.MustCompile("-----BEGIN CERT.*")),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -109,12 +109,12 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ApiGatewayCertificateResourceDependencies,
+			Config: config + compartmentIdVariableStr + ApigatewayCertificateResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ApiGatewayCertificateResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Optional, acctest.Create, apiGatewaycertificateRepresentation),
+			Config: config + compartmentIdVariableStr + ApigatewayCertificateResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Optional, acctest.Create, ApigatewayCertificateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "certificate"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -141,9 +141,9 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApiGatewayCertificateResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApigatewayCertificateResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(apiGatewaycertificateRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ApigatewayCertificateRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -170,8 +170,8 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ApiGatewayCertificateResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Optional, acctest.Update, apiGatewaycertificateRepresentation),
+			Config: config + compartmentIdVariableStr + ApigatewayCertificateResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Optional, acctest.Update, ApigatewayCertificateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "certificate"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -196,9 +196,9 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_certificates", "test_certificates", acctest.Optional, acctest.Update, apiGatewaycertificateDataSourceRepresentation) +
-				compartmentIdVariableStr + ApiGatewayCertificateResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Optional, acctest.Update, apiGatewaycertificateRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_certificates", "test_certificates", acctest.Optional, acctest.Update, ApigatewayCertificateDataSourceRepresentation) +
+				compartmentIdVariableStr + ApigatewayCertificateResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Optional, acctest.Update, ApigatewayCertificateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -211,9 +211,9 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Optional, acctest.Update, apiGatewaycertificateRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Required, acctest.Create, apiGatewaycertificateSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ApiGatewayCertificateResourceDependencies,
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Optional, acctest.Update, ApigatewayCertificateRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Required, acctest.Create, ApigatewayCertificateSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ApigatewayCertificateResourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "certificate_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "certificate"),
@@ -231,7 +231,7 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + ApiGatewayCertificateRequiredOnlyResource,
+			Config:            config + ApigatewayCertificateRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

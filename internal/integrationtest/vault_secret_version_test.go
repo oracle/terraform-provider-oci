@@ -16,13 +16,13 @@ import (
 )
 
 var (
-	secretVersionSingularDataSourceRepresentation = map[string]interface{}{
+	VaultVaultSecretVersionSingularDataSourceRepresentation = map[string]interface{}{
 		"secret_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_secret.id`},
 		"secret_version_number": acctest.Representation{RepType: acctest.Required, Create: `10`},
 	}
 
-	SecretVersionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, vaultRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, secretRepresentation)
+	VaultSecretVersionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, KmsVaultRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, VaultSecretRepresentation)
 )
 
 // issue-routing-tag: vault/default
@@ -43,8 +43,8 @@ func TestVaultSecretVersionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_vault_secret_version", "test_secret_version", acctest.Required, acctest.Create, secretVersionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SecretVersionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_vault_secret_version", "test_secret_version", acctest.Required, acctest.Create, VaultVaultSecretVersionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + VaultSecretVersionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secret_version_number", "1"),

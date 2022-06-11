@@ -15,12 +15,12 @@ import (
 )
 
 var (
-	crossConnectStatusSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreCrossConnectStatusSingularDataSourceRepresentation = map[string]interface{}{
 		"cross_connect_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_cross_connect.test_cross_connect.id}`},
 	}
 
-	CrossConnectStatusResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", acctest.Required, acctest.Create, crossConnectLocationDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", acctest.Required, acctest.Create, crossConnectRepresentation)
+	CoreCrossConnectStatusResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", acctest.Required, acctest.Create, CoreCoreCrossConnectLocationDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", acctest.Required, acctest.Create, CoreCrossConnectRepresentation)
 )
 
 // issue-routing-tag: core/default
@@ -41,8 +41,8 @@ func TestCoreCrossConnectStatusResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_status", "test_cross_connect_status", acctest.Required, acctest.Create, crossConnectStatusSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CrossConnectStatusResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_status", "test_cross_connect_status", acctest.Required, acctest.Create, CoreCoreCrossConnectStatusSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreCrossConnectStatusResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
 

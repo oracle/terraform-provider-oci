@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	listJreUsageSingularDataSourceRepresentation = map[string]interface{}{
+	JmsJmsListJreUsageSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"host_id":          acctest.Representation{RepType: acctest.Optional, Create: `my_host_id_1`},
 		"application_id":   acctest.Representation{RepType: acctest.Optional, Create: `my_application_id_1`},
@@ -44,7 +44,7 @@ func TestJmsListJreUsageResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_jms_list_jre_usage", "test_list_jre_usage", acctest.Optional, acctest.Create, listJreUsageSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_jms_list_jre_usage", "test_list_jre_usage", acctest.Optional, acctest.Create, JmsJmsListJreUsageSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),

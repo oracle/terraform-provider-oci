@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	operationsInsightsWarehouseResourceUsageSummarySingularDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiOperationsInsightsWarehouseResourceUsageSummarySingularDataSourceRepresentation = map[string]interface{}{
 		"operations_insights_warehouse_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_operations_insights_warehouse.test_operations_insights_warehouse.id}`},
 	}
 
-	OperationsInsightsWarehouseResourceUsageSummaryResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, operationsInsightsWarehouseRepresentation)
+	OpsiOperationsInsightsWarehouseResourceUsageSummaryResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, OpsiOperationsInsightsWarehouseRepresentation)
 )
 
 // issue-routing-tag: opsi/controlPlane
@@ -41,8 +41,8 @@ func TestOpsiOperationsInsightsWarehouseResourceUsageSummaryResource_basic(t *te
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_operations_insights_warehouse_resource_usage_summary", "test_operations_insights_warehouse_resource_usage_summary", acctest.Required, acctest.Create, operationsInsightsWarehouseResourceUsageSummarySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + OperationsInsightsWarehouseResourceUsageSummaryResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_operations_insights_warehouse_resource_usage_summary", "test_operations_insights_warehouse_resource_usage_summary", acctest.Required, acctest.Create, OpsiOpsiOperationsInsightsWarehouseResourceUsageSummarySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OpsiOperationsInsightsWarehouseResourceUsageSummaryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "operations_insights_warehouse_id"),
 

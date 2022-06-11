@@ -16,24 +16,24 @@ import (
 )
 
 var (
-	awrHubAwrSnapshotSingularDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiAwrHubAwrSnapshotSingularDataSourceRepresentation = map[string]interface{}{
 		"awr_hub_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_awr_hub.test_awr_hub.id}`},
 		"awr_source_database_identifier": acctest.Representation{RepType: acctest.Required, Create: `12345`},
 		"time_greater_than_or_equal_to":  acctest.Representation{RepType: acctest.Optional, Create: `timeGreaterThanOrEqualTo`},
 		"time_less_than_or_equal_to":     acctest.Representation{RepType: acctest.Optional, Create: `timeLessThanOrEqualTo`},
 	}
 
-	awrHubAwrSnapshotDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiAwrHubAwrSnapshotDataSourceRepresentation = map[string]interface{}{
 		"awr_hub_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_awr_hub.test_awr_hub.id}`},
 		"awr_source_database_identifier": acctest.Representation{RepType: acctest.Required, Create: `12345`},
 		"time_greater_than_or_equal_to":  acctest.Representation{RepType: acctest.Optional, Create: `timeGreaterThanOrEqualTo`},
 		"time_less_than_or_equal_to":     acctest.Representation{RepType: acctest.Optional, Create: `timeLessThanOrEqualTo`},
 	}
 
-	AwrHubAwrSnapshotResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Required, acctest.Create, awrHubRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, operationsInsightsWarehouseRepresentation)
+	OpsiAwrHubAwrSnapshotResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Required, acctest.Create, OpsiAwrHubRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, OpsiOperationsInsightsWarehouseRepresentation)
 )
 
 // issue-routing-tag: opsi/controlPlane
@@ -59,8 +59,8 @@ func TestOpsiAwrHubAwrSnapshotResource_basic(t *testing.T) {
 			//Source configuration is a manual step and requires a user to login to each Oracle database and run SQL queries.
 
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_awr_hub_awr_snapshots", "test_awr_hub_awr_snapshots", acctest.Required, acctest.Create, awrHubAwrSnapshotDataSourceRepresentation) +
-				compartmentIdVariableStr + AwrHubAwrSnapshotResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_awr_hub_awr_snapshots", "test_awr_hub_awr_snapshots", acctest.Required, acctest.Create, OpsiOpsiAwrHubAwrSnapshotDataSourceRepresentation) +
+				compartmentIdVariableStr + OpsiAwrHubAwrSnapshotResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				/*resource.TestCheckResourceAttrSet(datasourceName, "awr_hub_id"),
 				resource.TestCheckResourceAttr(datasourceName, "awr_source_database_identifier", "awrSourceDatabaseIdentifier"),
@@ -74,8 +74,8 @@ func TestOpsiAwrHubAwrSnapshotResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_awr_hub_awr_snapshot", "test_awr_hub_awr_snapshot", acctest.Required, acctest.Create, awrHubAwrSnapshotSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AwrHubAwrSnapshotResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_awr_hub_awr_snapshot", "test_awr_hub_awr_snapshot", acctest.Required, acctest.Create, OpsiOpsiAwrHubAwrSnapshotSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OpsiAwrHubAwrSnapshotResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				/*resource.TestCheckResourceAttrSet(singularDatasourceName, "awr_hub_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "awr_source_database_identifier", "awrSourceDatabaseIdentifier"),

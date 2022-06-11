@@ -20,19 +20,19 @@ import (
 )
 
 var (
-	ConfigurationResourceConfig = ConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", acctest.Optional, acctest.Update, configurationRepresentation)
+	AuditConfigurationResourceConfig = AuditConfigurationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", acctest.Optional, acctest.Update, AuditconfigurationRepresentation)
 
-	configurationSingularDataSourceRepresentation = map[string]interface{}{
+	AuditAuditconfigurationSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 	}
 
-	configurationRepresentation = map[string]interface{}{
+	AuditconfigurationRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"retention_period_days": acctest.Representation{RepType: acctest.Required, Create: `365`},
 	}
 
-	ConfigurationResourceDependencies = ""
+	AuditConfigurationResourceDependencies = ""
 )
 
 // issue-routing-tag: audit/default
@@ -50,14 +50,14 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+ConfigurationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", acctest.Required, acctest.Create, configurationRepresentation), "audit", "configuration", t)
+	acctest.SaveConfigContent(config+AuditConfigurationResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", acctest.Required, acctest.Create, AuditconfigurationRepresentation), "audit", "configuration", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + ConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", acctest.Required, acctest.Create, configurationRepresentation),
+			Config: config + AuditConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", acctest.Required, acctest.Create, AuditconfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "retention_period_days", "365"),
@@ -76,8 +76,8 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + ConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", acctest.Optional, acctest.Update, configurationRepresentation),
+			Config: config + AuditConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", acctest.Optional, acctest.Update, AuditconfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "retention_period_days", "365"),
@@ -94,8 +94,8 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_audit_configuration", "test_configuration", acctest.Required, acctest.Create, configurationSingularDataSourceRepresentation) +
-				ConfigurationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_audit_configuration", "test_configuration", acctest.Required, acctest.Create, AuditAuditconfigurationSingularDataSourceRepresentation) +
+				AuditConfigurationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 

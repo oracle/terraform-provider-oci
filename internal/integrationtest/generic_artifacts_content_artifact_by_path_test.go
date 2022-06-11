@@ -37,9 +37,9 @@ var (
 		"content":       acctest.Representation{RepType: acctest.Required, Create: `<a1>content</a1>`},
 	}
 
-	ArtifactByPathResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", acctest.Required, acctest.Create, repositoryRepresentation)
+	ArtifactByPathResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", acctest.Required, acctest.Create, ArtifactsrepositoryRepresentation)
 	// the deletion of oci_generic_artifacts_content_artifact_by_path is done by oci_artifacts_generic_artifact
-	GenericArtifactManager = acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Required, acctest.Create, genericArtifactRepresentation)
+	GenericArtifactManager = acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Required, acctest.Create, ArtifactsGenericArtifactRepresentation)
 )
 
 // issue-routing-tag: generic_artifacts_content/default

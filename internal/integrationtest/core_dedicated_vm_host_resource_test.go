@@ -24,13 +24,13 @@ var (
 
 	DedicatedVmHostE3RequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, dedicatedVmHostRepresentation_E3Shape)
 
-	DedicatedVmHostResourceConfig_E3Shape = DedicatedVmHostResourceDependencies +
+	DedicatedVmHostResourceConfig_E3Shape = CoreDedicatedVmHostResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, dedicatedVmHostRepresentation_E3Shape)
 
-	DedicatedVmHostResourceConfig_E2Shape = DedicatedVmHostResourceDependencies +
+	DedicatedVmHostResourceConfig_E2Shape = CoreDedicatedVmHostResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, dedicatedVmHostRepresentation_E2Shape)
 
-	DedicatedVmHostResourceConfig_DenseIO2Shape = DedicatedVmHostResourceDependencies +
+	DedicatedVmHostResourceConfig_DenseIO2Shape = CoreDedicatedVmHostResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, dedicatedVmHostRepresentation_DenseIO2Shape)
 
 	dedicatedVmHostDataSourceRepresentation_E3Shape = map[string]interface{}{
@@ -41,7 +41,7 @@ var (
 		"remaining_memory_in_gbs_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `16.0`},
 		"remaining_ocpus_greater_than_or_equal_to":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
 		"state":  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: dedicatedVmHostDataSourceFilterRepresentation}}
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDedicatedVmHostDataSourceFilterRepresentation}}
 	dedicatedVmHostDataSourceFilterRepresentation_E3Shape = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`}},
@@ -55,7 +55,7 @@ var (
 		"remaining_memory_in_gbs_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `8.0`},
 		"remaining_ocpus_greater_than_or_equal_to":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
 		"state":  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: dedicatedVmHostDataSourceFilterRepresentation}}
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDedicatedVmHostDataSourceFilterRepresentation}}
 	dedicatedVmHostDataSourceFilterRepresentation_E2Shape = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`}},
@@ -69,7 +69,7 @@ var (
 		"remaining_memory_in_gbs_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `120.0`},
 		"remaining_ocpus_greater_than_or_equal_to":         acctest.Representation{RepType: acctest.Optional, Create: `8.0`},
 		"state":  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: dedicatedVmHostDataSourceFilterRepresentation}}
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDedicatedVmHostDataSourceFilterRepresentation}}
 	dedicatedVmHostDataSourceFilterRepresentation_DenseIO2Shape = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`}},
@@ -125,13 +125,13 @@ func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DedicatedVmHostResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreDedicatedVmHostResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Create, dedicatedVmHostRepresentation_DenseIO2Shape), "core", "dedicatedVmHost", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreDedicatedVmHostDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, dedicatedVmHostRepresentation_DenseIO2Shape),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -147,11 +147,11 @@ func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Create, dedicatedVmHostRepresentation_DenseIO2Shape),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -180,7 +180,7 @@ func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DedicatedVmHostResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(dedicatedVmHostRepresentation_DenseIO2Shape, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -210,7 +210,7 @@ func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, dedicatedVmHostRepresentation_DenseIO2Shape),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -238,7 +238,7 @@ func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_hosts", "test_dedicated_vm_hosts", acctest.Optional, acctest.Update, dedicatedVmHostDataSourceRepresentation_DenseIO2Shape) +
-				compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
+				compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, dedicatedVmHostRepresentation_DenseIO2Shape),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
@@ -267,7 +267,7 @@ func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, dedicatedVmHostSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, CoreCoreDedicatedVmHostSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DedicatedVmHostResourceConfig_DenseIO2Shape,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dedicated_vm_host_id"),
@@ -317,13 +317,13 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DedicatedVmHostResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreDedicatedVmHostResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Create, dedicatedVmHostRepresentation_E2Shape), "core", "dedicatedVmHost", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreDedicatedVmHostDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, dedicatedVmHostRepresentation_E2Shape),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -339,11 +339,11 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Create, dedicatedVmHostRepresentation_E2Shape),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -372,7 +372,7 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DedicatedVmHostResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(dedicatedVmHostRepresentation_E2Shape, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -402,7 +402,7 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, dedicatedVmHostRepresentation_E2Shape),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -430,7 +430,7 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_hosts", "test_dedicated_vm_hosts", acctest.Optional, acctest.Update, dedicatedVmHostDataSourceRepresentation_E2Shape) +
-				compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
+				compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, dedicatedVmHostRepresentation_E2Shape),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
@@ -459,7 +459,7 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, dedicatedVmHostSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, CoreCoreDedicatedVmHostSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DedicatedVmHostResourceConfig_E2Shape,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dedicated_vm_host_id"),
@@ -509,13 +509,13 @@ func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DedicatedVmHostResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreDedicatedVmHostResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Create, dedicatedVmHostRepresentation_E3Shape), "core", "dedicatedVmHost", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreDedicatedVmHostDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, dedicatedVmHostRepresentation_E3Shape),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -531,11 +531,11 @@ func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Create, dedicatedVmHostRepresentation_E3Shape),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -564,7 +564,7 @@ func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DedicatedVmHostResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(dedicatedVmHostRepresentation_E3Shape, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -594,7 +594,7 @@ func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, dedicatedVmHostRepresentation_E3Shape),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -622,7 +622,7 @@ func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_hosts", "test_dedicated_vm_hosts", acctest.Optional, acctest.Update, dedicatedVmHostDataSourceRepresentation_E3Shape) +
-				compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
+				compartmentIdVariableStr + CoreDedicatedVmHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, dedicatedVmHostRepresentation_E3Shape),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
@@ -651,7 +651,7 @@ func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, dedicatedVmHostSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, CoreCoreDedicatedVmHostSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DedicatedVmHostResourceConfig_E3Shape,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dedicated_vm_host_id"),

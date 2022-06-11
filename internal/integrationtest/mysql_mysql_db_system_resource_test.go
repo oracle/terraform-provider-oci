@@ -28,7 +28,7 @@ var (
 		"configuration_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlHAConfigurationOCID[var.region]}`},
 		"shape_name":              acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyRepresentation},
+		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemBackupPolicyRepresentation},
 		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `MySQL Database Service`, Update: `description2`},
@@ -37,7 +37,7 @@ var (
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"hostname_label":          acctest.Representation{RepType: acctest.Optional, Create: `hostnameLabel`},
 		"is_highly_available":     acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"maintenance":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemMaintenanceRepresentation},
+		"maintenance":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemMaintenanceRepresentation},
 		"port":                    acctest.Representation{RepType: acctest.Optional, Create: `3306`},
 		"port_x":                  acctest.Representation{RepType: acctest.Optional, Create: `33306`},
 		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlRep},
@@ -55,7 +55,7 @@ var (
 		"configuration_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlHAConfigurationOCID[var.region]}`},
 		"shape_name":              acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyNotUpdateableRepresentation},
+		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlDbSystemBackupPolicyNotUpdateableRepresentation},
 		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `MySQL Database Service`},
@@ -64,7 +64,7 @@ var (
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"hostname_label":          acctest.Representation{RepType: acctest.Optional, Create: `hostnameLabel`},
 		"is_highly_available":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"maintenance":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemMaintenanceRepresentation},
+		"maintenance":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemMaintenanceRepresentation},
 		"port":                    acctest.Representation{RepType: acctest.Optional, Create: `3306`},
 		"port_x":                  acctest.Representation{RepType: acctest.Optional, Create: `33306`},
 		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlRepHA},
@@ -74,9 +74,9 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags"}},
 	}
 
-	MysqlDbSystemSourceBackupResourceDependencies = MysqlDbSystemResourceDependencies + utils.MysqlHAConfigurationIdVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Required, acctest.Create, mysqlBackupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", acctest.Required, acctest.Create, mysqlDbSystemRepresentation)
+	MysqlDbSystemSourceBackupResourceDependencies = MysqlMysqlDbSystemResourceDependencies + utils.MysqlHAConfigurationIdVariable +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Required, acctest.Create, MysqlMysqlBackupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", acctest.Required, acctest.Create, MysqlMysqlDbSystemRepresentation)
 )
 
 // issue-routing-tag: mysql/default
@@ -95,7 +95,7 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 
 	// changing admin_password RepType to Optional. As it is an optional parameter for restore operation.
 	updatedAdminPasswordRepresentation := acctest.GetUpdatedRepresentationCopy("admin_password", acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`},
-		mysqlDbSystemRepresentation)
+		MysqlMysqlDbSystemRepresentation)
 
 	// changing admin_username RepType to Optional. As it is an optional parameter for restore operation.
 	updatedAdminUsernameRepresentation := acctest.GetUpdatedRepresentationCopy("admin_username", acctest.Representation{RepType: acctest.Optional, Create: `adminUser`},
@@ -320,8 +320,8 @@ func TestMysqlMysqlDbSystemResource_crashRecovery(t *testing.T) {
 	var resId, resId2 string
 
 	updatedRepresentation := acctest.GetUpdatedRepresentationCopy("crash_recovery", acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
-		acctest.RepresentationCopyWithNewProperties(mysqlDbSystemRepresentation, map[string]interface{}{
-			"backup_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyNotUpdateableRepresentation},
+		acctest.RepresentationCopyWithNewProperties(MysqlMysqlDbSystemRepresentation, map[string]interface{}{
+			"backup_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlDbSystemBackupPolicyNotUpdateableRepresentation},
 		}))
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
@@ -423,8 +423,8 @@ func TestMysqlMysqlDbSystemResource_dataStorageSizeGB(t *testing.T) {
 	var resId, resId2 string
 
 	updatedRepresentation := acctest.GetUpdatedRepresentationCopy("data_storage_size_in_gb", acctest.Representation{RepType: acctest.Optional, Create: `50`, Update: `100`},
-		acctest.RepresentationCopyWithNewProperties(mysqlDbSystemRepresentation, map[string]interface{}{
-			"backup_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyNotUpdateableRepresentation},
+		acctest.RepresentationCopyWithNewProperties(MysqlMysqlDbSystemRepresentation, map[string]interface{}{
+			"backup_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlDbSystemBackupPolicyNotUpdateableRepresentation},
 		}))
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
@@ -536,8 +536,8 @@ func TestMysqlMysqlDbSystemResource_configurationId(t *testing.T) {
 
 	updatedRepresentation := acctest.GetUpdatedRepresentationCopy("configuration_id",
 		acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`, Update: `${var.MysqlHAConfigurationOCID[var.region]}`},
-		acctest.RepresentationCopyWithNewProperties(mysqlDbSystemRepresentation, map[string]interface{}{
-			"backup_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyNotUpdateableRepresentation},
+		acctest.RepresentationCopyWithNewProperties(MysqlMysqlDbSystemRepresentation, map[string]interface{}{
+			"backup_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlDbSystemBackupPolicyNotUpdateableRepresentation},
 		}))
 
 	// would be nice to make this look up work, but since this is terraform syntax we can't evaluate it.

@@ -24,37 +24,37 @@ import (
 )
 
 var (
-	SubscriptionRedeemableUserRequiredOnlyResource = SubscriptionRedeemableUserResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_user", "test_subscription_redeemable_user", acctest.Required, acctest.Create, subscriptionRedeemableUserRepresentation)
+	UsageProxySubscriptionRedeemableUserRequiredOnlyResource = UsageProxySubscriptionRedeemableUserResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_user", "test_subscription_redeemable_user", acctest.Required, acctest.Create, UsageProxySubscriptionRedeemableUserRepresentation)
 
-	SubscriptionRedeemableUserResourceConfig = SubscriptionRedeemableUserResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_user", "test_subscription_redeemable_user", acctest.Optional, acctest.Update, subscriptionRedeemableUserRepresentation)
+	UsageProxySubscriptionRedeemableUserResourceConfig = UsageProxySubscriptionRedeemableUserResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_user", "test_subscription_redeemable_user", acctest.Optional, acctest.Update, UsageProxySubscriptionRedeemableUserRepresentation)
 
-	subscriptionRedeemableUserSingularDataSourceRepresentation = map[string]interface{}{
+	UsageProxyUsageProxySubscriptionRedeemableUserSingularDataSourceRepresentation = map[string]interface{}{
 		"subscription_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
 		"tenancy_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 	}
 
-	subscriptionRedeemableUserDataSourceRepresentation = map[string]interface{}{
+	UsageProxyUsageProxySubscriptionRedeemableUserDataSourceRepresentation = map[string]interface{}{
 		"subscription_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
 		"tenancy_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
-		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: subscriptionRedeemableUserDataSourceFilterRepresentation}}
-	subscriptionRedeemableUserDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: UsageProxySubscriptionRedeemableUserDataSourceFilterRepresentation}}
+	UsageProxySubscriptionRedeemableUserDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_usage_proxy_subscription_redeemable_user.test_subscription_redeemable_user.id}`}},
 	}
 
-	subscriptionRedeemableUserRepresentation = map[string]interface{}{
+	UsageProxySubscriptionRedeemableUserRepresentation = map[string]interface{}{
 		"subscription_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
 		"tenancy_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
-		"items":           acctest.RepresentationGroup{RepType: acctest.Required, Group: subscriptionRedeemableUserItemsRepresentation},
+		"items":           acctest.RepresentationGroup{RepType: acctest.Required, Group: UsageProxySubscriptionRedeemableUserItemsRepresentation},
 		"user_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.user_id}`},
 	}
-	subscriptionRedeemableUserItemsRepresentation = map[string]interface{}{
+	UsageProxySubscriptionRedeemableUserItemsRepresentation = map[string]interface{}{
 		"email_id": acctest.Representation{RepType: acctest.Required, Create: `${var.email_id}`},
 	}
 
-	SubscriptionRedeemableUserResourceDependencies = ""
+	UsageProxySubscriptionRedeemableUserResourceDependencies = ""
 )
 
 // issue-routing-tag: usage_proxy/default
@@ -84,14 +84,14 @@ func TestUsageProxySubscriptionRedeemableUserResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SubscriptionRedeemableUserResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_user", "test_subscription_redeemable_user", acctest.Required, acctest.Create, subscriptionRedeemableUserRepresentation), "usage", "subscriptionRedeemableUser", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+UsageProxySubscriptionRedeemableUserResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_user", "test_subscription_redeemable_user", acctest.Required, acctest.Create, UsageProxySubscriptionRedeemableUserRepresentation), "usage", "subscriptionRedeemableUser", t)
 
 	acctest.ResourceTest(t, testAccCheckUsageProxySubscriptionRedeemableUserDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + subscriptionIdVariableStr + emailIdVariableStr + userIdVariableStr + SubscriptionRedeemableUserResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_user", "test_subscription_redeemable_user", acctest.Required, acctest.Create, subscriptionRedeemableUserRepresentation),
+			Config: config + compartmentIdVariableStr + subscriptionIdVariableStr + emailIdVariableStr + userIdVariableStr + UsageProxySubscriptionRedeemableUserResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_user", "test_subscription_redeemable_user", acctest.Required, acctest.Create, UsageProxySubscriptionRedeemableUserRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
@@ -100,12 +100,12 @@ func TestUsageProxySubscriptionRedeemableUserResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + subscriptionIdVariableStr + emailIdVariableStr + userIdVariableStr + SubscriptionRedeemableUserResourceDependencies,
+			Config: config + compartmentIdVariableStr + subscriptionIdVariableStr + emailIdVariableStr + userIdVariableStr + UsageProxySubscriptionRedeemableUserResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + subscriptionIdVariableStr + emailIdVariableStr + userIdVariableStr + SubscriptionRedeemableUserResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_user", "test_subscription_redeemable_user", acctest.Required, acctest.Create, subscriptionRedeemableUserRepresentation),
+			Config: config + compartmentIdVariableStr + subscriptionIdVariableStr + emailIdVariableStr + userIdVariableStr + UsageProxySubscriptionRedeemableUserResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_user", "test_subscription_redeemable_user", acctest.Required, acctest.Create, UsageProxySubscriptionRedeemableUserRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "items.0.email_id"),
@@ -127,9 +127,9 @@ func TestUsageProxySubscriptionRedeemableUserResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_users", "test_subscription_redeemable_users", acctest.Optional, acctest.Update, subscriptionRedeemableUserDataSourceRepresentation) +
-				compartmentIdVariableStr + subscriptionIdVariableStr + emailIdVariableStr + userIdVariableStr + SubscriptionRedeemableUserResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_user", "test_subscription_redeemable_user", acctest.Optional, acctest.Update, subscriptionRedeemableUserRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_users", "test_subscription_redeemable_users", acctest.Optional, acctest.Update, UsageProxyUsageProxySubscriptionRedeemableUserDataSourceRepresentation) +
+				compartmentIdVariableStr + subscriptionIdVariableStr + emailIdVariableStr + userIdVariableStr + UsageProxySubscriptionRedeemableUserResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_user", "test_subscription_redeemable_user", acctest.Optional, acctest.Update, UsageProxySubscriptionRedeemableUserRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
@@ -142,8 +142,8 @@ func TestUsageProxySubscriptionRedeemableUserResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_user", "test_subscription_redeemable_user", acctest.Required, acctest.Create, subscriptionRedeemableUserSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + subscriptionIdVariableStr + emailIdVariableStr + userIdVariableStr + SubscriptionRedeemableUserResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_usage_proxy_subscription_redeemable_user", "test_subscription_redeemable_user", acctest.Required, acctest.Create, UsageProxyUsageProxySubscriptionRedeemableUserSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + subscriptionIdVariableStr + emailIdVariableStr + userIdVariableStr + UsageProxySubscriptionRedeemableUserResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tenancy_id"),
@@ -153,7 +153,7 @@ func TestUsageProxySubscriptionRedeemableUserResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + SubscriptionRedeemableUserRequiredOnlyResource,
+			Config:            config + UsageProxySubscriptionRedeemableUserRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -213,7 +213,7 @@ func init() {
 
 func sweepUsageProxySubscriptionRedeemableUserResource(compartment string) error {
 	rewardsClient := acctest.GetTestClients(&schema.ResourceData{}).RewardsClient()
-	subscriptionRedeemableUserIds, err := getSubscriptionRedeemableUserIds(compartment)
+	subscriptionRedeemableUserIds, err := getUsageProxySubscriptionRedeemableUserIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -232,7 +232,7 @@ func sweepUsageProxySubscriptionRedeemableUserResource(compartment string) error
 	return nil
 }
 
-func getSubscriptionRedeemableUserIds(compartment string) ([]string, error) {
+func getUsageProxySubscriptionRedeemableUserIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "SubscriptionRedeemableUserId")
 	if ids != nil {
 		return ids, nil
@@ -244,7 +244,7 @@ func getSubscriptionRedeemableUserIds(compartment string) ([]string, error) {
 	listRedeemableUsersRequest := oci_usage_proxy.ListRedeemableUsersRequest{}
 	listRedeemableUsersRequest.TenancyId = &compartmentId
 
-	subscriptionIds, error := getSubscriptionIds(compartment)
+	subscriptionIds, error := getOnsSubscriptionIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting subscriptionId required for SubscriptionRedeemableUser resource requests \n")
 	}

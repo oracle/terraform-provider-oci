@@ -26,70 +26,70 @@ import (
 )
 
 var (
-	CloudExadataInfrastructureRequiredOnlyResource = CloudExadataInfrastructureResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create, cloudExadataInfrastructureRepresentation)
+	DatabaseCloudExadataInfrastructureRequiredOnlyResource = DatabaseCloudExadataInfrastructureResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseCloudExadataInfrastructureRepresentation)
 
-	CloudExadataInfrastructureResourceConfig = CloudExadataInfrastructureResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Update, cloudExadataInfrastructureRepresentation)
+	DatabaseCloudExadataInfrastructureResourceConfig = DatabaseCloudExadataInfrastructureResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Update, DatabaseCloudExadataInfrastructureRepresentation)
 
-	PeerCeiRepresentation                                      = acctest.GetUpdatedRepresentationCopy("display_name", acctest.Representation{RepType: acctest.Required, Create: "peerCEInfra"}, cloudExadataInfrastructureRepresentation)
-	cloudExadataInfrastructureSingularDataSourceRepresentation = map[string]interface{}{
+	PeerCeiRepresentation                                                      = acctest.GetUpdatedRepresentationCopy("display_name", acctest.Representation{RepType: acctest.Required, Create: "peerCEInfra"}, DatabaseCloudExadataInfrastructureRepresentation)
+	DatabaseDatabaseCloudExadataInfrastructureSingularDataSourceRepresentation = map[string]interface{}{
 		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
 	}
 
-	cloudExadataInfrastructureDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseCloudExadataInfrastructureDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `tstExaInfra`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: cloudExadataInfrastructureDataSourceFilterRepresentation}}
-	cloudExadataInfrastructureDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseCloudExadataInfrastructureDataSourceFilterRepresentation}}
+	DatabaseCloudExadataInfrastructureDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`}},
 	}
 
-	cloudExadataInfrastructureRepresentation = map[string]interface{}{
+	DatabaseCloudExadataInfrastructureRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `tstExaInfra`, Update: `displayName2`},
 		"shape":               acctest.Representation{RepType: acctest.Required, Create: `Exadata.X8M`},
 		"compute_count":       acctest.Representation{RepType: acctest.Required, Create: `2`}, // required for shape Exadata.X8M
-		"customer_contacts":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: cloudExadataInfrastructureCustomerContactsRepresentation},
+		"customer_contacts":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseCloudExadataInfrastructureCustomerContactsRepresentation},
 		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"maintenance_window":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: cloudExadataInfrastructureMaintenanceWindowRepresentation},
+		"maintenance_window":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseCloudExadataInfrastructureMaintenanceWindowRepresentation},
 		"storage_count":       acctest.Representation{RepType: acctest.Required, Create: `3`}, // required for shape Exadata.X8M
 	}
-	cloudExadataInfrastructureCustomerContactsRepresentation = map[string]interface{}{
+	DatabaseCloudExadataInfrastructureCustomerContactsRepresentation = map[string]interface{}{
 		"email": acctest.Representation{RepType: acctest.Optional, Create: `test@oracle.com`, Update: `test2@oracle.com`},
 	}
-	cloudExadataInfrastructureMaintenanceWindowRepresentation = map[string]interface{}{
+	DatabaseCloudExadataInfrastructureMaintenanceWindowRepresentation = map[string]interface{}{
 		"preference": acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_PREFERENCE`},
 		//"custom_action_timeout_in_mins":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"days_of_week": acctest.RepresentationGroup{RepType: acctest.Optional, Group: cloudExadataInfrastructureMaintenanceWindowDaysOfWeekRepresentation},
+		"days_of_week": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseCloudExadataInfrastructureMaintenanceWindowDaysOfWeekRepresentation},
 		"hours_of_day": acctest.Representation{RepType: acctest.Optional, Create: []string{`4`}, Update: []string{`8`}},
 		//"is_custom_action_timeout_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"lead_time_in_weeks": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"months":             []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation}, {RepType: acctest.Optional, Group: cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation2}, {RepType: acctest.Optional, Group: cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation3}, {RepType: acctest.Optional, Group: cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation4}},
+		"months":             []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: DatabaseCloudExadataInfrastructureMaintenanceWindowMonthsRepresentation}, {RepType: acctest.Optional, Group: DatabaseCloudExadataInfrastructureMaintenanceWindowMonthsRepresentation2}, {RepType: acctest.Optional, Group: DatabaseCloudExadataInfrastructureMaintenanceWindowMonthsRepresentation3}, {RepType: acctest.Optional, Group: DatabaseCloudExadataInfrastructureMaintenanceWindowMonthsRepresentation4}},
 		//"patching_mode":                    acctest.Representation{RepType: acctest.Optional, Create: `ROLLING`, Update: `NONROLLING`},
 		"weeks_of_month": acctest.Representation{RepType: acctest.Optional, Create: []string{`1`}, Update: []string{`2`}},
 	}
-	cloudExadataInfrastructureMaintenanceWindowDaysOfWeekRepresentation = map[string]interface{}{
+	DatabaseCloudExadataInfrastructureMaintenanceWindowDaysOfWeekRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `MONDAY`, Update: `TUESDAY`},
 	}
-	cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation = map[string]interface{}{
+	DatabaseCloudExadataInfrastructureMaintenanceWindowMonthsRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `MAY`, Update: `JUNE`},
 	}
-	cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation2 = map[string]interface{}{
+	DatabaseCloudExadataInfrastructureMaintenanceWindowMonthsRepresentation2 = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `FEBRUARY`, Update: `MARCH`},
 	}
-	cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation3 = map[string]interface{}{
+	DatabaseCloudExadataInfrastructureMaintenanceWindowMonthsRepresentation3 = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `AUGUST`, Update: `SEPTEMBER`},
 	}
-	cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation4 = map[string]interface{}{
+	DatabaseCloudExadataInfrastructureMaintenanceWindowMonthsRepresentation4 = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `NOVEMBER`, Update: `DECEMBER`},
 	}
 
-	CloudExadataInfrastructureResourceDependencies = AvailabilityDomainConfig +
+	DatabaseCloudExadataInfrastructureResourceDependencies = AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
 
@@ -112,14 +112,14 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudExadataInfrastructureResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Create, cloudExadataInfrastructureRepresentation), "database", "cloudExadataInfrastructure", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseCloudExadataInfrastructureResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Create, DatabaseCloudExadataInfrastructureRepresentation), "database", "cloudExadataInfrastructure", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseCloudExadataInfrastructureDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create, cloudExadataInfrastructureRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseCloudExadataInfrastructureResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseCloudExadataInfrastructureRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -135,12 +135,12 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseCloudExadataInfrastructureResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Create, cloudExadataInfrastructureRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseCloudExadataInfrastructureResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Create, DatabaseCloudExadataInfrastructureRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -180,9 +180,9 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CloudExadataInfrastructureResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseCloudExadataInfrastructureResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(cloudExadataInfrastructureRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatabaseCloudExadataInfrastructureRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -222,8 +222,8 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Update, cloudExadataInfrastructureRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseCloudExadataInfrastructureResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Update, DatabaseCloudExadataInfrastructureRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -261,9 +261,9 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_cloud_exadata_infrastructures", "test_cloud_exadata_infrastructures", acctest.Optional, acctest.Update, cloudExadataInfrastructureDataSourceRepresentation) +
-				compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Update, cloudExadataInfrastructureRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_cloud_exadata_infrastructures", "test_cloud_exadata_infrastructures", acctest.Optional, acctest.Update, DatabaseDatabaseCloudExadataInfrastructureDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseCloudExadataInfrastructureResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Update, DatabaseCloudExadataInfrastructureRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -303,8 +303,8 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create, cloudExadataInfrastructureSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CloudExadataInfrastructureResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseDatabaseCloudExadataInfrastructureSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseCloudExadataInfrastructureResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cloud_exadata_infrastructure_id"),
 
@@ -340,7 +340,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + CloudExadataInfrastructureRequiredOnlyResource,
+			Config:                  config + DatabaseCloudExadataInfrastructureRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -404,7 +404,7 @@ func init() {
 
 func sweepDatabaseCloudExadataInfrastructureResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	cloudExadataInfrastructureIds, err := getCloudExadataInfrastructureIds(compartment)
+	cloudExadataInfrastructureIds, err := getDatabaseCloudExadataInfrastructureIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -420,14 +420,14 @@ func sweepDatabaseCloudExadataInfrastructureResource(compartment string) error {
 				fmt.Printf("Error deleting CloudExadataInfrastructure %s %s, It is possible that the resource is already deleted. Please verify manually \n", cloudExadataInfrastructureId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &cloudExadataInfrastructureId, cloudExadataInfrastructureSweepWaitCondition, time.Duration(3*time.Minute),
-				cloudExadataInfrastructureSweepResponseFetchOperation, "database", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &cloudExadataInfrastructureId, DatabaseCloudExadataInfrastructureSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseCloudExadataInfrastructureSweepResponseFetchOperation, "database", true)
 		}
 	}
 	return nil
 }
 
-func getCloudExadataInfrastructureIds(compartment string) ([]string, error) {
+func getDatabaseCloudExadataInfrastructureIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "CloudExadataInfrastructureId")
 	if ids != nil {
 		return ids, nil
@@ -452,7 +452,7 @@ func getCloudExadataInfrastructureIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func cloudExadataInfrastructureSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseCloudExadataInfrastructureSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if cloudExadataInfrastructureResponse, ok := response.Response.(oci_database.GetCloudExadataInfrastructureResponse); ok {
 		return cloudExadataInfrastructureResponse.LifecycleState != oci_database.CloudExadataInfrastructureLifecycleStateTerminated
@@ -460,7 +460,7 @@ func cloudExadataInfrastructureSweepWaitCondition(response common.OCIOperationRe
 	return false
 }
 
-func cloudExadataInfrastructureSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseCloudExadataInfrastructureSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseClient().GetCloudExadataInfrastructure(context.Background(), oci_database.GetCloudExadataInfrastructureRequest{
 		CloudExadataInfrastructureId: resourceId,
 		RequestMetadata: common.RequestMetadata{

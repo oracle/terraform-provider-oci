@@ -26,29 +26,29 @@ import (
 )
 
 var (
-	WebAppFirewallRequiredOnlyResource = WebAppFirewallResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Required, acctest.Create, webAppFirewallRepresentation)
+	WafWebAppFirewallRequiredOnlyResource = WafWebAppFirewallResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Required, acctest.Create, WafWebAppFirewallRepresentation)
 
-	WebAppFirewallResourceConfig = WebAppFirewallResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Optional, acctest.Update, webAppFirewallRepresentation)
+	WafWebAppFirewallResourceConfig = WafWebAppFirewallResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Optional, acctest.Update, WafWebAppFirewallRepresentation)
 
-	webAppFirewallSingularDataSourceRepresentation = map[string]interface{}{
+	WafWafWebAppFirewallSingularDataSourceRepresentation = map[string]interface{}{
 		"web_app_firewall_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_waf_web_app_firewall.test_web_app_firewall.id}`},
 	}
 
-	webAppFirewallDataSourceRepresentation = map[string]interface{}{
+	WafWafWebAppFirewallDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":                         acctest.Representation{RepType: acctest.Optional, Create: `${oci_waf_web_app_firewall.test_web_app_firewall.id}`},
 		"state":                      acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
 		"web_app_firewall_policy_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_waf_web_app_firewall_policy.test_web_app_firewall_policy.id}`},
-		"filter":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: webAppFirewallDataSourceFilterRepresentation}}
-	webAppFirewallDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: WafWebAppFirewallDataSourceFilterRepresentation}}
+	WafWebAppFirewallDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_waf_web_app_firewall.test_web_app_firewall.id}`}},
 	}
 
-	webAppFirewallRepresentation = map[string]interface{}{
+	WafWebAppFirewallRepresentation = map[string]interface{}{
 		"backend_type":               acctest.Representation{RepType: acctest.Required, Create: `LOAD_BALANCER`},
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"load_balancer_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
@@ -58,9 +58,9 @@ var (
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}}, //, Update: map[string]string{"Department": "Accounting"} but prevents from updating tags with policyID in body
 	}
 
-	WebAppFirewallResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Required, acctest.Create, loadBalancerRepresentation) +
+	WafWebAppFirewallResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Required, acctest.Create, loadBalancerRepresentation) +
 		LoadBalancerSubnetDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Required, acctest.Create, webAppFirewallPolicyRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Required, acctest.Create, WafWebAppFirewallPolicyRepresentation)
 )
 
 // issue-routing-tag: waf/default
@@ -82,14 +82,14 @@ func TestWafWebAppFirewallResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+WebAppFirewallResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Optional, acctest.Create, webAppFirewallRepresentation), "waf", "webAppFirewall", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+WafWebAppFirewallResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Optional, acctest.Create, WafWebAppFirewallRepresentation), "waf", "webAppFirewall", t)
 
 	acctest.ResourceTest(t, testAccCheckWafWebAppFirewallDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + WebAppFirewallResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Required, acctest.Create, webAppFirewallRepresentation),
+			Config: config + compartmentIdVariableStr + WafWebAppFirewallResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Required, acctest.Create, WafWebAppFirewallRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "backend_type", "LOAD_BALANCER"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -105,12 +105,12 @@ func TestWafWebAppFirewallResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + WebAppFirewallResourceDependencies,
+			Config: config + compartmentIdVariableStr + WafWebAppFirewallResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + WebAppFirewallResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Optional, acctest.Create, webAppFirewallRepresentation),
+			Config: config + compartmentIdVariableStr + WafWebAppFirewallResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Optional, acctest.Create, WafWebAppFirewallRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "backend_type", "LOAD_BALANCER"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -137,9 +137,9 @@ func TestWafWebAppFirewallResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WebAppFirewallResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WafWebAppFirewallResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(webAppFirewallRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(WafWebAppFirewallRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -166,8 +166,8 @@ func TestWafWebAppFirewallResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + WebAppFirewallResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Optional, acctest.Update, webAppFirewallRepresentation),
+			Config: config + compartmentIdVariableStr + WafWebAppFirewallResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Optional, acctest.Update, WafWebAppFirewallRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "backend_type", "LOAD_BALANCER"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -193,9 +193,9 @@ func TestWafWebAppFirewallResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_web_app_firewalls", "test_web_app_firewalls", acctest.Optional, acctest.Update, webAppFirewallDataSourceRepresentation) +
-				compartmentIdVariableStr + WebAppFirewallResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Optional, acctest.Update, webAppFirewallRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_web_app_firewalls", "test_web_app_firewalls", acctest.Optional, acctest.Update, WafWafWebAppFirewallDataSourceRepresentation) +
+				compartmentIdVariableStr + WafWebAppFirewallResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Optional, acctest.Update, WafWebAppFirewallRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -210,8 +210,8 @@ func TestWafWebAppFirewallResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Required, acctest.Create, webAppFirewallSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + WebAppFirewallResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_web_app_firewall", "test_web_app_firewall", acctest.Required, acctest.Create, WafWafWebAppFirewallSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + WafWebAppFirewallResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "web_app_firewall_id"),
 
@@ -228,7 +228,7 @@ func TestWafWebAppFirewallResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + WebAppFirewallRequiredOnlyResource,
+			Config:                  config + WafWebAppFirewallRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -292,7 +292,7 @@ func init() {
 
 func sweepWafWebAppFirewallResource(compartment string) error {
 	wafClient := acctest.GetTestClients(&schema.ResourceData{}).WafClient()
-	webAppFirewallIds, err := getWebAppFirewallIds(compartment)
+	webAppFirewallIds, err := getWafWebAppFirewallIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -308,14 +308,14 @@ func sweepWafWebAppFirewallResource(compartment string) error {
 				fmt.Printf("Error deleting WebAppFirewall %s %s, It is possible that the resource is already deleted. Please verify manually \n", webAppFirewallId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &webAppFirewallId, webAppFirewallSweepWaitCondition, time.Duration(3*time.Minute),
-				webAppFirewallSweepResponseFetchOperation, "waf", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &webAppFirewallId, WafWebAppFirewallSweepWaitCondition, time.Duration(3*time.Minute),
+				WafWebAppFirewallSweepResponseFetchOperation, "waf", true)
 		}
 	}
 	return nil
 }
 
-func getWebAppFirewallIds(compartment string) ([]string, error) {
+func getWafWebAppFirewallIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "WebAppFirewallId")
 	if ids != nil {
 		return ids, nil
@@ -340,7 +340,7 @@ func getWebAppFirewallIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func webAppFirewallSweepWaitCondition(response common.OCIOperationResponse) bool {
+func WafWebAppFirewallSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if webAppFirewallResponse, ok := response.Response.(oci_waf.GetWebAppFirewallResponse); ok {
 		return webAppFirewallResponse.GetLifecycleState() != oci_waf.WebAppFirewallLifecycleStateDeleted
@@ -348,7 +348,7 @@ func webAppFirewallSweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func webAppFirewallSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func WafWebAppFirewallSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.WafClient().GetWebAppFirewall(context.Background(), oci_waf.GetWebAppFirewallRequest{
 		WebAppFirewallId: resourceId,
 		RequestMetadata: common.RequestMetadata{

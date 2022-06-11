@@ -25,27 +25,27 @@ import (
 )
 
 var (
-	TriggerRequiredOnlyResource = TriggerResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Required, acctest.Create, triggerRepresentation)
+	DevopsTriggerRequiredOnlyResource = DevopsTriggerResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Required, acctest.Create, DevopsTriggerRepresentation)
 
-	TriggerResourceConfig = TriggerResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Optional, acctest.Update, triggerRepresentation)
+	DevopsTriggerResourceConfig = DevopsTriggerResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Optional, acctest.Update, DevopsTriggerRepresentation)
 
-	triggerSingularDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsTriggerSingularDataSourceRepresentation = map[string]interface{}{
 		"trigger_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_trigger.test_trigger.id}`},
 	}
 
-	triggerDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsTriggerDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: triggerDataSourceFilterRepresentation}}
-	triggerDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsTriggerDataSourceFilterRepresentation}}
+	DevopsTriggerDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_devops_trigger.test_trigger.id}`}},
 	}
 
-	triggerRepresentation = map[string]interface{}{
-		"actions":        acctest.RepresentationGroup{RepType: acctest.Required, Group: triggerActionsRepresentation},
+	DevopsTriggerRepresentation = map[string]interface{}{
+		"actions":        acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsTriggerActionsRepresentation},
 		"project_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_project.test_project.id}`},
 		"trigger_source": acctest.Representation{RepType: acctest.Required, Create: `GITHUB`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -54,25 +54,25 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
-	triggerActionsRepresentation = map[string]interface{}{
+	DevopsTriggerActionsRepresentation = map[string]interface{}{
 		"build_pipeline_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_build_pipeline.test_build_pipeline.id}`},
 		"type":              acctest.Representation{RepType: acctest.Required, Create: `TRIGGER_BUILD_PIPELINE`},
-		"filter":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: triggerActionsFilterRepresentation},
+		"filter":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: DevopsTriggerActionsFilterRepresentation},
 	}
-	triggerActionsFilterRepresentation = map[string]interface{}{
+	DevopsTriggerActionsFilterRepresentation = map[string]interface{}{
 		"trigger_source": acctest.Representation{RepType: acctest.Required, Create: `GITHUB`, Update: `GITHUB`},
 		"events":         acctest.Representation{RepType: acctest.Optional, Create: []string{`PUSH`}, Update: []string{`PULL_REQUEST_CREATED`}},
-		"include":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: triggerActionsFilterIncludeRepresentation},
+		"include":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: DevopsTriggerActionsFilterIncludeRepresentation},
 	}
-	triggerActionsFilterIncludeRepresentation = map[string]interface{}{
+	DevopsTriggerActionsFilterIncludeRepresentation = map[string]interface{}{
 		"base_ref": acctest.Representation{RepType: acctest.Optional, Create: `baseRef`, Update: `baseRef2`},
 		"head_ref": acctest.Representation{RepType: acctest.Optional, Create: `headRef`, Update: `headRef2`},
 	}
 
-	TriggerResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, buildPipelineRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
+	DevopsTriggerResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, DevopsBuildPipelineRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -91,14 +91,14 @@ func TestDevopsTriggerResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+TriggerResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Optional, acctest.Create, triggerRepresentation), "devops", "trigger", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DevopsTriggerResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Optional, acctest.Create, DevopsTriggerRepresentation), "devops", "trigger", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsTriggerDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + TriggerResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Required, acctest.Create, triggerRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsTriggerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Required, acctest.Create, DevopsTriggerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "actions.0.build_pipeline_id"),
@@ -115,12 +115,12 @@ func TestDevopsTriggerResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + TriggerResourceDependencies,
+			Config: config + compartmentIdVariableStr + DevopsTriggerResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + TriggerResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Optional, acctest.Create, triggerRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsTriggerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Optional, acctest.Create, DevopsTriggerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "actions.0.build_pipeline_id"),
@@ -154,8 +154,8 @@ func TestDevopsTriggerResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + TriggerResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Optional, acctest.Update, triggerRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsTriggerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Optional, acctest.Update, DevopsTriggerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "actions.0.build_pipeline_id"),
@@ -187,9 +187,9 @@ func TestDevopsTriggerResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_triggers", "test_triggers", acctest.Optional, acctest.Update, triggerDataSourceRepresentation) +
-				compartmentIdVariableStr + TriggerResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Optional, acctest.Update, triggerRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_triggers", "test_triggers", acctest.Optional, acctest.Update, DevopsDevopsTriggerDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsTriggerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Optional, acctest.Update, DevopsTriggerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -200,8 +200,8 @@ func TestDevopsTriggerResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Required, acctest.Create, triggerSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + TriggerResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_trigger", "test_trigger", acctest.Required, acctest.Create, DevopsDevopsTriggerSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsTriggerResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "trigger_id"),
 
@@ -227,7 +227,7 @@ func TestDevopsTriggerResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + TriggerRequiredOnlyResource,
+			Config:                  config + DevopsTriggerRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -283,7 +283,7 @@ func init() {
 
 func sweepDevopsTriggerResource(compartment string) error {
 	devopsClient := acctest.GetTestClients(&schema.ResourceData{}).DevopsClient()
-	triggerIds, err := getTriggerIds(compartment)
+	triggerIds, err := getDevopsTriggerIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -304,7 +304,7 @@ func sweepDevopsTriggerResource(compartment string) error {
 	return nil
 }
 
-func getTriggerIds(compartment string) ([]string, error) {
+func getDevopsTriggerIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "TriggerId")
 	if ids != nil {
 		return ids, nil

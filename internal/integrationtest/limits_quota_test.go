@@ -24,48 +24,48 @@ import (
 )
 
 var (
-	QuotaRequiredOnlyResource = QuotaResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Required, acctest.Create, quotaRepresentation)
+	LimitsQuotaRequiredOnlyResource = LimitsQuotaResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Required, acctest.Create, LimitsQuotaRepresentation)
 
-	QuotaResourceConfig = QuotaResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Update, quotaRepresentation)
+	LimitsQuotaResourceConfig = LimitsQuotaResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Update, LimitsQuotaRepresentation)
 
-	QuotaWithoutLockRequiredOnlyResource = QuotaResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Required, acctest.Create, quotaWithoutLockRepresentation)
+	QuotaWithoutLockRequiredOnlyResource = LimitsQuotaResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Required, acctest.Create, LimitsQuotaWithoutLockRepresentation)
 
-	QuotaWithoutLockResourceConfig = QuotaResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Update, quotaWithoutLockRepresentation)
+	QuotaWithoutLockResourceConfig = LimitsQuotaResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Update, LimitsQuotaWithoutLockRepresentation)
 
-	quotaSingularDataSourceRepresentation = map[string]interface{}{
+	LimitsLimitsQuotaSingularDataSourceRepresentation = map[string]interface{}{
 		"quota_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_limits_quota.test_quota.id}`},
 	}
 
-	quotaDataSourceRepresentation = map[string]interface{}{
+	LimitsLimitsQuotaDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `ComputeQuotas`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: quotaDataSourceFilterRepresentation}}
-	quotaDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: LimitsQuotaDataSourceFilterRepresentation}}
+	LimitsQuotaDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_limits_quota.test_quota.id}`}},
 	}
 
-	quotaRepresentation = map[string]interface{}{
+	LimitsQuotaRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"description":    acctest.Representation{RepType: acctest.Required, Create: `Quotas for Compute VM.DenseIO1.16 resources`, Update: `description2`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `ComputeQuotas`},
 		"statements":     acctest.Representation{RepType: acctest.Required, Create: []string{`Set notifications quota topic-count to 99 in tenancy`}, Update: []string{`Set notifications quota topic-count to 99 in tenancy`, `Set resource-manager quota stack-count to 499 in tenancy`}},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"locks":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: quotaLocksRepresentation},
+		"locks":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: LimitsQuotaLocksRepresentation},
 	}
-	quotaLocksRepresentation = map[string]interface{}{
+	LimitsQuotaLocksRepresentation = map[string]interface{}{
 		"type":                acctest.Representation{RepType: acctest.Required, Create: `FULL`},
 		"message":             acctest.Representation{RepType: acctest.Optional, Create: `message`},
 		"related_resource_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.tenancy_ocid}`},
 	}
 
-	quotaWithoutLockRepresentation = map[string]interface{}{
+	LimitsQuotaWithoutLockRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"description":    acctest.Representation{RepType: acctest.Required, Create: `Quotas for Compute VM.DenseIO1.16 resources`, Update: `description2`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `ComputeQuotas`},
@@ -74,7 +74,7 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	QuotaResourceDependencies = DefinedTagsDependencies
+	LimitsQuotaResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: limits/default
@@ -94,14 +94,14 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+QuotaResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Create, quotaRepresentation), "limits", "quota", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+LimitsQuotaResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Create, LimitsQuotaRepresentation), "limits", "quota", t)
 
 	acctest.ResourceTest(t, testAccCheckLimitsQuotaDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + QuotaResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Required, acctest.Create, quotaRepresentation),
+			Config: config + compartmentIdVariableStr + LimitsQuotaResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Required, acctest.Create, LimitsQuotaRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Quotas for Compute VM.DenseIO1.16 resources"),
@@ -117,12 +117,12 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + QuotaResourceDependencies,
+			Config: config + compartmentIdVariableStr + LimitsQuotaResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + QuotaResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Create, quotaRepresentation),
+			Config: config + compartmentIdVariableStr + LimitsQuotaResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Create, LimitsQuotaRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Quotas for Compute VM.DenseIO1.16 resources"),
@@ -150,8 +150,8 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + QuotaResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Update, quotaRepresentation),
+			Config: config + compartmentIdVariableStr + LimitsQuotaResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Update, LimitsQuotaRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -177,9 +177,9 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_quotas", "test_quotas", acctest.Optional, acctest.Update, quotaDataSourceRepresentation) +
-				compartmentIdVariableStr + QuotaResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Update, quotaRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_quotas", "test_quotas", acctest.Optional, acctest.Update, LimitsLimitsQuotaDataSourceRepresentation) +
+				compartmentIdVariableStr + LimitsQuotaResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Update, LimitsQuotaRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "ComputeQuotas"),
@@ -203,8 +203,8 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Required, acctest.Create, quotaSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + QuotaResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Required, acctest.Create, LimitsLimitsQuotaSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LimitsQuotaResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "quota_id"),
 
@@ -224,7 +224,7 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + QuotaRequiredOnlyResource,
+			Config:                  config + LimitsQuotaRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -250,14 +250,14 @@ func TestLimitsQuotaResource_basic_no_lock(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+QuotaResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Create, quotaWithoutLockRepresentation), "limits", "quota", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+LimitsQuotaResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Create, LimitsQuotaWithoutLockRepresentation), "limits", "quota", t)
 
 	acctest.ResourceTest(t, testAccCheckLimitsQuotaDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + QuotaResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Required, acctest.Create, quotaWithoutLockRepresentation),
+			Config: config + compartmentIdVariableStr + LimitsQuotaResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Required, acctest.Create, LimitsQuotaWithoutLockRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Quotas for Compute VM.DenseIO1.16 resources"),
@@ -273,12 +273,12 @@ func TestLimitsQuotaResource_basic_no_lock(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + QuotaResourceDependencies,
+			Config: config + compartmentIdVariableStr + LimitsQuotaResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + QuotaResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Create, quotaWithoutLockRepresentation),
+			Config: config + compartmentIdVariableStr + LimitsQuotaResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Create, LimitsQuotaWithoutLockRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Quotas for Compute VM.DenseIO1.16 resources"),
@@ -302,8 +302,8 @@ func TestLimitsQuotaResource_basic_no_lock(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + QuotaResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Update, quotaWithoutLockRepresentation),
+			Config: config + compartmentIdVariableStr + LimitsQuotaResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Update, LimitsQuotaWithoutLockRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -325,9 +325,9 @@ func TestLimitsQuotaResource_basic_no_lock(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_quotas", "test_quotas", acctest.Optional, acctest.Update, quotaDataSourceRepresentation) +
-				compartmentIdVariableStr + QuotaResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Update, quotaWithoutLockRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_quotas", "test_quotas", acctest.Optional, acctest.Update, LimitsLimitsQuotaDataSourceRepresentation) +
+				compartmentIdVariableStr + LimitsQuotaResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Optional, acctest.Update, LimitsQuotaWithoutLockRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "ComputeQuotas"),
@@ -346,8 +346,8 @@ func TestLimitsQuotaResource_basic_no_lock(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Required, acctest.Create, quotaSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + QuotaResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_quota", "test_quota", acctest.Required, acctest.Create, LimitsLimitsQuotaSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LimitsQuotaResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "quota_id"),
 
@@ -418,7 +418,7 @@ func sweepLimitsQuotaResource(compartment string) error {
 	quotasClient := acctest.GetTestClients(&schema.ResourceData{}).QuotasClient()
 	// LimitsQuotaResource can only run on root compartment
 	compartment = utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
-	quotaIds, err := getQuotaIds(compartment)
+	quotaIds, err := getLimitsQuotaIds(compartment)
 	isLockOverride := true
 	if err != nil {
 		return err
@@ -441,7 +441,7 @@ func sweepLimitsQuotaResource(compartment string) error {
 	return nil
 }
 
-func getQuotaIds(compartment string) ([]string, error) {
+func getLimitsQuotaIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "QuotaId")
 	if ids != nil {
 		return ids, nil

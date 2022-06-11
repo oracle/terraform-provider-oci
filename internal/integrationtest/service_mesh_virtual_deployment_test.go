@@ -26,55 +26,55 @@ import (
 )
 
 var (
-	VirtualDeploymentRequiredOnlyResource = VirtualDeploymentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Required, acctest.Create, virtualDeploymentRepresentation)
+	ServiceMeshVirtualDeploymentRequiredOnlyResource = ServiceMeshVirtualDeploymentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Required, acctest.Create, ServiceMeshVirtualDeploymentRepresentation)
 
-	VirtualDeploymentResourceConfig = VirtualDeploymentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Optional, acctest.Update, virtualDeploymentRepresentation)
+	ServiceMeshVirtualDeploymentResourceConfig = ServiceMeshVirtualDeploymentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Optional, acctest.Update, ServiceMeshVirtualDeploymentRepresentation)
 
-	virtualDeploymentSingularDataSourceRepresentation = map[string]interface{}{
+	ServiceMeshServiceMeshVirtualDeploymentSingularDataSourceRepresentation = map[string]interface{}{
 		"virtual_deployment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_virtual_deployment.test_virtual_deployment.id}`},
 	}
 
-	virtualDeploymentDataSourceRepresentation = map[string]interface{}{
+	ServiceMeshServiceMeshVirtualDeploymentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_virtual_deployment.test_virtual_deployment.id}`},
 		"name":               acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"state":              acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"virtual_service_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_virtual_service.virtual_service_1.id}`},
-		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: virtualDeploymentDataSourceFilterRepresentation}}
-	virtualDeploymentDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshVirtualDeploymentDataSourceFilterRepresentation}}
+	ServiceMeshVirtualDeploymentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_service_mesh_virtual_deployment.test_virtual_deployment.id}`}},
 	}
 
-	virtualDeploymentRepresentation = map[string]interface{}{
+	ServiceMeshVirtualDeploymentRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"listeners":          acctest.RepresentationGroup{RepType: acctest.Required, Group: virtualDeploymentListenersRepresentation},
+		"listeners":          acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshVirtualDeploymentListenersRepresentation},
 		"name":               acctest.Representation{RepType: acctest.Required, Create: `name`},
-		"service_discovery":  acctest.RepresentationGroup{RepType: acctest.Required, Group: virtualDeploymentServiceDiscoveryRepresentation},
+		"service_discovery":  acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshVirtualDeploymentServiceDiscoveryRepresentation},
 		"virtual_service_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_virtual_service.virtual_service_1.id}`},
-		"access_logging":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: virtualDeploymentAccessLoggingRepresentation},
+		"access_logging":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ServiceMeshVirtualDeploymentAccessLoggingRepresentation},
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":        acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
-	virtualDeploymentListenersRepresentation = map[string]interface{}{
+	ServiceMeshVirtualDeploymentListenersRepresentation = map[string]interface{}{
 		"port":     acctest.Representation{RepType: acctest.Required, Create: `8080`, Update: `8081`},
 		"protocol": acctest.Representation{RepType: acctest.Required, Create: `HTTP`, Update: `TLS_PASSTHROUGH`},
 	}
-	virtualDeploymentServiceDiscoveryRepresentation = map[string]interface{}{
+	ServiceMeshVirtualDeploymentServiceDiscoveryRepresentation = map[string]interface{}{
 		"hostname": acctest.Representation{RepType: acctest.Required, Create: `hostname`, Update: `hostname2`},
 		"type":     acctest.Representation{RepType: acctest.Required, Create: `DNS`},
 	}
-	virtualDeploymentAccessLoggingRepresentation = map[string]interface{}{
+	ServiceMeshVirtualDeploymentAccessLoggingRepresentation = map[string]interface{}{
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
-	VirtualDeploymentResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "mesh1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(meshRepresentation, map[string]interface{}{
+	ServiceMeshVirtualDeploymentResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "mesh1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(ServiceMeshMeshRepresentation, map[string]interface{}{
 			"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service", "virtual_service_1", acctest.Required, acctest.Create, virtualServiceRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service", "virtual_service_1", acctest.Required, acctest.Create, ServiceMeshVirtualServiceRepresentation)
 )
 
 // issue-routing-tag: service_mesh/default
@@ -99,14 +99,14 @@ func TestServiceMeshVirtualDeploymentResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+certificateAuthorityIdVariableStr+compartmentIdVariableStr+VirtualDeploymentResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Optional, acctest.Create, virtualDeploymentRepresentation), "servicemesh", "virtualDeployment", t)
+	acctest.SaveConfigContent(config+certificateAuthorityIdVariableStr+compartmentIdVariableStr+ServiceMeshVirtualDeploymentResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Optional, acctest.Create, ServiceMeshVirtualDeploymentRepresentation), "servicemesh", "virtualDeployment", t)
 
 	acctest.ResourceTest(t, testAccCheckServiceMeshVirtualDeploymentDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + VirtualDeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Required, acctest.Create, virtualDeploymentRepresentation),
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshVirtualDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Required, acctest.Create, ServiceMeshVirtualDeploymentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "listeners.#", "1"),
@@ -127,12 +127,12 @@ func TestServiceMeshVirtualDeploymentResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + VirtualDeploymentResourceDependencies,
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshVirtualDeploymentResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + VirtualDeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(virtualDeploymentRepresentation, map[string]interface{}{
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshVirtualDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(ServiceMeshVirtualDeploymentRepresentation, map[string]interface{}{
 					"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation}})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "access_logging.#", "1"),
@@ -167,9 +167,9 @@ func TestServiceMeshVirtualDeploymentResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + VirtualDeploymentResourceDependencies +
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceMeshVirtualDeploymentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(virtualDeploymentRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ServiceMeshVirtualDeploymentRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -203,8 +203,8 @@ func TestServiceMeshVirtualDeploymentResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + VirtualDeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Optional, acctest.Update, virtualDeploymentRepresentation),
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshVirtualDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Optional, acctest.Update, ServiceMeshVirtualDeploymentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "access_logging.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "access_logging.0.is_enabled", "true"),
@@ -236,9 +236,9 @@ func TestServiceMeshVirtualDeploymentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_virtual_deployments", "test_virtual_deployments", acctest.Optional, acctest.Update, virtualDeploymentDataSourceRepresentation) +
-				certificateAuthorityIdVariableStr + compartmentIdVariableStr + VirtualDeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Optional, acctest.Update, virtualDeploymentRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_virtual_deployments", "test_virtual_deployments", acctest.Optional, acctest.Update, ServiceMeshServiceMeshVirtualDeploymentDataSourceRepresentation) +
+				certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshVirtualDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Optional, acctest.Update, ServiceMeshVirtualDeploymentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -253,8 +253,8 @@ func TestServiceMeshVirtualDeploymentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Required, acctest.Create, virtualDeploymentSingularDataSourceRepresentation) +
-				certificateAuthorityIdVariableStr + compartmentIdVariableStr + VirtualDeploymentResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Required, acctest.Create, ServiceMeshServiceMeshVirtualDeploymentSingularDataSourceRepresentation) +
+				certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshVirtualDeploymentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_deployment_id"),
 
@@ -278,7 +278,7 @@ func TestServiceMeshVirtualDeploymentResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + VirtualDeploymentRequiredOnlyResource,
+			Config:                  config + ServiceMeshVirtualDeploymentRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -342,7 +342,7 @@ func init() {
 
 func sweepServiceMeshVirtualDeploymentResource(compartment string) error {
 	serviceMeshClient := acctest.GetTestClients(&schema.ResourceData{}).ServiceMeshClient()
-	virtualDeploymentIds, err := getVirtualDeploymentIds(compartment)
+	virtualDeploymentIds, err := getServiceMeshVirtualDeploymentIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -358,14 +358,14 @@ func sweepServiceMeshVirtualDeploymentResource(compartment string) error {
 				fmt.Printf("Error deleting VirtualDeployment %s %s, It is possible that the resource is already deleted. Please verify manually \n", virtualDeploymentId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &virtualDeploymentId, virtualDeploymentSweepWaitCondition, time.Duration(3*time.Minute),
-				virtualDeploymentSweepResponseFetchOperation, "service_mesh", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &virtualDeploymentId, ServiceMeshVirtualDeploymentSweepWaitCondition, time.Duration(3*time.Minute),
+				ServiceMeshVirtualDeploymentSweepResponseFetchOperation, "service_mesh", true)
 		}
 	}
 	return nil
 }
 
-func getVirtualDeploymentIds(compartment string) ([]string, error) {
+func getServiceMeshVirtualDeploymentIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "VirtualDeploymentId")
 	if ids != nil {
 		return ids, nil
@@ -391,7 +391,7 @@ func getVirtualDeploymentIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func virtualDeploymentSweepWaitCondition(response common.OCIOperationResponse) bool {
+func ServiceMeshVirtualDeploymentSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if virtualDeploymentResponse, ok := response.Response.(oci_service_mesh.GetVirtualDeploymentResponse); ok {
 		return virtualDeploymentResponse.LifecycleState != oci_service_mesh.VirtualDeploymentLifecycleStateDeleted
@@ -399,7 +399,7 @@ func virtualDeploymentSweepWaitCondition(response common.OCIOperationResponse) b
 	return false
 }
 
-func virtualDeploymentSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func ServiceMeshVirtualDeploymentSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ServiceMeshClient().GetVirtualDeployment(context.Background(), oci_service_mesh.GetVirtualDeploymentRequest{
 		VirtualDeploymentId: resourceId,
 		RequestMetadata: common.RequestMetadata{

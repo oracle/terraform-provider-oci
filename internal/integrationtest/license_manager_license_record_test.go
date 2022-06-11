@@ -25,25 +25,25 @@ import (
 )
 
 var (
-	LicenseRecordRequiredOnlyResource = LicenseRecordResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Required, acctest.Create, licenseRecordRepresentation)
+	LicenseManagerLicenseRecordRequiredOnlyResource = LicenseManagerLicenseRecordResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Required, acctest.Create, LicenseManagerLicenseRecordRepresentation)
 
-	LicenseRecordResourceConfig = LicenseRecordResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Optional, acctest.Update, licenseRecordRepresentation)
+	LicenseManagerLicenseRecordResourceConfig = LicenseManagerLicenseRecordResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Optional, acctest.Update, LicenseManagerLicenseRecordRepresentation)
 
-	licenseRecordSingularDataSourceRepresentation = map[string]interface{}{
+	LicenseManagerLicenseManagerLicenseRecordSingularDataSourceRepresentation = map[string]interface{}{
 		"license_record_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_license_manager_license_record.test_license_record.id}`},
 	}
 
-	licenseRecordDataSourceRepresentation = map[string]interface{}{
+	LicenseManagerLicenseManagerLicenseRecordDataSourceRepresentation = map[string]interface{}{
 		"product_license_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_license_manager_product_license.test_product_license.id}`},
-		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: licenseRecordDataSourceFilterRepresentation}}
-	licenseRecordDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: LicenseManagerLicenseRecordDataSourceFilterRepresentation}}
+	LicenseManagerLicenseRecordDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_license_manager_license_record.test_license_record.id}`}},
 	}
 
-	licenseRecordRepresentation = map[string]interface{}{
+	LicenseManagerLicenseRecordRepresentation = map[string]interface{}{
 		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `LicenseRecordCreate`, Update: `LicenseRecordUpdate`},
 		"is_perpetual":       acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"is_unlimited":       acctest.Representation{RepType: acctest.Required, Create: `false`},
@@ -54,8 +54,8 @@ var (
 		"product_id":         acctest.Representation{RepType: acctest.Required, Create: `123`, Update: `234`},
 	}
 
-	LicenseRecordResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Required, acctest.Create, productLicenseRepresentation)
+	LicenseManagerLicenseRecordResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Required, acctest.Create, LicenseManagerProductLicenseRepresentation)
 )
 
 // issue-routing-tag: license_manager/default
@@ -74,14 +74,14 @@ func TestLicenseManagerLicenseRecordResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+LicenseRecordResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Optional, acctest.Create, licenseRecordRepresentation), "licensemanager", "licenseRecord", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+LicenseManagerLicenseRecordResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Optional, acctest.Create, LicenseManagerLicenseRecordRepresentation), "licensemanager", "licenseRecord", t)
 
 	acctest.ResourceTest(t, testAccCheckLicenseManagerLicenseRecordDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + LicenseRecordResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Required, acctest.Create, licenseRecordRepresentation),
+			Config: config + compartmentIdVariableStr + LicenseManagerLicenseRecordResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Required, acctest.Create, LicenseManagerLicenseRecordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "LicenseRecordCreate"),
 				resource.TestCheckResourceAttr(resourceName, "is_perpetual", "false"),
@@ -97,12 +97,12 @@ func TestLicenseManagerLicenseRecordResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + LicenseRecordResourceDependencies,
+			Config: config + compartmentIdVariableStr + LicenseManagerLicenseRecordResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + LicenseRecordResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Optional, acctest.Create, licenseRecordRepresentation),
+			Config: config + compartmentIdVariableStr + LicenseManagerLicenseRecordResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Optional, acctest.Create, LicenseManagerLicenseRecordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "LicenseRecordCreate"),
 				resource.TestCheckResourceAttr(resourceName, "expiration_date", "2199-06-30T23:59:59Z"),
@@ -129,8 +129,8 @@ func TestLicenseManagerLicenseRecordResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + LicenseRecordResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Optional, acctest.Update, licenseRecordRepresentation),
+			Config: config + compartmentIdVariableStr + LicenseManagerLicenseRecordResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Optional, acctest.Update, LicenseManagerLicenseRecordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "LicenseRecordUpdate"),
 				resource.TestCheckResourceAttr(resourceName, "expiration_date", "2999-06-30T23:59:59Z"),
@@ -155,9 +155,9 @@ func TestLicenseManagerLicenseRecordResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_license_records", "test_license_records", acctest.Optional, acctest.Update, licenseRecordDataSourceRepresentation) +
-				compartmentIdVariableStr + LicenseRecordResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Optional, acctest.Update, licenseRecordRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_license_records", "test_license_records", acctest.Optional, acctest.Update, LicenseManagerLicenseManagerLicenseRecordDataSourceRepresentation) +
+				compartmentIdVariableStr + LicenseManagerLicenseRecordResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Optional, acctest.Update, LicenseManagerLicenseRecordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "product_license_id"),
 
@@ -168,8 +168,8 @@ func TestLicenseManagerLicenseRecordResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Required, acctest.Create, licenseRecordSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + LicenseRecordResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_license_record", "test_license_record", acctest.Required, acctest.Create, LicenseManagerLicenseManagerLicenseRecordSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LicenseManagerLicenseRecordResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "license_record_id"),
 
@@ -190,7 +190,7 @@ func TestLicenseManagerLicenseRecordResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + LicenseRecordRequiredOnlyResource,
+			Config:                  config + LicenseManagerLicenseRecordRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -254,7 +254,7 @@ func init() {
 
 func sweepLicenseManagerLicenseRecordResource(compartment string) error {
 	licenseManagerClient := acctest.GetTestClients(&schema.ResourceData{}).LicenseManagerClient()
-	licenseRecordIds, err := getLicenseRecordIds(compartment)
+	licenseRecordIds, err := getLicenseManagerLicenseRecordIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -270,14 +270,14 @@ func sweepLicenseManagerLicenseRecordResource(compartment string) error {
 				fmt.Printf("Error deleting LicenseRecord %s %s, It is possible that the resource is already deleted. Please verify manually \n", licenseRecordId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &licenseRecordId, licenseRecordSweepWaitCondition, time.Duration(3*time.Minute),
-				licenseRecordSweepResponseFetchOperation, "license_manager", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &licenseRecordId, LicenseManagerLicenseRecordSweepWaitCondition, time.Duration(3*time.Minute),
+				LicenseManagerLicenseRecordSweepResponseFetchOperation, "license_manager", true)
 		}
 	}
 	return nil
 }
 
-func getLicenseRecordIds(compartment string) ([]string, error) {
+func getLicenseManagerLicenseRecordIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "LicenseRecordId")
 	if ids != nil {
 		return ids, nil
@@ -288,7 +288,7 @@ func getLicenseRecordIds(compartment string) ([]string, error) {
 
 	listLicenseRecordsRequest := oci_license_manager.ListLicenseRecordsRequest{}
 
-	productLicenseIds, error := getProductLicenseIds(compartment)
+	productLicenseIds, error := getLicenseManagerProductLicenseIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting productLicenseId required for LicenseRecord resource requests \n")
 	}
@@ -310,7 +310,7 @@ func getLicenseRecordIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func licenseRecordSweepWaitCondition(response common.OCIOperationResponse) bool {
+func LicenseManagerLicenseRecordSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if licenseRecordResponse, ok := response.Response.(oci_license_manager.GetLicenseRecordResponse); ok {
 		return licenseRecordResponse.LifecycleState != oci_license_manager.LifeCycleStateDeleted
@@ -318,7 +318,7 @@ func licenseRecordSweepWaitCondition(response common.OCIOperationResponse) bool 
 	return false
 }
 
-func licenseRecordSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func LicenseManagerLicenseRecordSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.LicenseManagerClient().GetLicenseRecord(context.Background(), oci_license_manager.GetLicenseRecordRequest{
 		LicenseRecordId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -139,8 +139,8 @@ func TestResourceCoreVolumeGroupBackup_copy(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_volume_group_backups", "test_volume_group_backups", acctest.Optional, acctest.Update, volumeGroupBackupFromSourceDataSourceRepresentation) +
 				compartmentIdVariableStr + VolumeGroupBackupCopyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup", acctest.Required, acctest.Create, volumeBackupRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", acctest.Required, acctest.Create, volumeRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup", acctest.Required, acctest.Create, CoreVolumeBackupRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", acctest.Required, acctest.Create, CoreVolumeRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup_copy", acctest.Optional, acctest.Update, volumeGroupBackupWithSourceDetailsRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -157,7 +157,7 @@ func TestResourceCoreVolumeGroupBackup_copy(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + VolumeGroupBackupRequiredOnlyResource,
+			Config:            config + CoreVolumeGroupBackupRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

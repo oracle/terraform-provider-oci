@@ -17,16 +17,16 @@ import (
 )
 
 var (
-	iamWorkRequestErrorDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityIamWorkRequestErrorDataSourceRepresentation = map[string]interface{}{
 		"iam_work_request_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_iam_work_request.test_iam_work_request.id}`},
 	}
 
-	IamWorkRequestErrorResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Required, acctest.Create,
-		acctest.RepresentationCopyWithNewProperties(domainRepresentation, map[string]interface{}{
+	IdentityIamWorkRequestErrorResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Required, acctest.Create,
+		acctest.RepresentationCopyWithNewProperties(IdentityDomainRepresentation, map[string]interface{}{
 			"state": acctest.Representation{RepType: acctest.Required, Create: `inactive`},
 		})) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_identity_iam_work_requests", "test_iam_work_requests", acctest.Required, acctest.Create, iamWorkRequestDataSourceRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_identity_iam_work_request", "test_iam_work_request", acctest.Required, acctest.Create, iamWorkRequestSingularDataSourceRepresentation)
+		acctest.GenerateDataSourceFromRepresentationMap("oci_identity_iam_work_requests", "test_iam_work_requests", acctest.Required, acctest.Create, IdentityIdentityIamWorkRequestDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_identity_iam_work_request", "test_iam_work_request", acctest.Required, acctest.Create, IdentityIdentityIamWorkRequestSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -48,8 +48,8 @@ func TestIdentityIamWorkRequestErrorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_iam_work_request_errors", "test_iam_work_request_errors", acctest.Required, acctest.Create, iamWorkRequestErrorDataSourceRepresentation) +
-				compartmentIdVariableStr + IamWorkRequestErrorResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_iam_work_request_errors", "test_iam_work_request_errors", acctest.Required, acctest.Create, IdentityIdentityIamWorkRequestErrorDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityIamWorkRequestErrorResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "iam_work_request_id"),
 

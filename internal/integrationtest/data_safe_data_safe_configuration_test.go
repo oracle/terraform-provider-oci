@@ -19,17 +19,17 @@ import (
 )
 
 var (
-	DataSafeConfigurationRequiredOnlyResource = DataSafeConfigurationResourceDependencies +
+	DataSafeDataSafeConfigurationRequiredOnlyResource = DataSafeDataSafeConfigurationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", acctest.Required, acctest.Create, dataSafeConfigurationRepresentation)
 
-	DataSafeConfigurationResourceConfig = DataSafeConfigurationResourceDependencies +
+	DataSafeDataSafeConfigurationResourceConfig = DataSafeDataSafeConfigurationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", acctest.Optional, acctest.Update, dataSafeConfigurationRepresentation)
 
 	ignoreChangesDefinedTagsRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	dataSafeConfigurationSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafedataSafeConfigurationSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 	}
 
@@ -39,7 +39,7 @@ var (
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesDefinedTagsRepresentation},
 	}
 
-	DataSafeConfigurationResourceDependencies = ""
+	DataSafeDataSafeConfigurationResourceDependencies = ""
 )
 
 // issue-routing-tag: data_safe/default
@@ -59,13 +59,13 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeConfigurationResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeDataSafeConfigurationResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", acctest.Optional, acctest.Create, dataSafeConfigurationRepresentation), "datasafe", "dataSafeConfiguration", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeDataSafeConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", acctest.Required, acctest.Create, dataSafeConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
@@ -79,11 +79,11 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies,
+			Config: config + compartmentIdVariableStr + DataSafeDataSafeConfigurationResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeDataSafeConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", acctest.Optional, acctest.Create, dataSafeConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -103,7 +103,7 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeDataSafeConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", acctest.Optional, acctest.Update, dataSafeConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -121,8 +121,8 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", acctest.Optional, acctest.Create, dataSafeConfigurationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeConfigurationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", acctest.Optional, acctest.Create, DataSafedataSafeConfigurationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeDataSafeConfigurationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_safe_nat_gateway_ip_address"),

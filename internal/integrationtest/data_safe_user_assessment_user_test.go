@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	userAssessmentUserDataSourceRepresentation = map[string]interface{}{
+	DataSafeuserAssessmentUserDataSourceRepresentation = map[string]interface{}{
 		"user_assessment_id":                                  acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_user_assessment.test_user_assessment.id}`},
 		"access_level":                                        acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
 		"compartment_id_in_subtree":                           acctest.Representation{RepType: acctest.Optional, Create: `true`},
@@ -30,7 +30,7 @@ var (
 		"user_name":                                           acctest.Representation{RepType: acctest.Optional, Create: `${oci_identity_user.test_user.name}`},
 	}
 
-	UserAssessmentUserResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, userAssessmentRepresentation)
+	DataSafeUserAssessmentUserResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, userAssessmentRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -54,8 +54,8 @@ func TestDataSafeUserAssessmentUserResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment_users", "test_user_assessment_users", acctest.Required, acctest.Create, userAssessmentUserDataSourceRepresentation) +
-				compartmentIdVariableStr + UserAssessmentUserResourceConfig + targetIdVariableStr,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment_users", "test_user_assessment_users", acctest.Required, acctest.Create, DataSafeuserAssessmentUserDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeUserAssessmentUserResourceConfig + targetIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessment_id"),
 

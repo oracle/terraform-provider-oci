@@ -16,19 +16,19 @@ import (
 )
 
 var (
-	managedDatabaseUserObjectPrivilegeSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabaseUserObjectPrivilegeSingularDataSourceRepresentation = map[string]interface{}{
 		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_managed_database.test_managed_database.id}`},
 		"user_name":           acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.name}`},
 		"name":                acctest.Representation{RepType: acctest.Optional, Create: `name`},
 	}
 
-	managedDatabaseUserObjectPrivilegeDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabaseUserObjectPrivilegeDataSourceRepresentation = map[string]interface{}{
 		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_managed_database.test_managed_database.id}`},
 		"user_name":           acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.name}`},
 		"name":                acctest.Representation{RepType: acctest.Optional, Create: `name`},
 	}
 
-	ManagedDatabaseUserObjectPrivilegeResourceConfig = ""
+	DatabaseManagementManagedDatabaseUserObjectPrivilegeResourceConfig = ""
 )
 
 // issue-routing-tag: database_management/default
@@ -51,8 +51,8 @@ func TestDatabaseManagementManagedDatabaseUserObjectPrivilegeResource_basic(t *t
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user_object_privileges", "test_managed_database_user_object_privileges", acctest.Required, acctest.Create, managedDatabaseUserObjectPrivilegeDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedDatabaseUserObjectPrivilegeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user_object_privileges", "test_managed_database_user_object_privileges", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseUserObjectPrivilegeDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseManagementManagedDatabaseUserObjectPrivilegeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_name"),
@@ -64,8 +64,8 @@ func TestDatabaseManagementManagedDatabaseUserObjectPrivilegeResource_basic(t *t
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user_object_privilege", "test_managed_database_user_object_privilege", acctest.Required, acctest.Create, managedDatabaseUserObjectPrivilegeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedDatabaseUserObjectPrivilegeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user_object_privilege", "test_managed_database_user_object_privilege", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseUserObjectPrivilegeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseManagementManagedDatabaseUserObjectPrivilegeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_name"),

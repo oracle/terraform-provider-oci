@@ -25,29 +25,29 @@ import (
 )
 
 var (
-	AnalyticsClusterRequiredOnlyResource = AnalyticsClusterResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, analyticsClusterRepresentation)
+	MysqlAnalyticsClusterRequiredOnlyResource = MysqlAnalyticsClusterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, MysqlAnalyticsClusterRepresentation)
 
-	AnalyticsClusterResourceConfig = AnalyticsClusterResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Optional, acctest.Update, analyticsClusterRepresentation)
+	MysqlAnalyticsClusterResourceConfig = MysqlAnalyticsClusterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Optional, acctest.Update, MysqlAnalyticsClusterRepresentation)
 
-	analyticsClusterSingularDataSourceRepresentation = map[string]interface{}{
+	MysqlMysqlAnalyticsClusterSingularDataSourceRepresentation = map[string]interface{}{
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
 	}
 
-	analyticsClusterRepresentation = map[string]interface{}{
+	MysqlAnalyticsClusterRepresentation = map[string]interface{}{
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
 		"cluster_size": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
 		"shape_name":   acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E2.2`, Update: `VM.Standard.E2.4`},
 		"state":        acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
 	}
 
-	AnalyticsClusterResourceDependencies = MysqlConfigurationResourceConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	MysqlAnalyticsClusterResourceDependencies = MysqlMysqlConfigurationResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", acctest.Required, acctest.Create, mysqlShapeDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, mysqlDbSystemRepresentation)
+		acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", acctest.Required, acctest.Create, MysqlMysqlShapeDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, MysqlMysqlDbSystemRepresentation)
 )
 
 // issue-routing-tag: mysql/default
@@ -65,14 +65,14 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+AnalyticsClusterResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Optional, acctest.Create, analyticsClusterRepresentation), "mysql", "analyticsCluster", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+MysqlAnalyticsClusterResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Optional, acctest.Create, MysqlAnalyticsClusterRepresentation), "mysql", "analyticsCluster", t)
 
 	acctest.ResourceTest(t, testAccCheckMysqlAnalyticsClusterDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, analyticsClusterRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlAnalyticsClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, MysqlAnalyticsClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 
@@ -85,13 +85,13 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies,
+			Config: config + compartmentIdVariableStr + MysqlAnalyticsClusterResourceDependencies,
 		},
 
 		// verify Create & stop
 		{
-			Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Optional, acctest.Create, analyticsClusterRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlAnalyticsClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Optional, acctest.Create, MysqlAnalyticsClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_size", "2"),
@@ -116,8 +116,8 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 
 		// verify start & updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Optional, acctest.Update, analyticsClusterRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlAnalyticsClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Optional, acctest.Update, MysqlAnalyticsClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "3"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_size", "3"),
@@ -141,8 +141,8 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, analyticsClusterSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AnalyticsClusterResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, MysqlMysqlAnalyticsClusterSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MysqlAnalyticsClusterResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 
@@ -156,7 +156,7 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + AnalyticsClusterRequiredOnlyResource,
+			Config:                  config + MysqlAnalyticsClusterRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -221,7 +221,7 @@ func init() {
 
 func sweepMysqlAnalyticsClusterResource(compartment string) error {
 	dbSystemClient := acctest.GetTestClients(&schema.ResourceData{}).DbSystemClient()
-	mysqlDbSystemIds, err := getMysqlDbSystemIds(compartment)
+	mysqlDbSystemIds, err := getMysqlMysqlDbSystemIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -236,14 +236,14 @@ func sweepMysqlAnalyticsClusterResource(compartment string) error {
 				fmt.Printf("Error deleting AnalyticsCluster of DbSystem %s %s, It is possible that the resource is already deleted. Please verify manually \n", mysqlDbSystemId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &mysqlDbSystemId, analyticsClusterSweepWaitCondition, time.Duration(3*time.Minute),
-				analyticsClusterSweepResponseFetchOperation, "mysql", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &mysqlDbSystemId, MysqlAnalyticsClusterSweepWaitCondition, time.Duration(3*time.Minute),
+				MysqlAnalyticsClusterSweepResponseFetchOperation, "mysql", true)
 		}
 	}
 	return nil
 }
 
-func analyticsClusterSweepWaitCondition(response common.OCIOperationResponse) bool {
+func MysqlAnalyticsClusterSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if analyticsClusterResponse, ok := response.Response.(oci_mysql.GetAnalyticsClusterResponse); ok {
 		return analyticsClusterResponse.LifecycleState != oci_mysql.AnalyticsClusterLifecycleStateDeleted
@@ -251,7 +251,7 @@ func analyticsClusterSweepWaitCondition(response common.OCIOperationResponse) bo
 	return false
 }
 
-func analyticsClusterSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func MysqlAnalyticsClusterSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DbSystemClient().GetAnalyticsCluster(context.Background(), oci_mysql.GetAnalyticsClusterRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},

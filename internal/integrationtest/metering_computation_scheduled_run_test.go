@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	scheduledRunSingularDataSourceRepresentation = map[string]interface{}{
+	MeteringComputationMeteringComputationScheduledRunSingularDataSourceRepresentation = map[string]interface{}{
 		"scheduled_run_id": acctest.Representation{RepType: acctest.Required, Create: `${var.scheduled_run_ocid}`},
 	}
 
-	scheduledRunDataSourceRepresentation = map[string]interface{}{
+	MeteringComputationMeteringComputationScheduledRunDataSourceRepresentation = map[string]interface{}{
 		"schedule_id": acctest.Representation{RepType: acctest.Required, Create: `${var.schedule_ocid}`},
 	}
 )
@@ -50,7 +50,7 @@ func TestMeteringComputationScheduledRunResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + scheduleIdVariableStr + scheduledRunIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_scheduled_runs", "test_scheduled_runs", acctest.Required, acctest.Create, scheduledRunDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_scheduled_runs", "test_scheduled_runs", acctest.Required, acctest.Create, MeteringComputationMeteringComputationScheduledRunDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "schedule_id"),
@@ -61,7 +61,7 @@ func TestMeteringComputationScheduledRunResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + scheduleIdVariableStr + scheduledRunIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_scheduled_run", "test_scheduled_run", acctest.Required, acctest.Create, scheduledRunSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_scheduled_run", "test_scheduled_run", acctest.Required, acctest.Create, MeteringComputationMeteringComputationScheduledRunSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "scheduled_run_id"),

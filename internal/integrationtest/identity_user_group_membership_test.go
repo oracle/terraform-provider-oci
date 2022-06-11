@@ -23,25 +23,25 @@ import (
 )
 
 var (
-	UserGroupMembershipRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", acctest.Required, acctest.Create, userGroupMembershipRepresentation)
+	IdentityUserGroupMembershipRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", acctest.Required, acctest.Create, IdentityUserGroupMembershipRepresentation)
 
-	userGroupMembershipDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityUserGroupMembershipDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"group_id":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_identity_group.test_group.id}`},
 		"user_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_identity_user.test_user.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: userGroupMembershipDataSourceFilterRepresentation}}
-	userGroupMembershipDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityUserGroupMembershipDataSourceFilterRepresentation}}
+	IdentityUserGroupMembershipDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_user_group_membership.test_user_group_membership.id}`}},
 	}
 
-	userGroupMembershipRepresentation = map[string]interface{}{
+	IdentityUserGroupMembershipRepresentation = map[string]interface{}{
 		"group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_group.test_group.id}`},
 		"user_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	UserGroupMembershipResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, groupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
+	IdentityUserGroupMembershipResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, IdentityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -60,14 +60,14 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+UserGroupMembershipResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", acctest.Required, acctest.Create, userGroupMembershipRepresentation), "identity", "userGroupMembership", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentityUserGroupMembershipResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", acctest.Required, acctest.Create, IdentityUserGroupMembershipRepresentation), "identity", "userGroupMembership", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityUserGroupMembershipDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", acctest.Required, acctest.Create, userGroupMembershipRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityUserGroupMembershipResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", acctest.Required, acctest.Create, IdentityUserGroupMembershipRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "group_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -87,9 +87,9 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_user_group_memberships", "test_user_group_memberships", acctest.Optional, acctest.Update, userGroupMembershipDataSourceRepresentation) +
-				compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", acctest.Optional, acctest.Update, userGroupMembershipRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_user_group_memberships", "test_user_group_memberships", acctest.Optional, acctest.Update, IdentityIdentityUserGroupMembershipDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityUserGroupMembershipResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", acctest.Optional, acctest.Update, IdentityUserGroupMembershipRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttrSet(datasourceName, "group_id"),
@@ -106,7 +106,7 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + UserGroupMembershipRequiredOnlyResource,
+			Config:                  config + IdentityUserGroupMembershipRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

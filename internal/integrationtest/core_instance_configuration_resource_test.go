@@ -15,11 +15,11 @@ import (
 )
 
 var (
-	InstanceConfigurationWithPlatformConfigDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	InstanceConfigurationWithPlatformConfigDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
 		utils.VolumeBackupPolicyDependency +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
@@ -29,7 +29,7 @@ var (
 		"instance_type":  acctest.Representation{RepType: acctest.Required, Create: `compute`},
 		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationWithPlatformConfigInstanceDetailsLaunchDetailsRepresentation},
 	}
-	instanceConfigurationWithPlatformConfigInstanceDetailsLaunchDetailsRepresentation = acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(instanceConfigurationInstanceDetailsLaunchDetailsRepresentation, map[string]interface{}{
+	instanceConfigurationWithPlatformConfigInstanceDetailsLaunchDetailsRepresentation = acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation, map[string]interface{}{
 		"shape":           acctest.Representation{RepType: acctest.Optional, Create: `BM.DenseIO.E4.128`},
 		"platform_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instancePlatformConfigRepresentation},
 	}), []string{
@@ -62,7 +62,7 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
@@ -76,10 +76,10 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", acctest.Required, acctest.Create, instanceConfigurationDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", acctest.Required, acctest.Create, CoreCoreInstanceConfigurationDataSourceRepresentation) +
 				compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
@@ -93,10 +93,10 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", acctest.Required, acctest.Create, instanceConfigurationDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", acctest.Required, acctest.Create, CoreCoreInstanceConfigurationDataSourceRepresentation) +
 				compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),

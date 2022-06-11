@@ -24,19 +24,19 @@ import (
 )
 
 var (
-	AppCatalogSubscriptionRequiredOnlyResource = AppCatalogSubscriptionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", acctest.Required, acctest.Create, appCatalogSubscriptionRepresentation)
+	CoreAppCatalogSubscriptionRequiredOnlyResource = CoreAppCatalogSubscriptionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", acctest.Required, acctest.Create, CoreAppCatalogSubscriptionRepresentation)
 
-	appCatalogSubscriptionDataSourceRepresentation = map[string]interface{}{
+	CoreCoreAppCatalogSubscriptionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"listing_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: appCatalogSubscriptionDataSourceFilterRepresentation}}
-	appCatalogSubscriptionDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreAppCatalogSubscriptionDataSourceFilterRepresentation}}
+	CoreAppCatalogSubscriptionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `listing_resource_version`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_app_catalog_subscription.test_app_catalog_subscription.listing_resource_version}`}},
 	}
 
-	appCatalogSubscriptionRepresentation = map[string]interface{}{
+	CoreAppCatalogSubscriptionRepresentation = map[string]interface{}{
 		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"listing_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_id}`},
 		"listing_resource_version": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_resource_version}`},
@@ -46,7 +46,7 @@ var (
 		"eula_link":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.eula_link}`},
 	}
 
-	AppCatalogSubscriptionResourceDependencies = AppCatalogListingResourceVersionAgreementResourceConfig
+	CoreAppCatalogSubscriptionResourceDependencies = AppCatalogListingResourceVersionAgreementResourceConfig
 )
 
 // issue-routing-tag: core/computeImaging
@@ -64,14 +64,14 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+AppCatalogSubscriptionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", acctest.Optional, acctest.Create, appCatalogSubscriptionRepresentation), "core", "appCatalogSubscription", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreAppCatalogSubscriptionResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", acctest.Optional, acctest.Create, CoreAppCatalogSubscriptionRepresentation), "core", "appCatalogSubscription", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreAppCatalogSubscriptionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + AppCatalogSubscriptionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", acctest.Required, acctest.Create, appCatalogSubscriptionRepresentation),
+			Config: config + compartmentIdVariableStr + CoreAppCatalogSubscriptionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", acctest.Required, acctest.Create, CoreAppCatalogSubscriptionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "eula_link"),
@@ -96,9 +96,9 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_subscriptions", "test_app_catalog_subscriptions", acctest.Optional, acctest.Create, appCatalogSubscriptionDataSourceRepresentation) +
-				compartmentIdVariableStr + AppCatalogSubscriptionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", acctest.Optional, acctest.Create, appCatalogSubscriptionRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_subscriptions", "test_app_catalog_subscriptions", acctest.Optional, acctest.Create, CoreCoreAppCatalogSubscriptionDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreAppCatalogSubscriptionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", acctest.Optional, acctest.Create, CoreAppCatalogSubscriptionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
@@ -114,7 +114,7 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + AppCatalogSubscriptionRequiredOnlyResource,
+			Config:            config + CoreAppCatalogSubscriptionRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -199,7 +199,7 @@ func init() {
 
 func sweepCoreAppCatalogSubscriptionResource(compartment string) error {
 	computeClient := acctest.GetTestClients(&schema.ResourceData{}).ComputeClient()
-	appCatalogSubscriptionIds, err := getAppCatalogSubscriptionIds(compartment)
+	appCatalogSubscriptionIds, err := getCoreAppCatalogSubscriptionIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -218,7 +218,7 @@ func sweepCoreAppCatalogSubscriptionResource(compartment string) error {
 	return nil
 }
 
-func getAppCatalogSubscriptionIds(compartment string) ([]string, error) {
+func getCoreAppCatalogSubscriptionIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "AppCatalogSubscriptionId")
 	if ids != nil {
 		return ids, nil

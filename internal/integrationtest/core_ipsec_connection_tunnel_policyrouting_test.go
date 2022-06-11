@@ -17,7 +17,7 @@ import (
 
 var (
 	ipSecConnectionTunnelRoutingPolicyRequiredOnlyResource = IpSecConnectionTunnelRoutingPolicyResourceConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Required, acctest.Create, ipSecConnectionRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Required, acctest.Create, CoreIpSecConnectionRepresentation)
 
 	ipSecConnectionTunnelRoutingPolicySingularDataSourceRepresentation = map[string]interface{}{
 		"ipsec_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_ipsec.test_ip_sec_connection.id}`},

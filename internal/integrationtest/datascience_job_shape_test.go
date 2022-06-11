@@ -17,11 +17,11 @@ import (
 )
 
 var (
-	jobShapeDataSourceRepresentation = map[string]interface{}{
+	DatascienceDatascienceJobShapeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	JobShapeResourceConfig = ""
+	DatascienceJobShapeResourceConfig = ""
 )
 
 // issue-routing-tag: datascience/default
@@ -48,8 +48,8 @@ func TestDatascienceJobShapeResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_job_shapes", "test_job_shapes", acctest.Required, acctest.Create, jobShapeDataSourceRepresentation) +
-					compartmentIdVariableStr + JobShapeResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_job_shapes", "test_job_shapes", acctest.Required, acctest.Create, DatascienceDatascienceJobShapeDataSourceRepresentation) +
+					compartmentIdVariableStr + DatascienceJobShapeResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

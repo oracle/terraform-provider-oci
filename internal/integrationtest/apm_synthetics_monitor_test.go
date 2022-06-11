@@ -26,30 +26,30 @@ import (
 )
 
 var (
-	MonitorRequiredOnlyResource = MonitorResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Required, acctest.Create, monitorRepresentation)
+	ApmSyntheticsMonitorRequiredOnlyResource = ApmSyntheticsMonitorResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Required, acctest.Create, ApmSyntheticsmonitorRepresentation)
 
-	MonitorResourceConfig = MonitorResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, monitorRepresentation)
+	ApmSyntheticsMonitorResourceConfig = ApmSyntheticsMonitorResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsmonitorRepresentation)
 
-	monitorSingularDataSourceRepresentation = map[string]interface{}{
+	ApmSyntheticsApmSyntheticsmonitorSingularDataSourceRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"monitor_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_synthetics_monitor.test_monitor.id}`},
 	}
 
-	monitorDataSourceRepresentation = map[string]interface{}{
+	ApmSyntheticsApmSyntheticsmonitorDataSourceRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"monitor_type":  acctest.Representation{RepType: acctest.Optional, Create: `SCRIPTED_BROWSER`},
 		"script_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_apm_synthetics_script.test_script.id}`},
 		"status":        acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
-		"filter":        acctest.RepresentationGroup{RepType: acctest.Required, Group: monitorDataSourceFilterRepresentation}}
-	monitorDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ApmSyntheticsmonitorDataSourceFilterRepresentation}}
+	ApmSyntheticsmonitorDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `display_name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apm_synthetics_monitor.test_monitor.display_name}`}},
 	}
 
-	monitorRepresentation = map[string]interface{}{
+	ApmSyntheticsmonitorRepresentation = map[string]interface{}{
 		"apm_domain_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"monitor_type":               acctest.Representation{RepType: acctest.Required, Create: `SCRIPTED_BROWSER`},
@@ -62,18 +62,18 @@ var (
 		"status":                     acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
 		"target":                     acctest.Representation{RepType: acctest.Optional, Create: `https://console.us-ashburn-1.oraclecloud.com`, Update: `https://console.us-phoenix-1.oraclecloud.com`},
 		"timeout_in_seconds":         acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `120`},
-		"configuration":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: monitorConfigurationRepresentation},
-		"script_parameters":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: monitorScriptParametersRepresentation},
+		"configuration":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsmonitorConfigurationRepresentation},
+		"script_parameters":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsmonitorScriptParametersRepresentation},
 	}
 
-	monitorConfigurationRepresentation = map[string]interface{}{
+	ApmSyntheticsmonitorConfigurationRepresentation = map[string]interface{}{
 		"config_type":                       acctest.Representation{RepType: acctest.Optional, Create: `SCRIPTED_BROWSER_CONFIG`},
 		"is_certificate_validation_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_failure_retried":                acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"network_configuration":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: monitorConfigurationNetworkConfigurationRepresentation},
+		"network_configuration":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsmonitorConfigurationNetworkConfigurationRepresentation},
 	}
 
-	monitorConfigurationNetworkConfigurationRepresentation = map[string]interface{}{
+	ApmSyntheticsmonitorConfigurationNetworkConfigurationRepresentation = map[string]interface{}{
 		"number_of_hops":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"probe_mode":        acctest.Representation{RepType: acctest.Optional, Create: `SACK`, Update: `SYN`},
 		"probe_per_hop":     acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `9`},
@@ -81,14 +81,14 @@ var (
 		"transmission_rate": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
 
-	monitorScriptParametersRepresentation = map[string]interface{}{
+	ApmSyntheticsmonitorScriptParametersRepresentation = map[string]interface{}{
 		"param_name":  acctest.Representation{RepType: acctest.Required, Create: `testName`, Update: `testName`},
 		"param_value": acctest.Representation{RepType: acctest.Required, Create: `myTest`, Update: `myTest1`},
 	}
 
-	MonitorResourceDependencies = DefinedTagsDependencies +
+	ApmSyntheticsMonitorResourceDependencies = DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", acctest.Required, acctest.Create, apmDomainRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Create, scriptRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Create, ApmSyntheticsscriptRepresentation)
 )
 
 // issue-routing-tag: apm_synthetics/default
@@ -107,15 +107,15 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+MonitorResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Create, monitorRepresentation), "apmsynthetics", "monitor", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApmSyntheticsMonitorResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Create, ApmSyntheticsmonitorRepresentation), "apmsynthetics", "monitor", t)
 
 	acctest.ResourceTest(t, testAccCheckApmSyntheticsMonitorDestroy, []resource.TestStep{
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + MonitorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Create, monitorRepresentation),
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Create, ApmSyntheticsmonitorRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
@@ -163,8 +163,8 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + MonitorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, monitorRepresentation),
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsmonitorRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
@@ -210,9 +210,9 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitors", "test_monitors", acctest.Optional, acctest.Update, monitorDataSourceRepresentation) +
-				compartmentIdVariableStr + MonitorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, monitorRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitors", "test_monitors", acctest.Optional, acctest.Update, ApmSyntheticsApmSyntheticsmonitorDataSourceRepresentation) +
+				compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsmonitorRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -227,8 +227,8 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Required, acctest.Create, monitorSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + MonitorResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Required, acctest.Create, ApmSyntheticsApmSyntheticsmonitorSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ApmSyntheticsMonitorResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
@@ -266,7 +266,7 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + MonitorRequiredOnlyResource,
+			Config:            config + ApmSyntheticsMonitorRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -328,7 +328,7 @@ func init() {
 
 func sweepApmSyntheticsMonitorResource(compartment string) error {
 	apmSyntheticClient := acctest.GetTestClients(&schema.ResourceData{}).ApmSyntheticClient()
-	monitorIds, err := getMonitorIds(compartment)
+	monitorIds, err := getApmSyntheticsMonitorIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -349,7 +349,7 @@ func sweepApmSyntheticsMonitorResource(compartment string) error {
 	return nil
 }
 
-func getMonitorIds(compartment string) ([]string, error) {
+func getApmSyntheticsMonitorIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "MonitorId")
 	if ids != nil {
 		return ids, nil

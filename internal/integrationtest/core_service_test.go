@@ -15,9 +15,9 @@ import (
 )
 
 var (
-	serviceDataSourceRepresentation = map[string]interface{}{}
+	CoreCoreServiceDataSourceRepresentation = map[string]interface{}{}
 
-	ServiceResourceConfig = ""
+	CoreServiceResourceConfig = ""
 )
 
 // issue-routing-tag: core/serviceGateway
@@ -38,8 +38,8 @@ func TestCoreServiceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, serviceDataSourceRepresentation) +
-				compartmentIdVariableStr + ServiceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, CoreCoreServiceDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreServiceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttrSet(datasourceName, "services.#"),

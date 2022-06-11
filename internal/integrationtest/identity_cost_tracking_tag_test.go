@@ -15,11 +15,11 @@ import (
 )
 
 var (
-	costTrackingTagDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityCostTrackingTagDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	CostTrackingTagResourceConfig = ""
+	IdentityCostTrackingTagResourceConfig = ""
 )
 
 // issue-routing-tag: identity/default
@@ -40,8 +40,8 @@ func TestIdentityCostTrackingTagResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_cost_tracking_tags", "test_cost_tracking_tags", acctest.Required, acctest.Create, costTrackingTagDataSourceRepresentation) +
-				compartmentIdVariableStr + CostTrackingTagResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_cost_tracking_tags", "test_cost_tracking_tags", acctest.Required, acctest.Create, IdentityIdentityCostTrackingTagDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityCostTrackingTagResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

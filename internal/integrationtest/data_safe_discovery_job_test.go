@@ -30,17 +30,17 @@ import (
 )
 
 var (
-	DiscoveryJobRequiredOnlyResource = DiscoveryJobResourceDependencies +
+	DataSafeDiscoveryJobRequiredOnlyResource = DataSafeDiscoveryJobResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_discovery_job", "test_discovery_job", acctest.Required, acctest.Create, discoveryJobRepresentation)
 
-	DiscoveryJobResourceConfig = DiscoveryJobResourceDependencies +
+	DataSafeDiscoveryJobResourceConfig = DataSafeDiscoveryJobResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_discovery_job", "test_discovery_job", acctest.Optional, acctest.Update, discoveryJobRepresentation)
 
-	discoveryJobSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafediscoveryJobSingularDataSourceRepresentation = map[string]interface{}{
 		"discovery_job_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_discovery_job.test_discovery_job.id}`},
 	}
 
-	discoveryJobDataSourceRepresentation = map[string]interface{}{
+	DataSafediscoveryJobDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"discovery_job_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_discovery_job.test_discovery_job.id}`},
 		"sensitive_data_model_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_sensitive_data_model.test_sensitive_data_model.id}`},
@@ -62,7 +62,7 @@ var (
 		"is_sample_data_collection_enabled":         acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
-	DiscoveryJobResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Required, acctest.Create, sensitiveDataModelRepresentation) +
+	DataSafeDiscoveryJobResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Required, acctest.Create, sensitiveDataModelRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -89,13 +89,13 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 	var resId string
 	var resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DiscoveryJobResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeDiscoveryJobResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, discoveryJobRepresentation), "datasafe", "discoveryJob", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeDiscoveryJobDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DiscoveryJobResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeDiscoveryJobResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_discovery_job", "test_discovery_job", acctest.Required, acctest.Create, discoveryJobRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -105,11 +105,11 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DiscoveryJobResourceDependencies + targetIdVariableStr,
+			Config: config + compartmentIdVariableStr + DataSafeDiscoveryJobResourceDependencies + targetIdVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DiscoveryJobResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeDiscoveryJobResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, discoveryJobRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -148,7 +148,7 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DiscoveryJobResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeDiscoveryJobResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(discoveryJobRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -187,8 +187,8 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + targetIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_discovery_jobs", "test_discovery_jobs", acctest.Optional, acctest.Update, discoveryJobDataSourceRepresentation) +
-				compartmentIdVariableStr + DiscoveryJobResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_discovery_jobs", "test_discovery_jobs", acctest.Optional, acctest.Update, DataSafediscoveryJobDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeDiscoveryJobResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_discovery_job", "test_discovery_job", acctest.Optional, acctest.Update, discoveryJobRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -202,8 +202,8 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + targetIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_discovery_job", "test_discovery_job", acctest.Required, acctest.Create, discoveryJobSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DiscoveryJobResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_discovery_job", "test_discovery_job", acctest.Required, acctest.Create, DataSafediscoveryJobSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeDiscoveryJobResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "discovery_job_id"),
 
@@ -228,7 +228,7 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + DiscoveryJobResourceConfig + targetIdVariableStr,
+			Config: config + compartmentIdVariableStr + DataSafeDiscoveryJobResourceConfig + targetIdVariableStr,
 		},
 		// verify resource import
 		{
@@ -296,7 +296,7 @@ func init() {
 
 func sweepDataSafeDiscoveryJobResource(compartment string) error {
 	dataSafeClient := acctest.GetTestClients(&schema.ResourceData{}).DataSafeClient()
-	discoveryJobIds, err := getDiscoveryJobIds(compartment)
+	discoveryJobIds, err := getDataSafeDiscoveryJobIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -312,14 +312,14 @@ func sweepDataSafeDiscoveryJobResource(compartment string) error {
 				fmt.Printf("Error deleting DiscoveryJob %s %s, It is possible that the resource is already deleted. Please verify manually \n", discoveryJobId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &discoveryJobId, discoveryJobSweepWaitCondition, time.Duration(3*time.Minute),
-				discoveryJobSweepResponseFetchOperation, "data_safe", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &discoveryJobId, DataSafediscoveryJobsSweepWaitCondition, time.Duration(3*time.Minute),
+				DataSafediscoveryJobsSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
 	return nil
 }
 
-func getDiscoveryJobIds(compartment string) ([]string, error) {
+func getDataSafeDiscoveryJobIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DiscoveryJobId")
 	if ids != nil {
 		return ids, nil
@@ -344,7 +344,7 @@ func getDiscoveryJobIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func discoveryJobSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataSafediscoveryJobsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if discoveryJobResponse, ok := response.Response.(oci_data_safe.GetDiscoveryJobResponse); ok {
 		return discoveryJobResponse.LifecycleState != oci_data_safe.DiscoveryLifecycleStateDeleted
@@ -352,7 +352,7 @@ func discoveryJobSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func discoveryJobSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataSafediscoveryJobsSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataSafeClient().GetDiscoveryJob(context.Background(), oci_data_safe.GetDiscoveryJobRequest{
 		DiscoveryJobId: resourceId,
 		RequestMetadata: common.RequestMetadata{

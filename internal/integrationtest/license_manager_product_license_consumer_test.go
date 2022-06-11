@@ -16,13 +16,13 @@ import (
 )
 
 var (
-	productLicenseConsumerDataSourceRepresentation = map[string]interface{}{
+	LicenseManagerLicenseManagerProductLicenseConsumerDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"product_license_id":           acctest.Representation{RepType: acctest.Required, Create: ``},
 		"is_compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
-	ProductLicenseConsumerResourceConfig = ""
+	LicenseManagerProductLicenseConsumerResourceConfig = ""
 )
 
 // issue-routing-tag: license_manager/default
@@ -45,8 +45,8 @@ func TestLicenseManagerProductLicenseConsumerResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_product_license_consumers", "test_product_license_consumers", acctest.Required, acctest.Create, productLicenseConsumerDataSourceRepresentation) +
-				compartmentIdVariableStr + ProductLicenseConsumerResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_product_license_consumers", "test_product_license_consumers", acctest.Required, acctest.Create, LicenseManagerLicenseManagerProductLicenseConsumerDataSourceRepresentation) +
+				compartmentIdVariableStr + LicenseManagerProductLicenseConsumerResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "product_license_id"),

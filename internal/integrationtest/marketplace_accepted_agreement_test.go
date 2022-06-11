@@ -24,29 +24,29 @@ import (
 )
 
 var (
-	AcceptedAgreementRequiredOnlyResource = AcceptedAgreementResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Required, acctest.Create, acceptedAgreementRepresentation)
+	MarketplaceAcceptedAgreementRequiredOnlyResource = MarketplaceAcceptedAgreementResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Required, acctest.Create, MarketplaceAcceptedAgreementRepresentation)
 
-	AcceptedAgreementResourceConfig = AcceptedAgreementResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Optional, acctest.Update, acceptedAgreementRepresentation)
+	MarketplaceAcceptedAgreementResourceConfig = MarketplaceAcceptedAgreementResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Optional, acctest.Update, MarketplaceAcceptedAgreementRepresentation)
 
-	acceptedAgreementSingularDataSourceRepresentation = map[string]interface{}{
+	MarketplaceMarketplaceAcceptedAgreementSingularDataSourceRepresentation = map[string]interface{}{
 		"accepted_agreement_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_marketplace_accepted_agreement.test_accepted_agreement.id}`},
 	}
 
-	acceptedAgreementDataSourceRepresentation = map[string]interface{}{
+	MarketplaceMarketplaceAcceptedAgreementDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"accepted_agreement_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_marketplace_accepted_agreement.test_accepted_agreement.id}`},
 		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"listing_id":            acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_marketplace_listing.test_listing.id}`},
 		"package_version":       acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
-		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: acceptedAgreementDataSourceFilterRepresentation}}
-	acceptedAgreementDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: MarketplaceAcceptedAgreementDataSourceFilterRepresentation}}
+	MarketplaceAcceptedAgreementDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_marketplace_accepted_agreement.test_accepted_agreement.id}`}},
 	}
 
-	acceptedAgreementRepresentation = map[string]interface{}{
+	MarketplaceAcceptedAgreementRepresentation = map[string]interface{}{
 		"agreement_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_marketplace_listing_package_agreement.test_listing_package_agreement.agreement_id}`},
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"listing_id":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing.test_listing.id}`},
@@ -57,11 +57,11 @@ var (
 		"signature":       acctest.Representation{RepType: acctest.Required, Create: `${oci_marketplace_listing_package_agreement.test_listing_package_agreement.signature}`},
 	}
 
-	AcceptedAgreementResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", acctest.Required, acctest.Create, listingDataSourceRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", acctest.Required, acctest.Create, listingSingularDataSourceRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", acctest.Required, acctest.Create, listingPackageAgreementDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", acctest.Required, acctest.Create, listingPackageAgreementManagementRepresentation)
+	MarketplaceAcceptedAgreementResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", acctest.Required, acctest.Create, MarketplaceMarketplaceListingDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", acctest.Required, acctest.Create, MarketplaceMarketplaceListingSingularDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", acctest.Required, acctest.Create, MarketplaceMarketplaceListingPackageAgreementDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", acctest.Required, acctest.Create, MarketplaceListingPackageAgreementManagementRepresentation)
 )
 
 // issue-routing-tag: marketplace/default
@@ -80,14 +80,14 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+AcceptedAgreementResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Optional, acctest.Create, acceptedAgreementRepresentation), "marketplace", "acceptedAgreement", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+MarketplaceAcceptedAgreementResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Optional, acctest.Create, MarketplaceAcceptedAgreementRepresentation), "marketplace", "acceptedAgreement", t)
 
 	acctest.ResourceTest(t, testAccCheckMarketplaceAcceptedAgreementDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Required, acctest.Create, acceptedAgreementRepresentation),
+			Config: config + compartmentIdVariableStr + MarketplaceAcceptedAgreementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Required, acctest.Create, MarketplaceAcceptedAgreementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -103,12 +103,12 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies,
+			Config: config + compartmentIdVariableStr + MarketplaceAcceptedAgreementResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Optional, acctest.Create, acceptedAgreementRepresentation),
+			Config: config + compartmentIdVariableStr + MarketplaceAcceptedAgreementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Optional, acctest.Create, MarketplaceAcceptedAgreementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -132,8 +132,8 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Optional, acctest.Update, acceptedAgreementRepresentation),
+			Config: config + compartmentIdVariableStr + MarketplaceAcceptedAgreementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Optional, acctest.Update, MarketplaceAcceptedAgreementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -155,9 +155,9 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_accepted_agreements", "test_accepted_agreements", acctest.Optional, acctest.Update, acceptedAgreementDataSourceRepresentation) +
-				compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Optional, acctest.Update, acceptedAgreementRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_accepted_agreements", "test_accepted_agreements", acctest.Optional, acctest.Update, MarketplaceMarketplaceAcceptedAgreementDataSourceRepresentation) +
+				compartmentIdVariableStr + MarketplaceAcceptedAgreementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Optional, acctest.Update, MarketplaceAcceptedAgreementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreement_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -178,8 +178,8 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Required, acctest.Create, acceptedAgreementSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AcceptedAgreementResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", acctest.Required, acctest.Create, MarketplaceMarketplaceAcceptedAgreementSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MarketplaceAcceptedAgreementResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "accepted_agreement_id"),
 
@@ -193,7 +193,7 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + AcceptedAgreementRequiredOnlyResource,
+			Config:            config + MarketplaceAcceptedAgreementRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -251,7 +251,7 @@ func init() {
 
 func sweepMarketplaceAcceptedAgreementResource(compartment string) error {
 	marketplaceClient := acctest.GetTestClients(&schema.ResourceData{}).MarketplaceClient()
-	acceptedAgreementIds, err := getAcceptedAgreementIds(compartment)
+	acceptedAgreementIds, err := getMarketplaceAcceptedAgreementIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -272,7 +272,7 @@ func sweepMarketplaceAcceptedAgreementResource(compartment string) error {
 	return nil
 }
 
-func getAcceptedAgreementIds(compartment string) ([]string, error) {
+func getMarketplaceAcceptedAgreementIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "AcceptedAgreementId")
 	if ids != nil {
 		return ids, nil

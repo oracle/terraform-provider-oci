@@ -15,18 +15,18 @@ import (
 )
 
 var (
-	categorySingularDataSourceRepresentation = map[string]interface{}{
+	OptimizerOptimizerCategorySingularDataSourceRepresentation = map[string]interface{}{
 		"category_id": acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}`},
 	}
 
-	optimizerCategoryDataSourceRepresentation = map[string]interface{}{
+	OptimizerOptimizerCategoryDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"name":                      acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `CREATED`},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: categoryDataSourceFilterRepresentation},
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: OptimizerOptimizerCategoryDataSourceFilterRepresentation},
 	}
-	categoryDataSourceFilterRepresentation = map[string]interface{}{
+	OptimizerOptimizerCategoryDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`cost-management-name`}},
 	}
@@ -53,7 +53,7 @@ func TestOptimizerCategoryResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create, optimizerCategoryDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create, OptimizerOptimizerCategoryDataSourceRepresentation) +
 				compartmentIdVariableStr + OptimizerCategoryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -67,8 +67,8 @@ func TestOptimizerCategoryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create, optimizerCategoryDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_category", "test_category", acctest.Required, acctest.Create, categorySingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create, OptimizerOptimizerCategoryDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_category", "test_category", acctest.Required, acctest.Create, OptimizerOptimizerCategorySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + OptimizerCategoryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "category_id"),

@@ -18,39 +18,39 @@ import (
 )
 
 var (
-	DrgRouteTableRouteRuleRequiredOnlyResource = DrgRouteTableRouteRuleResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", acctest.Required, acctest.Create, drgRouteTableRouteRuleRepresentation)
+	CoreDrgRouteTableRouteRuleRequiredOnlyResource = CoreDrgRouteTableRouteRuleResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", acctest.Required, acctest.Create, CoreDrgRouteTableRouteRuleRepresentation)
 
-	drgRouteTableRouteRuleDataSourceRepresentation = map[string]interface{}{
+	CoreCoreDrgRouteTableRouteRuleDataSourceRepresentation = map[string]interface{}{
 		"drg_route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
 	}
 
-	drgRouteTableRouteRuleRepresentation = map[string]interface{}{
+	CoreDrgRouteTableRouteRuleRepresentation = map[string]interface{}{
 		"drg_route_table_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
 		"destination_type":           acctest.Representation{RepType: acctest.Required, Create: `CIDR_BLOCK`},
 		"destination":                acctest.Representation{RepType: acctest.Required, Create: `0.0.0.0/0`, Update: `192.0.0.0/24`},
 		"next_hop_drg_attachment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_attachment.test_drg_attachment.id}`},
 	}
 
-	drgRouteTableRouteRuleRepresentation2 = map[string]interface{}{
+	CoreDrgRouteTableRouteRuleRepresentation2 = map[string]interface{}{
 		"drg_route_table_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
 		"destination_type":           acctest.Representation{RepType: acctest.Required, Create: `CIDR_BLOCK`},
 		"destination":                acctest.Representation{RepType: acctest.Required, Create: `1.1.1.0/24`, Update: `1.1.11.0/24`},
 		"next_hop_drg_attachment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_attachment.test_drg_attachment.id}`},
 	}
 
-	drgRouteTableRouteRuleRepresentation3 = map[string]interface{}{
+	CoreDrgRouteTableRouteRuleRepresentation3 = map[string]interface{}{
 		"drg_route_table_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
 		"destination_type":           acctest.Representation{RepType: acctest.Required, Create: `CIDR_BLOCK`},
 		"destination":                acctest.Representation{RepType: acctest.Required, Create: `1.1.2.0/24`, Update: `1.1.12.0/24`},
 		"next_hop_drg_attachment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_attachment.test_drg_attachment.id}`},
 	}
 
-	DrgRouteTableRouteRuleResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", acctest.Required, acctest.Create, drgAttachmentRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Required, acctest.Create, drgRouteTableRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, drgRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, routeTableRepresentation)
+	CoreDrgRouteTableRouteRuleResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", acctest.Required, acctest.Create, CoreDrgAttachmentRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Required, acctest.Create, CoreDrgRouteTableRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, CoreDrgRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation)
 )
 
 // issue-routing-tag: core/pnp
@@ -71,14 +71,14 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DrgRouteTableRouteRuleResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", acctest.Optional, acctest.Create, drgRouteTableRouteRuleRepresentation), "core", "drgRouteTableRouteRule", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreDrgRouteTableRouteRuleResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", acctest.Optional, acctest.Create, CoreDrgRouteTableRouteRuleRepresentation), "core", "drgRouteTableRouteRule", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", acctest.Required, acctest.Create, drgRouteTableRouteRuleRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableRouteRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", acctest.Required, acctest.Create, CoreDrgRouteTableRouteRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
 			),
@@ -86,12 +86,12 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableRouteRuleResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", acctest.Optional, acctest.Create, drgRouteTableRouteRuleRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableRouteRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", acctest.Optional, acctest.Create, CoreDrgRouteTableRouteRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "destination"),
 				resource.TestCheckResourceAttrSet(resourceName, "destination_type"),
@@ -112,9 +112,9 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 		},
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableRouteRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", acctest.Optional, acctest.Update,
-					drgRouteTableRouteRuleRepresentation),
+					CoreDrgRouteTableRouteRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "destination", "192.0.0.0/24"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
@@ -132,9 +132,9 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_drg_route_table_route_rules", "test_drg_route_table_route_rules", acctest.Optional, acctest.Create, drgRouteTableRouteRuleDataSourceRepresentation) +
-				compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", acctest.Optional, acctest.Update, drgRouteTableRouteRuleRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_drg_route_table_route_rules", "test_drg_route_table_route_rules", acctest.Optional, acctest.Create, CoreCoreDrgRouteTableRouteRuleDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreDrgRouteTableRouteRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", acctest.Optional, acctest.Update, CoreDrgRouteTableRouteRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_table_id"),
 				resource.TestCheckResourceAttr(datasourceName, "drg_route_rules.0.destination_type", "CIDR_BLOCK"),
@@ -145,7 +145,7 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 		},
 		//verify resource import
 		{
-			Config:                  config + DrgRouteTableRouteRuleRequiredOnlyResource,
+			Config:                  config + CoreDrgRouteTableRouteRuleRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -153,13 +153,13 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableRouteRuleResourceDependencies,
 		},
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule2", acctest.Optional, acctest.Create, drgRouteTableRouteRuleRepresentation2) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule3", acctest.Required, acctest.Create, drgRouteTableRouteRuleRepresentation3),
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableRouteRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule2", acctest.Optional, acctest.Create, CoreDrgRouteTableRouteRuleRepresentation2) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule3", acctest.Required, acctest.Create, CoreDrgRouteTableRouteRuleRepresentation3),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//check first resource
 				resource.TestCheckResourceAttrSet(resourceName2, "destination"),

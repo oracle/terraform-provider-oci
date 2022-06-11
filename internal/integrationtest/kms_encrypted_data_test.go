@@ -15,8 +15,8 @@ import (
 )
 
 var (
-	EncryptedDataResourceConfig = EncryptedDataResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", acctest.Optional, acctest.Create, encryptedDataRepresentation)
+	KmsEncryptedDataResourceConfig = KmsEncryptedDataResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", acctest.Optional, acctest.Create, KmsEncryptedDataRepresentation)
 
 	encryptedDataSingularDataSourceRepresentation = map[string]interface{}{
 		"crypto_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
@@ -25,7 +25,7 @@ var (
 		"associated_data": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"associatedData": "associatedData"}, Update: map[string]string{"associatedData2": "associatedData2"}},
 	}
 
-	encryptedDataRepresentation = map[string]interface{}{
+	KmsEncryptedDataRepresentation = map[string]interface{}{
 		"crypto_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
 		"key_id":          acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"plaintext":       acctest.Representation{RepType: acctest.Required, Create: `aGVsbG8sIHdvcmxk`},
@@ -33,7 +33,7 @@ var (
 		"logging_context": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"loggingContext": "loggingContext"}, Update: map[string]string{"loggingContext2": "loggingContext2"}},
 	}
 
-	EncryptedDataResourceDependencies = KeyResourceDependencyConfig
+	KmsEncryptedDataResourceDependencies = KeyResourceDependencyConfig
 )
 
 // issue-routing-tag: kms/default
@@ -50,14 +50,14 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_kms_encrypted_data.test_encrypted_data"
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+EncryptedDataResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", acctest.Optional, acctest.Create, encryptedDataRepresentation), "keymanagement", "encryptedData", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+KmsEncryptedDataResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", acctest.Optional, acctest.Create, KmsEncryptedDataRepresentation), "keymanagement", "encryptedData", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + EncryptedDataResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", acctest.Required, acctest.Create, encryptedDataRepresentation),
+			Config: config + compartmentIdVariableStr + KmsEncryptedDataResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", acctest.Required, acctest.Create, KmsEncryptedDataRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
@@ -67,12 +67,12 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + EncryptedDataResourceDependencies,
+			Config: config + compartmentIdVariableStr + KmsEncryptedDataResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + EncryptedDataResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", acctest.Optional, acctest.Create, encryptedDataRepresentation),
+			Config: config + compartmentIdVariableStr + KmsEncryptedDataResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", acctest.Optional, acctest.Create, KmsEncryptedDataRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "associated_data.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "ciphertext"),
@@ -87,7 +87,7 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", acctest.Optional, acctest.Create, encryptedDataSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + EncryptedDataResourceConfig,
+				compartmentIdVariableStr + KmsEncryptedDataResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "associated_data.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "crypto_endpoint"),

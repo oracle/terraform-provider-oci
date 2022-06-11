@@ -24,20 +24,20 @@ import (
 )
 
 var (
-	DynamicGroupRequiredOnlyResource = DynamicGroupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Required, acctest.Create, dynamicGroupRepresentation)
+	IdentityDynamicGroupRequiredOnlyResource = IdentityDynamicGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Required, acctest.Create, IdentityDynamicGroupRepresentation)
 
-	dynamicGroupDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityDynamicGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `DevCompartmentDynamicGroup`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: dynamicGroupDataSourceFilterRepresentation}}
-	dynamicGroupDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDynamicGroupDataSourceFilterRepresentation}}
+	IdentityDynamicGroupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_dynamic_group.test_dynamic_group.id}`}},
 	}
 
-	dynamicGroupRepresentation = map[string]interface{}{
+	IdentityDynamicGroupRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"description":    acctest.Representation{RepType: acctest.Required, Create: `Instance Group for dev compartment`, Update: `description2`},
 		"matching_rule":  acctest.Representation{RepType: acctest.Required, Create: `${var.dynamic_group_matching_rule}`, Update: `${var.dynamic_group_matching_rule}`},
@@ -46,7 +46,7 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	DynamicGroupResourceDependencies = DefinedTagsDependencies
+	IdentityDynamicGroupResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: identity/default
@@ -70,8 +70,8 @@ func TestIdentityDynamicGroupResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+matchingRuleVariableStr+DynamicGroupResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Optional, acctest.Create, dynamicGroupRepresentation), "identity", "dynamicGroup", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+matchingRuleVariableStr+IdentityDynamicGroupResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Optional, acctest.Create, IdentityDynamicGroupRepresentation), "identity", "dynamicGroup", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityDynamicGroupDestroy, []resource.TestStep{
 		// verify matching rule syntax
@@ -80,13 +80,13 @@ func TestIdentityDynamicGroupResource_basic(t *testing.T) {
 variable "dynamic_group_description" { default = "description2" }
 variable "dynamic_group_matching_rule" { default = "bad_matching_rule" }
 variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
-` + compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Required, acctest.Create, dynamicGroupRepresentation),
+` + compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Required, acctest.Create, IdentityDynamicGroupRepresentation),
 			ExpectError: regexp.MustCompile("Unable to parse matching rule"),
 		},
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + matchingRuleVariableStr + DynamicGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Required, acctest.Create, dynamicGroupRepresentation),
+			Config: config + compartmentIdVariableStr + matchingRuleVariableStr + IdentityDynamicGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Required, acctest.Create, IdentityDynamicGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Instance Group for dev compartment"),
@@ -102,12 +102,12 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + matchingRuleVariableStr + DynamicGroupResourceDependencies,
+			Config: config + compartmentIdVariableStr + matchingRuleVariableStr + IdentityDynamicGroupResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + matchingRuleVariableStr + DynamicGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Optional, acctest.Create, dynamicGroupRepresentation),
+			Config: config + compartmentIdVariableStr + matchingRuleVariableStr + IdentityDynamicGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Optional, acctest.Create, IdentityDynamicGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Instance Group for dev compartment"),
@@ -132,8 +132,8 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + matchingRule2VariableStr + DynamicGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Optional, acctest.Update, dynamicGroupRepresentation),
+			Config: config + compartmentIdVariableStr + matchingRule2VariableStr + IdentityDynamicGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Optional, acctest.Update, IdentityDynamicGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -156,9 +156,9 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 		// verify datasource
 		{
 			Config: config + matchingRule2VariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_dynamic_groups", "test_dynamic_groups", acctest.Optional, acctest.Update, dynamicGroupDataSourceRepresentation) +
-				compartmentIdVariableStr + DynamicGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Optional, acctest.Update, dynamicGroupRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_dynamic_groups", "test_dynamic_groups", acctest.Optional, acctest.Update, IdentityIdentityDynamicGroupDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityDynamicGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Optional, acctest.Update, IdentityDynamicGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "DevCompartmentDynamicGroup"),
@@ -177,7 +177,7 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 		},
 		// verify resource import
 		{
-			Config:                  config + DynamicGroupRequiredOnlyResource,
+			Config:                  config + IdentityDynamicGroupRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

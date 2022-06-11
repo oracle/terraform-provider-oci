@@ -56,7 +56,7 @@ var (
 	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"	
 }`
 
-	ConnectionResourceConfigTarget = ConnectionResourceDependenciesTarget +
+	ConnectionResourceConfigTarget = DatabaseMigrationConnectionResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Update, connectionRepresentationTarget)
 
 	connectionSingularDataSourceRepresentationCon = map[string]interface{}{
@@ -203,15 +203,15 @@ var (
 	db_system_id = "${oci_database_db_system.t.id}"
 }`
 	AutonomousDatabaseResourceDependenciesCON = //DefinedTagsDependencies +
-	acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", acctest.Required, acctest.Create, autonomousDbVersionDataSourceRepresentation) +
+	acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousDbVersionDataSourceRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_dw_versions", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(autonomousDbVersionDataSourceRepresentation, map[string]interface{}{
+			acctest.RepresentationCopyWithNewProperties(DatabaseDatabaseAutonomousDbVersionDataSourceRepresentation, map[string]interface{}{
 				"db_workload": acctest.Representation{RepType: acctest.Required, Create: `DW`}}))
 
 	AutonomousDatabaseResourceDependenciesCONSOURCE = //DefinedTagsDependencies +
-	acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions_source", acctest.Required, acctest.Create, autonomousDbVersionDataSourceRepresentation) +
+	acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions_source", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousDbVersionDataSourceRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_dw_versions_source", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(autonomousDbVersionDataSourceRepresentation, map[string]interface{}{
+			acctest.RepresentationCopyWithNewProperties(DatabaseDatabaseAutonomousDbVersionDataSourceRepresentation, map[string]interface{}{
 				"db_workload": acctest.Representation{RepType: acctest.Required, Create: `DW`}}))
 
 	goldenGateDbSystemRepresentationSOURCE = map[string]interface{}{
@@ -231,19 +231,19 @@ var (
 		"private_ip":              acctest.Representation{RepType: acctest.Required, Create: `10.0.0.125`},
 	}
 
-	ConnectionResourceDependenciesTarget = acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, serviceDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseRepresentation) +
+	DatabaseMigrationConnectionResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, CoreCoreServiceDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseRepresentation) +
 		AutonomousDatabaseResourceDependenciesCON +
 		KmsKeyIdVariableStr +
 		KmsVaultIdVariableStr
 
-	ConnectionResourceDependenciesTargetCommon = acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, serviceDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	ConnectionResourceDependenciesTargetCommon = acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, CoreCoreServiceDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		SubnetData +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseRepresentation) +
 		AutonomousDatabaseResourceDependenciesCON //+
 
 	ConnectionResourceDependenciesSource = acctest.GenerateResourceFromRepresentationMap("oci_database_db_system", "t", acctest.Optional, acctest.Create, goldenGateDbSystemRepresentationSOURCE) +
@@ -274,13 +274,13 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ConnectionResourceDependenciesTarget+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseMigrationConnectionResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Create, connectionRepresentationTarget), "databasemigration", "connection", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseMigrationConnectionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
+			Config: config + compartmentIdVariableStr + DatabaseMigrationConnectionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Required, acctest.Create, connectionRepresentationTarget),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
@@ -301,11 +301,11 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget,
+			Config: config + compartmentIdVariableStr + DatabaseMigrationConnectionResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
+			Config: config + compartmentIdVariableStr + DatabaseMigrationConnectionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Create, connectionRepresentationTarget),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
@@ -335,7 +335,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 		},
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ConnectionResourceDependenciesTarget +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseMigrationConnectionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(connectionRepresentationTarget, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -367,7 +367,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
+			Config: config + compartmentIdVariableStr + DatabaseMigrationConnectionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Update, connectionRepresentationTarget),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
@@ -397,7 +397,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_connections", "test_connections", acctest.Optional, acctest.Update, connectionDataSourceRepresentationCon) +
-				compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
+				compartmentIdVariableStr + DatabaseMigrationConnectionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Update, connectionRepresentationTarget),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -428,7 +428,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + ConnectionRequiredOnlyResource,
+			Config:            config + DatacatalogConnectionRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

@@ -17,10 +17,10 @@ import (
 )
 
 var (
-	ExadataInfrastructureStorageRequiredOnlyResource = ExadataInfrastructureResourceDependencies +
+	ExadataInfrastructureStorageRequiredOnlyResource = DatabaseExadataInfrastructureResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure_storage", "test_exadata_infrastructure_storage", acctest.Required, acctest.Create, exadataInfrastructureStorageRepresentation)
 
-	ExadataInfrastructureStorageResourceConfig = ExadataInfrastructureResourceDependencies +
+	ExadataInfrastructureStorageResourceConfig = DatabaseExadataInfrastructureResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure_storage", "test_exadata_infrastructure_storage", acctest.Optional, acctest.Update, exadataInfrastructureStorageRepresentation)
 
 	exadataInfrastructureStorageSingularDataSourceRepresentation = map[string]interface{}{
@@ -31,7 +31,7 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `tstExaInfra`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `REQUIRES_ACTIVATION`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: exadataInfrastructureDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousExadataInfrastructureDataSourceFilterRepresentation}}
 	exadataInfrastructureStorageDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`}},
@@ -51,11 +51,11 @@ var (
 		"shape":                       acctest.Representation{RepType: acctest.Required, Create: `ExadataCC.Quarter3.100`},
 		"time_zone":                   acctest.Representation{RepType: acctest.Required, Create: `US/Pacific`, Update: `UTC`},
 		"compute_count":               acctest.Representation{RepType: acctest.Optional, Create: `2`},
-		"contacts":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: exadataInfrastructureContactsRepresentation},
+		"contacts":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureContactsRepresentation},
 		"corporate_proxy":             acctest.Representation{RepType: acctest.Optional, Create: `http://192.168.19.1:80`, Update: `http://192.168.19.2:80`},
 		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"maintenance_window":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: exadataInfrastructureMaintenanceWindowRepresentation},
+		"maintenance_window":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureMaintenanceWindowRepresentation},
 		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreShapeRepresentation},
 	}
 
@@ -140,7 +140,7 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
 						"activation_file":    acctest.Representation{RepType: acctest.Optional, Create: activationFilePath},
-						"maintenance_window": acctest.RepresentationGroup{RepType: acctest.Optional, Group: exadataInfrastructureMaintenanceWindowRepresentation},
+						"maintenance_window": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureMaintenanceWindowRepresentation},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/16"),

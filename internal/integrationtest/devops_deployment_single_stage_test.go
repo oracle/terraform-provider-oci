@@ -31,7 +31,7 @@ var (
 
 	deployOkeSingleStageRepresentation = map[string]interface{}{
 		"deploy_pipeline_id":                      acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_pipeline.test_deploy_pipeline.id}`},
-		"deploy_stage_predecessor_collection":     acctest.RepresentationGroup{RepType: acctest.Required, Group: deployStageDeployStagePredecessorCollectionRepresentation},
+		"deploy_stage_predecessor_collection":     acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsDeployStageDeployStagePredecessorCollectionRepresentation},
 		"deploy_stage_type":                       acctest.Representation{RepType: acctest.Required, Create: `OKE_DEPLOYMENT`},
 		"defined_tags":                            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":                             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
@@ -99,7 +99,7 @@ var (
 		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"log_group_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_group.test_devops_log_group.id}`},
 		"log_type":           acctest.Representation{RepType: acctest.Required, Create: `SERVICE`},
-		"configuration":      acctest.RepresentationGroup{RepType: acctest.Required, Group: devopLogConfigurationRepresentation},
+		"configuration":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopLogConfigurationRepresentation},
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_enabled":         acctest.Representation{RepType: acctest.Optional, Create: `true`},
@@ -113,14 +113,14 @@ var (
 
 	DevopsSingleStageDeploymentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_inline_artifact", acctest.Required, acctest.Create, deployGenericArtifactSingleStageRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_kubernetes_environment", acctest.Required, acctest.Create, deployOkeEnvironmentRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", acctest.Required, acctest.Create, deployPipelineRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", acctest.Required, acctest.Create, DevopsDeployPipelineRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Required, acctest.Create, deployOkeSingleStageRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", acctest.Required, acctest.Create, devopsLogGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", acctest.Required, acctest.Create, DevopsLogGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Optional, acctest.Create, deployLogRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default

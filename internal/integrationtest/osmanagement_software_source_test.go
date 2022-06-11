@@ -26,30 +26,30 @@ import (
 )
 
 var (
-	SoftwareSourceRequiredOnlyResource = SoftwareSourceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Required, acctest.Create, softwareSourceRepresentation)
+	OsmanagementSoftwareSourceRequiredOnlyResource = OsmanagementSoftwareSourceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Required, acctest.Create, OsmanagementSoftwareSourceRepresentation)
 
-	SoftwareSourceResourceConfig = SoftwareSourceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Optional, acctest.Update, softwareSourceRepresentation)
+	OsmanagementSoftwareSourceResourceConfig = OsmanagementSoftwareSourceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Optional, acctest.Update, OsmanagementSoftwareSourceRepresentation)
 
-	softwareSourceSingularDataSourceRepresentation = map[string]interface{}{
+	OsmanagementOsmanagementSoftwareSourceSingularDataSourceRepresentation = map[string]interface{}{
 		"software_source_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_osmanagement_software_source.test_software_source.id}`},
 	}
 
 	softwareSourceDisplayName       = utils.RandomStringOrHttpReplayValue(10, utils.CharsetWithoutDigits, "displayName")
 	softwareSourceUpdateDisplayName = utils.RandomStringOrHttpReplayValue(10, utils.CharsetWithoutDigits, "displayName2")
 
-	softwareSourceDataSourceRepresentation = map[string]interface{}{
+	OsmanagementOsmanagementSoftwareSourceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: softwareSourceDisplayName, Update: softwareSourceUpdateDisplayName},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: softwareSourceDataSourceFilterRepresentation}}
-	softwareSourceDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: OsmanagementSoftwareSourceDataSourceFilterRepresentation}}
+	OsmanagementSoftwareSourceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_osmanagement_software_source.test_software_source.id}`}},
 	}
 
-	softwareSourceRepresentation = map[string]interface{}{
+	OsmanagementSoftwareSourceRepresentation = map[string]interface{}{
 		"arch_type":        acctest.Representation{RepType: acctest.Required, Create: `IA_32`},
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":     acctest.Representation{RepType: acctest.Required, Create: softwareSourceDisplayName, Update: softwareSourceUpdateDisplayName},
@@ -62,7 +62,7 @@ var (
 		"maintainer_phone": acctest.Representation{RepType: acctest.Optional, Create: `maintainerPhone`, Update: `maintainerPhone2`},
 	}
 
-	SoftwareSourceResourceDependencies = DefinedTagsDependencies
+	OsmanagementSoftwareSourceResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: osmanagement/default
@@ -84,14 +84,14 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SoftwareSourceResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Optional, acctest.Create, softwareSourceRepresentation), "osmanagement", "softwareSource", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OsmanagementSoftwareSourceResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Optional, acctest.Create, OsmanagementSoftwareSourceRepresentation), "osmanagement", "softwareSource", t)
 
 	acctest.ResourceTest(t, testAccCheckOsmanagementSoftwareSourceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Required, acctest.Create, softwareSourceRepresentation),
+			Config: config + compartmentIdVariableStr + OsmanagementSoftwareSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Required, acctest.Create, OsmanagementSoftwareSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -106,12 +106,12 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies,
+			Config: config + compartmentIdVariableStr + OsmanagementSoftwareSourceResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Optional, acctest.Create, softwareSourceRepresentation),
+			Config: config + compartmentIdVariableStr + OsmanagementSoftwareSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Optional, acctest.Create, OsmanagementSoftwareSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
 				resource.TestCheckResourceAttr(resourceName, "checksum_type", "SHA1"),
@@ -139,9 +139,9 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SoftwareSourceResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OsmanagementSoftwareSourceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(softwareSourceRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(OsmanagementSoftwareSourceRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -169,8 +169,8 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Optional, acctest.Update, softwareSourceRepresentation),
+			Config: config + compartmentIdVariableStr + OsmanagementSoftwareSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Optional, acctest.Update, OsmanagementSoftwareSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
 				resource.TestCheckResourceAttr(resourceName, "checksum_type", "SHA256"),
@@ -196,9 +196,9 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_software_sources", "test_software_sources", acctest.Optional, acctest.Update, softwareSourceDataSourceRepresentation) +
-				compartmentIdVariableStr + SoftwareSourceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Optional, acctest.Update, softwareSourceRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_software_sources", "test_software_sources", acctest.Optional, acctest.Update, OsmanagementOsmanagementSoftwareSourceDataSourceRepresentation) +
+				compartmentIdVariableStr + OsmanagementSoftwareSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Optional, acctest.Update, OsmanagementSoftwareSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", softwareSourceUpdateDisplayName),
@@ -219,8 +219,8 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Required, acctest.Create, softwareSourceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SoftwareSourceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", acctest.Required, acctest.Create, OsmanagementOsmanagementSoftwareSourceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OsmanagementSoftwareSourceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_source_id"),
 
@@ -242,7 +242,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + SoftwareSourceRequiredOnlyResource,
+			Config:                  config + OsmanagementSoftwareSourceRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -306,7 +306,7 @@ func init() {
 
 func sweepOsmanagementSoftwareSourceResource(compartment string) error {
 	osManagementClient := acctest.GetTestClients(&schema.ResourceData{}).OsManagementClient()
-	softwareSourceIds, err := getSoftwareSourceIds(compartment)
+	softwareSourceIds, err := getOsmanagementSoftwareSourceIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -322,14 +322,14 @@ func sweepOsmanagementSoftwareSourceResource(compartment string) error {
 				fmt.Printf("Error deleting SoftwareSource %s %s, It is possible that the resource is already deleted. Please verify manually \n", softwareSourceId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &softwareSourceId, softwareSourceSweepWaitCondition, time.Duration(3*time.Minute),
-				softwareSourceSweepResponseFetchOperation, "osmanagement", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &softwareSourceId, OsmanagementSoftwareSourceSweepWaitCondition, time.Duration(3*time.Minute),
+				OsmanagementSoftwareSourceSweepResponseFetchOperation, "osmanagement", true)
 		}
 	}
 	return nil
 }
 
-func getSoftwareSourceIds(compartment string) ([]string, error) {
+func getOsmanagementSoftwareSourceIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "SoftwareSourceId")
 	if ids != nil {
 		return ids, nil
@@ -354,7 +354,7 @@ func getSoftwareSourceIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func softwareSourceSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OsmanagementSoftwareSourceSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if softwareSourceResponse, ok := response.Response.(oci_osmanagement.GetSoftwareSourceResponse); ok {
 		return softwareSourceResponse.LifecycleState != oci_osmanagement.LifecycleStatesDeleted
@@ -362,7 +362,7 @@ func softwareSourceSweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func softwareSourceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OsmanagementSoftwareSourceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.OsManagementClient().GetSoftwareSource(context.Background(), oci_osmanagement.GetSoftwareSourceRequest{
 		SoftwareSourceId: resourceId,
 		RequestMetadata: common.RequestMetadata{

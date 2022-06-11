@@ -18,12 +18,12 @@ import (
 )
 
 var (
-	userAssessmentComparisonSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafeuserAssessmentComparisonSingularDataSourceRepresentation = map[string]interface{}{
 		"comparison_user_assessment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_user_assessment.test_user_assessment3.id}`},
 		"user_assessment_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_user_assessment.test_user_assessment4.id}`},
 	}
 
-	UserAssessmentComparisonResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment3", acctest.Required, acctest.Create, userAssessmentRepresentation) +
+	DataSafeUserAssessmentComparisonResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment3", acctest.Required, acctest.Create, userAssessmentRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment4", acctest.Required, acctest.Create, userAssessmentRepresentation)
 )
 
@@ -46,8 +46,8 @@ func TestDataSafeUserAssessmentComparisonResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment_comparison", "test_user_assessment_comparison", acctest.Required, acctest.Create, userAssessmentComparisonSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + UserAssessmentComparisonResourceConfig + targetIdVariableStr,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment_comparison", "test_user_assessment_comparison", acctest.Required, acctest.Create, DataSafeuserAssessmentComparisonSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeUserAssessmentComparisonResourceConfig + targetIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
 					if failure, isServiceError := oci_common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {

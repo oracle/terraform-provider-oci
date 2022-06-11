@@ -19,31 +19,31 @@ import (
 )
 
 var (
-	ResolverEndpointRequiredOnlyResource = ResolverEndpointResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Required, acctest.Create, resolverEndpointRepresentation)
+	DnsResolverEndpointRequiredOnlyResource = DnsResolverEndpointResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Required, acctest.Create, DnsResolverEndpointRepresentation)
 
-	ResolverEndpointResourceConfig = ResolverEndpointResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, resolverEndpointRepresentation)
+	DnsResolverEndpointResourceConfig = DnsResolverEndpointResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, DnsResolverEndpointRepresentation)
 
-	resolverEndpointSingularDataSourceRepresentation = map[string]interface{}{
+	DnsDnsResolverEndpointSingularDataSourceRepresentation = map[string]interface{}{
 		"resolver_endpoint_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_resolver_endpoint.test_resolver_endpoint.name}`},
 		"resolver_id":            acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_vcn_dns_resolver_association.test_vcn_dns_resolver_association.dns_resolver_id}`},
 		"scope":                  acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
 	}
 
-	resolverEndpointDataSourceRepresentation = map[string]interface{}{
+	DnsDnsResolverEndpointDataSourceRepresentation = map[string]interface{}{
 		"resolver_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_vcn_dns_resolver_association.test_vcn_dns_resolver_association.dns_resolver_id}`},
 		"name":        acctest.Representation{RepType: acctest.Optional, Create: `endpointName`},
 		"scope":       acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
 		"state":       acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":      acctest.RepresentationGroup{RepType: acctest.Required, Group: resolverEndpointDataSourceFilterRepresentation}}
+		"filter":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DnsResolverEndpointDataSourceFilterRepresentation}}
 
-	resolverEndpointDataSourceFilterRepresentation = map[string]interface{}{
+	DnsResolverEndpointDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_dns_resolver_endpoint.test_resolver_endpoint.name}`}},
 	}
 
-	resolverEndpointRepresentation = map[string]interface{}{
+	DnsResolverEndpointRepresentation = map[string]interface{}{
 		"is_forwarding":      acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"is_listening":       acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"name":               acctest.Representation{RepType: acctest.Required, Create: `endpointName`},
@@ -55,11 +55,11 @@ var (
 		"nsg_ids":            acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 	}
 
-	resolverEndpointRepresentationWithoutNsgId = acctest.RepresentationCopyWithRemovedProperties(resolverEndpointRepresentation, []string{"nsg_ids"})
+	DnsResolverEndpointRepresentationWithoutNsgId = acctest.RepresentationCopyWithRemovedProperties(DnsResolverEndpointRepresentation, []string{"nsg_ids"})
 
-	ResolverEndpointResourceDependencies = ResolverResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation)
+	DnsResolverEndpointResourceDependencies = DnsResolverResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation)
 )
 
 // issue-routing-tag: dns/default
@@ -79,13 +79,13 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ResolverEndpointResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Create, resolverEndpointRepresentation), "dns", "resolverEndpoint", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DnsResolverEndpointResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Create, DnsResolverEndpointRepresentation), "dns", "resolverEndpoint", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Create dependencies
 		{
-			Config: config + compartmentIdVariableStr + ResolverEndpointResourceDependencies,
+			Config: config + compartmentIdVariableStr + DnsResolverEndpointResourceDependencies,
 			Check: func(s *terraform.State) (err error) {
 				log.Printf("[DEBUG] Wait for 2 minutes for oci_core_vcn resource to get created")
 				time.Sleep(2 * time.Minute)
@@ -94,10 +94,10 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 		},
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ResolverEndpointResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, resolverRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Required, acctest.Create, resolverEndpointRepresentation),
+			Config: config + compartmentIdVariableStr + DnsResolverEndpointResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, DnsResolverRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Required, acctest.Create, DnsResolverEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "is_forwarding", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_listening", "false"),
@@ -112,16 +112,16 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ResolverEndpointResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, resolverRepresentation),
+			Config: config + compartmentIdVariableStr + DnsResolverEndpointResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, DnsResolverRepresentation),
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ResolverEndpointResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, resolverRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Create, resolverEndpointRepresentation),
+			Config: config + compartmentIdVariableStr + DnsResolverEndpointResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, DnsResolverRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Create, DnsResolverEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "VNIC"),
@@ -150,10 +150,10 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 		},
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ResolverEndpointResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Update, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, resolverRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, resolverEndpointRepresentation),
+			Config: config + compartmentIdVariableStr + DnsResolverEndpointResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Update, CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, DnsResolverRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, DnsResolverEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "VNIC"),
@@ -181,11 +181,11 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 
 		// verify datasource
 		{
-			Config: config + compartmentIdVariableStr + ResolverEndpointResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_resolver_endpoints", "test_resolver_endpoints", acctest.Optional, acctest.Update, resolverEndpointDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, resolverRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, resolverEndpointRepresentation),
+			Config: config + compartmentIdVariableStr + DnsResolverEndpointResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_resolver_endpoints", "test_resolver_endpoints", acctest.Optional, acctest.Update, DnsDnsResolverEndpointDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, DnsResolverRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, DnsResolverEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "name", "endpointName"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resolver_id"),
@@ -207,11 +207,11 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config + compartmentIdVariableStr + ResolverEndpointResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, resolverEndpointSingularDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, resolverRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, resolverEndpointRepresentation),
+			Config: config + compartmentIdVariableStr + DnsResolverEndpointResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, DnsDnsResolverEndpointSingularDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, DnsResolverRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, DnsResolverEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resolver_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),
@@ -229,7 +229,7 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + ResolverEndpointRequiredOnlyResource,
+			Config:            config + DnsResolverEndpointRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getResolverEndpointImportId(resourceName),

@@ -20,17 +20,17 @@ import (
 )
 
 var (
-	AuditProfileRequiredOnlyResource = AuditProfileResourceDependencies +
+	DataSafeAuditProfileRequiredOnlyResource = DataSafeAuditProfileResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_profile", "test_audit_profile", acctest.Required, acctest.Create, auditProfileRepresentation)
 
-	AuditProfileResourceConfig = AuditProfileResourceDependencies +
+	DataSafeAuditProfileResourceConfig = DataSafeAuditProfileResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_profile", "test_audit_profile", acctest.Optional, acctest.Update, auditProfileRepresentation)
 
-	auditProfileSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditProfileSingularDataSourceRepresentation = map[string]interface{}{
 		"audit_profile_id": acctest.Representation{RepType: acctest.Required, Create: `${var.profile_id}`},
 	}
 
-	auditProfileDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditProfileDataSourceRepresentation = map[string]interface{}{
 		"audit_profile_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.profile_id}`},
 	}
 
@@ -42,7 +42,7 @@ var (
 		"change_retention_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
 	}
 
-	AuditProfileResourceDependencies = DefinedTagsDependencies
+	DataSafeAuditProfileResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -67,7 +67,7 @@ func TestDataSafeAuditProfileResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_data_safe_audit_profile.test_audit_profile"
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+profileIdVariableStr+compartmentIdUVariableStr+AuditProfileResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+profileIdVariableStr+compartmentIdUVariableStr+DataSafeAuditProfileResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_profile", "test_audit_profile", acctest.Optional, acctest.Create,
 			acctest.RepresentationCopyWithNewProperties(auditProfileRepresentation, map[string]interface{}{
 				"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -75,7 +75,7 @@ func TestDataSafeAuditProfileResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + profileIdVariableStr + AuditProfileRequiredOnlyResource,
+			Config: config + compartmentIdVariableStr + profileIdVariableStr + DataSafeAuditProfileRequiredOnlyResource,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "audit_profile_id"),
 
@@ -88,11 +88,11 @@ func TestDataSafeAuditProfileResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + profileIdVariableStr + AuditProfileResourceDependencies,
+			Config: config + compartmentIdVariableStr + profileIdVariableStr + DataSafeAuditProfileResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + profileIdVariableStr + compartmentIdUVariableStr + AuditProfileResourceDependencies +
+			Config: config + compartmentIdVariableStr + profileIdVariableStr + compartmentIdUVariableStr + DataSafeAuditProfileResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_profile", "test_audit_profile", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(auditProfileRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -121,7 +121,7 @@ func TestDataSafeAuditProfileResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + profileIdVariableStr + AuditProfileResourceDependencies +
+			Config: config + compartmentIdVariableStr + profileIdVariableStr + DataSafeAuditProfileResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_profile", "test_audit_profile", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(auditProfileRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -148,8 +148,8 @@ func TestDataSafeAuditProfileResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile", "test_audit_profile", acctest.Optional, acctest.Update, auditProfileDataSourceRepresentation) +
-				compartmentIdVariableStr + profileIdVariableStr + AuditProfileResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile", "test_audit_profile", acctest.Optional, acctest.Update, DataSafeauditProfileDataSourceRepresentation) +
+				compartmentIdVariableStr + profileIdVariableStr + DataSafeAuditProfileResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_profile", "test_audit_profile", acctest.Optional, acctest.Update, auditProfileRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "audit_profile_id"),
@@ -158,8 +158,8 @@ func TestDataSafeAuditProfileResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile", "test_audit_profile", acctest.Required, acctest.Create, auditProfileSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + profileIdVariableStr + AuditProfileResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile", "test_audit_profile", acctest.Required, acctest.Create, DataSafeauditProfileSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + profileIdVariableStr + DataSafeAuditProfileResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "audit_profile_id"),
 
@@ -181,7 +181,7 @@ func TestDataSafeAuditProfileResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + profileIdVariableStr + AuditProfileResourceConfig,
+			Config: config + compartmentIdVariableStr + profileIdVariableStr + DataSafeAuditProfileResourceConfig,
 		},
 		// verify resource import
 		{

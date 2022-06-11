@@ -74,7 +74,7 @@ var (
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `limit description`},
 	}
 
-	SteeringPolicyFailOverResourceDependencies = HttpMonitorRequiredOnlyResource
+	SteeringPolicyFailOverResourceDependencies = HealthChecksHttpMonitorRequiredOnlyResource
 )
 
 // issue-routing-tag: dns/default

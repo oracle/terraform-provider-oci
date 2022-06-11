@@ -54,7 +54,7 @@ var (
 		"lifecycle":                                   acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 	buildPipelineWaitStageBuildPipelineStagePredecessorCollectionRepresentation = map[string]interface{}{
-		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineStageBuildPipelineStagePredecessorCollectionItemsRepresentation},
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsBuildPipelineStageBuildPipelineStagePredecessorCollectionItemsRepresentation},
 	}
 
 	buildPipelineStageWaitCriteriaRepresentation = map[string]interface{}{
@@ -62,10 +62,10 @@ var (
 		"wait_type":     acctest.Representation{RepType: acctest.Required, Create: `ABSOLUTE_WAIT`},
 	}
 
-	BuildPipelineWaitStageResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, buildPipelineRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
+	BuildPipelineWaitStageResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, DevopsBuildPipelineRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default

@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	maskingReportsMaskedColumnDataSourceRepresentation = map[string]interface{}{
+	DataSafemaskingReportsMaskedColumnDataSourceRepresentation = map[string]interface{}{
 		"masking_report_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.masking_report_id}`},
 		"column_name":          acctest.Representation{RepType: acctest.Optional, Create: []string{`columnName`}},
 		"masking_column_group": acctest.Representation{RepType: acctest.Optional, Create: []string{`maskingColumnGroup`}},
@@ -49,7 +49,7 @@ func TestDataSafeMaskingReportsMaskedColumnResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + maskingReportIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_reports_masked_columns", "test_masking_reports_masked_columns", acctest.Required, acctest.Create, maskingReportsMaskedColumnDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_reports_masked_columns", "test_masking_reports_masked_columns", acctest.Required, acctest.Create, DataSafemaskingReportsMaskedColumnDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "masking_report_id"),

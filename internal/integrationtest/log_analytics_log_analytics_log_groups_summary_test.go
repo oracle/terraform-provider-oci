@@ -16,14 +16,14 @@ import (
 )
 
 var (
-	logAnalyticsLogGroupsSummarySingularDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogAnalyticsLogGroupsSummarySingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
-	LogAnalyticsLogGroupsSummaryResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+	LogAnalyticsLogGroupsSummaryResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation)
 
-	LogAnalyticsLogGroupsSummaryResourceConfig = ""
+	LogAnalyticsLogAnalyticsLogGroupsSummaryResourceConfig = ""
 )
 
 // issue-routing-tag: log_analytics/default
@@ -46,8 +46,8 @@ func TestLogAnalyticsLogAnalyticsLogGroupsSummaryResource_basic(t *testing.T) {
 			Config: config +
 				compartmentIdVariableStr +
 				LogAnalyticsLogGroupsSummaryResourceDependencies +
-				LogAnalyticsLogGroupsSummaryResourceConfig +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_log_groups_summary", "test_log_analytics_log_groups_summary", acctest.Required, acctest.Create, logAnalyticsLogGroupsSummarySingularDataSourceRepresentation),
+				LogAnalyticsLogAnalyticsLogGroupsSummaryResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_log_groups_summary", "test_log_analytics_log_groups_summary", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogAnalyticsLogGroupsSummarySingularDataSourceRepresentation),
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

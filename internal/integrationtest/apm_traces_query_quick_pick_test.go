@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	queryQuickPickDataSourceRepresentation = map[string]interface{}{
+	ApmTracesApmTracesqueryQuickPickDataSourceRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 	}
 
-	QueryQuickPickResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", acctest.Required, acctest.Create, apmDomainRepresentation)
+	ApmTracesQueryQuickPickResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", acctest.Required, acctest.Create, apmDomainRepresentation)
 )
 
 // issue-routing-tag: apm_traces/default
@@ -41,8 +41,8 @@ func TestApmTracesQueryQuickPickResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_traces_query_quick_picks", "test_query_quick_picks", acctest.Required, acctest.Create, queryQuickPickDataSourceRepresentation) +
-				compartmentIdVariableStr + QueryQuickPickResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_traces_query_quick_picks", "test_query_quick_picks", acctest.Required, acctest.Create, ApmTracesApmTracesqueryQuickPickDataSourceRepresentation) +
+				compartmentIdVariableStr + ApmTracesQueryQuickPickResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
 

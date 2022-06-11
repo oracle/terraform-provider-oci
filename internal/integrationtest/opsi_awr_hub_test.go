@@ -26,29 +26,29 @@ import (
 )
 
 var (
-	AwrHubRequiredOnlyResource = AwrHubResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Required, acctest.Create, awrHubRepresentation)
+	OpsiAwrHubRequiredOnlyResource = OpsiAwrHubResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Required, acctest.Create, OpsiAwrHubRepresentation)
 
-	AwrHubResourceConfig = AwrHubResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Optional, acctest.Update, awrHubRepresentation)
+	OpsiAwrHubResourceConfig = OpsiAwrHubResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Optional, acctest.Update, OpsiAwrHubRepresentation)
 
-	awrHubSingularDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiAwrHubSingularDataSourceRepresentation = map[string]interface{}{
 		"awr_hub_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_awr_hub.test_awr_hub.id}`},
 	}
 
-	awrHubDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiAwrHubDataSourceRepresentation = map[string]interface{}{
 		"operations_insights_warehouse_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_operations_insights_warehouse.test_operations_insights_warehouse.id}`},
 		"compartment_id":                   acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":                     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":                               acctest.Representation{RepType: acctest.Optional, Create: `${oci_opsi_awr_hub.test_awr_hub.id}`},
 		"state":                            acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
-		"filter":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: awrHubDataSourceFilterRepresentation}}
-	awrHubDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: OpsiAwrHubDataSourceFilterRepresentation}}
+	OpsiAwrHubDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_opsi_awr_hub.test_awr_hub.id}`}},
 	}
 
-	awrHubRepresentation = map[string]interface{}{
+	OpsiAwrHubRepresentation = map[string]interface{}{
 		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                     acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"object_storage_bucket_name":       acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
@@ -62,10 +62,10 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	AwrHubResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, operationsInsightsWarehouseRepresentation)
+	OpsiAwrHubResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, OpsiOperationsInsightsWarehouseRepresentation)
 )
 
 // issue-routing-tag: opsi/controlPlane
@@ -84,14 +84,14 @@ func TestOpsiAwrHubResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+AwrHubResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Optional, acctest.Create, awrHubRepresentation), "operationsinsights", "awrHub", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OpsiAwrHubResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Optional, acctest.Create, OpsiAwrHubRepresentation), "operationsinsights", "awrHub", t)
 
 	acctest.ResourceTest(t, testAccCheckOpsiAwrHubDestroy, []resource.TestStep{
 		// verify create
 		{
-			Config: config + compartmentIdVariableStr + AwrHubResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Required, acctest.Create, awrHubRepresentation),
+			Config: config + compartmentIdVariableStr + OpsiAwrHubResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Required, acctest.Create, OpsiAwrHubRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -107,12 +107,12 @@ func TestOpsiAwrHubResource_basic(t *testing.T) {
 
 		// delete before next create
 		{
-			Config: config + compartmentIdVariableStr + AwrHubResourceDependencies,
+			Config: config + compartmentIdVariableStr + OpsiAwrHubResourceDependencies,
 		},
 		// verify create with optionals
 		{
-			Config: config + compartmentIdVariableStr + AwrHubResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Optional, acctest.Create, awrHubRepresentation),
+			Config: config + compartmentIdVariableStr + OpsiAwrHubResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Optional, acctest.Create, OpsiAwrHubRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -138,8 +138,8 @@ func TestOpsiAwrHubResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + AwrHubResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Optional, acctest.Update, awrHubRepresentation),
+			Config: config + compartmentIdVariableStr + OpsiAwrHubResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Optional, acctest.Update, OpsiAwrHubRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -163,9 +163,9 @@ func TestOpsiAwrHubResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_awr_hubs", "test_awr_hubs", acctest.Optional, acctest.Update, awrHubDataSourceRepresentation) +
-				compartmentIdVariableStr + AwrHubResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Optional, acctest.Update, awrHubRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_awr_hubs", "test_awr_hubs", acctest.Optional, acctest.Update, OpsiOpsiAwrHubDataSourceRepresentation) +
+				compartmentIdVariableStr + OpsiAwrHubResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Optional, acctest.Update, OpsiAwrHubRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -180,8 +180,8 @@ func TestOpsiAwrHubResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Required, acctest.Create, awrHubSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AwrHubResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Required, acctest.Create, OpsiOpsiAwrHubSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OpsiAwrHubResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "awr_hub_id"),
 
@@ -198,7 +198,7 @@ func TestOpsiAwrHubResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + AwrHubRequiredOnlyResource,
+			Config:                  config + OpsiAwrHubRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -262,7 +262,7 @@ func init() {
 
 func sweepOpsiAwrHubResource(compartment string) error {
 	operationsInsightsClient := acctest.GetTestClients(&schema.ResourceData{}).OperationsInsightsClient()
-	awrHubIds, err := getAwrHubIds(compartment)
+	awrHubIds, err := getOpsiAwrHubIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -278,14 +278,14 @@ func sweepOpsiAwrHubResource(compartment string) error {
 				fmt.Printf("Error deleting AwrHub %s %s, It is possible that the resource is already deleted. Please verify manually \n", awrHubId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &awrHubId, awrHubSweepWaitCondition, time.Duration(3*time.Minute),
-				awrHubSweepResponseFetchOperation, "opsi", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &awrHubId, OpsiAwrHubSweepWaitCondition, time.Duration(3*time.Minute),
+				OpsiAwrHubSweepResponseFetchOperation, "opsi", true)
 		}
 	}
 	return nil
 }
 
-func getAwrHubIds(compartment string) ([]string, error) {
+func getOpsiAwrHubIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "AwrHubId")
 	if ids != nil {
 		return ids, nil
@@ -297,7 +297,7 @@ func getAwrHubIds(compartment string) ([]string, error) {
 	listAwrHubsRequest := oci_opsi.ListAwrHubsRequest{}
 	listAwrHubsRequest.CompartmentId = &compartmentId
 
-	operationsInsightsWarehouseIds, error := getOperationsInsightsWarehouseIds(compartment)
+	operationsInsightsWarehouseIds, error := getOpsiOperationsInsightsWarehouseIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting operationsInsightsWarehouseId required for AwrHub resource requests \n")
 	}
@@ -320,7 +320,7 @@ func getAwrHubIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func awrHubSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OpsiAwrHubSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if awrHubResponse, ok := response.Response.(oci_opsi.GetAwrHubResponse); ok {
 		return awrHubResponse.LifecycleState != oci_opsi.AwrHubLifecycleStateDeleted
@@ -328,7 +328,7 @@ func awrHubSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func awrHubSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OpsiAwrHubSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.OperationsInsightsClient().GetAwrHub(context.Background(), oci_opsi.GetAwrHubRequest{
 		AwrHubId: resourceId,
 		RequestMetadata: common.RequestMetadata{

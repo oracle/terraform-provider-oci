@@ -17,13 +17,13 @@ import (
 )
 
 var (
-	repositoryObjectSingularDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsRepositoryObjectSingularDataSourceRepresentation = map[string]interface{}{
 		"repository_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
 	}
 
-	RepositoryObjectResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, devopsRepositoryRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+	DevopsRepositoryObjectResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, DevopsRepositoryRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -47,8 +47,8 @@ func TestDevopsRepositoryObjectResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_object", "test_repository_object", acctest.Required, acctest.Create, repositoryObjectSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + RepositoryObjectResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_object", "test_repository_object", acctest.Required, acctest.Create, DevopsDevopsRepositoryObjectSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsRepositoryObjectResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "file_path", "filePath"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ref_name", "refName"),

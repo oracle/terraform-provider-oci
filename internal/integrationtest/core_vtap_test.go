@@ -25,17 +25,17 @@ import (
 )
 
 var (
-	VtapRequiredOnlyResource = VtapResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Required, acctest.Create, vtapRepresentation)
+	CoreVtapRequiredOnlyResource = CoreVtapResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Required, acctest.Create, CoreVtapRepresentation)
 
-	VtapResourceConfig = VtapResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Optional, acctest.Update, vtapRepresentation)
+	CoreVtapResourceConfig = CoreVtapResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Optional, acctest.Update, CoreVtapRepresentation)
 
-	vtapSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreVtapSingularDataSourceRepresentation = map[string]interface{}{
 		"vtap_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vtap.test_vtap.id}`},
 	}
 
-	vtapDataSourceRepresentation = map[string]interface{}{
+	CoreCoreVtapDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":    acctest.Representation{RepType: acctest.Optional, Create: `MyVTAP`, Update: `displayName2`},
 		"is_vtap_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -44,14 +44,14 @@ var (
 		"target_id":       acctest.Representation{RepType: acctest.Optional, Create: `null`},
 		"target_ip":       acctest.Representation{RepType: acctest.Optional, Create: `1.1.1.1`, Update: `2.2.2.2`},
 		"vcn_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: vtapDataSourceFilterRepresentation}}
+		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVtapDataSourceFilterRepresentation}}
 
-	vtapDataSourceFilterRepresentation = map[string]interface{}{
+	CoreVtapDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_vtap.test_vtap.id}`}},
 	}
 
-	vtapRepresentation = map[string]interface{}{
+	CoreVtapRepresentation = map[string]interface{}{
 		"capture_filter_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_core_capture_filter.test_capture_filter.id}`},
 		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"source_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet2.id}`, Update: `${oci_core_subnet.test_subnet.id}`}, // TODO
@@ -73,12 +73,12 @@ var (
 		//"target_id":                         acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_guard_target.test_target.id}`},
 	}
 
-	VtapResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Required, acctest.Create, captureFilterRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+	CoreVtapResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Required, acctest.Create, CoreCaptureFilterRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 			"cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.1.0/24`},
 		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 			"cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.128.0/24`},
 		})) +
 		DefinedTagsDependencies
@@ -103,14 +103,14 @@ func TestCoreVtapResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+VtapResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Optional, acctest.Create, vtapRepresentation), "core", "vtap", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreVtapResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Optional, acctest.Create, CoreVtapRepresentation), "core", "vtap", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreVtapDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + VtapResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Required, acctest.Create, vtapRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVtapResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Required, acctest.Create, CoreVtapRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "capture_filter_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -126,12 +126,12 @@ func TestCoreVtapResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VtapResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreVtapResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + VtapResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Optional, acctest.Create, vtapRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVtapResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Optional, acctest.Create, CoreVtapRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "capture_filter_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -164,9 +164,9 @@ func TestCoreVtapResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VtapResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreVtapResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(vtapRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreVtapRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -199,8 +199,8 @@ func TestCoreVtapResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + VtapResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Optional, acctest.Update, vtapRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVtapResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Optional, acctest.Update, CoreVtapRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "capture_filter_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -230,9 +230,9 @@ func TestCoreVtapResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vtaps", "test_vtaps", acctest.Required, acctest.Update, vtapDataSourceRepresentation) +
-				compartmentIdVariableStr + VtapResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Optional, acctest.Update, vtapRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vtaps", "test_vtaps", acctest.Required, acctest.Update, CoreCoreVtapDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreVtapResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Optional, acctest.Update, CoreVtapRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -258,8 +258,8 @@ func TestCoreVtapResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Required, acctest.Create, vtapSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VtapResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vtap", "test_vtap", acctest.Required, acctest.Create, CoreCoreVtapSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreVtapResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vtap_id"),
 
@@ -281,7 +281,7 @@ func TestCoreVtapResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + VtapRequiredOnlyResource,
+			Config:                  config + CoreVtapRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -345,7 +345,7 @@ func init() {
 
 func sweepCoreVtapResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	vtapIds, err := getVtapIds(compartment)
+	vtapIds, err := getCoreVtapIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -361,14 +361,14 @@ func sweepCoreVtapResource(compartment string) error {
 				fmt.Printf("Error deleting Vtap %s %s, It is possible that the resource is already deleted. Please verify manually \n", vtapId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &vtapId, vtapSweepWaitCondition, time.Duration(3*time.Minute),
-				vtapSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &vtapId, CoreVtapSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreVtapSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getVtapIds(compartment string) ([]string, error) {
+func getCoreVtapIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "VtapId")
 	if ids != nil {
 		return ids, nil
@@ -393,7 +393,7 @@ func getVtapIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func vtapSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreVtapSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if vtapResponse, ok := response.Response.(oci_core.GetVtapResponse); ok {
 		return vtapResponse.LifecycleState != oci_core.VtapLifecycleStateTerminated
@@ -401,7 +401,7 @@ func vtapSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func vtapSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreVtapSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetVtap(context.Background(), oci_core.GetVtapRequest{
 		VtapId: resourceId,
 		RequestMetadata: common.RequestMetadata{

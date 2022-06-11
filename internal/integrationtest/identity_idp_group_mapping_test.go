@@ -24,24 +24,24 @@ import (
 )
 
 var (
-	IdpGroupMappingRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", acctest.Required, acctest.Create, idpGroupMappingRepresentation)
+	IdentityIdpGroupMappingRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", acctest.Required, acctest.Create, IdentityIdpGroupMappingRepresentation)
 
-	idpGroupMappingDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityIdpGroupMappingDataSourceRepresentation = map[string]interface{}{
 		"identity_provider_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_identity_provider.test_identity_provider.id}`},
-		"filter":               acctest.RepresentationGroup{RepType: acctest.Required, Group: idpGroupMappingDataSourceFilterRepresentation}}
-	idpGroupMappingDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":               acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityIdpGroupMappingDataSourceFilterRepresentation}}
+	IdentityIdpGroupMappingDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_idp_group_mapping.test_idp_group_mapping.id}`}},
 	}
 
-	idpGroupMappingRepresentation = map[string]interface{}{
+	IdentityIdpGroupMappingRepresentation = map[string]interface{}{
 		"group_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_group.test_group.id}`},
 		"identity_provider_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_identity_provider.test_identity_provider.id}`},
 		"idp_group_name":       acctest.Representation{RepType: acctest.Required, Create: `idpGroupName`, Update: `idpGroupName2`},
 	}
 
-	IdpGroupMappingResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, groupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", acctest.Required, acctest.Create, identityProviderRepresentation) +
+	IdentityIdpGroupMappingResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, IdentityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", acctest.Required, acctest.Create, IdentityIdentityProviderRepresentation) +
 		IdentityProviderPropertyVariables
 )
 
@@ -67,17 +67,17 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 	var compositeId string
 
 	_, tokenFn := acctest.TokenizeWithHttpReplay("idp_group_mapping")
-	IdpGroupMappingResourceDependencies = tokenFn(IdpGroupMappingResourceDependencies, map[string]string{"metadata_file": metadataFile})
+	IdentityIdpGroupMappingResourceDependencies = tokenFn(IdentityIdpGroupMappingResourceDependencies, map[string]string{"metadata_file": metadataFile})
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdpGroupMappingResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", acctest.Required, acctest.Create, idpGroupMappingRepresentation), "identity", "idpGroupMapping", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentityIdpGroupMappingResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", acctest.Required, acctest.Create, IdentityIdpGroupMappingRepresentation), "identity", "idpGroupMapping", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityIdpGroupMappingDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", acctest.Required, acctest.Create, idpGroupMappingRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityIdpGroupMappingResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", acctest.Required, acctest.Create, IdentityIdpGroupMappingRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "group_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "identity_provider_id"),
@@ -100,8 +100,8 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", acctest.Optional, acctest.Update, idpGroupMappingRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityIdpGroupMappingResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", acctest.Optional, acctest.Update, IdentityIdpGroupMappingRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "group_id"),
@@ -123,9 +123,9 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_idp_group_mappings", "test_idp_group_mappings", acctest.Optional, acctest.Update, idpGroupMappingDataSourceRepresentation) +
-				compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", acctest.Optional, acctest.Update, idpGroupMappingRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_idp_group_mappings", "test_idp_group_mappings", acctest.Optional, acctest.Update, IdentityIdentityIdpGroupMappingDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityIdpGroupMappingResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", acctest.Optional, acctest.Update, IdentityIdpGroupMappingRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),
 
@@ -141,7 +141,7 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + IdpGroupMappingRequiredOnlyResource,
+			Config:                  config + IdentityIdpGroupMappingRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateIdFunc:       getIdpGroupMappingImportId(resourceName),

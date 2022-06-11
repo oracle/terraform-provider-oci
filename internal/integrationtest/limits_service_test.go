@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	limitsServiceDataSourceRepresentation = map[string]interface{}{
+	LimitsLimitsServiceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: limitsServiceDataSourceFilterRepresentation}}
 	limitsServiceDataSourceFilterRepresentation = map[string]interface{}{
@@ -23,7 +23,7 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`compute`}},
 	}
 
-	LimitsServiceResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_limits_services", "test_services", acctest.Required, acctest.Create, limitsServiceDataSourceRepresentation)
+	LimitsServiceResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_limits_services", "test_services", acctest.Required, acctest.Create, LimitsLimitsServiceDataSourceRepresentation)
 )
 
 // issue-routing-tag: limits/default
@@ -45,7 +45,7 @@ func TestLimitsServiceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_services", "test_services", acctest.Required, acctest.Create, limitsServiceDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_services", "test_services", acctest.Required, acctest.Create, LimitsLimitsServiceDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),

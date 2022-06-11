@@ -15,12 +15,12 @@ import (
 )
 
 var (
-	apiValidationSingularDataSourceRepresentation = map[string]interface{}{
+	ApigatewayApiValidationSingularDataSourceRepresentation = map[string]interface{}{
 		"api_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_api.test_api.id}`},
 	}
 
-	ApiValidationResourceConfig = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Optional, acctest.Create, apiRepresentation)
+	ApigatewayApiValidationResourceConfig = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Optional, acctest.Create, ApigatewayApiRepresentation)
 )
 
 // issue-routing-tag: apigateway/default
@@ -41,8 +41,8 @@ func TestApigatewayApiValidationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_api_validation", "test_api_validation", acctest.Required, acctest.Create, apiValidationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ApiValidationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_api_validation", "test_api_validation", acctest.Required, acctest.Create, ApigatewayApiValidationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ApigatewayApiValidationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "api_id"),
 

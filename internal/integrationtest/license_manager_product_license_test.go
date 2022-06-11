@@ -27,40 +27,40 @@ import (
 )
 
 var (
-	ProductLicenseRequiredOnlyResource = ProductLicenseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Required, acctest.Create, productLicenseRepresentation)
+	LicenseManagerProductLicenseRequiredOnlyResource = LicenseManagerProductLicenseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Required, acctest.Create, LicenseManagerProductLicenseRepresentation)
 
-	ProductLicenseResourceConfig = ProductLicenseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Optional, acctest.Update, productLicenseRepresentation)
+	LicenseManagerProductLicenseResourceConfig = LicenseManagerProductLicenseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Optional, acctest.Update, LicenseManagerProductLicenseRepresentation)
 
-	productLicenseSingularDataSourceRepresentation = map[string]interface{}{
+	LicenseManagerLicenseManagerProductLicenseSingularDataSourceRepresentation = map[string]interface{}{
 		"product_license_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_license_manager_product_license.test_product_license.id}`},
 	}
 
-	productLicenseDataSourceRepresentation = map[string]interface{}{
+	LicenseManagerLicenseManagerProductLicenseDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"is_compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"filter":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: productLicenseDataSourceFilterRepresentation}}
-	productLicenseDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: LicenseManagerProductLicenseDataSourceFilterRepresentation}}
+	LicenseManagerProductLicenseDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_license_manager_product_license.test_product_license.id}`}},
 	}
 
-	productLicenseRepresentation = map[string]interface{}{
+	LicenseManagerProductLicenseRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"display_name":     acctest.Representation{RepType: acctest.Required, Create: `displayName`},
 		"is_vendor_oracle": acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"license_unit":     acctest.Representation{RepType: acctest.Required, Create: `OCPU`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"images":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: productLicenseImagesRepresentation},
+		"images":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: LicenseManagerProductLicenseImagesRepresentation},
 		"vendor_name":      acctest.Representation{RepType: acctest.Required, Create: `vendorName`},
 	}
-	productLicenseImagesRepresentation = map[string]interface{}{
+	LicenseManagerProductLicenseImagesRepresentation = map[string]interface{}{
 		"listing_id":      acctest.Representation{RepType: acctest.Required, Create: `101747862`},
 		"package_version": acctest.Representation{RepType: acctest.Required, Create: `2019.8.9`, Update: `2019.8.10`},
 	}
 
-	ProductLicenseResourceDependencies = ""
+	LicenseManagerProductLicenseResourceDependencies = ""
 )
 
 // issue-routing-tag: license_manager/default
@@ -79,14 +79,14 @@ func TestLicenseManagerProductLicenseResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ProductLicenseResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Optional, acctest.Create, productLicenseRepresentation), "licensemanager", "productLicense", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+LicenseManagerProductLicenseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Optional, acctest.Create, LicenseManagerProductLicenseRepresentation), "licensemanager", "productLicense", t)
 
 	acctest.ResourceTest(t, testAccCheckLicenseManagerProductLicenseDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ProductLicenseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Required, acctest.Create, productLicenseRepresentation),
+			Config: config + compartmentIdVariableStr + LicenseManagerProductLicenseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Required, acctest.Create, LicenseManagerProductLicenseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -102,12 +102,12 @@ func TestLicenseManagerProductLicenseResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ProductLicenseResourceDependencies,
+			Config: config + compartmentIdVariableStr + LicenseManagerProductLicenseResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ProductLicenseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Optional, acctest.Create, productLicenseRepresentation),
+			Config: config + compartmentIdVariableStr + LicenseManagerProductLicenseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Optional, acctest.Create, LicenseManagerProductLicenseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -135,8 +135,8 @@ func TestLicenseManagerProductLicenseResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ProductLicenseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Optional, acctest.Update, productLicenseRepresentation),
+			Config: config + compartmentIdVariableStr + LicenseManagerProductLicenseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Optional, acctest.Update, LicenseManagerProductLicenseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -162,9 +162,9 @@ func TestLicenseManagerProductLicenseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_product_licenses", "test_product_licenses", acctest.Optional, acctest.Update, productLicenseDataSourceRepresentation) +
-				compartmentIdVariableStr + ProductLicenseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Optional, acctest.Update, productLicenseRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_product_licenses", "test_product_licenses", acctest.Optional, acctest.Update, LicenseManagerLicenseManagerProductLicenseDataSourceRepresentation) +
+				compartmentIdVariableStr + LicenseManagerProductLicenseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Optional, acctest.Update, LicenseManagerProductLicenseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "is_compartment_id_in_subtree", "false"),
@@ -176,8 +176,8 @@ func TestLicenseManagerProductLicenseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Required, acctest.Create, productLicenseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ProductLicenseResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_product_license", "test_product_license", acctest.Required, acctest.Create, LicenseManagerLicenseManagerProductLicenseSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LicenseManagerProductLicenseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "product_license_id"),
 
@@ -207,7 +207,7 @@ func TestLicenseManagerProductLicenseResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ProductLicenseRequiredOnlyResource,
+			Config:                  config + LicenseManagerProductLicenseRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -271,7 +271,7 @@ func init() {
 
 func sweepLicenseManagerProductLicenseResource(compartment string) error {
 	licenseManagerClient := acctest.GetTestClients(&schema.ResourceData{}).LicenseManagerClient()
-	productLicenseIds, err := getProductLicenseIds(compartment)
+	productLicenseIds, err := getLicenseManagerProductLicenseIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -287,14 +287,14 @@ func sweepLicenseManagerProductLicenseResource(compartment string) error {
 				fmt.Printf("Error deleting ProductLicense %s %s, It is possible that the resource is already deleted. Please verify manually \n", productLicenseId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &productLicenseId, productLicenseSweepWaitCondition, time.Duration(3*time.Minute),
-				productLicenseSweepResponseFetchOperation, "license_manager", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &productLicenseId, LicenseManagerProductLicenseSweepWaitCondition, time.Duration(3*time.Minute),
+				LicenseManagerProductLicenseSweepResponseFetchOperation, "license_manager", true)
 		}
 	}
 	return nil
 }
 
-func getProductLicenseIds(compartment string) ([]string, error) {
+func getLicenseManagerProductLicenseIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ProductLicenseId")
 	if ids != nil {
 		return ids, nil
@@ -318,7 +318,7 @@ func getProductLicenseIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func productLicenseSweepWaitCondition(response common.OCIOperationResponse) bool {
+func LicenseManagerProductLicenseSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if productLicenseResponse, ok := response.Response.(oci_license_manager.GetProductLicenseResponse); ok {
 		return productLicenseResponse.LifecycleState != oci_license_manager.LifeCycleStateDeleted
@@ -326,7 +326,7 @@ func productLicenseSweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func productLicenseSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func LicenseManagerProductLicenseSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.LicenseManagerClient().GetProductLicense(context.Background(), oci_license_manager.GetProductLicenseRequest{
 		ProductLicenseId: resourceId,
 		RequestMetadata: common.RequestMetadata{

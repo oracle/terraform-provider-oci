@@ -27,17 +27,17 @@ import (
 )
 
 var (
-	ReportDefinitionRequiredOnlyResource = ReportDefinitionResourceDependencies +
+	DataSafeReportDefinitionRequiredOnlyResource = DataSafeReportDefinitionResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Required, acctest.Create, reportDefinitionRepresentation)
 
-	ReportDefinitionResourceConfig = ReportDefinitionResourceDependencies +
+	DataSafeReportDefinitionResourceConfig = DataSafeReportDefinitionResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Optional, acctest.Update, reportDefinitionRepresentation)
 
-	reportDefinitionSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafereportDefinitionSingularDataSourceRepresentation = map[string]interface{}{
 		"report_definition_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_report_definition.test_report_definition.id}`},
 	}
 
-	reportDefinitionDataSourceRepresentation = map[string]interface{}{
+	DataSafereportDefinitionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
@@ -84,7 +84,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`}},
 	}
 
-	ReportDefinitionResourceDependencies = DefinedTagsDependencies
+	DataSafeReportDefinitionResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -109,13 +109,13 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+reportDefIdVariableStr+ReportDefinitionResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+reportDefIdVariableStr+DataSafeReportDefinitionResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Optional, acctest.Create, reportDefinitionRepresentation), "datasafe", "reportDefinition", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeReportDefinitionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + ReportDefinitionResourceDependencies +
+			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + DataSafeReportDefinitionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Required, acctest.Create, reportDefinitionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_filters.#", "1"),
@@ -149,11 +149,11 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + ReportDefinitionResourceDependencies,
+			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + DataSafeReportDefinitionResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + ReportDefinitionResourceDependencies +
+			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + DataSafeReportDefinitionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Optional, acctest.Create, reportDefinitionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_filters.#", "1"),
@@ -200,7 +200,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + compartmentIdUVariableStr + ReportDefinitionResourceDependencies +
+			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + compartmentIdUVariableStr + DataSafeReportDefinitionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(reportDefinitionRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -248,7 +248,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + ReportDefinitionResourceDependencies +
+			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + DataSafeReportDefinitionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Optional, acctest.Update, reportDefinitionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_filters.#", "1"),
@@ -293,8 +293,8 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_report_definitions", "test_report_definitions", acctest.Optional, acctest.Update, reportDefinitionDataSourceRepresentation) +
-				compartmentIdVariableStr + reportDefIdVariableStr + ReportDefinitionResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_report_definitions", "test_report_definitions", acctest.Optional, acctest.Update, DataSafereportDefinitionDataSourceRepresentation) +
+				compartmentIdVariableStr + reportDefIdVariableStr + DataSafeReportDefinitionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Optional, acctest.Update, reportDefinitionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
@@ -306,8 +306,8 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Required, acctest.Create, reportDefinitionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + reportDefIdVariableStr + ReportDefinitionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Required, acctest.Create, DataSafereportDefinitionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + reportDefIdVariableStr + DataSafeReportDefinitionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "report_definition_id"),
 
@@ -344,7 +344,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + ReportDefinitionResourceConfig,
+			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + DataSafeReportDefinitionResourceConfig,
 		},
 		// verify resource import
 		{
@@ -412,7 +412,7 @@ func init() {
 
 func sweepDataSafeReportDefinitionResource(compartment string) error {
 	dataSafeClient := acctest.GetTestClients(&schema.ResourceData{}).DataSafeClient()
-	reportDefinitionIds, err := getReportDefinitionIds(compartment)
+	reportDefinitionIds, err := getDataSafeReportDefinitionIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -428,14 +428,14 @@ func sweepDataSafeReportDefinitionResource(compartment string) error {
 				fmt.Printf("Error deleting ReportDefinition %s %s, It is possible that the resource is already deleted. Please verify manually \n", reportDefinitionId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &reportDefinitionId, reportDefinitionSweepWaitCondition, time.Duration(3*time.Minute),
-				reportDefinitionSweepResponseFetchOperation, "data_safe", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &reportDefinitionId, DataSafereportDefinitionsSweepWaitCondition, time.Duration(3*time.Minute),
+				DataSafereportDefinitionsSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
 	return nil
 }
 
-func getReportDefinitionIds(compartment string) ([]string, error) {
+func getDataSafeReportDefinitionIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ReportDefinitionId")
 	if ids != nil {
 		return ids, nil
@@ -460,7 +460,7 @@ func getReportDefinitionIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func reportDefinitionSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataSafereportDefinitionsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if reportDefinitionResponse, ok := response.Response.(oci_data_safe.GetReportDefinitionResponse); ok {
 		return reportDefinitionResponse.LifecycleState != oci_data_safe.ReportDefinitionLifecycleStateDeleted
@@ -468,7 +468,7 @@ func reportDefinitionSweepWaitCondition(response common.OCIOperationResponse) bo
 	return false
 }
 
-func reportDefinitionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataSafereportDefinitionsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataSafeClient().GetReportDefinition(context.Background(), oci_data_safe.GetReportDefinitionRequest{
 		ReportDefinitionId: resourceId,
 		RequestMetadata: common.RequestMetadata{

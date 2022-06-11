@@ -21,20 +21,20 @@ import (
 var (
 	adbWalletMgmtDbName = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 
-	AutonomousDatabaseInstanceWalletManagementResourceConfig = AutonomousDatabaseInstanceWalletManagementResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Optional, acctest.Update, autonomousDatabaseInstanceWalletManagementRepresentation)
+	DatabaseAutonomousDatabaseInstanceWalletManagementResourceConfig = DatabaseAutonomousDatabaseInstanceWalletManagementResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Optional, acctest.Update, DatabaseAutonomousDatabaseInstanceWalletManagementRepresentation)
 
-	autonomousDatabaseInstanceWalletManagementSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseAutonomousDatabaseInstanceWalletManagementSingularDataSourceRepresentation = map[string]interface{}{
 		"autonomous_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
 	}
 
-	autonomousDatabaseInstanceWalletManagementRepresentation = map[string]interface{}{
+	DatabaseAutonomousDatabaseInstanceWalletManagementRepresentation = map[string]interface{}{
 		"autonomous_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
 		"should_rotate":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
-	AutonomousDatabaseInstanceWalletManagementResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create,
-		acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbWalletMgmtDbName}, autonomousDatabaseRepresentation))
+	DatabaseAutonomousDatabaseInstanceWalletManagementResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create,
+		acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbWalletMgmtDbName}, DatabaseAutonomousDatabaseRepresentation))
 )
 
 // issue-routing-tag: database/dbaas-adb
@@ -53,14 +53,14 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseInstanceWalletManagementResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Optional, acctest.Create, autonomousDatabaseInstanceWalletManagementRepresentation), "database", "autonomousDatabaseInstanceWalletManagement", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseAutonomousDatabaseInstanceWalletManagementResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseInstanceWalletManagementRepresentation), "database", "autonomousDatabaseInstanceWalletManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		//0. verify create
 		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseInstanceWalletManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Required, acctest.Create, autonomousDatabaseInstanceWalletManagementRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseInstanceWalletManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseInstanceWalletManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
@@ -78,8 +78,8 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 		},
 		//1. verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseInstanceWalletManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Optional, acctest.Update, autonomousDatabaseInstanceWalletManagementRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseInstanceWalletManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Optional, acctest.Update, DatabaseAutonomousDatabaseInstanceWalletManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
@@ -97,8 +97,8 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 		//2. verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Required, acctest.Create, autonomousDatabaseInstanceWalletManagementSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AutonomousDatabaseInstanceWalletManagementResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousDatabaseInstanceWalletManagementSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousDatabaseInstanceWalletManagementResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),

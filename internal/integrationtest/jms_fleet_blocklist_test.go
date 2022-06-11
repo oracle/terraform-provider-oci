@@ -15,12 +15,12 @@ import (
 )
 
 var (
-	fleetBlocklistDataSourceRepresentation = map[string]interface{}{
+	JmsJmsFleetBlocklistDataSourceRepresentation = map[string]interface{}{
 		"fleet_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
 		"operation": acctest.Representation{RepType: acctest.Optional, Create: `DELETE_JAVA_INSTALLATION`},
 	}
 
-	FleetBlocklistResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Required, acctest.Create, fleetRepresentation)
+	JmsJmsFleetBlocklistResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Required, acctest.Create, JmsFleetRepresentation)
 )
 
 // issue-routing-tag: jms/default
@@ -42,8 +42,8 @@ func TestJmsFleetBlocklistResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_jms_fleet_blocklists", "test_fleet_blocklists", acctest.Optional, acctest.Update, fleetBlocklistDataSourceRepresentation) +
-				compartmentIdVariableStr + FleetBlocklistResourceDependencies,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_jms_fleet_blocklists", "test_fleet_blocklists", acctest.Optional, acctest.Update, JmsJmsFleetBlocklistDataSourceRepresentation) +
+				compartmentIdVariableStr + JmsJmsFleetBlocklistResourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_id"),
 				resource.TestCheckResourceAttr(datasourceName, "operation", "DELETE_JAVA_INSTALLATION"),

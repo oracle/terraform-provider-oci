@@ -26,29 +26,29 @@ import (
 )
 
 var (
-	BdsInstanceApiKeyRequiredOnlyResource = BdsInstanceApiKeyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Required, acctest.Create, bdsInstanceApiKeyRepresentation)
+	BdsBdsInstanceApiKeyRequiredOnlyResource = BdsBdsInstanceApiKeyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Required, acctest.Create, BdsbdsInstanceApiKeyRepresentation)
 
-	BdsInstanceApiKeyResourceConfig = BdsInstanceApiKeyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Optional, acctest.Update, bdsInstanceApiKeyRepresentation)
+	BdsBdsInstanceApiKeyResourceConfig = BdsBdsInstanceApiKeyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Optional, acctest.Update, BdsbdsInstanceApiKeyRepresentation)
 
-	bdsInstanceApiKeySingularDataSourceRepresentation = map[string]interface{}{
+	BdsBdsbdsInstanceApiKeySingularDataSourceRepresentation = map[string]interface{}{
 		"api_key_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance_api_key.test_bds_instance_api_key.id}`},
 		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
 	}
 
-	bdsInstanceApiKeyDataSourceRepresentation = map[string]interface{}{
+	BdsBdsbdsInstanceApiKeyDataSourceRepresentation = map[string]interface{}{
 		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
 		// "display_name":    Representation{RepType: Optional, Create: `keyAlias`},
 		"state": acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		// "user_id":         Representation{RepType: Optional, Create: `${oci_identity_user.test_user.id}`},
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceApiKeyDataSourceFilterRepresentation}}
-	bdsInstanceApiKeyDataSourceFilterRepresentation = map[string]interface{}{
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsbdsInstanceApiKeyDataSourceFilterRepresentation}}
+	BdsbdsInstanceApiKeyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_bds_bds_instance_api_key.test_bds_instance_api_key.id}`}},
 	}
 
-	bdsInstanceApiKeyRepresentation = map[string]interface{}{
+	BdsbdsInstanceApiKeyRepresentation = map[string]interface{}{
 		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
 		"key_alias":       acctest.Representation{RepType: acctest.Required, Create: `keyAlias`},
 		"passphrase":      acctest.Representation{RepType: acctest.Required, Create: `V2VsY29tZTE=`},
@@ -56,10 +56,10 @@ var (
 		"default_region":  acctest.Representation{RepType: acctest.Optional, Create: `us-ashburn-1`},
 	}
 
-	BdsInstanceApiKeyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
+	BdsBdsInstanceApiKeyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
 )
 
 // issue-routing-tag: bds/default
@@ -78,14 +78,14 @@ func TestBdsBdsInstanceApiKeyResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+BdsInstanceApiKeyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Optional, acctest.Create, bdsInstanceApiKeyRepresentation), "bds", "bdsInstanceApiKey", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+BdsBdsInstanceApiKeyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Optional, acctest.Create, BdsbdsInstanceApiKeyRepresentation), "bds", "bdsInstanceApiKey", t)
 
 	acctest.ResourceTest(t, testAccCheckBdsBdsInstanceApiKeyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + BdsInstanceApiKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Required, acctest.Create, bdsInstanceApiKeyRepresentation),
+			Config: config + compartmentIdVariableStr + BdsBdsInstanceApiKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Required, acctest.Create, BdsbdsInstanceApiKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "key_alias", "keyAlias"),
@@ -96,12 +96,12 @@ func TestBdsBdsInstanceApiKeyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + BdsInstanceApiKeyResourceDependencies,
+			Config: config + compartmentIdVariableStr + BdsBdsInstanceApiKeyResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + BdsInstanceApiKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Optional, acctest.Create, bdsInstanceApiKeyRepresentation),
+			Config: config + compartmentIdVariableStr + BdsBdsInstanceApiKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Optional, acctest.Create, BdsbdsInstanceApiKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "default_region", "us-ashburn-1"),
@@ -130,9 +130,9 @@ func TestBdsBdsInstanceApiKeyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance_api_keys", "test_bds_instance_api_keys", acctest.Optional, acctest.Update, bdsInstanceApiKeyDataSourceRepresentation) +
-				compartmentIdVariableStr + BdsInstanceApiKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Optional, acctest.Update, bdsInstanceApiKeyRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance_api_keys", "test_bds_instance_api_keys", acctest.Optional, acctest.Update, BdsBdsbdsInstanceApiKeyDataSourceRepresentation) +
+				compartmentIdVariableStr + BdsBdsInstanceApiKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Optional, acctest.Update, BdsbdsInstanceApiKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "bds_instance_id"),
 				// resource.TestCheckResourceAttr(datasourceName, "display_name", "keyAlias"),
@@ -150,8 +150,8 @@ func TestBdsBdsInstanceApiKeyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Required, acctest.Create, bdsInstanceApiKeySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + BdsInstanceApiKeyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Required, acctest.Create, BdsBdsbdsInstanceApiKeySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + BdsBdsInstanceApiKeyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "api_key_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
@@ -168,7 +168,7 @@ func TestBdsBdsInstanceApiKeyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + BdsInstanceApiKeyRequiredOnlyResource,
+			Config:            config + BdsBdsInstanceApiKeyRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateIdFunc: getBdsApiKeyCompositeId(resourceName),
 			ImportStateVerify: true,
@@ -240,7 +240,7 @@ func init() {
 
 func sweepBdsBdsInstanceApiKeyResource(compartment string) error {
 	bdsClient := acctest.GetTestClients(&schema.ResourceData{}).BdsClient()
-	bdsInstanceApiKeyIds, err := getBdsInstanceApiKeyIds(compartment)
+	bdsInstanceApiKeyIds, err := getBdsBdsInstanceApiKeyIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -254,14 +254,14 @@ func sweepBdsBdsInstanceApiKeyResource(compartment string) error {
 				fmt.Printf("Error deleting BdsInstanceApiKey %s %s, It is possible that the resource is already deleted. Please verify manually \n", bdsInstanceApiKeyId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &bdsInstanceApiKeyId, bdsInstanceApiKeySweepWaitCondition, time.Duration(3*time.Minute),
-				bdsInstanceApiKeySweepResponseFetchOperation, "bds", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &bdsInstanceApiKeyId, BdsbdsInstanceApiKeysSweepWaitCondition, time.Duration(3*time.Minute),
+				BdsbdsInstanceApiKeysSweepResponseFetchOperation, "bds", true)
 		}
 	}
 	return nil
 }
 
-func getBdsInstanceApiKeyIds(compartment string) ([]string, error) {
+func getBdsBdsInstanceApiKeyIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "BdsInstanceApiKeyId")
 	if ids != nil {
 		return ids, nil
@@ -297,7 +297,7 @@ func getBdsInstanceApiKeyIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func bdsInstanceApiKeySweepWaitCondition(response common.OCIOperationResponse) bool {
+func BdsbdsInstanceApiKeysSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if bdsInstanceApiKeyResponse, ok := response.Response.(oci_bds.GetBdsApiKeyResponse); ok {
 		return bdsInstanceApiKeyResponse.LifecycleState != oci_bds.BdsApiKeyLifecycleStateDeleted
@@ -305,7 +305,7 @@ func bdsInstanceApiKeySweepWaitCondition(response common.OCIOperationResponse) b
 	return false
 }
 
-func bdsInstanceApiKeySweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func BdsbdsInstanceApiKeysSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.BdsClient().GetBdsApiKey(context.Background(), oci_bds.GetBdsApiKeyRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},

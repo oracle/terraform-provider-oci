@@ -16,13 +16,13 @@ import (
 )
 
 var (
-	instanceAvailablePluginDataSourceRepresentation = map[string]interface{}{
+	ComputeinstanceagentComputeinstanceagentInstanceAvailablePluginDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"os_name":        acctest.Representation{RepType: acctest.Required, Create: `Oracle Linux`},
 		"os_version":     acctest.Representation{RepType: acctest.Required, Create: `7.8`},
 	}
 
-	InstanceAvailablePluginResourceConfig = ""
+	ComputeinstanceagentInstanceAvailablePluginResourceConfig = ""
 )
 
 // issue-routing-tag: computeinstanceagent/default
@@ -43,8 +43,8 @@ func TestComputeinstanceagentInstanceAvailablePluginResource_basic(t *testing.T)
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_computeinstanceagent_instance_available_plugins", "test_instance_available_plugins", acctest.Required, acctest.Create, instanceAvailablePluginDataSourceRepresentation) +
-				compartmentIdVariableStr + InstanceAvailablePluginResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_computeinstanceagent_instance_available_plugins", "test_instance_available_plugins", acctest.Required, acctest.Create, ComputeinstanceagentComputeinstanceagentInstanceAvailablePluginDataSourceRepresentation) +
+				compartmentIdVariableStr + ComputeinstanceagentInstanceAvailablePluginResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "os_name", "Oracle Linux"),
 				resource.TestCheckResourceAttr(datasourceName, "os_version", "7.8"),

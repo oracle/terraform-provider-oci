@@ -130,7 +130,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.GetMultipleUpdatedRepresenationCopy(
 			[]string{"cidr_block", "dns_label"},
 			[]interface{}{acctest.Representation{RepType: acctest.Required, Create: `111.111.0.0/16`}, acctest.Representation{RepType: acctest.Required, Create: `bdsvcn`}},
-			vcnRepresentation)) +
+			CoreVcnRepresentation)) +
 		DefinedTagsDependencies
 )
 

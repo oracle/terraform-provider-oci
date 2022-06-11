@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	onesubCommitmentSingularDataSourceRepresentation = map[string]interface{}{
+	OnesubscriptionOnesubscriptionCommitmentSingularDataSourceRepresentation = map[string]interface{}{
 		"commitment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.commitment_id}`},
 	}
 
-	onesubCommitmentDataSourceRepresentation = map[string]interface{}{
+	OnesubscriptionOnesubscriptionCommitmentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"subscribed_service_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subscribed_service_id}`},
 	}
@@ -51,7 +51,7 @@ func TestOnesubscriptionCommitmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_commitments", "test_commitments", acctest.Required, acctest.Create, onesubCommitmentDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_commitments", "test_commitments", acctest.Required, acctest.Create, OnesubscriptionOnesubscriptionCommitmentDataSourceRepresentation) +
 				compartmentIdVariableStr + subsServIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -71,7 +71,7 @@ func TestOnesubscriptionCommitmentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_commitment", "test_commitment", acctest.Required, acctest.Create, onesubCommitmentSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_commitment", "test_commitment", acctest.Required, acctest.Create, OnesubscriptionOnesubscriptionCommitmentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + commitmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "commitment_id"),
