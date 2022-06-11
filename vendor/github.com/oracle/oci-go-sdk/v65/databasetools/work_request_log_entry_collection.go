@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// WorkRequestLogEntryCollection List of WorkRequestLog items.
+// WorkRequestLogEntryCollection List of work request log items.
 type WorkRequestLogEntryCollection struct {
 
-	// Array of WorkRequestLog.
+	// Array of work request log items.
 	Items []WorkRequestLogEntry `mandatory:"true" json:"items"`
 }
 

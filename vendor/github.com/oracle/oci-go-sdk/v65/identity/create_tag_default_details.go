@@ -34,6 +34,9 @@ type CreateTagDefaultDetails struct {
 	// * If the `isRequired` flag is set to "false", the value you enter is set during resource creation.
 	// Example: `false`
 	IsRequired *bool `mandatory:"false" json:"isRequired"`
+
+	// Locks associated with this resource.
+	Locks []AddLockDetails `mandatory:"false" json:"locks"`
 }
 
 func (m CreateTagDefaultDetails) String() string {

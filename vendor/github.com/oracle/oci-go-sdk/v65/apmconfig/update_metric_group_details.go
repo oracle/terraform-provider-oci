@@ -29,7 +29,7 @@ type UpdateMetricGroupDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The name of the metric group.
+	// The name by which a configuration entity is displayed to the end user.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Span Filter. The filterId is mandatory for the creation

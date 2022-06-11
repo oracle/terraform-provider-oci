@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -18,7 +18,7 @@ import (
 // WorkRequestErrorCollection List of WorkRequestError items.
 type WorkRequestErrorCollection struct {
 
-	// Array of WorkRequestError.
+	// Array of Work Request Error items.
 	Items []WorkRequestError `mandatory:"true" json:"items"`
 }
 

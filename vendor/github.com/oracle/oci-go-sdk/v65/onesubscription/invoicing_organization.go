@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Tools
+// OneSubscription APIs
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// OneSubscription APIs
 //
 
-package databasetools
+package onesubscription
 
 import (
 	"fmt"
@@ -15,24 +15,24 @@ import (
 	"strings"
 )
 
-// DatabaseToolsVirtualSource A VCN OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) and a list of CIDR blocks.
-type DatabaseToolsVirtualSource struct {
+// InvoicingOrganization Organization details
+type InvoicingOrganization struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a VCN.
-	VcnId *string `mandatory:"false" json:"vcnId"`
+	// Organization name
+	Name *string `mandatory:"true" json:"name"`
 
-	// A list of CIDR blocks.
-	IpRanges []string `mandatory:"false" json:"ipRanges"`
+	// Organization ID
+	Number *float64 `mandatory:"true" json:"number"`
 }
 
-func (m DatabaseToolsVirtualSource) String() string {
+func (m InvoicingOrganization) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DatabaseToolsVirtualSource) ValidateEnumValue() (bool, error) {
+func (m InvoicingOrganization) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

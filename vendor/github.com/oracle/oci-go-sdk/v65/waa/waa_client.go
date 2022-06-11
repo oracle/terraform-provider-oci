@@ -91,6 +91,10 @@ func (client *WaaClient) ConfigurationProvider() *common.ConfigurationProvider {
 
 // ChangeWebAppAccelerationCompartment Moves a Web App Acceleration resource from one compartment to another.
 // When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/ChangeWebAppAccelerationCompartment.go.html to see an example of how to use ChangeWebAppAccelerationCompartment API.
 func (client WaaClient) ChangeWebAppAccelerationCompartment(ctx context.Context, request ChangeWebAppAccelerationCompartmentRequest) (response ChangeWebAppAccelerationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -145,6 +149,10 @@ func (client WaaClient) changeWebAppAccelerationCompartment(ctx context.Context,
 
 // ChangeWebAppAccelerationPolicyCompartment Moves a WebAppAccelerationfPolicy resource from one compartment to another.
 // When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/ChangeWebAppAccelerationPolicyCompartment.go.html to see an example of how to use ChangeWebAppAccelerationPolicyCompartment API.
 func (client WaaClient) ChangeWebAppAccelerationPolicyCompartment(ctx context.Context, request ChangeWebAppAccelerationPolicyCompartmentRequest) (response ChangeWebAppAccelerationPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -198,6 +206,10 @@ func (client WaaClient) changeWebAppAccelerationPolicyCompartment(ctx context.Co
 }
 
 // CreateWebAppAcceleration Creates a new WebAppAcceleration.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/CreateWebAppAcceleration.go.html to see an example of how to use CreateWebAppAcceleration API.
 func (client WaaClient) CreateWebAppAcceleration(ctx context.Context, request CreateWebAppAccelerationRequest) (response CreateWebAppAccelerationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -256,6 +268,10 @@ func (client WaaClient) createWebAppAcceleration(ctx context.Context, request co
 }
 
 // CreateWebAppAccelerationPolicy Creates a new WebAppAccelerationPolicy.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/CreateWebAppAccelerationPolicy.go.html to see an example of how to use CreateWebAppAccelerationPolicy API.
 func (client WaaClient) CreateWebAppAccelerationPolicy(ctx context.Context, request CreateWebAppAccelerationPolicyRequest) (response CreateWebAppAccelerationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -314,6 +330,10 @@ func (client WaaClient) createWebAppAccelerationPolicy(ctx context.Context, requ
 }
 
 // DeleteWebAppAcceleration Deletes a WebAppAcceleration resource identified by the OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/DeleteWebAppAcceleration.go.html to see an example of how to use DeleteWebAppAcceleration API.
 func (client WaaClient) DeleteWebAppAcceleration(ctx context.Context, request DeleteWebAppAccelerationRequest) (response DeleteWebAppAccelerationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -367,6 +387,10 @@ func (client WaaClient) deleteWebAppAcceleration(ctx context.Context, request co
 }
 
 // DeleteWebAppAccelerationPolicy Deletes a WebAppAccelerationPolicy resource identified by the OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/DeleteWebAppAccelerationPolicy.go.html to see an example of how to use DeleteWebAppAccelerationPolicy API.
 func (client WaaClient) DeleteWebAppAccelerationPolicy(ctx context.Context, request DeleteWebAppAccelerationPolicyRequest) (response DeleteWebAppAccelerationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -420,6 +444,10 @@ func (client WaaClient) deleteWebAppAccelerationPolicy(ctx context.Context, requ
 }
 
 // GetWebAppAcceleration Gets a WebAppAcceleration by OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/GetWebAppAcceleration.go.html to see an example of how to use GetWebAppAcceleration API.
 func (client WaaClient) GetWebAppAcceleration(ctx context.Context, request GetWebAppAccelerationRequest) (response GetWebAppAccelerationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -473,6 +501,10 @@ func (client WaaClient) getWebAppAcceleration(ctx context.Context, request commo
 }
 
 // GetWebAppAccelerationPolicy Gets a WebAppAccelerationPolicy with the given OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/GetWebAppAccelerationPolicy.go.html to see an example of how to use GetWebAppAccelerationPolicy API.
 func (client WaaClient) GetWebAppAccelerationPolicy(ctx context.Context, request GetWebAppAccelerationPolicyRequest) (response GetWebAppAccelerationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -526,6 +558,10 @@ func (client WaaClient) getWebAppAccelerationPolicy(ctx context.Context, request
 }
 
 // ListWebAppAccelerationPolicies Gets a list of all WebAppAccelerationPolicies in a compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/ListWebAppAccelerationPolicies.go.html to see an example of how to use ListWebAppAccelerationPolicies API.
 func (client WaaClient) ListWebAppAccelerationPolicies(ctx context.Context, request ListWebAppAccelerationPoliciesRequest) (response ListWebAppAccelerationPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -579,6 +615,10 @@ func (client WaaClient) listWebAppAccelerationPolicies(ctx context.Context, requ
 }
 
 // ListWebAppAccelerations Gets a list of all WebAppAccelerations in a compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/ListWebAppAccelerations.go.html to see an example of how to use ListWebAppAccelerations API.
 func (client WaaClient) ListWebAppAccelerations(ctx context.Context, request ListWebAppAccelerationsRequest) (response ListWebAppAccelerationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -633,6 +673,10 @@ func (client WaaClient) listWebAppAccelerations(ctx context.Context, request com
 
 // PurgeWebAppAccelerationCache Clears resources from the cache of the WebAppAcceleration. Each new request for a purged resource will be
 // forwarded to the origin server to fetch a new version of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/PurgeWebAppAccelerationCache.go.html to see an example of how to use PurgeWebAppAccelerationCache API.
 func (client WaaClient) PurgeWebAppAccelerationCache(ctx context.Context, request PurgeWebAppAccelerationCacheRequest) (response PurgeWebAppAccelerationCacheResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -686,6 +730,10 @@ func (client WaaClient) purgeWebAppAccelerationCache(ctx context.Context, reques
 }
 
 // UpdateWebAppAcceleration Updates the WebAppAcceleration identified by the OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/UpdateWebAppAcceleration.go.html to see an example of how to use UpdateWebAppAcceleration API.
 func (client WaaClient) UpdateWebAppAcceleration(ctx context.Context, request UpdateWebAppAccelerationRequest) (response UpdateWebAppAccelerationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -739,6 +787,10 @@ func (client WaaClient) updateWebAppAcceleration(ctx context.Context, request co
 }
 
 // UpdateWebAppAccelerationPolicy Update the WebAppAccelerationPolicy identified by the OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/UpdateWebAppAccelerationPolicy.go.html to see an example of how to use UpdateWebAppAccelerationPolicy API.
 func (client WaaClient) UpdateWebAppAccelerationPolicy(ctx context.Context, request UpdateWebAppAccelerationPolicyRequest) (response UpdateWebAppAccelerationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -21,7 +21,7 @@ type WorkRequestLogEntry struct {
 	// Human-readable log message.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The time the log message was written. An RFC3339 formatted datetime string
+	// The time the log message was written. An RFC3339 formatted datetime string.
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

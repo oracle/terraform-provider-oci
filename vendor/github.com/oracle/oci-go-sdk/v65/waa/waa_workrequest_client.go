@@ -90,6 +90,10 @@ func (client *WorkRequestClient) ConfigurationProvider() *common.ConfigurationPr
 }
 
 // GetWorkRequest Gets the status of the WorkRequest with the given OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client WorkRequestClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -143,6 +147,10 @@ func (client WorkRequestClient) getWorkRequest(ctx context.Context, request comm
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given WorkRequest.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client WorkRequestClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -196,6 +204,10 @@ func (client WorkRequestClient) listWorkRequestErrors(ctx context.Context, reque
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given WorkRequest.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client WorkRequestClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -249,6 +261,10 @@ func (client WorkRequestClient) listWorkRequestLogs(ctx context.Context, request
 }
 
 // ListWorkRequests Lists the WorkRequests in a compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client WorkRequestClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

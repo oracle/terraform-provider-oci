@@ -87,6 +87,63 @@ func (client *QuotasClient) ConfigurationProvider() *common.ConfigurationProvide
 	return client.config
 }
 
+// AddQuotaLock Adds a lock to a resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/AddQuotaLock.go.html to see an example of how to use AddQuotaLock API.
+func (client QuotasClient) AddQuotaLock(ctx context.Context, request AddQuotaLockRequest) (response AddQuotaLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addQuotaLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddQuotaLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddQuotaLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddQuotaLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddQuotaLockResponse")
+	}
+	return
+}
+
+// addQuotaLock implements the OCIOperation interface (enables retrying operations)
+func (client QuotasClient) addQuotaLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20181025/quotas/{quotaId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddQuotaLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/Quota/AddQuotaLock"
+		err = common.PostProcessServiceError(err, "Quotas", "AddQuotaLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateQuota Creates a new quota with the details supplied.
 //
 // See also
@@ -313,6 +370,63 @@ func (client QuotasClient) listQuotas(ctx context.Context, request common.OCIReq
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/QuotaSummary/ListQuotas"
 		err = common.PostProcessServiceError(err, "Quotas", "ListQuotas", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveQuotaLock Remove a lock from a resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/RemoveQuotaLock.go.html to see an example of how to use RemoveQuotaLock API.
+func (client QuotasClient) RemoveQuotaLock(ctx context.Context, request RemoveQuotaLockRequest) (response RemoveQuotaLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeQuotaLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveQuotaLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveQuotaLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveQuotaLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveQuotaLockResponse")
+	}
+	return
+}
+
+// removeQuotaLock implements the OCIOperation interface (enables retrying operations)
+func (client QuotasClient) removeQuotaLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20181025/quotas/{quotaId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveQuotaLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits/20181025/Quota/RemoveQuotaLock"
+		err = common.PostProcessServiceError(err, "Quotas", "RemoveQuotaLock", apiReferenceLink)
 		return response, err
 	}
 

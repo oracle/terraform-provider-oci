@@ -36,6 +36,9 @@ type CreateTagNamespaceDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Locks associated with this resource.
+	Locks []AddLockDetails `mandatory:"false" json:"locks"`
 }
 
 func (m CreateTagNamespaceDetails) String() string {
