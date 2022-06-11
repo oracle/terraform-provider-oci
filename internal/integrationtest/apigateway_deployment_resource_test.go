@@ -21,7 +21,7 @@ var (
 	deploymentRepresentationJwt = acctest.GetUpdatedRepresentationCopy(
 		"specification.request_policies.authentication.type",
 		acctest.Representation{RepType: acctest.Required, Create: `JWT_AUTHENTICATION`, Update: `JWT_AUTHENTICATION`},
-		deploymentRepresentation)
+		ApigatewayDeploymentRepresentation)
 	deploymentRepresentationWithMtlsDisabled = acctest.GetUpdatedRepresentationCopy(
 		"specification.request_policies.mutual_tls.is_verified_certificate_required",
 		acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
@@ -38,7 +38,7 @@ var (
 		"specification.request_policies.authentication.public_keys.keys.key",
 	}, deploymentRepresentationWithMtlsDisabled)
 
-	DeploymentResourceConfigCommon = DeploymentResourceDependenciesWithoutCABundle + acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, gatewayRepresentation)
+	DeploymentResourceConfigCommon = DeploymentResourceDependenciesWithoutCABundle + acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, ApigatewayRepresentation)
 
 	DeploymentResourceConfigJwt = DeploymentResourceConfigCommon +
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationJwtStaticKeys)
@@ -260,7 +260,7 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + imageVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", acctest.Optional, acctest.Update, deploymentDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", acctest.Optional, acctest.Update, ApigatewayDeploymentDataSourceRepresentation) +
 				compartmentIdVariableStr + DeploymentResourceConfigCommon +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationJwtStaticKeys),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -278,7 +278,7 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 		//verify singular datasource
 		{
 			Config: config + imageVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, ApigatewayDeploymentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DeploymentResourceConfigJwt,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
@@ -360,7 +360,7 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + DeploymentRequiredOnlyResource,
+			Config:            config + ApigatewayDeploymentRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

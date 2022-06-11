@@ -61,8 +61,8 @@ var (
 	}
 	DatabaseBackupResourceConfig = DatabaseBackupResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, databaseBackupRepresentation)
-	DatabaseBackupResourceDependencies = DatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "db", acctest.Optional, acctest.Create, databaseRepresentation) +
+	DatabaseBackupResourceDependencies = DatabaseDatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "db", acctest.Optional, acctest.Create, DatabaseDatabaseRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, backupDatabaseRepresentation)
 )
 

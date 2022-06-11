@@ -19,10 +19,10 @@ import (
 )
 
 var (
-	DeployHelmArtifactRequiredOnlyResource = DeployArtifactResourceDependencies +
+	DeployHelmArtifactRequiredOnlyResource = DevopsDeployArtifactResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Required, acctest.Create, deployHelmArtifactRepresentation)
 
-	DeployHelmArtifactResourceConfig = DeployArtifactResourceDependencies +
+	DeployHelmArtifactResourceConfig = DevopsDeployArtifactResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, deployHelmArtifactRepresentation)
 
 	deployHelmArtifactSingularDataSourceRepresentation = map[string]interface{}{
@@ -69,13 +69,13 @@ func TestDevopsDeployArtifactResource_helm(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DeployArtifactResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DevopsDeployArtifactResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Create, deployHelmArtifactRepresentation), "devops", "deployArtifact", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsDeployArtifactDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Required, acctest.Create, deployHelmArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -96,11 +96,11 @@ func TestDevopsDeployArtifactResource_helm(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies,
+			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Create, deployHelmArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "NONE"),
@@ -131,7 +131,7 @@ func TestDevopsDeployArtifactResource_helm(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, deployHelmArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "SUBSTITUTE_PLACEHOLDERS"),
@@ -160,8 +160,8 @@ func TestDevopsDeployArtifactResource_helm(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", acctest.Optional, acctest.Update, deployArtifactDataSourceRepresentation) +
-				compartmentIdVariableStr + DeployArtifactResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", acctest.Optional, acctest.Update, DevopsDevopsDeployArtifactDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, deployHelmArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -201,7 +201,7 @@ func TestDevopsDeployArtifactResource_helm(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DeployArtifactRequiredOnlyResource,
+			Config:                  config + DevopsDeployArtifactRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

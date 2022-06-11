@@ -25,27 +25,27 @@ import (
 )
 
 var (
-	OdaInstanceRequiredOnlyResource = OdaInstanceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Required, acctest.Create, odaInstanceRepresentation)
+	OdaOdaInstanceRequiredOnlyResource = OdaOdaInstanceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Required, acctest.Create, OdaOdaInstanceRepresentation)
 
-	OdaInstanceResourceConfig = OdaInstanceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Optional, acctest.Update, odaInstanceRepresentation)
+	OdaOdaInstanceResourceConfig = OdaOdaInstanceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Optional, acctest.Update, OdaOdaInstanceRepresentation)
 
-	odaInstanceSingularDataSourceRepresentation = map[string]interface{}{
+	OdaOdaOdaInstanceSingularDataSourceRepresentation = map[string]interface{}{
 		"oda_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_oda_oda_instance.test_oda_instance.id}`},
 	}
 
-	odaInstanceDataSourceRepresentation = map[string]interface{}{
+	OdaOdaOdaInstanceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: odaInstanceDataSourceFilterRepresentation}}
-	odaInstanceDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: OdaOdaInstanceDataSourceFilterRepresentation}}
+	OdaOdaInstanceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_oda_oda_instance.test_oda_instance.id}`}},
 	}
 
-	odaInstanceRepresentation = map[string]interface{}{
+	OdaOdaInstanceRepresentation = map[string]interface{}{
 		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"shape_name":           acctest.Representation{RepType: acctest.Required, Create: `DEVELOPMENT`},
 		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -62,7 +62,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	OdaInstanceResourceDependencies = DefinedTagsDependencies
+	OdaOdaInstanceResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: oda/default
@@ -88,14 +88,14 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+OdaInstanceResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Optional, acctest.Create, odaInstanceRepresentation), "oda", "odaInstance", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OdaOdaInstanceResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Optional, acctest.Create, OdaOdaInstanceRepresentation), "oda", "odaInstance", t)
 
 	acctest.ResourceTest(t, testAccCheckOdaOdaInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Required, acctest.Create, odaInstanceRepresentation),
+			Config: config + compartmentIdVariableStr + OdaOdaInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Required, acctest.Create, OdaOdaInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
@@ -109,12 +109,12 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies,
+			Config: config + compartmentIdVariableStr + OdaOdaInstanceResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Optional, acctest.Create, odaInstanceRepresentation),
+			Config: config + compartmentIdVariableStr + OdaOdaInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Optional, acctest.Create, OdaOdaInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -135,8 +135,8 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Optional, acctest.Update, odaInstanceRepresentation),
+			Config: config + compartmentIdVariableStr + OdaOdaInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Optional, acctest.Update, OdaOdaInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -163,9 +163,9 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OdaInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OdaOdaInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(odaInstanceRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(OdaOdaInstanceRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -191,8 +191,8 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 
 		// verify switch back
 		{
-			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Optional, acctest.Update, odaInstanceRepresentation),
+			Config: config + compartmentIdVariableStr + OdaOdaInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Optional, acctest.Update, OdaOdaInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -221,9 +221,9 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_oda_oda_instances", "test_oda_instances", acctest.Optional, acctest.Update, odaInstanceDataSourceRepresentation) +
-				compartmentIdVariableStr + OdaInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Optional, acctest.Update, odaInstanceRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_oda_oda_instances", "test_oda_instances", acctest.Optional, acctest.Update, OdaOdaOdaInstanceDataSourceRepresentation) +
+				compartmentIdVariableStr + OdaOdaInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Optional, acctest.Update, OdaOdaInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -248,8 +248,8 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Required, acctest.Create, odaInstanceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + OdaInstanceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", acctest.Required, acctest.Create, OdaOdaOdaInstanceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OdaOdaInstanceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "oda_instance_id"),
 
@@ -274,7 +274,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + OdaInstanceRequiredOnlyResource,
+			Config:                  config + OdaOdaInstanceRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"identity_domain"},
@@ -338,7 +338,7 @@ func init() {
 
 func sweepOdaOdaInstanceResource(compartment string) error {
 	odaClient := acctest.GetTestClients(&schema.ResourceData{}).OdaClient()
-	odaInstanceIds, err := getOdaInstanceIds(compartment)
+	odaInstanceIds, err := getOdaOdaInstanceIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -354,14 +354,14 @@ func sweepOdaOdaInstanceResource(compartment string) error {
 				fmt.Printf("Error deleting OdaInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", odaInstanceId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &odaInstanceId, odaInstanceSweepWaitCondition, time.Duration(6*time.Minute),
-				odaInstanceSweepResponseFetchOperation, "oda", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &odaInstanceId, OdaOdaInstanceSweepWaitCondition, time.Duration(6*time.Minute),
+				OdaOdaInstanceSweepResponseFetchOperation, "oda", true)
 		}
 	}
 	return nil
 }
 
-func getOdaInstanceIds(compartment string) ([]string, error) {
+func getOdaOdaInstanceIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "OdaInstanceId")
 	if ids != nil {
 		return ids, nil
@@ -386,7 +386,7 @@ func getOdaInstanceIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func odaInstanceSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OdaOdaInstanceSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if odaInstanceResponse, ok := response.Response.(oci_oda.GetOdaInstanceResponse); ok {
 		return odaInstanceResponse.LifecycleState != oci_oda.OdaInstanceLifecycleStateDeleted
@@ -394,7 +394,7 @@ func odaInstanceSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func odaInstanceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OdaOdaInstanceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.OdaClient().GetOdaInstance(context.Background(), oci_oda.GetOdaInstanceRequest{
 		OdaInstanceId: resourceId,
 		RequestMetadata: common.RequestMetadata{

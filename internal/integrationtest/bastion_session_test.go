@@ -27,13 +27,13 @@ import (
 )
 
 var (
-	SessionRequiredOnlyResource = SessionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Required, acctest.Create, sessionRepresentation)
+	BastionSessionRequiredOnlyResource = BastionSessionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Required, acctest.Create, BastionsessionRepresentation)
 
-	SessionResourceConfig = SessionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Optional, acctest.Update, sessionRepresentation)
+	BastionSessionResourceConfig = BastionSessionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Optional, acctest.Update, BastionsessionRepresentation)
 
-	sessionSingularDataSourceRepresentation = map[string]interface{}{
+	BastionBastionsessionSingularDataSourceRepresentation = map[string]interface{}{
 		"session_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bastion_session.test_session.id}`},
 	}
 
@@ -42,21 +42,21 @@ var (
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `managed_ssh`, Update: `managed_ssh2`},
 		"session_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_bastion_session.test_session.id}`},
 		"session_lifecycle_state": acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: sessionDataSourceFilterRepresentation}}
-	sessionDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: BastionsessionDataSourceFilterRepresentation}}
+	BastionsessionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_bastion_session.test_session.id}`}},
 	}
 
-	sessionRepresentation = map[string]interface{}{
+	BastionsessionRepresentation = map[string]interface{}{
 		"bastion_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_bastion_bastion.test_bastion.id}`},
-		"key_details":             acctest.RepresentationGroup{RepType: acctest.Required, Group: sessionKeyDetailsRepresentation},
-		"target_resource_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: sessionTargetResourceDetailsRepresentation},
+		"key_details":             acctest.RepresentationGroup{RepType: acctest.Required, Group: BastionsessionKeyDetailsRepresentation},
+		"target_resource_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: BastionsessionTargetResourceDetailsRepresentation},
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `managed_ssh`, Update: `managed_ssh2`},
 		"key_type":                acctest.Representation{RepType: acctest.Optional, Create: `PUB`},
 		"session_ttl_in_seconds":  acctest.Representation{RepType: acctest.Optional, Create: `1800`},
 	}
-	sessionTargetResourceDetailsRepresentation = map[string]interface{}{
+	BastionsessionTargetResourceDetailsRepresentation = map[string]interface{}{
 		"session_type":       acctest.Representation{RepType: acctest.Required, Create: `MANAGED_SSH`},
 		"target_resource_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
 		"target_resource_operating_system_user_name": acctest.Representation{RepType: acctest.Required, Create: `opc`},
@@ -64,7 +64,7 @@ var (
 		"target_resource_private_ip_address":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_instance.test_instance.private_ip}`},
 	}
 
-	sessionKeyDetailsRepresentation = map[string]interface{}{
+	BastionsessionKeyDetailsRepresentation = map[string]interface{}{
 		"public_key_content": acctest.Representation{RepType: acctest.Required, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDjk96o3uQcgHId6l/gkCwiid5J48CxKEiyk+1tPQugfhzgIIBs2Xr4xLX/rb5Xkr7MIeXuU3gdYrrMPLuMhOvthIKj6U5ROJWiZ67X00pOLq64dFyam1lQ+S/R/SaQ4W0KhKfkVskRhg7V96U07BGo8lDwYRGnvJsNb7rt3oHgnXtTFs7cy3IbzH5Sl7XBZv7yePu9sY39FrxktHw7Avz9BDZQbNYFC/cpj5eVvtPX/sMbc/D1yfrvhAIrYarhcAjEmWkjOJvkVlyKBxaSA7+mnOqFcj99hj5ZQN69h2B4TtHw2G8WEsU/nlyzBAj1iGQEvCLKnyp7Lxviy81jyKt91NQ7W6qh4tcs1mOFBsTGx/mBsNPwZhGRe4jWH15T++qnBAp6Zzw8ydPrJTgHLK+h1AMGFKMQZKYnMRV+6JYaNbnCVmLlxXoxhGsufXZMMS4qmjAQUBakZQsfiwLUxZBd0ZXmDCaZBxf6KP7HgL2x0Gb8IF38F7ryaOg9oxifqI8= chiweng@chiweng-mac`},
 	}
 
@@ -90,23 +90,23 @@ var (
 		"destination_type":  acctest.Representation{RepType: acctest.Required, Create: `SERVICE_CIDR_BLOCK`},
 	}
 
-	SessionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Required, acctest.Create, bastionRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	BastionSessionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Required, acctest.Create, BastionbastionRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig +
 		seestionImageInstanceDependencies +
 		// Create instance as target host
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+			acctest.RepresentationCopyWithNewProperties(CoreInstanceRepresentation, map[string]interface{}{
 				"shape":        acctest.Representation{RepType: acctest.Required, Create: `VM.Standard1.1`},
 				"image":        acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCID[var.region]}`},
 				"agent_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: bastionEnabledInstanceAgentConfigRepresentation},
 				"metadata":     acctest.Representation{RepType: acctest.Required, Create: map[string]string{"ssh_authorized_keys": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDjk96o3uQcgHId6l/gkCwiid5J48CxKEiyk+1tPQugfhzgIIBs2Xr4xLX/rb5Xkr7MIeXuU3gdYrrMPLuMhOvthIKj6U5ROJWiZ67X00pOLq64dFyam1lQ+S/R/SaQ4W0KhKfkVskRhg7V96U07BGo8lDwYRGnvJsNb7rt3oHgnXtTFs7cy3IbzH5Sl7XBZv7yePu9sY39FrxktHw7Avz9BDZQbNYFC/cpj5eVvtPX/sMbc/D1yfrvhAIrYarhcAjEmWkjOJvkVlyKBxaSA7+mnOqFcj99hj5ZQN69h2B4TtHw2G8WEsU/nlyzBAj1iGQEvCLKnyp7Lxviy81jyKt91NQ7W6qh4tcs1mOFBsTGx/mBsNPwZhGRe4jWH15T++qnBAp6Zzw8ydPrJTgHLK+h1AMGFKMQZKYnMRV+6JYaNbnCVmLlxXoxhGsufXZMMS4qmjAQUBakZQsfiwLUxZBd0ZXmDCaZBxf6KP7HgL2x0Gb8IF38F7ryaOg9oxifqI8= chiweng@chiweng-mac"}},
 			})) +
 		// Create Routable, Service Gateway, Internet Gateway for testing
-		acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, serviceDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, CoreCoreServiceDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(serviceGatewayRepresentation, map[string]interface{}{
+			acctest.RepresentationCopyWithNewProperties(CoreServiceGatewayRepresentation, map[string]interface{}{
 				"services": acctest.RepresentationGroup{RepType: acctest.Required, Group: allOCIServiceGatewayServicesRepresentation},
 			})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_default_route_table", "default_route_table", acctest.Required, acctest.Create,
@@ -146,13 +146,13 @@ func TestBastionSessionResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SessionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Optional, acctest.Create, sessionRepresentation), "bastion", "session", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+BastionSessionResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Optional, acctest.Create, BastionsessionRepresentation), "bastion", "session", t)
 
 	acctest.ResourceTest(t, testAccCheckBastionSessionDestroy, []resource.TestStep{
 		// Create Dependencies
 		{
-			Config: config + compartmentIdVariableStr + SessionResourceDependencies,
+			Config: config + compartmentIdVariableStr + BastionSessionResourceDependencies,
 			Check: func(s *terraform.State) (err error) {
 				log.Printf("[DEBUG] Wait for instance and bastion plugin to be run")
 				time.Sleep(5 * time.Minute)
@@ -161,8 +161,8 @@ func TestBastionSessionResource_basic(t *testing.T) {
 		},
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SessionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Required, acctest.Create, sessionRepresentation),
+			Config: config + compartmentIdVariableStr + BastionSessionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Required, acctest.Create, BastionsessionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
 				resource.TestCheckResourceAttr(resourceName, "key_details.#", "1"),
@@ -181,12 +181,12 @@ func TestBastionSessionResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SessionResourceDependencies,
+			Config: config + compartmentIdVariableStr + BastionSessionResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SessionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Optional, acctest.Create, sessionRepresentation),
+			Config: config + compartmentIdVariableStr + BastionSessionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Optional, acctest.Create, BastionsessionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "bastion_name"),
@@ -218,8 +218,8 @@ func TestBastionSessionResource_basic(t *testing.T) {
 		},
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SessionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Optional, acctest.Update, sessionRepresentation),
+			Config: config + compartmentIdVariableStr + BastionSessionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Optional, acctest.Update, BastionsessionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "bastion_name"),
@@ -252,8 +252,8 @@ func TestBastionSessionResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_bastion_sessions", "test_sessions", acctest.Optional, acctest.Update, sessionDataSourceRepresentation) +
-				compartmentIdVariableStr + SessionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Optional, acctest.Update, sessionRepresentation),
+				compartmentIdVariableStr + BastionSessionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Optional, acctest.Update, BastionsessionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "managed_ssh2"),
@@ -281,8 +281,8 @@ func TestBastionSessionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Required, acctest.Create, sessionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SessionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_bastion_session", "test_session", acctest.Required, acctest.Create, BastionBastionsessionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + BastionSessionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "session_id"),
 
@@ -306,7 +306,7 @@ func TestBastionSessionResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + SessionRequiredOnlyResource,
+			Config:                  config + BastionSessionRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -370,7 +370,7 @@ func init() {
 
 func sweepBastionSessionResource(compartment string) error {
 	bastionClient := acctest.GetTestClients(&schema.ResourceData{}).BastionClient()
-	sessionIds, err := getSessionIds(compartment)
+	sessionIds, err := getBastionSessionIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -386,14 +386,14 @@ func sweepBastionSessionResource(compartment string) error {
 				fmt.Printf("Error deleting Session %s %s, It is possible that the resource is already deleted. Please verify manually \n", sessionId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &sessionId, sessionSweepWaitCondition, time.Duration(3*time.Minute),
-				sessionSweepResponseFetchOperation, "bastion", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &sessionId, BastionsessionsSweepWaitCondition, time.Duration(3*time.Minute),
+				BastionsessionsSweepResponseFetchOperation, "bastion", true)
 		}
 	}
 	return nil
 }
 
-func getSessionIds(compartment string) ([]string, error) {
+func getBastionSessionIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "SessionId")
 	if ids != nil {
 		return ids, nil
@@ -404,7 +404,7 @@ func getSessionIds(compartment string) ([]string, error) {
 
 	listSessionsRequest := oci_bastion.ListSessionsRequest{}
 
-	bastionIds, error := getBastionIds(compartment)
+	bastionIds, error := getBastionSessionIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting bastionId required for Session resource requests \n")
 	}
@@ -426,7 +426,7 @@ func getSessionIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func sessionSweepWaitCondition(response common.OCIOperationResponse) bool {
+func BastionsessionsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if sessionResponse, ok := response.Response.(oci_bastion.GetSessionResponse); ok {
 		return sessionResponse.LifecycleState != oci_bastion.SessionLifecycleStateDeleted
@@ -434,7 +434,7 @@ func sessionSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func sessionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func BastionsessionsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.BastionClient().GetSession(context.Background(), oci_bastion.GetSessionRequest{
 		SessionId: resourceId,
 		RequestMetadata: common.RequestMetadata{

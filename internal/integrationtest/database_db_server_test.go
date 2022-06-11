@@ -17,19 +17,19 @@ import (
 )
 
 var (
-	dbServerSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDbServerSingularDataSourceRepresentation = map[string]interface{}{
 		"db_server_id":              acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`},
 		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 	}
 
-	dbServerDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDbServerDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 	}
 
-	DbServerResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, exadataInfrastructureRepresentation)
+	DatabaseDbServerResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseAutonomousExadataInfrastructureRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -57,8 +57,8 @@ func TestDatabaseDbServerResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, dbServerDataSourceRepresentation) +
-					compartmentIdVariableStr + DbServerResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabaseDatabaseDbServerDataSourceRepresentation) +
+					compartmentIdVariableStr + DatabaseDbServerResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "db_servers.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.compartment_id"),
@@ -81,9 +81,9 @@ func TestDatabaseDbServerResource_basic(t *testing.T) {
 			//verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, dbServerDataSourceRepresentation) +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_server", "test_db_server", acctest.Required, acctest.Create, dbServerSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DbServerResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabaseDatabaseDbServerDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_server", "test_db_server", acctest.Required, acctest.Create, DatabaseDatabaseDbServerSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + DatabaseDbServerResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_server_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),

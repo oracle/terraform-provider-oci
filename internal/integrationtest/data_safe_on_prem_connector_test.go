@@ -26,17 +26,17 @@ import (
 )
 
 var (
-	OnPremConnectorRequiredOnlyResource = OnPremConnectorResourceDependencies +
+	DataSafeOnPremConnectorRequiredOnlyResource = DataSafeOnPremConnectorResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", acctest.Required, acctest.Create, onPremConnectorRepresentation)
 
-	OnPremConnectorResourceConfig = OnPremConnectorResourceDependencies +
+	DataSafeOnPremConnectorResourceConfig = DataSafeOnPremConnectorResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", acctest.Optional, acctest.Update, onPremConnectorRepresentation)
 
-	onPremConnectorSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafeonPremConnectorSingularDataSourceRepresentation = map[string]interface{}{
 		"on_prem_connector_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_on_prem_connector.test_on_prem_connector.id}`},
 	}
 
-	onPremConnectorDataSourceRepresentation = map[string]interface{}{
+	DataSafeonPremConnectorDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":                      acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree":         acctest.Representation{RepType: acctest.Optional, Create: `true`},
@@ -62,7 +62,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	OnPremConnectorResourceDependencies = DefinedTagsDependencies
+	DataSafeOnPremConnectorResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -87,7 +87,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckDataSafeOnPremConnectorDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeOnPremConnectorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", acctest.Required, acctest.Create, onPremConnectorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -101,11 +101,11 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies,
+			Config: config + compartmentIdVariableStr + DataSafeOnPremConnectorResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeOnPremConnectorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", acctest.Optional, acctest.Create, onPremConnectorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -125,7 +125,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OnPremConnectorResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeOnPremConnectorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(onPremConnectorRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -151,7 +151,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeOnPremConnectorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", acctest.Optional, acctest.Update, onPremConnectorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -179,8 +179,8 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connectors", "test_on_prem_connectors", acctest.Optional, acctest.Update, onPremConnectorDataSourceRepresentation) +
-				compartmentIdVariableStr + OnPremConnectorResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connectors", "test_on_prem_connectors", acctest.Optional, acctest.Update, DataSafeonPremConnectorDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeOnPremConnectorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", acctest.Optional, acctest.Update, onPremConnectorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
@@ -204,8 +204,8 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", acctest.Required, acctest.Create, onPremConnectorSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + OnPremConnectorResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", acctest.Required, acctest.Create, DataSafeonPremConnectorSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeOnPremConnectorResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "on_prem_connector_id"),
 
@@ -222,7 +222,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + OnPremConnectorRequiredOnlyResource,
+			Config:                  config + DataSafeOnPremConnectorRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -286,7 +286,7 @@ func init() {
 
 func sweepDataSafeOnPremConnectorResource(compartment string) error {
 	dataSafeClient := acctest.GetTestClients(&schema.ResourceData{}).DataSafeClient()
-	onPremConnectorIds, err := getOnPremConnectorIds(compartment)
+	onPremConnectorIds, err := getDataSafeOnPremConnectorIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -302,14 +302,14 @@ func sweepDataSafeOnPremConnectorResource(compartment string) error {
 				fmt.Printf("Error deleting OnPremConnector %s %s, It is possible that the resource is already deleted. Please verify manually \n", onPremConnectorId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &onPremConnectorId, onPremConnectorSweepWaitCondition, time.Duration(3*time.Minute),
-				onPremConnectorSweepResponseFetchOperation, "data_safe", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &onPremConnectorId, DataSafeonPremConnectorsSweepWaitCondition, time.Duration(3*time.Minute),
+				DataSafeonPremConnectorsSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
 	return nil
 }
 
-func getOnPremConnectorIds(compartment string) ([]string, error) {
+func getDataSafeOnPremConnectorIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "OnPremConnectorId")
 	if ids != nil {
 		return ids, nil
@@ -333,7 +333,7 @@ func getOnPremConnectorIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func onPremConnectorSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataSafeonPremConnectorsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if onPremConnectorResponse, ok := response.Response.(oci_data_safe.GetOnPremConnectorResponse); ok {
 		return string(onPremConnectorResponse.LifecycleState) != string(oci_data_safe.OnPremConnectorLifecycleStateDeleted)
@@ -341,7 +341,7 @@ func onPremConnectorSweepWaitCondition(response common.OCIOperationResponse) boo
 	return false
 }
 
-func onPremConnectorSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataSafeonPremConnectorsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataSafeClient().GetOnPremConnector(context.Background(), oci_data_safe.GetOnPremConnectorRequest{
 		OnPremConnectorId: resourceId,
 		RequestMetadata: common.RequestMetadata{

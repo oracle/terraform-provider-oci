@@ -19,29 +19,29 @@ import (
 )
 
 var (
-	protectionRuleRepresentation = map[string]interface{}{
+	WaasProtectionRuleRepresentation = map[string]interface{}{
 		"waas_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_waas_waas_policy.test_waas_policy.id}`},
 		"key":            acctest.Representation{RepType: acctest.Required, Create: `933161`, Update: `933111`},
 		"action":         acctest.Representation{RepType: acctest.Required, Create: `BLOCK`, Update: `DETECT`},
-		"exclusions":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: protectionRuleExclusionsRepresentation},
+		"exclusions":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasProtectionRuleExclusionsRepresentation},
 	}
 
-	protectionRuleExclusionsRepresentation = map[string]interface{}{
+	WaasProtectionRuleExclusionsRepresentation = map[string]interface{}{
 		"exclusions": acctest.Representation{RepType: acctest.Optional, Create: []string{`example.com`}, Update: []string{`OAMAuthnCookie`}},
 		"target":     acctest.Representation{RepType: acctest.Optional, Create: `REQUEST_COOKIES`, Update: `REQUEST_COOKIE_NAMES`},
 	}
 
-	protectionRuleSingularDataSourceRepresentation = map[string]interface{}{
+	WaasProtectionRuleSingularDataSourceRepresentation = map[string]interface{}{
 		"protection_rule_key": acctest.Representation{RepType: acctest.Required, Create: `${oci_waas_protection_rule.test_protection_rule.key}`},
 		"waas_policy_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_waas_waas_policy.test_waas_policy.id}`},
 	}
 
-	protectionRuleDataSourceRepresentation = map[string]interface{}{
+	WaasWaasProtectionRuleDataSourceRepresentation = map[string]interface{}{
 		"waas_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_waas_waas_policy.test_waas_policy.id}`},
 		"action":         acctest.Representation{RepType: acctest.Optional, Create: []string{`DETECT`}},
 	}
 
-	ProtectionRuleResourceConfig = WaasPolicyResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Optional, acctest.Create, waasPolicyRepresentation)
+	ProtectionRuleResourceConfig = WaasWaasPolicyResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Optional, acctest.Create, WaasWaasPolicyRepresentation)
 )
 
 // issue-routing-tag: waas/default
@@ -61,13 +61,13 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 	var resId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+ProtectionRuleResourceConfig+
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", acctest.Required, acctest.Create, protectionRuleRepresentation), "waas", "protectionRule", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", acctest.Required, acctest.Create, WaasProtectionRuleRepresentation), "waas", "protectionRule", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ProtectionRuleResourceConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", acctest.Required, acctest.Create, protectionRuleRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", acctest.Required, acctest.Create, WaasProtectionRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "key", "933161"),
 				resource.TestCheckResourceAttr(resourceName, "action", "BLOCK"),
@@ -90,7 +90,7 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ProtectionRuleResourceConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", acctest.Optional, acctest.Update, protectionRuleRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", acctest.Optional, acctest.Update, WaasProtectionRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "key", "933111"),
 				resource.TestCheckResourceAttr(resourceName, "action", "DETECT"),
@@ -103,8 +103,8 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_protection_rules", "test_protection_rules", acctest.Optional, acctest.Update, protectionRuleDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", acctest.Optional, acctest.Update, protectionRuleRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_protection_rules", "test_protection_rules", acctest.Optional, acctest.Update, WaasWaasProtectionRuleDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", acctest.Optional, acctest.Update, WaasProtectionRuleRepresentation) +
 				compartmentIdVariableStr + ProtectionRuleResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "action.#", "1"),
@@ -121,8 +121,8 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", acctest.Required, acctest.Create, protectionRuleSingularDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", acctest.Optional, acctest.Update, protectionRuleRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", acctest.Required, acctest.Create, WaasProtectionRuleSingularDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", acctest.Optional, acctest.Update, WaasProtectionRuleRepresentation) +
 				compartmentIdVariableStr + ProtectionRuleResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "protection_rule_key"),

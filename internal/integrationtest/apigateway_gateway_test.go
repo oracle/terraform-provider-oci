@@ -25,28 +25,28 @@ import (
 )
 
 var (
-	GatewayRequiredOnlyResource = GatewayResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, gatewayRepresentation)
+	ApigatewayRequiredOnlyResource = ApigatewayResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, ApigatewayRepresentation)
 
-	GatewayResourceConfig = GatewayResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Update, gatewayRepresentation)
+	ApigatewayResourceConfig = ApigatewayResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Update, ApigatewayRepresentation)
 
-	gatewaySingularDataSourceRepresentation = map[string]interface{}{
+	ApigatewaySingularDataSourceRepresentation = map[string]interface{}{
 		"gateway_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_gateway.test_gateway.id}`},
 	}
 
-	gatewayDataSourceRepresentation = map[string]interface{}{
+	ApigatewayDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"certificate_id": acctest.Representation{RepType: acctest.Optional, Create: `oci_apigateway_certificate.test_certificate.id`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: gatewayDataSourceFilterRepresentation}}
-	gatewayDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDataSourceFilterRepresentation}}
+	ApigatewayDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apigateway_gateway.test_gateway.id}`}},
 	}
 
-	gatewayRepresentation = map[string]interface{}{
+	ApigatewayRepresentation = map[string]interface{}{
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"endpoint_type":              acctest.Representation{RepType: acctest.Required, Create: `PUBLIC`},
 		"subnet_id":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
@@ -83,11 +83,11 @@ var (
 		"port": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
 
-	GatewayResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Required, acctest.Create, apiGatewaycertificateRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	ApigatewayResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Required, acctest.Create, ApigatewayCertificateRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle", acctest.Required, acctest.Create, caBundleRepresentationRequired) +
 		acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_certificate_authority", "test_certificate_authority", acctest.Required, acctest.Create, certificateAuthorityRepresentationRoot) +
 		DefinedTagsDependencies +
@@ -116,14 +116,14 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+vaultSecretIdStr+GatewayResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Create, gatewayRepresentation), "apigateway", "gateway", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+vaultSecretIdStr+ApigatewayResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Create, ApigatewayRepresentation), "apigateway", "gateway", t)
 
 	acctest.ResourceTest(t, testAccCheckApigatewayGatewayDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, gatewayRepresentation),
+			Config: config + compartmentIdVariableStr + vaultSecretIdStr + ApigatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, ApigatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
@@ -138,7 +138,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + GatewayResourceDependencies,
+			Config: config + compartmentIdVariableStr + ApigatewayResourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
 					time.Sleep(3 * time.Minute)
@@ -148,8 +148,8 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Create, gatewayRepresentation),
+			Config: config + compartmentIdVariableStr + vaultSecretIdStr + ApigatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Create, ApigatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ca_bundles.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "ca_bundles.0.ca_bundle_id"),
@@ -188,9 +188,9 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vaultSecretIdStr + ApigatewayResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(gatewayRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ApigatewayRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -229,8 +229,8 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Update, gatewayRepresentation),
+			Config: config + compartmentIdVariableStr + vaultSecretIdStr + ApigatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Update, ApigatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ca_bundles.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "ca_bundles.0.certificate_authority_id"),
@@ -267,9 +267,9 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_gateways", "test_gateways", acctest.Optional, acctest.Update, gatewayDataSourceRepresentation) +
-				compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Update, gatewayRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_gateways", "test_gateways", acctest.Optional, acctest.Update, ApigatewayDataSourceRepresentation) +
+				compartmentIdVariableStr + vaultSecretIdStr + ApigatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Optional, acctest.Update, ApigatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "certificate_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -284,8 +284,8 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, gatewaySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, ApigatewaySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + vaultSecretIdStr + ApigatewayResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
 
@@ -318,7 +318,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + GatewayRequiredOnlyResource,
+			Config:                  config + ApigatewayRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"lifecycle_details"},

@@ -15,19 +15,19 @@ import (
 )
 
 var (
-	profileLevelSingularDataSourceRepresentation = map[string]interface{}{
+	OptimizerOptimizerProfileLevelSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"recommendation_name":       acctest.Representation{RepType: acctest.Required, Create: `${oci_optimizer_recommendation.test_recommendation.name}`},
 	}
 
-	profileLevelDataSourceRepresentation = map[string]interface{}{
+	OptimizerOptimizerProfileLevelDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"recommendation_name":       acctest.Representation{RepType: acctest.Required, Create: `${oci_optimizer_recommendation.test_recommendation.name}`},
 	}
 
-	ProfileLevelResourceConfig = RecommendationResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, recommendationRepresentation)
+	OptimizerProfileLevelResourceConfig = OptimizerRecommendationResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, OptimizerRecommendationRepresentation)
 )
 
 // issue-routing-tag: optimizer/default
@@ -49,8 +49,8 @@ func TestOptimizerProfileLevelResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_profile_levels", "test_profile_levels", acctest.Required, acctest.Create, profileLevelDataSourceRepresentation) +
-				compartmentIdVariableStr + ProfileLevelResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_profile_levels", "test_profile_levels", acctest.Required, acctest.Create, OptimizerOptimizerProfileLevelDataSourceRepresentation) +
+				compartmentIdVariableStr + OptimizerProfileLevelResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
@@ -62,8 +62,8 @@ func TestOptimizerProfileLevelResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_profile_level", "test_profile_level", acctest.Required, acctest.Create, profileLevelSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ProfileLevelResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_profile_level", "test_profile_level", acctest.Required, acctest.Create, OptimizerOptimizerProfileLevelSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OptimizerProfileLevelResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id_in_subtree", "true"),

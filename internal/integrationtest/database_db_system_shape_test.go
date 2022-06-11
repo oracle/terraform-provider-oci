@@ -16,12 +16,12 @@ import (
 )
 
 var (
-	dbSystemShapeDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDbSystemShapeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 	}
 
-	DbSystemShapeResourceConfig = AvailabilityDomainConfig
+	DatabaseDbSystemShapeResourceConfig = AvailabilityDomainConfig
 )
 
 // issue-routing-tag: database/default
@@ -42,8 +42,8 @@ func TestDatabaseDbSystemShapeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_system_shapes", "test_db_system_shapes", acctest.Optional, acctest.Create, dbSystemShapeDataSourceRepresentation) +
-				compartmentIdVariableStr + DbSystemShapeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_system_shapes", "test_db_system_shapes", acctest.Optional, acctest.Create, DatabaseDatabaseDbSystemShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDbSystemShapeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

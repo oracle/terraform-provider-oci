@@ -15,11 +15,11 @@ import (
 )
 
 var (
-	genericArtifactsContentSingularDataSourceRepresentation = map[string]interface{}{
+	GenericArtifactsContentGenericArtifactsContentGenericArtifactsContentSingularDataSourceRepresentation = map[string]interface{}{
 		"artifact_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_generic_artifacts_content_artifact.test_artifact.id}`},
 	}
 
-	GenericArtifactsContentResourceConfig = ""
+	GenericArtifactsContentGenericArtifactsContentResourceConfig = ""
 )
 
 // issue-routing-tag: generic_artifacts_content/default
@@ -40,8 +40,8 @@ func TestGenericArtifactsContentGenericArtifactsContentResource_basic(t *testing
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_generic_artifacts_content_generic_artifacts_content", "test_generic_artifacts_content", acctest.Required, acctest.Create, genericArtifactsContentSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + GenericArtifactsContentResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_generic_artifacts_content_generic_artifacts_content", "test_generic_artifacts_content", acctest.Required, acctest.Create, GenericArtifactsContentGenericArtifactsContentGenericArtifactsContentSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + GenericArtifactsContentGenericArtifactsContentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "artifact_id"),
 			),

@@ -16,13 +16,13 @@ import (
 )
 
 var (
-	organizationSubscriptionDataSourceRepresentation = map[string]interface{}{
+	OsubOrganizationSubscriptionOsubOrganizationSubscriptionOrganizationSubscriptionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"subscription_ids":    acctest.Representation{RepType: acctest.Required, Create: `subscriptionIds`},
 		"x_one_origin_region": acctest.Representation{RepType: acctest.Required, Create: `${var.region}`},
 	}
 
-	OrganizationSubscriptionResourceConfig = ""
+	OsubOrganizationSubscriptionOrganizationSubscriptionResourceConfig = ""
 )
 
 // issue-routing-tag: osub_organization_subscription/default
@@ -46,8 +46,8 @@ func TestOsubOrganizationSubscriptionOrganizationSubscriptionResource_basic(t *t
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_organization_subscription_organization_subscriptions", "test_organization_subscriptions", acctest.Required, acctest.Create, organizationSubscriptionDataSourceRepresentation) +
-				compartmentIdVariableStr + oneRegionVariableStr + OrganizationSubscriptionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_organization_subscription_organization_subscriptions", "test_organization_subscriptions", acctest.Required, acctest.Create, OsubOrganizationSubscriptionOsubOrganizationSubscriptionOrganizationSubscriptionDataSourceRepresentation) +
+				compartmentIdVariableStr + oneRegionVariableStr + OsubOrganizationSubscriptionOrganizationSubscriptionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "subscription_ids", "subscriptionIds"),

@@ -25,42 +25,42 @@ import (
 )
 
 var (
-	PrivateApplicationRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Required, acctest.Create, privateApplicationRepresentation)
+	ServiceCatalogPrivateApplicationRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Required, acctest.Create, ServiceCatalogPrivateApplicationRepresentation)
 
-	PrivateApplicationResourceConfig = PrivateApplicationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Optional, acctest.Update, privateApplicationRepresentation)
+	ServiceCatalogPrivateApplicationResourceConfig = ServiceCatalogPrivateApplicationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Optional, acctest.Update, ServiceCatalogPrivateApplicationRepresentation)
 
-	privateApplicationSingularDataSourceRepresentation = map[string]interface{}{
+	ServiceCatalogServiceCatalogPrivateApplicationSingularDataSourceRepresentation = map[string]interface{}{
 		"private_application_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_catalog_private_application.test_private_application.id}`},
 	}
 
-	privateApplicationDataSourceRepresentation = map[string]interface{}{
+	ServiceCatalogServiceCatalogPrivateApplicationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"private_application_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_catalog_private_application.test_private_application.id}`},
-		"filter":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: privateApplicationDataSourceFilterRepresentation}}
-	privateApplicationDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceCatalogPrivateApplicationDataSourceFilterRepresentation}}
+	ServiceCatalogPrivateApplicationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_service_catalog_private_application.test_private_application.id}`}},
 	}
 
-	privateApplicationRepresentation = map[string]interface{}{
+	ServiceCatalogPrivateApplicationRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"package_details":         acctest.RepresentationGroup{RepType: acctest.Required, Group: privateApplicationPackageDetailsRepresentation},
+		"package_details":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceCatalogPrivateApplicationPackageDetailsRepresentation},
 		"short_description":       acctest.Representation{RepType: acctest.Required, Create: `shortDescription`, Update: `shortDescription2`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"logo_file_base64encoded": acctest.Representation{RepType: acctest.Optional, Create: `data:image/jpeg;base64,SWNvbkZvclRlcnJhZm9ybVRlc3Rpbmc=`, Update: `data:image/jpeg;base64,VXBkYXRlZEljb25Gb3JUZXJyYWZvcm1UZXN0aW5n`},
 		"long_description":        acctest.Representation{RepType: acctest.Optional, Create: `longDescription`, Update: `longDescription2`},
 	}
-	privateApplicationPackageDetailsRepresentation = map[string]interface{}{
+	ServiceCatalogPrivateApplicationPackageDetailsRepresentation = map[string]interface{}{
 		"package_type":           acctest.Representation{RepType: acctest.Required, Create: `STACK`},
 		"version":                acctest.Representation{RepType: acctest.Required, Create: `version`},
 		"zip_file_base64encoded": acctest.Representation{RepType: acctest.Required, Create: `data:application/zip;base64,VGVzdERhdGFGb3JUZXJyYWZvcm0=`},
 	}
 
-	PrivateApplicationResourceDependencies = DefinedTagsDependencies
+	ServiceCatalogPrivateApplicationResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: service_catalog/default
@@ -83,13 +83,13 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+
-		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Optional, acctest.Create, privateApplicationRepresentation), "servicecatalog", "privateApplication", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Optional, acctest.Create, ServiceCatalogPrivateApplicationRepresentation), "servicecatalog", "privateApplication", t)
 
 	acctest.ResourceTest(t, testAccCheckServiceCatalogPrivateApplicationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Required, acctest.Create, privateApplicationRepresentation),
+			Config: config + compartmentIdVariableStr + ServiceCatalogPrivateApplicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Required, acctest.Create, ServiceCatalogPrivateApplicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -108,12 +108,12 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies,
+			Config: config + compartmentIdVariableStr + ServiceCatalogPrivateApplicationResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Optional, acctest.Create, privateApplicationRepresentation),
+			Config: config + compartmentIdVariableStr + ServiceCatalogPrivateApplicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Optional, acctest.Create, ServiceCatalogPrivateApplicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -144,9 +144,9 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PrivateApplicationResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceCatalogPrivateApplicationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(privateApplicationRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ServiceCatalogPrivateApplicationRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -177,8 +177,8 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Optional, acctest.Update, privateApplicationRepresentation),
+			Config: config + compartmentIdVariableStr + ServiceCatalogPrivateApplicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Optional, acctest.Update, ServiceCatalogPrivateApplicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -207,9 +207,9 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_catalog_private_applications", "test_private_applications", acctest.Optional, acctest.Update, privateApplicationDataSourceRepresentation) +
-				compartmentIdVariableStr + PrivateApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Optional, acctest.Update, privateApplicationRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_catalog_private_applications", "test_private_applications", acctest.Optional, acctest.Update, ServiceCatalogServiceCatalogPrivateApplicationDataSourceRepresentation) +
+				compartmentIdVariableStr + ServiceCatalogPrivateApplicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Optional, acctest.Update, ServiceCatalogPrivateApplicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -222,8 +222,8 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Required, acctest.Create, privateApplicationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + PrivateApplicationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Required, acctest.Create, ServiceCatalogServiceCatalogPrivateApplicationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ServiceCatalogPrivateApplicationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_application_id"),
 
@@ -242,7 +242,7 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + PrivateApplicationRequiredOnlyResource,
+			Config:            config + ServiceCatalogPrivateApplicationRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -309,7 +309,7 @@ func init() {
 
 func sweepServiceCatalogPrivateApplicationResource(compartment string) error {
 	serviceCatalogClient := acctest.GetTestClients(&schema.ResourceData{}).ServiceCatalogClient()
-	privateApplicationIds, err := getPrivateApplicationIds(compartment)
+	privateApplicationIds, err := getServiceCatalogPrivateApplicationIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -325,14 +325,14 @@ func sweepServiceCatalogPrivateApplicationResource(compartment string) error {
 				fmt.Printf("Error deleting PrivateApplication %s %s, It is possible that the resource is already deleted. Please verify manually \n", privateApplicationId, err)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &privateApplicationId, privateApplicationSweepWaitCondition, time.Duration(3*time.Minute),
-				privateApplicationSweepResponseFetchOperation, "service_catalog", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &privateApplicationId, ServiceCatalogPrivateApplicationSweepWaitCondition, time.Duration(3*time.Minute),
+				ServiceCatalogPrivateApplicationSweepResponseFetchOperation, "service_catalog", true)
 		}
 	}
 	return nil
 }
 
-func getPrivateApplicationIds(compartment string) ([]string, error) {
+func getServiceCatalogPrivateApplicationIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "PrivateApplicationId")
 	if ids != nil {
 		return ids, nil
@@ -356,7 +356,7 @@ func getPrivateApplicationIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func privateApplicationSweepWaitCondition(response common.OCIOperationResponse) bool {
+func ServiceCatalogPrivateApplicationSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if privateApplicationResponse, ok := response.Response.(oci_service_catalog.GetPrivateApplicationResponse); ok {
 		return privateApplicationResponse.LifecycleState != oci_service_catalog.PrivateApplicationLifecycleStateDeleted
@@ -364,7 +364,7 @@ func privateApplicationSweepWaitCondition(response common.OCIOperationResponse) 
 	return false
 }
 
-func privateApplicationSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func ServiceCatalogPrivateApplicationSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ServiceCatalogClient().GetPrivateApplication(context.Background(), oci_service_catalog.GetPrivateApplicationRequest{
 		PrivateApplicationId: resourceId,
 		RequestMetadata: common.RequestMetadata{

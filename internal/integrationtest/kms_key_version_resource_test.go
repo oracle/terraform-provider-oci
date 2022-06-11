@@ -19,7 +19,7 @@ import (
 )
 
 var (
-	KeyResourceVersionResourceDiscoveryDependencies = KeyVersionResourceDependencies + `
+	KeyResourceVersionResourceDiscoveryDependencies = KmsKeyVersionResourceDependencies + `
 	data "oci_kms_key" "test_key" {
 		key_id = "${var.kms_key_id}"
 		management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"

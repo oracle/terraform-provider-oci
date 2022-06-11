@@ -15,13 +15,13 @@ import (
 )
 
 var (
-	workRequestErrorDataSourceRepresentation = map[string]interface{}{
+	ContainerengineContainerengineWorkRequestErrorDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"work_request_id": acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_containerengine_work_requests.test_work_requests.work_requests[0], "id")}`},
 	}
 
-	WorkRequestErrorResourceConfig = WorkRequestResourceConfig +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", acctest.Optional, acctest.Create, workRequestDataSourceRepresentation)
+	ContainerengineWorkRequestErrorResourceConfig = ContainerengineWorkRequestResourceConfig +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", acctest.Optional, acctest.Create, ContainerengineContainerengineWorkRequestDataSourceRepresentation)
 )
 
 // issue-routing-tag: containerengine/default
@@ -42,8 +42,8 @@ func TestContainerengineWorkRequestErrorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_work_request_errors", "test_work_request_errors", acctest.Required, acctest.Create, workRequestErrorDataSourceRepresentation) +
-				compartmentIdVariableStr + WorkRequestErrorResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_work_request_errors", "test_work_request_errors", acctest.Required, acctest.Create, ContainerengineContainerengineWorkRequestErrorDataSourceRepresentation) +
+				compartmentIdVariableStr + ContainerengineWorkRequestErrorResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "work_request_id"),

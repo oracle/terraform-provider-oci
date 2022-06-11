@@ -15,17 +15,17 @@ import (
 )
 
 var (
-	registryTypeSingularDataSourceRepresentation = map[string]interface{}{
+	DataConnectivityDataConnectivityRegistryTypeSingularDataSourceRepresentation = map[string]interface{}{
 		"registry_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_connectivity_registry.test_registry.id}`},
 		"type_key":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_data_connectivity_registry_types.test_registry_types.types_summary_collection.0.items.0.key}`},
 		"fields":      acctest.Representation{RepType: acctest.Optional, Create: []string{}},
 	}
 
-	registryTypeDataSourceRepresentation = map[string]interface{}{
+	DataConnectivityDataConnectivityRegistryTypeDataSourceRepresentation = map[string]interface{}{
 		"registry_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_connectivity_registry.test_registry.id}`},
 	}
 
-	RegistryTypeResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry", "test_registry", acctest.Required, acctest.Create, registryRepresentation)
+	DataConnectivityRegistryTypeResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry", "test_registry", acctest.Required, acctest.Create, DataConnectivityRegistryRepresentation)
 )
 
 // issue-routing-tag: data_connectivity/default
@@ -47,8 +47,8 @@ func TestDataConnectivityRegistryTypeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_connectivity_registry_types", "test_registry_types", acctest.Required, acctest.Create, registryTypeDataSourceRepresentation) +
-				compartmentIdVariableStr + RegistryTypeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_connectivity_registry_types", "test_registry_types", acctest.Required, acctest.Create, DataConnectivityDataConnectivityRegistryTypeDataSourceRepresentation) +
+				compartmentIdVariableStr + DataConnectivityRegistryTypeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "registry_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "types_summary_collection.#"),
@@ -60,9 +60,9 @@ func TestDataConnectivityRegistryTypeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_connectivity_registry_types", "test_registry_types", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(registryTypeDataSourceRepresentation, map[string]interface{}{})) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_connectivity_registry_type", "test_registry_type", acctest.Required, acctest.Create, registryTypeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + RegistryTypeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_connectivity_registry_types", "test_registry_types", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DataConnectivityDataConnectivityRegistryTypeDataSourceRepresentation, map[string]interface{}{})) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_connectivity_registry_type", "test_registry_type", acctest.Required, acctest.Create, DataConnectivityDataConnectivityRegistryTypeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataConnectivityRegistryTypeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "registry_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "type_key"),

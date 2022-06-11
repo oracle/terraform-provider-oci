@@ -27,17 +27,17 @@ import (
 )
 
 var (
-	TargetAlertPolicyAssociationRequiredOnlyResource = TargetAlertPolicyAssociationResourceDependencies +
+	DataSafeTargetAlertPolicyAssociationRequiredOnlyResource = DataSafeTargetAlertPolicyAssociationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_alert_policy_association", "test_target_alert_policy_association", acctest.Required, acctest.Create, targetAlertPolicyAssociationRepresentation)
 
-	TargetAlertPolicyAssociationResourceConfig = TargetAlertPolicyAssociationResourceDependencies +
+	DataSafeTargetAlertPolicyAssociationResourceConfig = DataSafeTargetAlertPolicyAssociationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_alert_policy_association", "test_target_alert_policy_association", acctest.Optional, acctest.Update, targetAlertPolicyAssociationRepresentation)
 
-	targetAlertPolicyAssociationSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafetargetAlertPolicyAssociationSingularDataSourceRepresentation = map[string]interface{}{
 		"target_alert_policy_association_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_target_alert_policy_association.test_target_alert_policy_association.id}`},
 	}
 
-	targetAlertPolicyAssociationDataSourceRepresentation = map[string]interface{}{
+	DataSafetargetAlertPolicyAssociationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":                       acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"alert_policy_id":                    acctest.Representation{RepType: acctest.Optional, Create: `${var.policy_id}`},
@@ -68,7 +68,7 @@ var (
 		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
 	}
 
-	TargetAlertPolicyAssociationResourceDependencies = DefinedTagsDependencies
+	DataSafeTargetAlertPolicyAssociationResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -97,13 +97,13 @@ func TestDataSafeTargetAlertPolicyAssociationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+TargetAlertPolicyAssociationResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeTargetAlertPolicyAssociationResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_alert_policy_association", "test_target_alert_policy_association", acctest.Optional, acctest.Create, targetAlertPolicyAssociationRepresentation), "datasafe", "targetAlertPolicyAssociation", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeTargetAlertPolicyAssociationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + TargetAlertPolicyAssociationResourceDependencies +
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + DataSafeTargetAlertPolicyAssociationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_alert_policy_association", "test_target_alert_policy_association", acctest.Required, acctest.Create, targetAlertPolicyAssociationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -120,11 +120,11 @@ func TestDataSafeTargetAlertPolicyAssociationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + TargetAlertPolicyAssociationResourceDependencies,
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + DataSafeTargetAlertPolicyAssociationResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + TargetAlertPolicyAssociationResourceDependencies +
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + DataSafeTargetAlertPolicyAssociationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_alert_policy_association", "test_target_alert_policy_association", acctest.Optional, acctest.Create, targetAlertPolicyAssociationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -153,7 +153,7 @@ func TestDataSafeTargetAlertPolicyAssociationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + targetIdVariableStr + policyIdVariableStr + TargetAlertPolicyAssociationResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + targetIdVariableStr + policyIdVariableStr + DataSafeTargetAlertPolicyAssociationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_alert_policy_association", "test_target_alert_policy_association", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(targetAlertPolicyAssociationRepresentationComptUpdate, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -180,7 +180,7 @@ func TestDataSafeTargetAlertPolicyAssociationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + TargetAlertPolicyAssociationResourceDependencies +
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + DataSafeTargetAlertPolicyAssociationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_alert_policy_association", "test_target_alert_policy_association", acctest.Optional, acctest.Update, targetAlertPolicyAssociationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -207,8 +207,8 @@ func TestDataSafeTargetAlertPolicyAssociationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_alert_policy_associations", "test_target_alert_policy_associations", acctest.Optional, acctest.Update, targetAlertPolicyAssociationDataSourceRepresentation) +
-				compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + TargetAlertPolicyAssociationResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_alert_policy_associations", "test_target_alert_policy_associations", acctest.Optional, acctest.Update, DataSafetargetAlertPolicyAssociationDataSourceRepresentation) +
+				compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + DataSafeTargetAlertPolicyAssociationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_alert_policy_association", "test_target_alert_policy_association", acctest.Optional, acctest.Update, targetAlertPolicyAssociationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
@@ -224,8 +224,8 @@ func TestDataSafeTargetAlertPolicyAssociationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_alert_policy_association", "test_target_alert_policy_association", acctest.Required, acctest.Create, targetAlertPolicyAssociationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + TargetAlertPolicyAssociationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_alert_policy_association", "test_target_alert_policy_association", acctest.Required, acctest.Create, DataSafetargetAlertPolicyAssociationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + DataSafeTargetAlertPolicyAssociationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_alert_policy_association_id"),
 
@@ -242,7 +242,7 @@ func TestDataSafeTargetAlertPolicyAssociationResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + TargetAlertPolicyAssociationResourceConfig,
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + DataSafeTargetAlertPolicyAssociationResourceConfig,
 		},
 		// verify resource import
 		{
@@ -310,7 +310,7 @@ func init() {
 
 func sweepDataSafeTargetAlertPolicyAssociationResource(compartment string) error {
 	dataSafeClient := acctest.GetTestClients(&schema.ResourceData{}).DataSafeClient()
-	targetAlertPolicyAssociationIds, err := getTargetAlertPolicyAssociationIds(compartment)
+	targetAlertPolicyAssociationIds, err := getDataSafeTargetAlertPolicyAssociationIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -326,14 +326,14 @@ func sweepDataSafeTargetAlertPolicyAssociationResource(compartment string) error
 				fmt.Printf("Error deleting TargetAlertPolicyAssociation %s %s, It is possible that the resource is already deleted. Please verify manually \n", targetAlertPolicyAssociationId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &targetAlertPolicyAssociationId, targetAlertPolicyAssociationSweepWaitCondition, time.Duration(3*time.Minute),
-				targetAlertPolicyAssociationSweepResponseFetchOperation, "data_safe", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &targetAlertPolicyAssociationId, DataSafetargetAlertPolicyAssociationsSweepWaitCondition, time.Duration(3*time.Minute),
+				DataSafetargetAlertPolicyAssociationsSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
 	return nil
 }
 
-func getTargetAlertPolicyAssociationIds(compartment string) ([]string, error) {
+func getDataSafeTargetAlertPolicyAssociationIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "TargetAlertPolicyAssociationId")
 	if ids != nil {
 		return ids, nil
@@ -358,7 +358,7 @@ func getTargetAlertPolicyAssociationIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func targetAlertPolicyAssociationSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataSafetargetAlertPolicyAssociationsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if targetAlertPolicyAssociationResponse, ok := response.Response.(oci_data_safe.GetTargetAlertPolicyAssociationResponse); ok {
 		return targetAlertPolicyAssociationResponse.LifecycleState != oci_data_safe.AlertPolicyLifecycleStateDeleted
@@ -366,7 +366,7 @@ func targetAlertPolicyAssociationSweepWaitCondition(response common.OCIOperation
 	return false
 }
 
-func targetAlertPolicyAssociationSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataSafetargetAlertPolicyAssociationsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataSafeClient().GetTargetAlertPolicyAssociation(context.Background(), oci_data_safe.GetTargetAlertPolicyAssociationRequest{
 		TargetAlertPolicyAssociationId: resourceId,
 		RequestMetadata: common.RequestMetadata{

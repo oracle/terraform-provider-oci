@@ -15,13 +15,13 @@ import (
 )
 
 var (
-	identityProviderGroupDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityIdentityProviderGroupDataSourceRepresentation = map[string]interface{}{
 		"identity_provider_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_identity_provider.test_identity_provider.id}`},
 		"name":                 acctest.Representation{RepType: acctest.Optional, Create: `test-idp-saml2-adfs`},
 		"state":                acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 	}
 
-	IdentityProviderGroupResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", acctest.Required, acctest.Create, identityProviderRepresentation) +
+	IdentityIdentityProviderGroupResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", acctest.Required, acctest.Create, IdentityIdentityProviderRepresentation) +
 		IdentityProviderPropertyVariables
 )
 
@@ -45,14 +45,14 @@ func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
 	acctest.SaveConfigContent("", "", "", t)
 
 	_, tokenFn := acctest.TokenizeWithHttpReplay("identity_group_resource")
-	IdentityProviderGroupResourceConfig = tokenFn(IdentityProviderGroupResourceConfig, map[string]string{"metadata_file": metadataFile})
+	IdentityIdentityProviderGroupResourceConfig = tokenFn(IdentityIdentityProviderGroupResourceConfig, map[string]string{"metadata_file": metadataFile})
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_identity_provider_groups", "test_identity_provider_groups", acctest.Optional, acctest.Create, identityProviderGroupDataSourceRepresentation) +
-				compartmentIdVariableStr + IdentityProviderGroupResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_identity_provider_groups", "test_identity_provider_groups", acctest.Optional, acctest.Create, IdentityIdentityIdentityProviderGroupDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityIdentityProviderGroupResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "test-idp-saml2-adfs"),

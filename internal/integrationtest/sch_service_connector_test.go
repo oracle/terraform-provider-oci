@@ -26,32 +26,32 @@ import (
 )
 
 var (
-	ServiceConnectorRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorFunctionTargetRepresentation)
+	SchServiceConnectorRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorFunctionTargetRepresentation)
 
 	// Dependency definition
-	ServiceConnectorResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, logRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_update_log", acctest.Required, acctest.Update, acctest.GetUpdatedRepresentationCopy("configuration.source.category", acctest.Representation{RepType: acctest.Required, Create: `read`}, logRepresentation)) +
-		LogResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, applicationRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, functionRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Required, acctest.Create, streamRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+	SchServiceConnectorResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, LoggingLogRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_update_log", acctest.Required, acctest.Update, acctest.GetUpdatedRepresentationCopy("configuration.source.category", acctest.Representation{RepType: acctest.Required, Create: `read`}, LoggingLogRepresentation)) +
+		LoggingLogResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Required, acctest.Create, StreamingStreamRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 
 	// source definitions
-	serviceConnectorSourceLogSourcesRepresentation = map[string]interface{}{
+	SchServiceConnectorSourceLogSourcesRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"log_group_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_logging_log_group.test_log_group.id}`, Update: `${oci_logging_log_group.test_update_log_group.id}`},
 		"log_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_logging_log.test_log.id}`, Update: `${oci_logging_log.test_update_log.id}`},
 	}
 
-	serviceConnectorSourceRepresentation = map[string]interface{}{
+	SchServiceConnectorSourceRepresentation = map[string]interface{}{
 		"kind":        acctest.Representation{RepType: acctest.Required, Create: `logging`},
-		"log_sources": acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceConnectorSourceLogSourcesRepresentation},
+		"log_sources": acctest.RepresentationGroup{RepType: acctest.Required, Group: SchServiceConnectorSourceLogSourcesRepresentation},
 	}
 
-	serviceConnectorDataSourceRepresentation = map[string]interface{}{
+	SchSchServiceConnectorDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `My_Service_Connector`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
@@ -59,7 +59,7 @@ var (
 	}
 
 	// task definitions
-	serviceConnectorTasksRepresentation = map[string]interface{}{
+	SchServiceConnectorTasksRepresentation = map[string]interface{}{
 		"condition": acctest.Representation{RepType: acctest.Required, Create: `data.action='REJECT'`, Update: `logContent='20'`},
 		"kind":      acctest.Representation{RepType: acctest.Required, Create: `logRule`},
 	}
@@ -132,11 +132,11 @@ var (
 	serviceConnectorRepresentationNoTarget = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `My_Service_Connector`, Update: `displayName2`},
-		"source":         acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceConnectorSourceRepresentation},
+		"source":         acctest.RepresentationGroup{RepType: acctest.Required, Group: SchServiceConnectorSourceRepresentation},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `My service connector description`, Update: `description2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"tasks":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: serviceConnectorTasksRepresentation},
+		"tasks":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: SchServiceConnectorTasksRepresentation},
 	}
 
 	serviceConnectorRepresentationMonitoringSource = map[string]interface{}{
@@ -146,7 +146,7 @@ var (
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `My service connector description`, Update: `description2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"tasks":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: serviceConnectorTasksRepresentation},
+		"tasks":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: SchServiceConnectorTasksRepresentation},
 	}
 
 	serviceConnectorMonitoringSourceRepresentation = map[string]interface{}{
@@ -180,7 +180,7 @@ var (
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `My service connector description`, Update: `description2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"tasks":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: serviceConnectorTasksRepresentation},
+		"tasks":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: SchServiceConnectorTasksRepresentation},
 	}
 
 	serviceConnectorMonitoringSourceNamespaceRepresentation = map[string]interface{}{
@@ -227,7 +227,7 @@ var (
 	}
 
 	// Update serviceConnector definitions
-	updatedServiceConnectorTargetRepresentation = map[string]interface{}{
+	SchServiceConnectorTargetRepresentation = map[string]interface{}{
 		"kind":      acctest.Representation{RepType: acctest.Required, Create: `streaming`},
 		"stream_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_streaming_stream.test_stream.id}`},
 	}
@@ -270,7 +270,7 @@ var (
 		"kind": acctest.Representation{RepType: acctest.Required, Create: `jmesPath`, Update: `jmesPath`},
 		"path": acctest.Representation{RepType: acctest.Required, Create: `logContent.data.namespace`, Update: `logContent.data.compartmentId`},
 	}
-	ServiceConnectorResourceConfig = ServiceConnectorResourceDependencies +
+	ServiceConnectorResourceConfig = SchServiceConnectorResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Optional, acctest.Update, serviceConnectorFunctionTargetRepresentation)
 )
 
@@ -299,13 +299,13 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ServiceConnectorResourceDependencies+imageVariableStr+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+SchServiceConnectorResourceDependencies+imageVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Optional, acctest.Create, serviceConnectorObjectStorageTargetRepresentation), "sch", "serviceConnector", t)
 
 	acctest.ResourceTest(t, testAccCheckSchServiceConnectorDestroy, []resource.TestStep{
 		// verify Create with functions
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorFunctionTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -327,12 +327,12 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr,
 		},
 
 		// verify Create with objectstorage
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Optional, acctest.Create, serviceConnectorObjectStorageTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -356,12 +356,12 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr,
 		},
 
 		// verify Create with log analytics
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr + logAnLogGroupIdVariableStr +
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr + logAnLogGroupIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorLogAnTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -383,12 +383,12 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr,
 		},
 
 		// verify Create with ons
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Optional, acctest.Create, serviceConnectorOnsTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -423,12 +423,12 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr,
 		},
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Optional, acctest.Create, serviceConnectorFunctionTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -467,7 +467,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(serviceConnectorFunctionTargetRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -507,10 +507,10 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
-						"target": acctest.RepresentationGroup{RepType: acctest.Required, Group: updatedServiceConnectorTargetRepresentation},
+						"target": acctest.RepresentationGroup{RepType: acctest.Required, Group: SchServiceConnectorTargetRepresentation},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -547,10 +547,10 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 
 		// verify stop service connector
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
-						"target": acctest.RepresentationGroup{RepType: acctest.Required, Group: updatedServiceConnectorTargetRepresentation},
+						"target": acctest.RepresentationGroup{RepType: acctest.Required, Group: SchServiceConnectorTargetRepresentation},
 						"state":  acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -588,10 +588,10 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 
 		// verify start service connector
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
-						"target": acctest.RepresentationGroup{RepType: acctest.Required, Group: updatedServiceConnectorTargetRepresentation},
+						"target": acctest.RepresentationGroup{RepType: acctest.Required, Group: SchServiceConnectorTargetRepresentation},
 						"state":  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -630,11 +630,11 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_sch_service_connectors", "test_service_connectors", acctest.Optional, acctest.Update, serviceConnectorDataSourceRepresentation) +
-				compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_sch_service_connectors", "test_service_connectors", acctest.Optional, acctest.Update, SchSchServiceConnectorDataSourceRepresentation) +
+				compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
-						"target": acctest.RepresentationGroup{RepType: acctest.Required, Group: updatedServiceConnectorTargetRepresentation},
+						"target": acctest.RepresentationGroup{RepType: acctest.Required, Group: SchServiceConnectorTargetRepresentation},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -650,10 +650,10 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+				compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
-						"target": acctest.RepresentationGroup{RepType: acctest.Required, Group: updatedServiceConnectorTargetRepresentation},
+						"target": acctest.RepresentationGroup{RepType: acctest.Required, Group: SchServiceConnectorTargetRepresentation},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_connector_id"),
@@ -680,7 +680,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ServiceConnectorRequiredOnlyResource,
+			Config:                  config + SchServiceConnectorRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -744,7 +744,7 @@ func init() {
 
 func sweepSchServiceConnectorResource(compartment string) error {
 	serviceConnectorClient := acctest.GetTestClients(&schema.ResourceData{}).ServiceConnectorClient()
-	serviceConnectorIds, err := getServiceConnectorIds(compartment)
+	serviceConnectorIds, err := getSchServiceConnectorIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -760,14 +760,14 @@ func sweepSchServiceConnectorResource(compartment string) error {
 				fmt.Printf("Error deleting ServiceConnector %s %s, It is possible that the resource is already deleted. Please verify manually \n", serviceConnectorId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &serviceConnectorId, serviceConnectorSweepWaitCondition, time.Duration(3*time.Minute),
-				serviceConnectorSweepResponseFetchOperation, "sch", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &serviceConnectorId, SchServiceConnectorSweepWaitCondition, time.Duration(3*time.Minute),
+				SchServiceConnectorSweepResponseFetchOperation, "sch", true)
 		}
 	}
 	return nil
 }
 
-func getServiceConnectorIds(compartment string) ([]string, error) {
+func getSchServiceConnectorIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ServiceConnectorId")
 	if ids != nil {
 		return ids, nil
@@ -792,7 +792,7 @@ func getServiceConnectorIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func serviceConnectorSweepWaitCondition(response common.OCIOperationResponse) bool {
+func SchServiceConnectorSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if serviceConnectorResponse, ok := response.Response.(oci_sch.GetServiceConnectorResponse); ok {
 		return serviceConnectorResponse.LifecycleState != oci_sch.LifecycleStateDeleted
@@ -800,7 +800,7 @@ func serviceConnectorSweepWaitCondition(response common.OCIOperationResponse) bo
 	return false
 }
 
-func serviceConnectorSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func SchServiceConnectorSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ServiceConnectorClient().GetServiceConnector(context.Background(), oci_sch.GetServiceConnectorRequest{
 		ServiceConnectorId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -15,17 +15,17 @@ import (
 )
 
 var (
-	operatorActionSingularDataSourceRepresentation = map[string]interface{}{
+	OperatorAccessControlOperatorAccessControlOperatorActionSingularDataSourceRepresentation = map[string]interface{}{
 		"operator_action_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_operator_access_control_operator_actions.test_operator_actions.operator_action_collection.0.items.0.id}`},
 	}
 
-	operatorActionDataSourceRepresentation = map[string]interface{}{
+	OperatorAccessControlOperatorAccessControlOperatorActionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"resource_type":  acctest.Representation{RepType: acctest.Optional, Create: `EXADATAINFRASTRUCTURE`},
 	}
 
-	OperatorActionResourceConfig = ""
+	OperatorAccessControlOperatorActionResourceConfig = ""
 )
 
 // issue-routing-tag: operator_access_control/default
@@ -47,8 +47,8 @@ func TestOperatorAccessControlOperatorActionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_operator_actions", "test_operator_actions", acctest.Required, acctest.Create, operatorActionDataSourceRepresentation) +
-				compartmentIdVariableStr + OperatorActionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_operator_actions", "test_operator_actions", acctest.Required, acctest.Create, OperatorAccessControlOperatorAccessControlOperatorActionDataSourceRepresentation) +
+				compartmentIdVariableStr + OperatorAccessControlOperatorActionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "operator_action_collection.#", "1"),
@@ -58,9 +58,9 @@ func TestOperatorAccessControlOperatorActionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_operator_actions", "test_operator_actions", acctest.Required, acctest.Create, operatorActionDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_operator_action", "test_operator_action", acctest.Required, acctest.Create, operatorActionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + OperatorActionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_operator_actions", "test_operator_actions", acctest.Required, acctest.Create, OperatorAccessControlOperatorAccessControlOperatorActionDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_operator_action", "test_operator_action", acctest.Required, acctest.Create, OperatorAccessControlOperatorAccessControlOperatorActionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OperatorAccessControlOperatorActionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "component"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "customer_display_name"),

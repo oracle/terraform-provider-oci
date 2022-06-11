@@ -18,11 +18,11 @@ import (
 )
 
 var (
-	vcnDnsResolverAssociationSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation = map[string]interface{}{
 		"vcn_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 
-	VcnDnsResolverAssociationResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation)
+	CoreVcnDnsResolverAssociationResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
 )
 
 // issue-routing-tag: core/default
@@ -42,7 +42,7 @@ func TestCoreVcnDnsResolverAssociationResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Create dependencies
 		{
-			Config: config + compartmentIdVariableStr + VcnDnsResolverAssociationResourceConfig,
+			Config: config + compartmentIdVariableStr + CoreVcnDnsResolverAssociationResourceConfig,
 			Check: func(s *terraform.State) (err error) {
 				log.Printf("Wait for 2 minutes for oci_dns_resolver resource to get created first")
 				time.Sleep(2 * time.Minute)
@@ -52,8 +52,8 @@ func TestCoreVcnDnsResolverAssociationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VcnDnsResolverAssociationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreVcnDnsResolverAssociationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),
 

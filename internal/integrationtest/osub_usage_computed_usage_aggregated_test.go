@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	computedUsageAggregatedDataSourceRepresentation = map[string]interface{}{
+	OsubUsageOsubUsageComputedUsageAggregatedDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"subscription_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
 		"time_from":           acctest.Representation{RepType: acctest.Required, Create: `2019-11-20T08:00:00Z`},
@@ -25,9 +25,9 @@ var (
 		"parent_product":      acctest.Representation{RepType: acctest.Required, Create: `${var.parent_product}`},
 		"x_one_origin_region": acctest.Representation{RepType: acctest.Required, Create: `${var.region}`},
 	}
-	computedUsageAggregatedParentProductDataSourceRepresentation = map[string]interface{}{}
+	OsubUsageComputedUsageAggregatedParentProductDataSourceRepresentation = map[string]interface{}{}
 
-	ComputedUsageAggregatedResourceConfig = ""
+	OsubUsageComputedUsageAggregatedResourceConfig = ""
 )
 
 // issue-routing-tag: osub_usage/default
@@ -57,8 +57,8 @@ func TestOsubUsageComputedUsageAggregatedResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_usage_computed_usage_aggregateds", "test_computed_usage_aggregateds", acctest.Required, acctest.Create, computedUsageAggregatedDataSourceRepresentation) +
-				compartmentIdVariableStr + subscriptionIdVariableStr + parentProductVariableStr + oneRegionVariableStr + ComputedUsageAggregatedResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_usage_computed_usage_aggregateds", "test_computed_usage_aggregateds", acctest.Required, acctest.Create, OsubUsageOsubUsageComputedUsageAggregatedDataSourceRepresentation) +
+				compartmentIdVariableStr + subscriptionIdVariableStr + parentProductVariableStr + oneRegionVariableStr + OsubUsageComputedUsageAggregatedResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "grouping"),

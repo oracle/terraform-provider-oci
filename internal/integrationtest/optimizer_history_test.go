@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	historyDataSourceRepresentation = map[string]interface{}{
+	OptimizerOptimizerHistoryDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"name":                      acctest.Representation{RepType: acctest.Optional, Create: `name`},
@@ -26,8 +26,8 @@ var (
 		"status":                    acctest.Representation{RepType: acctest.Optional, Create: `PENDING`},
 	}
 
-	HistoryResourceConfig = RecommendationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, recommendationRepresentation)
+	OptimizerHistoryResourceConfig = OptimizerRecommendationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, OptimizerRecommendationRepresentation)
 )
 
 // issue-routing-tag: optimizer/default
@@ -48,8 +48,8 @@ func TestOptimizerHistoryResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_histories", "test_histories", acctest.Required, acctest.Create, historyDataSourceRepresentation) +
-				compartmentIdVariableStr + HistoryResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_histories", "test_histories", acctest.Required, acctest.Create, OptimizerOptimizerHistoryDataSourceRepresentation) +
+				compartmentIdVariableStr + OptimizerHistoryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),

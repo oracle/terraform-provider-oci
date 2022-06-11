@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	maskingReportSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafemaskingReportSingularDataSourceRepresentation = map[string]interface{}{
 		"masking_report_id": acctest.Representation{RepType: acctest.Required, Create: `${var.masking_report_id}`},
 	}
 
-	maskingReportDataSourceRepresentation = map[string]interface{}{
+	DataSafemaskingReportDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 )
@@ -48,7 +48,7 @@ func TestDataSafeMaskingReportResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + maskingReportIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_reports", "test_masking_reports", acctest.Required, acctest.Create, maskingReportDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_reports", "test_masking_reports", acctest.Required, acctest.Create, DataSafemaskingReportDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -58,7 +58,7 @@ func TestDataSafeMaskingReportResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + maskingReportIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_report", "test_masking_report", acctest.Required, acctest.Create, maskingReportSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_report", "test_masking_report", acctest.Required, acctest.Create, DataSafemaskingReportSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "masking_report_id"),

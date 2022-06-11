@@ -15,13 +15,13 @@ import (
 )
 
 var (
-	dedicatedVmHostInstanceShapeDataSourceRepresentation = map[string]interface{}{
+	CoreCoreDedicatedVmHostInstanceShapeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"availability_domain":     acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"dedicated_vm_host_shape": acctest.Representation{RepType: acctest.Optional, Create: `DVH.Standard2.52`},
 	}
 
-	DedicatedVmHostInstanceShapeResourceConfig = AvailabilityDomainConfig
+	CoreDedicatedVmHostInstanceShapeResourceConfig = AvailabilityDomainConfig
 )
 
 // issue-routing-tag: core/default
@@ -42,8 +42,8 @@ func TestCoreDedicatedVmHostInstanceShapeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host_instance_shapes", "test_dedicated_vm_host_instance_shapes", acctest.Required, acctest.Create, dedicatedVmHostInstanceShapeDataSourceRepresentation) +
-				compartmentIdVariableStr + DedicatedVmHostInstanceShapeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host_instance_shapes", "test_dedicated_vm_host_instance_shapes", acctest.Required, acctest.Create, CoreCoreDedicatedVmHostInstanceShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreDedicatedVmHostInstanceShapeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

@@ -18,13 +18,13 @@ import (
 
 var (
 	LicenseManagerConfigurationResourceConfig = LicenseManagerConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_configuration", "test_configuration", acctest.Optional, acctest.Update, licenseManagerconfigurationRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_configuration", "test_configuration", acctest.Optional, acctest.Update, LicenseManagerConfigurationRepresentation)
 
-	licenseManagerconfigurationSingularDataSourceRepresentation = map[string]interface{}{
+	LicenseManagerLicenseManagerConfigurationSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 	}
 
-	licenseManagerconfigurationRepresentation = map[string]interface{}{
+	LicenseManagerConfigurationRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"email_ids":      acctest.Representation{RepType: acctest.Required, Create: []string{`test_create@oracle.com`}, Update: []string{`test_update@oracle.com`}},
 	}
@@ -49,14 +49,14 @@ func TestLicenseManagerConfigurationResource_basic(t *testing.T) {
 	var resId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+LicenseManagerConfigurationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_configuration", "test_configuration", acctest.Required, acctest.Create, licenseManagerconfigurationRepresentation), "licensemanager", "configuration", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_license_manager_configuration", "test_configuration", acctest.Required, acctest.Create, LicenseManagerConfigurationRepresentation), "licensemanager", "configuration", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify updates to updatable parameters
 		{
 
 			Config: config + compartmentIdVariableStr + LicenseManagerConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_configuration", "test_configuration", acctest.Optional, acctest.Update, licenseManagerconfigurationRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_license_manager_configuration", "test_configuration", acctest.Optional, acctest.Update, LicenseManagerConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "email_ids.#", "1"),
@@ -72,7 +72,7 @@ func TestLicenseManagerConfigurationResource_basic(t *testing.T) {
 		//verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_configuration", "test_configuration", acctest.Required, acctest.Create, licenseManagerconfigurationSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_configuration", "test_configuration", acctest.Required, acctest.Create, LicenseManagerLicenseManagerConfigurationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + LicenseManagerConfigurationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

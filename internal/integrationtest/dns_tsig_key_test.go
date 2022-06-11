@@ -26,29 +26,29 @@ import (
 )
 
 var (
-	TsigKeyRequiredOnlyResource = TsigKeyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Required, acctest.Create, tsigKeyRepresentation)
+	DnsTsigKeyRequiredOnlyResource = DnsTsigKeyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Required, acctest.Create, DnsTsigKeyRepresentation)
 
-	TsigKeyResourceConfig = TsigKeyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Optional, acctest.Update, tsigKeyRepresentation)
+	DnsTsigKeyResourceConfig = DnsTsigKeyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Optional, acctest.Update, DnsTsigKeyRepresentation)
 
-	tsigKeySingularDataSourceRepresentation = map[string]interface{}{
+	DnsDnsTsigKeySingularDataSourceRepresentation = map[string]interface{}{
 		"tsig_key_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_tsig_key.test_tsig_key.id}`},
 	}
 
-	tsigKeyName                     = utils.RandomString(7, utils.CharsetWithoutDigits) + "." + utils.RandomString(8, utils.CharsetWithoutDigits)
-	tsigKeyDataSourceRepresentation = map[string]interface{}{
+	tsigKeyName                           = utils.RandomString(7, utils.CharsetWithoutDigits) + "." + utils.RandomString(8, utils.CharsetWithoutDigits)
+	DnsDnsTsigKeyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_dns_tsig_key.test_tsig_key.id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: tsigKeyName},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: tsigKeyDataSourceFilterRepresentation}}
-	tsigKeyDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DnsTsigKeyDataSourceFilterRepresentation}}
+	DnsTsigKeyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_dns_tsig_key.test_tsig_key.id}`}},
 	}
 
-	tsigKeyRepresentation = map[string]interface{}{
+	DnsTsigKeyRepresentation = map[string]interface{}{
 		"algorithm":      acctest.Representation{RepType: acctest.Required, Create: `hmac-sha1`},
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: tsigKeyName},
@@ -57,7 +57,7 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 	}
 
-	TsigKeyResourceDependencies = DefinedTagsDependencies
+	DnsTsigKeyResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: dns/default
@@ -79,14 +79,14 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+TsigKeyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Optional, acctest.Create, tsigKeyRepresentation), "dns", "tsigKey", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DnsTsigKeyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Optional, acctest.Create, DnsTsigKeyRepresentation), "dns", "tsigKey", t)
 
 	acctest.ResourceTest(t, testAccCheckDnsTsigKeyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Required, acctest.Create, tsigKeyRepresentation),
+			Config: config + compartmentIdVariableStr + DnsTsigKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Required, acctest.Create, DnsTsigKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -102,12 +102,12 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies,
+			Config: config + compartmentIdVariableStr + DnsTsigKeyResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Optional, acctest.Create, tsigKeyRepresentation),
+			Config: config + compartmentIdVariableStr + DnsTsigKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Optional, acctest.Create, DnsTsigKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -129,9 +129,9 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + TsigKeyResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DnsTsigKeyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(tsigKeyRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DnsTsigKeyRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -153,8 +153,8 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Optional, acctest.Update, tsigKeyRepresentation),
+			Config: config + compartmentIdVariableStr + DnsTsigKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Optional, acctest.Update, DnsTsigKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -174,9 +174,9 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_tsig_keys", "test_tsig_keys", acctest.Optional, acctest.Update, tsigKeyDataSourceRepresentation) +
-				compartmentIdVariableStr + TsigKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Optional, acctest.Update, tsigKeyRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_tsig_keys", "test_tsig_keys", acctest.Optional, acctest.Update, DnsDnsTsigKeyDataSourceRepresentation) +
+				compartmentIdVariableStr + DnsTsigKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Optional, acctest.Update, DnsTsigKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -197,8 +197,8 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Required, acctest.Create, tsigKeySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + TsigKeyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Required, acctest.Create, DnsDnsTsigKeySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DnsTsigKeyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tsig_key_id"),
 
@@ -216,7 +216,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + TsigKeyRequiredOnlyResource,
+			Config:                  config + DnsTsigKeyRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -280,7 +280,7 @@ func init() {
 
 func sweepDnsTsigKeyResource(compartment string) error {
 	dnsClient := acctest.GetTestClients(&schema.ResourceData{}).DnsClient()
-	tsigKeyIds, err := getTsigKeyIds(compartment)
+	tsigKeyIds, err := getDnsTsigKeyIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -296,14 +296,14 @@ func sweepDnsTsigKeyResource(compartment string) error {
 				fmt.Printf("Error deleting TsigKey %s %s, It is possible that the resource is already deleted. Please verify manually \n", tsigKeyId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &tsigKeyId, tsigKeySweepWaitCondition, time.Duration(3*time.Minute),
-				tsigKeySweepResponseFetchOperation, "dns", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &tsigKeyId, DnsTsigKeySweepWaitCondition, time.Duration(3*time.Minute),
+				DnsTsigKeySweepResponseFetchOperation, "dns", true)
 		}
 	}
 	return nil
 }
 
-func getTsigKeyIds(compartment string) ([]string, error) {
+func getDnsTsigKeyIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "TsigKeyId")
 	if ids != nil {
 		return ids, nil
@@ -328,7 +328,7 @@ func getTsigKeyIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func tsigKeySweepWaitCondition(response common.OCIOperationResponse) bool {
+func DnsTsigKeySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if tsigKeyResponse, ok := response.Response.(oci_dns.GetTsigKeyResponse); ok {
 		return tsigKeyResponse.LifecycleState != oci_dns.TsigKeyLifecycleStateDeleted
@@ -336,7 +336,7 @@ func tsigKeySweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func tsigKeySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DnsTsigKeySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DnsClient().GetTsigKey(context.Background(), oci_dns.GetTsigKeyRequest{
 		TsigKeyId: resourceId,
 		RequestMetadata: common.RequestMetadata{

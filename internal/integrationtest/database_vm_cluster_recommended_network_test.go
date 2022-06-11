@@ -15,11 +15,11 @@ import (
 )
 
 var (
-	vmClusterRecommendedNetworkSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseVmClusterRecommendedNetworkSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `testVmClusterNw`},
 		"exadata_infrastructure_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
-		"networks":                   []acctest.RepresentationGroup{{RepType: acctest.Required, Group: vmClusterRecommendedNetworkClientNetworksRepresentation}, {RepType: acctest.Required, Group: vmClusterRecommendedNetworkbackupNetworksRepresentation}},
+		"networks":                   []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabaseVmClusterRecommendedNetworkNetworksSingularDataSourceRepresentation}, {RepType: acctest.Required, Group: DatabaseVmClusterRecommendedNetworkbackupNetworksRepresentation}},
 		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"dns":                        acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.10`}},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -27,7 +27,7 @@ var (
 		"scan_listener_port_tcp":     acctest.Representation{RepType: acctest.Optional, Create: `1521`},
 		"scan_listener_port_tcp_ssl": acctest.Representation{RepType: acctest.Optional, Create: `2484`},
 	}
-	vmClusterRecommendedNetworkClientNetworksRepresentation = map[string]interface{}{
+	DatabaseVmClusterRecommendedNetworkNetworksSingularDataSourceRepresentation = map[string]interface{}{
 		"cidr":         acctest.Representation{RepType: acctest.Required, Create: `192.168.19.2/16`},
 		"domain":       acctest.Representation{RepType: acctest.Required, Create: `oracle.com`},
 		"gateway":      acctest.Representation{RepType: acctest.Required, Create: `192.168.20.1`},
@@ -36,7 +36,7 @@ var (
 		"prefix":       acctest.Representation{RepType: acctest.Required, Create: `myprefix1`},
 		"vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `10`},
 	}
-	vmClusterRecommendedNetworkbackupNetworksRepresentation = map[string]interface{}{
+	DatabaseVmClusterRecommendedNetworkbackupNetworksRepresentation = map[string]interface{}{
 		"cidr":         acctest.Representation{RepType: acctest.Required, Create: `192.169.19.2/16`},
 		"domain":       acctest.Representation{RepType: acctest.Required, Create: `oracle.com`},
 		"gateway":      acctest.Representation{RepType: acctest.Required, Create: `192.169.20.1`},
@@ -46,7 +46,7 @@ var (
 		"vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `11`},
 	}
 
-	VmClusterRecommendedNetworkDataSourceDependencies = ExadataInfrastructureResourceActivateDependencies +
+	DatabaseVmClusterRecommendedNetworkDataSourceDependencies = ExadataInfrastructureResourceActivateDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
 			"maintenance_window": acctest.RepresentationGroup{RepType: acctest.Optional, Group: exadataInfrastructureMaintenanceWindowRepresentationComplete},
 		}))
@@ -69,8 +69,8 @@ func TestDatabaseVmClusterRecommendedNetworkResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
-			Config: config + VmClusterRecommendedNetworkDataSourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_recommended_network", "test_vm_cluster_recommended_network", acctest.Optional, acctest.Create, vmClusterRecommendedNetworkSingularDataSourceRepresentation) +
+			Config: config + DatabaseVmClusterRecommendedNetworkDataSourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_recommended_network", "test_vm_cluster_recommended_network", acctest.Optional, acctest.Create, DatabaseDatabaseVmClusterRecommendedNetworkSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

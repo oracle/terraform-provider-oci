@@ -16,13 +16,13 @@ import (
 )
 
 var (
-	topUtilizedResourceDataSourceRepresentation = map[string]interface{}{
+	LicenseManagerLicenseManagerTopUtilizedResourceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"is_compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"resource_unit_type":           acctest.Representation{RepType: acctest.Optional, Create: `OCPU`},
 	}
 
-	TopUtilizedResourceResourceConfig = ""
+	LicenseManagerTopUtilizedResourceResourceConfig = ""
 )
 
 // issue-routing-tag: license_manager/default
@@ -45,8 +45,8 @@ func TestLicenseManagerTopUtilizedResourceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_top_utilized_resources", "test_top_utilized_resources", acctest.Required, acctest.Create, topUtilizedResourceDataSourceRepresentation) +
-				compartmentIdVariableStr + TopUtilizedResourceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_top_utilized_resources", "test_top_utilized_resources", acctest.Required, acctest.Create, LicenseManagerLicenseManagerTopUtilizedResourceDataSourceRepresentation) +
+				compartmentIdVariableStr + LicenseManagerTopUtilizedResourceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

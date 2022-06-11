@@ -15,18 +15,18 @@ import (
 )
 
 var (
-	vnicSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreVnicSingularDataSourceRepresentation = map[string]interface{}{
 		"vnic_id": acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}`},
 	}
 
-	VnicResourceConfig             = ``
+	CoreVnicResourceConfig         = ``
 	VnicResourceConfigDependencies = utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig +
@@ -56,8 +56,8 @@ data "oci_core_vnic_attachments" "t" {
 	compartment_id = "${var.compartment_id}"
 	instance_id = "${oci_core_instance.test_instance.id}"
 }` +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vnic", "test_vnic", acctest.Required, acctest.Create, vnicSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VnicResourceConfig + VnicResourceConfigDependencies,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vnic", "test_vnic", acctest.Required, acctest.Create, CoreCoreVnicSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreVnicResourceConfig + VnicResourceConfigDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic_id"),
 

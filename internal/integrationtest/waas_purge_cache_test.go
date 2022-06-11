@@ -19,15 +19,15 @@ import (
 )
 
 var (
-	PurgeCacheRequiredOnlyResource = PurgeCacheResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", acctest.Required, acctest.Create, purgeCacheRepresentation)
+	WaasPurgeCacheRequiredOnlyResource = WaasPurgeCacheResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", acctest.Required, acctest.Create, WaasPurgeCacheRepresentation)
 
-	purgeCacheRepresentation = map[string]interface{}{
+	WaasPurgeCacheRepresentation = map[string]interface{}{
 		"waas_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_waas_waas_policy.test_scenario_waas_policy.id}`},
 		"resources":      acctest.Representation{RepType: acctest.Optional, Create: []string{`/about`, `/home`}},
 	}
 
-	PurgeCacheResourceDependencies = WaasPolicyResourceCachingOnlyConfig
+	WaasPurgeCacheResourceDependencies = WaasPolicyResourceCachingOnlyConfig
 )
 
 // issue-routing-tag: waas/default
@@ -44,14 +44,14 @@ func TestWaasPurgeCacheResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+PurgeCacheResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", acctest.Optional, acctest.Create, purgeCacheRepresentation), "waas", "purgeCache", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+WaasPurgeCacheResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", acctest.Optional, acctest.Create, WaasPurgeCacheRepresentation), "waas", "purgeCache", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify purge select resources
 		{
-			Config: config + compartmentIdVariableStr + PurgeCacheResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", acctest.Optional, acctest.Create, purgeCacheRepresentation),
+			Config: config + compartmentIdVariableStr + WaasPurgeCacheResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", acctest.Optional, acctest.Create, WaasPurgeCacheRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "resources.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
@@ -60,12 +60,12 @@ func TestWaasPurgeCacheResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + PurgeCacheResourceDependencies,
+			Config: config + compartmentIdVariableStr + WaasPurgeCacheResourceDependencies,
 		},
 		// verify purge all resources
 		{
-			Config: config + compartmentIdVariableStr + PurgeCacheResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", acctest.Required, acctest.Create, purgeCacheRepresentation),
+			Config: config + compartmentIdVariableStr + WaasPurgeCacheResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", acctest.Required, acctest.Create, WaasPurgeCacheRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
 

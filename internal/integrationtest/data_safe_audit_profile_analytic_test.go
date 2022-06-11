@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	auditProfileAnalyticSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditProfileAnalyticSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	AuditProfileAnalyticResourceConfig = ""
+	DataSafeAuditProfileAnalyticResourceConfig = ""
 )
 
 // issue-routing-tag: data_safe/default
@@ -41,8 +41,8 @@ func TestDataSafeAuditProfileAnalyticResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_analytic", "test_audit_profile_analytic", acctest.Required, acctest.Create, auditProfileAnalyticSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AuditProfileAnalyticResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_analytic", "test_audit_profile_analytic", acctest.Required, acctest.Create, DataSafeauditProfileAnalyticSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeAuditProfileAnalyticResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 			),

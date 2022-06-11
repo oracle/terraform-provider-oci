@@ -33,13 +33,13 @@ type IdcsAccessToken struct {
 }
 
 var (
-	IntegrationInstanceRequiredOnlyResource = IntegrationInstanceResourceDependencies +
+	IntegrationIntegrationInstanceRequiredOnlyResource = IntegrationIntegrationInstanceResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Required, acctest.Create, integrationInstanceRepresentation)
 
-	IntegrationInstanceResourceConfig = IntegrationInstanceResourceDependencies +
+	IntegrationIntegrationInstanceResourceConfig = IntegrationIntegrationInstanceResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, integrationInstanceRepresentation)
 
-	integrationInstanceSingularDataSourceRepresentation = map[string]interface{}{
+	IntegrationintegrationInstanceSingularDataSourceRepresentation = map[string]interface{}{
 		"integration_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_integration_integration_instance.test_integration_instance.id}`},
 	}
 
@@ -98,7 +98,7 @@ display_name   = "vcn"
 		"allowlisted_ips": acctest.Representation{RepType: acctest.Optional, Create: []string{`172.16.0.239/32`}},
 	}
 
-	IntegrationInstanceResourceDependencies = DefinedTagsDependencies + KmsVaultIdVariableStr + integrationInstanceVcnRepresentation
+	IntegrationIntegrationInstanceResourceDependencies = DefinedTagsDependencies + KmsVaultIdVariableStr + integrationInstanceVcnRepresentation
 )
 
 // issue-routing-tag: integration/default
@@ -127,13 +127,13 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+IntegrationInstanceResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IntegrationIntegrationInstanceResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Create, integrationInstanceRepresentation), "integration", "integrationInstance", t)
 
 	acctest.ResourceTest(t, testAccCheckIntegrationIntegrationInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr() + IntegrationInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr() + IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Required, acctest.Create, integrationInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -159,7 +159,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				tagVariablesStr() +
 				idcsAccessTokenVariableStr() +
 				vaultSecretIdStr +
-				IntegrationInstanceResourceDependencies +
+				IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap(
 					"oci_integration_integration_instance",
 					"test_integration_instance",
@@ -220,7 +220,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				idcsAccessTokenVariableStr() +
 				compartmentIdUVariableStr +
 				vaultSecretIdStr +
-				IntegrationInstanceResourceDependencies +
+				IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap(
 					"oci_integration_integration_instance",
 					"test_integration_instance",
@@ -273,7 +273,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, integrationInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
@@ -321,7 +321,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_integration_integration_instances", "test_integration_instances", acctest.Optional, acctest.Update, integrationInstanceDataSourceRepresentation) +
-				compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
+				compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, integrationInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -367,8 +367,8 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, integrationInstanceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, IntegrationintegrationInstanceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, integrationInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// resource.TestCheckResourceAttr(singularDatasourceName, "alternate_custom_endpoints.#", "1"),
@@ -409,7 +409,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + IntegrationInstanceRequiredOnlyResource,
+			Config:            config + IntegrationIntegrationInstanceRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -475,7 +475,7 @@ func init() {
 
 func sweepIntegrationIntegrationInstanceResource(compartment string) error {
 	integrationInstanceClient := acctest.GetTestClients(&schema.ResourceData{}).IntegrationInstanceClient()
-	integrationInstanceIds, err := getIntegrationInstanceIds(compartment)
+	integrationInstanceIds, err := getIntegrationIntegrationInstanceIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -491,14 +491,14 @@ func sweepIntegrationIntegrationInstanceResource(compartment string) error {
 				fmt.Printf("Error deleting IntegrationInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", integrationInstanceId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &integrationInstanceId, integrationInstanceSweepWaitCondition, time.Duration(3*time.Minute),
-				integrationInstanceSweepResponseFetchOperation, "integration", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &integrationInstanceId, IntegrationintegrationInstancesSweepWaitCondition, time.Duration(3*time.Minute),
+				IntegrationintegrationInstancesSweepResponseFetchOperation, "integration", true)
 		}
 	}
 	return nil
 }
 
-func getIntegrationInstanceIds(compartment string) ([]string, error) {
+func getIntegrationIntegrationInstanceIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "IntegrationInstanceId")
 	if ids != nil {
 		return ids, nil
@@ -523,7 +523,7 @@ func getIntegrationInstanceIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func integrationInstanceSweepWaitCondition(response common.OCIOperationResponse) bool {
+func IntegrationintegrationInstancesSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if integrationInstanceResponse, ok := response.Response.(oci_integration.GetIntegrationInstanceResponse); ok {
 		return integrationInstanceResponse.LifecycleState != oci_integration.IntegrationInstanceLifecycleStateDeleted
@@ -531,7 +531,7 @@ func integrationInstanceSweepWaitCondition(response common.OCIOperationResponse)
 	return false
 }
 
-func integrationInstanceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func IntegrationintegrationInstancesSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.IntegrationInstanceClient().GetIntegrationInstance(context.Background(), oci_integration.GetIntegrationInstanceRequest{
 		IntegrationInstanceId: resourceId,
 		RequestMetadata: common.RequestMetadata{

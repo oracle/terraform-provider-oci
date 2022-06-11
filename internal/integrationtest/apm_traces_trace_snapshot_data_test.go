@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	traceSnapshotDataSingularDataSourceRepresentation = map[string]interface{}{
+	ApmTracesApmTracestraceSnapshotDataSingularDataSourceRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${var.apm_domain_id}`},
 		"trace_key":     acctest.Representation{RepType: acctest.Required, Create: `${var.trace_key}`},
 		"is_summarized": acctest.Representation{RepType: acctest.Optional, Create: `${var.isSummarized}`},
@@ -61,7 +61,7 @@ func TestApmTracesTraceSnapshotDataResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + apmDomainIdVariableStr + traceKeyVariableStr + compartmentIdVariableStr + threadIdVariableStr + isSummarizedStr + snapshotTimeStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_traces_trace_snapshot_data", "test_trace_snapshot_data", acctest.Required, acctest.Create, traceSnapshotDataSingularDataSourceRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_traces_trace_snapshot_data", "test_trace_snapshot_data", acctest.Required, acctest.Create, ApmTracesApmTracestraceSnapshotDataSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "trace_key", traceKey),

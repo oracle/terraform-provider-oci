@@ -15,19 +15,19 @@ import (
 )
 
 var (
-	catalogTypeSingularDataSourceRepresentation = map[string]interface{}{
+	DatacatalogDatacatalogCatalogTypeSingularDataSourceRepresentation = map[string]interface{}{
 		"catalog_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
 		"type_key":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_datacatalog_catalog_types.test_catalog_types.type_collection.0.items.0.key}`},
 		"fields":     acctest.Representation{RepType: acctest.Optional, Create: []string{}},
 	}
 
-	catalogTypeDataSourceRepresentation = map[string]interface{}{
+	DatacatalogDatacatalogCatalogTypeDataSourceRepresentation = map[string]interface{}{
 		"catalog_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
 		"state":         acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"type_category": acctest.Representation{RepType: acctest.Optional, Create: `dataAsset`, Update: `connection`},
 	}
 
-	CatalogTypeResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Required, acctest.Create, catalogRepresentation)
+	DatacatalogCatalogTypeResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Required, acctest.Create, DatacatalogCatalogRepresentation)
 )
 
 // issue-routing-tag: datacatalog/default
@@ -49,8 +49,8 @@ func TestDatacatalogCatalogTypeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types", acctest.Optional, acctest.Create, catalogTypeDataSourceRepresentation) +
-				compartmentIdVariableStr + CatalogTypeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types", acctest.Optional, acctest.Create, DatacatalogDatacatalogCatalogTypeDataSourceRepresentation) +
+				compartmentIdVariableStr + DatacatalogCatalogTypeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
@@ -64,10 +64,10 @@ func TestDatacatalogCatalogTypeResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(catalogTypeDataSourceRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatacatalogDatacatalogCatalogTypeDataSourceRepresentation, map[string]interface{}{
 						"name": acctest.Representation{RepType: acctest.Optional, Create: `Oracle Database`}})) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_type", "test_catalog_type", acctest.Optional, acctest.Create, catalogTypeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CatalogTypeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_type", "test_catalog_type", acctest.Optional, acctest.Create, DatacatalogDatacatalogCatalogTypeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatacatalogCatalogTypeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "fields.#", "0"),

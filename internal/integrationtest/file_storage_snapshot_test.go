@@ -24,34 +24,34 @@ import (
 )
 
 var (
-	SnapshotRequiredOnlyResource = SnapshotResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Required, acctest.Create, snapshotRepresentation)
+	FileStorageSnapshotRequiredOnlyResource = FileStorageSnapshotResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Required, acctest.Create, FileStorageSnapshotRepresentation)
 
-	SnapshotResourceConfig = SnapshotResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Update, snapshotRepresentation)
+	FileStorageSnapshotResourceConfig = FileStorageSnapshotResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Update, FileStorageSnapshotRepresentation)
 
-	snapshotSingularDataSourceRepresentation = map[string]interface{}{
+	FileStorageFileStorageSnapshotSingularDataSourceRepresentation = map[string]interface{}{
 		"snapshot_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
 	}
 
-	snapshotDataSourceRepresentation = map[string]interface{}{
+	FileStorageFileStorageSnapshotDataSourceRepresentation = map[string]interface{}{
 		"file_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_file_system.test_file_system.id}`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: snapshotDataSourceFilterRepresentation}}
-	snapshotDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: FileStorageSnapshotDataSourceFilterRepresentation}}
+	FileStorageSnapshotDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_file_storage_snapshot.test_snapshot.id}`}},
 	}
 
-	snapshotRepresentation = map[string]interface{}{
+	FileStorageSnapshotRepresentation = map[string]interface{}{
 		"file_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_file_system.test_file_system.id}`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `snapshot-1`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	SnapshotResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Required, acctest.Create, fileSystemRepresentation) +
+	FileStorageSnapshotResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -72,14 +72,14 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SnapshotResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Create, snapshotRepresentation), "filestorage", "snapshot", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+FileStorageSnapshotResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Create, FileStorageSnapshotRepresentation), "filestorage", "snapshot", t)
 
 	acctest.ResourceTest(t, testAccCheckFileStorageSnapshotDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Required, acctest.Create, snapshotRepresentation),
+			Config: config + compartmentIdVariableStr + FileStorageSnapshotResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Required, acctest.Create, FileStorageSnapshotRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
@@ -93,12 +93,12 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SnapshotResourceDependencies,
+			Config: config + compartmentIdVariableStr + FileStorageSnapshotResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Create, snapshotRepresentation),
+			Config: config + compartmentIdVariableStr + FileStorageSnapshotResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Create, FileStorageSnapshotRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -121,8 +121,8 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Update, snapshotRepresentation),
+			Config: config + compartmentIdVariableStr + FileStorageSnapshotResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Update, FileStorageSnapshotRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -143,9 +143,9 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_file_storage_snapshots", "test_snapshots", acctest.Optional, acctest.Update, snapshotDataSourceRepresentation) +
-				compartmentIdVariableStr + SnapshotResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Update, snapshotRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_file_storage_snapshots", "test_snapshots", acctest.Optional, acctest.Update, FileStorageFileStorageSnapshotDataSourceRepresentation) +
+				compartmentIdVariableStr + FileStorageSnapshotResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Update, FileStorageSnapshotRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "file_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -164,8 +164,8 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Required, acctest.Create, snapshotSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SnapshotResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Required, acctest.Create, FileStorageFileStorageSnapshotSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + FileStorageSnapshotResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "snapshot_id"),
 
@@ -180,7 +180,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + SnapshotRequiredOnlyResource,
+			Config:                  config + FileStorageSnapshotRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

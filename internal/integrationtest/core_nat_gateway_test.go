@@ -25,28 +25,28 @@ import (
 )
 
 var (
-	NatGatewayRequiredOnlyResource = NatGatewayResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Required, acctest.Create, natGatewayRepresentation)
+	CoreNatGatewayRequiredOnlyResource = CoreNatGatewayResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Required, acctest.Create, CoreNatGatewayRepresentation)
 
-	NatGatewayResourceConfig = NatGatewayResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Optional, acctest.Update, natGatewayRepresentation)
+	CoreNatGatewayResourceConfig = CoreNatGatewayResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Optional, acctest.Update, CoreNatGatewayRepresentation)
 
-	natGatewaySingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreNatGatewaySingularDataSourceRepresentation = map[string]interface{}{
 		"nat_gateway_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_nat_gateway.test_nat_gateway.id}`},
 	}
 
-	natGatewayDataSourceRepresentation = map[string]interface{}{
+	CoreCoreNatGatewayDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: natGatewayDataSourceFilterRepresentation}}
-	natGatewayDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreNatGatewayDataSourceFilterRepresentation}}
+	CoreNatGatewayDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_nat_gateway.test_nat_gateway.id}`}},
 	}
 
-	natGatewayRepresentation = map[string]interface{}{
+	CoreNatGatewayRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"block_traffic":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -56,13 +56,13 @@ var (
 		"public_ip_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_public_ip.test_public_ip.id}`},
 	}
 
-	NatGatewayResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", acctest.Required, acctest.Create,
-		acctest.RepresentationCopyWithNewProperties(publicIpRepresentation, map[string]interface{}{
+	CoreNatGatewayResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", acctest.Required, acctest.Create,
+		acctest.RepresentationCopyWithNewProperties(CorePublicIpRepresentation, map[string]interface{}{
 			"public_ip_pool_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
 		})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", acctest.Required, acctest.Create, publicIpPoolCapacityRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Required, acctest.Create, publicIpPoolRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Required, acctest.Create, CorePublicPoolRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies + byoipRangeIdVariableStr + publicIpPoolCidrBlockVariableStr
 )
 
@@ -85,14 +85,14 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+NatGatewayResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Optional, acctest.Create, natGatewayRepresentation), "core", "natGateway", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreNatGatewayResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Optional, acctest.Create, CoreNatGatewayRepresentation), "core", "natGateway", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreNatGatewayDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + NatGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Required, acctest.Create, natGatewayRepresentation),
+			Config: config + compartmentIdVariableStr + CoreNatGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Required, acctest.Create, CoreNatGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -106,12 +106,12 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + NatGatewayResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreNatGatewayResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + NatGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Optional, acctest.Create, natGatewayRepresentation),
+			Config: config + compartmentIdVariableStr + CoreNatGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Optional, acctest.Create, CoreNatGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "block_traffic", "false"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -138,9 +138,9 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NatGatewayResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreNatGatewayResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(natGatewayRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreNatGatewayRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -167,8 +167,8 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + NatGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Optional, acctest.Update, natGatewayRepresentation),
+			Config: config + compartmentIdVariableStr + CoreNatGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Optional, acctest.Update, CoreNatGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "block_traffic", "true"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -193,9 +193,9 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_nat_gateways", "test_nat_gateways", acctest.Optional, acctest.Update, natGatewayDataSourceRepresentation) +
-				compartmentIdVariableStr + NatGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Optional, acctest.Update, natGatewayRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_nat_gateways", "test_nat_gateways", acctest.Optional, acctest.Update, CoreCoreNatGatewayDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreNatGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Optional, acctest.Update, CoreNatGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -218,8 +218,8 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Required, acctest.Create, natGatewaySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + NatGatewayResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", acctest.Required, acctest.Create, CoreCoreNatGatewaySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreNatGatewayResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nat_gateway_id"),
 
@@ -235,7 +235,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + NatGatewayRequiredOnlyResource,
+			Config:                  config + CoreNatGatewayRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -299,7 +299,7 @@ func init() {
 
 func sweepCoreNatGatewayResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	natGatewayIds, err := getNatGatewayIds(compartment)
+	natGatewayIds, err := getCoreNatGatewayIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -315,14 +315,14 @@ func sweepCoreNatGatewayResource(compartment string) error {
 				fmt.Printf("Error deleting NatGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", natGatewayId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &natGatewayId, natGatewaySweepWaitCondition, time.Duration(3*time.Minute),
-				natGatewaySweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &natGatewayId, CoreNatGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+				CoreNatGatewaySweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getNatGatewayIds(compartment string) ([]string, error) {
+func getCoreNatGatewayIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "NatGatewayId")
 	if ids != nil {
 		return ids, nil
@@ -347,7 +347,7 @@ func getNatGatewayIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func natGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreNatGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if natGatewayResponse, ok := response.Response.(oci_core.GetNatGatewayResponse); ok {
 		return natGatewayResponse.LifecycleState != oci_core.NatGatewayLifecycleStateTerminated
@@ -355,7 +355,7 @@ func natGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func natGatewaySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreNatGatewaySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetNatGateway(context.Background(), oci_core.GetNatGatewayRequest{
 		NatGatewayId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	vmClusterAddVirtualMachineRepresentation = map[string]interface{}{
-		"db_servers":    acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterAddVirtualMachineDbServersRepresentation},
+	DatabaseVmClusterAddVirtualMachineRepresentation = map[string]interface{}{
+		"db_servers":    acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseVmClusterAddVirtualMachineDbServersRepresentation},
 		"vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
-	vmClusterAddVirtualMachineDbServersRepresentation = map[string]interface{}{
+	DatabaseVmClusterAddVirtualMachineDbServersRepresentation = map[string]interface{}{
 		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.3.id}`},
 	}
 
@@ -37,7 +37,7 @@ var (
 		"ntp_server":                  acctest.Representation{RepType: acctest.Required, Create: []string{`10.231.225.76`}, Update: []string{`10.246.6.36`, `10.31.138.20`}},
 		"shape":                       acctest.Representation{RepType: acctest.Required, Create: `ExadataCC.HalfX8M.200`},
 		"time_zone":                   acctest.Representation{RepType: acctest.Required, Create: `US/Pacific`, Update: `UTC`},
-		"contacts":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: exadataInfrastructureContactsRepresentation},
+		"contacts":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureContactsRepresentation},
 		"corporate_proxy":             acctest.Representation{RepType: acctest.Optional, Create: `http://192.168.19.1:80`, Update: `http://192.168.19.2:80`},
 		//"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -148,7 +148,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`db_servers`, `cpu_core_count`}},
 	}
 
-	VmClusterAddVirtualMachineResourceDependencies = DefinedTagsDependencies +
+	DatabaseVmClusterAddVirtualMachineResourceDependencies = DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update,
 			acctest.RepresentationCopyWithNewProperties(exadataInfrastructureActivateHalfRackRepresentation, map[string]interface{}{
 				"activation_file":    acctest.Representation{RepType: acctest.Optional, Update: activationFilePath},
@@ -173,8 +173,8 @@ func TestDatabaseVmClusterAddVirtualMachineResource_basic(t *testing.T) {
 	resourceName := "oci_database_vm_cluster_add_virtual_machine.test_vm_cluster_add_virtual_machine"
 
 	//Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+VmClusterAddVirtualMachineResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_add_virtual_machine", "test_vm_cluster_add_virtual_machine", acctest.Required, acctest.Create, vmClusterAddVirtualMachineRepresentation), "database", "vmClusterAddVirtualMachine", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseVmClusterAddVirtualMachineResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_add_virtual_machine", "test_vm_cluster_add_virtual_machine", acctest.Required, acctest.Create, DatabaseVmClusterAddVirtualMachineRepresentation), "database", "vmClusterAddVirtualMachine", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
@@ -185,9 +185,9 @@ func TestDatabaseVmClusterAddVirtualMachineResource_basic(t *testing.T) {
 			// verify create
 			{
 
-				Config: config + compartmentIdVariableStr + VmClusterAddVirtualMachineResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_add_virtual_machine", "test_vm_cluster_add_virtual_machine", acctest.Required, acctest.Create, vmClusterAddVirtualMachineRepresentation) +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, dbServerDataSourceRepresentation),
+				Config: config + compartmentIdVariableStr + DatabaseVmClusterAddVirtualMachineResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_add_virtual_machine", "test_vm_cluster_add_virtual_machine", acctest.Required, acctest.Create, DatabaseVmClusterAddVirtualMachineRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabaseDatabaseDbServerDataSourceRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "180"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "2"),

@@ -25,50 +25,50 @@ import (
 )
 
 var (
-	NetworkSecurityGroupRequiredOnlyResource = NetworkSecurityGroupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation)
+	CoreNetworkSecurityGroupRequiredOnlyResource = CoreNetworkSecurityGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation)
 
-	NetworkSecurityGroupResourceConfig = NetworkSecurityGroupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Update, networkSecurityGroupRepresentation)
+	CoreNetworkSecurityGroupResourceConfig = CoreNetworkSecurityGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Update, CoreNetworkSecurityGroupRepresentation)
 
-	networkSecurityGroupSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreNetworkSecurityGroupSingularDataSourceRepresentation = map[string]interface{}{
 		"network_security_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_network_security_group.test_network_security_group.id}`},
 	}
 
-	networkSecurityGroupDataSourceRepresentation = map[string]interface{}{
+	CoreCoreNetworkSecurityGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: networkSecurityGroupDataSourceFilterRepresentation},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreNetworkSecurityGroupDataSourceFilterRepresentation},
 	}
 
-	networkSecurityGroupVlanDataSourceRepresentation = map[string]interface{}{
+	CoreNetworkSecurityNetworkSecurityGroupVlanDataSourceRepresentation = map[string]interface{}{
 		"vlan_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vlan.id}`},
 	}
 
-	networkSecurityGroupDataSourceFilterRepresentation = map[string]interface{}{
+	CoreNetworkSecurityGroupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 	}
 
-	networkSecurityGroupRepresentation = map[string]interface{}{
+	CoreNetworkSecurityGroupRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesNsgRepresentation},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreNetworkSecurityIgnoreChangesNsgRepresentation},
 	}
 
-	ignoreChangesNsgRepresentation = map[string]interface{}{
+	CoreNetworkSecurityIgnoreChangesNsgRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	vlanNsgRepresentation = acctest.RepresentationCopyWithRemovedProperties(vlanRepresentation, []string{"route_table_id"})
+	CoreNetworkSecurityVlanNsgRepresentation = acctest.RepresentationCopyWithRemovedProperties(CoreVlanRepresentation, []string{"route_table_id"})
 
-	NetworkSecurityGroupResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Optional, acctest.Create, vlanNsgRepresentation) +
+	CoreNetworkSecurityGroupResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Optional, acctest.Create, CoreNetworkSecurityVlanNsgRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -92,14 +92,14 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+NetworkSecurityGroupResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Create, networkSecurityGroupRepresentation), "core", "networkSecurityGroup", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreNetworkSecurityGroupResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Create, CoreNetworkSecurityGroupRepresentation), "core", "networkSecurityGroup", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreNetworkSecurityGroupDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + NetworkSecurityGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation),
+			Config: config + compartmentIdVariableStr + CoreNetworkSecurityGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -117,8 +117,8 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + NetworkSecurityGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Create, networkSecurityGroupRepresentation),
+			Config: config + compartmentIdVariableStr + CoreNetworkSecurityGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Create, CoreNetworkSecurityGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -142,9 +142,9 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NetworkSecurityGroupResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreNetworkSecurityGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(networkSecurityGroupRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreNetworkSecurityGroupRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -168,8 +168,8 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + NetworkSecurityGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Update, networkSecurityGroupRepresentation),
+			Config: config + compartmentIdVariableStr + CoreNetworkSecurityGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Update, CoreNetworkSecurityGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -191,9 +191,9 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_network_security_groups", "test_network_security_groups", acctest.Optional, acctest.Update, networkSecurityGroupDataSourceRepresentation) +
-				compartmentIdVariableStr + NetworkSecurityGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Update, networkSecurityGroupRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_network_security_groups", "test_network_security_groups", acctest.Optional, acctest.Update, CoreCoreNetworkSecurityGroupDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreNetworkSecurityGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Update, CoreNetworkSecurityGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -214,9 +214,9 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 		// verify with vlan query parameter only
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_network_security_groups", "test_network_security_groups", acctest.Optional, acctest.Update, networkSecurityGroupVlanDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Update, networkSecurityGroupRepresentation) +
-				compartmentIdVariableStr + NetworkSecurityGroupResourceDependencies,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_network_security_groups", "test_network_security_groups", acctest.Optional, acctest.Update, CoreNetworkSecurityNetworkSecurityGroupVlanDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Update, CoreNetworkSecurityGroupRepresentation) +
+				compartmentIdVariableStr + CoreNetworkSecurityGroupResourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "vlan_id"),
 
@@ -233,8 +233,8 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + NetworkSecurityGroupResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreCoreNetworkSecurityGroupSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreNetworkSecurityGroupResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_security_group_id"),
 
@@ -248,7 +248,7 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + NetworkSecurityGroupRequiredOnlyResource,
+			Config:                  config + CoreNetworkSecurityGroupRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -312,7 +312,7 @@ func init() {
 
 func sweepCoreNetworkSecurityGroupResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	networkSecurityGroupIds, err := getNetworkSecurityGroupIds(compartment)
+	networkSecurityGroupIds, err := getCoreNetworkSecurityGroupIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -328,14 +328,14 @@ func sweepCoreNetworkSecurityGroupResource(compartment string) error {
 				fmt.Printf("Error deleting NetworkSecurityGroup %s %s, It is possible that the resource is already deleted. Please verify manually \n", networkSecurityGroupId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &networkSecurityGroupId, networkSecurityGroupSweepWaitCondition, time.Duration(3*time.Minute),
-				networkSecurityGroupSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &networkSecurityGroupId, CoreNetworkSecurityGroupSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreNetworkSecurityGroupSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getNetworkSecurityGroupIds(compartment string) ([]string, error) {
+func getCoreNetworkSecurityGroupIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "NetworkSecurityGroupId")
 	if ids != nil {
 		return ids, nil
@@ -360,7 +360,7 @@ func getNetworkSecurityGroupIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func networkSecurityGroupSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreNetworkSecurityGroupSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if networkSecurityGroupResponse, ok := response.Response.(oci_core.GetNetworkSecurityGroupResponse); ok {
 		return networkSecurityGroupResponse.LifecycleState != oci_core.NetworkSecurityGroupLifecycleStateTerminated
@@ -368,7 +368,7 @@ func networkSecurityGroupSweepWaitCondition(response common.OCIOperationResponse
 	return false
 }
 
-func networkSecurityGroupSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreNetworkSecurityGroupSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetNetworkSecurityGroup(context.Background(), oci_core.GetNetworkSecurityGroupRequest{
 		NetworkSecurityGroupId: resourceId,
 		RequestMetadata: common.RequestMetadata{

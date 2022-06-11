@@ -15,9 +15,9 @@ import (
 )
 
 var (
-	peerRegionForRemotePeeringDataSourceRepresentation = map[string]interface{}{}
+	CoreCorePeerRegionForRemotePeeringDataSourceRepresentation = map[string]interface{}{}
 
-	PeerRegionForRemotePeeringResourceConfig = ""
+	CorePeerRegionForRemotePeeringResourceConfig = ""
 )
 
 // issue-routing-tag: core/default
@@ -38,8 +38,8 @@ func TestCorePeerRegionForRemotePeeringResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_peer_region_for_remote_peerings", "test_peer_region_for_remote_peerings", acctest.Required, acctest.Create, peerRegionForRemotePeeringDataSourceRepresentation) +
-				compartmentIdVariableStr + PeerRegionForRemotePeeringResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_peer_region_for_remote_peerings", "test_peer_region_for_remote_peerings", acctest.Required, acctest.Create, CoreCorePeerRegionForRemotePeeringDataSourceRepresentation) +
+				compartmentIdVariableStr + CorePeerRegionForRemotePeeringResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttrSet(datasourceName, "peer_region_for_remote_peerings.#"),

@@ -31,14 +31,14 @@ var (
 
 	CaBundleRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle", acctest.Required, acctest.Create, caBundleRepresentationRequired)
 
-	CaBundleResourceConfig = CaBundleResourceDependencies +
+	CertificatesManagementCaBundleResourceConfig = CertificatesManagementCaBundleResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle", acctest.Optional, acctest.Update, caBundleRepresentation)
 
-	caBundleSingularDataSourceRepresentation = map[string]interface{}{
+	CertificatesManagementcaBundleSingularDataSourceRepresentation = map[string]interface{}{
 		"ca_bundle_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_certificates_management_ca_bundle.test_ca_bundle.id}`},
 	}
 
-	caBundleDataSourceRepresentation = map[string]interface{}{
+	CertificatesManagementcaBundleDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: caBundleOptionalResourceName},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
@@ -67,7 +67,7 @@ var (
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: certificatesManagementIgnoreChangesRepresentation},
 	}
 
-	CaBundleResourceDependencies = DefinedTagsDependencies
+	CertificatesManagementCaBundleResourceDependencies = DefinedTagsDependencies
 )
 
 func TestCertificatesManagementCaBundleResource_basic(t *testing.T) {
@@ -89,7 +89,7 @@ func TestCertificatesManagementCaBundleResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CaBundleResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CertificatesManagementCaBundleResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle", acctest.Optional, acctest.Create, caBundleRepresentation), "certificatesmanagement", "caBundle", t)
 
 	resource.Test(t, resource.TestCase{
@@ -120,11 +120,11 @@ func TestCertificatesManagementCaBundleResource_basic(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + CaBundleResourceDependencies,
+				Config: config + compartmentIdVariableStr + CertificatesManagementCaBundleResourceDependencies,
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + CaBundleResourceDependencies +
+				Config: config + compartmentIdVariableStr + CertificatesManagementCaBundleResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle", acctest.Optional, acctest.Create, caBundleRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "ca_bundle_pem"),
@@ -150,7 +150,7 @@ func TestCertificatesManagementCaBundleResource_basic(t *testing.T) {
 
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CaBundleResourceDependencies +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CertificatesManagementCaBundleResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle", acctest.Optional, acctest.Create,
 						acctest.RepresentationCopyWithNewProperties(caBundleRepresentation, map[string]interface{}{
 							"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -177,7 +177,7 @@ func TestCertificatesManagementCaBundleResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + CaBundleResourceDependencies +
+				Config: config + compartmentIdVariableStr + CertificatesManagementCaBundleResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle", acctest.Optional, acctest.Update, caBundleRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "ca_bundle_pem"),
@@ -201,8 +201,8 @@ func TestCertificatesManagementCaBundleResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_ca_bundles", "test_ca_bundles", acctest.Optional, acctest.Create, caBundleDataSourceRepresentation) +
-					compartmentIdVariableStr + CaBundleResourceDependencies +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_ca_bundles", "test_ca_bundles", acctest.Optional, acctest.Create, CertificatesManagementcaBundleDataSourceRepresentation) +
+					compartmentIdVariableStr + CertificatesManagementCaBundleResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle", acctest.Optional, acctest.Update, caBundleRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -216,8 +216,8 @@ func TestCertificatesManagementCaBundleResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle", acctest.Required, acctest.Create, caBundleSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + CaBundleResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle", acctest.Required, acctest.Create, CertificatesManagementcaBundleSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + CertificatesManagementCaBundleResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "ca_bundle_id"),
 
@@ -299,7 +299,7 @@ func init() {
 
 func sweepCertificatesManagementCaBundleResource(compartment string) error {
 	certificatesManagementClient := acctest.GetTestClients(&schema.ResourceData{}).CertificatesManagementClient()
-	caBundleIds, err := getCaBundleIds(compartment)
+	caBundleIds, err := getCertificatesManagementCaBundleIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -315,14 +315,14 @@ func sweepCertificatesManagementCaBundleResource(compartment string) error {
 				fmt.Printf("Error deleting CaBundle %s %s, It is possible that the resource is already deleted. Please verify manually \n", caBundleId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &caBundleId, caBundleSweepWaitCondition, time.Duration(3*time.Minute),
-				caBundleSweepResponseFetchOperation, "certificates_management", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &caBundleId, CertificatesManagementcaBundlesSweepWaitCondition, time.Duration(3*time.Minute),
+				CertificatesManagementcaBundlesSweepResponseFetchOperation, "certificates_management", true)
 		}
 	}
 	return nil
 }
 
-func getCaBundleIds(compartment string) ([]string, error) {
+func getCertificatesManagementCaBundleIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "CaBundleId")
 	if ids != nil {
 		return ids, nil
@@ -347,7 +347,7 @@ func getCaBundleIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func caBundleSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CertificatesManagementcaBundlesSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if caBundleResponse, ok := response.Response.(oci_certificates_management.GetCaBundleResponse); ok {
 		return caBundleResponse.LifecycleState != oci_certificates_management.CaBundleLifecycleStateDeleted
@@ -355,7 +355,7 @@ func caBundleSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func caBundleSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CertificatesManagementcaBundlesSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.CertificatesManagementClient().GetCaBundle(context.Background(), oci_certificates_management.GetCaBundleRequest{
 		CaBundleId: resourceId,
 		RequestMetadata: common.RequestMetadata{

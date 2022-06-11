@@ -16,66 +16,66 @@ import (
 )
 
 var (
-	DrgRouteDistributionStatementsRequiredOnlyResource = DrgRouteDistributionStatementResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", acctest.Required, acctest.Create, drgRouteDistributionStatementRepresentation)
+	CoreDrgRouteDistributionStatementsRequiredOnlyResource = CoreDrgRouteDistributionStatementResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", acctest.Required, acctest.Create, CoreDrgRouteDistributionStatementRepresentation)
 
-	drgRouteDistributionStatementDataSourceRepresentation = map[string]interface{}{
+	CoreCoreDrgRouteDistributionStatementDataSourceRepresentation = map[string]interface{}{
 		"drg_route_distribution_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
 	}
 
-	drgRouteDistributionStatementRepresentation = map[string]interface{}{
+	CoreDrgRouteDistributionStatementRepresentation = map[string]interface{}{
 		"drg_route_distribution_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
 		"action":                    acctest.Representation{RepType: acctest.Required, Create: `ACCEPT`},
-		"match_criteria":            acctest.RepresentationGroup{RepType: acctest.Required, Group: drgRouteDistributionStatementStatementsMatchCriteriaRepresentation},
+		"match_criteria":            acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDrgRouteDistributionStatementStatementsMatchCriteriaRepresentation},
 		"priority":                  acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `15`},
 	}
 
-	drgRouteDistributionStatementRepresentation2 = map[string]interface{}{
+	CoreDrgRouteDistributionStatementRepresentation2 = map[string]interface{}{
 		"drg_route_distribution_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
 		"action":                    acctest.Representation{RepType: acctest.Required, Create: `ACCEPT`},
-		"match_criteria":            acctest.RepresentationGroup{RepType: acctest.Required, Group: drgRouteDistributionStatementStatementsMatchCriteriaRepresentation2},
+		"match_criteria":            acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDrgRouteDistributionStatementStatementsMatchCriteriaRepresentation2},
 		"priority":                  acctest.Representation{RepType: acctest.Required, Create: `20`, Update: `25`},
 	}
 
-	drgRouteDistributionStatementRepresentation3 = map[string]interface{}{
+	CoreDrgRouteDistributionStatementRepresentation3 = map[string]interface{}{
 		"drg_route_distribution_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
 		"action":                    acctest.Representation{RepType: acctest.Required, Create: `ACCEPT`},
-		"match_criteria":            acctest.RepresentationGroup{RepType: acctest.Required, Group: drgRouteDistributionStatementStatementsMatchCriteriaRepresentation3},
+		"match_criteria":            acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDrgRouteDistributionStatementStatementsMatchCriteriaRepresentation3},
 		"priority":                  acctest.Representation{RepType: acctest.Required, Create: `30`, Update: `35`},
 	}
 
-	drgRouteDistributionStatementRepresentation4 = map[string]interface{}{
+	CoreDrgRouteDistributionStatementRepresentation4 = map[string]interface{}{
 		"drg_route_distribution_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
 		"action":                    acctest.Representation{RepType: acctest.Required, Create: `ACCEPT`},
-		"match_criteria":            acctest.RepresentationGroup{RepType: acctest.Required, Group: drgRouteDistributionStatementStatementsMatchCriteriaRepresentation4},
+		"match_criteria":            acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDrgRouteDistributionStatementStatementsMatchCriteriaRepresentation4},
 		"priority":                  acctest.Representation{RepType: acctest.Required, Create: `40`, Update: `45`},
 	}
 
-	drgRouteDistributionStatementStatementsMatchCriteriaRepresentation = map[string]interface{}{
+	CoreDrgRouteDistributionStatementStatementsMatchCriteriaRepresentation = map[string]interface{}{
 		"match_type":      acctest.Representation{RepType: acctest.Required, Create: `DRG_ATTACHMENT_TYPE`},
 		"attachment_type": acctest.Representation{RepType: acctest.Required, Create: `VCN`, Update: `VIRTUAL_CIRCUIT`},
 	}
 
-	drgRouteDistributionStatementStatementsMatchCriteriaRepresentation2 = map[string]interface{}{
+	CoreDrgRouteDistributionStatementStatementsMatchCriteriaRepresentation2 = map[string]interface{}{
 		"match_type":      acctest.Representation{RepType: acctest.Required, Create: `DRG_ATTACHMENT_TYPE`},
 		"attachment_type": acctest.Representation{RepType: acctest.Required, Create: `REMOTE_PEERING_CONNECTION`},
 	}
 
-	drgRouteDistributionStatementStatementsMatchCriteriaRepresentation3 = map[string]interface{}{
+	CoreDrgRouteDistributionStatementStatementsMatchCriteriaRepresentation3 = map[string]interface{}{
 		"match_type":        acctest.Representation{RepType: acctest.Required, Create: `DRG_ATTACHMENT_ID`},
 		"drg_attachment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_attachment.test_drg_attachment2.id}`},
 	}
 
-	drgRouteDistributionStatementStatementsMatchCriteriaRepresentation4 = map[string]interface{}{
+	CoreDrgRouteDistributionStatementStatementsMatchCriteriaRepresentation4 = map[string]interface{}{
 		"match_type": acctest.Representation{RepType: acctest.Required, Create: `MATCH_ALL`},
 	}
 
-	DrgRouteDistributionStatementResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment2", acctest.Required, acctest.Create, drgAttachmentRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", acctest.Required, acctest.Create, drgRouteDistributionRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, routeTableRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, drgRepresentation)
+	CoreDrgRouteDistributionStatementResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment2", acctest.Required, acctest.Create, CoreDrgAttachmentRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", acctest.Required, acctest.Create, CoreDrgRouteDistributionRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, CoreDrgRepresentation)
 )
 
 // issue-routing-tag: core/pnp
@@ -97,15 +97,15 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DrgRouteDistributionStatementResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", acctest.Optional, acctest.Create, drgRouteDistributionStatementRepresentation), "core", "drgRouteDistributionStatement", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreDrgRouteDistributionStatementResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", acctest.Optional, acctest.Create, CoreDrgRouteDistributionStatementRepresentation), "core", "drgRouteDistributionStatement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		//verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreDrgRouteDistributionStatementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", acctest.Optional, acctest.Create,
-					drgRouteDistributionStatementRepresentation),
+					CoreDrgRouteDistributionStatementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_route_distribution_id"),
 				resource.TestCheckResourceAttr(resourceName, "action", "ACCEPT"),
@@ -123,8 +123,8 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 		},
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", acctest.Optional, acctest.Update, drgRouteDistributionStatementRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDrgRouteDistributionStatementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", acctest.Optional, acctest.Update, CoreDrgRouteDistributionStatementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_route_distribution_id"),
 				resource.TestCheckResourceAttr(resourceName, "action", "ACCEPT"),
@@ -146,9 +146,9 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 		//verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_drg_route_distribution_statements", "test_drg_route_distribution_statements", acctest.Optional, acctest.Create, drgRouteDistributionStatementDataSourceRepresentation) +
-				compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", acctest.Optional, acctest.Update, drgRouteDistributionStatementRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_drg_route_distribution_statements", "test_drg_route_distribution_statements", acctest.Optional, acctest.Create, CoreCoreDrgRouteDistributionStatementDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreDrgRouteDistributionStatementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", acctest.Optional, acctest.Update, CoreDrgRouteDistributionStatementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_distribution_id"),
 				resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.action", "ACCEPT"),
@@ -162,7 +162,7 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 
 		//verify resource import
 		{
-			Config:                  config + DrgRouteDistributionStatementsRequiredOnlyResource,
+			Config:                  config + CoreDrgRouteDistributionStatementsRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -170,15 +170,15 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreDrgRouteDistributionStatementResourceDependencies,
 		},
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement2", acctest.Optional, acctest.Create, drgRouteDistributionStatementRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement3", acctest.Required, acctest.Create, drgRouteDistributionStatementRepresentation2) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement4", acctest.Required, acctest.Create, drgRouteDistributionStatementRepresentation3) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement5", acctest.Required, acctest.Create, drgRouteDistributionStatementRepresentation4),
+			Config: config + compartmentIdVariableStr + CoreDrgRouteDistributionStatementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement2", acctest.Optional, acctest.Create, CoreDrgRouteDistributionStatementRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement3", acctest.Required, acctest.Create, CoreDrgRouteDistributionStatementRepresentation2) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement4", acctest.Required, acctest.Create, CoreDrgRouteDistributionStatementRepresentation3) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement5", acctest.Required, acctest.Create, CoreDrgRouteDistributionStatementRepresentation4),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//check first resource
 				resource.TestCheckResourceAttrSet(resourceName1, "drg_route_distribution_id"),
@@ -216,7 +216,7 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 		},
 		// delete
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreDrgRouteDistributionStatementResourceDependencies,
 		},
 	})
 }

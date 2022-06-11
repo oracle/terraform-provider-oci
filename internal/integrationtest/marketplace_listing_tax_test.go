@@ -15,12 +15,12 @@ import (
 )
 
 var (
-	listingTaxDataSourceRepresentation = map[string]interface{}{
+	MarketplaceMarketplaceListingTaxDataSourceRepresentation = map[string]interface{}{
 		"listing_id":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listings.test_listings.listings.0.id}`},
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	ListingTaxResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", acctest.Required, acctest.Create, listingDataSourceRepresentation)
+	MarketplaceListingTaxResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", acctest.Required, acctest.Create, MarketplaceMarketplaceListingDataSourceRepresentation)
 )
 
 // issue-routing-tag: marketplace/default
@@ -41,8 +41,8 @@ func TestMarketplaceListingTaxResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_taxes", "test_listing_taxes", acctest.Required, acctest.Create, listingTaxDataSourceRepresentation) +
-				compartmentIdVariableStr + ListingTaxResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_taxes", "test_listing_taxes", acctest.Required, acctest.Create, MarketplaceMarketplaceListingTaxDataSourceRepresentation) +
+				compartmentIdVariableStr + MarketplaceListingTaxResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
