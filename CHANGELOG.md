@@ -1,3 +1,15 @@
+## 4.80.0 (Unreleased)
+
+### Added
+- duplicate resource for backendSet with the support of list of backend
+- database tools - add mysql connection support
+support for Web Application Acceleration service
+- Support for onesubscription service
+quota resource locking
+- ADBD time zone for database service
+### Bug Fix
+- [UDX-20702] [Terraform] Mysql - Add return body to UpdateBackup api call
+
 ## 4.79.0 (Unreleased)
 
 ### Added
