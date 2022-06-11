@@ -34,13 +34,13 @@ import (
 )
 
 var (
-	ObjectRequiredOnlyResource = ObjectResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, objectRepresentation)
+	ObjectStorageObjectRequiredOnlyResource = ObjectStorageObjectResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, ObjectStorageObjectRepresentation)
 
-	ObjectResourceConfig = ObjectResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Create, objectRepresentation)
+	ObjectStorageObjectResourceConfig = ObjectStorageObjectResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Create, ObjectStorageObjectRepresentation)
 
-	objectDataSourceRepresentation = map[string]interface{}{
+	ObjectStorageObjectStorageObjectDataSourceRepresentation = map[string]interface{}{
 		"bucket":      acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"namespace":   acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
 		"delimiter":   acctest.Representation{RepType: acctest.Optional, Create: `delimiter`, Update: `/`},
@@ -48,8 +48,8 @@ var (
 		"prefix":      acctest.Representation{RepType: acctest.Optional, Create: `prefix`, Update: `my-test`},
 		"start":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_objectstorage_object.test_object.object}`},
 		"start_after": acctest.Representation{RepType: acctest.Optional, Create: `a`},
-		"filter":      acctest.RepresentationGroup{RepType: acctest.Required, Group: objectDataSourceFilterRepresentation}}
-	objectDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ObjectStorageObjectDataSourceFilterRepresentation}}
+	ObjectStorageObjectDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_objectstorage_object.test_object.object}`}},
 	}
@@ -69,7 +69,7 @@ var (
 		"http_response_expires":             acctest.Representation{RepType: acctest.Optional, Create: expirationTimeForPar.Format(time.RFC3339Nano), Update: expirationTimeForPar.Format(time.RFC3339Nano)},
 	}
 
-	objectRepresentation = map[string]interface{}{
+	ObjectStorageObjectRepresentation = map[string]interface{}{
 		"bucket":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"content":                    acctest.Representation{RepType: acctest.Optional, Create: `content`, Update: `<a1>content</a1>`},
 		"namespace":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
@@ -100,8 +100,8 @@ var (
 		"metadata":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"content-type": "text/plain"}},
 	}
 
-	ObjectResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+	ObjectStorageObjectResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 
 	Md5Base64Encoded2, _ = tfresource.HexToB64(tfresource.GetMd5Hash("<a1>content</a1>"))
 )
@@ -129,14 +129,14 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 	md5B64Encode2, _ := tfresource.HexToB64(md5sum2)
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ObjectResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Create, objectRepresentation), "objectstorage", "object", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ObjectStorageObjectResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Create, ObjectStorageObjectRepresentation), "objectstorage", "object", t)
 
 	acctest.ResourceTest(t, testAccCheckObjectStorageObjectDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, objectRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, ObjectStorageObjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -158,12 +158,12 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ObjectResourceDependencies,
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies,
 		},
 
 		// verify Create empty
 		{
-			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, objectEmptyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
@@ -185,13 +185,13 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ObjectResourceDependencies,
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies,
 		},
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Create, objectRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Create, ObjectStorageObjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
 				resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
@@ -224,8 +224,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 		},
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update, objectRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update, ObjectStorageObjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
 				resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
@@ -256,9 +256,9 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 		},
 		// verify either a hex or a base64 equivalent content_md5 makes no diff
 		{
-			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update,
-					acctest.GetUpdatedRepresentationCopy("content_md5", acctest.Representation{RepType: acctest.Optional, Create: Md5Base64Encoded2, Update: `${md5("<a1>content</a1>")}`}, objectRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("content_md5", acctest.Representation{RepType: acctest.Optional, Create: Md5Base64Encoded2, Update: `${md5("<a1>content</a1>")}`}, ObjectStorageObjectRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
 				resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
@@ -288,9 +288,9 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 		},
 		// verify updates to name alone
 		{
-			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update,
-					acctest.GetUpdatedRepresentationCopy("object", acctest.Representation{RepType: acctest.Required, Create: `my-test-object-1`, Update: `my-test-object-3`}, objectRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("object", acctest.Representation{RepType: acctest.Required, Create: `my-test-object-1`, Update: `my-test-object-3`}, ObjectStorageObjectRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
 				resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
@@ -319,9 +319,9 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update,
-					acctest.GetUpdatedRepresentationCopy("object", acctest.Representation{RepType: acctest.Required, Create: `my-test-object-1`, Update: `my-test-object-3`}, objectRepresentation)) +
+					acctest.GetUpdatedRepresentationCopy("object", acctest.Representation{RepType: acctest.Required, Create: `my-test-object-1`, Update: `my-test-object-3`}, ObjectStorageObjectRepresentation)) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, objectSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "false"),
@@ -345,9 +345,9 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 		},
 		// verify base64 encoding in singular datasource
 		{
-			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update,
-					acctest.GetUpdatedRepresentationCopy("object", acctest.Representation{RepType: acctest.Required, Create: `my-test-object-1`, Update: `my-test-object-3`}, objectRepresentation)) +
+					acctest.GetUpdatedRepresentationCopy("object", acctest.Representation{RepType: acctest.Required, Create: `my-test-object-1`, Update: `my-test-object-3`}, ObjectStorageObjectRepresentation)) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update, objectSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "true"),
@@ -371,9 +371,9 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", acctest.Required, acctest.Update, objectDataSourceRepresentation) +
-				compartmentIdVariableStr + ObjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update, objectRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", acctest.Required, acctest.Update, ObjectStorageObjectStorageObjectDataSourceRepresentation) +
+				compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update, ObjectStorageObjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
 				resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -386,9 +386,9 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 		// verify datasource for delimiter and prefix
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", acctest.Optional, acctest.Update, objectDataSourceRepresentation) +
-				compartmentIdVariableStr + ObjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update, objectRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", acctest.Optional, acctest.Update, ObjectStorageObjectStorageObjectDataSourceRepresentation) +
+				compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update, ObjectStorageObjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
 				resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -402,7 +402,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + ObjectRequiredOnlyResource,
+			Config:            config + ObjectStorageObjectRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -445,9 +445,9 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 		},
 		Steps: []resource.TestStep{
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update,
-						acctest.GetUpdatedRepresentationCopy("object", acctest.Representation{RepType: acctest.Required, Create: `my-test-object-1`, Update: `my-test-object-3`}, objectRepresentation)),
+						acctest.GetUpdatedRepresentationCopy("object", acctest.Representation{RepType: acctest.Required, Create: `my-test-object-1`, Update: `my-test-object-3`}, ObjectStorageObjectRepresentation)),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						failObjectName, err = acctest.FromInstanceState(s, resourceName, "object")
@@ -463,9 +463,9 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 					}),
 			},
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update,
-						acctest.GetUpdatedRepresentationCopy("object", acctest.Representation{RepType: acctest.Required, Create: `my-test-object-1`, Update: `my-test-object-3`}, objectRepresentation)) +
+						acctest.GetUpdatedRepresentationCopy("object", acctest.Representation{RepType: acctest.Required, Create: `my-test-object-1`, Update: `my-test-object-3`}, ObjectStorageObjectRepresentation)) +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update,
 						acctest.GetUpdatedRepresentationCopy("content_length_limit", acctest.Representation{RepType: acctest.Optional, Create: `17`, Update: `15`}, objectSingularDataSourceRepresentation)),
 				ExpectError: regexp.MustCompile("the requested object's content length is 16 the limit is set to 15"),
@@ -514,9 +514,9 @@ func TestObjectStorageObjectResource_metadata(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify validations on metadata key
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update,
-						acctest.GetUpdatedRepresentationCopy("metadata", acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"content-type": "text/plain"}, Update: map[string]string{"CONTENT-TYPE": "text/xml"}}, objectRepresentation)),
+						acctest.GetUpdatedRepresentationCopy("metadata", acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"content-type": "text/plain"}, Update: map[string]string{"CONTENT-TYPE": "text/xml"}}, ObjectStorageObjectRepresentation)),
 				ExpectError: regexp.MustCompile("All 'metadata' keys must be lowercase"),
 			},
 		},
@@ -595,7 +595,7 @@ func init() {
 
 func sweepObjectStorageObjectResource(compartment string) error {
 	objectStorageClient := acctest.GetTestClients(&schema.ResourceData{}).ObjectStorageClient()
-	objectIds, err := getObjectIds(compartment)
+	objectIds, err := getObjectStorageObjectIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -614,7 +614,7 @@ func sweepObjectStorageObjectResource(compartment string) error {
 	return nil
 }
 
-func getObjectIds(compartment string) ([]string, error) {
+func getObjectStorageObjectIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ObjectId")
 	if ids != nil {
 		return ids, nil
@@ -625,7 +625,7 @@ func getObjectIds(compartment string) ([]string, error) {
 
 	listObjectsRequest := oci_object_storage.ListObjectsRequest{}
 
-	buckets, error := getBucketIds(compartment)
+	buckets, error := getObjectStorageBucketIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting bucket required for Object resource requests \n")
 	}
@@ -737,7 +737,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify Create
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create,
 						acctest.GetUpdatedRepresentationCopy("source", acctest.Representation{RepType: acctest.Optional, Create: singlePartFilePath}, objectSourceRepresentation)),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -762,11 +762,11 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// delete before next Create
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies,
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies,
 			},
 			// verify Create singlepart with optionals
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Create,
 						acctest.GetUpdatedRepresentationCopy("source", acctest.Representation{RepType: acctest.Optional, Create: singlePartFilePath}, objectSourceRepresentation)),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -794,11 +794,11 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// delete before next Create
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies,
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies,
 			},
 			// verify Create with optionals
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Create,
 						acctest.GetUpdatedRepresentationCopy("source", acctest.Representation{RepType: acctest.Optional, Create: multiPartFilePath}, objectSourceRepresentation)),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -825,7 +825,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// verify updates to name alone
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update,
 						acctest.GetUpdatedRepresentationCopy("source", acctest.Representation{RepType: acctest.Optional, Create: multiPartFilePath}, objectSourceRepresentation)),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -856,8 +856,8 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", acctest.Required, acctest.Update, objectDataSourceRepresentation) +
-					compartmentIdVariableStr + ObjectResourceDependencies +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", acctest.Required, acctest.Update, ObjectStorageObjectStorageObjectDataSourceRepresentation) +
+					compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update,
 						acctest.GetUpdatedRepresentationCopy("source", acctest.Representation{RepType: acctest.Optional, Create: multiPartFilePath}, objectSourceRepresentation)),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -870,8 +870,8 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			// verify datasource for delimiter and prefix
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", acctest.Optional, acctest.Update, objectDataSourceRepresentation) +
-					compartmentIdVariableStr + ObjectResourceDependencies +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", acctest.Optional, acctest.Update, ObjectStorageObjectStorageObjectDataSourceRepresentation) +
+					compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update,
 						acctest.GetUpdatedRepresentationCopy("source", acctest.Representation{RepType: acctest.Optional, Create: multiPartFilePath}, objectSourceRepresentation)),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -885,7 +885,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config + ObjectRequiredOnlyResource,
+				Config:            config + ObjectStorageObjectRequiredOnlyResource,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
@@ -901,9 +901,9 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 }
 
 var (
-	ObjectResourceConfigWithoutContent = acctest.RepresentationCopyWithRemovedProperties(objectRepresentation, []string{"content", "content_md5"})
+	ObjectResourceConfigWithoutContent = acctest.RepresentationCopyWithRemovedProperties(ObjectStorageObjectRepresentation, []string{"content", "content_md5"})
 
-	ObjectResourceConfigWithSourceSinglePart = ObjectResourceDependencies +
+	ObjectResourceConfigWithSourceSinglePart = ObjectStorageObjectResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy(
 			"source", acctest.Representation{RepType: acctest.Optional, Create: ""}, objectSourceRepresentation))
 
@@ -1004,7 +1004,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 		Steps: []resource.TestStep{
 			// Create from source with options to copy
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy(
 						"source", acctest.Representation{RepType: acctest.Optional, Create: singlePartFilePath}, objectSourceRepresentation)),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -1025,7 +1025,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// verify copy object copy of the source object
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy(
 						"source", acctest.Representation{RepType: acctest.Optional, Create: singlePartFilePath}, objectSourceRepresentation)) +
 					ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
@@ -1048,11 +1048,11 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// delete before next Create
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies,
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies,
 			},
 			// verify Create content object with optionals
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceConfig,
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
 					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
@@ -1077,7 +1077,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// verify copy content object in the same bucket with source etag
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceConfig + ObjectResourceConfigWithSourceURIFromContentObject,
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceConfig + ObjectResourceConfigWithSourceURIFromContentObject,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", testBucketName),
@@ -1097,7 +1097,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			// verify recreate copy content object in the same bucket - remove source etag
 			// metadata is updated
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceConfig + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
+				Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceConfig + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", testBucketName),
@@ -1118,7 +1118,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
 					ObjectResourceConfigWithSourceURIFromCopyOfContentObject + ObjectResourceConfigWithSourceURIFromContentObjectDependency +
-					ObjectResourceDependencies,
+					ObjectStorageObjectResourceDependencies,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
@@ -1140,7 +1140,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
 					ObjectResourceConfigWithSourceURIWithVersionId + ObjectResourceConfigWithSourceURIFromContentObjectDependency +
-					ObjectResourceDependencies,
+					ObjectStorageObjectResourceDependencies,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
@@ -1159,7 +1159,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// recreate copy of copy of content object by singlepart with optionals
 			{
-				Config: config + ObjectResourceDependencies +
+				Config: config + ObjectStorageObjectResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy(
 						"source", acctest.Representation{RepType: acctest.Optional, Create: singlePartFilePath}, objectSourceRepresentation)) +
 					ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +

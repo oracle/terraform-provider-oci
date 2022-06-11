@@ -26,53 +26,53 @@ import (
 )
 
 var (
-	StreamPoolRequiredOnlyResource = StreamPoolResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Required, acctest.Create, streamPoolRepresentation)
+	StreamingStreamPoolRequiredOnlyResource = StreamingStreamPoolResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Required, acctest.Create, StreamingStreamPoolRepresentation)
 
-	StreamPoolResourceConfig = StreamPoolResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Optional, acctest.Update, streamPoolRepresentation)
+	StreamingStreamPoolResourceConfig = StreamingStreamPoolResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Optional, acctest.Update, StreamingStreamPoolRepresentation)
 
-	streamPoolSingularDataSourceRepresentation = map[string]interface{}{
+	StreamingStreamingStreamPoolSingularDataSourceRepresentation = map[string]interface{}{
 		"stream_pool_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_streaming_stream_pool.test_stream_pool.id}`},
 	}
 
-	streamPoolDataSourceRepresentation = map[string]interface{}{
+	StreamingStreamingStreamPoolDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_streaming_stream_pool.test_stream_pool.id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `MyStreamPool`, Update: `name2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: streamPoolDataSourceFilterRepresentation}}
-	streamPoolDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: StreamingStreamPoolDataSourceFilterRepresentation}}
+	StreamingStreamPoolDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_streaming_stream_pool.test_stream_pool.id}`}},
 	}
 
-	streamPoolRepresentation = map[string]interface{}{
+	StreamingStreamPoolRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":                      acctest.Representation{RepType: acctest.Required, Create: `MyStreamPool`, Update: `name2`},
-		"custom_encryption_key":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: streamPoolCustomEncryptionKeyRepresentation},
+		"custom_encryption_key":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: StreamingStreamPoolCustomEncryptionKeyRepresentation},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"kafka_settings":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: streamPoolKafkaSettingsRepresentation},
-		"private_endpoint_settings": acctest.RepresentationGroup{RepType: acctest.Optional, Group: streamPoolPrivateEndpointSettingsRepresentation},
+		"kafka_settings":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: StreamingStreamPoolKafkaSettingsRepresentation},
+		"private_endpoint_settings": acctest.RepresentationGroup{RepType: acctest.Optional, Group: StreamingStreamPoolPrivateEndpointSettingsRepresentation},
 	}
-	streamPoolCustomEncryptionKeyRepresentation = map[string]interface{}{
+	StreamingStreamPoolCustomEncryptionKeyRepresentation = map[string]interface{}{
 		"kms_key_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id_for_create}`},
 	}
-	streamPoolKafkaSettingsRepresentation = map[string]interface{}{
+	StreamingStreamPoolKafkaSettingsRepresentation = map[string]interface{}{
 		"auto_create_topics_enable": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"log_retention_hours":       acctest.Representation{RepType: acctest.Optional, Create: `25`, Update: `30`},
 		"num_partitions":            acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
-	streamPoolPrivateEndpointSettingsRepresentation = map[string]interface{}{
+	StreamingStreamPoolPrivateEndpointSettingsRepresentation = map[string]interface{}{
 		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"private_endpoint_ip": acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
 		"subnet_id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 
-	StreamPoolResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+	StreamingStreamPoolResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
 		DefinedTagsDependencies +
@@ -98,14 +98,14 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+StreamPoolResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Optional, acctest.Create, streamPoolRepresentation), "streaming", "streamPool", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+StreamingStreamPoolResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Optional, acctest.Create, StreamingStreamPoolRepresentation), "streaming", "streamPool", t)
 
 	acctest.ResourceTest(t, testAccCheckStreamingStreamPoolDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Required, acctest.Create, streamPoolRepresentation),
+			Config: config + compartmentIdVariableStr + StreamingStreamPoolResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Required, acctest.Create, StreamingStreamPoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "MyStreamPool"),
@@ -119,12 +119,12 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies,
+			Config: config + compartmentIdVariableStr + StreamingStreamPoolResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Optional, acctest.Create, streamPoolRepresentation),
+			Config: config + compartmentIdVariableStr + StreamingStreamPoolResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Optional, acctest.Create, StreamingStreamPoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "custom_encryption_key.#", "1"),
@@ -156,9 +156,9 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreamPoolResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreamingStreamPoolResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(StreamingStreamPoolRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -190,8 +190,8 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Optional, acctest.Update, streamPoolRepresentation),
+			Config: config + compartmentIdVariableStr + StreamingStreamPoolResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Optional, acctest.Update, StreamingStreamPoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "custom_encryption_key.#", "1"),
@@ -221,9 +221,9 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_streaming_stream_pools", "test_stream_pools", acctest.Optional, acctest.Update, streamPoolDataSourceRepresentation) +
-				compartmentIdVariableStr + StreamPoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Optional, acctest.Update, streamPoolRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_streaming_stream_pools", "test_stream_pools", acctest.Optional, acctest.Update, StreamingStreamingStreamPoolDataSourceRepresentation) +
+				compartmentIdVariableStr + StreamingStreamPoolResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Optional, acctest.Update, StreamingStreamPoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -243,8 +243,8 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Required, acctest.Create, streamPoolSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + StreamPoolResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Required, acctest.Create, StreamingStreamingStreamPoolSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + StreamingStreamPoolResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "stream_pool_id"),
 
@@ -269,7 +269,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + StreamPoolRequiredOnlyResource,
+			Config:                  config + StreamingStreamPoolRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -333,7 +333,7 @@ func init() {
 
 func sweepStreamingStreamPoolResource(compartment string) error {
 	streamAdminClient := acctest.GetTestClients(&schema.ResourceData{}).StreamAdminClient()
-	streamPoolIds, err := getStreamPoolIds(compartment)
+	streamPoolIds, err := getStreamingStreamPoolIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -349,14 +349,14 @@ func sweepStreamingStreamPoolResource(compartment string) error {
 				fmt.Printf("Error deleting StreamPool %s %s, It is possible that the resource is already deleted. Please verify manually \n", streamPoolId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &streamPoolId, streamPoolSweepWaitCondition, time.Duration(3*time.Minute),
-				streamPoolSweepResponseFetchOperation, "streaming", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &streamPoolId, StreamingStreamPoolSweepWaitCondition, time.Duration(3*time.Minute),
+				StreamingStreamPoolSweepResponseFetchOperation, "streaming", true)
 		}
 	}
 	return nil
 }
 
-func getStreamPoolIds(compartment string) ([]string, error) {
+func getStreamingStreamPoolIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "StreamPoolId")
 	if ids != nil {
 		return ids, nil
@@ -381,7 +381,7 @@ func getStreamPoolIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func streamPoolSweepWaitCondition(response common.OCIOperationResponse) bool {
+func StreamingStreamPoolSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if streamPoolResponse, ok := response.Response.(oci_streaming.GetStreamPoolResponse); ok {
 		return streamPoolResponse.LifecycleState != oci_streaming.StreamPoolLifecycleStateDeleted
@@ -389,7 +389,7 @@ func streamPoolSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func streamPoolSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func StreamingStreamPoolSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.StreamAdminClient().GetStreamPool(context.Background(), oci_streaming.GetStreamPoolRequest{
 		StreamPoolId: resourceId,
 		RequestMetadata: common.RequestMetadata{

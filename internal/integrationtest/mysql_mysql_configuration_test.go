@@ -23,11 +23,11 @@ import (
 )
 
 var (
-	mysqlConfigurationSingularDataSourceRepresentation = map[string]interface{}{
+	MysqlMysqlMysqlConfigurationSingularDataSourceRepresentation = map[string]interface{}{
 		"configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${var.MysqlConfigurationOCID[var.region]}`},
 	}
 
-	mysqlConfigurationDataSourceRepresentation = map[string]interface{}{
+	MysqlMysqlMysqlConfigurationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"configuration_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `MySQL.VM.Standard.E3.1.8GB.Standalone`},
@@ -36,7 +36,7 @@ var (
 		"type":             acctest.Representation{RepType: acctest.Optional, Create: []string{`DEFAULT`}},
 	}
 
-	MysqlConfigurationResourceConfig = utils.MysqlConfigurationIdVariable
+	MysqlMysqlConfigurationResourceConfig = utils.MysqlConfigurationIdVariable
 )
 
 // issue-routing-tag: mysql/default
@@ -58,8 +58,8 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_configurations", "test_mysql_configurations", acctest.Required, acctest.Create, mysqlConfigurationDataSourceRepresentation) +
-				compartmentIdVariableStr + MysqlConfigurationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_configurations", "test_mysql_configurations", acctest.Required, acctest.Create, MysqlMysqlMysqlConfigurationDataSourceRepresentation) +
+				compartmentIdVariableStr + MysqlMysqlConfigurationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -74,8 +74,8 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_configuration", "test_mysql_configuration", acctest.Required, acctest.Create, mysqlConfigurationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + MysqlConfigurationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_configuration", "test_mysql_configuration", acctest.Required, acctest.Create, MysqlMysqlMysqlConfigurationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MysqlMysqlConfigurationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration_id"),
 
@@ -158,7 +158,7 @@ func init() {
 
 func sweepMysqlMysqlConfigurationResource(compartment string) error {
 	mysqlaasClient := acctest.GetTestClients(&schema.ResourceData{}).MysqlaasClient()
-	mysqlConfigurationIds, err := getMysqlConfigurationIds(compartment)
+	mysqlConfigurationIds, err := getMysqlMysqlConfigurationIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -173,14 +173,14 @@ func sweepMysqlMysqlConfigurationResource(compartment string) error {
 				fmt.Printf("Error deleting MysqlConfiguration %s %s, It is possible that the resource is already deleted. Please verify manually \n", mysqlConfigurationId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &mysqlConfigurationId, mysqlConfigurationSweepWaitCondition, time.Duration(3*time.Minute),
-				mysqlConfigurationSweepResponseFetchOperation, "mysql", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &mysqlConfigurationId, MysqlMysqlConfigurationSweepWaitCondition, time.Duration(3*time.Minute),
+				MysqlMysqlConfigurationSweepResponseFetchOperation, "mysql", true)
 		}
 	}
 	return nil
 }
 
-func getMysqlConfigurationIds(compartment string) ([]string, error) {
+func getMysqlMysqlConfigurationIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "MysqlConfigurationId")
 	if ids != nil {
 		return ids, nil
@@ -205,7 +205,7 @@ func getMysqlConfigurationIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func mysqlConfigurationSweepWaitCondition(response common.OCIOperationResponse) bool {
+func MysqlMysqlConfigurationSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if mysqlConfigurationResponse, ok := response.Response.(oci_mysql.GetConfigurationResponse); ok {
 		return mysqlConfigurationResponse.LifecycleState != oci_mysql.ConfigurationLifecycleStateDeleted
@@ -213,7 +213,7 @@ func mysqlConfigurationSweepWaitCondition(response common.OCIOperationResponse) 
 	return false
 }
 
-func mysqlConfigurationSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func MysqlMysqlConfigurationSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.MysqlaasClient().GetConfiguration(context.Background(), oci_mysql.GetConfigurationRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},

@@ -26,29 +26,29 @@ import (
 )
 
 var (
-	DeployArtifactRequiredOnlyResource = DeployArtifactResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Required, acctest.Create, deployArtifactRepresentation)
+	DevopsDeployArtifactRequiredOnlyResource = DevopsDeployArtifactResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Required, acctest.Create, DevopsDeployArtifactRepresentation)
 
-	DeployArtifactResourceConfig = DeployArtifactResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, deployArtifactRepresentation)
+	DevopsDeployArtifactResourceConfig = DevopsDeployArtifactResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, DevopsDeployArtifactRepresentation)
 
-	deployArtifactSingularDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsDeployArtifactSingularDataSourceRepresentation = map[string]interface{}{
 		"deploy_artifact_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_artifact.test_deploy_artifact.id}`},
 	}
 
-	deployArtifactDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsDeployArtifactDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_deploy_artifact.test_deploy_artifact.id}`},
 		"project_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_project.test_project.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: deployArtifactDataSourceFilterRepresentation}}
-	deployArtifactDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsDeployArtifactDataSourceFilterRepresentation}}
+	DevopsDeployArtifactDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_devops_deploy_artifact.test_deploy_artifact.id}`}},
 	}
 
-	deployArtifactRepresentation = map[string]interface{}{
+	DevopsDeployArtifactRepresentation = map[string]interface{}{
 		"argument_substitution_mode": acctest.Representation{RepType: acctest.Required, Create: `NONE`, Update: `SUBSTITUTE_PLACEHOLDERS`},
 		"deploy_artifact_source":     acctest.RepresentationGroup{RepType: acctest.Required, Group: deployArtifactDeployArtifactSourceRepresentation},
 		"deploy_artifact_type":       acctest.Representation{RepType: acctest.Required, Create: `KUBERNETES_MANIFEST`},
@@ -66,10 +66,10 @@ var (
 		"base64encoded_content":       acctest.Representation{RepType: acctest.Required, Create: base64_encode, Update: base64_encode_update},
 	}
 
-	DeployArtifactResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
+	DevopsDeployArtifactResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", acctest.Required, acctest.Create, devopsLogGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", acctest.Required, acctest.Create, DevopsLogGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -88,14 +88,14 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DeployArtifactResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Create, deployArtifactRepresentation), "devops", "deployArtifact", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DevopsDeployArtifactResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Create, DevopsDeployArtifactRepresentation), "devops", "deployArtifact", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsDeployArtifactDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Required, acctest.Create, deployArtifactRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Required, acctest.Create, DevopsDeployArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "NONE"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.#", "1"),
@@ -113,12 +113,12 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies,
+			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Create, deployArtifactRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Create, DevopsDeployArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "NONE"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -147,8 +147,8 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, deployArtifactRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, DevopsDeployArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "SUBSTITUTE_PLACEHOLDERS"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -175,9 +175,9 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", acctest.Optional, acctest.Update, deployArtifactDataSourceRepresentation) +
-				compartmentIdVariableStr + DeployArtifactResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, deployArtifactRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", acctest.Optional, acctest.Update, DevopsDevopsDeployArtifactDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, DevopsDeployArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -192,8 +192,8 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Required, acctest.Create, deployArtifactSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DeployArtifactResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Required, acctest.Create, DevopsDevopsDeployArtifactSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsDeployArtifactResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_artifact_id"),
 
@@ -215,7 +215,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DeployArtifactRequiredOnlyResource,
+			Config:                  config + DevopsDeployArtifactRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -279,7 +279,7 @@ func init() {
 
 func sweepDevopsDeployArtifactResource(compartment string) error {
 	deployArtifactClient := acctest.GetTestClients(&schema.ResourceData{}).DevopsClient()
-	deployArtifactIds, err := getDeployArtifactIds(compartment)
+	deployArtifactIds, err := getDevopsDeployArtifactIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -295,14 +295,14 @@ func sweepDevopsDeployArtifactResource(compartment string) error {
 				fmt.Printf("Error deleting DeployArtifact %s %s, It is possible that the resource is already deleted. Please verify manually \n", deployArtifactId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &deployArtifactId, deployArtifactSweepWaitCondition, time.Duration(3*time.Minute),
-				deployArtifactSweepResponseFetchOperation, "devops", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &deployArtifactId, DevopsDeployArtifactSweepWaitCondition, time.Duration(3*time.Minute),
+				DevopsDeployArtifactSweepResponseFetchOperation, "devops", true)
 		}
 	}
 	return nil
 }
 
-func getDeployArtifactIds(compartment string) ([]string, error) {
+func getDevopsDeployArtifactIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DeployArtifactId")
 	if ids != nil {
 		return ids, nil
@@ -327,7 +327,7 @@ func getDeployArtifactIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func deployArtifactSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DevopsDeployArtifactSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if deployArtifactResponse, ok := response.Response.(oci_devops.GetDeployArtifactResponse); ok {
 		return deployArtifactResponse.LifecycleState != oci_devops.DeployArtifactLifecycleStateDeleted
@@ -335,7 +335,7 @@ func deployArtifactSweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func deployArtifactSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DevopsDeployArtifactSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DevopsClient().GetDeployArtifact(context.Background(), oci_devops.GetDeployArtifactRequest{
 		DeployArtifactId: resourceId,
 		RequestMetadata: common.RequestMetadata{

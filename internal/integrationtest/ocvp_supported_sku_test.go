@@ -15,11 +15,11 @@ import (
 )
 
 var (
-	supportedSkuDataSourceRepresentation = map[string]interface{}{
+	OcvpOcvpSupportedSkuDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	SupportedSkuResourceConfig = ""
+	OcvpSupportedSkuResourceConfig = ""
 )
 
 // issue-routing-tag: ocvp/default
@@ -40,8 +40,8 @@ func TestOcvpSupportedSkuResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_skus", "test_supported_skus", acctest.Required, acctest.Create, supportedSkuDataSourceRepresentation) +
-				compartmentIdVariableStr + SupportedSkuResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_skus", "test_supported_skus", acctest.Required, acctest.Create, OcvpOcvpSupportedSkuDataSourceRepresentation) +
+				compartmentIdVariableStr + OcvpSupportedSkuResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

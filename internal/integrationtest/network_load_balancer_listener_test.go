@@ -25,21 +25,21 @@ import (
 )
 
 var (
-	ListenerRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Required, acctest.Create, nlbListenerRepresentation)
+	NetworkLoadBalancerListenerRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Required, acctest.Create, NetworkLoadBalancerListenerRepresentation)
 
-	NlbListenerResourceConfig = NlbListenerResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Update, nlbListenerRepresentation)
+	NetworkLoadBalancerListenerResourceConfig = NetworkLoadBalancerListenerResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Update, NetworkLoadBalancerListenerRepresentation)
 
-	nlbListenerDataSourceRepresentation = map[string]interface{}{
+	NetworkLoadBalancerNetworkLoadBalancerListenerDataSourceRepresentation = map[string]interface{}{
 		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 	}
 
-	nlbListenerSingularDataSourceRepresentation = map[string]interface{}{
+	NetworkLoadBalancerNetworkLoadBalancerListenerSingularDataSourceRepresentation = map[string]interface{}{
 		"listener_name":            acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_listener.test_listener.name}`},
 		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 	}
 
-	nlbListenerRepresentation = map[string]interface{}{
+	NetworkLoadBalancerListenerRepresentation = map[string]interface{}{
 		"default_backend_set_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
 		"name":                     acctest.Representation{RepType: acctest.Required, Create: `example_listener`},
 		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
@@ -48,10 +48,10 @@ var (
 		"ip_version":               acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
 	}
 
-	NlbListenerResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", acctest.Required, acctest.Create, nlbBackendSetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Create, networkLoadBalancerRepresentation)
+	NetworkLoadBalancerListenerResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", acctest.Required, acctest.Create, NetworkLoadBalancerBackendSetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Create, NetworkLoadBalancerNetworkLoadBalancerRepresentation)
 )
 
 // issue-routing-tag: network_load_balancer/default
@@ -71,13 +71,13 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+ListenerResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Create, nlbListenerRepresentation), "networkloadbalancer", "listener", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Create, NetworkLoadBalancerListenerRepresentation), "networkloadbalancer", "listener", t)
 
 	acctest.ResourceTest(t, testAccCheckNetworkLoadBalancerListenerDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Required, acctest.Create, nlbListenerRepresentation),
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerListenerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Required, acctest.Create, NetworkLoadBalancerListenerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
@@ -93,13 +93,13 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies,
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerListenerResourceDependencies,
 		},
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Create, nlbListenerRepresentation),
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerListenerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Create, NetworkLoadBalancerListenerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
 				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
@@ -121,8 +121,8 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Update, nlbListenerRepresentation),
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerListenerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Update, NetworkLoadBalancerListenerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
 				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
@@ -143,8 +143,8 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_listeners", "test_listeners", acctest.Optional, acctest.Update, nlbListenerDataSourceRepresentation) +
-				compartmentIdVariableStr + NlbListenerResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_listeners", "test_listeners", acctest.Optional, acctest.Update, NetworkLoadBalancerNetworkLoadBalancerListenerDataSourceRepresentation) +
+				compartmentIdVariableStr + NetworkLoadBalancerListenerResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "network_load_balancer_id"),
 
@@ -155,8 +155,8 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Required, acctest.Create, nlbListenerSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + NlbListenerResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Required, acctest.Create, NetworkLoadBalancerNetworkLoadBalancerListenerSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + NetworkLoadBalancerListenerResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "listener_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
@@ -168,7 +168,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ListenerRequiredOnlyResource,
+			Config:                  config + NetworkLoadBalancerListenerRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -259,7 +259,7 @@ func getNetworkLoadBalancerListenerIds(compartment string) ([]string, error) {
 
 	listListenersRequest := oci_network_load_balancer.ListListenersRequest{}
 
-	networkLoadBalancerIds, error := getNetworkLoadBalancerIds(compartment)
+	networkLoadBalancerIds, error := getNetworkLoadBalancerNetworkLoadBalancerIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting networkLoadBalancerId required for Listener resource requests \n")
 	}

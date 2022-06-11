@@ -16,14 +16,14 @@ import (
 )
 
 var (
-	logAnalyticsUnprocessedDataBucketManagementRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsUnprocessedDataBucketManagementRepresentation = map[string]interface{}{
 		"bucket":     acctest.Representation{RepType: acctest.Required, Create: `dummy_bucket`, Update: `udb_tf`},
 		"namespace":  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"is_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
 	}
 
-	LogAnalyticsUnprocessedDataBucketManagementResourceDependencies = "" +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+	LogAnalyticsLogAnalyticsUnprocessedDataBucketManagementResourceDependencies = "" +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: log_analytics/default
@@ -39,14 +39,14 @@ func TestLogAnalyticsLogAnalyticsUnprocessedDataBucketManagementResource_basic(t
 	resourceName := "oci_log_analytics_log_analytics_unprocessed_data_bucket_management.test_log_analytics_unprocessed_data_bucket_management"
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+LogAnalyticsUnprocessedDataBucketManagementResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_unprocessed_data_bucket_management", "test_log_analytics_unprocessed_data_bucket_management", acctest.Required, acctest.Create, logAnalyticsUnprocessedDataBucketManagementRepresentation), "loganalytics", "logAnalyticsUnprocessedDataBucketManagement", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+LogAnalyticsLogAnalyticsUnprocessedDataBucketManagementResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_unprocessed_data_bucket_management", "test_log_analytics_unprocessed_data_bucket_management", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsUnprocessedDataBucketManagementRepresentation), "loganalytics", "logAnalyticsUnprocessedDataBucketManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsUnprocessedDataBucketManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_unprocessed_data_bucket_management", "test_log_analytics_unprocessed_data_bucket_management", acctest.Required, acctest.Create, logAnalyticsUnprocessedDataBucketManagementRepresentation),
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsUnprocessedDataBucketManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_unprocessed_data_bucket_management", "test_log_analytics_unprocessed_data_bucket_management", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsUnprocessedDataBucketManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bucket", "dummy_bucket"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -56,8 +56,8 @@ func TestLogAnalyticsLogAnalyticsUnprocessedDataBucketManagementResource_basic(t
 
 		// verify update
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsUnprocessedDataBucketManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_unprocessed_data_bucket_management", "test_log_analytics_unprocessed_data_bucket_management", acctest.Required, acctest.Update, logAnalyticsUnprocessedDataBucketManagementRepresentation),
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsUnprocessedDataBucketManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_unprocessed_data_bucket_management", "test_log_analytics_unprocessed_data_bucket_management", acctest.Required, acctest.Update, LogAnalyticsLogAnalyticsUnprocessedDataBucketManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bucket", "udb_tf"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -67,7 +67,7 @@ func TestLogAnalyticsLogAnalyticsUnprocessedDataBucketManagementResource_basic(t
 
 		// verify delete
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsUnprocessedDataBucketManagementResourceDependencies,
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsUnprocessedDataBucketManagementResourceDependencies,
 		},
 	})
 }

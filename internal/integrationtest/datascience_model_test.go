@@ -26,36 +26,36 @@ import (
 )
 
 var (
-	ModelRequiredOnlyResource = ModelResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Required, acctest.Create, modelRepresentation)
+	DatascienceModelRequiredOnlyResource = DatascienceModelResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Required, acctest.Create, DatascienceModelRepresentation)
 
-	ModelResourceConfig = ModelResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Update, modelRepresentation)
+	DatascienceModelResourceConfig = DatascienceModelResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Update, DatascienceModelRepresentation)
 
-	modelSingularDataSourceRepresentation = map[string]interface{}{
+	DatascienceDatascienceModelSingularDataSourceRepresentation = map[string]interface{}{
 		"model_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_model.test_model.id}`},
 	}
 
-	modelDataSourceRepresentation = map[string]interface{}{
+	DatascienceDatascienceModelDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_model.test_model.id}`},
 		"project_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_project.test_project.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: modelDataSourceFilterRepresentation}}
-	modelDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceModelDataSourceFilterRepresentation}}
+	DatascienceModelDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_datascience_model.test_model.id}`}},
 	}
 
-	modelRepresentation = map[string]interface{}{
+	DatascienceModelRepresentation = map[string]interface{}{
 		"artifact_content_length":      acctest.Representation{RepType: acctest.Required, Create: `21002`},
 		"model_artifact":               acctest.Representation{RepType: acctest.Required, Create: `datascience_model_resource.go`},
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"project_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
 		"artifact_content_disposition": acctest.Representation{RepType: acctest.Optional, Create: `attachment; filename=tfTestArtifact`},
-		"custom_metadata_list":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: modelCustomMetadataListRepresentation},
-		"defined_metadata_list":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: modelDefinedMetadataListRepresentation},
+		"custom_metadata_list":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelCustomMetadataListRepresentation},
+		"defined_metadata_list":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelDefinedMetadataListRepresentation},
 		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":                  acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -63,18 +63,18 @@ var (
 		"input_schema":                 acctest.Representation{RepType: acctest.Optional, Create: "{}"},
 		"output_schema":                acctest.Representation{RepType: acctest.Optional, Create: "{}"},
 	}
-	modelCustomMetadataListRepresentation = map[string]interface{}{
+	DatascienceModelCustomMetadataListRepresentation = map[string]interface{}{
 		"category":    acctest.Representation{RepType: acctest.Optional, Create: `Performance`, Update: `Performance`},
 		"description": acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description`},
 		"key":         acctest.Representation{RepType: acctest.Optional, Create: `BaseModel1`, Update: `BaseModel1`},
 		"value":       acctest.Representation{RepType: acctest.Optional, Create: `xgb`, Update: `xgb`},
 	}
-	modelDefinedMetadataListRepresentation = map[string]interface{}{
+	DatascienceModelDefinedMetadataListRepresentation = map[string]interface{}{
 		"key":   acctest.Representation{RepType: acctest.Optional, Create: `UseCaseType`, Update: `UseCaseType`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `ner`, Update: `ner`},
 	}
 
-	ModelResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, projectRepresentation) +
+	DatascienceModelResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -97,14 +97,14 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ModelResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Create, modelRepresentation), "datascience", "model", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatascienceModelResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Create, DatascienceModelRepresentation), "datascience", "model", t)
 
 	acctest.ResourceTest(t, testAccCheckDatascienceModelDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ModelResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Required, acctest.Create, modelRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceModelResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Required, acctest.Create, DatascienceModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
@@ -121,12 +121,12 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ModelResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatascienceModelResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ModelResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Create, modelRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceModelResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Create, DatascienceModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "21002"),
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
@@ -165,9 +165,9 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ModelResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatascienceModelResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(modelRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatascienceModelRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -206,8 +206,8 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ModelResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Update, modelRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceModelResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Update, DatascienceModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.#", "1"),
@@ -241,9 +241,9 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_models", "test_models", acctest.Optional, acctest.Update, modelDataSourceRepresentation) +
-				compartmentIdVariableStr + ModelResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Update, modelRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_models", "test_models", acctest.Optional, acctest.Update, DatascienceDatascienceModelDataSourceRepresentation) +
+				compartmentIdVariableStr + DatascienceModelResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Update, DatascienceModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -264,8 +264,8 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Required, acctest.Create, modelSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ModelResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Required, acctest.Create, DatascienceDatascienceModelSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatascienceModelResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_id"),
 
@@ -292,7 +292,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + ModelRequiredOnlyResource,
+			Config:            config + DatascienceModelRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -364,7 +364,7 @@ func init() {
 
 func sweepDatascienceModelResource(compartment string) error {
 	dataScienceClient := acctest.GetTestClients(&schema.ResourceData{}).DataScienceClient()
-	modelIds, err := getModelIds(compartment)
+	modelIds, err := getDatascienceModelIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -380,14 +380,14 @@ func sweepDatascienceModelResource(compartment string) error {
 				fmt.Printf("Error deleting Model %s %s, It is possible that the resource is already deleted. Please verify manually \n", modelId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &modelId, modelSweepWaitCondition, time.Duration(3*time.Minute),
-				modelSweepResponseFetchOperation, "datascience", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &modelId, DatascienceModelSweepWaitCondition, time.Duration(3*time.Minute),
+				DatascienceModelSweepResponseFetchOperation, "datascience", true)
 		}
 	}
 	return nil
 }
 
-func getModelIds(compartment string) ([]string, error) {
+func getDatascienceModelIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ModelId")
 	if ids != nil {
 		return ids, nil
@@ -412,7 +412,7 @@ func getModelIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func modelSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatascienceModelSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is ACTIVE beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if modelResponse, ok := response.Response.(oci_datascience.GetModelResponse); ok {
 		return modelResponse.LifecycleState != oci_datascience.ModelLifecycleStateDeleted
@@ -420,7 +420,7 @@ func modelSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func modelSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatascienceModelSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataScienceClient().GetModel(context.Background(), oci_datascience.GetModelRequest{
 		ModelId: resourceId,
 		RequestMetadata: common.RequestMetadata{

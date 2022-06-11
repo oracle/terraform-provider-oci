@@ -37,7 +37,7 @@ func TestKmsKeyResource_ResourceDiscovery(t *testing.T) {
 		// verify resource discovery for KMS Keys
 		// Our vault is in root compartment, so we need to run Keys resource discovery in root compartment, as first RD tries to find the vault and then keys inside the vault
 		{
-			Config: config + compartmentIdVariableStr + KeyResourceDependencies,
+			Config: config + compartmentIdVariableStr + KmsKeyResourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				func(s *terraform.State) (err error) {

@@ -16,9 +16,9 @@ import (
 )
 
 var (
-	compatibleFormatsForDataTypeSingularDataSourceRepresentation = map[string]interface{}{}
+	DataSafecompatibleFormatsForDataTypeSingularDataSourceRepresentation = map[string]interface{}{}
 
-	CompatibleFormatsForDataTypeResourceConfig = ""
+	DataSafeCompatibleFormatsForDataTypeResourceConfig = ""
 )
 
 // issue-routing-tag: data_safe/default
@@ -39,8 +39,8 @@ func TestDataSafeCompatibleFormatsForDataTypeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_compatible_formats_for_data_type", "test_compatible_formats_for_data_type", acctest.Required, acctest.Create, compatibleFormatsForDataTypeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CompatibleFormatsForDataTypeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_compatible_formats_for_data_type", "test_compatible_formats_for_data_type", acctest.Required, acctest.Create, DataSafecompatibleFormatsForDataTypeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeCompatibleFormatsForDataTypeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "formats_for_data_type.#", "5"),

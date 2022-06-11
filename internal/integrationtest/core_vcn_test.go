@@ -25,26 +25,26 @@ import (
 )
 
 var (
-	VcnRequiredOnlyResource = VcnRequiredOnlyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation)
+	CoreVcnRequiredOnlyResource = CoreVcnRequiredOnlyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
 
-	VcnResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, vcnRepresentation)
+	CoreVcnResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentation)
 
-	vcnSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreVcnSingularDataSourceRepresentation = map[string]interface{}{
 		"vcn_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 
-	vcnDataSourceRepresentation = map[string]interface{}{
+	CoreCoreVcnDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: vcnDataSourceFilterRepresentation}}
-	vcnDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVcnDataSourceFilterRepresentation}}
+	CoreVcnDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_vcn.test_vcn.id}`}},
 	}
 
-	vcnRepresentation = map[string]interface{}{
+	CoreVcnRepresentation = map[string]interface{}{
 		"cidr_block":     acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/16`},
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -54,8 +54,8 @@ var (
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
 	}
 
-	VcnRequiredOnlyResourceDependencies = ``
-	VcnResourceDependencies             = DefinedTagsDependencies
+	CoreVcnRequiredOnlyResourceDependencies = ``
+	VcnResourceDependencies                 = DefinedTagsDependencies
 )
 
 // issue-routing-tag: core/virtualNetwork
@@ -78,13 +78,13 @@ func TestCoreVcnResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+VcnResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, vcnRepresentation), "core", "vcn", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentation), "core", "vcn", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreVcnDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -104,7 +104,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(vcnRepresentation, []string{"cidr_blocks"}), map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(CoreVcnRepresentation, []string{"cidr_blocks"}), map[string]interface{}{
 						"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -130,7 +130,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		},
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 					"ipv6private_cidr_blocks": acctest.Representation{RepType: acctest.Required, Create: []string{`2000:1000::/52`}},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -159,7 +159,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VcnResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -185,7 +185,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 					"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -210,9 +210,9 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcns", "test_vcns", acctest.Optional, acctest.Update, vcnDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcns", "test_vcns", acctest.Optional, acctest.Update, CoreCoreVcnDataSourceRepresentation) +
 				compartmentIdVariableStr + VcnResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 					"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -239,9 +239,9 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreCoreVcnSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VcnResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 					"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -264,7 +264,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + VcnRequiredOnlyResource,
+			Config:            config + CoreVcnRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -330,7 +330,7 @@ func init() {
 
 func sweepCoreVcnResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	vcnIds, err := getVcnIds(compartment)
+	vcnIds, err := getCoreVcnIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -346,14 +346,14 @@ func sweepCoreVcnResource(compartment string) error {
 				fmt.Printf("Error deleting Vcn %s %s, It is possible that the resource is already deleted. Please verify manually \n", vcnId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &vcnId, vcnSweepWaitCondition, time.Duration(3*time.Minute),
-				vcnSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &vcnId, CoreVcnSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreVcnSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getVcnIds(compartment string) ([]string, error) {
+func getCoreVcnIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "VcnId")
 	if ids != nil {
 		return ids, nil
@@ -382,7 +382,7 @@ func getVcnIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func vcnSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreVcnSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if vcnResponse, ok := response.Response.(oci_core.GetVcnResponse); ok {
 		return vcnResponse.LifecycleState != oci_core.VcnLifecycleStateTerminated
@@ -390,7 +390,7 @@ func vcnSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func vcnSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreVcnSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetVcn(context.Background(), oci_core.GetVcnRequest{
 		VcnId: resourceId,
 		RequestMetadata: common.RequestMetadata{

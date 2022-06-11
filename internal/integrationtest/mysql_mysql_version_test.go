@@ -15,11 +15,11 @@ import (
 )
 
 var (
-	mysqlVersionDataSourceRepresentation = map[string]interface{}{
+	MysqlMysqlMysqlVersionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	MysqlVersionResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_versions", "test_mysql_versions", acctest.Required, acctest.Create, mysqlVersionDataSourceRepresentation)
+	MysqlMysqlVersionResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_versions", "test_mysql_versions", acctest.Required, acctest.Create, MysqlMysqlMysqlVersionDataSourceRepresentation)
 )
 
 // issue-routing-tag: mysql/default
@@ -39,7 +39,7 @@ func TestMysqlMysqlVersionResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config + compartmentIdVariableStr + MysqlVersionResourceConfig,
+			Config: config + compartmentIdVariableStr + MysqlMysqlVersionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

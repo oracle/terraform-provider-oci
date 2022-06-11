@@ -27,20 +27,20 @@ import (
 )
 
 var (
-	TagNamespaceRequiredOnlyResource = TagNamespaceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Required, acctest.Create, tagNamespaceRepresentation)
+	IdentityTagNamespaceRequiredOnlyResource = IdentityTagNamespaceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Required, acctest.Create, IdentityTagNamespaceRepresentation)
 
-	tagNamespaceDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityTagNamespaceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"include_subcompartments": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"state":                   acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: tagNamespaceDataSourceFilterRepresentation}}
-	tagNamespaceDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityTagNamespaceDataSourceFilterRepresentation}}
+	IdentityTagNamespaceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_tag_namespace.test_tag_namespace.id}`}},
 	}
 
-	tagNamespaceRepresentation = map[string]interface{}{
+	IdentityTagNamespaceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"description":    acctest.Representation{RepType: acctest.Required, Create: `This namespace contains tags that will be used in billing.`, Update: `description2`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `BillingTags`},
@@ -48,7 +48,7 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	TagNamespaceResourceDependencies = DefinedTagsDependencies
+	IdentityTagNamespaceResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: identity/default
@@ -69,14 +69,14 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+TagNamespaceResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Optional, acctest.Create, tagNamespaceRepresentation), "identity", "tagNamespace", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentityTagNamespaceResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Optional, acctest.Create, IdentityTagNamespaceRepresentation), "identity", "tagNamespace", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityTagNamespaceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Required, acctest.Create, tagNamespaceRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityTagNamespaceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Required, acctest.Create, IdentityTagNamespaceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
@@ -91,12 +91,12 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies,
+			Config: config + compartmentIdVariableStr + IdentityTagNamespaceResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Optional, acctest.Create, tagNamespaceRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityTagNamespaceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Optional, acctest.Create, IdentityTagNamespaceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -121,9 +121,9 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + TagNamespaceResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + IdentityTagNamespaceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(tagNamespaceRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(IdentityTagNamespaceRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -148,8 +148,8 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Optional, acctest.Update, tagNamespaceRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityTagNamespaceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Optional, acctest.Update, IdentityTagNamespaceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -171,9 +171,9 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_namespaces", "test_tag_namespaces", acctest.Optional, acctest.Update, tagNamespaceDataSourceRepresentation) +
-				compartmentIdVariableStr + TagNamespaceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Optional, acctest.Update, tagNamespaceRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_namespaces", "test_tag_namespaces", acctest.Optional, acctest.Update, IdentityIdentityTagNamespaceDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityTagNamespaceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Optional, acctest.Update, IdentityTagNamespaceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "include_subcompartments", "false"),
@@ -192,7 +192,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + TagNamespaceRequiredOnlyResource,
+			Config:                  config + IdentityTagNamespaceRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -262,7 +262,7 @@ func sweepIdentityTagNamespaceResource(compartment string) error {
 	}
 
 	identityClient := acctest.GetTestClients(&schema.ResourceData{}).IdentityClient()
-	tagNamespaceIds, err := getTagNamespaceIds(compartment)
+	tagNamespaceIds, err := getIdentityTagNamespaceIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -285,14 +285,14 @@ func sweepIdentityTagNamespaceResource(compartment string) error {
 				fmt.Printf("Error deleting TagNamespace %s %s, It is possible that the resource is already deleted. Please verify manually \n", tagNamespaceId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &tagNamespaceId, tagNamespaceSweepWaitCondition, time.Duration(3*time.Minute),
-				tagNamespaceSweepResponseFetchOperation, "identity", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &tagNamespaceId, IdentityTagNamespaceSweepWaitCondition, time.Duration(3*time.Minute),
+				IdentityTagNamespaceSweepResponseFetchOperation, "identity", true)
 		}
 	}
 	return nil
 }
 
-func getTagNamespaceIds(compartment string) ([]string, error) {
+func getIdentityTagNamespaceIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "TagNamespaceId")
 	if ids != nil {
 		return ids, nil
@@ -317,7 +317,7 @@ func getTagNamespaceIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func tagNamespaceSweepWaitCondition(response common.OCIOperationResponse) bool {
+func IdentityTagNamespaceSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if tagNamespaceResponse, ok := response.Response.(oci_identity.GetTagNamespaceResponse); ok {
 		return tagNamespaceResponse.LifecycleState != oci_identity.TagNamespaceLifecycleStateDeleted
@@ -325,7 +325,7 @@ func tagNamespaceSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func tagNamespaceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func IdentityTagNamespaceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.IdentityClient().GetTagNamespace(context.Background(), oci_identity.GetTagNamespaceRequest{
 		TagNamespaceId: resourceId,
 		RequestMetadata: common.RequestMetadata{

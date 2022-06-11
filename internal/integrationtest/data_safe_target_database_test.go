@@ -26,17 +26,17 @@ import (
 )
 
 var (
-	TargetDatabaseRequiredOnlyResource = TargetDatabaseResourceDependencies +
+	DataSafeTargetDatabaseRequiredOnlyResource = DataSafeTargetDatabaseResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseRepresentation)
 
-	TargetDatabaseResourceConfig = TargetDatabaseResourceDependencies +
+	DataSafeTargetDatabaseResourceConfig = DataSafeTargetDatabaseResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Update, targetDatabaseRepresentation)
 
-	targetDatabaseSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafetargetDatabaseSingularDataSourceRepresentation = map[string]interface{}{
 		"target_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_target_database.test_target_database.id}`},
 	}
 
-	targetDatabaseDataSourceRepresentation = map[string]interface{}{
+	DataSafetargetDatabaseDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"target_database_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_target_database.test_target_database.id}`},
@@ -77,10 +77,10 @@ var (
 		"trust_store_content":    acctest.Representation{RepType: acctest.Optional, Create: `trustStoreContent`, Update: `trustStoreContent2`},
 	}
 
-	TargetDatabaseResourceDependencies = utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseRepresentation) +
+	DataSafeTargetDatabaseResourceDependencies = utils.OciImageIdsVariable +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", acctest.Required, acctest.Create, dataSafePrivateEndpointRepresentation) +
 		DefinedTagsDependencies
 
@@ -109,13 +109,13 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+TargetDatabaseResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeTargetDatabaseResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Create, targetDatabaseRepresentation), "datasafe", "targetDatabase", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeTargetDatabaseDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + TargetDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeTargetDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -132,11 +132,11 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + TargetDatabaseResourceDependencies,
+			Config: config + compartmentIdVariableStr + DataSafeTargetDatabaseResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + TargetDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeTargetDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Create, targetDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -168,7 +168,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + TargetDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeTargetDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(targetDatabaseRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -201,7 +201,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + TargetDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeTargetDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Update, targetDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -231,8 +231,8 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_databases", "test_target_databases", acctest.Optional, acctest.Update, targetDatabaseDataSourceRepresentation) +
-				compartmentIdVariableStr + TargetDatabaseResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_databases", "test_target_databases", acctest.Optional, acctest.Update, DataSafetargetDatabaseDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeTargetDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Update, targetDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -252,8 +252,8 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + TargetDatabaseResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, DataSafetargetDatabaseSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeTargetDatabaseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_database_id"),
 
@@ -274,7 +274,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + TargetDatabaseRequiredOnlyResource,
+			Config:            config + DataSafeTargetDatabaseRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -342,7 +342,7 @@ func init() {
 
 func sweepDataSafeTargetDatabaseResource(compartment string) error {
 	dataSafeClient := acctest.GetTestClients(&schema.ResourceData{}).DataSafeClient()
-	targetDatabaseIds, err := getTargetDatabaseIds(compartment)
+	targetDatabaseIds, err := getDataSafeTargetDatabaseIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -358,14 +358,14 @@ func sweepDataSafeTargetDatabaseResource(compartment string) error {
 				fmt.Printf("Error deleting TargetDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", targetDatabaseId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &targetDatabaseId, targetDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
-				targetDatabaseSweepResponseFetchOperation, "data_safe", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &targetDatabaseId, DataSafetargetDatabasesSweepWaitCondition, time.Duration(3*time.Minute),
+				DataSafetargetDatabasesSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
 	return nil
 }
 
-func getTargetDatabaseIds(compartment string) ([]string, error) {
+func getDataSafeTargetDatabaseIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "TargetDatabaseId")
 	if ids != nil {
 		return ids, nil
@@ -390,7 +390,7 @@ func getTargetDatabaseIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func targetDatabaseSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataSafetargetDatabasesSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if targetDatabaseResponse, ok := response.Response.(oci_data_safe.GetTargetDatabaseResponse); ok {
 		return targetDatabaseResponse.LifecycleState != oci_data_safe.TargetDatabaseLifecycleStateDeleted
@@ -398,7 +398,7 @@ func targetDatabaseSweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func targetDatabaseSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataSafetargetDatabasesSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataSafeClient().GetTargetDatabase(context.Background(), oci_data_safe.GetTargetDatabaseRequest{
 		TargetDatabaseId: resourceId,
 		RequestMetadata: common.RequestMetadata{

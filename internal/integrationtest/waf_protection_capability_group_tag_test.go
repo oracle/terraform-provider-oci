@@ -16,13 +16,13 @@ import (
 )
 
 var (
-	protectionCapabilityGroupTagDataSourceRepresentation = map[string]interface{}{
+	WafWafProtectionCapabilityGroupTagDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `Java`},
 		"type":           acctest.Representation{RepType: acctest.Optional, Create: `REQUEST_PROTECTION_CAPABILITY`},
 	}
 
-	ProtectionCapabilityGroupTagResourceConfig = ""
+	WafProtectionCapabilityGroupTagResourceConfig = ""
 )
 
 // issue-routing-tag: waf/default
@@ -43,8 +43,8 @@ func TestWafProtectionCapabilityGroupTagResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_protection_capability_group_tags", "test_protection_capability_group_tags", acctest.Optional, acctest.Create, protectionCapabilityGroupTagDataSourceRepresentation) +
-				compartmentIdVariableStr + ProtectionCapabilityGroupTagResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_protection_capability_group_tags", "test_protection_capability_group_tags", acctest.Optional, acctest.Create, WafWafProtectionCapabilityGroupTagDataSourceRepresentation) +
+				compartmentIdVariableStr + WafProtectionCapabilityGroupTagResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "Java"),

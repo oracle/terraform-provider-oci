@@ -17,8 +17,8 @@ import (
 
 var (
 	// Oracle Linux 8 Application Stream (x86_64)
-	softwareSourceOCID                                  = utils.GetEnvSettingWithBlankDefault("software_source_ocid")
-	softwareSourceStreamProfileDataSourceRepresentation = map[string]interface{}{
+	softwareSourceOCID                                                          = utils.GetEnvSettingWithBlankDefault("software_source_ocid")
+	OsmanagementOsmanagementSoftwareSourceStreamProfileDataSourceRepresentation = map[string]interface{}{
 		"software_source_id": acctest.Representation{RepType: acctest.Required, Create: softwareSourceOCID},
 		"module_name":        acctest.Representation{RepType: acctest.Optional, Create: `subversion`},
 		"profile_name":       acctest.Representation{RepType: acctest.Optional, Create: `common`},
@@ -44,7 +44,7 @@ func TestOsmanagementSoftwareSourceStreamProfileResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_software_source_stream_profiles", "test_software_source_stream_profiles", acctest.Optional, acctest.Create, softwareSourceStreamProfileDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_software_source_stream_profiles", "test_software_source_stream_profiles", acctest.Optional, acctest.Create, OsmanagementOsmanagementSoftwareSourceStreamProfileDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "module_name", "subversion"),

@@ -27,22 +27,22 @@ import (
 )
 
 var (
-	MountTargetRequiredOnlyResource = MountTargetResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Required, acctest.Create, mountTargetRepresentation)
+	FileStorageMountTargetRequiredOnlyResource = FileStorageMountTargetResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Required, acctest.Create, FileStorageMountTargetRepresentation)
 
-	mountTargetDataSourceRepresentation = map[string]interface{}{
+	FileStorageFileStorageMountTargetDataSourceRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `mount-target-5`, Update: `displayName2`},
 		"id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_mount_target.test_mount_target.id}`},
 		"state":               acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: mountTargetDataSourceFilterRepresentation}}
-	mountTargetDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: FileStorageMountTargetDataSourceFilterRepresentation}}
+	FileStorageMountTargetDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_file_storage_mount_target.test_mount_target.id}`}},
 	}
 
-	mountTargetRepresentation = map[string]interface{}{
+	FileStorageMountTargetRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
@@ -54,12 +54,12 @@ var (
 		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 	}
 
-	MountTargetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+	FileStorageMountTargetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 			"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
 			"dns_label":           acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig +
@@ -84,14 +84,14 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+MountTargetResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Create, mountTargetRepresentation), "filestorage", "mountTarget", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+FileStorageMountTargetResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Create, FileStorageMountTargetRepresentation), "filestorage", "mountTarget", t)
 
 	acctest.ResourceTest(t, testAccCheckFileStorageMountTargetDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Required, acctest.Create, mountTargetRepresentation),
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Required, acctest.Create, FileStorageMountTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -107,12 +107,12 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies,
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Create, mountTargetRepresentation),
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Create, FileStorageMountTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -143,9 +143,9 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MountTargetResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FileStorageMountTargetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(mountTargetRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(FileStorageMountTargetRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -174,8 +174,8 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Update, mountTargetRepresentation),
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Update, FileStorageMountTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -203,9 +203,9 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_file_storage_mount_targets", "test_mount_targets", acctest.Optional, acctest.Update, mountTargetDataSourceRepresentation) +
-				compartmentIdVariableStr + MountTargetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Update, mountTargetRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_file_storage_mount_targets", "test_mount_targets", acctest.Optional, acctest.Update, FileStorageFileStorageMountTargetDataSourceRepresentation) +
+				compartmentIdVariableStr + FileStorageMountTargetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Update, FileStorageMountTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -224,7 +224,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + MountTargetRequiredOnlyResource,
+			Config:                  config + FileStorageMountTargetRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -247,9 +247,9 @@ func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckFileStorageMountTargetDestroy, []resource.TestStep{
 		// verify resource creation fails for the second mount target with the same ip_address
 		{
-			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target1", acctest.Optional, acctest.Update, mountTargetRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target2", acctest.Optional, acctest.Update, mountTargetRepresentation),
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target1", acctest.Optional, acctest.Update, FileStorageMountTargetRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target2", acctest.Optional, acctest.Update, FileStorageMountTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 			),
@@ -313,7 +313,7 @@ func init() {
 
 func sweepFileStorageMountTargetResource(compartment string) error {
 	fileStorageClient := acctest.GetTestClients(&schema.ResourceData{}).FileStorageClient()
-	mountTargetIds, err := getMountTargetIds(compartment)
+	mountTargetIds, err := getFileStorageMountTargetIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -329,14 +329,14 @@ func sweepFileStorageMountTargetResource(compartment string) error {
 				fmt.Printf("Error deleting MountTarget %s %s, It is possible that the resource is already deleted. Please verify manually \n", mountTargetId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &mountTargetId, mountTargetSweepWaitCondition, time.Duration(3*time.Minute),
-				mountTargetSweepResponseFetchOperation, "file_storage", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &mountTargetId, FileStorageMountTargetSweepWaitCondition, time.Duration(3*time.Minute),
+				FileStorageMountTargetSweepResponseFetchOperation, "file_storage", true)
 		}
 	}
 	return nil
 }
 
-func getMountTargetIds(compartment string) ([]string, error) {
+func getFileStorageMountTargetIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "MountTargetId")
 	if ids != nil {
 		return ids, nil
@@ -371,7 +371,7 @@ func getMountTargetIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func mountTargetSweepWaitCondition(response common.OCIOperationResponse) bool {
+func FileStorageMountTargetSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if mountTargetResponse, ok := response.Response.(oci_file_storage.GetMountTargetResponse); ok {
 		return mountTargetResponse.LifecycleState != oci_file_storage.MountTargetLifecycleStateDeleted
@@ -379,7 +379,7 @@ func mountTargetSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func mountTargetSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func FileStorageMountTargetSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.FileStorageClient().GetMountTarget(context.Background(), oci_file_storage.GetMountTargetRequest{
 		MountTargetId: resourceId,
 		RequestMetadata: common.RequestMetadata{

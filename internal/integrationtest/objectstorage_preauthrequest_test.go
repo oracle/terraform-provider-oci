@@ -33,29 +33,29 @@ var (
 
 	expirationTimeForPar = time.Now().UTC().AddDate(0, 0, 1).Truncate(time.Millisecond)
 
-	PreauthenticatedRequestRequiredOnlyResource = PreauthenticatedRequestResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Required, acctest.Create, preauthenticatedRequestRepresentation)
+	ObjectStoragePreauthenticatedRequestRequiredOnlyResource = ObjectStoragePreauthenticatedRequestResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Required, acctest.Create, ObjectStoragePreauthenticatedRequestRepresentation)
 
-	PreauthenticatedRequestResourceConfig = PreauthenticatedRequestResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Optional, acctest.Update, preauthenticatedRequestRepresentation)
+	ObjectStoragePreauthenticatedRequestResourceConfig = ObjectStoragePreauthenticatedRequestResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Optional, acctest.Update, ObjectStoragePreauthenticatedRequestRepresentation)
 
-	preauthenticatedRequestSingularDataSourceRepresentation = map[string]interface{}{
+	ObjectStorageObjectStoragePreauthenticatedRequestSingularDataSourceRepresentation = map[string]interface{}{
 		"bucket":    acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
 		"par_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_preauthrequest.test_preauthenticated_request.par_id}`},
 	}
 
-	preauthenticatedRequestDataSourceRepresentation = map[string]interface{}{
+	ObjectStorageObjectStoragePreauthenticatedRequestDataSourceRepresentation = map[string]interface{}{
 		"bucket":             acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"namespace":          acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
 		"object_name_prefix": acctest.Representation{RepType: acctest.Optional, Create: `my-test-object`},
-		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: preauthenticatedRequestDataSourceFilterRepresentation}}
-	preauthenticatedRequestDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ObjectStoragePreauthenticatedRequestDataSourceFilterRepresentation}}
+	ObjectStoragePreauthenticatedRequestDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_objectstorage_preauthrequest.test_preauthenticated_request.par_id}`}},
 	}
 
-	preauthenticatedRequestRepresentation = map[string]interface{}{
+	ObjectStoragePreauthenticatedRequestRepresentation = map[string]interface{}{
 		"access_type":           acctest.Representation{RepType: acctest.Required, Create: `AnyObjectWrite`, Update: `ObjectRead`},
 		"bucket":                acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"name":                  acctest.Representation{RepType: acctest.Required, Create: `-tf-par`},
@@ -65,9 +65,9 @@ var (
 		"bucket_listing_action": acctest.Representation{RepType: acctest.Optional, Create: ``},
 	}
 
-	PreauthenticatedRequestResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("name", acctest.Representation{RepType: acctest.Required, Create: testPreAuthBucketName}, bucketRepresentation)) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Optional, acctest.Create, namespaceSingularDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, objectRepresentation)
+	ObjectStoragePreauthenticatedRequestResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("name", acctest.Representation{RepType: acctest.Required, Create: testPreAuthBucketName}, ObjectStorageBucketRepresentation)) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Optional, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, ObjectStorageObjectRepresentation)
 )
 
 // issue-routing-tag: object_storage/default
@@ -87,14 +87,14 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 	var resId string
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+PreauthenticatedRequestResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Optional, acctest.Create, preauthenticatedRequestRepresentation), "objectstorage", "preauthenticatedRequest", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ObjectStoragePreauthenticatedRequestResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Optional, acctest.Create, ObjectStoragePreauthenticatedRequestRepresentation), "objectstorage", "preauthenticatedRequest", t)
 
 	acctest.ResourceTest(t, testAccCheckObjectStoragePreauthenticatedRequestDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Required, acctest.Create, preauthenticatedRequestRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStoragePreauthenticatedRequestResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Required, acctest.Create, ObjectStoragePreauthenticatedRequestRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "access_type", "AnyObjectWrite"),
 				resource.TestCheckResourceAttr(resourceName, "bucket", testPreAuthBucketName),
@@ -106,12 +106,12 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies,
+			Config: config + compartmentIdVariableStr + ObjectStoragePreauthenticatedRequestResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Optional, acctest.Update, preauthenticatedRequestRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStoragePreauthenticatedRequestResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Optional, acctest.Update, ObjectStoragePreauthenticatedRequestRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 				resource.TestCheckResourceAttr(resourceName, "bucket_listing_action", ""),
@@ -139,9 +139,9 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequests", "test_preauthenticated_requests", acctest.Optional, acctest.Update, preauthenticatedRequestDataSourceRepresentation) +
-				compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Optional, acctest.Update, preauthenticatedRequestRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequests", "test_preauthenticated_requests", acctest.Optional, acctest.Update, ObjectStorageObjectStoragePreauthenticatedRequestDataSourceRepresentation) +
+				compartmentIdVariableStr + ObjectStoragePreauthenticatedRequestResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Optional, acctest.Update, ObjectStoragePreauthenticatedRequestRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "bucket", testPreAuthBucketName),
 				resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -160,9 +160,9 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Required, acctest.Create, preauthenticatedRequestSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Optional, acctest.Update, preauthenticatedRequestRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Required, acctest.Create, ObjectStorageObjectStoragePreauthenticatedRequestSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ObjectStoragePreauthenticatedRequestResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Optional, acctest.Update, ObjectStoragePreauthenticatedRequestRepresentation),
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testPreAuthBucketName),
@@ -180,7 +180,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + PreauthenticatedRequestRequiredOnlyResource,
+			Config:            config + ObjectStoragePreauthenticatedRequestRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -253,7 +253,7 @@ func init() {
 
 func sweepObjectStoragePreauthenticatedRequestResource(compartment string) error {
 	objectStorageClient := acctest.GetTestClients(&schema.ResourceData{}).ObjectStorageClient()
-	preauthenticatedRequestIds, err := getPreauthenticatedRequestIds(compartment)
+	preauthenticatedRequestIds, err := getObjectStoragePreauthenticatedRequestIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -274,7 +274,7 @@ func sweepObjectStoragePreauthenticatedRequestResource(compartment string) error
 	return nil
 }
 
-func getPreauthenticatedRequestIds(compartment string) ([]string, error) {
+func getObjectStoragePreauthenticatedRequestIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "PreauthenticatedRequestId")
 	if ids != nil {
 		return ids, nil
@@ -285,7 +285,7 @@ func getPreauthenticatedRequestIds(compartment string) ([]string, error) {
 
 	listPreauthenticatedRequestsRequest := oci_object_storage.ListPreauthenticatedRequestsRequest{}
 
-	buckets, error := getBucketIds(compartment)
+	buckets, error := getObjectStorageBucketIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting bucket required for PreauthenticatedRequest resource requests \n")
 	}

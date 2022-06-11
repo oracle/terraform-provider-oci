@@ -29,30 +29,30 @@ import (
 var (
 	topicNameRequiredOnly                 = `t` + utils.RandomString(10, utils.Charset)
 	topicName                             = `t` + utils.RandomString(10, utils.Charset)
-	NotificationTopicRequiredOnlyResource = NotificationTopicResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
+	NotificationTopicRequiredOnlyResource = OnsNotificationTopicResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(OnsNotificationTopicRepresentation, map[string]interface{}{
 			"name": acctest.Representation{RepType: acctest.Required, Create: topicNameRequiredOnly},
 		}))
 
-	NotificationTopicResourceConfig = NotificationTopicResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Optional, acctest.Update, notificationTopicRepresentation)
+	OnsNotificationTopicResourceConfig = OnsNotificationTopicResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Optional, acctest.Update, OnsNotificationTopicRepresentation)
 
-	notificationTopicSingularDataSourceRepresentation = map[string]interface{}{
+	OnsOnsNotificationTopicSingularDataSourceRepresentation = map[string]interface{}{
 		"topic_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_ons_notification_topic.test_notification_topic.id}`},
 	}
 
-	notificationTopicDataSourceRepresentation = map[string]interface{}{
+	OnsOnsNotificationTopicDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_ons_notification_topic.test_notification_topic.id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: topicName},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: notificationTopicDataSourceFilterRepresentation}}
-	notificationTopicDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: OnsNotificationTopicDataSourceFilterRepresentation}}
+	OnsNotificationTopicDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `topic_id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_ons_notification_topic.test_notification_topic.id}`}},
 	}
 
-	notificationTopicRepresentation = map[string]interface{}{
+	OnsNotificationTopicRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: topicName},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -60,11 +60,11 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	NotificationTopicResourceDependencies = DefinedTagsDependencies
+	OnsNotificationTopicResourceDependencies = DefinedTagsDependencies
 )
 
 func getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(length int, charset string, httpReplayValue string) map[string]interface{} {
-	return acctest.RepresentationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
+	return acctest.RepresentationCopyWithNewProperties(OnsNotificationTopicRepresentation, map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: utils.RandomStringOrHttpReplayValue(length, utils.Charset, httpReplayValue)},
 	})
 }
@@ -88,8 +88,8 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+NotificationTopicResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Optional, acctest.Create, notificationTopicRepresentation), "ons", "notificationTopic", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OnsNotificationTopicResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Optional, acctest.Create, OnsNotificationTopicRepresentation), "ons", "notificationTopic", t)
 
 	acctest.ResourceTest(t, testAccCheckOnsNotificationTopicDestroy, []resource.TestStep{
 		// verify Create
@@ -108,12 +108,12 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + NotificationTopicResourceDependencies,
+			Config: config + compartmentIdVariableStr + OnsNotificationTopicResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + NotificationTopicResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Optional, acctest.Create, notificationTopicRepresentation),
+			Config: config + compartmentIdVariableStr + OnsNotificationTopicResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Optional, acctest.Create, OnsNotificationTopicRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "api_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -138,9 +138,9 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NotificationTopicResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OnsNotificationTopicResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(OnsNotificationTopicRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -165,8 +165,8 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + NotificationTopicResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Optional, acctest.Update, notificationTopicRepresentation),
+			Config: config + compartmentIdVariableStr + OnsNotificationTopicResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Optional, acctest.Update, OnsNotificationTopicRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "api_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -189,9 +189,9 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ons_notification_topics", "test_notification_topics", acctest.Optional, acctest.Update, notificationTopicDataSourceRepresentation) +
-				compartmentIdVariableStr + NotificationTopicResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Optional, acctest.Update, notificationTopicRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ons_notification_topics", "test_notification_topics", acctest.Optional, acctest.Update, OnsOnsNotificationTopicDataSourceRepresentation) +
+				compartmentIdVariableStr + OnsNotificationTopicResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Optional, acctest.Update, OnsNotificationTopicRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -212,8 +212,8 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + NotificationTopicResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsOnsNotificationTopicSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OnsNotificationTopicResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "api_endpoint"),
@@ -289,7 +289,7 @@ func init() {
 
 func sweepOnsNotificationTopicResource(compartment string) error {
 	notificationControlPlaneClient := acctest.GetTestClients(&schema.ResourceData{}).NotificationControlPlaneClient()
-	notificationTopicIds, err := getNotificationTopicIds(compartment)
+	notificationTopicIds, err := getOnsNotificationTopicIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -310,7 +310,7 @@ func sweepOnsNotificationTopicResource(compartment string) error {
 	return nil
 }
 
-func getNotificationTopicIds(compartment string) ([]string, error) {
+func getOnsNotificationTopicIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "NotificationTopicId")
 	if ids != nil {
 		return ids, nil

@@ -21,15 +21,15 @@ import (
 )
 
 var (
-	InvokeFunctionRequiredOnlyResource = InvokeFunctionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Required, acctest.Create, invokeFunctionRepresentation)
+	FunctionsInvokeFunctionRequiredOnlyResource = FunctionsInvokeFunctionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Required, acctest.Create, FunctionsInvokeFunctionRepresentation)
 
-	InvokeFunctionResourceConfig = InvokeFunctionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Optional, acctest.Update, invokeFunctionRepresentation)
+	InvokeFunctionResourceConfig = FunctionsInvokeFunctionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Optional, acctest.Update, FunctionsInvokeFunctionRepresentation)
 
-	invokeFunctionSingularDataSourceRepresentation = map[string]interface{}{}
+	FunctionsInvokeFunctionSingularDataSourceRepresentation = map[string]interface{}{}
 
-	invokeFunctionRepresentation = map[string]interface{}{
+	FunctionsInvokeFunctionRepresentation = map[string]interface{}{
 		"function_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_functions_function.test_function.id}`},
 		"invoke_function_body": acctest.Representation{RepType: acctest.Optional, Create: `{\"name\":\"Bob\"}`},
 		"fn_intent":            acctest.Representation{RepType: acctest.Optional, Create: `httprequest`},
@@ -38,14 +38,14 @@ var (
 
 	invokeApplicationDisplayName = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 
-	InvokeFunctionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create,
-		acctest.GetUpdatedRepresentationCopy("display_name", acctest.Representation{RepType: acctest.Required, Create: invokeApplicationDisplayName}, applicationRepresentation)) +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, functionRepresentation) +
+	FunctionsInvokeFunctionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create,
+		acctest.GetUpdatedRepresentationCopy("display_name", acctest.Representation{RepType: acctest.Required, Create: invokeApplicationDisplayName}, FunctionsApplicationRepresentation)) +
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
 		AvailabilityDomainConfig +
-		DhcpOptionsRequiredOnlyResource +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Create, routeTableRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, internetGatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, vcnRepresentation) +
+		CoreDhcpOptionsRequiredOnlyResource +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Create, CoreRouteTableRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig +
 		`
@@ -128,8 +128,8 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 	var resId string
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+InvokeFunctionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Optional, acctest.Create, invokeFunctionRepresentation), "functions", "invokeFunction", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+FunctionsInvokeFunctionResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Optional, acctest.Create, FunctionsInvokeFunctionRepresentation), "functions", "invokeFunction", t)
 
 	sourceFilePath, err := createTmpSourceFile()
 	if err != nil {
@@ -139,8 +139,8 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Required, acctest.Create, invokeFunctionRepresentation),
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionsInvokeFunctionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Required, acctest.Create, FunctionsInvokeFunctionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "function_id"),
 				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 World\"}\n"),
@@ -149,12 +149,12 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies,
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionsInvokeFunctionResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Optional, acctest.Create, invokeFunctionRepresentation),
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionsInvokeFunctionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Optional, acctest.Create, FunctionsInvokeFunctionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
 				func(s *terraform.State) (err error) {
@@ -170,36 +170,36 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionsInvokeFunctionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("fn_intent", acctest.Representation{RepType: acctest.Optional, Create: `cloudevent`}, invokeFunctionRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("fn_intent", acctest.Representation{RepType: acctest.Optional, Create: `cloudevent`}, FunctionsInvokeFunctionRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
 			),
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionsInvokeFunctionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("fn_invoke_type", acctest.Representation{RepType: acctest.Optional, Create: `detached`}, invokeFunctionRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("fn_invoke_type", acctest.Representation{RepType: acctest.Optional, Create: `detached`}, FunctionsInvokeFunctionRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "function_id"),
 			),
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionsInvokeFunctionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("fn_intent", acctest.Representation{RepType: acctest.Optional, Create: `cloudevent`}, acctest.GetUpdatedRepresentationCopy("fn_invoke_type", acctest.Representation{RepType: acctest.Optional, Create: `detached`}, invokeFunctionRepresentation))),
+					acctest.GetUpdatedRepresentationCopy("fn_intent", acctest.Representation{RepType: acctest.Optional, Create: `cloudevent`}, acctest.GetUpdatedRepresentationCopy("fn_invoke_type", acctest.Representation{RepType: acctest.Optional, Create: `detached`}, FunctionsInvokeFunctionRepresentation))),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "function_id"),
 			),
 		},
 		// verify Create with source path
 		{
-			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionsInvokeFunctionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(invokeFunctionRepresentation, []string{"invoke_function_body"}), map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(FunctionsInvokeFunctionRepresentation, []string{"invoke_function_body"}), map[string]interface{}{
 						"input_body_source_path": acctest.Representation{RepType: acctest.Optional, Create: sourceFilePath},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -208,9 +208,9 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 		},
 		// verify Create with base64 encoded input
 		{
-			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionsInvokeFunctionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(invokeFunctionRepresentation, []string{"invoke_function_body"}), map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(FunctionsInvokeFunctionRepresentation, []string{"invoke_function_body"}), map[string]interface{}{
 						"invoke_function_body_base64_encoded": acctest.Representation{RepType: acctest.Optional, Create: "eyJuYW1lIjoiQm9iIn0="},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -219,9 +219,9 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 		},
 		// verify base64 encoded content
 		{
-			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionsInvokeFunctionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(invokeFunctionRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(FunctionsInvokeFunctionRepresentation, map[string]interface{}{
 						"base64_encode_content": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(

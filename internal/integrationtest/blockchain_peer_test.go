@@ -25,18 +25,18 @@ import (
 )
 
 var (
-	PeerRequiredOnlyResource = PeerResourceDependencies +
+	BlockchainPeerRequiredOnlyResource = BlockchainPeerResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", acctest.Required, acctest.Create, peerRepresentation)
 
-	PeerResourceConfig = PeerResourceDependencies +
+	BlockchainPeerResourceConfig = BlockchainPeerResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", acctest.Optional, acctest.Update, peerRepresentation)
 
-	peerSingularDataSourceRepresentation = map[string]interface{}{
+	BlockchainpeerSingularDataSourceRepresentation = map[string]interface{}{
 		"blockchain_platform_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
 		"peer_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_blockchain_peer.test_peer.id}`},
 	}
 
-	peerDataSourceRepresentation = map[string]interface{}{
+	BlockchainpeerDataSourceRepresentation = map[string]interface{}{
 		"blockchain_platform_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"filter":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: peerDataSourceFilterRepresentation}}
@@ -56,7 +56,7 @@ var (
 		"ocpu_allocation_number": acctest.Representation{RepType: acctest.Required, Create: `0.5`, Update: `0.6`},
 	}
 
-	PeerResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Required, acctest.Create, blockchainPlatformRepresentation)
+	BlockchainPeerResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Required, acctest.Create, blockchainPlatformRepresentation)
 )
 
 // issue-routing-tag: blockchain/default
@@ -79,13 +79,13 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 	var resId, resId2, compositeId string
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+PeerResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+BlockchainPeerResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", acctest.Optional, acctest.Create, peerRepresentation), "blockchain", "peer", t)
 
 	acctest.ResourceTest(t, testAccCheckBlockchainPeerDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
+			Config: config + compartmentIdVariableStr + BlockchainPeerResourceDependencies + idcsAccessTokenVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", acctest.Required, acctest.Create, peerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
@@ -103,11 +103,11 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr,
+			Config: config + compartmentIdVariableStr + BlockchainPeerResourceDependencies + idcsAccessTokenVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
+			Config: config + compartmentIdVariableStr + BlockchainPeerResourceDependencies + idcsAccessTokenVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", acctest.Optional, acctest.Create, peerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
@@ -135,7 +135,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
+			Config: config + compartmentIdVariableStr + BlockchainPeerResourceDependencies + idcsAccessTokenVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", acctest.Optional, acctest.Update, peerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
@@ -159,8 +159,8 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_blockchain_peers", "test_peers", acctest.Optional, acctest.Update, peerDataSourceRepresentation) +
-				compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_blockchain_peers", "test_peers", acctest.Optional, acctest.Update, BlockchainpeerDataSourceRepresentation) +
+				compartmentIdVariableStr + BlockchainPeerResourceDependencies + idcsAccessTokenVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", acctest.Optional, acctest.Update, peerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "blockchain_platform_id"),
@@ -170,8 +170,8 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_blockchain_peer", "test_peer", acctest.Required, acctest.Create, peerSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + idcsAccessTokenVariableStr + PeerResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_blockchain_peer", "test_peer", acctest.Required, acctest.Create, BlockchainpeerSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPeerResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_id"),
@@ -188,7 +188,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + PeerRequiredOnlyResource,
+			Config:                  config + BlockchainPeerRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateIdFunc:       getBlockchainPeerCompositeId(resourceName),
 			ImportStateVerify:       true,
@@ -260,7 +260,7 @@ func init() {
 
 func sweepBlockchainPeerResource(compartment string) error {
 	blockchainPlatformClient := acctest.GetTestClients(&schema.ResourceData{}).BlockchainPlatformClient()
-	peerIds, err := getPeerIds(compartment)
+	peerIds, err := getBlockchainPeerIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -281,7 +281,7 @@ func sweepBlockchainPeerResource(compartment string) error {
 	return nil
 }
 
-func getPeerIds(compartment string) ([]string, error) {
+func getBlockchainPeerIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "PeerId")
 	if ids != nil {
 		return ids, nil

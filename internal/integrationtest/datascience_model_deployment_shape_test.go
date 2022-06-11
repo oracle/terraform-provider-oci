@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	modelDeploymentShapeDataSourceRepresentation = map[string]interface{}{
+	DatascienceDatascienceModelDeploymentShapeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	ModelDeploymentShapeResourceConfig = ""
+	DatascienceModelDeploymentShapeResourceConfig = ""
 )
 
 // issue-routing-tag: datascience/default
@@ -39,8 +39,8 @@ func TestDatascienceModelDeploymentShapeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_model_deployment_shapes", "test_model_deployment_shapes", acctest.Required, acctest.Create, modelDeploymentShapeDataSourceRepresentation) +
-				compartmentIdVariableStr + ModelDeploymentShapeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_model_deployment_shapes", "test_model_deployment_shapes", acctest.Required, acctest.Create, DatascienceDatascienceModelDeploymentShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + DatascienceModelDeploymentShapeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

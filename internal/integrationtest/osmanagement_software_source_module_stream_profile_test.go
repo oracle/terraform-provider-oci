@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	softwareSourceModuleStreamProfileSingularDataSourceRepresentation = map[string]interface{}{
+	OsmanagementOsmanagementSoftwareSourceModuleStreamProfileSingularDataSourceRepresentation = map[string]interface{}{
 		"module_name":        acctest.Representation{RepType: acctest.Required, Create: `subversion`},
 		"profile_name":       acctest.Representation{RepType: acctest.Required, Create: `common`},
 		"software_source_id": acctest.Representation{RepType: acctest.Required, Create: softwareSourceOCID},
@@ -42,7 +42,7 @@ func TestOsmanagementSoftwareSourceModuleStreamProfileResource_basic(t *testing.
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_software_source_module_stream_profile", "test_software_source_module_stream_profile", acctest.Required, acctest.Create, softwareSourceModuleStreamProfileSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_software_source_module_stream_profile", "test_software_source_module_stream_profile", acctest.Required, acctest.Create, OsmanagementOsmanagementSoftwareSourceModuleStreamProfileSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "module_name"),

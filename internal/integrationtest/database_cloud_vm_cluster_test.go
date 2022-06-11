@@ -26,31 +26,31 @@ import (
 )
 
 var (
-	CloudVmClusterRequiredOnlyResource = CloudVmClusterResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, cloudVmClusterRepresentation)
+	DatabaseCloudVmClusterRequiredOnlyResource = DatabaseCloudVmClusterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudVmClusterRepresentation)
 
-	CloudVmClusterResourceConfig = CloudVmClusterResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update, cloudVmClusterRepresentation)
+	DatabaseCloudVmClusterResourceConfig = DatabaseCloudVmClusterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update, DatabaseCloudVmClusterRepresentation)
 
 	CloudVmClusterResourceConfigUpdateInfra = CloudVmClusterResourceUpdateDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update, cloudVmClusterRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update, DatabaseCloudVmClusterRepresentation)
 
-	cloudVmClusterSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseCloudVmClusterSingularDataSourceRepresentation = map[string]interface{}{
 		"cloud_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
 	}
 
-	cloudVmClusterDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseCloudVmClusterDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
 		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: `cloudVmCluster`, Update: `displayName2`},
 		"state":                           acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: cloudVmClusterDataSourceFilterRepresentation}}
-	cloudVmClusterDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseCloudVmClusterDataSourceFilterRepresentation}}
+	DatabaseCloudVmClusterDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`}},
 	}
 
-	cloudVmClusterRepresentation = map[string]interface{}{
+	DatabaseCloudVmClusterRepresentation = map[string]interface{}{
 		"backup_subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet_backup.id}`},
 		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
 		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -77,7 +77,7 @@ var (
 		"time_zone":                       acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
 	}
 
-	cloudVmClusterRepresentation2 = map[string]interface{}{
+	DatabaseCloudVmClusterRepresentation2 = map[string]interface{}{
 		"backup_subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet_backup.id}`},
 		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
 		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -220,18 +220,18 @@ var (
                     }
                 }
 `
-	CloudVmClusterResourceDependencies = ad_subnet_security + acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create,
-		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(cloudExadataInfrastructureRepresentation, []string{"compute_count"}), map[string]interface{}{
+	DatabaseCloudVmClusterResourceDependencies = ad_subnet_security + acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create,
+		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudExadataInfrastructureRepresentation, []string{"compute_count"}), map[string]interface{}{
 			"compute_count": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
 		}))
 
 	CloudVmClusterResourceUpdateDependencies = ad_subnet_security + acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Update,
-		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(cloudExadataInfrastructureRepresentation, []string{"compute_count"}), map[string]interface{}{
+		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudExadataInfrastructureRepresentation, []string{"compute_count"}), map[string]interface{}{
 			"compute_count": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
 		}))
 
 	CloudVmClusterResourceUpdateStorageDependencies = ad_subnet_security + acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Update,
-		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(cloudExadataInfrastructureRepresentation, []string{"storage_count"}), map[string]interface{}{
+		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudExadataInfrastructureRepresentation, []string{"storage_count"}), map[string]interface{}{
 			"storage_count": acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `4`},
 		}))
 )
@@ -255,14 +255,14 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudVmClusterResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, cloudVmClusterRepresentation), "database", "cloudVmCluster", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseCloudVmClusterResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, DatabaseCloudVmClusterRepresentation), "database", "cloudVmCluster", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseCloudVmClusterDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, cloudVmClusterRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudVmClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
@@ -283,12 +283,12 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig,
+			Config: config + compartmentIdVariableStr + DatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, cloudVmClusterRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, DatabaseCloudVmClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
@@ -329,9 +329,9 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 
 		// verify update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(cloudVmClusterRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatabaseCloudVmClusterRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -374,7 +374,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CloudVmClusterResourceUpdateDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update, cloudVmClusterRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update, DatabaseCloudVmClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
@@ -415,9 +415,9 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_cloud_vm_clusters", "test_cloud_vm_clusters", acctest.Optional, acctest.Update, cloudVmClusterDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_cloud_vm_clusters", "test_cloud_vm_clusters", acctest.Optional, acctest.Update, DatabaseDatabaseCloudVmClusterDataSourceRepresentation) +
 				compartmentIdVariableStr + CloudVmClusterResourceUpdateDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Update, cloudVmClusterRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Update, DatabaseCloudVmClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -461,7 +461,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, cloudVmClusterSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, DatabaseDatabaseCloudVmClusterSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + CloudVmClusterResourceConfigUpdateInfra + DefinedTagsDependencies + AvailabilityDomainConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cloud_vm_cluster_id"),
@@ -498,7 +498,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + CloudVmClusterRequiredOnlyResource,
+			Config:            config + DatabaseCloudVmClusterRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -526,14 +526,14 @@ func TestDatabaseCloudVmClusterUpdate(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudVmClusterResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, cloudVmClusterRepresentation2), "database", "cloudVmCluster", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseCloudVmClusterResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, DatabaseCloudVmClusterRepresentation2), "database", "cloudVmCluster", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseCloudVmClusterDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, cloudVmClusterRepresentation2),
+			Config: config + compartmentIdVariableStr + DatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudVmClusterRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
@@ -554,12 +554,12 @@ func TestDatabaseCloudVmClusterUpdate(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig,
+			Config: config + compartmentIdVariableStr + DatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, cloudVmClusterRepresentation2),
+			Config: config + compartmentIdVariableStr + DatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, DatabaseCloudVmClusterRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
@@ -597,9 +597,9 @@ func TestDatabaseCloudVmClusterUpdate(t *testing.T) {
 
 		// verify update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(cloudVmClusterRepresentation2, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatabaseCloudVmClusterRepresentation2, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -640,7 +640,7 @@ func TestDatabaseCloudVmClusterUpdate(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CloudVmClusterResourceUpdateStorageDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update, cloudVmClusterRepresentation2),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update, DatabaseCloudVmClusterRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
@@ -732,7 +732,7 @@ func init() {
 
 func sweepDatabaseCloudVmClusterResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	cloudVmClusterIds, err := getCloudVmClusterIds(compartment)
+	cloudVmClusterIds, err := getDatabaseCloudVmClusterIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -748,14 +748,14 @@ func sweepDatabaseCloudVmClusterResource(compartment string) error {
 				fmt.Printf("Error deleting CloudVmCluster %s %s, It is possible that the resource is already deleted. Please verify manually \n", cloudVmClusterId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &cloudVmClusterId, cloudVmClusterSweepWaitCondition, time.Duration(3*time.Minute),
-				cloudVmClusterSweepResponseFetchOperation, "database", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &cloudVmClusterId, DatabaseCloudVmClusterSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseCloudVmClusterSweepResponseFetchOperation, "database", true)
 		}
 	}
 	return nil
 }
 
-func getCloudVmClusterIds(compartment string) ([]string, error) {
+func getDatabaseCloudVmClusterIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "CloudVmClusterId")
 	if ids != nil {
 		return ids, nil
@@ -780,7 +780,7 @@ func getCloudVmClusterIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func cloudVmClusterSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseCloudVmClusterSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if cloudVmClusterResponse, ok := response.Response.(oci_database.GetCloudVmClusterResponse); ok {
 		return cloudVmClusterResponse.LifecycleState != oci_database.CloudVmClusterLifecycleStateTerminated
@@ -788,7 +788,7 @@ func cloudVmClusterSweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func cloudVmClusterSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseCloudVmClusterSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseClient().GetCloudVmCluster(context.Background(), oci_database.GetCloudVmClusterRequest{
 		CloudVmClusterId: resourceId,
 		RequestMetadata: common.RequestMetadata{

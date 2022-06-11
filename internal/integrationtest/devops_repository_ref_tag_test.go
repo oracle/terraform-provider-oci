@@ -53,9 +53,9 @@ var (
 		"object_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.commit_id}`},
 	}
 
-	RepositoryTagRefResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, devopsRepositoryRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+	RepositoryTagRefResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, DevopsRepositoryRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -247,7 +247,7 @@ func getRepositoryTagRefIds(compartment string) ([]string, error) {
 
 	listRefsRequest := oci_devops.ListRefsRequest{}
 
-	repositoryIds, error := devopsGetRepositoryIds(compartment)
+	repositoryIds, error := getDevopsRepositoryIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting repositoryId required for RepositoryRef resource requests \n")
 	}

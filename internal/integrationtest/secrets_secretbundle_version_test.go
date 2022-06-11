@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	secretbundleVersionDataSourceRepresentation = map[string]interface{}{
+	SecretsSecretsSecretbundleVersionDataSourceRepresentation = map[string]interface{}{
 		"secret_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_secret.id}`},
 	}
 
-	SecretbundleVersionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, secretRepresentation)
+	SecretsSecretbundleVersionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, VaultSecretRepresentation)
 )
 
 // issue-routing-tag: secrets/default
@@ -47,8 +47,8 @@ func TestSecretsSecretbundleVersionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + vaultIdVariableStr + keyIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_secrets_secretbundle_versions", "test_secretbundle_versions", acctest.Required, acctest.Create, secretbundleVersionDataSourceRepresentation) +
-				compartmentIdVariableStr + SecretbundleVersionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_secrets_secretbundle_versions", "test_secretbundle_versions", acctest.Required, acctest.Create, SecretsSecretsSecretbundleVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + SecretsSecretbundleVersionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "secret_id"),
 

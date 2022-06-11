@@ -22,7 +22,7 @@ import (
 var (
 	ApmSyntheticsScriptResourceRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Required, acctest.Create, jsScriptRepresentation)
 
-	JsScriptResourceConfig = ScriptResourceDependencies +
+	JsScriptResourceConfig = ApmSyntheticsScriptResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Update, jsScriptRepresentation)
 
 	jsScriptSingularDataSourceRepresentation = map[string]interface{}{
@@ -68,7 +68,7 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ScriptResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApmSyntheticsScriptResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Create, jsScriptRepresentation), "apmsynthetics", "script", t)
 
 	resource.Test(t, resource.TestCase{
@@ -80,7 +80,7 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify Create
 			{
-				Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
+				Config: config + compartmentIdVariableStr + ApmSyntheticsScriptResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Required, acctest.Create, jsScriptRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
@@ -97,11 +97,11 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 
 			// delete before next Create
 			{
-				Config: config + compartmentIdVariableStr + ScriptResourceDependencies,
+				Config: config + compartmentIdVariableStr + ApmSyntheticsScriptResourceDependencies,
 			},
 			// verify Create with optionals
 			{
-				Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
+				Config: config + compartmentIdVariableStr + ApmSyntheticsScriptResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Create, jsScriptRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
@@ -126,7 +126,7 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
+				Config: config + compartmentIdVariableStr + ApmSyntheticsScriptResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Update, jsScriptRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
@@ -150,7 +150,7 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_scripts", "test_scripts", acctest.Optional, acctest.Update, jsScriptDataSourceRepresentation) +
-					compartmentIdVariableStr + ScriptResourceDependencies +
+					compartmentIdVariableStr + ApmSyntheticsScriptResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Update, jsScriptRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),

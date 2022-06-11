@@ -25,30 +25,30 @@ import (
 )
 
 var (
-	MysqlBackupRequiredOnlyResource = MysqlBackupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Required, acctest.Create, mysqlBackupRepresentation)
+	MysqlMysqlBackupRequiredOnlyResource = MysqlMysqlBackupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Required, acctest.Create, MysqlMysqlBackupRepresentation)
 
-	MysqlBackupResourceConfig = MysqlBackupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Update, mysqlBackupRepresentation)
+	MysqlMysqlBackupResourceConfig = MysqlMysqlBackupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Update, MysqlMysqlBackupRepresentation)
 
-	mysqlBackupSingularDataSourceRepresentation = map[string]interface{}{
+	MysqlMysqlMysqlBackupSingularDataSourceRepresentation = map[string]interface{}{
 		"backup_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_backup.test_mysql_backup.id}`},
 	}
 
-	mysqlBackupDataSourceRepresentation = map[string]interface{}{
+	MysqlMysqlMysqlBackupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"backup_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_backup.test_mysql_backup.id}`},
 		"creation_type":  acctest.Representation{RepType: acctest.Optional, Create: `MANUAL`},
 		"db_system_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_backup_db_system.id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: mysqlBackupDataSourceFilterRepresentation}}
-	mysqlBackupDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlMysqlBackupDataSourceFilterRepresentation}}
+	MysqlMysqlBackupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_mysql_mysql_backup.test_mysql_backup.id}`}},
 	}
 
-	mysqlBackupRepresentation = map[string]interface{}{
+	MysqlMysqlBackupRepresentation = map[string]interface{}{
 		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"db_system_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_backup_db_system.id}`},
 		"backup_type":       acctest.Representation{RepType: acctest.Optional, Create: `INCREMENTAL`},
@@ -64,10 +64,10 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags"}},
 	}
 
-	MysqlBackupResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		MysqlConfigurationResourceConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", acctest.Required, acctest.Create, mysqlDbSystemRepresentation) +
+	MysqlMysqlBackupResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		MysqlMysqlConfigurationResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", acctest.Required, acctest.Create, MysqlMysqlDbSystemRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -91,14 +91,14 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+MysqlBackupResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Create, mysqlBackupRepresentation), "mysql", "mysqlBackup", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+MysqlMysqlBackupResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Create, MysqlMysqlBackupRepresentation), "mysql", "mysqlBackup", t)
 
 	acctest.ResourceTest(t, testAccCheckMysqlMysqlBackupDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + MysqlBackupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Required, acctest.Create, mysqlBackupRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlMysqlBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Required, acctest.Create, MysqlMysqlBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 
@@ -111,13 +111,13 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + MysqlBackupResourceDependencies,
+			Config: config + compartmentIdVariableStr + MysqlMysqlBackupResourceDependencies,
 		},
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + MysqlBackupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Create, mysqlBackupRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlMysqlBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Create, MysqlMysqlBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "backup_type", "INCREMENTAL"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -146,9 +146,9 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MysqlBackupResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MysqlMysqlBackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(mysqlBackupRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(MysqlMysqlBackupRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -177,8 +177,8 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + MysqlBackupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Update, mysqlBackupRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlMysqlBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Update, MysqlMysqlBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "backup_type", "INCREMENTAL"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -205,9 +205,9 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_backups", "test_mysql_backups", acctest.Optional, acctest.Update, mysqlBackupDataSourceRepresentation) +
-				compartmentIdVariableStr + MysqlBackupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Update, mysqlBackupRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_backups", "test_mysql_backups", acctest.Optional, acctest.Update, MysqlMysqlMysqlBackupDataSourceRepresentation) +
+				compartmentIdVariableStr + MysqlMysqlBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Update, MysqlMysqlBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "backup_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -236,8 +236,8 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Required, acctest.Create, mysqlBackupSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + MysqlBackupResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Required, acctest.Create, MysqlMysqlMysqlBackupSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MysqlMysqlBackupResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_id"),
 
@@ -261,7 +261,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + MysqlBackupRequiredOnlyResource,
+			Config:                  config + MysqlMysqlBackupRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -325,7 +325,7 @@ func init() {
 
 func sweepMysqlMysqlBackupResource(compartment string) error {
 	dbBackupsClient := acctest.GetTestClients(&schema.ResourceData{}).DbBackupsClient()
-	mysqlBackupIds, err := getMysqlBackupIds(compartment)
+	mysqlBackupIds, err := getMysqlMysqlBackupIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -340,14 +340,14 @@ func sweepMysqlMysqlBackupResource(compartment string) error {
 				fmt.Printf("Error deleting MysqlBackup %s %s, It is possible that the resource is already deleted. Please verify manually \n", mysqlBackupId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &mysqlBackupId, mysqlBackupSweepWaitCondition, time.Duration(3*time.Minute),
-				mysqlBackupSweepResponseFetchOperation, "mysql", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &mysqlBackupId, MysqlMysqlBackupSweepWaitCondition, time.Duration(3*time.Minute),
+				MysqlMysqlBackupSweepResponseFetchOperation, "mysql", true)
 		}
 	}
 	return nil
 }
 
-func getMysqlBackupIds(compartment string) ([]string, error) {
+func getMysqlMysqlBackupIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "MysqlBackupId")
 	if ids != nil {
 		return ids, nil
@@ -372,7 +372,7 @@ func getMysqlBackupIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func mysqlBackupSweepWaitCondition(response common.OCIOperationResponse) bool {
+func MysqlMysqlBackupSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if mysqlBackupResponse, ok := response.Response.(oci_mysql.GetBackupResponse); ok {
 		return mysqlBackupResponse.LifecycleState != oci_mysql.BackupLifecycleStateDeleted
@@ -380,7 +380,7 @@ func mysqlBackupSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func mysqlBackupSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func MysqlMysqlBackupSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DbBackupsClient().GetBackup(context.Background(), oci_mysql.GetBackupRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},

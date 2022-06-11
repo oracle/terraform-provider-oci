@@ -22,17 +22,17 @@ import (
 )
 
 var (
-	AlertRequiredOnlyResource = AlertResourceDependencies +
+	DataSafeAlertRequiredOnlyResource = DataSafeAlertResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_alert", "test_alert", acctest.Required, acctest.Create, alertRepresentation)
 
-	AlertResourceConfig = AlertResourceDependencies +
+	DataSafeAlertResourceConfig = DataSafeAlertResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_alert", "test_alert", acctest.Optional, acctest.Update, alertRepresentation)
 
-	alertSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafealertSingularDataSourceRepresentation = map[string]interface{}{
 		"alert_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_alert.test_alert.id}`},
 	}
 
-	alertDataSourceRepresentation = map[string]interface{}{
+	DataSafealertDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
@@ -58,7 +58,7 @@ var (
 	ignoreFeatureDetailsSystemTagsChangesRep = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`, `feature_details`}},
 	}
-	AlertResourceDependencies = DefinedTagsDependencies
+	DataSafeAlertResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -84,7 +84,7 @@ func TestDataSafeAlertResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+compartmentIdUVariableStr+alertIdVariableStr+AlertResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+compartmentIdUVariableStr+alertIdVariableStr+DataSafeAlertResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_alert", "test_alert", acctest.Optional, acctest.Create,
 			acctest.RepresentationCopyWithNewProperties(alertRepresentation, map[string]interface{}{
 				"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -93,7 +93,7 @@ func TestDataSafeAlertResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + alertIdVariableStr + AlertRequiredOnlyResource,
+			Config: config + compartmentIdVariableStr + alertIdVariableStr + DataSafeAlertRequiredOnlyResource,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "alert_id"),
 
@@ -106,11 +106,11 @@ func TestDataSafeAlertResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + alertIdVariableStr + AlertResourceDependencies,
+			Config: config + compartmentIdVariableStr + alertIdVariableStr + DataSafeAlertResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + alertIdVariableStr + AlertResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + alertIdVariableStr + DataSafeAlertResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_alert", "test_alert", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(alertRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -140,7 +140,7 @@ func TestDataSafeAlertResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + alertIdVariableStr + AlertResourceDependencies +
+			Config: config + compartmentIdVariableStr + alertIdVariableStr + DataSafeAlertResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_alert", "test_alert", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(alertRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -168,8 +168,8 @@ func TestDataSafeAlertResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alerts", "test_alerts", acctest.Optional, acctest.Update, alertDataSourceRepresentation) +
-				compartmentIdVariableStr + alertIdVariableStr + AlertResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alerts", "test_alerts", acctest.Optional, acctest.Update, DataSafealertDataSourceRepresentation) +
+				compartmentIdVariableStr + alertIdVariableStr + DataSafeAlertResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_alert", "test_alert", acctest.Optional, acctest.Update, alertRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
@@ -183,8 +183,8 @@ func TestDataSafeAlertResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alert", "test_alert", acctest.Required, acctest.Create, alertSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + alertIdVariableStr + AlertResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alert", "test_alert", acctest.Required, acctest.Create, DataSafealertSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + alertIdVariableStr + DataSafeAlertResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "alert_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "alert_type"),
@@ -209,7 +209,7 @@ func TestDataSafeAlertResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + alertIdVariableStr + AlertResourceConfig,
+			Config: config + compartmentIdVariableStr + alertIdVariableStr + DataSafeAlertResourceConfig,
 		},
 		// verify resource import
 		{

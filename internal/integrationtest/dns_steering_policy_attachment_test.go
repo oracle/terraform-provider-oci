@@ -26,17 +26,17 @@ import (
 )
 
 var (
-	SteeringPolicyAttachmentRequiredOnlyResource = SteeringPolicyAttachmentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Required, acctest.Create, steeringPolicyAttachmentRepresentation)
+	DnsSteeringPolicyAttachmentRequiredOnlyResource = DnsSteeringPolicyAttachmentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Required, acctest.Create, DnsSteeringPolicyAttachmentRepresentation)
 
-	SteeringPolicyAttachmentResourceConfig = SteeringPolicyAttachmentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Optional, acctest.Update, steeringPolicyAttachmentRepresentation)
+	DnsSteeringPolicyAttachmentResourceConfig = DnsSteeringPolicyAttachmentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Optional, acctest.Update, DnsSteeringPolicyAttachmentRepresentation)
 
-	steeringPolicyAttachmentSingularDataSourceRepresentation = map[string]interface{}{
+	DnsDnsSteeringPolicyAttachmentSingularDataSourceRepresentation = map[string]interface{}{
 		"steering_policy_attachment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_steering_policy_attachment.test_steering_policy_attachment.id}`},
 	}
 
-	steeringPolicyAttachmentDataSourceRepresentation = map[string]interface{}{
+	DnsDnsSteeringPolicyAttachmentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                          acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"domain":                                acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test`},
@@ -46,7 +46,7 @@ var (
 		"time_created_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2018-01-01T00:00:00.000Z`},
 		"time_created_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `2038-01-01T00:00:00.000Z`},
 		"zone_id":                               acctest.Representation{RepType: acctest.Optional, Create: `${oci_dns_zone.test_global_zone.id}`},
-		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: steeringPolicyAttachmentDataSourceFilterRepresentation}}
+		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: DnsSteeringPolicyAttachmentDataSourceFilterRepresentation}}
 
 	// Used to test `domain_contains` query parameter; which cannot be simulataneously used with `domain` query param
 	steeringPolicyAttachmentDataSourceRepresentationWithDomainContains = map[string]interface{}{
@@ -59,22 +59,22 @@ var (
 		"time_created_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2018-01-01T00:00:00.000Z`},
 		"time_created_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `2038-01-01T00:00:00.000Z`},
 		"zone_id":                               acctest.Representation{RepType: acctest.Optional, Create: `${oci_dns_zone.test_global_zone.id}`},
-		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: steeringPolicyAttachmentDataSourceFilterRepresentation}}
+		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: DnsSteeringPolicyAttachmentDataSourceFilterRepresentation}}
 
-	steeringPolicyAttachmentDataSourceFilterRepresentation = map[string]interface{}{
+	DnsSteeringPolicyAttachmentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_dns_steering_policy_attachment.test_steering_policy_attachment.id}`}},
 	}
 
-	steeringPolicyAttachmentRepresentation = map[string]interface{}{
+	DnsSteeringPolicyAttachmentRepresentation = map[string]interface{}{
 		"domain_name":        acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test`},
 		"steering_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_steering_policy.test_steering_policy.id}`},
 		"zone_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_global_zone.id}`},
 		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 	}
 
-	SteeringPolicyAttachmentResourceDependencies = RecordResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Required, acctest.Create, steeringPolicyRepresentation)
+	DnsSteeringPolicyAttachmentResourceDependencies = DnsRecordResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Required, acctest.Create, DnsSteeringPolicyRepresentation)
 )
 
 // issue-routing-tag: dns/default
@@ -94,14 +94,14 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 	_, tokenFn := acctest.TokenizeWithHttpReplay("dns_steering")
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Optional, acctest.Create, steeringPolicyAttachmentRepresentation), nil), "dns", "steeringPolicyAttachment", t)
+	acctest.SaveConfigContent(tokenFn(config+compartmentIdVariableStr+DnsSteeringPolicyAttachmentResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Optional, acctest.Create, DnsSteeringPolicyAttachmentRepresentation), nil), "dns", "steeringPolicyAttachment", t)
 
 	acctest.ResourceTest(t, testAccCheckDnsSteeringPolicyAttachmentDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Required, acctest.Create, steeringPolicyAttachmentRepresentation), nil),
+			Config: tokenFn(config+compartmentIdVariableStr+DnsSteeringPolicyAttachmentResourceDependencies+
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Required, acctest.Create, DnsSteeringPolicyAttachmentRepresentation), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
 				resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),
@@ -116,12 +116,12 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies, nil),
+			Config: tokenFn(config+compartmentIdVariableStr+DnsSteeringPolicyAttachmentResourceDependencies, nil),
 		},
 		// verify Create with optionals
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Optional, acctest.Create, steeringPolicyAttachmentRepresentation), nil),
+			Config: tokenFn(config+compartmentIdVariableStr+DnsSteeringPolicyAttachmentResourceDependencies+
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Optional, acctest.Create, DnsSteeringPolicyAttachmentRepresentation), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
@@ -142,8 +142,8 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Optional, acctest.Update, steeringPolicyAttachmentRepresentation), nil),
+			Config: tokenFn(config+compartmentIdVariableStr+DnsSteeringPolicyAttachmentResourceDependencies+
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Optional, acctest.Update, DnsSteeringPolicyAttachmentRepresentation), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
@@ -162,9 +162,9 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: tokenFn(config+
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachments", "test_steering_policy_attachments", acctest.Optional, acctest.Update, steeringPolicyAttachmentDataSourceRepresentation)+
-				compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Optional, acctest.Update, steeringPolicyAttachmentRepresentation), nil),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachments", "test_steering_policy_attachments", acctest.Optional, acctest.Update, DnsDnsSteeringPolicyAttachmentDataSourceRepresentation)+
+				compartmentIdVariableStr+DnsSteeringPolicyAttachmentResourceDependencies+
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Optional, acctest.Update, DnsSteeringPolicyAttachmentRepresentation), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -187,8 +187,8 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 		{
 			Config: tokenFn(config+
 				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachments", "test_steering_policy_attachments", acctest.Optional, acctest.Update, steeringPolicyAttachmentDataSourceRepresentationWithDomainContains)+
-				compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Optional, acctest.Update, steeringPolicyAttachmentRepresentation), nil),
+				compartmentIdVariableStr+DnsSteeringPolicyAttachmentResourceDependencies+
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Optional, acctest.Update, DnsSteeringPolicyAttachmentRepresentation), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -215,8 +215,8 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: tokenFn(config+
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Required, acctest.Create, steeringPolicyAttachmentSingularDataSourceRepresentation)+
-				compartmentIdVariableStr+SteeringPolicyAttachmentResourceConfig, nil),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Required, acctest.Create, DnsDnsSteeringPolicyAttachmentSingularDataSourceRepresentation)+
+				compartmentIdVariableStr+DnsSteeringPolicyAttachmentResourceConfig, nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "steering_policy_attachment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "steering_policy_id"),
@@ -233,9 +233,9 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 		},
 
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
+			Config: tokenFn(config+compartmentIdVariableStr+DnsSteeringPolicyAttachmentResourceDependencies+
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", acctest.Optional, acctest.Update,
-					acctest.GetUpdatedRepresentationCopy("domain_name", acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.OCI-record-test`}, steeringPolicyAttachmentRepresentation)), nil),
+					acctest.GetUpdatedRepresentationCopy("domain_name", acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.OCI-record-test`}, DnsSteeringPolicyAttachmentRepresentation)), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
@@ -253,7 +253,7 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + SteeringPolicyAttachmentRequiredOnlyResource,
+			Config:                  config + DnsSteeringPolicyAttachmentRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -309,7 +309,7 @@ func init() {
 
 func sweepDnsSteeringPolicyAttachmentResource(compartment string) error {
 	dnsClient := acctest.GetTestClients(&schema.ResourceData{}).DnsClient()
-	steeringPolicyAttachmentIds, err := getSteeringPolicyAttachmentIds(compartment)
+	steeringPolicyAttachmentIds, err := getDnsSteeringPolicyAttachmentIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -330,7 +330,7 @@ func sweepDnsSteeringPolicyAttachmentResource(compartment string) error {
 	return nil
 }
 
-func getSteeringPolicyAttachmentIds(compartment string) ([]string, error) {
+func getDnsSteeringPolicyAttachmentIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "SteeringPolicyAttachmentId")
 	if ids != nil {
 		return ids, nil

@@ -26,26 +26,26 @@ import (
 )
 
 var (
-	SubscriptionRequiredOnlyResource = SubscriptionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Required, acctest.Create, subscriptionRepresentation)
+	OnsSubscriptionRequiredOnlyResource = OnsSubscriptionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Required, acctest.Create, OnsSubscriptionRepresentation)
 
-	SubscriptionResourceConfig = SubscriptionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Optional, acctest.Update, subscriptionRepresentation)
+	OnsSubscriptionResourceConfig = OnsSubscriptionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Optional, acctest.Update, OnsSubscriptionRepresentation)
 
-	subscriptionSingularDataSourceRepresentation = map[string]interface{}{
+	OnsOnsSubscriptionSingularDataSourceRepresentation = map[string]interface{}{
 		"subscription_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_ons_subscription.test_subscription.id}`},
 	}
 
-	subscriptionDataSourceRepresentation = map[string]interface{}{
+	OnsOnsSubscriptionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"topic_id":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_ons_notification_topic.test_notification_topic.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: subscriptionDataSourceFilterRepresentation}}
-	subscriptionDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: OnsSubscriptionDataSourceFilterRepresentation}}
+	OnsSubscriptionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_ons_subscription.test_subscription.id}`}},
 	}
 
-	subscriptionRepresentation = map[string]interface{}{
+	OnsSubscriptionRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"endpoint":        acctest.Representation{RepType: acctest.Required, Create: `john.smith@example.com`},
 		"protocol":        acctest.Representation{RepType: acctest.Required, Create: `EMAIL`},
@@ -55,7 +55,7 @@ var (
 		"delivery_policy": acctest.Representation{RepType: acctest.Optional, Update: `{\"backoffRetryPolicy\":{\"maxRetryDuration\":7000000,\"policyType\":\"EXPONENTIAL\"}}`},
 	}
 
-	SubscriptionResourceDependencies = DefinedTagsDependencies +
+	OnsSubscriptionResourceDependencies = DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, utils.CharsetWithoutDigits, "tsubscription"))
 )
 
@@ -78,14 +78,14 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SubscriptionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Optional, acctest.Create, subscriptionRepresentation), "ons", "subscription", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OnsSubscriptionResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Optional, acctest.Create, OnsSubscriptionRepresentation), "ons", "subscription", t)
 
 	acctest.ResourceTest(t, testAccCheckOnsSubscriptionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Required, acctest.Create, subscriptionRepresentation),
+			Config: config + compartmentIdVariableStr + OnsSubscriptionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Required, acctest.Create, OnsSubscriptionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
@@ -101,12 +101,12 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies,
+			Config: config + compartmentIdVariableStr + OnsSubscriptionResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Optional, acctest.Create, subscriptionRepresentation),
+			Config: config + compartmentIdVariableStr + OnsSubscriptionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Optional, acctest.Create, OnsSubscriptionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
@@ -130,9 +130,9 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SubscriptionResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OnsSubscriptionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(subscriptionRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(OnsSubscriptionRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -156,8 +156,8 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Optional, acctest.Update, subscriptionRepresentation),
+			Config: config + compartmentIdVariableStr + OnsSubscriptionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Optional, acctest.Update, OnsSubscriptionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
@@ -179,9 +179,9 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ons_subscriptions", "test_subscriptions", acctest.Optional, acctest.Update, subscriptionDataSourceRepresentation) +
-				compartmentIdVariableStr + SubscriptionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Optional, acctest.Update, subscriptionRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ons_subscriptions", "test_subscriptions", acctest.Optional, acctest.Update, OnsOnsSubscriptionDataSourceRepresentation) +
+				compartmentIdVariableStr + OnsSubscriptionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Optional, acctest.Update, OnsSubscriptionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "topic_id"),
@@ -202,8 +202,8 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Required, acctest.Create, subscriptionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SubscriptionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ons_subscription", "test_subscription", acctest.Required, acctest.Create, OnsOnsSubscriptionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OnsSubscriptionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "subscription_id"),
 
@@ -219,7 +219,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + SubscriptionRequiredOnlyResource,
+			Config:                  config + OnsSubscriptionRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -283,7 +283,7 @@ func init() {
 
 func sweepOnsSubscriptionResource(compartment string) error {
 	notificationDataPlaneClient := acctest.GetTestClients(&schema.ResourceData{}).NotificationDataPlaneClient()
-	subscriptionIds, err := getSubscriptionIds(compartment)
+	subscriptionIds, err := getOnsSubscriptionIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -299,14 +299,14 @@ func sweepOnsSubscriptionResource(compartment string) error {
 				fmt.Printf("Error deleting Subscription %s %s, It is possible that the resource is already deleted. Please verify manually \n", subscriptionId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &subscriptionId, subscriptionSweepWaitCondition, time.Duration(3*time.Minute),
-				subscriptionSweepResponseFetchOperation, "ons", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &subscriptionId, OnsSubscriptionSweepWaitCondition, time.Duration(3*time.Minute),
+				OnsSubscriptionSweepResponseFetchOperation, "ons", true)
 		}
 	}
 	return nil
 }
 
-func getSubscriptionIds(compartment string) ([]string, error) {
+func getOnsSubscriptionIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "SubscriptionId")
 	if ids != nil {
 		return ids, nil
@@ -330,7 +330,7 @@ func getSubscriptionIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func subscriptionSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OnsSubscriptionSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if subscriptionResponse, ok := response.Response.(oci_ons.GetSubscriptionResponse); ok {
 		return subscriptionResponse.LifecycleState != oci_ons.SubscriptionLifecycleStateDeleted
@@ -338,7 +338,7 @@ func subscriptionSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func subscriptionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OnsSubscriptionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.NotificationDataPlaneClient().GetSubscription(context.Background(), oci_ons.GetSubscriptionRequest{
 		SubscriptionId: resourceId,
 		RequestMetadata: common.RequestMetadata{

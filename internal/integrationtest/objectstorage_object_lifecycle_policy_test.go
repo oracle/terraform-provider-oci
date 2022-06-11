@@ -24,43 +24,43 @@ import (
 )
 
 var (
-	ObjectLifecyclePolicyRequiredOnlyResource = ObjectLifecyclePolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Required, acctest.Create, objectLifecyclePolicyRepresentation)
+	ObjectStorageObjectLifecyclePolicyRequiredOnlyResource = ObjectStorageObjectLifecyclePolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Required, acctest.Create, ObjectStorageObjectLifecyclePolicyRepresentation)
 
-	ObjectLifecyclePolicyResourceConfig = ObjectLifecyclePolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Update, objectLifecyclePolicyRepresentation)
+	ObjectStorageObjectLifecyclePolicyResourceConfig = ObjectStorageObjectLifecyclePolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Update, ObjectStorageObjectLifecyclePolicyRepresentation)
 
 	bucketName  = utils.RandomStringOrHttpReplayValue(32, utils.Charset, "bucket1")
 	bucketName2 = utils.RandomStringOrHttpReplayValue(32, utils.Charset, "bucket2")
 	bucketName3 = utils.RandomStringOrHttpReplayValue(32, utils.Charset, "bucket3")
 
-	objectLifecyclePolicySingularDataSourceRepresentation = map[string]interface{}{
+	ObjectStorageObjectStorageObjectLifecyclePolicySingularDataSourceRepresentation = map[string]interface{}{
 		"bucket":    acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
-	objectLifecyclePolicyRepresentation = map[string]interface{}{
+	ObjectStorageObjectLifecyclePolicyRepresentation = map[string]interface{}{
 		"bucket":    acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"rules":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: objectLifecyclePolicyRulesRepresentation},
+		"rules":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ObjectStorageObjectLifecyclePolicyRulesRepresentation},
 	}
-	objectLifecyclePolicyRulesRepresentation = map[string]interface{}{
+	ObjectStorageObjectLifecyclePolicyRulesRepresentation = map[string]interface{}{
 		"action":             acctest.Representation{RepType: acctest.Required, Create: `ARCHIVE`, Update: `DELETE`},
 		"is_enabled":         acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
 		"name":               acctest.Representation{RepType: acctest.Required, Create: `sampleRule`, Update: `name2`},
 		"time_amount":        acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"time_unit":          acctest.Representation{RepType: acctest.Required, Create: `DAYS`, Update: `YEARS`},
-		"object_name_filter": acctest.RepresentationGroup{RepType: acctest.Optional, Group: objectLifecyclePolicyRulesObjectNameFilterRepresentation},
+		"object_name_filter": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ObjectStorageObjectLifecyclePolicyRulesObjectNameFilterRepresentation},
 		"target":             acctest.Representation{RepType: acctest.Optional, Create: `objects`},
 	}
-	objectLifecyclePolicyRulesObjectNameFilterRepresentation = map[string]interface{}{
+	ObjectStorageObjectLifecyclePolicyRulesObjectNameFilterRepresentation = map[string]interface{}{
 		"exclusion_patterns": acctest.Representation{RepType: acctest.Optional, Create: []string{`exclusionPattern1`, `exclusionPattern2`}, Update: []string{`exclusionPattern1`, `exclusionPattern2`, `exclusionPattern3`}},
 		"inclusion_patterns": acctest.Representation{RepType: acctest.Optional, Create: []string{`inclusionPattern1`, `inclusionPattern2`}, Update: []string{`inclusionPattern1`, `inclusionPattern2`, `inclusionPattern3`}},
 		"inclusion_prefixes": acctest.Representation{RepType: acctest.Optional, Create: []string{bucketName, bucketName2}, Update: []string{bucketName, bucketName2, bucketName3}},
 	}
 
-	ObjectLifecyclePolicyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("name", acctest.Representation{RepType: acctest.Required, Create: bucketName}, bucketRepresentation)) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+	ObjectStorageObjectLifecyclePolicyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("name", acctest.Representation{RepType: acctest.Required, Create: bucketName}, ObjectStorageBucketRepresentation)) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: object_storage/default
@@ -79,14 +79,14 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ObjectLifecyclePolicyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create, objectLifecyclePolicyRepresentation), "objectstorage", "objectLifecyclePolicy", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ObjectStorageObjectLifecyclePolicyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create, ObjectStorageObjectLifecyclePolicyRepresentation), "objectstorage", "objectLifecyclePolicy", t)
 
 	acctest.ResourceTest(t, testAccCheckObjectStorageObjectLifecyclePolicyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Required, acctest.Create, objectLifecyclePolicyRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Required, acctest.Create, ObjectStorageObjectLifecyclePolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
 				resource.TestCheckResourceAttr(resourceName, "rules.#", "0"),
@@ -101,12 +101,12 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies,
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create, objectLifecyclePolicyRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create, ObjectStorageObjectLifecyclePolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -139,8 +139,8 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Update, objectLifecyclePolicyRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Update, ObjectStorageObjectLifecyclePolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -171,8 +171,8 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Required, acctest.Create, objectLifecyclePolicySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Required, acctest.Create, ObjectStorageObjectStorageObjectLifecyclePolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "bucket", bucketName),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -199,7 +199,7 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ObjectLifecyclePolicyRequiredOnlyResource,
+			Config:                  config + ObjectStorageObjectLifecyclePolicyRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

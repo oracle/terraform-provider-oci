@@ -16,15 +16,15 @@ import (
 )
 
 var (
-	alarmHistoryCollectionSingularDataSourceRepresentation = map[string]interface{}{
+	MonitoringMonitoringAlarmHistoryCollectionSingularDataSourceRepresentation = map[string]interface{}{
 		"alarm_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_monitoring_alarm.test_alarm.id}`},
 		"alarm_historytype":                  acctest.Representation{RepType: acctest.Optional, Create: `STATE_TRANSITION_HISTORY`},
 		"timestamp_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2018-12-01T01:00:00.001Z`},
 		"timestamp_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `${timestamp()}`},
 	}
 
-	AlarmHistoryCollectionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Required, acctest.Create, alarmRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+	MonitoringAlarmHistoryCollectionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Required, acctest.Create, MonitoringAlarmRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: monitoring/default
@@ -45,8 +45,8 @@ func TestMonitoringAlarmHistoryCollectionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_alarm_history_collection", "test_alarm_history_collection", acctest.Optional, acctest.Create, alarmHistoryCollectionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AlarmHistoryCollectionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_alarm_history_collection", "test_alarm_history_collection", acctest.Optional, acctest.Create, MonitoringMonitoringAlarmHistoryCollectionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MonitoringAlarmHistoryCollectionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "alarm_historytype", "STATE_TRANSITION_HISTORY"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "alarm_id"),

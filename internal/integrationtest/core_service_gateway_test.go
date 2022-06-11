@@ -25,36 +25,36 @@ import (
 )
 
 var (
-	ServiceGatewayRequiredOnlyResource = ServiceGatewayResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Required, acctest.Create, serviceGatewayRepresentation)
+	CoreServiceGatewayRequiredOnlyResource = CoreServiceGatewayResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Required, acctest.Create, CoreServiceGatewayRepresentation)
 
-	serviceGatewayDataSourceRepresentation = map[string]interface{}{
+	CoreCoreServiceGatewayDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceGatewayDataSourceFilterRepresentation}}
-	serviceGatewayDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreServiceGatewayDataSourceFilterRepresentation}}
+	CoreServiceGatewayDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_service_gateway.test_service_gateway.id}`}},
 	}
 
-	serviceGatewayRepresentation = map[string]interface{}{
+	CoreServiceGatewayRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"services":       acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceGatewayServicesRepresentation},
+		"services":       acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreServiceGatewayServicesRepresentation},
 		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `MyServiceGateway`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.default_route_table_id}`, Update: `${oci_core_route_table.test_route_table.id}`},
 	}
-	serviceGatewayServicesRepresentation = map[string]interface{}{
+	CoreServiceGatewayServicesRepresentation = map[string]interface{}{
 		"service_id": acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_core_services.test_services.services[0], "id")}`},
 	}
 
-	ServiceGatewayResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, internetGatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, routeTableRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, serviceDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreServiceGatewayResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, CoreCoreServiceDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -76,14 +76,14 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ServiceGatewayResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Optional, acctest.Create, serviceGatewayRepresentation), "core", "serviceGateway", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreServiceGatewayResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Optional, acctest.Create, CoreServiceGatewayRepresentation), "core", "serviceGateway", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreServiceGatewayDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Required, acctest.Create, serviceGatewayRepresentation),
+			Config: config + compartmentIdVariableStr + CoreServiceGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Required, acctest.Create, CoreServiceGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
@@ -102,12 +102,12 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceGatewayResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreServiceGatewayResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ServiceGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Optional, acctest.Create, serviceGatewayRepresentation),
+			Config: config + compartmentIdVariableStr + CoreServiceGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Optional, acctest.Create, CoreServiceGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "block_traffic"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -138,9 +138,9 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceGatewayResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreServiceGatewayResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(serviceGatewayRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreServiceGatewayRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -171,8 +171,8 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ServiceGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Optional, acctest.Update, serviceGatewayRepresentation),
+			Config: config + compartmentIdVariableStr + CoreServiceGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Optional, acctest.Update, CoreServiceGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "block_traffic"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -201,9 +201,9 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_service_gateways", "test_service_gateways", acctest.Optional, acctest.Update, serviceGatewayDataSourceRepresentation) +
-				compartmentIdVariableStr + ServiceGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Optional, acctest.Update, serviceGatewayRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_service_gateways", "test_service_gateways", acctest.Optional, acctest.Update, CoreCoreServiceGatewayDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreServiceGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Optional, acctest.Update, CoreServiceGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -228,7 +228,7 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ServiceGatewayRequiredOnlyResource,
+			Config:                  config + CoreServiceGatewayRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -292,7 +292,7 @@ func init() {
 
 func sweepCoreServiceGatewayResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	serviceGatewayIds, err := getServiceGatewayIds(compartment)
+	serviceGatewayIds, err := getCoreServiceGatewayIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -308,14 +308,14 @@ func sweepCoreServiceGatewayResource(compartment string) error {
 				fmt.Printf("Error deleting ServiceGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", serviceGatewayId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &serviceGatewayId, serviceGatewaySweepWaitCondition, time.Duration(3*time.Minute),
-				serviceGatewaySweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &serviceGatewayId, CoreServiceGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+				CoreServiceGatewaySweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getServiceGatewayIds(compartment string) ([]string, error) {
+func getCoreServiceGatewayIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ServiceGatewayId")
 	if ids != nil {
 		return ids, nil
@@ -340,7 +340,7 @@ func getServiceGatewayIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func serviceGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreServiceGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if serviceGatewayResponse, ok := response.Response.(oci_core.GetServiceGatewayResponse); ok {
 		return serviceGatewayResponse.LifecycleState != oci_core.ServiceGatewayLifecycleStateTerminated
@@ -348,7 +348,7 @@ func serviceGatewaySweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func serviceGatewaySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreServiceGatewaySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetServiceGateway(context.Background(), oci_core.GetServiceGatewayRequest{
 		ServiceGatewayId: resourceId,
 		RequestMetadata: common.RequestMetadata{

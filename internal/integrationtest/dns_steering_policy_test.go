@@ -26,17 +26,17 @@ import (
 )
 
 var (
-	SteeringPolicyRequiredOnlyResource = SteeringPolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Required, acctest.Create, steeringPolicyRepresentation)
+	DnsSteeringPolicyRequiredOnlyResource = DnsSteeringPolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Required, acctest.Create, DnsSteeringPolicyRepresentation)
 
-	SteeringPolicyResourceConfig = SteeringPolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Optional, acctest.Update, steeringPolicyRepresentation)
+	DnsSteeringPolicyResourceConfig = DnsSteeringPolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Optional, acctest.Update, DnsSteeringPolicyRepresentation)
 
-	steeringPolicySingularDataSourceRepresentation = map[string]interface{}{
+	DnsDnsSteeringPolicySingularDataSourceRepresentation = map[string]interface{}{
 		"steering_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_steering_policy.test_steering_policy.id}`},
 	}
 
-	steeringPolicyDataSourceRepresentation = map[string]interface{}{
+	DnsDnsSteeringPolicyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"health_check_monitor_id":               acctest.Representation{RepType: acctest.Optional, Create: `${oci_health_checks_http_monitor.test_http_monitor.id}`},
 		"id":                                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_dns_steering_policy.test_steering_policy.id}`},
@@ -45,10 +45,10 @@ var (
 		"time_created_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2018-01-01T00:00:00.000Z`},
 		"time_created_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `2038-01-01T00:00:00.000Z`},
 		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: steeringPolicyDataSourceFilterRepresentation}}
-	steeringPolicyDataSourceRepresentationWithDisplayNameFilter = acctest.RepresentationCopyWithNewProperties(steeringPolicyDataSourceRepresentation, map[string]interface{}{
+	DnsSteeringPolicyDataSourceFilterRepresentation = acctest.RepresentationCopyWithNewProperties(DnsDnsSteeringPolicyDataSourceRepresentation, map[string]interface{}{
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 	})
-	steeringPolicyDataSourceRepresentationWithDisplayNameContainsFilter = acctest.RepresentationCopyWithNewProperties(steeringPolicyDataSourceRepresentation, map[string]interface{}{
+	steeringPolicyDataSourceRepresentationWithDisplayNameContainsFilter = acctest.RepresentationCopyWithNewProperties(DnsDnsSteeringPolicyDataSourceRepresentation, map[string]interface{}{
 		"display_name_contains": acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 	})
 	steeringPolicyDataSourceFilterRepresentation = map[string]interface{}{
@@ -56,104 +56,104 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_dns_steering_policy.test_steering_policy.id}`}},
 	}
 
-	steeringPolicyRepresentation = map[string]interface{}{
+	DnsSteeringPolicyRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"template":                acctest.Representation{RepType: acctest.Required, Create: `CUSTOM`},
-		"answers":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: steeringPolicyAnswersRepresentation},
+		"answers":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsSteeringPolicyAnswersRepresentation},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"health_check_monitor_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_health_checks_http_monitor.test_http_monitor.id}`},
 		"rules": []acctest.RepresentationGroup{
-			{RepType: acctest.Optional, Group: steeringPolicyRulesFilterRuleTypeRepresentation},
-			{RepType: acctest.Optional, Group: steeringPolicyRulesHealthRuleTypeRepresentation},
-			{RepType: acctest.Optional, Group: steeringPolicyRulesLimitRuleTypeRepresentation},
-			{RepType: acctest.Optional, Group: steeringPolicyRulesPriorityRuleTypeRepresentation},
-			{RepType: acctest.Optional, Group: steeringPolicyRulesWeightedRuleTypeRepresentation},
+			{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesFilterRuleTypeRepresentation},
+			{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesHealthRuleTypeRepresentation},
+			{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesLimitRuleTypeRepresentation},
+			{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesPriorityRuleTypeRepresentation},
+			{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesWeightedRuleTypeRepresentation},
 		},
 		"ttl": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
-	steeringPolicyAnswersRepresentation = map[string]interface{}{
+	DnsSteeringPolicyAnswersRepresentation = map[string]interface{}{
 		"name":        acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"rdata":       acctest.Representation{RepType: acctest.Required, Create: `192.0.2.1`},
 		"rtype":       acctest.Representation{RepType: acctest.Required, Create: `A`},
 		"is_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"pool":        acctest.Representation{RepType: acctest.Optional, Create: `pool`},
 	}
-	steeringPolicyRulesFilterRuleTypeRepresentation = map[string]interface{}{
+	DnsSteeringPolicyRulesFilterRuleTypeRepresentation = map[string]interface{}{
 		"rule_type":           acctest.Representation{RepType: acctest.Required, Create: `FILTER`},
-		"cases":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: steeringPolicyRulesCasesFilterRuleTypeRepresentation},
-		"default_answer_data": acctest.RepresentationGroup{RepType: acctest.Optional, Group: steeringPolicyRulesDefaultAnswerDataFilterRuleTypeRepresentation},
+		"cases":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesCasesFilterRuleTypeRepresentation},
+		"default_answer_data": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesDefaultAnswerDataFilterRuleTypeRepresentation},
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `filter description`},
 	}
-	steeringPolicyRulesCasesFilterRuleTypeRepresentation = map[string]interface{}{
-		"answer_data":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: steeringPolicyRulesCasesAnswerDataFilterRuleTypeRepresentation},
+	DnsSteeringPolicyRulesCasesFilterRuleTypeRepresentation = map[string]interface{}{
+		"answer_data":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesCasesAnswerDataFilterRuleTypeRepresentation},
 		"case_condition": acctest.Representation{RepType: acctest.Optional, Create: `query.client.address in (subnet '198.51.100.0/24')`},
 	}
-	steeringPolicyRulesDefaultAnswerDataFilterRuleTypeRepresentation = map[string]interface{}{
+	DnsSteeringPolicyRulesDefaultAnswerDataFilterRuleTypeRepresentation = map[string]interface{}{
 		"answer_condition": acctest.Representation{RepType: acctest.Optional, Create: `answer.name == 'sampler'`},
 		"should_keep":      acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
-	steeringPolicyRulesCasesAnswerDataFilterRuleTypeRepresentation = map[string]interface{}{
+	DnsSteeringPolicyRulesCasesAnswerDataFilterRuleTypeRepresentation = map[string]interface{}{
 		"answer_condition": acctest.Representation{RepType: acctest.Optional, Create: `answer.name == 'sampler'`},
 		"should_keep":      acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
-	steeringPolicyRulesHealthRuleTypeRepresentation = map[string]interface{}{
+	DnsSteeringPolicyRulesHealthRuleTypeRepresentation = map[string]interface{}{
 		"rule_type":   acctest.Representation{RepType: acctest.Required, Create: `HEALTH`},
-		"cases":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: steeringPolicyRulesCasesHealthRuleTypeRepresentation},
+		"cases":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesCasesHealthRuleTypeRepresentation},
 		"description": acctest.Representation{RepType: acctest.Optional, Create: `health description`},
 	}
-	steeringPolicyRulesCasesHealthRuleTypeRepresentation = map[string]interface{}{
+	DnsSteeringPolicyRulesCasesHealthRuleTypeRepresentation = map[string]interface{}{
 		"case_condition": acctest.Representation{RepType: acctest.Optional, Create: `query.client.address in (subnet '198.51.100.0/24')`},
 	}
-	steeringPolicyRulesLimitRuleTypeRepresentation = map[string]interface{}{
+	DnsSteeringPolicyRulesLimitRuleTypeRepresentation = map[string]interface{}{
 		"rule_type":     acctest.Representation{RepType: acctest.Required, Create: `LIMIT`},
-		"cases":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: steeringPolicyRulesCasesLimitRuleTypeRepresentation},
+		"cases":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesCasesLimitRuleTypeRepresentation},
 		"default_count": acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `limit description`},
 	}
-	steeringPolicyRulesCasesLimitRuleTypeRepresentation = map[string]interface{}{
+	DnsSteeringPolicyRulesCasesLimitRuleTypeRepresentation = map[string]interface{}{
 		"case_condition": acctest.Representation{RepType: acctest.Optional, Create: `query.client.address in (subnet '198.51.100.0/24')`},
 		"count":          acctest.Representation{RepType: acctest.Optional, Create: `10`},
 	}
-	steeringPolicyRulesPriorityRuleTypeRepresentation = map[string]interface{}{
+	DnsSteeringPolicyRulesPriorityRuleTypeRepresentation = map[string]interface{}{
 		"rule_type":           acctest.Representation{RepType: acctest.Required, Create: `PRIORITY`},
-		"cases":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: steeringPolicyRulesCasesPriorityRuleTypeRepresentation},
-		"default_answer_data": acctest.RepresentationGroup{RepType: acctest.Optional, Group: steeringPolicyRulesDefaultAnswerDataPriorityRuleTypeRepresentation},
+		"cases":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesCasesPriorityRuleTypeRepresentation},
+		"default_answer_data": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesDefaultAnswerDataPriorityRuleTypeRepresentation},
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `priority description`},
 	}
-	steeringPolicyRulesCasesPriorityRuleTypeRepresentation = map[string]interface{}{
-		"answer_data":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: steeringPolicyRulesCasesAnswerDataPriorityRuleTypeRepresentation},
+	DnsSteeringPolicyRulesCasesPriorityRuleTypeRepresentation = map[string]interface{}{
+		"answer_data":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesCasesAnswerDataPriorityRuleTypeRepresentation},
 		"case_condition": acctest.Representation{RepType: acctest.Optional, Create: `query.client.address in (subnet '198.51.100.0/24')`},
 	}
-	steeringPolicyRulesDefaultAnswerDataPriorityRuleTypeRepresentation = map[string]interface{}{
+	DnsSteeringPolicyRulesDefaultAnswerDataPriorityRuleTypeRepresentation = map[string]interface{}{
 		"answer_condition": acctest.Representation{RepType: acctest.Optional, Create: `answer.name == 'sampler'`},
 		"value":            acctest.Representation{RepType: acctest.Optional, Create: `10`},
 	}
-	steeringPolicyRulesCasesAnswerDataPriorityRuleTypeRepresentation = map[string]interface{}{
+	DnsSteeringPolicyRulesCasesAnswerDataPriorityRuleTypeRepresentation = map[string]interface{}{
 		"answer_condition": acctest.Representation{RepType: acctest.Optional, Create: `answer.name == 'sampler'`},
 		"value":            acctest.Representation{RepType: acctest.Optional, Create: `10`},
 	}
-	steeringPolicyRulesWeightedRuleTypeRepresentation = map[string]interface{}{
+	DnsSteeringPolicyRulesWeightedRuleTypeRepresentation = map[string]interface{}{
 		"rule_type":           acctest.Representation{RepType: acctest.Required, Create: `WEIGHTED`},
-		"cases":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: steeringPolicyRulesCasesWeightedRuleTypeRepresentation},
-		"default_answer_data": acctest.RepresentationGroup{RepType: acctest.Optional, Group: steeringPolicyRulesDefaultAnswerDataWeightedRuleTypeRepresentation},
+		"cases":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesCasesWeightedRuleTypeRepresentation},
+		"default_answer_data": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesDefaultAnswerDataWeightedRuleTypeRepresentation},
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `weighted description`},
 	}
-	steeringPolicyRulesCasesWeightedRuleTypeRepresentation = map[string]interface{}{
-		"answer_data":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: steeringPolicyRulesCasesAnswerDataWeightedRuleTypeRepresentation},
+	DnsSteeringPolicyRulesCasesWeightedRuleTypeRepresentation = map[string]interface{}{
+		"answer_data":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsSteeringPolicyRulesCasesAnswerDataWeightedRuleTypeRepresentation},
 		"case_condition": acctest.Representation{RepType: acctest.Optional, Create: `query.client.address in (subnet '198.51.100.0/24')`},
 	}
-	steeringPolicyRulesDefaultAnswerDataWeightedRuleTypeRepresentation = map[string]interface{}{
+	DnsSteeringPolicyRulesDefaultAnswerDataWeightedRuleTypeRepresentation = map[string]interface{}{
 		"answer_condition": acctest.Representation{RepType: acctest.Optional, Create: `answer.name == 'sampler'`},
 		"value":            acctest.Representation{RepType: acctest.Optional, Create: `10`},
 	}
-	steeringPolicyRulesCasesAnswerDataWeightedRuleTypeRepresentation = map[string]interface{}{
+	DnsSteeringPolicyRulesCasesAnswerDataWeightedRuleTypeRepresentation = map[string]interface{}{
 		"answer_condition": acctest.Representation{RepType: acctest.Optional, Create: `answer.name == 'sampler'`},
 		"value":            acctest.Representation{RepType: acctest.Optional, Create: `10`},
 	}
 
-	SteeringPolicyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Required, acctest.Create, httpMonitorRepresentation) +
+	DnsSteeringPolicyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Required, acctest.Create, HealthChecksHttpMonitorRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -177,14 +177,14 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SteeringPolicyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Optional, acctest.Create, steeringPolicyRepresentation), "dns", "steeringPolicy", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DnsSteeringPolicyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Optional, acctest.Create, DnsSteeringPolicyRepresentation), "dns", "steeringPolicy", t)
 
 	acctest.ResourceTest(t, testAccCheckDnsSteeringPolicyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Required, acctest.Create, steeringPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + DnsSteeringPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Required, acctest.Create, DnsSteeringPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -199,12 +199,12 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies,
+			Config: config + compartmentIdVariableStr + DnsSteeringPolicyResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Optional, acctest.Create, steeringPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + DnsSteeringPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Optional, acctest.Create, DnsSteeringPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
@@ -274,9 +274,9 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SteeringPolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DnsSteeringPolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(steeringPolicyRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DnsSteeringPolicyRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -346,8 +346,8 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Optional, acctest.Update, steeringPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + DnsSteeringPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Optional, acctest.Update, DnsSteeringPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
@@ -415,10 +415,10 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_steering_policies", "test_steering_policies", acctest.Optional, acctest.Update, steeringPolicyDataSourceRepresentationWithDisplayNameFilter) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_steering_policies", "test_steering_policies", acctest.Optional, acctest.Update, DnsSteeringPolicyDataSourceFilterRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_steering_policies", "test_steering_policies2", acctest.Optional, acctest.Update, steeringPolicyDataSourceRepresentationWithDisplayNameContainsFilter) +
-				compartmentIdVariableStr + SteeringPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Optional, acctest.Update, steeringPolicyRepresentation),
+				compartmentIdVariableStr + DnsSteeringPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Optional, acctest.Update, DnsSteeringPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -461,8 +461,8 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Required, acctest.Create, steeringPolicySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SteeringPolicyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", acctest.Required, acctest.Create, DnsDnsSteeringPolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DnsSteeringPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "health_check_monitor_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "steering_policy_id"),
@@ -527,7 +527,7 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + SteeringPolicyRequiredOnlyResource,
+			Config:                  config + DnsSteeringPolicyRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -591,7 +591,7 @@ func init() {
 
 func sweepDnsSteeringPolicyResource(compartment string) error {
 	dnsClient := acctest.GetTestClients(&schema.ResourceData{}).DnsClient()
-	steeringPolicyIds, err := getSteeringPolicyIds(compartment)
+	steeringPolicyIds, err := getDnsSteeringPolicyIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -607,14 +607,14 @@ func sweepDnsSteeringPolicyResource(compartment string) error {
 				fmt.Printf("Error deleting SteeringPolicy %s %s, It is possible that the resource is already deleted. Please verify manually \n", steeringPolicyId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &steeringPolicyId, steeringPolicySweepWaitCondition, time.Duration(3*time.Minute),
-				steeringPolicySweepResponseFetchOperation, "dns", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &steeringPolicyId, DnsSteeringPolicySweepWaitCondition, time.Duration(3*time.Minute),
+				DnsSteeringPolicySweepResponseFetchOperation, "dns", true)
 		}
 	}
 	return nil
 }
 
-func getSteeringPolicyIds(compartment string) ([]string, error) {
+func getDnsSteeringPolicyIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "SteeringPolicyId")
 	if ids != nil {
 		return ids, nil
@@ -639,7 +639,7 @@ func getSteeringPolicyIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func steeringPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
+func DnsSteeringPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if steeringPolicyResponse, ok := response.Response.(oci_dns.GetSteeringPolicyResponse); ok {
 		return steeringPolicyResponse.LifecycleState != oci_dns.SteeringPolicyLifecycleStateDeleted
@@ -647,7 +647,7 @@ func steeringPolicySweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func steeringPolicySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DnsSteeringPolicySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DnsClient().GetSteeringPolicy(context.Background(), oci_dns.GetSteeringPolicyRequest{
 		SteeringPolicyId: resourceId,
 		RequestMetadata: common.RequestMetadata{

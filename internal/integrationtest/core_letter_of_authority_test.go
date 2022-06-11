@@ -15,14 +15,14 @@ import (
 )
 
 var (
-	letterOfAuthoritySingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreLetterOfAuthoritySingularDataSourceRepresentation = map[string]interface{}{
 		"cross_connect_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_cross_connect.test_cross_connect.id}`},
 	}
 
-	LetterOfAuthorityResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", acctest.Required, acctest.Create, crossConnectLocationDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", acctest.Required, acctest.Create, crossConnectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, vaultRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_vault_secrets", "test_secrets", acctest.Required, acctest.Create, secretDataSourceRepresentation)
+	CoreLetterOfAuthorityResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", acctest.Required, acctest.Create, CoreCoreCrossConnectLocationDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", acctest.Required, acctest.Create, CoreCrossConnectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, KmsVaultRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_vault_secrets", "test_secrets", acctest.Required, acctest.Create, VaultVaultSecretDataSourceRepresentation)
 )
 
 // issue-routing-tag: core/default
@@ -43,8 +43,8 @@ func TestCoreLetterOfAuthorityResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_letter_of_authority", "test_letter_of_authority", acctest.Required, acctest.Create, letterOfAuthoritySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + LetterOfAuthorityResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_letter_of_authority", "test_letter_of_authority", acctest.Required, acctest.Create, CoreCoreLetterOfAuthoritySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreLetterOfAuthorityResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
 

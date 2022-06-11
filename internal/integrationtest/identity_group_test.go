@@ -23,24 +23,24 @@ import (
 )
 
 var (
-	GroupRequiredOnlyResource = GroupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, groupRepresentation)
+	IdentityGroupRequiredOnlyResource = IdentityGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, IdentityGroupRepresentation)
 
-	groupSingularDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityGroupSingularDataSourceRepresentation = map[string]interface{}{
 		"group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_group.test_group.id}`},
 	}
 
-	groupDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `NetworkAdmins`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: groupDataSourceFilterRepresentation}}
-	groupDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityGroupDataSourceFilterRepresentation}}
+	IdentityGroupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_group.test_group.id}`}},
 	}
 
-	groupRepresentation = map[string]interface{}{
+	IdentityGroupRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"description":    acctest.Representation{RepType: acctest.Required, Create: `Group for network administrators`, Update: `description2`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `NetworkAdmins`},
@@ -48,8 +48,8 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	GroupResourceDependencies = DefinedTagsDependencies
-	GroupResourceConfig       = acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, groupRepresentation)
+	IdentityGroupResourceDependencies = DefinedTagsDependencies
+	GroupResourceConfig               = acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, IdentityGroupRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -69,14 +69,14 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+GroupResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Optional, acctest.Create, groupRepresentation), "identity", "Group", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentityGroupResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Optional, acctest.Create, IdentityGroupRepresentation), "identity", "Group", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityGroupDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + GroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, groupRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, IdentityGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Group for network administrators"),
@@ -91,12 +91,12 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + GroupResourceDependencies,
+			Config: config + compartmentIdVariableStr + IdentityGroupResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + GroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Optional, acctest.Create, groupRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Optional, acctest.Create, IdentityGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Group for network administrators"),
@@ -120,8 +120,8 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + GroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Optional, acctest.Update, groupRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Optional, acctest.Update, IdentityGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -143,9 +143,9 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_groups", "test_groups", acctest.Optional, acctest.Update, groupDataSourceRepresentation) +
-				compartmentIdVariableStr + GroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Optional, acctest.Update, groupRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_groups", "test_groups", acctest.Optional, acctest.Update, IdentityIdentityGroupDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Optional, acctest.Update, IdentityGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "NetworkAdmins"),
@@ -164,9 +164,9 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, groupSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + GroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Optional, acctest.Update, groupRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, IdentityIdentityGroupSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Optional, acctest.Update, IdentityGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "group_id"),
 
@@ -181,7 +181,7 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + GroupRequiredOnlyResource,
+			Config:                  config + IdentityGroupRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

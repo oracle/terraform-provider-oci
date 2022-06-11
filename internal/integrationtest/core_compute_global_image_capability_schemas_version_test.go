@@ -15,17 +15,17 @@ import (
 )
 
 var (
-	computeGlobalImageCapabilitySchemasVersionSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreComputeGlobalImageCapabilitySchemasVersionSingularDataSourceRepresentation = map[string]interface{}{
 		"compute_global_image_capability_schema_id":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_compute_global_image_capability_schemas.test_compute_global_image_capability_schemas.compute_global_image_capability_schemas.0.id}`},
 		"compute_global_image_capability_schema_version_name": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_compute_global_image_capability_schemas_versions.test_compute_global_image_capability_schemas_versions.compute_global_image_capability_schema_versions.0.name}`},
 	}
 
-	computeGlobalImageCapabilitySchemasVersionDataSourceRepresentation = map[string]interface{}{
+	CoreCoreComputeGlobalImageCapabilitySchemasVersionDataSourceRepresentation = map[string]interface{}{
 		"compute_global_image_capability_schema_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_compute_global_image_capability_schemas.test_compute_global_image_capability_schemas.compute_global_image_capability_schemas.0.id}`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 	}
 
-	ComputeGlobalImageCapabilitySchemasVersionResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas", "test_compute_global_image_capability_schemas", acctest.Required, acctest.Create, computeGlobalImageCapabilitySchemaDataSourceRepresentation)
+	CoreComputeGlobalImageCapabilitySchemasVersionResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas", "test_compute_global_image_capability_schemas", acctest.Required, acctest.Create, CoreCoreComputeGlobalImageCapabilitySchemaDataSourceRepresentation)
 )
 
 // issue-routing-tag: core/computeImaging
@@ -47,8 +47,8 @@ func TestCoreComputeGlobalImageCapabilitySchemasVersionResource_basic(t *testing
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas_versions", "test_compute_global_image_capability_schemas_versions", acctest.Required, acctest.Create, computeGlobalImageCapabilitySchemasVersionDataSourceRepresentation) +
-				compartmentIdVariableStr + ComputeGlobalImageCapabilitySchemasVersionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas_versions", "test_compute_global_image_capability_schemas_versions", acctest.Required, acctest.Create, CoreCoreComputeGlobalImageCapabilitySchemasVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreComputeGlobalImageCapabilitySchemasVersionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "compute_global_image_capability_schema_id"),
 
@@ -62,9 +62,9 @@ func TestCoreComputeGlobalImageCapabilitySchemasVersionResource_basic(t *testing
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas_version", "test_compute_global_image_capability_schemas_version", acctest.Required, acctest.Create, computeGlobalImageCapabilitySchemasVersionSingularDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas_versions", "test_compute_global_image_capability_schemas_versions", acctest.Required, acctest.Create, computeGlobalImageCapabilitySchemasVersionDataSourceRepresentation) +
-				compartmentIdVariableStr + ComputeGlobalImageCapabilitySchemasVersionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas_version", "test_compute_global_image_capability_schemas_version", acctest.Required, acctest.Create, CoreCoreComputeGlobalImageCapabilitySchemasVersionSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas_versions", "test_compute_global_image_capability_schemas_versions", acctest.Required, acctest.Create, CoreCoreComputeGlobalImageCapabilitySchemasVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreComputeGlobalImageCapabilitySchemasVersionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_global_image_capability_schema_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_global_image_capability_schema_version_name"),

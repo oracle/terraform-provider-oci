@@ -27,12 +27,12 @@ import (
 
 var (
 	DevopsProjectRequiredOnlyResource = DevopsProjectResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation)
 
 	DevopsProjectResourceConfig = DevopsProjectResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Optional, acctest.Update, devopsProjectRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Optional, acctest.Update, DevopsProjectRepresentation)
 
-	devopsProjectSingularDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsProjectSingularDataSourceRepresentation = map[string]interface{}{
 		"project_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_project.test_project.id}`},
 	}
 
@@ -40,43 +40,43 @@ var (
 
 	devopsLogGroupName = utils.RandomString(10, utils.CharsetWithoutDigits)
 
-	devopsProjectDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsProjectDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_project.test_project.id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: devopsProjectName},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: oci_devops.ProjectLifecycleStateActive},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: devopsProjectDataSourceFilterRepresentation}}
-	devopsProjectDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsProjectDataSourceFilterRepresentation}}
+	DevopsProjectDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_devops_project.test_project.id}`}},
 	}
 
-	devopsProjectRepresentation = map[string]interface{}{
+	DevopsProjectRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":                acctest.Representation{RepType: acctest.Required, Create: devopsProjectName},
-		"notification_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: projectNotificationConfigRepresentation},
+		"notification_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsProjectNotificationConfigRepresentation},
 		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
-	projectLoggingConfigRepresentation = map[string]interface{}{
+	DevopsProjectLoggingConfigRepresentation = map[string]interface{}{
 		"log_group_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_group.test_devops_log_group.id}`},
 		"retention_period_in_days": acctest.Representation{RepType: acctest.Required, Create: `30`, Update: `60`},
 		"display_name_prefix":      acctest.Representation{RepType: acctest.Optional, Create: `displayNamePrefix`, Update: `displayNamePrefix2`},
 		"is_archiving_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	projectNotificationConfigRepresentation = map[string]interface{}{
+	DevopsProjectNotificationConfigRepresentation = map[string]interface{}{
 		"topic_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_ons_notification_topic.test_notification_topic.id}`},
 	}
 
-	devopsLogGroupRepresentation = acctest.RepresentationCopyWithNewProperties(logGroupRepresentation, map[string]interface{}{
+	DevopsLogGroupRepresentation = acctest.RepresentationCopyWithNewProperties(LoggingLogGroupRepresentation, map[string]interface{}{
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: devopsLogGroupName},
 	})
 
 	DevopsProjectResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", acctest.Required, acctest.Create, devopsLogGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", acctest.Required, acctest.Create, DevopsLogGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -99,13 +99,13 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DevopsProjectResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Optional, acctest.Create, devopsProjectRepresentation), "devops", "project", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Optional, acctest.Create, DevopsProjectRepresentation), "devops", "project", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsProjectDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DevopsProjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", devopsProjectName),
@@ -126,7 +126,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DevopsProjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Optional, acctest.Create, devopsProjectRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Optional, acctest.Create, DevopsProjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -153,7 +153,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DevopsProjectResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(devopsProjectRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DevopsProjectRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -178,7 +178,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DevopsProjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Optional, acctest.Update, devopsProjectRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Optional, acctest.Update, DevopsProjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -201,9 +201,9 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_projects", "test_projects", acctest.Optional, acctest.Update, devopsProjectDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_projects", "test_projects", acctest.Optional, acctest.Update, DevopsDevopsProjectDataSourceRepresentation) +
 				compartmentIdVariableStr + DevopsProjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Optional, acctest.Update, devopsProjectRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Optional, acctest.Update, DevopsProjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -216,7 +216,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsDevopsProjectSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DevopsProjectResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "project_id"),
@@ -315,8 +315,8 @@ func sweepDevopsProjectResource(compartment string) error {
 				fmt.Printf("Error deleting Project %s %s, It is possible that the resource is already deleted. Please verify manually \n", projectId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &projectId, devopsProjectSweepWaitCondition, time.Duration(3*time.Minute),
-				devopsProjectSweepResponseFetchOperation, "devops", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &projectId, DevopsProjectSweepWaitCondition, time.Duration(3*time.Minute),
+				DevopsProjectSweepResponseFetchOperation, "devops", true)
 		}
 	}
 	return nil
@@ -347,7 +347,7 @@ func getDevopsProjectIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func devopsProjectSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DevopsProjectSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if projectResponse, ok := response.Response.(oci_devops.GetProjectResponse); ok {
 		return projectResponse.LifecycleState != oci_devops.ProjectLifecycleStateDeleted
@@ -355,7 +355,7 @@ func devopsProjectSweepWaitCondition(response common.OCIOperationResponse) bool 
 	return false
 }
 
-func devopsProjectSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DevopsProjectSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DevopsClient().GetProject(context.Background(), oci_devops.GetProjectRequest{
 		ProjectId: resourceId,
 		RequestMetadata: common.RequestMetadata{

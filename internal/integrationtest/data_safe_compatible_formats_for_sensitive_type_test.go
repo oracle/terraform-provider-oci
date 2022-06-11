@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	compatibleFormatsForSensitiveTypeSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafecompatibleFormatsForSensitiveTypeSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	CompatibleFormatsForSensitiveTypeResourceConfig = ""
+	DataSafeCompatibleFormatsForSensitiveTypeResourceConfig = ""
 )
 
 // issue-routing-tag: data_safe/default
@@ -41,8 +41,8 @@ func TestDataSafeCompatibleFormatsForSensitiveTypeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_compatible_formats_for_sensitive_type", "test_compatible_formats_for_sensitive_type", acctest.Required, acctest.Create, compatibleFormatsForSensitiveTypeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CompatibleFormatsForSensitiveTypeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_compatible_formats_for_sensitive_type", "test_compatible_formats_for_sensitive_type", acctest.Required, acctest.Create, DataSafecompatibleFormatsForSensitiveTypeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeCompatibleFormatsForSensitiveTypeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 			),

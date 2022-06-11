@@ -70,14 +70,14 @@ var (
 		})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network_primary_db", acctest.Optional, acctest.Update, vmClusterNetworkValidateRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_exadata_vm_cluster", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(vmClusterRepresentation, map[string]interface{}{
+			acctest.RepresentationCopyWithNewProperties(DatabaseCloudAutonomousVmClusterRepresentation, map[string]interface{}{
 				"depends_on":            acctest.Representation{RepType: acctest.Required, Create: []string{`oci_database_vm_cluster_network.test_vm_cluster_network_primary_db`}},
 				"display_name":          acctest.Representation{RepType: acctest.Required, Create: `vmClusterForPrimaryDB`},
 				"vm_cluster_network_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network_primary_db.id}`},
 			})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network_standby_db", acctest.Optional, acctest.Update, vmClusterNetworkValidateUpdateRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_exadata_vm_cluster_for_standby_db", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(vmClusterRepresentation, map[string]interface{}{
+			acctest.RepresentationCopyWithNewProperties(DatabaseCloudAutonomousVmClusterRepresentation, map[string]interface{}{
 				"depends_on":                acctest.Representation{RepType: acctest.Required, Create: []string{`oci_database_vm_cluster_network.test_vm_cluster_network_standby_db`}},
 				"display_name":              acctest.Representation{RepType: acctest.Required, Create: `vmClusterForStandbyDB`},
 				"vm_cluster_network_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network_standby_db.id}`},

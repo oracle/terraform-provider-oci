@@ -26,28 +26,28 @@ import (
 )
 
 var (
-	AlarmRequiredOnlyResource = AlarmResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Required, acctest.Create, alarmRepresentation)
+	MonitoringAlarmRequiredOnlyResource = MonitoringAlarmResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Required, acctest.Create, MonitoringAlarmRepresentation)
 
-	AlarmResourceConfig = AlarmResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional, acctest.Update, alarmRepresentation)
+	MonitoringAlarmResourceConfig = MonitoringAlarmResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional, acctest.Update, MonitoringAlarmRepresentation)
 
-	alarmSingularDataSourceRepresentation = map[string]interface{}{
+	MonitoringMonitoringAlarmSingularDataSourceRepresentation = map[string]interface{}{
 		"alarm_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_monitoring_alarm.test_alarm.id}`},
 	}
 
-	alarmDataSourceRepresentation = map[string]interface{}{
+	MonitoringMonitoringAlarmDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `High CPU Utilization`, Update: `displayName2`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: alarmDataSourceFilterRepresentation}}
-	alarmDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: MonitoringAlarmDataSourceFilterRepresentation}}
+	MonitoringAlarmDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_monitoring_alarm.test_alarm.id}`}},
 	}
 
-	alarmRepresentation = map[string]interface{}{
+	MonitoringAlarmRepresentation = map[string]interface{}{
 		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"destinations":                     acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_ons_notification_topic.test_notification_topic.id}`}, Update: []string{`${oci_ons_notification_topic.test_notification_topic2.id}`}},
 		"display_name":                     acctest.Representation{RepType: acctest.Required, Create: `High CPU Utilization`, Update: `displayName2`},
@@ -65,15 +65,15 @@ var (
 		"repeat_notification_duration":     acctest.Representation{RepType: acctest.Optional, Create: `PT2H`, Update: `PT10M`},
 		"resolution":                       acctest.Representation{RepType: acctest.Optional, Create: `1m`},
 		"resource_group":                   acctest.Representation{RepType: acctest.Optional, Create: `resourceGroup`, Update: `resourceGroup2`},
-		"suppression":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: alarmSuppressionRepresentation},
+		"suppression":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: MonitoringAlarmSuppressionRepresentation},
 	}
-	alarmSuppressionRepresentation = map[string]interface{}{
+	MonitoringAlarmSuppressionRepresentation = map[string]interface{}{
 		"time_suppress_from":  acctest.Representation{RepType: acctest.Required, Create: `2126-02-01T18:00:00.001Z`, Update: `2125-12-01T18:00:00.001Z`},
 		"time_suppress_until": acctest.Representation{RepType: acctest.Required, Create: `2126-02-01T19:00:00.001Z`, Update: `2125-12-01T19:00:00.001Z`},
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `System Maintenance`, Update: `description2`},
 	}
 
-	AlarmResourceDependencies = DefinedTagsDependencies +
+	MonitoringAlarmResourceDependencies = DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, utils.CharsetWithoutDigits, "talarm1")) +
 		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic2", acctest.Required, acctest.Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, utils.CharsetWithoutDigits, "talarm2"))
 )
@@ -97,14 +97,14 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+AlarmResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional, acctest.Create, alarmRepresentation), "monitoring", "alarm", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+MonitoringAlarmResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional, acctest.Create, MonitoringAlarmRepresentation), "monitoring", "alarm", t)
 
 	acctest.ResourceTest(t, testAccCheckMonitoringAlarmDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Required, acctest.Create, alarmRepresentation),
+			Config: config + compartmentIdVariableStr + MonitoringAlarmResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Required, acctest.Create, MonitoringAlarmRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
@@ -124,12 +124,12 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + AlarmResourceDependencies,
+			Config: config + compartmentIdVariableStr + MonitoringAlarmResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional, acctest.Create, alarmRepresentation),
+			Config: config + compartmentIdVariableStr + MonitoringAlarmResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional, acctest.Create, MonitoringAlarmRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "body", "CPU utilization has reached high values."),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -170,9 +170,9 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AlarmResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MonitoringAlarmResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(alarmRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(MonitoringAlarmRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -213,8 +213,8 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional, acctest.Update, alarmRepresentation),
+			Config: config + compartmentIdVariableStr + MonitoringAlarmResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional, acctest.Update, MonitoringAlarmRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "body", "body2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -253,9 +253,9 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_alarms", "test_alarms", acctest.Optional, acctest.Update, alarmDataSourceRepresentation) +
-				compartmentIdVariableStr + AlarmResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional, acctest.Update, alarmRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_alarms", "test_alarms", acctest.Optional, acctest.Update, MonitoringMonitoringAlarmDataSourceRepresentation) +
+				compartmentIdVariableStr + MonitoringAlarmResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional, acctest.Update, MonitoringAlarmRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
@@ -283,8 +283,8 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Required, acctest.Create, alarmSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AlarmResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Required, acctest.Create, MonitoringMonitoringAlarmSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MonitoringAlarmResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "alarm_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "metric_compartment_id"),
@@ -316,7 +316,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + AlarmRequiredOnlyResource,
+			Config:                  config + MonitoringAlarmRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -380,7 +380,7 @@ func init() {
 
 func sweepMonitoringAlarmResource(compartment string) error {
 	monitoringClient := acctest.GetTestClients(&schema.ResourceData{}).MonitoringClient()
-	alarmIds, err := getAlarmIds(compartment)
+	alarmIds, err := getMonitoringAlarmIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -396,14 +396,14 @@ func sweepMonitoringAlarmResource(compartment string) error {
 				fmt.Printf("Error deleting Alarm %s %s, It is possible that the resource is already deleted. Please verify manually \n", alarmId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &alarmId, alarmSweepWaitCondition, time.Duration(3*time.Minute),
-				alarmSweepResponseFetchOperation, "monitoring", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &alarmId, MonitoringAlarmSweepWaitCondition, time.Duration(3*time.Minute),
+				MonitoringAlarmSweepResponseFetchOperation, "monitoring", true)
 		}
 	}
 	return nil
 }
 
-func getAlarmIds(compartment string) ([]string, error) {
+func getMonitoringAlarmIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "AlarmId")
 	if ids != nil {
 		return ids, nil
@@ -428,7 +428,7 @@ func getAlarmIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func alarmSweepWaitCondition(response common.OCIOperationResponse) bool {
+func MonitoringAlarmSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if alarmResponse, ok := response.Response.(oci_monitoring.GetAlarmResponse); ok {
 		return alarmResponse.LifecycleState != oci_monitoring.AlarmLifecycleStateDeleted
@@ -436,7 +436,7 @@ func alarmSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func alarmSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func MonitoringAlarmSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.MonitoringClient().GetAlarm(context.Background(), oci_monitoring.GetAlarmRequest{
 		AlarmId: resourceId,
 		RequestMetadata: common.RequestMetadata{

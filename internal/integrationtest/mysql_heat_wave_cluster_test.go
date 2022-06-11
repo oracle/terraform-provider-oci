@@ -25,13 +25,13 @@ import (
 )
 
 var (
-	HeatWaveClusterRequiredOnlyResource = HeatWaveClusterResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Required, acctest.Create, heatWaveClusterRepresentation)
+	MysqlHeatWaveClusterRequiredOnlyResource = MysqlHeatWaveClusterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Required, acctest.Create, MysqlHeatWaveClusterRepresentation)
 
-	HeatWaveClusterResourceConfig = HeatWaveClusterResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Optional, acctest.Update, heatWaveClusterRepresentation)
+	MysqlHeatWaveClusterResourceConfig = MysqlHeatWaveClusterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Optional, acctest.Update, MysqlHeatWaveClusterRepresentation)
 
-	heatWaveClusterSingularDataSourceRepresentation = map[string]interface{}{
+	MysqlMysqlHeatWaveClusterSingularDataSourceRepresentation = map[string]interface{}{
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
 	}
 
@@ -43,7 +43,7 @@ var (
 		"configuration_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
 		"shape_name":              acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyRepresentation},
+		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemBackupPolicyRepresentation},
 		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `MySQL Database Service`},
@@ -52,23 +52,23 @@ var (
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
 		"hostname_label":          acctest.Representation{RepType: acctest.Optional, Create: `hostnameLabel`},
 		"ip_address":              acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.3`},
-		"maintenance":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemMaintenanceRepresentation},
+		"maintenance":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemMaintenanceRepresentation},
 		"port":                    acctest.Representation{RepType: acctest.Optional, Create: `3306`},
 		"port_x":                  acctest.Representation{RepType: acctest.Optional, Create: `33306`},
 	}
 
-	heatWaveClusterRepresentation = map[string]interface{}{
+	MysqlHeatWaveClusterRepresentation = map[string]interface{}{
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
 		"cluster_size": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
 		"shape_name":   acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
 		"state":        acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`}, // testing stop & start actions
 	}
 
-	HeatWaveClusterResourceDependencies = MysqlConfigurationResourceConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	MysqlHeatWaveClusterResourceDependencies = MysqlMysqlConfigurationResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", acctest.Required, acctest.Create, mysqlShapeDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", acctest.Required, acctest.Create, MysqlMysqlShapeDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, mysqlDbSystemHeatWaveRepresentation)
 )
 
@@ -91,8 +91,8 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckMysqlHeatWaveClusterDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Required, acctest.Create, heatWaveClusterRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlHeatWaveClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Required, acctest.Create, MysqlHeatWaveClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 
@@ -105,12 +105,12 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies,
+			Config: config + compartmentIdVariableStr + MysqlHeatWaveClusterResourceDependencies,
 		},
 		// verify Create & stop
 		{
-			Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Optional, acctest.Create, heatWaveClusterRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlHeatWaveClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Optional, acctest.Create, MysqlHeatWaveClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_size", "2"),
@@ -135,8 +135,8 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 
 		// verify start & updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Optional, acctest.Update, heatWaveClusterRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlHeatWaveClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Optional, acctest.Update, MysqlHeatWaveClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "3"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_size", "3"),
@@ -160,8 +160,8 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Required, acctest.Create, heatWaveClusterSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + HeatWaveClusterResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Required, acctest.Create, MysqlMysqlHeatWaveClusterSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MysqlHeatWaveClusterResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 
@@ -175,7 +175,7 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + HeatWaveClusterRequiredOnlyResource,
+			Config:                  config + MysqlHeatWaveClusterRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -240,7 +240,7 @@ func init() {
 
 func sweepMysqlHeatWaveClusterResource(compartment string) error {
 	dbSystemClient := acctest.GetTestClients(&schema.ResourceData{}).DbSystemClient()
-	mysqlDbSystemIds, err := getMysqlDbSystemIds(compartment)
+	mysqlDbSystemIds, err := getMysqlMysqlDbSystemIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -256,7 +256,7 @@ func sweepMysqlHeatWaveClusterResource(compartment string) error {
 				continue
 			}
 			acctest.WaitTillCondition(acctest.TestAccProvider, &mysqlDbSystemId, heatWaveClusterSweepWaitCondition, time.Duration(3*time.Minute),
-				heatWaveClusterSweepResponseFetchOperation, "mysql", true)
+				MysqlHeatWaveClusterSweepResponseFetchOperation, "mysql", true)
 		}
 	}
 	return nil
@@ -270,7 +270,7 @@ func heatWaveClusterSweepWaitCondition(response common.OCIOperationResponse) boo
 	return false
 }
 
-func heatWaveClusterSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func MysqlHeatWaveClusterSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DbSystemClient().GetHeatWaveCluster(context.Background(), oci_mysql.GetHeatWaveClusterRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},

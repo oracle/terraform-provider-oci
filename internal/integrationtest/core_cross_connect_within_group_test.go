@@ -29,7 +29,7 @@ var (
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"cross_connect_group_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_cross_connect_group.test_cross_connect_group.id}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"filter":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: crossConnectDataSourceFilterRepresentation}}
+		"filter":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreCrossConnectDataSourceFilterRepresentation}}
 
 	crossConnectWithGroupRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -43,8 +43,8 @@ var (
 		"is_active":               acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
 
-	CrossConnectWithGroupResourceDependencies          = CrossConnectGroupResourceConfig + acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", acctest.Required, acctest.Create, crossConnectLocationDataSourceRepresentation)
-	CrossConnectWithGroupResourceDependenciesCopyForVC = CrossConnectGroupResourceConfigCopyForVC + acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", acctest.Required, acctest.Create, crossConnectLocationDataSourceRepresentation)
+	CrossConnectWithGroupResourceDependencies          = CoreCrossConnectGroupResourceConfig + acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", acctest.Required, acctest.Create, CoreCoreCrossConnectLocationDataSourceRepresentation)
+	CrossConnectWithGroupResourceDependenciesCopyForVC = CrossConnectGroupResourceConfigCopyForVC + acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", acctest.Required, acctest.Create, CoreCoreCrossConnectLocationDataSourceRepresentation)
 )
 
 // issue-routing-tag: core/default
@@ -156,7 +156,7 @@ func TestResourceCoreCrossConnectResourceWithinGroup(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", acctest.Required, acctest.Create, crossConnectSingularDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", acctest.Required, acctest.Create, CoreCoreCrossConnectSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CrossConnectWithGroupResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_group_id"),

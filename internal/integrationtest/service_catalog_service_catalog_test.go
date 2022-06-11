@@ -25,34 +25,34 @@ import (
 )
 
 var (
-	ServiceCatalogRequiredOnlyResource = ServiceCatalogResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Required, acctest.Create, serviceCatalogRepresentation)
+	ServiceCatalogServiceCatalogRequiredOnlyResource = ServiceCatalogServiceCatalogResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Required, acctest.Create, ServiceCatalogServiceCatalogRepresentation)
 
-	ServiceCatalogResourceConfig = ServiceCatalogResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Optional, acctest.Update, serviceCatalogRepresentation)
+	ServiceCatalogServiceCatalogResourceConfig = ServiceCatalogServiceCatalogResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Optional, acctest.Update, ServiceCatalogServiceCatalogRepresentation)
 
-	serviceCatalogSingularDataSourceRepresentation = map[string]interface{}{
+	ServiceCatalogServiceCatalogServiceCatalogSingularDataSourceRepresentation = map[string]interface{}{
 		"service_catalog_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_catalog_service_catalog.test_service_catalog.id}`},
 	}
 
-	serviceCatalogDataSourceRepresentation = map[string]interface{}{
+	ServiceCatalogServiceCatalogServiceCatalogDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"service_catalog_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_catalog_service_catalog.test_service_catalog.id}`},
-		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceCatalogDataSourceFilterRepresentation}}
-	serviceCatalogDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceCatalogServiceCatalogDataSourceFilterRepresentation}}
+	ServiceCatalogServiceCatalogDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_service_catalog_service_catalog.test_service_catalog.id}`}},
 	}
 
-	serviceCatalogRepresentation = map[string]interface{}{
+	ServiceCatalogServiceCatalogRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	ServiceCatalogResourceDependencies = DefinedTagsDependencies
+	ServiceCatalogServiceCatalogResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: service_catalog/default
@@ -74,14 +74,14 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ServiceCatalogResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Optional, acctest.Create, serviceCatalogRepresentation), "servicecatalog", "serviceCatalog", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ServiceCatalogServiceCatalogResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Optional, acctest.Create, ServiceCatalogServiceCatalogRepresentation), "servicecatalog", "serviceCatalog", t)
 
 	acctest.ResourceTest(t, testAccCheckServiceCatalogServiceCatalogDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceCatalogResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Required, acctest.Create, serviceCatalogRepresentation),
+			Config: config + compartmentIdVariableStr + ServiceCatalogServiceCatalogResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Required, acctest.Create, ServiceCatalogServiceCatalogRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -95,12 +95,12 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceCatalogResourceDependencies,
+			Config: config + compartmentIdVariableStr + ServiceCatalogServiceCatalogResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ServiceCatalogResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Optional, acctest.Create, serviceCatalogRepresentation),
+			Config: config + compartmentIdVariableStr + ServiceCatalogServiceCatalogResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Optional, acctest.Create, ServiceCatalogServiceCatalogRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -123,9 +123,9 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceCatalogResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceCatalogServiceCatalogResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(serviceCatalogRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ServiceCatalogServiceCatalogRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -148,8 +148,8 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ServiceCatalogResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Optional, acctest.Update, serviceCatalogRepresentation),
+			Config: config + compartmentIdVariableStr + ServiceCatalogServiceCatalogResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Optional, acctest.Update, ServiceCatalogServiceCatalogRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -170,9 +170,9 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_catalog_service_catalogs", "test_service_catalogs", acctest.Optional, acctest.Update, serviceCatalogDataSourceRepresentation) +
-				compartmentIdVariableStr + ServiceCatalogResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Optional, acctest.Update, serviceCatalogRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_catalog_service_catalogs", "test_service_catalogs", acctest.Optional, acctest.Update, ServiceCatalogServiceCatalogServiceCatalogDataSourceRepresentation) +
+				compartmentIdVariableStr + ServiceCatalogServiceCatalogResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Optional, acctest.Update, ServiceCatalogServiceCatalogRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -185,8 +185,8 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Required, acctest.Create, serviceCatalogSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ServiceCatalogResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Required, acctest.Create, ServiceCatalogServiceCatalogServiceCatalogSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ServiceCatalogServiceCatalogResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_catalog_id"),
 
@@ -201,7 +201,7 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ServiceCatalogRequiredOnlyResource,
+			Config:                  config + ServiceCatalogServiceCatalogRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -265,7 +265,7 @@ func init() {
 
 func sweepServiceCatalogServiceCatalogResource(compartment string) error {
 	serviceCatalogClient := acctest.GetTestClients(&schema.ResourceData{}).ServiceCatalogClient()
-	serviceCatalogIds, err := getServiceCatalogIds(compartment)
+	serviceCatalogIds, err := getServiceCatalogServiceCatalogIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -281,14 +281,14 @@ func sweepServiceCatalogServiceCatalogResource(compartment string) error {
 				fmt.Printf("Error deleting ServiceCatalog %s %s, It is possible that the resource is already deleted. Please verify manually \n", serviceCatalogId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &serviceCatalogId, serviceCatalogSweepWaitCondition, time.Duration(3*time.Minute),
-				serviceCatalogSweepResponseFetchOperation, "service_catalog", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &serviceCatalogId, ServiceCatalogServiceCatalogSweepWaitCondition, time.Duration(3*time.Minute),
+				ServiceCatalogServiceCatalogSweepResponseFetchOperation, "service_catalog", true)
 		}
 	}
 	return nil
 }
 
-func getServiceCatalogIds(compartment string) ([]string, error) {
+func getServiceCatalogServiceCatalogIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ServiceCatalogId")
 	if ids != nil {
 		return ids, nil
@@ -312,7 +312,7 @@ func getServiceCatalogIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func serviceCatalogSweepWaitCondition(response common.OCIOperationResponse) bool {
+func ServiceCatalogServiceCatalogSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if serviceCatalogResponse, ok := response.Response.(oci_service_catalog.GetServiceCatalogResponse); ok {
 		return serviceCatalogResponse.LifecycleState != oci_service_catalog.ServiceCatalogLifecycleStateDeleted
@@ -320,7 +320,7 @@ func serviceCatalogSweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func serviceCatalogSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func ServiceCatalogServiceCatalogSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ServiceCatalogClient().GetServiceCatalog(context.Background(), oci_service_catalog.GetServiceCatalogRequest{
 		ServiceCatalogId: resourceId,
 		RequestMetadata: common.RequestMetadata{

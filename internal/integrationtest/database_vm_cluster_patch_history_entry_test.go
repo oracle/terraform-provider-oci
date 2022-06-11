@@ -16,18 +16,18 @@ import (
 )
 
 var (
-	vmClusterPatchHistoryEntrySingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseVmClusterPatchHistoryEntrySingularDataSourceRepresentation = map[string]interface{}{
 		"patch_history_entry_id": acctest.Representation{RepType: acctest.Required, Create: `{}`},
 		"vm_cluster_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 
-	vmClusterPatchHistoryEntryDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseVmClusterPatchHistoryEntryDataSourceRepresentation = map[string]interface{}{
 		"vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 
-	VmClusterPatchHistoryEntryResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, exadataInfrastructureRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create, vmClusterNetworkRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, vmClusterRepresentation)
+	DatabaseVmClusterPatchHistoryEntryResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseAutonomousExadataInfrastructureRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create, DatabaseVmClusterNetworkRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudAutonomousVmClusterRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -51,8 +51,8 @@ func TestDatabaseVmClusterPatchHistoryEntryResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch_history_entries", "test_vm_cluster_patch_history_entries", acctest.Required, acctest.Create, vmClusterPatchHistoryEntryDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterPatchHistoryEntryResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch_history_entries", "test_vm_cluster_patch_history_entries", acctest.Required, acctest.Create, DatabaseDatabaseVmClusterPatchHistoryEntryDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseVmClusterPatchHistoryEntryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_id"),
 
@@ -68,8 +68,8 @@ func TestDatabaseVmClusterPatchHistoryEntryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch_history_entry", "test_vm_cluster_patch_history_entry", acctest.Required, acctest.Create, vmClusterPatchHistoryEntrySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterPatchHistoryEntryResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch_history_entry", "test_vm_cluster_patch_history_entry", acctest.Required, acctest.Create, DatabaseDatabaseVmClusterPatchHistoryEntrySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseVmClusterPatchHistoryEntryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_history_entry_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),

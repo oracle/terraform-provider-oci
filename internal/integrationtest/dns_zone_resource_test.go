@@ -24,7 +24,7 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 	zoneDataSourceRepresentationRequiredOnlyWithFilterDefault = acctest.RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnlyDefault, map[string]interface{}{
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: zoneDataSourceFilterRepresentation},
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: DnsDnsZoneDataSourceFilterRepresentation},
 	})
 	zoneDataSourceRepresentationWithNameOptionalDefault = acctest.RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnlyDefault, map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test`},
@@ -50,13 +50,13 @@ var (
 		"name":             acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test`},
 		"zone_type":        acctest.Representation{RepType: acctest.Required, Create: `PRIMARY`},
 		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"external_masters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: zoneExternalMastersRepresentation},
+		"external_masters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsZoneExternalMastersRepresentation},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 	}
 
 	zoneRepresentationDefault = acctest.GetUpdatedRepresentationCopy("zone_type", acctest.Representation{RepType: acctest.Required, Create: `SECONDARY`}, zoneRepresentationPrimaryDefault)
 
-	ZoneResourceDependenciesDefault = acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Required, acctest.Create, tsigKeyRepresentation) +
+	ZoneResourceDependenciesDefault = acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Required, acctest.Create, DnsTsigKeyRepresentation) +
 		DefinedTagsDependencies + `
 data "oci_identity_tenancy" "test_tenancy" {
 	tenancy_id = "${var.tenancy_ocid}"

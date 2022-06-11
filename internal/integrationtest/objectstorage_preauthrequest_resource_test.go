@@ -171,7 +171,7 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 
 	updatedRepresentation := acctest.RepresentationCopyWithNewProperties(
 		acctest.RepresentationCopyWithRemovedProperties(
-			preauthenticatedRequestRepresentation,
+			ObjectStoragePreauthenticatedRequestRepresentation,
 			[]string{"object"}), map[string]interface{}{
 			"object_name": acctest.Representation{
 				RepType: acctest.Optional,
@@ -182,7 +182,7 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 	var resId string
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+PreauthenticatedRequestResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ObjectStoragePreauthenticatedRequestResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Optional, acctest.Create, updatedRepresentation), "objectstorage", "preauthenticatedRequest", t)
 
 	resource.Test(t, resource.TestCase{
@@ -194,7 +194,7 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 		Steps: []resource.TestStep{
 			// verify Create
 			{
-				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStoragePreauthenticatedRequestResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Required, acctest.Create, updatedRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "AnyObjectWrite"),
@@ -207,11 +207,11 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 
 			// delete before next Create
 			{
-				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies,
+				Config: config + compartmentIdVariableStr + ObjectStoragePreauthenticatedRequestResourceDependencies,
 			},
 			// verify Create with optionals
 			{
-				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStoragePreauthenticatedRequestResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Optional, acctest.Update, updatedRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
@@ -240,8 +240,8 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 			// verify datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequests", "test_preauthenticated_requests", acctest.Optional, acctest.Update, preauthenticatedRequestDataSourceRepresentation) +
-					compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequests", "test_preauthenticated_requests", acctest.Optional, acctest.Update, ObjectStorageObjectStoragePreauthenticatedRequestDataSourceRepresentation) +
+					compartmentIdVariableStr + ObjectStoragePreauthenticatedRequestResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Optional, acctest.Update, updatedRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", testPreAuthBucketName),
@@ -260,8 +260,8 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 			// verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Required, acctest.Create, preauthenticatedRequestSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Required, acctest.Create, ObjectStorageObjectStoragePreauthenticatedRequestSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ObjectStoragePreauthenticatedRequestResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", acctest.Optional, acctest.Update, updatedRepresentation),
 
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -279,7 +279,7 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 			},
 			//verify resource import
 			{
-				Config:            config + PreauthenticatedRequestRequiredOnlyResource,
+				Config:            config + ObjectStoragePreauthenticatedRequestRequiredOnlyResource,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

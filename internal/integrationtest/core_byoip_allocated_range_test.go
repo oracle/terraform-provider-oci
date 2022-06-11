@@ -18,11 +18,11 @@ import (
 )
 
 var (
-	byoipAllocatedRangeDataSourceRepresentation = map[string]interface{}{
+	CoreCoreByoipAllocatedRangeDataSourceRepresentation = map[string]interface{}{
 		"byoip_range_id": acctest.Representation{RepType: acctest.Required, Create: `${var.byoip_range_id}`},
 	}
 
-	ByoipAllocatedRangeResourceConfig = PublicIpPoolAddCapacityResourceDependencies +
+	CoreByoipAllocatedRangeResourceConfig = PublicIpPoolAddCapacityResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", acctest.Required, acctest.Create, publicIpPoolCapacityRepresentation)
 )
 
@@ -43,7 +43,7 @@ func TestCoreByoipAllocatedRangeResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Create dependencies
 		{
-			Config: config + compartmentIdVariableStr + ByoipAllocatedRangeResourceConfig,
+			Config: config + compartmentIdVariableStr + CoreByoipAllocatedRangeResourceConfig,
 			Check: func(s *terraform.State) (err error) {
 				log.Printf("[DEBUG] Wait for oci_core_public_ip_pool and oci_core_public_ip_pool_capacity resource to get created first")
 				time.Sleep(2 * time.Minute)
@@ -53,8 +53,8 @@ func TestCoreByoipAllocatedRangeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_byoip_allocated_ranges", "test_byoip_allocated_ranges", acctest.Required, acctest.Create, byoipAllocatedRangeDataSourceRepresentation) +
-				compartmentIdVariableStr + ByoipAllocatedRangeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_byoip_allocated_ranges", "test_byoip_allocated_ranges", acctest.Required, acctest.Create, CoreCoreByoipAllocatedRangeDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreByoipAllocatedRangeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "byoip_range_id"),
 
