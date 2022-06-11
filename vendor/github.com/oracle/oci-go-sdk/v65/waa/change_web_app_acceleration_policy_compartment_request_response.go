@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeWebAppAccelerationPolicyCompartmentRequest wrapper for the ChangeWebAppAccelerationPolicyCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/ChangeWebAppAccelerationPolicyCompartment.go.html to see an example of how to use ChangeWebAppAccelerationPolicyCompartmentRequest.
 type ChangeWebAppAccelerationPolicyCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppAccelerationPolicy.

@@ -95,6 +95,10 @@ func (m *configsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		mm := SpanFilterSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OPTIONS":
+		mm := OptionsSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}

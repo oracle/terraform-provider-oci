@@ -36,6 +36,9 @@ type QuotaSummary struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// The quota's current state. After creating a quota, make sure its `lifecycleState` is set to
 	// ACTIVE before using it.
 	LifecycleState QuotaSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`

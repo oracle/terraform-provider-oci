@@ -32,6 +32,9 @@ type BulkDeleteTagsRequest struct {
 	// may be rejected).
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
+	// Whether to override locks (if any exist).
+	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
