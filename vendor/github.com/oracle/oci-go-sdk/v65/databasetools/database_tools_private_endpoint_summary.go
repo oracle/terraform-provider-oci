@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -15,28 +15,28 @@ import (
 	"strings"
 )
 
-// DatabaseToolsPrivateEndpointSummary Summary of the DatabaseToolsPrivateEndpoint.
+// DatabaseToolsPrivateEndpointSummary Summary of the Database Tools private endpoint.
 type DatabaseToolsPrivateEndpointSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the containing Compartment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the private endpoint.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DatabaseToolsPrivateEndpoint.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DatabaseToolsEndpointService.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Tools Endpoint Service.
 	EndpointServiceId *string `mandatory:"true" json:"endpointServiceId"`
 
-	// The time the DatabaseToolsPrivateEndpoint was created. An RFC3339 formatted datetime string
+	// The time the Database Tools private endpoint was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The time the DatabaseToolsPrivateEndpoint was updated. An RFC3339 formatted datetime string
+	// The time the Database Tools private endpoint was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet that the private endpoint belongs to.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
-	// The current state of the DatabaseToolsPrivateEndpoint.
+	// The current state of the Database Tools private endpoint.
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
@@ -54,7 +54,7 @@ type DatabaseToolsPrivateEndpointSummary struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// A description of the DatabaseToolsPrivateEndpoint.
+	// A description of the Database Tools private endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VCN that the private endpoint belongs to.

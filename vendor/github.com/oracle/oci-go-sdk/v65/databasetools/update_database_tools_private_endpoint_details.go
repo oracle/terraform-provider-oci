@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -29,7 +29,7 @@ type UpdateDatabaseToolsPrivateEndpointDetails struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// A description of the DatabaseToolsPrivateEndpoint.
+	// A description of the Database Tools private endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups

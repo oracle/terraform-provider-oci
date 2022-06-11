@@ -35,9 +35,7 @@ type CreateNetworkSourceDetails struct {
 	// Example:`"vcnId": "ocid1.vcn.oc1.iad.aaaaaaaaexampleuniqueID", "ipRanges": [ "129.213.39.0/24" ]`
 	VirtualSourceList []NetworkSourcesVirtualSourceList `mandatory:"false" json:"virtualSourceList"`
 
-	// A list of services allowed to make on-behalf-of requests. These requests can have different source IP addresses
-	// than those listed in the network source.
-	// Currently, only `all` and `none` are supported. The default is `all`.
+	// -- The services attribute has no effect and is reserved for use by Oracle. --
 	Services []string `mandatory:"false" json:"services"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

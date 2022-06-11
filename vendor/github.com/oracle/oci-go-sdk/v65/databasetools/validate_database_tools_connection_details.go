@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -52,6 +52,10 @@ func (m *validatedatabasetoolsconnectiondetails) UnmarshalPolymorphicJSON(data [
 	switch m.Type {
 	case "ORACLE_DATABASE":
 		mm := ValidateDatabaseToolsConnectionOracleDatabaseDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL":
+		mm := ValidateDatabaseToolsConnectionMySqlDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
