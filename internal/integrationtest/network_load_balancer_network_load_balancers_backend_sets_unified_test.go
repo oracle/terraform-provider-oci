@@ -24,27 +24,27 @@ import (
 )
 
 var (
-	NetworkLoadBalancersBackendSetsUnifiedRequiredOnlyResource = NetworkLoadBalancersBackendSetsUnifiedResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_backend_sets_unified", "test_network_load_balancers_backend_sets_unified", acctest.Required, acctest.Create, networkLoadBalancersBackendSetsUnifiedRepresentation)
+	NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedRequiredOnlyResource = NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_backend_sets_unified", "test_network_load_balancers_backend_sets_unified", acctest.Required, acctest.Create, NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedRepresentation)
 
-	NetworkLoadBalancersBackendSetsUnifiedResourceConfig = NetworkLoadBalancersBackendSetsUnifiedResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_backend_sets_unified", "test_network_load_balancers_backend_sets_unified", acctest.Optional, acctest.Update, networkLoadBalancersBackendSetsUnifiedRepresentation)
+	NetworkLoadBalancersBackendSetsUnifiedResourceConfig = NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_backend_sets_unified", "test_network_load_balancers_backend_sets_unified", acctest.Optional, acctest.Update, NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedRepresentation)
 
 	NetworkLoadBalancersBackendSetsUnifiedSingularDataSourceRepresentation = map[string]interface{}{
 		"backend_set_name":         acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancers_backend_sets_unified.test_network_load_balancers_backend_sets_unified.name}`},
 		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 	}
 
-	networkLoadBalancersBackendSetsUnifiedRepresentation = map[string]interface{}{
-		"health_checker":           acctest.RepresentationGroup{RepType: acctest.Required, Group: networkLoadBalancersBackendSetsUnifiedHealthCheckerRepresentation},
+	NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedRepresentation = map[string]interface{}{
+		"health_checker":           acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerRepresentation},
 		"name":                     acctest.Representation{RepType: acctest.Required, Create: `example_backend_set`},
 		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 		"policy":                   acctest.Representation{RepType: acctest.Required, Create: `FIVE_TUPLE`, Update: `THREE_TUPLE`},
-		"backends":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: networkLoadBalancersBackendSetsUnifiedBackendsRepresentation},
+		"backends":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsRepresentation},
 		"ip_version":               acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
 		"is_preserve_source":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	networkLoadBalancersBackendSetsUnifiedHealthCheckerRepresentation = map[string]interface{}{
+	NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerRepresentation = map[string]interface{}{
 		"protocol":           acctest.Representation{RepType: acctest.Required, Create: `TCP`, Update: `TCP`},
 		"interval_in_millis": acctest.Representation{RepType: acctest.Optional, Create: `10000`, Update: `30000`},
 		"port":               acctest.Representation{RepType: acctest.Optional, Create: `80`, Update: `8080`},
@@ -54,7 +54,7 @@ var (
 		"timeout_in_millis":  acctest.Representation{RepType: acctest.Optional, Create: `10000`, Update: `30000`},
 	}
 
-	networkLoadBalancersBackendSetsUnifiedBackendsRepresentation = map[string]interface{}{
+	NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsRepresentation = map[string]interface{}{
 		"port":       acctest.Representation{RepType: acctest.Required, Create: `10`},
 		"ip_address": acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.3`},
 		"is_backup":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -64,9 +64,9 @@ var (
 		"weight":     acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
 
-	NetworkLoadBalancersBackendSetsUnifiedResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Create, networkLoadBalancerRepresentation)
+	NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Create, NetworkLoadBalancerNetworkLoadBalancerRepresentation)
 )
 
 // issue-routing-tag: network_load_balancer/default
@@ -86,8 +86,8 @@ func TestNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource_basic
 	acctest.ResourceTest(t, testAccCheckNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + NetworkLoadBalancersBackendSetsUnifiedResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_backend_sets_unified", "test_network_load_balancers_backend_sets_unified", acctest.Required, acctest.Create, networkLoadBalancersBackendSetsUnifiedRepresentation),
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_backend_sets_unified", "test_network_load_balancers_backend_sets_unified", acctest.Required, acctest.Create, NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "TCP"),
@@ -104,12 +104,12 @@ func TestNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource_basic
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + NetworkLoadBalancersBackendSetsUnifiedResourceDependencies,
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + NetworkLoadBalancersBackendSetsUnifiedResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_backend_sets_unified", "test_network_load_balancers_backend_sets_unified", acctest.Optional, acctest.Create, networkLoadBalancersBackendSetsUnifiedRepresentation),
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_backend_sets_unified", "test_network_load_balancers_backend_sets_unified", acctest.Optional, acctest.Create, NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "backends", map[string]string{
@@ -150,8 +150,8 @@ func TestNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource_basic
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + NetworkLoadBalancersBackendSetsUnifiedResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_backend_sets_unified", "test_network_load_balancers_backend_sets_unified", acctest.Optional, acctest.Update, networkLoadBalancersBackendSetsUnifiedRepresentation),
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_backend_sets_unified", "test_network_load_balancers_backend_sets_unified", acctest.Optional, acctest.Update, NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "backends", map[string]string{
@@ -189,7 +189,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource_basic
 		},
 		// verify resource import
 		{
-			Config:                  config + NetworkLoadBalancersBackendSetsUnifiedRequiredOnlyResource,
+			Config:                  config + NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -250,7 +250,7 @@ func init() {
 
 func sweepNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource(compartment string) error {
 	networkLoadBalancerClient := acctest.GetTestClients(&schema.ResourceData{}).NetworkLoadBalancerClient()
-	networkLoadBalancersBackendSetsUnifiedIds, err := getNetworkLoadBalancersBackendSetsUnifiedIds(compartment)
+	networkLoadBalancersBackendSetsUnifiedIds, err := getNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -269,7 +269,7 @@ func sweepNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource(comp
 	return nil
 }
 
-func getNetworkLoadBalancersBackendSetsUnifiedIds(compartment string) ([]string, error) {
+func getNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "NetworkLoadBalancersBackendSetsUnifiedId")
 	if ids != nil {
 		return ids, nil
@@ -280,7 +280,7 @@ func getNetworkLoadBalancersBackendSetsUnifiedIds(compartment string) ([]string,
 
 	listBackendSetsRequest := oci_network_load_balancer.ListBackendSetsRequest{}
 
-	networkLoadBalancerIds, error := getNetworkLoadBalancerIds(compartment)
+	networkLoadBalancerIds, error := getNetworkLoadBalancerNetworkLoadBalancerIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting networkLoadBalancerId required for NetworkLoadBalancersBackendSetsUnified resource requests \n")
 	}

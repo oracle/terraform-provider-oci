@@ -19,20 +19,20 @@ import (
 )
 
 var (
-	MaintenanceRunRequiredOnlyResource = MaintenanceRunResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Required, acctest.Create, maintenanceRunRepresentation)
+	DatabaseMaintenanceRunRequiredOnlyResource = DatabaseMaintenanceRunResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Required, acctest.Create, DatabaseMaintenanceRunRepresentation)
 
-	MaintenanceRunResourceConfig = MaintenanceRunResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Update, maintenanceRunRepresentation)
+	DatabaseMaintenanceRunResourceConfig = DatabaseMaintenanceRunResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Update, DatabaseMaintenanceRunRepresentation)
 
-	maintenanceRunSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseMaintenanceRunSingularDataSourceRepresentation = map[string]interface{}{
 		"maintenance_run_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_maintenance_run.test_maintenance_run.id}`},
 	}
 
 	mrTimeScheduledCreate = time.Now().UTC().AddDate(0, 0, 8).Truncate(time.Millisecond)
 	mrTimeScheduledUpdate = time.Now().UTC().AddDate(0, 0, 10).Truncate(time.Millisecond)
 
-	maintenanceRunRepresentation = map[string]interface{}{
+	DatabaseMaintenanceRunRepresentation = map[string]interface{}{
 		"maintenance_run_id":                    acctest.Representation{RepType: acctest.Required, Create: `${var.maintenance_run_id}`},
 		"current_custom_action_timeout_in_mins": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"custom_action_timeout_in_mins":         acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
@@ -45,7 +45,7 @@ var (
 		"time_scheduled":                        acctest.Representation{RepType: acctest.Required, Create: mrTimeScheduledCreate.Format(time.RFC3339Nano), Update: mrTimeScheduledUpdate.Format(time.RFC3339Nano)},
 	}
 
-	MaintenanceRunResourceDependencies = ""
+	DatabaseMaintenanceRunResourceDependencies = ""
 )
 
 // issue-routing-tag: database/dbaas-atp-d
@@ -71,14 +71,14 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+MaintenanceRunResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Create, maintenanceRunRepresentation), "database", "maintenanceRun", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseMaintenanceRunResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Create, DatabaseMaintenanceRunRepresentation), "database", "maintenanceRun", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Required, acctest.Create, maintenanceRunRepresentation),
+			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + DatabaseMaintenanceRunResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Required, acctest.Create, DatabaseMaintenanceRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
 
@@ -91,13 +91,13 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies,
+			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + DatabaseMaintenanceRunResourceDependencies,
 		},
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Create, maintenanceRunRepresentation),
+			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + DatabaseMaintenanceRunResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Create, DatabaseMaintenanceRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "current_custom_action_timeout_in_mins", "10"),
@@ -128,8 +128,8 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Update, maintenanceRunRepresentation),
+			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + DatabaseMaintenanceRunResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Update, DatabaseMaintenanceRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "current_custom_action_timeout_in_mins", "11"),
@@ -159,9 +159,9 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_maintenance_runs", "test_maintenance_runs", acctest.Optional, acctest.Update, maintenanceRunRepresentation) +
-				compartmentIdVariableStr + MaintenanceRunResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Update, maintenanceRunRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_maintenance_runs", "test_maintenance_runs", acctest.Optional, acctest.Update, DatabaseMaintenanceRunRepresentation) +
+				compartmentIdVariableStr + DatabaseMaintenanceRunResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Update, DatabaseMaintenanceRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -204,8 +204,8 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Required, acctest.Create, maintenanceRunSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Required, acctest.Create, DatabaseDatabaseMaintenanceRunSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + DatabaseMaintenanceRunResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_run_id"),
 
@@ -237,7 +237,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + MaintenanceRunRequiredOnlyResource,
+			Config:            config + DatabaseMaintenanceRunRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

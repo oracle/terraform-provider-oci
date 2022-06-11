@@ -26,30 +26,30 @@ import (
 )
 
 var (
-	EmailDomainRequiredOnlyResource = EmailDomainResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Required, acctest.Create, emailDomainRepresentation)
+	EmailEmailDomainRequiredOnlyResource = EmailEmailDomainResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Required, acctest.Create, EmailEmailDomainRepresentation)
 
-	EmailDomainResourceConfig = EmailDomainResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Optional, acctest.Update, emailDomainRepresentation)
+	EmailEmailDomainResourceConfig = EmailEmailDomainResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Optional, acctest.Update, EmailEmailDomainRepresentation)
 
-	emailDomainSingularDataSourceRepresentation = map[string]interface{}{
+	EmailEmailEmailDomainSingularDataSourceRepresentation = map[string]interface{}{
 		"email_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_email_email_domain.test_email_domain.id}`},
 	}
 
 	randomDomain = utils.RandomString(8, utils.CharsetLowerCaseWithoutDigits) + ".email.us-phoenix-1.oci.oc-test.com"
 
-	emailDomainDataSourceRepresentation = map[string]interface{}{
+	EmailEmailEmailDomainDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_email_email_domain.test_email_domain.id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: randomDomain},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: emailDomainDataSourceFilterRepresentation}}
-	emailDomainDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: EmailEmailDomainDataSourceFilterRepresentation}}
+	EmailEmailDomainDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_email_email_domain.test_email_domain.id}`}},
 	}
 
-	emailDomainRepresentation = map[string]interface{}{
+	EmailEmailDomainRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: randomDomain},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -57,7 +57,7 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	EmailDomainResourceDependencies = DefinedTagsDependencies
+	EmailEmailDomainResourceDependencies = DefinedTagsDependencies
 )
 
 func TestEmailEmailDomainResource_basic(t *testing.T) {
@@ -78,14 +78,14 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+EmailDomainResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Optional, acctest.Create, emailDomainRepresentation), "email", "emailDomain", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+EmailEmailDomainResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Optional, acctest.Create, EmailEmailDomainRepresentation), "email", "emailDomain", t)
 
 	acctest.ResourceTest(t, testAccCheckEmailEmailDomainDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + EmailDomainResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Required, acctest.Create, emailDomainRepresentation),
+			Config: config + compartmentIdVariableStr + EmailEmailDomainResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Required, acctest.Create, EmailEmailDomainRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", randomDomain),
@@ -99,12 +99,12 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + EmailDomainResourceDependencies,
+			Config: config + compartmentIdVariableStr + EmailEmailDomainResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + EmailDomainResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Optional, acctest.Create, emailDomainRepresentation),
+			Config: config + compartmentIdVariableStr + EmailEmailDomainResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Optional, acctest.Create, EmailEmailDomainRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -126,9 +126,9 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + EmailDomainResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + EmailEmailDomainResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(emailDomainRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(EmailEmailDomainRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: resource.ComposeAggregateTestCheckFunc(
@@ -150,8 +150,8 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + EmailDomainResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Optional, acctest.Update, emailDomainRepresentation),
+			Config: config + compartmentIdVariableStr + EmailEmailDomainResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Optional, acctest.Update, EmailEmailDomainRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -171,9 +171,9 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_email_email_domains", "test_email_domains", acctest.Optional, acctest.Update, emailDomainDataSourceRepresentation) +
-				compartmentIdVariableStr + EmailDomainResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Optional, acctest.Update, emailDomainRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_email_email_domains", "test_email_domains", acctest.Optional, acctest.Update, EmailEmailEmailDomainDataSourceRepresentation) +
+				compartmentIdVariableStr + EmailEmailDomainResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Optional, acctest.Update, EmailEmailDomainRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", randomDomain),
@@ -186,8 +186,8 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Required, acctest.Create, emailDomainSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + EmailDomainResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Required, acctest.Create, EmailEmailEmailDomainSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + EmailEmailDomainResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "email_domain_id"),
 
@@ -203,7 +203,7 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + EmailDomainRequiredOnlyResource,
+			Config:                  config + EmailEmailDomainRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -267,7 +267,7 @@ func init() {
 
 func sweepEmailEmailDomainResource(compartment string) error {
 	emailClient := acctest.GetTestClients(&schema.ResourceData{}).EmailClient()
-	emailDomainIds, err := getEmailDomainIds(compartment)
+	emailDomainIds, err := getEmailEmailDomainIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -283,14 +283,14 @@ func sweepEmailEmailDomainResource(compartment string) error {
 				fmt.Printf("Error deleting EmailDomain %s %s, It is possible that the resource is already deleted. Please verify manually \n", emailDomainId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &emailDomainId, emailDomainSweepWaitCondition, time.Duration(3*time.Minute),
-				emailDomainSweepResponseFetchOperation, "email", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &emailDomainId, EmailEmailDomainSweepWaitCondition, time.Duration(3*time.Minute),
+				EmailEmailDomainSweepResponseFetchOperation, "email", true)
 		}
 	}
 	return nil
 }
 
-func getEmailDomainIds(compartment string) ([]string, error) {
+func getEmailEmailDomainIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "EmailDomainId")
 	if ids != nil {
 		return ids, nil
@@ -315,7 +315,7 @@ func getEmailDomainIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func emailDomainSweepWaitCondition(response common.OCIOperationResponse) bool {
+func EmailEmailDomainSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is ACTIVE beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if emailDomainResponse, ok := response.Response.(oci_email.GetEmailDomainResponse); ok {
 		return emailDomainResponse.LifecycleState != oci_email.EmailDomainLifecycleStateDeleted
@@ -323,7 +323,7 @@ func emailDomainSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func emailDomainSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func EmailEmailDomainSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.EmailClient().GetEmailDomain(context.Background(), oci_email.GetEmailDomainRequest{
 		EmailDomainId: resourceId,
 		RequestMetadata: common.RequestMetadata{

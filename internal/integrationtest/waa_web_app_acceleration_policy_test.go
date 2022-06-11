@@ -25,45 +25,45 @@ import (
 )
 
 var (
-	WebAppAccelerationPolicyRequiredOnlyResource = WebAppAccelerationPolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Required, acctest.Create, webAppAccelerationPolicyRepresentation)
+	WaaWebAppAccelerationPolicyRequiredOnlyResource = WaaWebAppAccelerationPolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Required, acctest.Create, WaaWebAppAccelerationPolicyRepresentation)
 
-	WebAppAccelerationPolicyResourceConfig = WebAppAccelerationPolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Optional, acctest.Update, webAppAccelerationPolicyRepresentation)
+	WaaWebAppAccelerationPolicyResourceConfig = WaaWebAppAccelerationPolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Optional, acctest.Update, WaaWebAppAccelerationPolicyRepresentation)
 
-	webAppAccelerationPolicySingularDataSourceRepresentation = map[string]interface{}{
+	WaaWaaWebAppAccelerationPolicySingularDataSourceRepresentation = map[string]interface{}{
 		"web_app_acceleration_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_waa_web_app_acceleration_policy.test_web_app_acceleration_policy.id}`},
 	}
 
-	webAppAccelerationPolicyDataSourceRepresentation = map[string]interface{}{
+	WaaWaaWebAppAccelerationPolicyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `WAAPolicy1`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_waa_web_app_acceleration_policy.test_web_app_acceleration_policy.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: webAppAccelerationPolicyDataSourceFilterRepresentation}}
-	webAppAccelerationPolicyDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: WaaWebAppAccelerationPolicyDataSourceFilterRepresentation}}
+	WaaWebAppAccelerationPolicyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_waa_web_app_acceleration_policy.test_web_app_acceleration_policy.id}`}},
 	}
 
-	webAppAccelerationPolicyRepresentation = map[string]interface{}{
+	WaaWebAppAccelerationPolicyRepresentation = map[string]interface{}{
 		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `WAAPolicy1`, Update: `displayName2`},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"response_caching_policy":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppAccelerationPolicyResponseCachingPolicyRepresentation},
-		"response_compression_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppAccelerationPolicyResponseCompressionPolicyRepresentation},
+		"response_caching_policy":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaaWebAppAccelerationPolicyResponseCachingPolicyRepresentation},
+		"response_compression_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaaWebAppAccelerationPolicyResponseCompressionPolicyRepresentation},
 	}
-	webAppAccelerationPolicyResponseCachingPolicyRepresentation = map[string]interface{}{
+	WaaWebAppAccelerationPolicyResponseCachingPolicyRepresentation = map[string]interface{}{
 		"is_response_header_based_caching_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	webAppAccelerationPolicyResponseCompressionPolicyRepresentation = map[string]interface{}{
-		"gzip_compression": acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppAccelerationPolicyResponseCompressionPolicyGzipCompressionRepresentation},
+	WaaWebAppAccelerationPolicyResponseCompressionPolicyRepresentation = map[string]interface{}{
+		"gzip_compression": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaaWebAppAccelerationPolicyResponseCompressionPolicyGzipCompressionRepresentation},
 	}
-	webAppAccelerationPolicyResponseCompressionPolicyGzipCompressionRepresentation = map[string]interface{}{
+	WaaWebAppAccelerationPolicyResponseCompressionPolicyGzipCompressionRepresentation = map[string]interface{}{
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
-	WebAppAccelerationPolicyResourceDependencies = ""
+	WaaWebAppAccelerationPolicyResourceDependencies = ""
 )
 
 // issue-routing-tag: waa/default
@@ -85,14 +85,14 @@ func TestWaaWebAppAccelerationPolicyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+WebAppAccelerationPolicyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Optional, acctest.Create, webAppAccelerationPolicyRepresentation), "waa", "webAppAccelerationPolicy", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+WaaWebAppAccelerationPolicyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Optional, acctest.Create, WaaWebAppAccelerationPolicyRepresentation), "waa", "webAppAccelerationPolicy", t)
 
 	acctest.ResourceTest(t, testAccCheckWaaWebAppAccelerationPolicyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + WebAppAccelerationPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Required, acctest.Create, webAppAccelerationPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + WaaWebAppAccelerationPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Required, acctest.Create, WaaWebAppAccelerationPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -105,12 +105,12 @@ func TestWaaWebAppAccelerationPolicyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + WebAppAccelerationPolicyResourceDependencies,
+			Config: config + compartmentIdVariableStr + WaaWebAppAccelerationPolicyResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + WebAppAccelerationPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Optional, acctest.Create, webAppAccelerationPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + WaaWebAppAccelerationPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Optional, acctest.Create, WaaWebAppAccelerationPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "WAAPolicy1"),
@@ -139,9 +139,9 @@ func TestWaaWebAppAccelerationPolicyResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WebAppAccelerationPolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WaaWebAppAccelerationPolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(webAppAccelerationPolicyRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(WaaWebAppAccelerationPolicyRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -170,8 +170,8 @@ func TestWaaWebAppAccelerationPolicyResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + WebAppAccelerationPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Optional, acctest.Update, webAppAccelerationPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + WaaWebAppAccelerationPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Optional, acctest.Update, WaaWebAppAccelerationPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -198,9 +198,9 @@ func TestWaaWebAppAccelerationPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waa_web_app_acceleration_policies", "test_web_app_acceleration_policies", acctest.Optional, acctest.Update, webAppAccelerationPolicyDataSourceRepresentation) +
-				compartmentIdVariableStr + WebAppAccelerationPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Optional, acctest.Update, webAppAccelerationPolicyRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waa_web_app_acceleration_policies", "test_web_app_acceleration_policies", acctest.Optional, acctest.Update, WaaWaaWebAppAccelerationPolicyDataSourceRepresentation) +
+				compartmentIdVariableStr + WaaWebAppAccelerationPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Optional, acctest.Update, WaaWebAppAccelerationPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -214,8 +214,8 @@ func TestWaaWebAppAccelerationPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Required, acctest.Create, webAppAccelerationPolicySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + WebAppAccelerationPolicyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waa_web_app_acceleration_policy", "test_web_app_acceleration_policy", acctest.Required, acctest.Create, WaaWaaWebAppAccelerationPolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + WaaWebAppAccelerationPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "web_app_acceleration_policy_id"),
 
@@ -236,7 +236,7 @@ func TestWaaWebAppAccelerationPolicyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + WebAppAccelerationPolicyRequiredOnlyResource,
+			Config:                  config + WaaWebAppAccelerationPolicyRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -300,7 +300,7 @@ func init() {
 
 func sweepWaaWebAppAccelerationPolicyResource(compartment string) error {
 	waaClient := acctest.GetTestClients(&schema.ResourceData{}).WaaClient()
-	webAppAccelerationPolicyIds, err := getWebAppAccelerationPolicyIds(compartment)
+	webAppAccelerationPolicyIds, err := getWaaWebAppAccelerationPolicyIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -316,14 +316,14 @@ func sweepWaaWebAppAccelerationPolicyResource(compartment string) error {
 				fmt.Printf("Error deleting WebAppAccelerationPolicy %s %s, It is possible that the resource is already deleted. Please verify manually \n", webAppAccelerationPolicyId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &webAppAccelerationPolicyId, webAppAccelerationPolicySweepWaitCondition, time.Duration(3*time.Minute),
-				webAppAccelerationPolicySweepResponseFetchOperation, "waa", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &webAppAccelerationPolicyId, WaaWebAppAccelerationPolicySweepWaitCondition, time.Duration(3*time.Minute),
+				WaaWebAppAccelerationPolicySweepResponseFetchOperation, "waa", true)
 		}
 	}
 	return nil
 }
 
-func getWebAppAccelerationPolicyIds(compartment string) ([]string, error) {
+func getWaaWebAppAccelerationPolicyIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "WebAppAccelerationPolicyId")
 	if ids != nil {
 		return ids, nil
@@ -348,7 +348,7 @@ func getWebAppAccelerationPolicyIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func webAppAccelerationPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
+func WaaWebAppAccelerationPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if webAppAccelerationPolicyResponse, ok := response.Response.(oci_waa.GetWebAppAccelerationPolicyResponse); ok {
 		return webAppAccelerationPolicyResponse.LifecycleState != oci_waa.WebAppAccelerationPolicyLifecycleStateDeleted
@@ -356,7 +356,7 @@ func webAppAccelerationPolicySweepWaitCondition(response common.OCIOperationResp
 	return false
 }
 
-func webAppAccelerationPolicySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func WaaWebAppAccelerationPolicySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.WaaClient().GetWebAppAccelerationPolicy(context.Background(), oci_waa.GetWebAppAccelerationPolicyRequest{
 		WebAppAccelerationPolicyId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -24,33 +24,33 @@ import (
 )
 
 var (
-	InstanceConfigurationRequiredOnlyResource = InstanceConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Required, acctest.Create, instanceConfigurationRepresentation)
+	CoreInstanceConfigurationRequiredOnlyResource = CoreInstanceConfigurationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Required, acctest.Create, CoreInstanceConfigurationRepresentation)
 
-	InstanceConfigurationResourceConfig = InstanceConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Update, instanceConfigurationRepresentation)
+	CoreInstanceConfigurationResourceConfig = CoreInstanceConfigurationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Update, CoreInstanceConfigurationRepresentation)
 
-	instanceConfigurationSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreInstanceConfigurationSingularDataSourceRepresentation = map[string]interface{}{
 		"instance_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
 	}
 
-	instanceConfigurationDataSourceRepresentation = map[string]interface{}{
+	CoreCoreInstanceConfigurationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: instanceConfigurationDataSourceFilterRepresentation}}
-	instanceConfigurationDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceConfigurationDataSourceFilterRepresentation}}
+	CoreInstanceConfigurationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_instance_configuration.test_instance_configuration.id}`}},
 	}
 
-	instanceConfigurationRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`, Update: `displayName2`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"instance_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsRepresentation},
+		"instance_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsRepresentation},
 		"source":           acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
 	}
-	instanceConfigurationFromInstanceRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationFromInstanceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`, Update: `displayName2`},
@@ -58,54 +58,54 @@ var (
 		"instance_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_instance.test_instance.id}`},
 		"source":         acctest.Representation{RepType: acctest.Optional, Create: `INSTANCE`},
 	}
-	instanceConfigurationInstanceDetailsLaunchRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationInstanceDetailsLaunchRepresentation = map[string]interface{}{
 		"instance_type":  acctest.Representation{RepType: acctest.Required, Create: `compute`},
-		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsRepresentation},
+		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation},
 	}
 
-	instanceConfigurationInstanceDetailsLaunchRepresentationForFlexShape = acctest.GetUpdatedRepresentationCopy("launch_details",
-		acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsRepresentationForFlexShape},
-		instanceConfigurationInstanceDetailsLaunchRepresentation)
+	CoreInstanceConfigurationInstanceDetailsLaunchRepresentationForFlexShape = acctest.GetUpdatedRepresentationCopy("launch_details",
+		acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentationForFlexShape},
+		CoreInstanceConfigurationInstanceDetailsLaunchRepresentation)
 
-	instanceConfigurationInstanceDetailsLaunchRepresentationForDenseShape = acctest.GetUpdatedRepresentationCopy("launch_details",
-		acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsRepresentationForDenseShape},
-		instanceConfigurationInstanceDetailsLaunchRepresentation)
+	CoreInstanceConfigurationInstanceDetailsLaunchRepresentationForDenseShape = acctest.GetUpdatedRepresentationCopy("launch_details",
+		acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentationForDenseShape},
+		CoreInstanceConfigurationInstanceDetailsLaunchRepresentation)
 
-	instanceConfigurationInstanceDetailsBlockRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationInstanceDetailsBlockRepresentation = map[string]interface{}{
 		"instance_type": acctest.Representation{RepType: acctest.Required, Create: `compute`},
-		"block_volumes": acctest.RepresentationGroup{RepType: acctest.Required, Group: instanceConfigurationInstanceDetailsBlockVolumesRepresentation},
+		"block_volumes": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceConfigurationInstanceDetailsBlockVolumesRepresentation},
 	}
-	instanceConfigurationInstanceDetailsParavirtualizedBlockRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationInstanceDetailsParavirtualizedBlockRepresentation = map[string]interface{}{
 		"instance_type": acctest.Representation{RepType: acctest.Required, Create: `compute`},
-		"block_volumes": acctest.RepresentationGroup{RepType: acctest.Required, Group: instanceConfigurationInstanceDetailsBlockVolumesRepresentation},
+		"block_volumes": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceConfigurationInstanceDetailsBlockVolumesRepresentation},
 	}
-	instanceConfigurationInstanceDetailsRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationInstanceDetailsRepresentation = map[string]interface{}{
 		"instance_type":   acctest.Representation{RepType: acctest.Required, Create: `compute`},
-		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Required, Group: instanceConfigurationInstanceDetailsSecondaryVnicsRepresentation},
+		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceConfigurationInstanceDetailsSecondaryVnicsRepresentation},
 	}
-	instanceConfigurationInstanceDetailsBlockVolumesRepresentation = map[string]interface{}{
-		"create_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsBlockVolumesCreateDetailsRepresentation},
+	CoreInstanceConfigurationInstanceDetailsBlockVolumesRepresentation = map[string]interface{}{
+		"create_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsBlockVolumesCreateDetailsRepresentation},
 		"volume_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_boot_volume.test_boot_volume.id}`},
 	}
-	instanceConfigurationInstanceDetailsBlockVolumesAttachRepresentation = map[string]interface{}{
-		"attach_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsBlockVolumesAttachDetailsRepresentation},
+	CoreInstanceConfigurationInstanceDetailsBlockVolumesAttachRepresentation = map[string]interface{}{
+		"attach_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsBlockVolumesAttachDetailsRepresentation},
 		"volume_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_boot_volume.test_boot_volume.id}`},
 	}
-	instanceConfigurationInstanceDetailsParavirtualizedBlockVolumeAttachRepresentation = map[string]interface{}{
-		"attach_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsParavirtualizedBlockVolumeAttachDetailsRepresentation},
+	CoreInstanceConfigurationInstanceDetailsParavirtualizedBlockVolumeAttachRepresentation = map[string]interface{}{
+		"attach_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsParavirtualizedBlockVolumeAttachDetailsRepresentation},
 		"volume_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_boot_volume.test_boot_volume.id}`},
 	}
-	instanceShapeConfigRepresentation = map[string]interface{}{
+	CoreInstanceShapeConfigRepresentation = map[string]interface{}{
 		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: "1"},
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: "15"},
 	}
-	instanceConfigurationInstanceLaunchOptionsRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationInstanceLaunchOptionsRepresentation = map[string]interface{}{
 		"network_type": acctest.Representation{RepType: acctest.Optional, Create: `PARAVIRTUALIZED`},
 	}
-	instanceConfigurationInstanceDetailsLaunchDetailsRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation = map[string]interface{}{
 		"availability_domain":                 acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":                      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"create_vnic_details":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsRepresentation},
+		"create_vnic_details":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsRepresentation},
 		"defined_tags":                        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                        acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
 		"extended_metadata":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"extendedMetadata": "extendedMetadata"}, Update: map[string]string{"extendedMetadata2": "extendedMetadata2"}},
@@ -113,53 +113,53 @@ var (
 		"ipxe_script":                         acctest.Representation{RepType: acctest.Optional, Create: `ipxeScript`},
 		"metadata":                            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"metadata": "metadata"}, Update: map[string]string{"metadata2": "metadata2"}},
 		"shape":                               acctest.Representation{RepType: acctest.Optional, Create: InstanceConfigurationVmShape},
-		"source_details":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation},
-		"agent_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceAgentConfigRepresentation},
-		"launch_options":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceLaunchOptionsRepresentation},
-		"instance_options":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceOptionsRepresentation},
+		"source_details":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation},
+		"agent_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAgentConfigRepresentation},
+		"launch_options":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceLaunchOptionsRepresentation},
+		"instance_options":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceOptionsRepresentation},
 		"is_pv_encryption_in_transit_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"dedicated_vm_host_id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
 		"launch_mode":                         acctest.Representation{RepType: acctest.Optional, Create: `NATIVE`},
 		"preferred_maintenance_action":        acctest.Representation{RepType: acctest.Optional, Create: `LIVE_MIGRATE`},
-		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceShapeConfigRepresentation},
+		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
 	}
-	instanceConfigurationInstanceDetailsLaunchDetailsRepresentationForFlexShape = acctest.RepresentationCopyWithRemovedProperties(
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentationForFlexShape = acctest.RepresentationCopyWithRemovedProperties(
 		acctest.GetMultipleUpdatedRepresenationCopy(
 			[]string{"shape", "source_details", "shape_config"},
 			[]interface{}{
 				acctest.Representation{RepType: acctest.Optional, Create: InstanceConfigurationVmShapeForFlex},
-				acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationForFlexShape},
+				acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationForFlexShape},
 				acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceShapeConfigRepresentationForFlexShape},
 			},
-			instanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
+			CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
 		[]string{"dedicated_vm_host_id", "preferred_maintenance_action"},
 	)
-	instanceConfigurationInstanceDetailsLaunchDetailsRepresentationForDenseShape = acctest.RepresentationCopyWithRemovedProperties(
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentationForDenseShape = acctest.RepresentationCopyWithRemovedProperties(
 		acctest.GetMultipleUpdatedRepresenationCopy(
 			[]string{"shape", "source_details", "shape_config"},
 			[]interface{}{
 				acctest.Representation{RepType: acctest.Optional, Create: InstanceConfigurationVmShapeForDense},
-				acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationForDenseShape},
+				acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationForDenseShape},
 				acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceShapeConfigRepresentationForNvmeShape},
 			},
-			instanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
+			CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
 		[]string{"dedicated_vm_host_id", "preferred_maintenance_action"},
 	)
-	instanceConfigurationInstanceOptionsRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationInstanceOptionsRepresentation = map[string]interface{}{
 		"are_legacy_imds_endpoints_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
-	instanceConfigurationInstanceDetailsSecondaryVnicsRepresentation = map[string]interface{}{
-		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentation},
+	CoreInstanceConfigurationInstanceDetailsSecondaryVnicsRepresentation = map[string]interface{}{
+		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentation},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
 		"nic_index":           acctest.Representation{RepType: acctest.Optional, Create: `0`},
 	}
-	instanceConfigurationInstanceDetailsBlockVolumesAttachDetailsRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationInstanceDetailsBlockVolumesAttachDetailsRepresentation = map[string]interface{}{
 		"type":         acctest.Representation{RepType: acctest.Required, Create: `iscsi`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
 		"is_read_only": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"use_chap":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
-	instanceConfigurationInstanceDetailsParavirtualizedBlockVolumeAttachDetailsRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationInstanceDetailsParavirtualizedBlockVolumeAttachDetailsRepresentation = map[string]interface{}{
 		"type":                                acctest.Representation{RepType: acctest.Required, Create: `paravirtualized`},
 		"display_name":                        acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
 		"device":                              acctest.Representation{RepType: acctest.Optional, Create: `server`},
@@ -167,7 +167,7 @@ var (
 		"is_pv_encryption_in_transit_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_shareable":                        acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
-	instanceConfigurationInstanceDetailsBlockVolumesCreateDetailsRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationInstanceDetailsBlockVolumesCreateDetailsRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"backup_policy_id":    acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
@@ -175,11 +175,11 @@ var (
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"size_in_gbs":         acctest.Representation{RepType: acctest.Optional, Create: `50`},
-		"source_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsBlockVolumesCreateDetailsSourceDetailsRepresentation},
+		"source_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsBlockVolumesCreateDetailsSourceDetailsRepresentation},
 		"vpus_per_gb":         acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"kms_key_id":          acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
-	instanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsRepresentation = map[string]interface{}{
 		"assign_private_dns_record": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"assign_public_ip":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
@@ -189,20 +189,20 @@ var (
 		"skip_source_dest_check":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
-	instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation = map[string]interface{}{
 		"source_type":             acctest.Representation{RepType: acctest.Required, Create: `image`},
 		"image_id":                acctest.Representation{RepType: acctest.Optional, Create: `${var.InstanceImageOCID[var.region]}`},
 		"boot_volume_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `55`},
 	}
-	instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationForFlexShape = acctest.GetUpdatedRepresentationCopy("image_id",
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationForFlexShape = acctest.GetUpdatedRepresentationCopy("image_id",
 		acctest.Representation{RepType: acctest.Optional, Create: `${var.FlexInstanceImageOCID[var.region]}`},
-		instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)
+		CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)
 
-	instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationForDenseShape = acctest.GetUpdatedRepresentationCopy("image_id",
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationForDenseShape = acctest.GetUpdatedRepresentationCopy("image_id",
 		acctest.Representation{RepType: acctest.Optional, Create: `${var.image_id}`},
-		instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)
+		CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)
 
-	instanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentation = map[string]interface{}{
 		"assign_private_dns_record": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"assign_public_ip":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
@@ -214,18 +214,18 @@ var (
 		"skip_source_dest_check":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
-	instanceConfigurationInstanceDetailsBlockVolumesCreateDetailsSourceDetailsRepresentation = map[string]interface{}{
+	CoreInstanceConfigurationInstanceDetailsBlockVolumesCreateDetailsSourceDetailsRepresentation = map[string]interface{}{
 		"type": acctest.Representation{RepType: acctest.Required, Create: `volume`},
 		"id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_boot_volume.test_boot_volume.id}`},
 	}
 
-	InstanceConfigurationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Required, acctest.Create, bootVolumeRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, dedicatedVmHostRepresentation) +
+	CoreInstanceConfigurationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Required, acctest.Create, CoreBootVolumeRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, CoreDedicatedVmHostRepresentation) +
 		utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
 		utils.VolumeBackupPolicyDependency +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
@@ -234,8 +234,8 @@ var (
 	InstanceConfigurationVmShapeForFlex  = `VM.Standard.E3.Flex`
 	InstanceConfigurationVmShapeForDense = `VM.DenseIO.E4.Flex`
 
-	InstanceConfigurationResourceImageConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
-		acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation))
+	CoreInstanceConfigurationResourceImageConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
+		acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchRepresentation}, CoreInstanceConfigurationRepresentation))
 )
 
 // issue-routing-tag: core/computeManagement
@@ -260,13 +260,13 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+InstanceConfigurationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, instanceConfigurationRepresentation), "core", "instanceConfiguration", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreInstanceConfigurationResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationRepresentation), "core", "instanceConfiguration", t)
 	acctest.ResourceTest(t, testAccCheckCoreInstanceConfigurationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, instanceConfigurationRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
@@ -281,13 +281,13 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies,
 		},
 
 		// verify Create from instance_id
 		{
-			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, instanceConfigurationFromInstanceRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationFromInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
@@ -303,14 +303,14 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies,
 		},
 
 		// verify Create with optionals launch_details for E3 flex micro shape
 		{
-			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies + utils.FlexVmImageIdsVariable +
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies + utils.FlexVmImageIdsVariable +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchRepresentationForFlexShape}, instanceConfigurationRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchRepresentationForFlexShape}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
@@ -364,14 +364,14 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies,
 		},
 
 		// verify Create with optionals launch_details for E4 dense shape
 		{
-			Config: config + compartmentIdVariableStr + imageIdVariableStr + InstanceConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + imageIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchRepresentationForDenseShape}, instanceConfigurationRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchRepresentationForDenseShape}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
@@ -417,13 +417,13 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies,
 		},
 		// verify Create with optionals launch_details
 		{
-			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchRepresentation}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
@@ -480,9 +480,9 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InstanceConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(
-					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation),
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchRepresentation}, CoreInstanceConfigurationRepresentation),
 					map[string]interface{}{"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`}})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -524,9 +524,9 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		},
 		// verify recreate with optionals block_volumes.create_details
 		{
-			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsBlockRepresentation}, instanceConfigurationRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsBlockRepresentation}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
@@ -557,9 +557,9 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		},
 		// verify recreate with optionals block_volumes.create_details to block_volumes.attach_details
 		{
-			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.GetUpdatedRepresentationCopy("block_volumes", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsBlockVolumesAttachRepresentation}, instanceConfigurationInstanceDetailsBlockRepresentation)}, instanceConfigurationRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.GetUpdatedRepresentationCopy("block_volumes", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsBlockVolumesAttachRepresentation}, CoreInstanceConfigurationInstanceDetailsBlockRepresentation)}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
@@ -587,11 +587,11 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		},
 		// verify recreate with optionals block_volumes.create_details to block_volumes.attach_details-paravirtualized
 		{
-			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.GetUpdatedRepresentationCopy("block_volumes", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsParavirtualizedBlockVolumeAttachRepresentation},
-						instanceConfigurationInstanceDetailsParavirtualizedBlockRepresentation)},
-						instanceConfigurationRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.GetUpdatedRepresentationCopy("block_volumes", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsParavirtualizedBlockVolumeAttachRepresentation},
+						CoreInstanceConfigurationInstanceDetailsParavirtualizedBlockRepresentation)},
+						CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
@@ -621,12 +621,12 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies,
 		},
 		// verify Create with optionals secondary_vnics
 		{
-			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, instanceConfigurationRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
@@ -657,8 +657,8 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Update, instanceConfigurationRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Update, CoreInstanceConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -692,9 +692,9 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", acctest.Optional, acctest.Update, instanceConfigurationDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Update, instanceConfigurationRepresentation),
+				compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", acctest.Optional, acctest.Update, CoreCoreInstanceConfigurationDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Update, CoreInstanceConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -709,8 +709,8 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Required, acctest.Create, instanceConfigurationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + InstanceConfigurationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Required, acctest.Create, CoreCoreInstanceConfigurationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreInstanceConfigurationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_configuration_id"),
 
@@ -737,7 +737,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + InstanceConfigurationRequiredOnlyResource,
+			Config:            config + CoreInstanceConfigurationRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -796,7 +796,7 @@ func init() {
 
 func sweepCoreInstanceConfigurationResource(compartment string) error {
 	computeManagementClient := acctest.GetTestClients(&schema.ResourceData{}).ComputeManagementClient()
-	instanceConfigurationIds, err := getInstanceConfigurationIds(compartment)
+	instanceConfigurationIds, err := getCoreInstanceConfigurationIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -817,7 +817,7 @@ func sweepCoreInstanceConfigurationResource(compartment string) error {
 	return nil
 }
 
-func getInstanceConfigurationIds(compartment string) ([]string, error) {
+func getCoreInstanceConfigurationIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "InstanceConfigurationId")
 	if ids != nil {
 		return ids, nil

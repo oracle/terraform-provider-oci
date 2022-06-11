@@ -15,11 +15,11 @@ import (
 )
 
 var (
-	annotationFormatDataSourceRepresentation = map[string]interface{}{
+	DataLabelingServiceannotationFormatDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	AnnotationFormatResourceConfig = ""
+	DataLabelingServiceAnnotationFormatResourceConfig = ""
 )
 
 // issue-routing-tag: data_labeling_service/default
@@ -40,8 +40,8 @@ func TestDataLabelingServiceAnnotationFormatResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_labeling_service_annotation_formats", "test_annotation_formats", acctest.Required, acctest.Create, annotationFormatDataSourceRepresentation) +
-				compartmentIdVariableStr + AnnotationFormatResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_labeling_service_annotation_formats", "test_annotation_formats", acctest.Required, acctest.Create, DataLabelingServiceannotationFormatDataSourceRepresentation) +
+				compartmentIdVariableStr + DataLabelingServiceAnnotationFormatResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

@@ -24,7 +24,7 @@ var (
 		"user_assessment_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_user_assessment.test_user_assessment2.id}`},
 	}
 
-	CompareUserAssessmentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment1", acctest.Required, acctest.Create, userAssessmentRepresentation) +
+	DataSafeCompareUserAssessmentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment1", acctest.Required, acctest.Create, userAssessmentRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment2", acctest.Required, acctest.Create, userAssessmentRepresentation)
 )
 
@@ -45,13 +45,13 @@ func TestDataSafeCompareUserAssessmentResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CompareUserAssessmentResourceDependencies+targetIdVariableStr+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeCompareUserAssessmentResourceDependencies+targetIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_compare_user_assessment", "test_compare_user_assessment", acctest.Required, acctest.Create, compareUserAssessmentRepresentation), "datasafe", "userAssessment", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CompareUserAssessmentResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeCompareUserAssessmentResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_compare_user_assessment", "test_compare_user_assessment", acctest.Required, acctest.Create, compareUserAssessmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "comparison_user_assessment_id"),

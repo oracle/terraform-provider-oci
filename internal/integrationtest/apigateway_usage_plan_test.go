@@ -25,29 +25,29 @@ import (
 )
 
 var (
-	UsagePlanRequiredOnlyResource = UsagePlanResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Required, acctest.Create, usagePlanRepresentation)
+	ApigatewayUsagePlanRequiredOnlyResource = ApigatewayUsagePlanResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Required, acctest.Create, ApigatewayUsagePlanRepresentation)
 
-	UsagePlanResourceConfig = UsagePlanResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Optional, acctest.Update, usagePlanRepresentation)
+	ApigatewayUsagePlanResourceConfig = ApigatewayUsagePlanResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Optional, acctest.Update, ApigatewayUsagePlanRepresentation)
 
-	usagePlanSingularDataSourceRepresentation = map[string]interface{}{
+	ApigatewayUsagePlanSingularDataSourceRepresentation = map[string]interface{}{
 		"usage_plan_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_usage_plan.test_usage_plan.id}`},
 	}
 
-	usagePlanDataSourceRepresentation = map[string]interface{}{
+	ApigatewayUsagePlanDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: usagePlanDataSourceFilterRepresentation}}
-	usagePlanDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayUsagePlanDataSourceFilterRepresentation}}
+	ApigatewayUsagePlanDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apigateway_usage_plan.test_usage_plan.id}`}},
 	}
 
-	usagePlanRepresentation = map[string]interface{}{
+	ApigatewayUsagePlanRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"entitlements":   acctest.RepresentationGroup{RepType: acctest.Required, Group: usagePlanEntitlementsRepresentation},
+		"entitlements":   acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayusagePlanEntitlementsRepresentation},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -56,40 +56,40 @@ var (
 	ignoreChangesUsagePlanRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
-	usagePlanEntitlementsRepresentation = map[string]interface{}{
+	ApigatewayusagePlanEntitlementsRepresentation = map[string]interface{}{
 		"name":        acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"description": acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"quota":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: usagePlanEntitlementsQuotaRepresentation},
-		"rate_limit":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: usagePlanEntitlementsRateLimitRepresentation},
-		"targets":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: usagePlanEntitlementsTargetsRepresentation},
+		"quota":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayusagePlanEntitlementsQuotaRepresentation},
+		"rate_limit":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayUsagePlanEntitlementsRateLimitRepresentation},
+		"targets":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayUsagePlanEntitlementsTargetsRepresentation},
 	}
-	usagePlanEntitlementsQuotaRepresentation = map[string]interface{}{
+	ApigatewayusagePlanEntitlementsQuotaRepresentation = map[string]interface{}{
 		"operation_on_breach": acctest.Representation{RepType: acctest.Required, Create: `REJECT`, Update: `ALLOW`},
 		"reset_policy":        acctest.Representation{RepType: acctest.Required, Create: `CALENDAR`},
 		"unit":                acctest.Representation{RepType: acctest.Required, Create: `MINUTE`, Update: `HOUR`},
 		"value":               acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 	}
-	usagePlanEntitlementsRateLimitRepresentation = map[string]interface{}{
+	ApigatewayUsagePlanEntitlementsRateLimitRepresentation = map[string]interface{}{
 		"unit":  acctest.Representation{RepType: acctest.Required, Create: `SECOND`},
 		"value": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 	}
-	usagePlanEntitlementsTargetsRepresentation = map[string]interface{}{
+	ApigatewayUsagePlanEntitlementsTargetsRepresentation = map[string]interface{}{
 		"deployment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_deployment.test_deployment.id}`},
 	}
 
-	deploymentRepresentationWithUsagePlan = acctest.GetUpdatedRepresentationCopy(
+	ApigatewayDeploymentRepresentationWithUsagePlan = acctest.GetUpdatedRepresentationCopy(
 		"specification.request_policies",
 		acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
 			"usage_plans": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
 				"token_locations": acctest.Representation{RepType: acctest.Required, Create: []string{`request.headers[apiKeyLocation]`}, Update: []string{`request.path[apiKeyLocation]`}},
 			}},
 		}},
-		deploymentRepresentation)
+		ApigatewayDeploymentRepresentation)
 
-	UsagePlanResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, gatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentRepresentationWithUsagePlan) +
+	ApigatewayUsagePlanResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, ApigatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, ApigatewayDeploymentRepresentationWithUsagePlan) +
 		DefinedTagsDependencies
 )
 
@@ -112,14 +112,14 @@ func TestApigatewayUsagePlanResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+UsagePlanResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Optional, acctest.Create, usagePlanRepresentation), "apigateway", "usagePlan", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApigatewayUsagePlanResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Optional, acctest.Create, ApigatewayUsagePlanRepresentation), "apigateway", "usagePlan", t)
 
 	acctest.ResourceTest(t, testAccCheckApigatewayUsagePlanDestroy, []resource.TestStep{
 		// // verify Create
 		// {
 		// 	Config: config + compartmentIdVariableStr +
-		// 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Required, acctest.Create, usagePlanRepresentation),
+		// 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Required, acctest.Create, ApigatewayUsagePlanRepresentation),
 		// 	Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 		// 		resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 		// 		resource.TestCheckResourceAttr(resourceName, "entitlements.#", "1"),
@@ -139,8 +139,8 @@ func TestApigatewayUsagePlanResource_basic(t *testing.T) {
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + UsagePlanResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Optional, acctest.Create, usagePlanRepresentation),
+			Config: config + compartmentIdVariableStr + ApigatewayUsagePlanResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Optional, acctest.Create, ApigatewayUsagePlanRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -177,9 +177,9 @@ func TestApigatewayUsagePlanResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + UsagePlanResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApigatewayUsagePlanResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(usagePlanRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ApigatewayUsagePlanRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -216,8 +216,8 @@ func TestApigatewayUsagePlanResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + UsagePlanResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Optional, acctest.Update, usagePlanRepresentation),
+			Config: config + compartmentIdVariableStr + ApigatewayUsagePlanResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Optional, acctest.Update, ApigatewayUsagePlanRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -252,9 +252,9 @@ func TestApigatewayUsagePlanResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_usage_plans", "test_usage_plans", acctest.Optional, acctest.Update, usagePlanDataSourceRepresentation) +
-				compartmentIdVariableStr + UsagePlanResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Optional, acctest.Update, usagePlanRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_usage_plans", "test_usage_plans", acctest.Optional, acctest.Update, ApigatewayUsagePlanDataSourceRepresentation) +
+				compartmentIdVariableStr + ApigatewayUsagePlanResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Optional, acctest.Update, ApigatewayUsagePlanRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -267,8 +267,8 @@ func TestApigatewayUsagePlanResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Required, acctest.Create, usagePlanSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + UsagePlanResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Required, acctest.Create, ApigatewayUsagePlanSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ApigatewayUsagePlanResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "usage_plan_id"),
 
@@ -295,7 +295,7 @@ func TestApigatewayUsagePlanResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + UsagePlanRequiredOnlyResource,
+			Config:            config + ApigatewayUsagePlanRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

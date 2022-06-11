@@ -15,12 +15,12 @@ import (
 )
 
 var (
-	vantagePointDataSourceRepresentation = map[string]interface{}{
+	HealthChecksHealthChecksVantagePointDataSourceRepresentation = map[string]interface{}{
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `AWS Asia Pacific South 1`},
 		"name":         acctest.Representation{RepType: acctest.Optional, Create: `aws-bom`},
 	}
 
-	VantagePointResourceConfig = ""
+	HealthChecksVantagePointResourceConfig = ""
 )
 
 // issue-routing-tag: health_checks/default
@@ -41,8 +41,8 @@ func TestHealthChecksVantagePointResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_health_checks_vantage_points", "test_vantage_points", acctest.Optional, acctest.Create, vantagePointDataSourceRepresentation) +
-				compartmentIdVariableStr + VantagePointResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_health_checks_vantage_points", "test_vantage_points", acctest.Optional, acctest.Create, HealthChecksHealthChecksVantagePointDataSourceRepresentation) +
+				compartmentIdVariableStr + HealthChecksVantagePointResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "AWS Asia Pacific South 1"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "aws-bom"),

@@ -28,17 +28,17 @@ import (
 )
 
 var (
-	SensitiveDataModelRequiredOnlyResource = SensitiveDataModelResourceDependencies +
+	DataSafeSensitiveDataModelRequiredOnlyResource = DataSafeSensitiveDataModelResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Required, acctest.Create, sensitiveDataModelRepresentation)
 
-	SensitiveDataModelResourceConfig = SensitiveDataModelResourceDependencies +
+	DataSafeSensitiveDataModelResourceConfig = DataSafeSensitiveDataModelResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Optional, acctest.Update, sensitiveDataModelRepresentation)
 
-	sensitiveDataModelSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafesensitiveDataModelSingularDataSourceRepresentation = map[string]interface{}{
 		"sensitive_data_model_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_sensitive_data_model.test_sensitive_data_model.id}`},
 	}
 
-	sensitiveDataModelDataSourceRepresentation = map[string]interface{}{
+	DataSafesensitiveDataModelDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
@@ -64,7 +64,7 @@ var (
 		"sensitive_type_ids_for_discovery":          acctest.Representation{RepType: acctest.Optional, Create: []string{}, Update: []string{}},
 	}
 
-	SensitiveDataModelResourceDependencies = DefinedTagsDependencies
+	DataSafeSensitiveDataModelResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -89,13 +89,13 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+targetIdVariableStr+SensitiveDataModelResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+targetIdVariableStr+DataSafeSensitiveDataModelResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Optional, acctest.Create, sensitiveDataModelRepresentation), "datasafe", "sensitiveDataModel", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeSensitiveDataModelDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SensitiveDataModelResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeSensitiveDataModelResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Required, acctest.Create, sensitiveDataModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -110,11 +110,11 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SensitiveDataModelResourceDependencies + targetIdVariableStr,
+			Config: config + compartmentIdVariableStr + DataSafeSensitiveDataModelResourceDependencies + targetIdVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SensitiveDataModelResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeSensitiveDataModelResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Optional, acctest.Create, sensitiveDataModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "app_suite_name", "appSuiteName"),
@@ -144,7 +144,7 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SensitiveDataModelResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeSensitiveDataModelResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(sensitiveDataModelRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -177,7 +177,7 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SensitiveDataModelResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeSensitiveDataModelResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Optional, acctest.Update, sensitiveDataModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "app_suite_name", "appSuiteName2"),
@@ -206,8 +206,8 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_data_models", "test_sensitive_data_models", acctest.Optional, acctest.Update, sensitiveDataModelDataSourceRepresentation) +
-				compartmentIdVariableStr + targetIdVariableStr + SensitiveDataModelResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_data_models", "test_sensitive_data_models", acctest.Optional, acctest.Update, DataSafesensitiveDataModelDataSourceRepresentation) +
+				compartmentIdVariableStr + targetIdVariableStr + DataSafeSensitiveDataModelResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Optional, acctest.Update, sensitiveDataModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
@@ -224,8 +224,8 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Required, acctest.Create, sensitiveDataModelSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + targetIdVariableStr + SensitiveDataModelResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Required, acctest.Create, DataSafesensitiveDataModelSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + targetIdVariableStr + DataSafeSensitiveDataModelResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sensitive_data_model_id"),
 
@@ -246,7 +246,7 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + targetIdVariableStr + SensitiveDataModelResourceConfig,
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + DataSafeSensitiveDataModelResourceConfig,
 		},
 		// verify resource import
 		{
@@ -314,7 +314,7 @@ func init() {
 
 func sweepDataSafeSensitiveDataModelResource(compartment string) error {
 	dataSafeClient := acctest.GetTestClients(&schema.ResourceData{}).DataSafeClient()
-	sensitiveDataModelIds, err := getSensitiveDataModelIds(compartment)
+	sensitiveDataModelIds, err := getDataSafeSensitiveDataModelIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -330,14 +330,14 @@ func sweepDataSafeSensitiveDataModelResource(compartment string) error {
 				fmt.Printf("Error deleting SensitiveDataModel %s %s, It is possible that the resource is already deleted. Please verify manually \n", sensitiveDataModelId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &sensitiveDataModelId, sensitiveDataModelSweepWaitCondition, time.Duration(3*time.Minute),
-				sensitiveDataModelSweepResponseFetchOperation, "data_safe", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &sensitiveDataModelId, DataSafesensitiveDataModelsSweepWaitCondition, time.Duration(3*time.Minute),
+				DataSafesensitiveDataModelsSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
 	return nil
 }
 
-func getSensitiveDataModelIds(compartment string) ([]string, error) {
+func getDataSafeSensitiveDataModelIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "SensitiveDataModelId")
 	if ids != nil {
 		return ids, nil
@@ -362,7 +362,7 @@ func getSensitiveDataModelIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func sensitiveDataModelSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataSafesensitiveDataModelsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if sensitiveDataModelResponse, ok := response.Response.(oci_data_safe.GetSensitiveDataModelResponse); ok {
 		return sensitiveDataModelResponse.LifecycleState != oci_data_safe.DiscoveryLifecycleStateDeleted
@@ -370,7 +370,7 @@ func sensitiveDataModelSweepWaitCondition(response common.OCIOperationResponse) 
 	return false
 }
 
-func sensitiveDataModelSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataSafesensitiveDataModelsSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataSafeClient().GetSensitiveDataModel(context.Background(), oci_data_safe.GetSensitiveDataModelRequest{
 		SensitiveDataModelId: resourceId,
 		RequestMetadata: common.RequestMetadata{

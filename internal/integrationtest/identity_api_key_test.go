@@ -26,22 +26,22 @@ import (
 )
 
 var (
-	ApiKeyRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", acctest.Required, acctest.Create, apiKeyRepresentation)
+	IdentityIdentityApiKeyRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", acctest.Required, acctest.Create, IdentityApiKeyRepresentation)
 
-	apiKeyDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityApiKeyDataSourceRepresentation = map[string]interface{}{
 		"user_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
-		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: apiKeyDataSourceFilterRepresentation}}
-	apiKeyDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityApiKeyDataSourceFilterRepresentation}}
+	IdentityApiKeyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_api_key.test_api_key.id}`}},
 	}
 
-	apiKeyRepresentation = map[string]interface{}{
+	IdentityApiKeyRepresentation = map[string]interface{}{
 		"key_value": acctest.Representation{RepType: acctest.Required, Create: `${var.api_key_value}`},
 		"user_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	ApiKeyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation) + publicKeyVariableStr
+	IdentityApiKeyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation) + publicKeyVariableStr
 
 	publicKey            = utils.GetEnvSettingWithBlankDefault("public_key")
 	publicKeyVariableStr = fmt.Sprintf("variable \"api_key_value\" { default = \"%s\" }\n", publicKey)
@@ -66,14 +66,14 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 	var compositeId, fingerprint string
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApiKeyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", acctest.Required, acctest.Create, apiKeyRepresentation), "identity", "apiKey", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentityApiKeyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", acctest.Required, acctest.Create, IdentityApiKeyRepresentation), "identity", "apiKey", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityApiKeyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", acctest.Required, acctest.Create, apiKeyRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityApiKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", acctest.Required, acctest.Create, IdentityApiKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -81,12 +81,12 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies,
+			Config: config + compartmentIdVariableStr + IdentityApiKeyResourceDependencies,
 		},
 		// verify Create with export
 		{
-			Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", acctest.Required, acctest.Create, apiKeyRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityApiKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", acctest.Required, acctest.Create, IdentityApiKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -109,9 +109,9 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_api_keys", "test_api_keys", acctest.Optional, acctest.Update, apiKeyDataSourceRepresentation) +
-				compartmentIdVariableStr + ApiKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", acctest.Optional, acctest.Update, apiKeyRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_api_keys", "test_api_keys", acctest.Optional, acctest.Update, IdentityIdentityApiKeyDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityApiKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", acctest.Optional, acctest.Update, IdentityApiKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
@@ -126,7 +126,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ApiKeyRequiredOnlyResource,
+			Config:                  config + IdentityIdentityApiKeyRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateIdFunc:       getApiKeyImportId(resourceName),

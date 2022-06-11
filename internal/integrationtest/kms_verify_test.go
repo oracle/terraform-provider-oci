@@ -16,10 +16,10 @@ import (
 )
 
 var (
-	VerifyRequiredOnlyResource = VerifyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_kms_verify", "test_verify", acctest.Required, acctest.Create, verifyRepresentation)
+	KmsVerifyRequiredOnlyResource = KmsVerifyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_verify", "test_verify", acctest.Required, acctest.Create, KmsVerifyRepresentation)
 
-	verifyRepresentation = map[string]interface{}{
+	KmsVerifyRepresentation = map[string]interface{}{
 		"crypto_endpoint":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
 		"key_id":            acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
 		"key_version_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_kms_sign.test_sign.key_version_id}`},
@@ -35,7 +35,7 @@ var (
 		"time_of_deletion":    acctest.Representation{RepType: acctest.Required, Create: keyVersionDeletionTime.Format(time.RFC3339Nano)},
 	}
 
-	VerifyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_kms_sign", "test_sign", acctest.Required, acctest.Create, signRepresentation) +
+	KmsVerifyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_kms_sign", "test_sign", acctest.Required, acctest.Create, KmsSignRepresentation) +
 		KeyResourceDependencyConfig
 )
 
@@ -52,14 +52,14 @@ func TestKmsVerifyResource_basic(t *testing.T) {
 	resourceName := "oci_kms_verify.test_verify"
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+VerifyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_kms_verify", "test_verify", acctest.Optional, acctest.Create, verifyRepresentation), "keymanagement", "verify", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+KmsVerifyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_verify", "test_verify", acctest.Optional, acctest.Create, KmsVerifyRepresentation), "keymanagement", "verify", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + VerifyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_kms_verify", "test_verify", acctest.Required, acctest.Create, verifyRepresentation),
+			Config: config + compartmentIdVariableStr + KmsVerifyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_verify", "test_verify", acctest.Required, acctest.Create, KmsVerifyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
@@ -72,12 +72,12 @@ func TestKmsVerifyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VerifyResourceDependencies,
+			Config: config + compartmentIdVariableStr + KmsVerifyResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + VerifyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_kms_verify", "test_verify", acctest.Optional, acctest.Create, verifyRepresentation),
+			Config: config + compartmentIdVariableStr + KmsVerifyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_verify", "test_verify", acctest.Optional, acctest.Create, KmsVerifyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "is_signature_valid"),
 				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),

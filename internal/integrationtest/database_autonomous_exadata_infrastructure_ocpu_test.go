@@ -16,14 +16,14 @@ import (
 )
 
 var (
-	autonomousExadataInfrastructureOcpuSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseAutonomousExadataInfrastructureOcpuSingularDataSourceRepresentation = map[string]interface{}{
 		"autonomous_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`},
 	}
 
-	AutonomousExadataInfrastructureOcpuResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", acctest.Required, acctest.Create, autonomousExadataInfrastructureRepresentation) +
+	DatabaseAutonomousExadataInfrastructureOcpuResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseAutonomousExadataInfrastructureRepresentation) +
 		ExadataBaseDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("vcn_id", acctest.Representation{RepType: acctest.Required, Create: `${oci_core_virtual_network.t.id}`}, networkSecurityGroupRepresentation)) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("vcn_id", acctest.Representation{RepType: acctest.Required, Create: `${oci_core_virtual_network.t.id}`}, networkSecurityGroupRepresentation))
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("vcn_id", acctest.Representation{RepType: acctest.Required, Create: `${oci_core_virtual_network.t.id}`}, CoreNetworkSecurityGroupRepresentation)) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("vcn_id", acctest.Representation{RepType: acctest.Required, Create: `${oci_core_virtual_network.t.id}`}, CoreNetworkSecurityGroupRepresentation))
 )
 
 // issue-routing-tag: database/default
@@ -46,8 +46,8 @@ func TestDatabaseAutonomousExadataInfrastructureOcpuResource_basic(t *testing.T)
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure_ocpu", "test_autonomous_exadata_infrastructure_ocpu", acctest.Required, acctest.Create, autonomousExadataInfrastructureOcpuSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AutonomousExadataInfrastructureOcpuResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure_ocpu", "test_autonomous_exadata_infrastructure_ocpu", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousExadataInfrastructureOcpuSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousExadataInfrastructureOcpuResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_exadata_infrastructure_id"),
 

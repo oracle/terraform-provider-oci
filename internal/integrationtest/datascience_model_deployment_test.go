@@ -26,13 +26,13 @@ import (
 )
 
 var (
-	ModelDeploymentRequiredOnlyResource = ModelDeploymentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Required, acctest.Create, modelDeploymentRepresentation)
+	DatascienceModelDeploymentRequiredOnlyResource = DatascienceModelDeploymentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Required, acctest.Create, DatascienceModelDeploymentRepresentation)
 
-	ModelDeploymentResourceConfig = ModelDeploymentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Update, modelDeploymentRepresentation)
+	DatascienceModelDeploymentResourceConfig = DatascienceModelDeploymentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Update, DatascienceModelDeploymentRepresentation)
 
-	modelDeploymentSingularDataSourceRepresentation = map[string]interface{}{
+	DatascienceDatascienceModelDeploymentSingularDataSourceRepresentation = map[string]interface{}{
 		"model_deployment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_model_deployment.test_model_deployment.id}`},
 	}
 
@@ -52,55 +52,55 @@ var (
 		"artifact_content_disposition": acctest.Representation{RepType: acctest.Optional, Create: `attachment; filename=tfTestArtifact.zip`},
 	}
 
-	modelDeploymentDataSourceRepresentation = map[string]interface{}{
+	DatascienceDatascienceModelDeploymentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"created_by":     acctest.Representation{RepType: acctest.Optional, Create: `${var.user_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_model_deployment.test_model_deployment.id}`},
 		"project_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: modelDeploymentDataSourceFilterRepresentation}}
-	modelDeploymentDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceModelDeploymentDataSourceFilterRepresentation}}
+	DatascienceModelDeploymentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_datascience_model_deployment.test_model_deployment.id}`}},
 	}
 
-	modelDeploymentRepresentation = map[string]interface{}{
+	DatascienceModelDeploymentRepresentation = map[string]interface{}{
 		"compartment_id":                         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"model_deployment_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: modelDeploymentModelDeploymentConfigurationDetailsRepresentation},
+		"model_deployment_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceModelDeploymentModelDeploymentConfigurationDetailsRepresentation},
 		"project_id":                             acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
-		"category_log_details":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: modelDeploymentCategoryLogDetailsRepresentation},
+		"category_log_details":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelDeploymentCategoryLogDetailsRepresentation},
 		"defined_tags":                           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":                            acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
-	modelDeploymentModelDeploymentConfigurationDetailsRepresentation = map[string]interface{}{
+	DatascienceModelDeploymentModelDeploymentConfigurationDetailsRepresentation = map[string]interface{}{
 		"deployment_type":             acctest.Representation{RepType: acctest.Required, Create: `SINGLE_MODEL`},
-		"model_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsRepresentation},
+		"model_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsRepresentation},
 	}
-	modelDeploymentCategoryLogDetailsRepresentation = map[string]interface{}{
-		"access":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: modelDeploymentCategoryLogDetailsAccessRepresentation},
-		"predict": acctest.RepresentationGroup{RepType: acctest.Optional, Group: modelDeploymentCategoryLogDetailsPredictRepresentation},
+	DatascienceModelDeploymentCategoryLogDetailsRepresentation = map[string]interface{}{
+		"access":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelDeploymentCategoryLogDetailsAccessRepresentation},
+		"predict": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelDeploymentCategoryLogDetailsPredictRepresentation},
 	}
-	modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsRepresentation = map[string]interface{}{
-		"instance_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsInstanceConfigurationRepresentation},
+	DatascienceModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsRepresentation = map[string]interface{}{
+		"instance_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsInstanceConfigurationRepresentation},
 		"model_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_model.test_model.id}`, Update: `${oci_datascience_model.test_model_update.id}`},
 		"bandwidth_mbps":         acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"scaling_policy":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsScalingPolicyRepresentation},
+		"scaling_policy":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsScalingPolicyRepresentation},
 	}
-	modelDeploymentCategoryLogDetailsAccessRepresentation = map[string]interface{}{
+	DatascienceModelDeploymentCategoryLogDetailsAccessRepresentation = map[string]interface{}{
 		"log_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_group.test_log_group.id}`},
 		"log_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log.test_access_log.id}`},
 	}
-	modelDeploymentCategoryLogDetailsPredictRepresentation = map[string]interface{}{
+	DatascienceModelDeploymentCategoryLogDetailsPredictRepresentation = map[string]interface{}{
 		"log_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_group.test_log_group.id}`},
 		"log_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log.test_predict_log.id}`},
 	}
-	modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsInstanceConfigurationRepresentation = map[string]interface{}{
+	DatascienceModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsInstanceConfigurationRepresentation = map[string]interface{}{
 		"instance_shape_name": acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.2`},
 	}
-	modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsScalingPolicyRepresentation = map[string]interface{}{
+	DatascienceModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsScalingPolicyRepresentation = map[string]interface{}{
 		"instance_count": acctest.Representation{RepType: acctest.Required, Create: `1`},
 		"policy_type":    acctest.Representation{RepType: acctest.Required, Create: `FIXED_SIZE`},
 	}
@@ -141,15 +141,15 @@ var (
 		"retention_duration": acctest.Representation{RepType: acctest.Optional, Create: `30`, Update: `60`},
 	}
 
-	ModelDeploymentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Create, modelForModelDeploymentRepresentation) +
+	DatascienceModelDeploymentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Create, modelForModelDeploymentRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model_update", acctest.Optional, acctest.Create, modelForUpdateModelDeploymentRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, projectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
 		DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, logGroupMDRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_access_log", acctest.Required, acctest.Create, customAccessLogRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_predict_log", acctest.Required, acctest.Create, customPredictLogRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", acctest.Required, acctest.Create, logGroupUpdateMDRepresentation)
 )
 
@@ -178,8 +178,8 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckDatascienceModelDeploymentDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ModelDeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Required, acctest.Create, modelDeploymentRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceModelDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Required, acctest.Create, DatascienceModelDeploymentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.#", "1"),
@@ -199,12 +199,12 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ModelDeploymentResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatascienceModelDeploymentResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ModelDeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Create, modelDeploymentRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceModelDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Create, DatascienceModelDeploymentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "category_log_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "category_log_details.0.access.#", "1"),
@@ -248,9 +248,9 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ModelDeploymentResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatascienceModelDeploymentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(modelDeploymentRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatascienceModelDeploymentRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -294,8 +294,8 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ModelDeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Update, modelDeploymentRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceModelDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Update, DatascienceModelDeploymentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "category_log_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "category_log_details.0.access.#", "1"),
@@ -337,9 +337,9 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 		// verify datasource - list model deployments
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_model_deployments", "test_model_deployments", acctest.Optional, acctest.Update, modelDeploymentDataSourceRepresentation) +
-				compartmentIdVariableStr + userIdVariableStr + ModelDeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Update, modelDeploymentRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_model_deployments", "test_model_deployments", acctest.Optional, acctest.Update, DatascienceDatascienceModelDeploymentDataSourceRepresentation) +
+				compartmentIdVariableStr + userIdVariableStr + DatascienceModelDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Update, DatascienceModelDeploymentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "created_by", userId),
@@ -381,8 +381,8 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 		// verify singular datasource - get model deployment
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Required, acctest.Create, modelDeploymentSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ModelDeploymentResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Required, acctest.Create, DatascienceDatascienceModelDeploymentSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatascienceModelDeploymentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_deployment_id"),
 
@@ -410,7 +410,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + ModelDeploymentRequiredOnlyResource,
+			Config:            config + DatascienceModelDeploymentRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -476,7 +476,7 @@ func init() {
 
 func sweepDatascienceModelDeploymentResource(compartment string) error {
 	dataScienceClient := acctest.GetTestClients(&schema.ResourceData{}).DataScienceClient()
-	modelDeploymentIds, err := getModelDeploymentIds(compartment)
+	modelDeploymentIds, err := getDatascienceModelDeploymentIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -492,14 +492,14 @@ func sweepDatascienceModelDeploymentResource(compartment string) error {
 				fmt.Printf("Error deleting ModelDeployment %s %s, It is possible that the resource is already deleted. Please verify manually \n", modelDeploymentId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &modelDeploymentId, modelDeploymentSweepWaitCondition, time.Duration(3*time.Minute),
-				modelDeploymentSweepResponseFetchOperation, "datascience", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &modelDeploymentId, DatascienceModelDeploymentSweepWaitCondition, time.Duration(3*time.Minute),
+				DatascienceModelDeploymentSweepResponseFetchOperation, "datascience", true)
 		}
 	}
 	return nil
 }
 
-func getModelDeploymentIds(compartment string) ([]string, error) {
+func getDatascienceModelDeploymentIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ModelDeploymentId")
 	if ids != nil {
 		return ids, nil
@@ -525,7 +525,7 @@ func getModelDeploymentIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func modelDeploymentSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatascienceModelDeploymentSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if modelDeploymentResponse, ok := response.Response.(oci_datascience.GetModelDeploymentResponse); ok {
 		return modelDeploymentResponse.LifecycleState != oci_datascience.ModelDeploymentLifecycleStateDeleted
@@ -533,7 +533,7 @@ func modelDeploymentSweepWaitCondition(response common.OCIOperationResponse) boo
 	return false
 }
 
-func modelDeploymentSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatascienceModelDeploymentSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataScienceClient().GetModelDeployment(context.Background(), oci_datascience.GetModelDeploymentRequest{
 		ModelDeploymentId: resourceId,
 		RequestMetadata: common.RequestMetadata{

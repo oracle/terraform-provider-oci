@@ -16,24 +16,24 @@ import (
 )
 
 var (
-	managedDatabaseSqlTuningAdvisorTasksRecommendationSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationSingularDataSourceRepresentation = map[string]interface{}{
 		"execution_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.test_execution_id}`},
 		"managed_database_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
 		"sql_object_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.test_object_id}`},
 		"sql_tuning_advisor_task_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_sql_tuning_advisor_task_id}`},
 	}
 
-	managedDatabaseSqlTuningAdvisorTasksRecommendationDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationDataSourceRepresentation = map[string]interface{}{
 		"execution_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.test_execution_id}`},
 		"managed_database_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
 		"sql_object_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.test_object_id}`},
 		"sql_tuning_advisor_task_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_sql_tuning_advisor_task_id}`},
 	}
 
-	ManagedDatabaseSqlTuningAdvisorTasksRecommendationResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", acctest.Required, acctest.Create, managedDatabaseDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, objectRepresentation)
+	DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, ObjectStorageObjectRepresentation)
 )
 
 // issue-routing-tag: database_management/default
@@ -67,9 +67,9 @@ func TestDatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationRes
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_sql_tuning_advisor_tasks_recommendations", "test_managed_database_sql_tuning_advisor_tasks_recommendations", acctest.Required, acctest.Create, managedDatabaseSqlTuningAdvisorTasksRecommendationDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_sql_tuning_advisor_tasks_recommendations", "test_managed_database_sql_tuning_advisor_tasks_recommendations", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationDataSourceRepresentation) +
 				compartmentIdVariableStr + testManagedDatabaseIdVariableStr + testExecutionIdVariableStr +
-				testObjectIdVariableStr + testSqlTuningAdvisorTaskIdVariableStr + ManagedDatabaseSqlTuningAdvisorTasksRecommendationResourceConfig,
+				testObjectIdVariableStr + testSqlTuningAdvisorTaskIdVariableStr + DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "execution_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_id"),
@@ -83,9 +83,9 @@ func TestDatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationRes
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_sql_tuning_advisor_tasks_recommendation", "test_managed_database_sql_tuning_advisor_tasks_recommendation", acctest.Required, acctest.Create, managedDatabaseSqlTuningAdvisorTasksRecommendationSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_sql_tuning_advisor_tasks_recommendation", "test_managed_database_sql_tuning_advisor_tasks_recommendation", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + testManagedDatabaseIdVariableStr + testExecutionIdVariableStr +
-				testObjectIdVariableStr + testSqlTuningAdvisorTaskIdVariableStr + ManagedDatabaseSqlTuningAdvisorTasksRecommendationResourceConfig,
+				testObjectIdVariableStr + testSqlTuningAdvisorTaskIdVariableStr + DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "execution_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),

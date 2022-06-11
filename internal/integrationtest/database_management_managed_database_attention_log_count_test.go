@@ -38,7 +38,7 @@ var (
 		"urgency_filter":                acctest.Representation{RepType: acctest.Optional, Create: `IMMEDIATE`},
 	}
 
-	ManagedDatabaseAttentionLogCountResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", acctest.Required, acctest.Create, managedDatabaseDataSourceRepresentation)
+	ManagedDatabaseAttentionLogCountResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseDataSourceRepresentation)
 )
 
 // issue-routing-tag: database_management/default

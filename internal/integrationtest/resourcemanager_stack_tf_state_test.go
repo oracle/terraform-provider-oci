@@ -21,12 +21,12 @@ import (
 )
 
 var (
-	stackTfStateSingularDataSourceRepresentation = map[string]interface{}{
+	ResourcemanagerResourcemanagerStackTfStateSingularDataSourceRepresentation = map[string]interface{}{
 		"stack_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.resource_manager_stack_id}`},
 		"local_path": acctest.Representation{RepType: acctest.Required, Create: `test.tfstate`},
 	}
 
-	StackTfStateResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", acctest.Required, acctest.Create, stackDataSourceRepresentation)
+	ResourcemanagerStackTfStateResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", acctest.Required, acctest.Create, ResourcemanagerResourcemanagerStackDataSourceRepresentation)
 )
 
 // issue-routing-tag: resourcemanager/default
@@ -71,8 +71,8 @@ func TestResourcemanagerStackTfStateResource_basic(t *testing.T) {
 				Config: config + `
 					variable "resource_manager_stack_id" { default = "` + resourceManagerStackId + `" }
 					` +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stack_tf_state", "test_stack_tf_state", acctest.Required, acctest.Create, stackTfStateSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + StackTfStateResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stack_tf_state", "test_stack_tf_state", acctest.Required, acctest.Create, ResourcemanagerResourcemanagerStackTfStateSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ResourcemanagerStackTfStateResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "stack_id"),
 				),

@@ -26,56 +26,56 @@ import (
 )
 
 var (
-	AccessPolicyRequiredOnlyResource = AccessPolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Required, acctest.Create, accessPolicyRepresentation)
+	ServiceMeshAccessPolicyRequiredOnlyResource = ServiceMeshAccessPolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Required, acctest.Create, ServiceMeshAccessPolicyRepresentation)
 
-	AccessPolicyResourceConfig = AccessPolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Optional, acctest.Update, accessPolicyRepresentation)
+	ServiceMeshAccessPolicyResourceConfig = ServiceMeshAccessPolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Optional, acctest.Update, ServiceMeshAccessPolicyRepresentation)
 
-	accessPolicySingularDataSourceRepresentation = map[string]interface{}{
+	ServiceMeshServiceMeshAccessPolicySingularDataSourceRepresentation = map[string]interface{}{
 		"access_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_access_policy.test_access_policy.id}`},
 	}
 
-	accessPolicyDataSourceRepresentation = map[string]interface{}{
+	ServiceMeshServiceMeshAccessPolicyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_access_policy.test_access_policy.id}`},
 		"mesh_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_mesh.mesh1.id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: accessPolicyDataSourceFilterRepresentation}}
-	accessPolicyDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshAccessPolicyDataSourceFilterRepresentation}}
+	ServiceMeshAccessPolicyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_service_mesh_access_policy.test_access_policy.id}`}},
 	}
 
-	accessPolicyRepresentation = map[string]interface{}{
+	ServiceMeshAccessPolicyRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"mesh_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_mesh.mesh1.id}`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"rules":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: accessPolicyRulesRepresentation},
+		"rules":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: ServiceMeshAccessPolicyRulesRepresentation},
 	}
-	accessPolicyRulesRepresentation = map[string]interface{}{
+	ServiceMeshAccessPolicyRulesRepresentation = map[string]interface{}{
 		"action":      acctest.Representation{RepType: acctest.Required, Create: `ALLOW`},
-		"destination": acctest.RepresentationGroup{RepType: acctest.Required, Group: accessPolicyRulesDestinationRepresentation},
-		"source":      acctest.RepresentationGroup{RepType: acctest.Required, Group: accessPolicyRulesSourceRepresentation},
+		"destination": acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshAccessPolicyRulesDestinationRepresentation},
+		"source":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshAccessPolicyRulesSourceRepresentation},
 	}
-	accessPolicyRulesDestinationRepresentation = map[string]interface{}{
+	ServiceMeshAccessPolicyRulesDestinationRepresentation = map[string]interface{}{
 		"type":               acctest.Representation{RepType: acctest.Required, Create: `ALL_VIRTUAL_SERVICES`, Update: `VIRTUAL_SERVICE`},
 		"virtual_service_id": acctest.Representation{RepType: acctest.Optional, Update: `${oci_service_mesh_virtual_service.virtual_service_1.id}`},
 	}
-	accessPolicyRulesSourceRepresentation = map[string]interface{}{
+	ServiceMeshAccessPolicyRulesSourceRepresentation = map[string]interface{}{
 		"type":               acctest.Representation{RepType: acctest.Required, Create: `ALL_VIRTUAL_SERVICES`, Update: `INGRESS_GATEWAY`},
 		"ingress_gateway_id": acctest.Representation{RepType: acctest.Optional, Update: `${oci_service_mesh_ingress_gateway.ingress_gateway_1.id}`},
 	}
 
-	AccessPolicyResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "mesh1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(meshRepresentation, map[string]interface{}{
+	ServiceMeshAccessPolicyResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "mesh1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(ServiceMeshMeshRepresentation, map[string]interface{}{
 			"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "ingress_gateway_1", acctest.Required, acctest.Create, ingressGatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service", "virtual_service_1", acctest.Required, acctest.Create, virtualServiceRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "ingress_gateway_1", acctest.Required, acctest.Create, ServiceMeshIngressGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service", "virtual_service_1", acctest.Required, acctest.Create, ServiceMeshVirtualServiceRepresentation)
 )
 
 // issue-routing-tag: service_mesh/default
@@ -100,14 +100,14 @@ func TestServiceMeshAccessPolicyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+certificateAuthorityIdVariableStr+compartmentIdVariableStr+AccessPolicyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Optional, acctest.Create, accessPolicyRepresentation), "servicemesh", "accessPolicy", t)
+	acctest.SaveConfigContent(config+certificateAuthorityIdVariableStr+compartmentIdVariableStr+ServiceMeshAccessPolicyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Optional, acctest.Create, ServiceMeshAccessPolicyRepresentation), "servicemesh", "accessPolicy", t)
 
 	acctest.ResourceTest(t, testAccCheckServiceMeshAccessPolicyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + AccessPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Required, acctest.Create, accessPolicyRepresentation),
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshAccessPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Required, acctest.Create, ServiceMeshAccessPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "mesh_id"),
@@ -122,12 +122,12 @@ func TestServiceMeshAccessPolicyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + AccessPolicyResourceDependencies,
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshAccessPolicyResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + AccessPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(accessPolicyRepresentation, map[string]interface{}{
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshAccessPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(ServiceMeshAccessPolicyRepresentation, map[string]interface{}{
 					"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation}})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -160,9 +160,9 @@ func TestServiceMeshAccessPolicyResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + AccessPolicyResourceDependencies +
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceMeshAccessPolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(accessPolicyRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ServiceMeshAccessPolicyRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 						"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation},
 					})),
@@ -194,8 +194,8 @@ func TestServiceMeshAccessPolicyResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + AccessPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(accessPolicyRepresentation, map[string]interface{}{
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshAccessPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(ServiceMeshAccessPolicyRepresentation, map[string]interface{}{
 					"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation}})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -228,9 +228,9 @@ func TestServiceMeshAccessPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_access_policies", "test_access_policies", acctest.Optional, acctest.Update, accessPolicyDataSourceRepresentation) +
-				certificateAuthorityIdVariableStr + compartmentIdVariableStr + AccessPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Optional, acctest.Update, accessPolicyRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_access_policies", "test_access_policies", acctest.Optional, acctest.Update, ServiceMeshServiceMeshAccessPolicyDataSourceRepresentation) +
+				certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshAccessPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Optional, acctest.Update, ServiceMeshAccessPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -243,8 +243,8 @@ func TestServiceMeshAccessPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Required, acctest.Create, accessPolicySingularDataSourceRepresentation) +
-				certificateAuthorityIdVariableStr + compartmentIdVariableStr + AccessPolicyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_access_policy", "test_access_policy", acctest.Required, acctest.Create, ServiceMeshServiceMeshAccessPolicySingularDataSourceRepresentation) +
+				certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshAccessPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "access_policy_id"),
 
@@ -266,7 +266,7 @@ func TestServiceMeshAccessPolicyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + AccessPolicyRequiredOnlyResource,
+			Config:                  config + ServiceMeshAccessPolicyRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -330,7 +330,7 @@ func init() {
 
 func sweepServiceMeshAccessPolicyResource(compartment string) error {
 	serviceMeshClient := acctest.GetTestClients(&schema.ResourceData{}).ServiceMeshClient()
-	accessPolicyIds, err := getAccessPolicyIds(compartment)
+	accessPolicyIds, err := getServiceMeshAccessPolicyIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -346,14 +346,14 @@ func sweepServiceMeshAccessPolicyResource(compartment string) error {
 				fmt.Printf("Error deleting AccessPolicy %s %s, It is possible that the resource is already deleted. Please verify manually \n", accessPolicyId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &accessPolicyId, accessPolicySweepWaitCondition, time.Duration(3*time.Minute),
-				accessPolicySweepResponseFetchOperation, "service_mesh", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &accessPolicyId, ServiceMeshAccessPolicySweepWaitCondition, time.Duration(3*time.Minute),
+				ServiceMeshAccessPolicySweepResponseFetchOperation, "service_mesh", true)
 		}
 	}
 	return nil
 }
 
-func getAccessPolicyIds(compartment string) ([]string, error) {
+func getServiceMeshAccessPolicyIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "AccessPolicyId")
 	if ids != nil {
 		return ids, nil
@@ -379,7 +379,7 @@ func getAccessPolicyIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func accessPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
+func ServiceMeshAccessPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if accessPolicyResponse, ok := response.Response.(oci_service_mesh.GetAccessPolicyResponse); ok {
 		return accessPolicyResponse.LifecycleState != oci_service_mesh.AccessPolicyLifecycleStateDeleted
@@ -387,7 +387,7 @@ func accessPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func accessPolicySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func ServiceMeshAccessPolicySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ServiceMeshClient().GetAccessPolicy(context.Background(), oci_service_mesh.GetAccessPolicyRequest{
 		AccessPolicyId: resourceId,
 		RequestMetadata: common.RequestMetadata{

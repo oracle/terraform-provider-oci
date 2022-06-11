@@ -16,13 +16,13 @@ import (
 )
 
 var (
-	autonomousContainerPatchDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseAutonomousContainerPatchDataSourceRepresentation = map[string]interface{}{
 		"autonomous_container_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	AutonomousContainerPatchResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, autonomousContainerDatabaseRepresentation) +
-		AutonomousExadataInfrastructureResourceConfig
+	DatabaseAutonomousContainerPatchResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseRepresentation) +
+		DatabaseAutonomousExadataInfrastructureResourceConfig
 )
 
 // issue-routing-tag: database/default
@@ -43,8 +43,8 @@ func TestDatabaseAutonomousContainerPatchResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_patches", "test_autonomous_container_patches", acctest.Required, acctest.Create, autonomousContainerPatchDataSourceRepresentation) +
-				compartmentIdVariableStr + AutonomousContainerPatchResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_patches", "test_autonomous_container_patches", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousContainerPatchDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousContainerPatchResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

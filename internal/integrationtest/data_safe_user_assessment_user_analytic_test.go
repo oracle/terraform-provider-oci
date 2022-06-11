@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	userAssessmentUserAnalyticDataSourceRepresentation = map[string]interface{}{
+	DataSafeuserAssessmentUserAnalyticDataSourceRepresentation = map[string]interface{}{
 		"user_assessment_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_user_assessment.test_user_assessment.id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
 		"account_status":            acctest.Representation{RepType: acctest.Optional, Create: `accountStatus`},
@@ -33,7 +33,7 @@ var (
 		"user_name":                                           acctest.Representation{RepType: acctest.Optional, Create: `${oci_identity_user.test_user.name}`},
 	}
 
-	UserAssessmentUserAnalyticResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, userAssessmentRepresentation)
+	DataSafeUserAssessmentUserAnalyticResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, userAssessmentRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -57,8 +57,8 @@ func TestDataSafeUserAssessmentUserAnalyticResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment_user_analytics", "test_user_assessment_user_analytics", acctest.Required, acctest.Create, userAssessmentUserAnalyticDataSourceRepresentation) +
-				compartmentIdVariableStr + targetIdVariableStr + UserAssessmentUserAnalyticResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment_user_analytics", "test_user_assessment_user_analytics", acctest.Required, acctest.Create, DataSafeuserAssessmentUserAnalyticDataSourceRepresentation) +
+				compartmentIdVariableStr + targetIdVariableStr + DataSafeUserAssessmentUserAnalyticResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_aggregations.#"),
 				resource.TestCheckResourceAttr(datasourceName, "user_aggregations.0.items.#", "2"),

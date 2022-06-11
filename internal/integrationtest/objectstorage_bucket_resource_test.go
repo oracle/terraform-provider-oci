@@ -49,7 +49,7 @@ var (
 	}
 
 	bucketRepresentationWithoutUpdateToForceNewFields = acctest.RepresentationCopyWithNewProperties(
-		acctest.RepresentationCopyWithRemovedProperties(bucketRepresentation, []string{"name", "namespace", "storage_tier", "versioning"}),
+		acctest.RepresentationCopyWithRemovedProperties(ObjectStorageBucketRepresentation, []string{"name", "namespace", "storage_tier", "versioning"}),
 		map[string]interface{}{
 			"name":         acctest.Representation{RepType: acctest.Required, Create: testBucketName},
 			"namespace":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
@@ -122,7 +122,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 		Steps: []resource.TestStep{
 			//verify Create with optionals
 			{
-				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Create, bucketRepresentationForRetentionRules),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
@@ -184,7 +184,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			// verify updates to updatable parameters of retention rules
 			// changing display Name forces deletion of old rule and creation of the new rule
 			{
-				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, bucketRepresentationForRetentionRules),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
@@ -245,7 +245,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			},
 			// verify that no change on reordering
 			{
-				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, bucketRepresentationForRetentionRulesReordered),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
@@ -306,7 +306,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			},
 			// verify retention rules delete
 			{
-				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, bucketRepresentationForRetentionRulesDelete),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
@@ -347,7 +347,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			},
 			// verify retention rules add new rules
 			{
-				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, bucketRepresentationForRetentionRules),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
@@ -408,7 +408,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			},
 			// verify adding a new retention rule without timeRuleLocked
 			{
-				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, bucketRepresentationForRetentionRulesWithoutLock),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
@@ -478,7 +478,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			},
 			// verify deleting a old retention rule without timeRuleLocked
 			{
-				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, bucketRepresentationForRetentionRules),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
@@ -539,7 +539,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			},
 			//verify singular datasource
 			{
-				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, bucketRepresentationForRetentionRulesWithoutLock) +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketSingularDataSourceRetentionRulesRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -593,7 +593,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			},
 			//verify resource import
 			{
-				Config:                  config + BucketRequiredOnlyResource,
+				Config:                  config + ObjectStorageBucketRequiredOnlyResource,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

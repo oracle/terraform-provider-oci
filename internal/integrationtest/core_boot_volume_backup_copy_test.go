@@ -37,7 +37,7 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 	}
 	bootVolumeBackupSourceDetailsRepresentation = map[string]interface{}{}
-	BootVolumeBackupCopyResourceDependencies    = BootVolumeBackupResourceDependencies
+	BootVolumeBackupCopyResourceDependencies    = CoreBootVolumeBackupResourceDependencies
 )
 
 // issue-routing-tag: core/blockStorage

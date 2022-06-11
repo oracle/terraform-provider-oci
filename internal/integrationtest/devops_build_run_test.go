@@ -19,57 +19,57 @@ import (
 )
 
 var (
-	BuildRunRequiredOnlyResource = BuildRunResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Required, acctest.Create, buildRunRepresentation)
+	DevopsBuildRunRequiredOnlyResource = DevopsBuildRunResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Required, acctest.Create, DevopsBuildRunRepresentation)
 
-	BuildRunResourceConfig = BuildRunResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Optional, acctest.Update, buildRunRepresentation)
+	DevopsBuildRunResourceConfig = DevopsBuildRunResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Optional, acctest.Update, DevopsBuildRunRepresentation)
 
-	buildRunSingularDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsBuildRunSingularDataSourceRepresentation = map[string]interface{}{
 		"build_run_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_build_run.test_build_run.id}`},
 	}
 
-	buildRunDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsBuildRunDataSourceRepresentation = map[string]interface{}{
 		"build_pipeline_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_build_pipeline.test_build_pipeline.id}`},
 		"compartment_id":    acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_build_run.test_build_run.id}`},
 		"project_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_project.test_project.id}`},
 		"state":             acctest.Representation{RepType: acctest.Optional, Create: `SUCCEEDED`},
-		"filter":            acctest.RepresentationGroup{RepType: acctest.Required, Group: buildRunDataSourceFilterRepresentation}}
-	buildRunDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":            acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsBuildRunDataSourceFilterRepresentation}}
+	DevopsBuildRunDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_devops_build_run.test_build_run.id}`}},
 	}
 
-	buildRunRepresentation = map[string]interface{}{
+	DevopsBuildRunRepresentation = map[string]interface{}{
 		"build_pipeline_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_build_pipeline.test_build_pipeline.id}`},
-		"build_run_arguments": acctest.RepresentationGroup{RepType: acctest.Optional, Group: buildRunBuildRunArgumentsRepresentation},
-		"commit_info":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: buildRunCommitInfoRepresentation},
+		"build_run_arguments": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DevopsBuildRunBuildRunArgumentsRepresentation},
+		"commit_info":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DevopsBuildRunCommitInfoRepresentation},
 		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
-	buildRunBuildRunArgumentsRepresentation = map[string]interface{}{
-		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: buildRunBuildRunArgumentsItemsRepresentation},
+	DevopsBuildRunBuildRunArgumentsRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsBuildRunBuildRunArgumentsItemsRepresentation},
 	}
-	buildRunCommitInfoRepresentation = map[string]interface{}{
+	DevopsBuildRunCommitInfoRepresentation = map[string]interface{}{
 		"commit_hash":       acctest.Representation{RepType: acctest.Required, Create: `commitHash`},
 		"repository_branch": acctest.Representation{RepType: acctest.Required, Create: `repositoryBranch`},
 		"repository_url":    acctest.Representation{RepType: acctest.Required, Create: `repositoryUrl`},
 	}
-	buildRunBuildRunArgumentsItemsRepresentation = map[string]interface{}{
+	DevopsBuildRunBuildRunArgumentsItemsRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"value": acctest.Representation{RepType: acctest.Required, Create: `value`},
 	}
 
-	BuildRunResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, buildPipelineRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
+	DevopsBuildRunResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, DevopsBuildPipelineRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", acctest.Required, acctest.Create, devopsLogGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", acctest.Required, acctest.Create, DevopsLogGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Optional, acctest.Create, deployLogRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -88,14 +88,14 @@ func TestDevopsBuildRunResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+BuildRunResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Optional, acctest.Create, buildRunRepresentation), "devops", "buildRun", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DevopsBuildRunResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Optional, acctest.Create, DevopsBuildRunRepresentation), "devops", "buildRun", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + BuildRunResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Required, acctest.Create, buildRunRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsBuildRunResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Required, acctest.Create, DevopsBuildRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "build_pipeline_id"),
 
@@ -108,12 +108,12 @@ func TestDevopsBuildRunResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + BuildRunResourceDependencies,
+			Config: config + compartmentIdVariableStr + DevopsBuildRunResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + BuildRunResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Optional, acctest.Create, buildRunRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsBuildRunResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Optional, acctest.Create, DevopsBuildRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "build_pipeline_id"),
 				resource.TestCheckResourceAttr(resourceName, "build_run_arguments.#", "1"),
@@ -143,8 +143,8 @@ func TestDevopsBuildRunResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + BuildRunResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Optional, acctest.Update, buildRunRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsBuildRunResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Optional, acctest.Update, DevopsBuildRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "build_pipeline_id"),
 				resource.TestCheckResourceAttr(resourceName, "build_run_arguments.#", "1"),
@@ -172,9 +172,9 @@ func TestDevopsBuildRunResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_build_runs", "test_build_runs", acctest.Optional, acctest.Update, buildRunDataSourceRepresentation) +
-				compartmentIdVariableStr + BuildRunResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Optional, acctest.Update, buildRunRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_build_runs", "test_build_runs", acctest.Optional, acctest.Update, DevopsDevopsBuildRunDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsBuildRunResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Optional, acctest.Update, DevopsBuildRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "build_pipeline_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -190,8 +190,8 @@ func TestDevopsBuildRunResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Required, acctest.Create, buildRunSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + BuildRunResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_build_run", "test_build_run", acctest.Required, acctest.Create, DevopsDevopsBuildRunSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsBuildRunResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "build_run_id"),
 
@@ -217,7 +217,7 @@ func TestDevopsBuildRunResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + BuildRunRequiredOnlyResource,
+			Config:                  config + DevopsBuildRunRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

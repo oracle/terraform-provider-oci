@@ -27,16 +27,16 @@ import (
 )
 
 var (
-	SddcRequiredOnlyResource = SddcResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Create, sddcRepresentation)
+	OcvpSddcRequiredOnlyResource = OcvpSddcResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Create, OcvpSddcRepresentation)
 
-	SddcResourceConfig = SddcResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Update, sddcRepresentation)
+	OcvpSddcResourceConfig = OcvpSddcResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Update, OcvpSddcRepresentation)
 
-	SddcV7ResourceConfig = SddcResourceDependencies +
+	SddcV7ResourceConfig = OcvpSddcResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Update, sddcV7Representation)
 
-	sddcSingularDataSourceRepresentation = map[string]interface{}{
+	OcvpOcvpSddcSingularDataSourceRepresentation = map[string]interface{}{
 		"sddc_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_ocvp_sddc.test_sddc.id}`},
 	}
 
@@ -44,18 +44,18 @@ var (
 	sddcDisplayName1 = fmt.Sprintf("%s-%d", "test", rand.Intn(10000))
 	sddcDisplayName2 = sddcDisplayName1 + "u"
 
-	sddcDataSourceRepresentation = map[string]interface{}{
+	OcvpOcvpSddcDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compute_availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
 		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: sddcDisplayName1, Update: sddcDisplayName2},
 		"state":                       acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: sddcDataSourceFilterRepresentation}}
-	sddcDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcDataSourceFilterRepresentation}}
+	OcvpSddcDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_ocvp_sddc.test_sddc.id}`}},
 	}
 
-	sddcRepresentation = map[string]interface{}{
+	OcvpSddcRepresentation = map[string]interface{}{
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compute_availability_domain":  acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
 		"esxi_hosts_count":             acctest.Representation{RepType: acctest.Required, Create: `3`},
@@ -92,12 +92,12 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	sddcV7Representation = acctest.RepresentationCopyWithNewProperties(sddcRepresentation, map[string]interface{}{
+	sddcV7Representation = acctest.RepresentationCopyWithNewProperties(OcvpSddcRepresentation, map[string]interface{}{
 		"vmware_software_version": acctest.Representation{RepType: acctest.Required, Create: `7.0 update 2`},
 	})
 
-	SddcResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_vmware_software_versions", "test_supported_vmware_software_versions", acctest.Required, acctest.Create, supportedVmwareSoftwareVersionDataSourceRepresentation) + `
+	OcvpSddcResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_vmware_software_versions", "test_supported_vmware_software_versions", acctest.Required, acctest.Create, OcvpOcvpSupportedVmwareSoftwareVersionDataSourceRepresentation) + `
 
 data "oci_core_services" "test_services" {}
 
@@ -446,14 +446,14 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SddcResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Create, sddcRepresentation), "ocvp", "sddc", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OcvpSddcResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Create, OcvpSddcRepresentation), "ocvp", "sddc", t)
 
 	acctest.ResourceTest(t, testAccCheckOcvpSddcDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Create, sddcRepresentation),
+			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Create, OcvpSddcRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
@@ -480,8 +480,8 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 
 		// verify Update VMware version
 		{
-			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Update, sddcRepresentation),
+			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Update, OcvpSddcRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
@@ -508,11 +508,11 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SddcResourceDependencies,
+			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
+			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Create, sddcV7Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
@@ -568,7 +568,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SddcResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OcvpSddcResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(sddcV7Representation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -626,7 +626,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		// Cannot Update VMware version here because some of the optional arguments are not applicable to VMware version less than 7.0
 		{
-			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
+			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Update, sddcV7Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
@@ -683,7 +683,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_sddcs", "test_sddcs", acctest.Optional, acctest.Update, sddcDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_sddcs", "test_sddcs", acctest.Optional, acctest.Update, OcvpOcvpSddcDataSourceRepresentation) +
 				compartmentIdVariableStr + SddcV7ResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.#", "1"),
@@ -706,7 +706,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Create, sddcSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Create, OcvpOcvpSddcSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + SddcV7ResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sddc_id"),
@@ -754,7 +754,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + SddcRequiredOnlyResource,
+			Config:                  config + OcvpSddcRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"hcx_action", "refresh_hcx_license_status"},
@@ -818,7 +818,7 @@ func init() {
 
 func sweepOcvpSddcResource(compartment string) error {
 	sddcClient := acctest.GetTestClients(&schema.ResourceData{}).SddcClient()
-	sddcIds, err := getSddcIds(compartment)
+	sddcIds, err := getOcvpSddcIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -834,14 +834,14 @@ func sweepOcvpSddcResource(compartment string) error {
 				fmt.Printf("Error deleting Sddc %s %s, It is possible that the resource is already deleted. Please verify manually \n", sddcId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &sddcId, sddcSweepWaitCondition, time.Duration(3*time.Minute),
-				sddcSweepResponseFetchOperation, "ocvp", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &sddcId, OcvpSddcSweepWaitCondition, time.Duration(3*time.Minute),
+				OcvpSddcSweepResponseFetchOperation, "ocvp", true)
 		}
 	}
 	return nil
 }
 
-func getSddcIds(compartment string) ([]string, error) {
+func getOcvpSddcIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "SddcId")
 	if ids != nil {
 		return ids, nil
@@ -866,7 +866,7 @@ func getSddcIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func sddcSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OcvpSddcSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if sddcResponse, ok := response.Response.(oci_ocvp.GetSddcResponse); ok {
 		return sddcResponse.LifecycleState != oci_ocvp.LifecycleStatesDeleted
@@ -874,7 +874,7 @@ func sddcSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func sddcSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OcvpSddcSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.SddcClient().GetSddc(context.Background(), oci_ocvp.GetSddcRequest{
 		SddcId: resourceId,
 		RequestMetadata: common.RequestMetadata{

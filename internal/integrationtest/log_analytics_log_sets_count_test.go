@@ -14,12 +14,12 @@ import (
 )
 
 var (
-	logSetsCountSingularDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogSetsCountSingularDataSourceRepresentation = map[string]interface{}{
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
-	LogSetsCountResourceConfig           = ""
-	LogAnalyticsLogSetsCountDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+	LogAnalyticsLogSetsCountResourceConfig = ""
+	LogAnalyticsLogSetsCountDependencies   = acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: log_analytics/default
@@ -37,7 +37,7 @@ func TestLogAnalyticsLogSetsCountResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_sets_count", "test_log_sets_count", acctest.Required, acctest.Create, logSetsCountSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_sets_count", "test_log_sets_count", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogSetsCountSingularDataSourceRepresentation) +
 				LogAnalyticsLogSetsCountDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),

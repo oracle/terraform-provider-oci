@@ -26,49 +26,49 @@ import (
 )
 
 var (
-	BuildPipelineRequiredOnlyResource = BuildPipelineResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, buildPipelineRepresentation)
+	DevopsBuildPipelineRequiredOnlyResource = DevopsBuildPipelineResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, DevopsBuildPipelineRepresentation)
 
-	BuildPipelineResourceConfig = BuildPipelineResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Optional, acctest.Update, buildPipelineRepresentation)
+	DevopsBuildPipelineResourceConfig = DevopsBuildPipelineResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Optional, acctest.Update, DevopsBuildPipelineRepresentation)
 
-	buildPipelineSingularDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsBuildPipelineSingularDataSourceRepresentation = map[string]interface{}{
 		"build_pipeline_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_build_pipeline.test_build_pipeline.id}`},
 	}
 
-	buildPipelineDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsBuildPipelineDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_build_pipeline.test_build_pipeline.id}`},
 		"project_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_project.test_project.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineDataSourceFilterRepresentation}}
-	buildPipelineDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsBuildPipelineDataSourceFilterRepresentation}}
+	DevopsBuildPipelineDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_devops_build_pipeline.test_build_pipeline.id}`}},
 	}
 
-	buildPipelineRepresentation = map[string]interface{}{
+	DevopsBuildPipelineRepresentation = map[string]interface{}{
 		"project_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_project.test_project.id}`},
-		"build_pipeline_parameters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: buildPipelineBuildPipelineParametersRepresentation},
+		"build_pipeline_parameters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DevopsBuildPipelineBuildPipelineParametersRepresentation},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":               acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
-	buildPipelineBuildPipelineParametersRepresentation = map[string]interface{}{
-		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineBuildPipelineParametersItemsRepresentation},
+	DevopsBuildPipelineBuildPipelineParametersRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsBuildPipelineBuildPipelineParametersItemsRepresentation},
 	}
-	buildPipelineBuildPipelineParametersItemsRepresentation = map[string]interface{}{
+	DevopsBuildPipelineBuildPipelineParametersItemsRepresentation = map[string]interface{}{
 		"name":          acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"default_value": acctest.Representation{RepType: acctest.Optional, Create: `defaultValue`, Update: `defaultValue2`},
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 	}
 
-	BuildPipelineResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
+	DevopsBuildPipelineResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -87,14 +87,14 @@ func TestDevopsBuildPipelineResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+BuildPipelineResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Optional, acctest.Create, buildPipelineRepresentation), "devops", "buildPipeline", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DevopsBuildPipelineResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Optional, acctest.Create, DevopsBuildPipelineRepresentation), "devops", "buildPipeline", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsBuildPipelineDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + BuildPipelineResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, buildPipelineRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsBuildPipelineResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, DevopsBuildPipelineRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
@@ -107,12 +107,12 @@ func TestDevopsBuildPipelineResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + BuildPipelineResourceDependencies,
+			Config: config + compartmentIdVariableStr + DevopsBuildPipelineResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + BuildPipelineResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Optional, acctest.Create, buildPipelineRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsBuildPipelineResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Optional, acctest.Create, DevopsBuildPipelineRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "build_pipeline_parameters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "build_pipeline_parameters.0.items.#", "1"),
@@ -139,8 +139,8 @@ func TestDevopsBuildPipelineResource_basic(t *testing.T) {
 		},
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + BuildPipelineResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Optional, acctest.Update, buildPipelineRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsBuildPipelineResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Optional, acctest.Update, DevopsBuildPipelineRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "build_pipeline_parameters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "build_pipeline_parameters.0.items.#", "1"),
@@ -166,9 +166,9 @@ func TestDevopsBuildPipelineResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_build_pipelines", "test_build_pipelines", acctest.Optional, acctest.Update, buildPipelineDataSourceRepresentation) +
-				compartmentIdVariableStr + BuildPipelineResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Optional, acctest.Update, buildPipelineRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_build_pipelines", "test_build_pipelines", acctest.Optional, acctest.Update, DevopsDevopsBuildPipelineDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsBuildPipelineResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Optional, acctest.Update, DevopsBuildPipelineRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -183,8 +183,8 @@ func TestDevopsBuildPipelineResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, buildPipelineSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + BuildPipelineResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, DevopsDevopsBuildPipelineSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsBuildPipelineResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "build_pipeline_id"),
 
@@ -205,7 +205,7 @@ func TestDevopsBuildPipelineResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + BuildPipelineRequiredOnlyResource,
+			Config:                  config + DevopsBuildPipelineRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -269,7 +269,7 @@ func init() {
 
 func sweepDevopsBuildPipelineResource(compartment string) error {
 	devopsClient := acctest.GetTestClients(&schema.ResourceData{}).DevopsClient()
-	buildPipelineIds, err := getBuildPipelineIds(compartment)
+	buildPipelineIds, err := getDevopsBuildPipelineIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -285,14 +285,14 @@ func sweepDevopsBuildPipelineResource(compartment string) error {
 				fmt.Printf("Error deleting BuildPipeline %s %s, It is possible that the resource is already deleted. Please verify manually \n", buildPipelineId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &buildPipelineId, buildPipelineSweepWaitCondition, time.Duration(3*time.Minute),
-				buildPipelineSweepResponseFetchOperation, "devops", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &buildPipelineId, DevopsBuildPipelineSweepWaitCondition, time.Duration(3*time.Minute),
+				DevopsBuildPipelineSweepResponseFetchOperation, "devops", true)
 		}
 	}
 	return nil
 }
 
-func getBuildPipelineIds(compartment string) ([]string, error) {
+func getDevopsBuildPipelineIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "BuildPipelineId")
 	if ids != nil {
 		return ids, nil
@@ -317,7 +317,7 @@ func getBuildPipelineIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func buildPipelineSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DevopsBuildPipelineSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if buildPipelineResponse, ok := response.Response.(oci_devops.GetBuildPipelineResponse); ok {
 		return buildPipelineResponse.LifecycleState != oci_devops.BuildPipelineLifecycleStateDeleted
@@ -325,7 +325,7 @@ func buildPipelineSweepWaitCondition(response common.OCIOperationResponse) bool 
 	return false
 }
 
-func buildPipelineSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DevopsBuildPipelineSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DevopsClient().GetBuildPipeline(context.Background(), oci_devops.GetBuildPipelineRequest{
 		BuildPipelineId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -25,40 +25,40 @@ import (
 )
 
 var (
-	RouteTableRequiredOnlyResource = RouteTableResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, routeTableRepresentation)
+	CoreRouteTableRequiredOnlyResource = CoreRouteTableResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation)
 
-	RouteTableResource = RouteTableResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Create, routeTableRepresentation)
+	RouteTableResource = CoreRouteTableResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Create, CoreRouteTableRepresentation)
 
-	routeTableDataSourceRepresentation = map[string]interface{}{
+	CoreCoreRouteTableDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `MyRouteTable`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: routeTableDataSourceFilterRepresentation}}
-	routeTableDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreRouteTableDataSourceFilterRepresentation}}
+	CoreRouteTableDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_route_table.test_route_table.id}`}},
 	}
 
-	routeTableRepresentation = map[string]interface{}{
+	CoreRouteTableRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `MyRouteTable`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"route_rules":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: routeTableRouteRulesRepresentation},
+		"route_rules":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreRouteTableRouteRulesRepresentation},
 	}
-	routeTableRouteRulesRepresentation = map[string]interface{}{
+	CoreRouteTableRouteRulesRepresentation = map[string]interface{}{
 		"network_entity_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_internet_gateway.test_internet_gateway.id}`},
 		"description":       acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"destination":       acctest.Representation{RepType: acctest.Optional, Create: `0.0.0.0/0`, Update: `10.0.0.0/8`},
 		"destination_type":  acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`},
 	}
 
-	RouteTableResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, internetGatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreRouteTableResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -80,14 +80,14 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+RouteTableResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Create, routeTableRepresentation), "core", "routeTable", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreRouteTableResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Create, CoreRouteTableRepresentation), "core", "routeTable", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreRouteTableDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + RouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, routeTableRepresentation),
+			Config: config + compartmentIdVariableStr + CoreRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -101,12 +101,12 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + RouteTableResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreRouteTableResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + RouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Create, routeTableRepresentation),
+			Config: config + compartmentIdVariableStr + CoreRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Create, CoreRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyRouteTable"),
@@ -138,9 +138,9 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + RouteTableResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreRouteTableResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(routeTableRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreRouteTableRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -172,8 +172,8 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + RouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Update, routeTableRepresentation),
+			Config: config + compartmentIdVariableStr + CoreRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Update, CoreRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -203,9 +203,9 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_route_tables", "test_route_tables", acctest.Optional, acctest.Update, routeTableDataSourceRepresentation) +
-				compartmentIdVariableStr + RouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Update, routeTableRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_route_tables", "test_route_tables", acctest.Optional, acctest.Update, CoreCoreRouteTableDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Update, CoreRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -232,7 +232,7 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + RouteTableRequiredOnlyResource,
+			Config:                  config + CoreRouteTableRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -296,7 +296,7 @@ func init() {
 
 func sweepCoreRouteTableResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	routeTableIds, err := getRouteTableIds(compartment)
+	routeTableIds, err := getCoreRouteTableIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -312,14 +312,14 @@ func sweepCoreRouteTableResource(compartment string) error {
 				fmt.Printf("Error deleting RouteTable %s %s, It is possible that the resource is already deleted. Please verify manually \n", routeTableId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &routeTableId, routeTableSweepWaitCondition, time.Duration(3*time.Minute),
-				routeTableSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &routeTableId, CoreRouteTableSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreRouteTableSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getRouteTableIds(compartment string) ([]string, error) {
+func getCoreRouteTableIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "RouteTableId")
 	if ids != nil {
 		return ids, nil
@@ -344,7 +344,7 @@ func getRouteTableIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func routeTableSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreRouteTableSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if routeTableResponse, ok := response.Response.(oci_core.GetRouteTableResponse); ok {
 		return routeTableResponse.LifecycleState != oci_core.RouteTableLifecycleStateTerminated
@@ -352,7 +352,7 @@ func routeTableSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func routeTableSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreRouteTableSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetRouteTable(context.Background(), oci_core.GetRouteTableRequest{
 		RtId: resourceId,
 		RequestMetadata: common.RequestMetadata{

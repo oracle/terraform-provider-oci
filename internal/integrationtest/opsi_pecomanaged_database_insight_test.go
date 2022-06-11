@@ -27,10 +27,10 @@ import (
 )
 
 var (
-	PecomanagedDatabaseInsightRequiredOnlyResource = DatabaseInsightResourceDependencies +
+	PecomanagedDatabaseInsightRequiredOnlyResource = OpsiExadataInsightResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Required, acctest.Create, pecomanagedDatabaseInsightRepresentation)
 
-	PecomanagedDatabaseInsightResourceConfig = DatabaseInsightResourceDependencies +
+	PecomanagedDatabaseInsightResourceConfig = OpsiExadataInsightResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, pecomanagedDatabaseInsightRepresentation)
 
 	pecomanagedDatabaseInsightSingularDataSourceRepresentation = map[string]interface{}{

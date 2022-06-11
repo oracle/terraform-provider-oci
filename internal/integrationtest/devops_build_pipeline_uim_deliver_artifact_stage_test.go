@@ -19,7 +19,7 @@ import (
 )
 
 var (
-	BuildPipelineStageUIMDeliverArtifactRequiredOnlyResource = BuildPipelineStageResourceDependencies +
+	BuildPipelineStageUIMDeliverArtifactRequiredOnlyResource = DevopsBuildPipelineStageResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage", acctest.Required, acctest.Create, buildPipelineStageUIMDeliverArtifactRepresentation)
 
 	BuildPipelineStageUIMDeliverArtifactResourceConfig = BuildPipelineStageUIMDeliverArtifactResourceDependencies +
@@ -88,10 +88,10 @@ var (
 		"artifact_name": acctest.Representation{RepType: acctest.Required, Create: `artifactName`, Update: `artifactName2`},
 	}
 
-	BuildPipelineStageUIMDeliverArtifactResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, buildPipelineRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
+	BuildPipelineStageUIMDeliverArtifactResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, DevopsBuildPipelineRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Required, acctest.Create, deployGenericArtifactRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline_stage", "test_build_pipeline_stage_wait", acctest.Required, acctest.Create, buildPipelineWaitStageRepresentationForDeliverArtifact)
 )

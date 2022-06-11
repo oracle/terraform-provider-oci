@@ -15,12 +15,12 @@ import (
 )
 
 var (
-	giVersionDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseGiVersionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"shape":          acctest.Representation{RepType: acctest.Required, Create: `ExadataCC.Quarter3.100`},
 	}
 
-	GiVersionResourceConfig = ""
+	DatabaseGiVersionResourceConfig = ""
 )
 
 // issue-routing-tag: database/default
@@ -41,8 +41,8 @@ func TestDatabaseGiVersionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_gi_versions", "test_gi_versions", acctest.Required, acctest.Create, giVersionDataSourceRepresentation) +
-				compartmentIdVariableStr + GiVersionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_gi_versions", "test_gi_versions", acctest.Required, acctest.Create, DatabaseDatabaseGiVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseGiVersionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

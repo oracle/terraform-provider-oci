@@ -16,13 +16,13 @@ import (
 )
 
 var (
-	logAnalyticsEntityTopologySingularDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogAnalyticsEntityTopologySingularDataSourceRepresentation = map[string]interface{}{
 		"log_analytics_entity_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_log_analytics_log_analytics_entity.test_entity.id}`},
 		"namespace":               acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"state":                   acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 	}
 
-	logAnalyticsEntityForTopologyRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogAnalyticsEntityTopologyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"entity_type_name":  acctest.Representation{RepType: acctest.Required, Create: `Host (Linux)`},
 		"name":              acctest.Representation{RepType: acctest.Required, Create: `TF_LA_ENTITY`},
@@ -33,11 +33,11 @@ var (
 		"timezone_region":   acctest.Representation{RepType: acctest.Optional, Create: `PST8PDT`},
 	}
 
-	LoganObjectStoreDependency = acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace",
-		acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+	LogAnalyticsLoganObjectStoreDependency = acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace",
+		acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation)
 
-	LogAnalyticsEntityTopologyResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_entity",
-		acctest.Required, acctest.Create, logAnalyticsEntityForTopologyRepresentation)
+	LogAnalyticsLogAnalyticsEntityTopologyResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_entity",
+		acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogAnalyticsEntityTopologyDataSourceRepresentation)
 )
 
 // issue-routing-tag: log_analytics/default
@@ -58,11 +58,11 @@ func TestLogAnalyticsLogAnalyticsEntityTopologyResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify required inputs
 		{
-			Config: config + LoganObjectStoreDependency +
+			Config: config + LogAnalyticsLoganObjectStoreDependency +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entity_topology",
 					"test_entity_topology_required",
-					acctest.Required, acctest.Create, logAnalyticsEntityTopologySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + LogAnalyticsEntityTopologyResourceConfig,
+					acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogAnalyticsEntityTopologySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LogAnalyticsLogAnalyticsEntityTopologyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(requiredDatasourceName, "log_analytics_entity_id"),
 				resource.TestCheckResourceAttrSet(requiredDatasourceName, "namespace"),
@@ -74,11 +74,11 @@ func TestLogAnalyticsLogAnalyticsEntityTopologyResource_basic(t *testing.T) {
 		},
 		// verify optionals
 		{
-			Config: config + LoganObjectStoreDependency +
+			Config: config + LogAnalyticsLoganObjectStoreDependency +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entity_topology",
 					"test_entity_topology_optional",
-					acctest.Optional, acctest.Create, logAnalyticsEntityTopologySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + LogAnalyticsEntityTopologyResourceConfig,
+					acctest.Optional, acctest.Create, LogAnalyticsLogAnalyticsLogAnalyticsEntityTopologySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LogAnalyticsLogAnalyticsEntityTopologyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(optionalDatasourceName, "log_analytics_entity_id"),
 				resource.TestCheckResourceAttrSet(optionalDatasourceName, "namespace"),

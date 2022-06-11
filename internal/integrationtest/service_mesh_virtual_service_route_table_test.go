@@ -24,56 +24,56 @@ import (
 )
 
 var (
-	VirtualServiceRouteTableRequiredOnlyResource = VirtualServiceRouteTableResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Required, acctest.Create, virtualServiceRouteTableRepresentation)
+	ServiceMeshVirtualServiceRouteTableRequiredOnlyResource = ServiceMeshVirtualServiceRouteTableResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Required, acctest.Create, ServiceMeshVirtualServiceRouteTableRepresentation)
 
-	VirtualServiceRouteTableResourceConfig = VirtualServiceRouteTableResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Optional, acctest.Update, virtualServiceRouteTableRepresentation)
+	ServiceMeshVirtualServiceRouteTableResourceConfig = ServiceMeshVirtualServiceRouteTableResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Optional, acctest.Update, ServiceMeshVirtualServiceRouteTableRepresentation)
 
-	virtualServiceRouteTableSingularDataSourceRepresentation = map[string]interface{}{
+	ServiceMeshServiceMeshVirtualServiceRouteTableSingularDataSourceRepresentation = map[string]interface{}{
 		"virtual_service_route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_virtual_service_route_table.test_virtual_service_route_table.id}`},
 	}
 
-	virtualServiceRouteTableDataSourceRepresentation = map[string]interface{}{
+	ServiceMeshServiceMeshVirtualServiceRouteTableDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_virtual_service_route_table.test_virtual_service_route_table.id}`},
 		"name":               acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"state":              acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"virtual_service_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_virtual_service.virtual_service_1.id}`},
-		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: virtualServiceRouteTableDataSourceFilterRepresentation}}
-	virtualServiceRouteTableDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshVirtualServiceRouteTableDataSourceFilterRepresentation}}
+	ServiceMeshVirtualServiceRouteTableDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_service_mesh_virtual_service_route_table.test_virtual_service_route_table.id}`}},
 	}
 
-	virtualServiceRouteTableRepresentation = map[string]interface{}{
+	ServiceMeshVirtualServiceRouteTableRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":               acctest.Representation{RepType: acctest.Required, Create: `name`},
-		"route_rules":        acctest.RepresentationGroup{RepType: acctest.Required, Group: virtualServiceRouteTableRouteRulesRepresentation},
+		"route_rules":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshVirtualServiceRouteTableRouteRulesRepresentation},
 		"virtual_service_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_virtual_service.virtual_service_1.id}`},
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":        acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"priority":           acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
-	virtualServiceRouteTableRouteRulesRepresentation = map[string]interface{}{
-		"destinations": acctest.RepresentationGroup{RepType: acctest.Required, Group: virtualServiceRouteTableRouteRulesDestinationsRepresentation},
+	ServiceMeshVirtualServiceRouteTableRouteRulesRepresentation = map[string]interface{}{
+		"destinations": acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshVirtualServiceRouteTableRouteRulesDestinationsRepresentation},
 		"type":         acctest.Representation{RepType: acctest.Required, Create: `TCP`, Update: `HTTP`},
 		"is_grpc":      acctest.Representation{RepType: acctest.Optional, Update: `true`},
 		"path":         acctest.Representation{RepType: acctest.Optional, Update: `/path2`},
 		"path_type":    acctest.Representation{RepType: acctest.Optional, Update: `PREFIX`},
 	}
-	virtualServiceRouteTableRouteRulesDestinationsRepresentation = map[string]interface{}{
+	ServiceMeshVirtualServiceRouteTableRouteRulesDestinationsRepresentation = map[string]interface{}{
 		"virtual_deployment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_virtual_deployment.virtual_deployment_1.id}`},
 		"weight":                acctest.Representation{RepType: acctest.Required, Create: `100`},
 		"port":                  acctest.Representation{RepType: acctest.Optional, Create: `910`, Update: `911`},
 	}
 
-	VirtualServiceRouteTableResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "mesh1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(meshRepresentation, map[string]interface{}{
+	ServiceMeshVirtualServiceRouteTableResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "mesh1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(ServiceMeshMeshRepresentation, map[string]interface{}{
 			"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "virtual_deployment_1", acctest.Required, acctest.Create, virtualDeploymentRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service", "virtual_service_1", acctest.Required, acctest.Create, virtualServiceRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "virtual_deployment_1", acctest.Required, acctest.Create, ServiceMeshVirtualDeploymentRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service", "virtual_service_1", acctest.Required, acctest.Create, ServiceMeshVirtualServiceRepresentation)
 )
 
 // issue-routing-tag: service_mesh/default
@@ -98,14 +98,14 @@ func TestServiceMeshVirtualServiceRouteTableResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+VirtualServiceRouteTableResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Optional, acctest.Create, virtualServiceRouteTableRepresentation), "servicemesh", "virtualServiceRouteTable", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ServiceMeshVirtualServiceRouteTableResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Optional, acctest.Create, ServiceMeshVirtualServiceRouteTableRepresentation), "servicemesh", "virtualServiceRouteTable", t)
 
 	acctest.ResourceTest(t, testAccCheckServiceMeshVirtualServiceRouteTableDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + VirtualServiceRouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Required, acctest.Create, virtualServiceRouteTableRepresentation),
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshVirtualServiceRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Required, acctest.Create, ServiceMeshVirtualServiceRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
@@ -126,12 +126,12 @@ func TestServiceMeshVirtualServiceRouteTableResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + VirtualServiceRouteTableResourceDependencies,
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshVirtualServiceRouteTableResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + VirtualServiceRouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(virtualServiceRouteTableRepresentation, map[string]interface{}{
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshVirtualServiceRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(ServiceMeshVirtualServiceRouteTableRepresentation, map[string]interface{}{
 					"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation}})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -160,9 +160,9 @@ func TestServiceMeshVirtualServiceRouteTableResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + VirtualServiceRouteTableResourceDependencies +
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceMeshVirtualServiceRouteTableResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(virtualServiceRouteTableRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ServiceMeshVirtualServiceRouteTableRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -195,8 +195,8 @@ func TestServiceMeshVirtualServiceRouteTableResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + VirtualServiceRouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Optional, acctest.Update, virtualServiceRouteTableRepresentation),
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshVirtualServiceRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Optional, acctest.Update, ServiceMeshVirtualServiceRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -230,9 +230,9 @@ func TestServiceMeshVirtualServiceRouteTableResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_virtual_service_route_tables", "test_virtual_service_route_tables", acctest.Optional, acctest.Update, virtualServiceRouteTableDataSourceRepresentation) +
-				certificateAuthorityIdVariableStr + compartmentIdVariableStr + VirtualServiceRouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Optional, acctest.Update, virtualServiceRouteTableRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_virtual_service_route_tables", "test_virtual_service_route_tables", acctest.Optional, acctest.Update, ServiceMeshServiceMeshVirtualServiceRouteTableDataSourceRepresentation) +
+				certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshVirtualServiceRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Optional, acctest.Update, ServiceMeshVirtualServiceRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -247,8 +247,8 @@ func TestServiceMeshVirtualServiceRouteTableResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Required, acctest.Create, virtualServiceRouteTableSingularDataSourceRepresentation) +
-				certificateAuthorityIdVariableStr + compartmentIdVariableStr + VirtualServiceRouteTableResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_virtual_service_route_table", "test_virtual_service_route_table", acctest.Required, acctest.Create, ServiceMeshServiceMeshVirtualServiceRouteTableSingularDataSourceRepresentation) +
+				certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshVirtualServiceRouteTableResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_service_route_table_id"),
 
@@ -274,7 +274,7 @@ func TestServiceMeshVirtualServiceRouteTableResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + VirtualServiceRouteTableRequiredOnlyResource,
+			Config:                  config + ServiceMeshVirtualServiceRouteTableRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -338,7 +338,7 @@ func init() {
 
 func sweepServiceMeshVirtualServiceRouteTableResource(compartment string) error {
 	serviceMeshClient := acctest.GetTestClients(&schema.ResourceData{}).ServiceMeshClient()
-	virtualServiceRouteTableIds, err := getVirtualServiceRouteTableIds(compartment)
+	virtualServiceRouteTableIds, err := getServiceMeshVirtualServiceRouteTableIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -354,14 +354,14 @@ func sweepServiceMeshVirtualServiceRouteTableResource(compartment string) error 
 				fmt.Printf("Error deleting VirtualServiceRouteTable %s %s, It is possible that the resource is already deleted. Please verify manually \n", virtualServiceRouteTableId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &virtualServiceRouteTableId, virtualServiceRouteTableSweepWaitCondition, time.Duration(3*time.Minute),
-				virtualServiceRouteTableSweepResponseFetchOperation, "service_mesh", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &virtualServiceRouteTableId, ServiceMeshVirtualServiceRouteTableSweepWaitCondition, time.Duration(3*time.Minute),
+				ServiceMeshVirtualServiceRouteTableSweepResponseFetchOperation, "service_mesh", true)
 		}
 	}
 	return nil
 }
 
-func getVirtualServiceRouteTableIds(compartment string) ([]string, error) {
+func getServiceMeshVirtualServiceRouteTableIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "VirtualServiceRouteTableId")
 	if ids != nil {
 		return ids, nil
@@ -387,7 +387,7 @@ func getVirtualServiceRouteTableIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func virtualServiceRouteTableSweepWaitCondition(response common.OCIOperationResponse) bool {
+func ServiceMeshVirtualServiceRouteTableSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if virtualServiceRouteTableResponse, ok := response.Response.(oci_service_mesh.GetVirtualServiceRouteTableResponse); ok {
 		return virtualServiceRouteTableResponse.LifecycleState != oci_service_mesh.VirtualServiceRouteTableLifecycleStateDeleted
@@ -395,7 +395,7 @@ func virtualServiceRouteTableSweepWaitCondition(response common.OCIOperationResp
 	return false
 }
 
-func virtualServiceRouteTableSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func ServiceMeshVirtualServiceRouteTableSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ServiceMeshClient().GetVirtualServiceRouteTable(context.Background(), oci_service_mesh.GetVirtualServiceRouteTableRequest{
 		VirtualServiceRouteTableId: resourceId,
 		RequestMetadata: common.RequestMetadata{

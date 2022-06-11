@@ -19,12 +19,12 @@ import (
 )
 
 var (
-	operationsInsightsWarehouseDownloadWarehouseWalletRepresentation = map[string]interface{}{
+	OpsiOperationsInsightsWarehouseDownloadWarehouseWalletRepresentation = map[string]interface{}{
 		"operations_insights_warehouse_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_operations_insights_warehouse.test_operations_insights_warehouse.id}`},
 		"operations_insights_warehouse_wallet_password": acctest.Representation{RepType: acctest.Required, Create: `password123`},
 	}
 
-	OperationsInsightsWarehouseDownloadWarehouseWalletResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, operationsInsightsWarehouseRepresentation)
+	OpsiOperationsInsightsWarehouseDownloadWarehouseWalletResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, OpsiOperationsInsightsWarehouseRepresentation)
 )
 
 // issue-routing-tag: opsi/controlPlane
@@ -41,14 +41,14 @@ func TestOpsiOperationsInsightsWarehouseDownloadWarehouseWalletResource_basic(t 
 
 	var resId string
 	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+OperationsInsightsWarehouseDownloadWarehouseWalletResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse_download_warehouse_wallet", "test_operations_insights_warehouse_download_warehouse_wallet", acctest.Required, acctest.Create, operationsInsightsWarehouseDownloadWarehouseWalletRepresentation), "operationsinsights", "operationsInsightsWarehouseDownloadWarehouseWallet", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OpsiOperationsInsightsWarehouseDownloadWarehouseWalletResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse_download_warehouse_wallet", "test_operations_insights_warehouse_download_warehouse_wallet", acctest.Required, acctest.Create, OpsiOperationsInsightsWarehouseDownloadWarehouseWalletRepresentation), "operationsinsights", "operationsInsightsWarehouseDownloadWarehouseWallet", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify create
 		{
-			Config: config + compartmentIdVariableStr + OperationsInsightsWarehouseDownloadWarehouseWalletResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse_download_warehouse_wallet", "test_operations_insights_warehouse_download_warehouse_wallet", acctest.Required, acctest.Create, operationsInsightsWarehouseDownloadWarehouseWalletRepresentation),
+			Config: config + compartmentIdVariableStr + OpsiOperationsInsightsWarehouseDownloadWarehouseWalletResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse_download_warehouse_wallet", "test_operations_insights_warehouse_download_warehouse_wallet", acctest.Required, acctest.Create, OpsiOperationsInsightsWarehouseDownloadWarehouseWalletRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "operations_insights_warehouse_id"),
 				//resource.TestCheckResourceAttr(resourceName, "operations_insights_warehouse_wallet_password", "operationsInsightsWarehouseWalletPassword"),

@@ -16,9 +16,9 @@ import (
 )
 
 var (
-	agentImageDataSourceRepresentation = map[string]interface{}{}
+	DatabaseMigrationAgentImageDataSourceRepresentation = map[string]interface{}{}
 
-	AgentImageResourceConfig = ""
+	DatabaseMigrationAgentImageResourceConfig = ""
 )
 
 // issue-routing-tag: database_migration/default
@@ -39,8 +39,8 @@ func TestDatabaseMigrationAgentImageResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_agent_images", "test_agent_images", acctest.Required, acctest.Create, agentImageDataSourceRepresentation) +
-				compartmentIdVariableStr + AgentImageResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_agent_images", "test_agent_images", acctest.Required, acctest.Create, DatabaseMigrationAgentImageDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseMigrationAgentImageResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttrSet(datasourceName, "agent_image_collection.#"),

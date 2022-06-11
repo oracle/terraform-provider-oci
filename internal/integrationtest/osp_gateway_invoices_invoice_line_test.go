@@ -16,13 +16,13 @@ import (
 )
 
 var (
-	invoicesInvoiceLineDataSourceRepresentation = map[string]interface{}{
+	OspGatewayOspGatewayInvoicesInvoiceLineDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"internal_invoice_id": acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_osp_gateway_invoices.test_invoices.invoice_collection.0.items[3], "internal_invoice_id")}`},
 		"osp_home_region":     acctest.Representation{RepType: acctest.Required, Create: `${var.home_region}`},
 	}
 
-	InvoicesInvoiceLineResourceConfig = ""
+	OspGatewayInvoicesInvoiceLineResourceConfig = ""
 )
 
 // issue-routing-tag: osp_gateway/default
@@ -48,9 +48,9 @@ func TestOspGatewayInvoicesInvoiceLineResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_invoices", "test_invoices", acctest.Required, acctest.Create, invoiceDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_invoices_invoice_lines", "test_invoices_invoice_lines", acctest.Required, acctest.Create, invoicesInvoiceLineDataSourceRepresentation) +
-				compartmentIdVariableStr + regionVariableStr + InvoicesInvoiceLineResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_invoices", "test_invoices", acctest.Required, acctest.Create, OspGatewayOspGatewayInvoiceDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_invoices_invoice_lines", "test_invoices_invoice_lines", acctest.Required, acctest.Create, OspGatewayOspGatewayInvoicesInvoiceLineDataSourceRepresentation) +
+				compartmentIdVariableStr + regionVariableStr + OspGatewayInvoicesInvoiceLineResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "internal_invoice_id"),

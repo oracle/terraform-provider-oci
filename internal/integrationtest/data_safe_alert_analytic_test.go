@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	alertAnalyticSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafealertAnalyticSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Required, Create: `ACCESSIBLE`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
@@ -25,7 +25,7 @@ var (
 		"time_ended":                acctest.Representation{RepType: acctest.Required, Create: `2022-01-30T16:02:08.000Z`},
 		"time_started":              acctest.Representation{RepType: acctest.Required, Create: `2022-01-28T16:02:08.000Z`},
 	}
-	AlertAnalyticResourceConfig = ""
+	DataSafeAlertAnalyticResourceConfig = ""
 )
 
 // issue-routing-tag: data_safe/default
@@ -45,8 +45,8 @@ func TestDataSafeAlertAnalyticResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alert_analytic", "test_alert_analytic", acctest.Required, acctest.Create, alertAnalyticSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AlertAnalyticResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alert_analytic", "test_alert_analytic", acctest.Required, acctest.Create, DataSafealertAnalyticSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeAlertAnalyticResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 			),

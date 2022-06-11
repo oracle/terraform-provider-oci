@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	autonomousPatchSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseAutonomousPatchSingularDataSourceRepresentation = map[string]interface{}{
 		"autonomous_patch_id": acctest.Representation{RepType: acctest.Required, Create: "LATEST"},
 	}
 
-	AutonomousPatchResourceConfig = ""
+	DatabaseAutonomousPatchResourceConfig = ""
 )
 
 // issue-routing-tag: database/dbaas-atp-d
@@ -42,7 +42,7 @@ func TestDatabaseAutonomousPatchResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_patch", "test_autonomous_patch", acctest.Required, acctest.Create, autonomousPatchSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_patch", "test_autonomous_patch", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousPatchSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_patch_id"),

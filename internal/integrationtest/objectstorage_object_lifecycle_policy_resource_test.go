@@ -54,8 +54,8 @@ func TestResourceObjectLifecyclePolicy_validations(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckObjectStorageObjectLifecyclePolicyDestroy, []resource.TestStep{
 		// verify baseline Create
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create, objectLifecyclePolicyRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create, ObjectStorageObjectLifecyclePolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
 				resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
@@ -69,74 +69,74 @@ func TestResourceObjectLifecyclePolicy_validations(t *testing.T) {
 		},
 		// change order of inclusion prefixes
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter.inclusion_prefixes", acctest.Representation{RepType: acctest.Optional, Create: []string{bucketName2, bucketName}}, objectLifecyclePolicyRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter.inclusion_prefixes", acctest.Representation{RepType: acctest.Optional, Create: []string{bucketName2, bucketName}}, ObjectStorageObjectLifecyclePolicyRepresentation)),
 			PlanOnly:           true,
 			ExpectNonEmptyPlan: false,
 		},
 		// Remove inclusion prefixes to see plan has changed
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter.inclusion_prefixes", acctest.Representation{RepType: acctest.Optional, Create: []string{}}, objectLifecyclePolicyRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter.inclusion_prefixes", acctest.Representation{RepType: acctest.Optional, Create: []string{}}, ObjectStorageObjectLifecyclePolicyRepresentation)),
 			PlanOnly:           true,
 			ExpectNonEmptyPlan: true,
 		},
 		// Change the value for the inclusion prefixes to see plan has changed
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter.inclusion_prefixes", acctest.Representation{RepType: acctest.Optional, Create: []string{bucketName, bucketName2 + "_test"}}, objectLifecyclePolicyRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter.inclusion_prefixes", acctest.Representation{RepType: acctest.Optional, Create: []string{bucketName, bucketName2 + "_test"}}, ObjectStorageObjectLifecyclePolicyRepresentation)),
 			PlanOnly:           true,
 			ExpectNonEmptyPlan: true,
 		},
 		// change order of inclusion patterns
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter.inclusion_patterns", acctest.Representation{RepType: acctest.Optional, Create: []string{`inclusionPattern2`, `inclusionPattern1`}}, objectLifecyclePolicyRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter.inclusion_patterns", acctest.Representation{RepType: acctest.Optional, Create: []string{`inclusionPattern2`, `inclusionPattern1`}}, ObjectStorageObjectLifecyclePolicyRepresentation)),
 			PlanOnly:           true,
 			ExpectNonEmptyPlan: false,
 		},
 		// Remove inclusion patterns to see plan has changed
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter.inclusion_patterns", acctest.Representation{RepType: acctest.Optional, Create: []string{}}, objectLifecyclePolicyRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter.inclusion_patterns", acctest.Representation{RepType: acctest.Optional, Create: []string{}}, ObjectStorageObjectLifecyclePolicyRepresentation)),
 			PlanOnly:           true,
 			ExpectNonEmptyPlan: true,
 		},
 		// change order of exclusion patterns
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter.exclusion_patterns", acctest.Representation{RepType: acctest.Optional, Create: []string{`exclusionPattern2`, `exclusionPattern1`}}, objectLifecyclePolicyRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter.exclusion_patterns", acctest.Representation{RepType: acctest.Optional, Create: []string{`exclusionPattern2`, `exclusionPattern1`}}, ObjectStorageObjectLifecyclePolicyRepresentation)),
 			PlanOnly:           true,
 			ExpectNonEmptyPlan: false,
 		},
 		// Remove exclusion patterns to see plan has changed
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter.exclusion_patterns", acctest.Representation{RepType: acctest.Optional, Create: []string{}}, objectLifecyclePolicyRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter.exclusion_patterns", acctest.Representation{RepType: acctest.Optional, Create: []string{}}, ObjectStorageObjectLifecyclePolicyRepresentation)),
 			PlanOnly:           true,
 			ExpectNonEmptyPlan: true,
 		},
 		// change order of object_name_filter
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter", acctest.RepresentationGroup{RepType: acctest.Optional, Group: objectLifecyclePolicyRulesObjectNameFilterDifferentOrderRepresentation}, objectLifecyclePolicyRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter", acctest.RepresentationGroup{RepType: acctest.Optional, Group: objectLifecyclePolicyRulesObjectNameFilterDifferentOrderRepresentation}, ObjectStorageObjectLifecyclePolicyRepresentation)),
 			PlanOnly:           true,
 			ExpectNonEmptyPlan: false,
 		},
 
 		// Update the object_name_filter properties with the only one inclusion_patterns value
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter", acctest.RepresentationGroup{RepType: acctest.Optional, Group: objectLifecyclePolicyRulesObjectNameFilterOneValueIncludeRepresentation}, objectLifecyclePolicyRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter", acctest.RepresentationGroup{RepType: acctest.Optional, Group: objectLifecyclePolicyRulesObjectNameFilterOneValueIncludeRepresentation}, ObjectStorageObjectLifecyclePolicyRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
 				resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
@@ -150,9 +150,9 @@ func TestResourceObjectLifecyclePolicy_validations(t *testing.T) {
 		},
 		// change to the same value for the exclusion_patterns
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter", acctest.RepresentationGroup{RepType: acctest.Optional, Group: objectLifecyclePolicyRulesObjectNameFilterOneValueExcludeRepresentation}, objectLifecyclePolicyRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("rules.object_name_filter", acctest.RepresentationGroup{RepType: acctest.Optional, Group: objectLifecyclePolicyRulesObjectNameFilterOneValueExcludeRepresentation}, ObjectStorageObjectLifecyclePolicyRepresentation)),
 			PlanOnly:           true,
 			ExpectNonEmptyPlan: true,
 		},
@@ -178,8 +178,8 @@ func TestResourceObjectLifecyclePolicy_MultiPartUploadsRule(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckObjectStorageObjectLifecyclePolicyDestroy, []resource.TestStep{
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create, objectLifecyclePolicyRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Create, ObjectStorageObjectLifecyclePolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -212,9 +212,9 @@ func TestResourceObjectLifecyclePolicy_MultiPartUploadsRule(t *testing.T) {
 
 		// verify updates the rule for multipart-uploads abort feature
 		{
-			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(objectLifecyclePolicyRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ObjectStorageObjectLifecyclePolicyRepresentation, map[string]interface{}{
 						"rules": acctest.RepresentationGroup{RepType: acctest.Optional, Group: objectLifecyclePolicyRulesRepresentation_ForMultiPartUploads},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -243,8 +243,8 @@ func TestResourceObjectLifecyclePolicy_MultiPartUploadsRule(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Required, acctest.Create, objectLifecyclePolicySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", acctest.Required, acctest.Create, ObjectStorageObjectStorageObjectLifecyclePolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ObjectStorageObjectLifecyclePolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "bucket", bucketName),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),

@@ -24,31 +24,31 @@ import (
 )
 
 var (
-	ConsoleHistoryRequiredOnlyResource = ConsoleHistoryResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", acctest.Required, acctest.Create, consoleHistoryRepresentation)
+	CoreConsoleHistoryRequiredOnlyResource = CoreConsoleHistoryResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", acctest.Required, acctest.Create, CoreConsoleHistoryRepresentation)
 
-	consoleHistoryDataSourceRepresentation = map[string]interface{}{
+	CoreCoreConsoleHistoryDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"instance_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_instance.test_instance.id}`},
 		"state":               acctest.Representation{RepType: acctest.Optional, Create: `SUCCEEDED`},
-		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: consoleHistoryDataSourceFilterRepresentation}}
-	consoleHistoryDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreConsoleHistoryDataSourceFilterRepresentation}}
+	CoreConsoleHistoryDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_console_history.test_console_history.id}`}},
 	}
 
-	consoleHistoryRepresentation = map[string]interface{}{
+	CoreConsoleHistoryRepresentation = map[string]interface{}{
 		"instance_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	ConsoleHistoryResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreConsoleHistoryResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -68,14 +68,14 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ConsoleHistoryResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", acctest.Optional, acctest.Create, consoleHistoryRepresentation), "core", "consoleHistory", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreConsoleHistoryResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", acctest.Optional, acctest.Create, CoreConsoleHistoryRepresentation), "core", "consoleHistory", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreConsoleHistoryDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", acctest.Required, acctest.Create, consoleHistoryRepresentation),
+			Config: config + compartmentIdVariableStr + CoreConsoleHistoryResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", acctest.Required, acctest.Create, CoreConsoleHistoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 
@@ -88,12 +88,12 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ConsoleHistoryResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreConsoleHistoryResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", acctest.Optional, acctest.Create, consoleHistoryRepresentation),
+			Config: config + compartmentIdVariableStr + CoreConsoleHistoryResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", acctest.Optional, acctest.Create, CoreConsoleHistoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -118,8 +118,8 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", acctest.Optional, acctest.Update, consoleHistoryRepresentation),
+			Config: config + compartmentIdVariableStr + CoreConsoleHistoryResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", acctest.Optional, acctest.Update, CoreConsoleHistoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -142,9 +142,9 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_console_histories", "test_console_histories", acctest.Optional, acctest.Update, consoleHistoryDataSourceRepresentation) +
-				compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", acctest.Optional, acctest.Update, consoleHistoryRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_console_histories", "test_console_histories", acctest.Optional, acctest.Update, CoreCoreConsoleHistoryDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreConsoleHistoryResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", acctest.Optional, acctest.Update, CoreConsoleHistoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -164,7 +164,7 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ConsoleHistoryRequiredOnlyResource,
+			Config:                  config + CoreConsoleHistoryRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -220,7 +220,7 @@ func init() {
 
 func sweepCoreConsoleHistoryResource(compartment string) error {
 	computeClient := acctest.GetTestClients(&schema.ResourceData{}).ComputeClient()
-	consoleHistoryIds, err := getConsoleHistoryIds(compartment)
+	consoleHistoryIds, err := getCoreConsoleHistoryIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -241,7 +241,7 @@ func sweepCoreConsoleHistoryResource(compartment string) error {
 	return nil
 }
 
-func getConsoleHistoryIds(compartment string) ([]string, error) {
+func getCoreConsoleHistoryIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ConsoleHistoryId")
 	if ids != nil {
 		return ids, nil

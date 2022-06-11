@@ -26,35 +26,35 @@ import (
 )
 
 var (
-	SenderRequiredOnlyResource = SenderResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Required, acctest.Create, senderRepresentation)
+	EmailSenderRequiredOnlyResource = EmailSenderResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Required, acctest.Create, EmailSenderRepresentation)
 
-	SenderResourceConfig = SenderResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Optional, acctest.Update, senderRepresentation)
+	EmailSenderResourceConfig = EmailSenderResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Optional, acctest.Update, EmailSenderRepresentation)
 
-	senderSingularDataSourceRepresentation = map[string]interface{}{
+	EmailEmailSenderSingularDataSourceRepresentation = map[string]interface{}{
 		"sender_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_email_sender.test_sender.id}`},
 	}
 
-	senderDataSourceRepresentation = map[string]interface{}{
+	EmailEmailSenderDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"domain":         acctest.Representation{RepType: acctest.Optional, Create: `example.com`},
 		"email_address":  acctest.Representation{RepType: acctest.Optional, Create: `johnsmithtester@example.com`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: senderDataSourceFilterRepresentation}}
-	senderDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: EmailSenderDataSourceFilterRepresentation}}
+	EmailSenderDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_email_sender.test_sender.id}`}},
 	}
 
-	senderRepresentation = map[string]interface{}{
+	EmailSenderRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"email_address":  acctest.Representation{RepType: acctest.Required, Create: `johnsmithtester@example.com`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	SenderResourceDependencies = DefinedTagsDependencies
+	EmailSenderResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: email/default
@@ -76,14 +76,14 @@ func TestEmailSenderResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SenderResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Optional, acctest.Create, senderRepresentation), "email", "sender", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+EmailSenderResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Optional, acctest.Create, EmailSenderRepresentation), "email", "sender", t)
 
 	acctest.ResourceTest(t, testAccCheckEmailSenderDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SenderResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Required, acctest.Create, senderRepresentation),
+			Config: config + compartmentIdVariableStr + EmailSenderResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Required, acctest.Create, EmailSenderRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
@@ -97,12 +97,12 @@ func TestEmailSenderResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SenderResourceDependencies,
+			Config: config + compartmentIdVariableStr + EmailSenderResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SenderResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Optional, acctest.Create, senderRepresentation),
+			Config: config + compartmentIdVariableStr + EmailSenderResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Optional, acctest.Create, EmailSenderRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
@@ -123,9 +123,9 @@ func TestEmailSenderResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SenderResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + EmailSenderResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(senderRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(EmailSenderRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -146,8 +146,8 @@ func TestEmailSenderResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SenderResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Optional, acctest.Update, senderRepresentation),
+			Config: config + compartmentIdVariableStr + EmailSenderResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Optional, acctest.Update, EmailSenderRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
@@ -166,9 +166,9 @@ func TestEmailSenderResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_email_senders", "test_senders", acctest.Optional, acctest.Update, senderDataSourceRepresentation) +
-				compartmentIdVariableStr + SenderResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Optional, acctest.Update, senderRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_email_senders", "test_senders", acctest.Optional, acctest.Update, EmailEmailSenderDataSourceRepresentation) +
+				compartmentIdVariableStr + EmailSenderResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Optional, acctest.Update, EmailSenderRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "email_address", "johnsmithtester@example.com"),
@@ -186,8 +186,8 @@ func TestEmailSenderResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Required, acctest.Create, senderSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SenderResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Required, acctest.Create, EmailEmailSenderSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + EmailSenderResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sender_id"),
 
@@ -202,7 +202,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + SenderRequiredOnlyResource,
+			Config:                  config + EmailSenderRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -266,7 +266,7 @@ func init() {
 
 func sweepEmailSenderResource(compartment string) error {
 	emailClient := acctest.GetTestClients(&schema.ResourceData{}).EmailClient()
-	senderIds, err := getSenderIds(compartment)
+	senderIds, err := getEmailSenderIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -282,14 +282,14 @@ func sweepEmailSenderResource(compartment string) error {
 				fmt.Printf("Error deleting Sender %s %s, It is possible that the resource is already deleted. Please verify manually \n", senderId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &senderId, senderSweepWaitCondition, time.Duration(3*time.Minute),
-				senderSweepResponseFetchOperation, "email", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &senderId, EmailSenderSweepWaitCondition, time.Duration(3*time.Minute),
+				EmailSenderSweepResponseFetchOperation, "email", true)
 		}
 	}
 	return nil
 }
 
-func getSenderIds(compartment string) ([]string, error) {
+func getEmailSenderIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "SenderId")
 	if ids != nil {
 		return ids, nil
@@ -314,7 +314,7 @@ func getSenderIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func senderSweepWaitCondition(response common.OCIOperationResponse) bool {
+func EmailSenderSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if senderResponse, ok := response.Response.(oci_email.GetSenderResponse); ok {
 		return senderResponse.LifecycleState != oci_email.SenderLifecycleStateDeleted
@@ -322,7 +322,7 @@ func senderSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func senderSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func EmailSenderSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.EmailClient().GetSender(context.Background(), oci_email.GetSenderRequest{
 		SenderId: resourceId,
 		RequestMetadata: common.RequestMetadata{

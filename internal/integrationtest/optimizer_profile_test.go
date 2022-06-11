@@ -26,55 +26,55 @@ import (
 )
 
 var (
-	ProfileRequiredOnlyResource = ProfileResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Required, acctest.Create, profileRepresentation)
+	OptimizerProfileRequiredOnlyResource = OptimizerProfileResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Required, acctest.Create, OptimizerProfileRepresentation)
 
-	ProfileResourceConfig = ProfileResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Optional, acctest.Update, profileRepresentation)
+	OptimizerProfileResourceConfig = OptimizerProfileResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Optional, acctest.Update, OptimizerProfileRepresentation)
 
-	profileSingularDataSourceRepresentation = map[string]interface{}{
+	OptimizerOptimizerProfileSingularDataSourceRepresentation = map[string]interface{}{
 		"profile_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_optimizer_profile.test_profile.id}`},
 	}
 
-	profileDataSourceRepresentation = map[string]interface{}{
+	OptimizerOptimizerProfileDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 	}
 
-	profileRepresentation = map[string]interface{}{
+	OptimizerProfileRepresentation = map[string]interface{}{
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"description":                  acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
-		"levels_configuration":         acctest.RepresentationGroup{RepType: acctest.Required, Group: profileLevelsConfigurationRepresentation},
+		"levels_configuration":         acctest.RepresentationGroup{RepType: acctest.Required, Group: OptimizerProfileLevelsConfigurationRepresentation},
 		"name":                         acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"aggregation_interval_in_days": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `7`},
 		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"target_compartments":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: profileTargetCompartmentsRepresentation},
-		"target_tags":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: profileTargetTagsRepresentation},
+		"target_compartments":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: OptimizerProfileTargetCompartmentsRepresentation},
+		"target_tags":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: OptimizerProfileTargetTagsRepresentation},
 	}
-	profileLevelsConfigurationRepresentation = map[string]interface{}{
-		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: profileLevelsConfigurationItemsRepresentation},
+	OptimizerProfileLevelsConfigurationRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: OptimizerProfileLevelsConfigurationItemsRepresentation},
 	}
-	profileTargetCompartmentsRepresentation = map[string]interface{}{
+	OptimizerProfileTargetCompartmentsRepresentation = map[string]interface{}{
 		"items": acctest.Representation{RepType: acctest.Required, Create: []string{`${var.compartment_id}`}, Update: []string{`${var.compartment_id_for_update}`}},
 	}
-	profileTargetTagsRepresentation = map[string]interface{}{
-		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: profileTargetTagsItemsRepresentation},
+	OptimizerProfileTargetTagsRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: OptimizerProfileTargetTagsItemsRepresentation},
 	}
-	profileLevelsConfigurationItemsRepresentation = map[string]interface{}{
+	OptimizerProfileLevelsConfigurationItemsRepresentation = map[string]interface{}{
 		"level":             acctest.Representation{RepType: acctest.Required, Create: `cost-compute_aggressive_average`, Update: `cost-compute_conservative_average`},
 		"recommendation_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_optimizer_recommendation.test_recommendation.recommendation_id}`},
 	}
-	profileTargetTagsItemsRepresentation = map[string]interface{}{
+	OptimizerProfileTargetTagsItemsRepresentation = map[string]interface{}{
 		"tag_definition_name": acctest.Representation{RepType: acctest.Required, Create: `tagDefinitionName`, Update: `tagDefinitionName2`},
 		"tag_namespace_name":  acctest.Representation{RepType: acctest.Required, Create: `tagNamespaceName`, Update: `tagNamespaceName2`},
 		"tag_value_type":      acctest.Representation{RepType: acctest.Required, Create: `VALUE`, Update: `ANY`},
 		"tag_values":          acctest.Representation{RepType: acctest.Optional, Create: []string{`tagValue1`}, Update: []string{}},
 	}
 
-	ProfileResourceDependencies = DefinedTagsDependencies + RecommendationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, recommendationRepresentation)
+	OptimizerProfileResourceDependencies = DefinedTagsDependencies + OptimizerRecommendationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, OptimizerRecommendationRepresentation)
 )
 
 // issue-routing-tag: optimizer/default
@@ -96,15 +96,15 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ProfileResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Optional, acctest.Create, profileRepresentation), "optimizer", "profile", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OptimizerProfileResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Optional, acctest.Create, OptimizerProfileRepresentation), "optimizer", "profile", t)
 
 	acctest.ResourceTest(t, testAccCheckOptimizerProfileDestroy, []resource.TestStep{
 		// Pre-requisite: There shouldn't be a profile with the same <recommendationId, targetCompartment, targetTags> combination or with same name existing for the compartmentId
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ProfileResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Required, acctest.Create, profileRepresentation),
+			Config: config + compartmentIdVariableStr + OptimizerProfileResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Required, acctest.Create, OptimizerProfileRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -120,7 +120,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ProfileResourceDependencies,
+			Config: config + compartmentIdVariableStr + OptimizerProfileResourceDependencies,
 			Check: func(s *terraform.State) (err error) {
 				log.Printf("[DEBUG] Service limits may take 2 minutes to be available post deletion")
 				time.Sleep(2 * time.Minute)
@@ -129,8 +129,8 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ProfileResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Optional, acctest.Create, profileRepresentation),
+			Config: config + compartmentIdVariableStr + OptimizerProfileResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Optional, acctest.Create, OptimizerProfileRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "aggregation_interval_in_days", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -166,8 +166,8 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Optional, acctest.Update, profileRepresentation),
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OptimizerProfileResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Optional, acctest.Update, OptimizerProfileRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "aggregation_interval_in_days", "7"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -200,9 +200,9 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_profiles", "test_profiles", acctest.Optional, acctest.Update, profileDataSourceRepresentation) +
-				compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Optional, acctest.Update, profileRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_profiles", "test_profiles", acctest.Optional, acctest.Update, OptimizerOptimizerProfileDataSourceRepresentation) +
+				compartmentIdVariableStr + compartmentIdUVariableStr + OptimizerProfileResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Optional, acctest.Update, OptimizerProfileRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
@@ -214,8 +214,8 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Required, acctest.Create, profileSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_profile", "test_profile", acctest.Required, acctest.Create, OptimizerOptimizerProfileSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + compartmentIdUVariableStr + OptimizerProfileResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "profile_id"),
 
@@ -241,7 +241,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ProfileRequiredOnlyResource,
+			Config:                  config + OptimizerProfileRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -305,7 +305,7 @@ func init() {
 
 func sweepOptimizerProfileResource(compartment string) error {
 	optimizerClient := acctest.GetTestClients(&schema.ResourceData{}).OptimizerClient()
-	profileIds, err := getProfileIds(compartment)
+	profileIds, err := getOptimizerProfileIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -321,14 +321,14 @@ func sweepOptimizerProfileResource(compartment string) error {
 				fmt.Printf("Error deleting Profile %s %s, It is possible that the resource is already deleted. Please verify manually \n", profileId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &profileId, profileSweepWaitCondition, time.Duration(3*time.Minute),
-				profileSweepResponseFetchOperation, "optimizer", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &profileId, OptimizerProfileSweepWaitCondition, time.Duration(3*time.Minute),
+				OptimizerProfileSweepResponseFetchOperation, "optimizer", true)
 		}
 	}
 	return nil
 }
 
-func getProfileIds(compartment string) ([]string, error) {
+func getOptimizerProfileIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ProfileId")
 	if ids != nil {
 		return ids, nil
@@ -353,7 +353,7 @@ func getProfileIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func profileSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OptimizerProfileSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if profileResponse, ok := response.Response.(oci_optimizer.GetProfileResponse); ok {
 		return profileResponse.LifecycleState != oci_optimizer.LifecycleStateDeleted
@@ -361,7 +361,7 @@ func profileSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func profileSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OptimizerProfileSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.OptimizerClient().GetProfile(context.Background(), oci_optimizer.GetProfileRequest{
 		ProfileId: resourceId,
 		RequestMetadata: common.RequestMetadata{
