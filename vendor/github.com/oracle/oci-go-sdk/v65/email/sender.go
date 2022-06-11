@@ -39,7 +39,7 @@ type Sender struct {
 	LifecycleState SenderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The date and time the approved sender was added in "YYYY-MM-ddThh:mmZ"
-	// format with a Z offset, as defined by RFC 3339.
+	// format with a Z offset, as defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	// The email domain used to assert responsibility for emails sent from this sender.

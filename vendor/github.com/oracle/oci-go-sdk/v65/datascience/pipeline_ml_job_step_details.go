@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// MlJobStepDetails The type of step where the job is pre-created by the user.
-type MlJobStepDetails struct {
+// PipelineMlJobStepDetails The type of step where the job is pre-created by the user.
+type PipelineMlJobStepDetails struct {
 
 	// The name of the step. It must be unique within the pipeline. This is used to create the pipeline DAG.
 	StepName *string `mandatory:"true" json:"stepName"`
@@ -28,40 +28,40 @@ type MlJobStepDetails struct {
 	// The list of step names this current step depends on for execution.
 	DependsOn []string `mandatory:"false" json:"dependsOn"`
 
-	StepConfigurationDetails PipelineConfigurationDetails `mandatory:"false" json:"stepConfigurationDetails"`
+	StepConfigurationDetails *PipelineStepConfigurationDetails `mandatory:"false" json:"stepConfigurationDetails"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job to be used as a step.
 	JobId *string `mandatory:"false" json:"jobId"`
 }
 
 //GetStepName returns StepName
-func (m MlJobStepDetails) GetStepName() *string {
+func (m PipelineMlJobStepDetails) GetStepName() *string {
 	return m.StepName
 }
 
 //GetDescription returns Description
-func (m MlJobStepDetails) GetDescription() *string {
+func (m PipelineMlJobStepDetails) GetDescription() *string {
 	return m.Description
 }
 
 //GetDependsOn returns DependsOn
-func (m MlJobStepDetails) GetDependsOn() []string {
+func (m PipelineMlJobStepDetails) GetDependsOn() []string {
 	return m.DependsOn
 }
 
 //GetStepConfigurationDetails returns StepConfigurationDetails
-func (m MlJobStepDetails) GetStepConfigurationDetails() PipelineConfigurationDetails {
+func (m PipelineMlJobStepDetails) GetStepConfigurationDetails() *PipelineStepConfigurationDetails {
 	return m.StepConfigurationDetails
 }
 
-func (m MlJobStepDetails) String() string {
+func (m PipelineMlJobStepDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m MlJobStepDetails) ValidateEnumValue() (bool, error) {
+func (m PipelineMlJobStepDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -71,54 +71,15 @@ func (m MlJobStepDetails) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m MlJobStepDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeMlJobStepDetails MlJobStepDetails
+func (m PipelineMlJobStepDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypePipelineMlJobStepDetails PipelineMlJobStepDetails
 	s := struct {
 		DiscriminatorParam string `json:"stepType"`
-		MarshalTypeMlJobStepDetails
+		MarshalTypePipelineMlJobStepDetails
 	}{
 		"ML_JOB",
-		(MarshalTypeMlJobStepDetails)(m),
+		(MarshalTypePipelineMlJobStepDetails)(m),
 	}
 
 	return json.Marshal(&s)
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *MlJobStepDetails) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Description              *string                      `json:"description"`
-		DependsOn                []string                     `json:"dependsOn"`
-		StepConfigurationDetails pipelineconfigurationdetails `json:"stepConfigurationDetails"`
-		JobId                    *string                      `json:"jobId"`
-		StepName                 *string                      `json:"stepName"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Description = model.Description
-
-	m.DependsOn = make([]string, len(model.DependsOn))
-	for i, n := range model.DependsOn {
-		m.DependsOn[i] = n
-	}
-
-	nn, e = model.StepConfigurationDetails.UnmarshalPolymorphicJSON(model.StepConfigurationDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.StepConfigurationDetails = nn.(PipelineConfigurationDetails)
-	} else {
-		m.StepConfigurationDetails = nil
-	}
-
-	m.JobId = model.JobId
-
-	m.StepName = model.StepName
-
-	return
 }

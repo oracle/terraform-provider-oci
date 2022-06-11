@@ -301,10 +301,11 @@ func (client DataScienceClient) cancelJobRun(ctx context.Context, request common
 	return response, err
 }
 
-// CancelPipelineRun Cancel a PipelineRun
+// CancelPipelineRun Cancel a PipelineRun.
+// A default retry strategy applies to this operation CancelPipelineRun()
 func (client DataScienceClient) CancelPipelineRun(ctx context.Context, request CancelPipelineRunRequest) (response CancelPipelineRunResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -934,11 +935,6 @@ func (client DataScienceClient) ChangePipelineCompartment(ctx context.Context, r
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.changePipelineCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -992,11 +988,6 @@ func (client DataScienceClient) ChangePipelineRunCompartment(ctx context.Context
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.changePipelineRunCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -1765,9 +1756,10 @@ func (client DataScienceClient) createNotebookSession(ctx context.Context, reque
 }
 
 // CreatePipeline Creates a new Pipeline.
+// A default retry strategy applies to this operation CreatePipeline()
 func (client DataScienceClient) CreatePipeline(ctx context.Context, request CreatePipelineRequest) (response CreatePipelineResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1823,9 +1815,10 @@ func (client DataScienceClient) createPipeline(ctx context.Context, request comm
 }
 
 // CreatePipelineRun Creates a new PipelineRun.
+// A default retry strategy applies to this operation CreatePipelineRun()
 func (client DataScienceClient) CreatePipelineRun(ctx context.Context, request CreatePipelineRunRequest) (response CreatePipelineRunResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1939,7 +1932,7 @@ func (client DataScienceClient) createProject(ctx context.Context, request commo
 	return response, err
 }
 
-// CreateStepArtifact Upload the artifact for a step in the pipeline
+// CreateStepArtifact Upload the artifact for a step in the pipeline.
 func (client DataScienceClient) CreateStepArtifact(ctx context.Context, request CreateStepArtifactRequest) (response CreateStepArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2597,7 +2590,7 @@ func (client DataScienceClient) deleteNotebookSession(ctx context.Context, reque
 	return response, err
 }
 
-// DeletePipeline Deletes a Pipeline resource by identifier
+// DeletePipeline Deletes a Pipeline resource by identifier.
 func (client DataScienceClient) DeletePipeline(ctx context.Context, request DeletePipelineRequest) (response DeletePipelineResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2650,7 +2643,7 @@ func (client DataScienceClient) deletePipeline(ctx context.Context, request comm
 	return response, err
 }
 
-// DeletePipelineRun Deletes a PipelineRun resource by identifier
+// DeletePipelineRun Deletes a PipelineRun resource by identifier.
 func (client DataScienceClient) DeletePipelineRun(ctx context.Context, request DeletePipelineRunRequest) (response DeletePipelineRunResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3511,10 +3504,11 @@ func (client DataScienceClient) getNotebookSession(ctx context.Context, request 
 	return response, err
 }
 
-// GetPipeline Gets a Pipeline by identifier
+// GetPipeline Gets a Pipeline by identifier.
+// A default retry strategy applies to this operation GetPipeline()
 func (client DataScienceClient) GetPipeline(ctx context.Context, request GetPipelineRequest) (response GetPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3564,10 +3558,11 @@ func (client DataScienceClient) getPipeline(ctx context.Context, request common.
 	return response, err
 }
 
-// GetPipelineRun Gets a PipelineRun by identifier
+// GetPipelineRun Gets a PipelineRun by identifier.
+// A default retry strategy applies to this operation GetPipelineRun()
 func (client DataScienceClient) GetPipelineRun(ctx context.Context, request GetPipelineRunRequest) (response GetPipelineRunResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3671,10 +3666,11 @@ func (client DataScienceClient) getProject(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetStepArtifactContent Download the artifact for a step in the pipeline
+// GetStepArtifactContent Download the artifact for a step in the pipeline.
+// A default retry strategy applies to this operation GetStepArtifactContent()
 func (client DataScienceClient) GetStepArtifactContent(ctx context.Context, request GetStepArtifactContentRequest) (response GetStepArtifactContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3734,9 +3730,10 @@ func (client DataScienceClient) getStepArtifactContent(ctx context.Context, requ
 }
 
 // GetWorkRequest Gets the specified work request's information.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client DataScienceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4647,9 +4644,10 @@ func (client DataScienceClient) listNotebookSessions(ctx context.Context, reques
 }
 
 // ListPipelineRuns Returns a list of PipelineRuns.
+// A default retry strategy applies to this operation ListPipelineRuns()
 func (client DataScienceClient) ListPipelineRuns(ctx context.Context, request ListPipelineRunsRequest) (response ListPipelineRunsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4700,9 +4698,10 @@ func (client DataScienceClient) listPipelineRuns(ctx context.Context, request co
 }
 
 // ListPipelines Returns a list of Pipelines.
+// A default retry strategy applies to this operation ListPipelines()
 func (client DataScienceClient) ListPipelines(ctx context.Context, request ListPipelinesRequest) (response ListPipelinesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4807,9 +4806,10 @@ func (client DataScienceClient) listProjects(ctx context.Context, request common
 }
 
 // ListWorkRequestErrors Lists work request errors for the specified work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DataScienceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4860,9 +4860,10 @@ func (client DataScienceClient) listWorkRequestErrors(ctx context.Context, reque
 }
 
 // ListWorkRequestLogs Lists work request logs for the specified work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DataScienceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4913,9 +4914,10 @@ func (client DataScienceClient) listWorkRequestLogs(ctx context.Context, request
 }
 
 // ListWorkRequests Lists work requests in the specified compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client DataScienceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5565,7 +5567,7 @@ func (client DataScienceClient) updateNotebookSession(ctx context.Context, reque
 	return response, err
 }
 
-// UpdatePipeline Updates the Pipeline
+// UpdatePipeline Updates the Pipeline.
 func (client DataScienceClient) UpdatePipeline(ctx context.Context, request UpdatePipelineRequest) (response UpdatePipelineResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5618,7 +5620,7 @@ func (client DataScienceClient) updatePipeline(ctx context.Context, request comm
 	return response, err
 }
 
-// UpdatePipelineRun Updates the PipelineRun
+// UpdatePipelineRun Updates the PipelineRun.
 func (client DataScienceClient) UpdatePipelineRun(ctx context.Context, request UpdatePipelineRunRequest) (response UpdatePipelineRunResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -42,6 +42,9 @@ type CreateBastionDetails struct {
 	// The maximum amount of time that any session on the bastion can remain active.
 	MaxSessionTtlInSeconds *int `mandatory:"false" json:"maxSessionTtlInSeconds"`
 
+	// Flag to allow DNS Proxy for Reverse Connection on Private Endpoint
+	IsDnsSupported *bool `mandatory:"false" json:"isDnsSupported"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

@@ -34,6 +34,9 @@ type MlApplicationInstance struct {
 	// The OCID of the compartment where the MlApplicationInstance is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// States whether the MlApplicationInstance is supposed to be in ACTIVE lifecycle state.
+	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
+
 	// The time the the MlApplication was created. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
@@ -91,6 +94,7 @@ func (m *MlApplicationInstance) UnmarshalJSON(data []byte) (e error) {
 		MlApplicationId   *string                                 `json:"mlApplicationId"`
 		MlApplicationName *string                                 `json:"mlApplicationName"`
 		CompartmentId     *string                                 `json:"compartmentId"`
+		IsEnabled         *bool                                   `json:"isEnabled"`
 		TimeCreated       *common.SDKTime                         `json:"timeCreated"`
 		LifecycleState    MlApplicationInstanceLifecycleStateEnum `json:"lifecycleState"`
 		LifecycleDetails  *string                                 `json:"lifecycleDetails"`
@@ -130,6 +134,8 @@ func (m *MlApplicationInstance) UnmarshalJSON(data []byte) (e error) {
 
 	m.CompartmentId = model.CompartmentId
 
+	m.IsEnabled = model.IsEnabled
+
 	m.TimeCreated = model.TimeCreated
 
 	m.LifecycleState = model.LifecycleState
@@ -151,6 +157,7 @@ const (
 	MlApplicationInstanceLifecycleStateCreating MlApplicationInstanceLifecycleStateEnum = "CREATING"
 	MlApplicationInstanceLifecycleStateUpdating MlApplicationInstanceLifecycleStateEnum = "UPDATING"
 	MlApplicationInstanceLifecycleStateActive   MlApplicationInstanceLifecycleStateEnum = "ACTIVE"
+	MlApplicationInstanceLifecycleStateInactive MlApplicationInstanceLifecycleStateEnum = "INACTIVE"
 	MlApplicationInstanceLifecycleStateDeleting MlApplicationInstanceLifecycleStateEnum = "DELETING"
 	MlApplicationInstanceLifecycleStateDeleted  MlApplicationInstanceLifecycleStateEnum = "DELETED"
 	MlApplicationInstanceLifecycleStateFailed   MlApplicationInstanceLifecycleStateEnum = "FAILED"
@@ -160,6 +167,7 @@ var mappingMlApplicationInstanceLifecycleStateEnum = map[string]MlApplicationIns
 	"CREATING": MlApplicationInstanceLifecycleStateCreating,
 	"UPDATING": MlApplicationInstanceLifecycleStateUpdating,
 	"ACTIVE":   MlApplicationInstanceLifecycleStateActive,
+	"INACTIVE": MlApplicationInstanceLifecycleStateInactive,
 	"DELETING": MlApplicationInstanceLifecycleStateDeleting,
 	"DELETED":  MlApplicationInstanceLifecycleStateDeleted,
 	"FAILED":   MlApplicationInstanceLifecycleStateFailed,
@@ -169,6 +177,7 @@ var mappingMlApplicationInstanceLifecycleStateEnumLowerCase = map[string]MlAppli
 	"creating": MlApplicationInstanceLifecycleStateCreating,
 	"updating": MlApplicationInstanceLifecycleStateUpdating,
 	"active":   MlApplicationInstanceLifecycleStateActive,
+	"inactive": MlApplicationInstanceLifecycleStateInactive,
 	"deleting": MlApplicationInstanceLifecycleStateDeleting,
 	"deleted":  MlApplicationInstanceLifecycleStateDeleted,
 	"failed":   MlApplicationInstanceLifecycleStateFailed,
@@ -189,6 +198,7 @@ func GetMlApplicationInstanceLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"UPDATING",
 		"ACTIVE",
+		"INACTIVE",
 		"DELETING",
 		"DELETED",
 		"FAILED",

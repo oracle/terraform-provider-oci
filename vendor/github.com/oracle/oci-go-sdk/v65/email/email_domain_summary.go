@@ -19,12 +19,12 @@ import (
 	"strings"
 )
 
-// EmailDomainSummary The properties that define a email domain.
-// A Email Domain contains configuration used to assert responsibility for emails sent from that domain.
+// EmailDomainSummary The properties that define an email domain.
+// An email domain contains configuration used to assert responsibility for emails sent from that domain.
 type EmailDomainSummary struct {
 
 	// The name of the email domain in the Internet Domain Name System (DNS).
-	// Example: `example.net`
+	// Example: `mydomain.example.com`
 	Name *string `mandatory:"true" json:"name"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the email domain.
@@ -40,7 +40,15 @@ type EmailDomainSummary struct {
 	// that is adding the DKIM signature for this email domain.
 	ActiveDkimId *string `mandatory:"false" json:"activeDkimId"`
 
-	// The description of a email domain.
+	// Controls when use of a private endpoint for email routing is required.
+	// SEND means all mail from senders in this email domain will be privately routed.
+	// RECEIVE means all mail sent to this recipient domain will be privately routed.
+	// BOTH means both rules apply.
+	// This can not be set to RECEIVE or BOTH without valid domain verification.
+	// This can not be set to a value other than NONE unless emailPrivateEndpointId references an ACTIVE bi-directional submission email private endpoint.
+	RequirePrivatePath RequirePrivatePathTypeEnum `mandatory:"false" json:"requirePrivatePath,omitempty"`
+
+	// The description of an email domain.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The time the email domain was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
@@ -75,6 +83,9 @@ func (m EmailDomainSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingEmailDomainLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetEmailDomainLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRequirePrivatePathTypeEnum(string(m.RequirePrivatePath)); !ok && m.RequirePrivatePath != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RequirePrivatePath: %s. Supported values are: %s.", m.RequirePrivatePath, strings.Join(GetRequirePrivatePathTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

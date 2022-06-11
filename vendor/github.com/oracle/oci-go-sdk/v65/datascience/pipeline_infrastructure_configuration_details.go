@@ -23,6 +23,8 @@ type PipelineInfrastructureConfigurationDetails struct {
 
 	// The size of the block storage volume to attach to the instance.
 	BlockStorageSizeInGBs *int `mandatory:"true" json:"blockStorageSizeInGBs"`
+
+	ShapeConfigDetails *PipelineShapeConfigDetails `mandatory:"false" json:"shapeConfigDetails"`
 }
 
 func (m PipelineInfrastructureConfigurationDetails) String() string {

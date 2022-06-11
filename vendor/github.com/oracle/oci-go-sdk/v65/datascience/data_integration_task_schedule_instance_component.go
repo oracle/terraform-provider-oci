@@ -19,6 +19,9 @@ import (
 // DataIntegrationTaskScheduleInstanceComponent Reference to Data Integration Task Schedule
 type DataIntegrationTaskScheduleInstanceComponent struct {
 
+	// Identifier of Task Schedule.
+	Identifier *string `mandatory:"true" json:"identifier"`
+
 	// OCID of Data Integration Workspace in which Task Schedule is located.
 	WorkspaceId *string `mandatory:"true" json:"workspaceId"`
 
@@ -27,6 +30,9 @@ type DataIntegrationTaskScheduleInstanceComponent struct {
 
 	// Key of Data Integration Task Schedule
 	TaskScheduleKey *string `mandatory:"true" json:"taskScheduleKey"`
+
+	// Key of Data Integration Task.
+	TaskKey *string `mandatory:"true" json:"taskKey"`
 }
 
 func (m DataIntegrationTaskScheduleInstanceComponent) String() string {

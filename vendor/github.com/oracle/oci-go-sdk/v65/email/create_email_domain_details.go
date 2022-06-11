@@ -26,12 +26,26 @@ type CreateEmailDomainDetails struct {
 	// The email domain name must be unique in the region for this tenancy.
 	// Domain names limited to ASCII characters use alphanumeric, dash ("-"), and dot (".") characters.
 	// The dash and dot are only allowed between alphanumeric characters.
-	// For details, please see: https://tools.ietf.org/html/rfc5321#section-4.1.2
+	// For details, see RFC 5321, section 4.1.2 (https://tools.ietf.org/html/rfc5321#section-4.1.2)
 	// Non-ASCII domain names should adopt IDNA2008 normalization (RFC 5891-5892).
 	Name *string `mandatory:"true" json:"name"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for this email domain.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// Id for Domain in Domain Management (under governance) if DOMAINID verification method used.
+	DomainVerificationId *string `mandatory:"false" json:"domainVerificationId"`
+
+	// Controls when use of a private endpoint for email routing is required.
+	// SEND means all mail from senders in this email domain will be privately routed.
+	// RECEIVE means all mail sent to this recipient domain will be privately routed.
+	// BOTH means both rules apply.
+	// This can not be set to RECEIVE or BOTH without valid domain verification.
+	// This can not be set to a value other than NONE unless emailPrivateEndpointId references an ACTIVE bi-directional submission email private endpoint.
+	RequirePrivatePath RequirePrivatePathTypeEnum `mandatory:"false" json:"requirePrivatePath,omitempty"`
+
+	// Id for the bi-directional submission Email Private Endpoint to use if requiring any private path.
+	EmailPrivateEndpointId *string `mandatory:"false" json:"emailPrivateEndpointId"`
 
 	// A string that describes the details about the domain. It does not have to be unique,
 	// and you can change it. Avoid entering confidential information.
@@ -58,6 +72,9 @@ func (m CreateEmailDomainDetails) String() string {
 func (m CreateEmailDomainDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRequirePrivatePathTypeEnum(string(m.RequirePrivatePath)); !ok && m.RequirePrivatePath != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RequirePrivatePath: %s. Supported values are: %s.", m.RequirePrivatePath, strings.Join(GetRequirePrivatePathTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

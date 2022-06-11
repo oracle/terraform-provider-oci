@@ -25,8 +25,8 @@ type CreatePipelineDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the pipeline.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Array of StepDetail object for each step.
-	StepDetails []StepDetails `mandatory:"true" json:"stepDetails"`
+	// Array of step details for each step.
+	StepDetails []PipelineStepDetails `mandatory:"true" json:"stepDetails"`
 
 	// A user-friendly display name for the resource.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -34,11 +34,11 @@ type CreatePipelineDetails struct {
 	// A short description of the pipeline.
 	Description *string `mandatory:"false" json:"description"`
 
-	PipelineConfigurationDetails PipelineConfigurationDetails `mandatory:"false" json:"pipelineConfigurationDetails"`
+	ConfigurationDetails PipelineConfigurationDetails `mandatory:"false" json:"configurationDetails"`
 
-	PipelineLogConfigurationDetails *PipelineLogConfigurationDetails `mandatory:"false" json:"pipelineLogConfigurationDetails"`
+	LogConfigurationDetails *PipelineLogConfigurationDetails `mandatory:"false" json:"logConfigurationDetails"`
 
-	PipelineInfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `mandatory:"false" json:"pipelineInfrastructureConfigurationDetails"`
+	InfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `mandatory:"false" json:"infrastructureConfigurationDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -68,16 +68,16 @@ func (m CreatePipelineDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreatePipelineDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName                                *string                                     `json:"displayName"`
-		Description                                *string                                     `json:"description"`
-		PipelineConfigurationDetails               pipelineconfigurationdetails                `json:"pipelineConfigurationDetails"`
-		PipelineLogConfigurationDetails            *PipelineLogConfigurationDetails            `json:"pipelineLogConfigurationDetails"`
-		PipelineInfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `json:"pipelineInfrastructureConfigurationDetails"`
-		FreeformTags                               map[string]string                           `json:"freeformTags"`
-		DefinedTags                                map[string]map[string]interface{}           `json:"definedTags"`
-		ProjectId                                  *string                                     `json:"projectId"`
-		CompartmentId                              *string                                     `json:"compartmentId"`
-		StepDetails                                []stepdetails                               `json:"stepDetails"`
+		DisplayName                        *string                                     `json:"displayName"`
+		Description                        *string                                     `json:"description"`
+		ConfigurationDetails               pipelineconfigurationdetails                `json:"configurationDetails"`
+		LogConfigurationDetails            *PipelineLogConfigurationDetails            `json:"logConfigurationDetails"`
+		InfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationDetails"`
+		FreeformTags                       map[string]string                           `json:"freeformTags"`
+		DefinedTags                        map[string]map[string]interface{}           `json:"definedTags"`
+		ProjectId                          *string                                     `json:"projectId"`
+		CompartmentId                      *string                                     `json:"compartmentId"`
+		StepDetails                        []pipelinestepdetails                       `json:"stepDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -89,19 +89,19 @@ func (m *CreatePipelineDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.Description = model.Description
 
-	nn, e = model.PipelineConfigurationDetails.UnmarshalPolymorphicJSON(model.PipelineConfigurationDetails.JsonData)
+	nn, e = model.ConfigurationDetails.UnmarshalPolymorphicJSON(model.ConfigurationDetails.JsonData)
 	if e != nil {
 		return
 	}
 	if nn != nil {
-		m.PipelineConfigurationDetails = nn.(PipelineConfigurationDetails)
+		m.ConfigurationDetails = nn.(PipelineConfigurationDetails)
 	} else {
-		m.PipelineConfigurationDetails = nil
+		m.ConfigurationDetails = nil
 	}
 
-	m.PipelineLogConfigurationDetails = model.PipelineLogConfigurationDetails
+	m.LogConfigurationDetails = model.LogConfigurationDetails
 
-	m.PipelineInfrastructureConfigurationDetails = model.PipelineInfrastructureConfigurationDetails
+	m.InfrastructureConfigurationDetails = model.InfrastructureConfigurationDetails
 
 	m.FreeformTags = model.FreeformTags
 
@@ -111,14 +111,14 @@ func (m *CreatePipelineDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.CompartmentId = model.CompartmentId
 
-	m.StepDetails = make([]StepDetails, len(model.StepDetails))
+	m.StepDetails = make([]PipelineStepDetails, len(model.StepDetails))
 	for i, n := range model.StepDetails {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
 		if e != nil {
 			return e
 		}
 		if nn != nil {
-			m.StepDetails[i] = nn.(StepDetails)
+			m.StepDetails[i] = nn.(PipelineStepDetails)
 		} else {
 			m.StepDetails[i] = nil
 		}

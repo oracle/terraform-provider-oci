@@ -21,6 +21,9 @@ type UpdateMlApplicationInstanceDetails struct {
 	// Data that are used for provisioning of the given MlApplicationInstance. These are validated against configurationSchema defined in referenced MlApplication.
 	Configuration []ConfigurationProperty `mandatory:"false" json:"configuration"`
 
+	// Switches lifecycle state of MlApplicationInstance from INACTIVE to ACTIVE (true value) or vice versa (false value).
+	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

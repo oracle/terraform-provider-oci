@@ -88,9 +88,10 @@ func (client *LogAnalyticsClient) ConfigurationProvider() *common.ConfigurationP
 }
 
 // AddEntityAssociation Adds association between input source log analytics entity and one or more existing destination entities.
+// A default retry strategy applies to this operation AddEntityAssociation()
 func (client LogAnalyticsClient) AddEntityAssociation(ctx context.Context, request AddEntityAssociationRequest) (response AddEntityAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -148,9 +149,10 @@ func (client LogAnalyticsClient) addEntityAssociation(ctx context.Context, reque
 }
 
 // AddSourceEventTypes Add one or more event types to a source. An event type and version can be enabled only on one source.
+// A default retry strategy applies to this operation AddSourceEventTypes()
 func (client LogAnalyticsClient) AddSourceEventTypes(ctx context.Context, request AddSourceEventTypesRequest) (response AddSourceEventTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -208,9 +210,10 @@ func (client LogAnalyticsClient) addSourceEventTypes(ctx context.Context, reques
 }
 
 // AppendLookupData Appends data to the lookup content. The csv file containing the content to be appended is passed in as binary data in the request.
+// A default retry strategy applies to this operation AppendLookupData()
 func (client LogAnalyticsClient) AppendLookupData(ctx context.Context, request AppendLookupDataRequest) (response AppendLookupDataResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -268,9 +271,10 @@ func (client LogAnalyticsClient) appendLookupData(ctx context.Context, request c
 }
 
 // BatchGetBasicInfo Lists basic information about a specified set of labels in batch.
+// A default retry strategy applies to this operation BatchGetBasicInfo()
 func (client LogAnalyticsClient) BatchGetBasicInfo(ctx context.Context, request BatchGetBasicInfoRequest) (response BatchGetBasicInfoResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -323,9 +327,10 @@ func (client LogAnalyticsClient) batchGetBasicInfo(ctx context.Context, request 
 }
 
 // CancelQueryWorkRequest Cancel/Remove query job work request.
+// A default retry strategy applies to this operation CancelQueryWorkRequest()
 func (client LogAnalyticsClient) CancelQueryWorkRequest(ctx context.Context, request CancelQueryWorkRequestRequest) (response CancelQueryWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -376,9 +381,10 @@ func (client LogAnalyticsClient) cancelQueryWorkRequest(ctx context.Context, req
 }
 
 // ChangeLogAnalyticsEmBridgeCompartment Update the compartment of the log analytics enterprise manager bridge with the given id.
+// A default retry strategy applies to this operation ChangeLogAnalyticsEmBridgeCompartment()
 func (client LogAnalyticsClient) ChangeLogAnalyticsEmBridgeCompartment(ctx context.Context, request ChangeLogAnalyticsEmBridgeCompartmentRequest) (response ChangeLogAnalyticsEmBridgeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -436,9 +442,10 @@ func (client LogAnalyticsClient) changeLogAnalyticsEmBridgeCompartment(ctx conte
 }
 
 // ChangeLogAnalyticsEntityCompartment Update the compartment of the log analytics entity with the given id.
+// A default retry strategy applies to this operation ChangeLogAnalyticsEntityCompartment()
 func (client LogAnalyticsClient) ChangeLogAnalyticsEntityCompartment(ctx context.Context, request ChangeLogAnalyticsEntityCompartmentRequest) (response ChangeLogAnalyticsEntityCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -496,9 +503,10 @@ func (client LogAnalyticsClient) changeLogAnalyticsEntityCompartment(ctx context
 }
 
 // ChangeLogAnalyticsLogGroupCompartment Moves the specified log group to a different compartment.
+// A default retry strategy applies to this operation ChangeLogAnalyticsLogGroupCompartment()
 func (client LogAnalyticsClient) ChangeLogAnalyticsLogGroupCompartment(ctx context.Context, request ChangeLogAnalyticsLogGroupCompartmentRequest) (response ChangeLogAnalyticsLogGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -672,9 +680,10 @@ func (client LogAnalyticsClient) changeScheduledTaskCompartment(ctx context.Cont
 
 // Clean Clean accumulated acceleration data stored for the accelerated saved search.
 // The ScheduledTask taskType must be ACCELERATION.
+// A default retry strategy applies to this operation Clean()
 func (client LogAnalyticsClient) Clean(ctx context.Context, request CleanRequest) (response CleanResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -730,9 +739,10 @@ func (client LogAnalyticsClient) clean(ctx context.Context, request common.OCIRe
 }
 
 // CompareContent Returns the difference between the two input payloads, including intraline differences.
+// A default retry strategy applies to this operation CompareContent()
 func (client LogAnalyticsClient) CompareContent(ctx context.Context, request CompareContentRequest) (response CompareContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -785,9 +795,10 @@ func (client LogAnalyticsClient) compareContent(ctx context.Context, request com
 }
 
 // CreateLogAnalyticsEmBridge Add configuration for enterprise manager bridge. Enterprise manager bridge is used to automatically add selected entities from enterprise manager cloud control. A corresponding OCI bridge configuration is required in enterprise manager.
+// A default retry strategy applies to this operation CreateLogAnalyticsEmBridge()
 func (client LogAnalyticsClient) CreateLogAnalyticsEmBridge(ctx context.Context, request CreateLogAnalyticsEmBridgeRequest) (response CreateLogAnalyticsEmBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -845,9 +856,10 @@ func (client LogAnalyticsClient) createLogAnalyticsEmBridge(ctx context.Context,
 }
 
 // CreateLogAnalyticsEntity Create a new log analytics entity.
+// A default retry strategy applies to this operation CreateLogAnalyticsEntity()
 func (client LogAnalyticsClient) CreateLogAnalyticsEntity(ctx context.Context, request CreateLogAnalyticsEntityRequest) (response CreateLogAnalyticsEntityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -905,9 +917,10 @@ func (client LogAnalyticsClient) createLogAnalyticsEntity(ctx context.Context, r
 }
 
 // CreateLogAnalyticsEntityType Add custom log analytics entity type.
+// A default retry strategy applies to this operation CreateLogAnalyticsEntityType()
 func (client LogAnalyticsClient) CreateLogAnalyticsEntityType(ctx context.Context, request CreateLogAnalyticsEntityTypeRequest) (response CreateLogAnalyticsEntityTypeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -965,9 +978,10 @@ func (client LogAnalyticsClient) createLogAnalyticsEntityType(ctx context.Contex
 }
 
 // CreateLogAnalyticsLogGroup Creates a new log group in the specified compartment with the input display name. You may also specify optional information such as description, defined tags, and free-form tags.
+// A default retry strategy applies to this operation CreateLogAnalyticsLogGroup()
 func (client LogAnalyticsClient) CreateLogAnalyticsLogGroup(ctx context.Context, request CreateLogAnalyticsLogGroupRequest) (response CreateLogAnalyticsLogGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1140,9 +1154,10 @@ func (client LogAnalyticsClient) createScheduledTask(ctx context.Context, reques
 }
 
 // DeleteAssociations Deletes the associations between the sources and entities specified.
+// A default retry strategy applies to this operation DeleteAssociations()
 func (client LogAnalyticsClient) DeleteAssociations(ctx context.Context, request DeleteAssociationsRequest) (response DeleteAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1200,9 +1215,10 @@ func (client LogAnalyticsClient) deleteAssociations(ctx context.Context, request
 }
 
 // DeleteField Deletes field with the specified name.
+// A default retry strategy applies to this operation DeleteField()
 func (client LogAnalyticsClient) DeleteField(ctx context.Context, request DeleteFieldRequest) (response DeleteFieldResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1258,9 +1274,10 @@ func (client LogAnalyticsClient) deleteField(ctx context.Context, request common
 }
 
 // DeleteLabel Deletes label with the specified name.
+// A default retry strategy applies to this operation DeleteLabel()
 func (client LogAnalyticsClient) DeleteLabel(ctx context.Context, request DeleteLabelRequest) (response DeleteLabelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1475,9 +1492,10 @@ func (client LogAnalyticsClient) deleteLogAnalyticsEntityType(ctx context.Contex
 }
 
 // DeleteLogAnalyticsLogGroup Deletes the specified log group. The log group cannot be part of an active association or have an active upload.
+// A default retry strategy applies to this operation DeleteLogAnalyticsLogGroup()
 func (client LogAnalyticsClient) DeleteLogAnalyticsLogGroup(ctx context.Context, request DeleteLogAnalyticsLogGroupRequest) (response DeleteLogAnalyticsLogGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1582,9 +1600,10 @@ func (client LogAnalyticsClient) deleteLogAnalyticsObjectCollectionRule(ctx cont
 }
 
 // DeleteLookup Deletes lookup with the specified name.
+// A default retry strategy applies to this operation DeleteLookup()
 func (client LogAnalyticsClient) DeleteLookup(ctx context.Context, request DeleteLookupRequest) (response DeleteLookupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1640,9 +1659,10 @@ func (client LogAnalyticsClient) deleteLookup(ctx context.Context, request commo
 }
 
 // DeleteParser Deletes parser with the specified name.
+// A default retry strategy applies to this operation DeleteParser()
 func (client LogAnalyticsClient) DeleteParser(ctx context.Context, request DeleteParserRequest) (response DeleteParserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1698,9 +1718,10 @@ func (client LogAnalyticsClient) deleteParser(ctx context.Context, request commo
 }
 
 // DeleteScheduledTask Delete the scheduled task.
+// A default retry strategy applies to this operation DeleteScheduledTask()
 func (client LogAnalyticsClient) DeleteScheduledTask(ctx context.Context, request DeleteScheduledTaskRequest) (response DeleteScheduledTaskResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1751,9 +1772,10 @@ func (client LogAnalyticsClient) deleteScheduledTask(ctx context.Context, reques
 }
 
 // DeleteSource Deletes source with the specified name.
+// A default retry strategy applies to this operation DeleteSource()
 func (client LogAnalyticsClient) DeleteSource(ctx context.Context, request DeleteSourceRequest) (response DeleteSourceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1970,9 +1992,10 @@ func (client LogAnalyticsClient) deleteUploadWarning(ctx context.Context, reques
 }
 
 // DisableArchiving This API disables archiving.
+// A default retry strategy applies to this operation DisableArchiving()
 func (client LogAnalyticsClient) DisableArchiving(ctx context.Context, request DisableArchivingRequest) (response DisableArchivingResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2025,9 +2048,10 @@ func (client LogAnalyticsClient) disableArchiving(ctx context.Context, request c
 // DisableAutoAssociation Disables auto association for a log source. In the future, this log source would not be automatically
 // associated with any entity that becomes eligible for association. In addition, you may also optionally
 // remove all existing associations for this log source.
+// A default retry strategy applies to this operation DisableAutoAssociation()
 func (client LogAnalyticsClient) DisableAutoAssociation(ctx context.Context, request DisableAutoAssociationRequest) (response DisableAutoAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2085,9 +2109,10 @@ func (client LogAnalyticsClient) disableAutoAssociation(ctx context.Context, req
 }
 
 // DisableSourceEventTypes Disable one or more event types in a source.
+// A default retry strategy applies to this operation DisableSourceEventTypes()
 func (client LogAnalyticsClient) DisableSourceEventTypes(ctx context.Context, request DisableSourceEventTypesRequest) (response DisableSourceEventTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2145,9 +2170,10 @@ func (client LogAnalyticsClient) disableSourceEventTypes(ctx context.Context, re
 }
 
 // EnableArchiving THis API enables archiving.
+// A default retry strategy applies to this operation EnableArchiving()
 func (client LogAnalyticsClient) EnableArchiving(ctx context.Context, request EnableArchivingRequest) (response EnableArchivingResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2200,9 +2226,10 @@ func (client LogAnalyticsClient) enableArchiving(ctx context.Context, request co
 // EnableAutoAssociation Enables auto association for a log source. This would initiate immediate association of the source
 // to any eligible entities it is not already associated with, and would also ensure the log source gets
 // associated with entities that are added or become eligible in the future.
+// A default retry strategy applies to this operation EnableAutoAssociation()
 func (client LogAnalyticsClient) EnableAutoAssociation(ctx context.Context, request EnableAutoAssociationRequest) (response EnableAutoAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2260,9 +2287,10 @@ func (client LogAnalyticsClient) enableAutoAssociation(ctx context.Context, requ
 }
 
 // EnableSourceEventTypes Enable one or more event types in a source. An event type and version can be enabled only in one source.
+// A default retry strategy applies to this operation EnableSourceEventTypes()
 func (client LogAnalyticsClient) EnableSourceEventTypes(ctx context.Context, request EnableSourceEventTypesRequest) (response EnableSourceEventTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2320,9 +2348,10 @@ func (client LogAnalyticsClient) enableSourceEventTypes(ctx context.Context, req
 }
 
 // EstimatePurgeDataSize This API estimates the size of data to be purged based based on time interval, purge query etc.
+// A default retry strategy applies to this operation EstimatePurgeDataSize()
 func (client LogAnalyticsClient) EstimatePurgeDataSize(ctx context.Context, request EstimatePurgeDataSizeRequest) (response EstimatePurgeDataSizeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2380,9 +2409,10 @@ func (client LogAnalyticsClient) estimatePurgeDataSize(ctx context.Context, requ
 }
 
 // EstimateRecallDataSize This API gives an active storage usage estimate for archived data to be recalled and the time range of such data.
+// A default retry strategy applies to this operation EstimateRecallDataSize()
 func (client LogAnalyticsClient) EstimateRecallDataSize(ctx context.Context, request EstimateRecallDataSizeRequest) (response EstimateRecallDataSizeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2435,9 +2465,10 @@ func (client LogAnalyticsClient) estimateRecallDataSize(ctx context.Context, req
 }
 
 // EstimateReleaseDataSize This API gives an active storage usage estimate for recalled data to be released and the time range of such data.
+// A default retry strategy applies to this operation EstimateReleaseDataSize()
 func (client LogAnalyticsClient) EstimateReleaseDataSize(ctx context.Context, request EstimateReleaseDataSizeRequest) (response EstimateReleaseDataSizeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2490,9 +2521,10 @@ func (client LogAnalyticsClient) estimateReleaseDataSize(ctx context.Context, re
 }
 
 // ExportCustomContent Exports all custom details of the specified sources, parsers, fields and labels, in zip format.
+// A default retry strategy applies to this operation ExportCustomContent()
 func (client LogAnalyticsClient) ExportCustomContent(ctx context.Context, request ExportCustomContentRequest) (response ExportCustomContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2549,9 +2581,10 @@ func (client LogAnalyticsClient) exportCustomContent(ctx context.Context, reques
 }
 
 // ExportQueryResult Export data based on query. Endpoint returns a stream of data. Endpoint is synchronous. Queries must deliver first result within 60 seconds or calls are subject to timeout.
+// A default retry strategy applies to this operation ExportQueryResult()
 func (client LogAnalyticsClient) ExportQueryResult(ctx context.Context, request ExportQueryResultRequest) (response ExportQueryResultResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2603,9 +2636,10 @@ func (client LogAnalyticsClient) exportQueryResult(ctx context.Context, request 
 }
 
 // ExtractStructuredLogFieldPaths Extracts the field paths from the example json or xml content.
+// A default retry strategy applies to this operation ExtractStructuredLogFieldPaths()
 func (client LogAnalyticsClient) ExtractStructuredLogFieldPaths(ctx context.Context, request ExtractStructuredLogFieldPathsRequest) (response ExtractStructuredLogFieldPathsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2663,9 +2697,10 @@ func (client LogAnalyticsClient) extractStructuredLogFieldPaths(ctx context.Cont
 }
 
 // ExtractStructuredLogHeaderPaths Extracts the header paths from the example json or xml content.
+// A default retry strategy applies to this operation ExtractStructuredLogHeaderPaths()
 func (client LogAnalyticsClient) ExtractStructuredLogHeaderPaths(ctx context.Context, request ExtractStructuredLogHeaderPathsRequest) (response ExtractStructuredLogHeaderPathsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2723,9 +2758,10 @@ func (client LogAnalyticsClient) extractStructuredLogHeaderPaths(ctx context.Con
 }
 
 // Filter Each filter specifies an operator, a field and one or more values to be inserted into the provided query as criteria.
+// A default retry strategy applies to this operation Filter()
 func (client LogAnalyticsClient) Filter(ctx context.Context, request FilterRequest) (response FilterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2778,9 +2814,10 @@ func (client LogAnalyticsClient) filter(ctx context.Context, request common.OCIR
 }
 
 // GetAssociationSummary Returns the count of source associations for entities in the specified compartment.
+// A default retry strategy applies to this operation GetAssociationSummary()
 func (client LogAnalyticsClient) GetAssociationSummary(ctx context.Context, request GetAssociationSummaryRequest) (response GetAssociationSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2831,9 +2868,10 @@ func (client LogAnalyticsClient) getAssociationSummary(ctx context.Context, requ
 }
 
 // GetCategory Gets detailed information about the category with the specified name.
+// A default retry strategy applies to this operation GetCategory()
 func (client LogAnalyticsClient) GetCategory(ctx context.Context, request GetCategoryRequest) (response GetCategoryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2884,9 +2922,10 @@ func (client LogAnalyticsClient) getCategory(ctx context.Context, request common
 }
 
 // GetColumnNames Extracts column names from the input SQL query.
+// A default retry strategy applies to this operation GetColumnNames()
 func (client LogAnalyticsClient) GetColumnNames(ctx context.Context, request GetColumnNamesRequest) (response GetColumnNamesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2942,9 +2981,10 @@ func (client LogAnalyticsClient) getColumnNames(ctx context.Context, request com
 }
 
 // GetConfigWorkRequest Returns detailed information about the configuration work request with the specified id.
+// A default retry strategy applies to this operation GetConfigWorkRequest()
 func (client LogAnalyticsClient) GetConfigWorkRequest(ctx context.Context, request GetConfigWorkRequestRequest) (response GetConfigWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2995,9 +3035,10 @@ func (client LogAnalyticsClient) getConfigWorkRequest(ctx context.Context, reque
 }
 
 // GetField Gets detailed information about the field with the specified name.
+// A default retry strategy applies to this operation GetField()
 func (client LogAnalyticsClient) GetField(ctx context.Context, request GetFieldRequest) (response GetFieldResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3048,9 +3089,10 @@ func (client LogAnalyticsClient) getField(ctx context.Context, request common.OC
 }
 
 // GetFieldsSummary Returns the count of fields. You may optionally specify isShowDetail=true to view a summary of each field data type.
+// A default retry strategy applies to this operation GetFieldsSummary()
 func (client LogAnalyticsClient) GetFieldsSummary(ctx context.Context, request GetFieldsSummaryRequest) (response GetFieldsSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3101,9 +3143,10 @@ func (client LogAnalyticsClient) getFieldsSummary(ctx context.Context, request c
 }
 
 // GetLabel Gets detailed information about the label with the specified name.
+// A default retry strategy applies to this operation GetLabel()
 func (client LogAnalyticsClient) GetLabel(ctx context.Context, request GetLabelRequest) (response GetLabelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3154,9 +3197,10 @@ func (client LogAnalyticsClient) getLabel(ctx context.Context, request common.OC
 }
 
 // GetLabelSummary Returns the count of labels.
+// A default retry strategy applies to this operation GetLabelSummary()
 func (client LogAnalyticsClient) GetLabelSummary(ctx context.Context, request GetLabelSummaryRequest) (response GetLabelSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3472,9 +3516,10 @@ func (client LogAnalyticsClient) getLogAnalyticsEntityType(ctx context.Context, 
 }
 
 // GetLogAnalyticsLogGroup Gets detailed information about the specified log group such as display name, description, defined tags, and free-form tags.
+// A default retry strategy applies to this operation GetLogAnalyticsLogGroup()
 func (client LogAnalyticsClient) GetLogAnalyticsLogGroup(ctx context.Context, request GetLogAnalyticsLogGroupRequest) (response GetLogAnalyticsLogGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3525,9 +3570,10 @@ func (client LogAnalyticsClient) getLogAnalyticsLogGroup(ctx context.Context, re
 }
 
 // GetLogAnalyticsLogGroupsSummary Returns the count of log groups in a compartment.
+// A default retry strategy applies to this operation GetLogAnalyticsLogGroupsSummary()
 func (client LogAnalyticsClient) GetLogAnalyticsLogGroupsSummary(ctx context.Context, request GetLogAnalyticsLogGroupsSummaryRequest) (response GetLogAnalyticsLogGroupsSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3578,9 +3624,10 @@ func (client LogAnalyticsClient) getLogAnalyticsLogGroupsSummary(ctx context.Con
 }
 
 // GetLogAnalyticsObjectCollectionRule Gets a configured object storage based collection rule by given id
+// A default retry strategy applies to this operation GetLogAnalyticsObjectCollectionRule()
 func (client LogAnalyticsClient) GetLogAnalyticsObjectCollectionRule(ctx context.Context, request GetLogAnalyticsObjectCollectionRuleRequest) (response GetLogAnalyticsObjectCollectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3631,9 +3678,10 @@ func (client LogAnalyticsClient) getLogAnalyticsObjectCollectionRule(ctx context
 }
 
 // GetLogSetsCount This API returns the count of distinct log sets.
+// A default retry strategy applies to this operation GetLogSetsCount()
 func (client LogAnalyticsClient) GetLogSetsCount(ctx context.Context, request GetLogSetsCountRequest) (response GetLogSetsCountResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3684,9 +3732,10 @@ func (client LogAnalyticsClient) getLogSetsCount(ctx context.Context, request co
 }
 
 // GetLookup Gets detailed information about the lookup with the specified name.
+// A default retry strategy applies to this operation GetLookup()
 func (client LogAnalyticsClient) GetLookup(ctx context.Context, request GetLookupRequest) (response GetLookupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3737,9 +3786,10 @@ func (client LogAnalyticsClient) getLookup(ctx context.Context, request common.O
 }
 
 // GetLookupSummary Returns the count of user created and oracle defined lookups.
+// A default retry strategy applies to this operation GetLookupSummary()
 func (client LogAnalyticsClient) GetLookupSummary(ctx context.Context, request GetLookupSummaryRequest) (response GetLookupSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3790,9 +3840,10 @@ func (client LogAnalyticsClient) getLookupSummary(ctx context.Context, request c
 }
 
 // GetNamespace This API gets the namespace details of a tenancy already onboarded in Logging Analytics Application
+// A default retry strategy applies to this operation GetNamespace()
 func (client LogAnalyticsClient) GetNamespace(ctx context.Context, request GetNamespaceRequest) (response GetNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3843,9 +3894,10 @@ func (client LogAnalyticsClient) getNamespace(ctx context.Context, request commo
 }
 
 // GetParser Gets detailed information about the parser with the specified name.
+// A default retry strategy applies to this operation GetParser()
 func (client LogAnalyticsClient) GetParser(ctx context.Context, request GetParserRequest) (response GetParserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3896,9 +3948,10 @@ func (client LogAnalyticsClient) getParser(ctx context.Context, request common.O
 }
 
 // GetParserSummary Returns the count of parsers.
+// A default retry strategy applies to this operation GetParserSummary()
 func (client LogAnalyticsClient) GetParserSummary(ctx context.Context, request GetParserSummaryRequest) (response GetParserSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3949,9 +4002,10 @@ func (client LogAnalyticsClient) getParserSummary(ctx context.Context, request c
 }
 
 // GetPreferences Lists the preferences of the tenant. Currently, only "DEFAULT_HOMEPAGE" is supported.
+// A default retry strategy applies to this operation GetPreferences()
 func (client LogAnalyticsClient) GetPreferences(ctx context.Context, request GetPreferencesRequest) (response GetPreferencesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4003,9 +4057,10 @@ func (client LogAnalyticsClient) getPreferences(ctx context.Context, request com
 
 // GetQueryResult Returns the intermediate results for a query that was specified to run asynchronously if the query has not completed,
 // otherwise the final query results identified by a queryWorkRequestId returned when submitting the query execute asynchronously.
+// A default retry strategy applies to this operation GetQueryResult()
 func (client LogAnalyticsClient) GetQueryResult(ctx context.Context, request GetQueryResultRequest) (response GetQueryResultResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4056,9 +4111,10 @@ func (client LogAnalyticsClient) getQueryResult(ctx context.Context, request com
 }
 
 // GetQueryWorkRequest Retrieve work request details by workRequestId. This endpoint can be polled for status tracking of work request. Clients should poll using the interval returned in the retry-after header.
+// A default retry strategy applies to this operation GetQueryWorkRequest()
 func (client LogAnalyticsClient) GetQueryWorkRequest(ctx context.Context, request GetQueryWorkRequestRequest) (response GetQueryWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4109,9 +4165,10 @@ func (client LogAnalyticsClient) getQueryWorkRequest(ctx context.Context, reques
 }
 
 // GetScheduledTask Get the scheduled task for the specified task identifier.
+// A default retry strategy applies to this operation GetScheduledTask()
 func (client LogAnalyticsClient) GetScheduledTask(ctx context.Context, request GetScheduledTaskRequest) (response GetScheduledTaskResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4162,9 +4219,10 @@ func (client LogAnalyticsClient) getScheduledTask(ctx context.Context, request c
 }
 
 // GetSource Gets detailed information about the source with the specified name.
+// A default retry strategy applies to this operation GetSource()
 func (client LogAnalyticsClient) GetSource(ctx context.Context, request GetSourceRequest) (response GetSourceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4215,9 +4273,10 @@ func (client LogAnalyticsClient) getSource(ctx context.Context, request common.O
 }
 
 // GetSourceSummary Returns the count of sources.
+// A default retry strategy applies to this operation GetSourceSummary()
 func (client LogAnalyticsClient) GetSourceSummary(ctx context.Context, request GetSourceSummaryRequest) (response GetSourceSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4268,9 +4327,10 @@ func (client LogAnalyticsClient) getSourceSummary(ctx context.Context, request c
 }
 
 // GetStorage This API gets the storage configuration of a tenancy
+// A default retry strategy applies to this operation GetStorage()
 func (client LogAnalyticsClient) GetStorage(ctx context.Context, request GetStorageRequest) (response GetStorageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4322,9 +4382,10 @@ func (client LogAnalyticsClient) getStorage(ctx context.Context, request common.
 
 // GetStorageUsage This API gets storage usage information of a tenancy.  Storage usage information includes active, archived or recalled
 // data.  The unit of return data is in bytes.
+// A default retry strategy applies to this operation GetStorageUsage()
 func (client LogAnalyticsClient) GetStorageUsage(ctx context.Context, request GetStorageUsageRequest) (response GetStorageUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4376,9 +4437,10 @@ func (client LogAnalyticsClient) getStorageUsage(ctx context.Context, request co
 
 // GetStorageWorkRequest This API returns work request details specified by {workRequestId}. This API can be polled for status tracking of
 // work request.  Clients should poll using the interval returned in retry-after header.
+// A default retry strategy applies to this operation GetStorageWorkRequest()
 func (client LogAnalyticsClient) GetStorageWorkRequest(ctx context.Context, request GetStorageWorkRequestRequest) (response GetStorageWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4429,9 +4491,10 @@ func (client LogAnalyticsClient) getStorageWorkRequest(ctx context.Context, requ
 }
 
 // GetUnprocessedDataBucket This API retrieves details of the configured bucket that stores unprocessed payloads.
+// A default retry strategy applies to this operation GetUnprocessedDataBucket()
 func (client LogAnalyticsClient) GetUnprocessedDataBucket(ctx context.Context, request GetUnprocessedDataBucketRequest) (response GetUnprocessedDataBucketResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4482,9 +4545,10 @@ func (client LogAnalyticsClient) getUnprocessedDataBucket(ctx context.Context, r
 }
 
 // GetUpload Gets an On-Demand Upload info by reference.
+// A default retry strategy applies to this operation GetUpload()
 func (client LogAnalyticsClient) GetUpload(ctx context.Context, request GetUploadRequest) (response GetUploadResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4588,9 +4652,10 @@ func (client LogAnalyticsClient) getWorkRequest(ctx context.Context, request com
 }
 
 // ImportCustomContent Imports the specified custom content from the input in zip format.
+// A default retry strategy applies to this operation ImportCustomContent()
 func (client LogAnalyticsClient) ImportCustomContent(ctx context.Context, request ImportCustomContentRequest) (response ImportCustomContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4648,9 +4713,10 @@ func (client LogAnalyticsClient) importCustomContent(ctx context.Context, reques
 }
 
 // ListAssociableEntities Lists the entities in the specified compartment which are (in)eligible for association with this source.
+// A default retry strategy applies to this operation ListAssociableEntities()
 func (client LogAnalyticsClient) ListAssociableEntities(ctx context.Context, request ListAssociableEntitiesRequest) (response ListAssociableEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4701,9 +4767,10 @@ func (client LogAnalyticsClient) listAssociableEntities(ctx context.Context, req
 }
 
 // ListAssociatedEntities Lists the association details of entities in the specified compartment that are associated with at least one source.
+// A default retry strategy applies to this operation ListAssociatedEntities()
 func (client LogAnalyticsClient) ListAssociatedEntities(ctx context.Context, request ListAssociatedEntitiesRequest) (response ListAssociatedEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4754,9 +4821,10 @@ func (client LogAnalyticsClient) listAssociatedEntities(ctx context.Context, req
 }
 
 // ListAutoAssociations Gets information related to auto association for the source with the specified name.
+// A default retry strategy applies to this operation ListAutoAssociations()
 func (client LogAnalyticsClient) ListAutoAssociations(ctx context.Context, request ListAutoAssociationsRequest) (response ListAutoAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4807,9 +4875,10 @@ func (client LogAnalyticsClient) listAutoAssociations(ctx context.Context, reque
 }
 
 // ListCategories Returns a list of categories, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as category name or description.
+// A default retry strategy applies to this operation ListCategories()
 func (client LogAnalyticsClient) ListCategories(ctx context.Context, request ListCategoriesRequest) (response ListCategoriesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4860,9 +4929,10 @@ func (client LogAnalyticsClient) listCategories(ctx context.Context, request com
 }
 
 // ListConfigWorkRequests Returns the list of configuration work requests such as association or lookup operations, containing detailed information about them. You may paginate or limit the number of results.
+// A default retry strategy applies to this operation ListConfigWorkRequests()
 func (client LogAnalyticsClient) ListConfigWorkRequests(ctx context.Context, request ListConfigWorkRequestsRequest) (response ListConfigWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4966,9 +5036,10 @@ func (client LogAnalyticsClient) listEntityAssociations(ctx context.Context, req
 }
 
 // ListEntitySourceAssociations Returns the list of source associations for the specified entity.
+// A default retry strategy applies to this operation ListEntitySourceAssociations()
 func (client LogAnalyticsClient) ListEntitySourceAssociations(ctx context.Context, request ListEntitySourceAssociationsRequest) (response ListEntitySourceAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5019,9 +5090,10 @@ func (client LogAnalyticsClient) listEntitySourceAssociations(ctx context.Contex
 }
 
 // ListFields Returns a list of log fields, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by specifying various options including parser and source names.
+// A default retry strategy applies to this operation ListFields()
 func (client LogAnalyticsClient) ListFields(ctx context.Context, request ListFieldsRequest) (response ListFieldsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5072,9 +5144,10 @@ func (client LogAnalyticsClient) listFields(ctx context.Context, request common.
 }
 
 // ListLabelPriorities Lists the available problem priorities that could be associated with a label.
+// A default retry strategy applies to this operation ListLabelPriorities()
 func (client LogAnalyticsClient) ListLabelPriorities(ctx context.Context, request ListLabelPrioritiesRequest) (response ListLabelPrioritiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5125,9 +5198,10 @@ func (client LogAnalyticsClient) listLabelPriorities(ctx context.Context, reques
 }
 
 // ListLabelSourceDetails Lists sources using the label, along with configuration details like base field, operator and condition.
+// A default retry strategy applies to this operation ListLabelSourceDetails()
 func (client LogAnalyticsClient) ListLabelSourceDetails(ctx context.Context, request ListLabelSourceDetailsRequest) (response ListLabelSourceDetailsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5178,9 +5252,10 @@ func (client LogAnalyticsClient) listLabelSourceDetails(ctx context.Context, req
 }
 
 // ListLabels Returns a list of labels, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as label name, display name, description and priority.
+// A default retry strategy applies to this operation ListLabels()
 func (client LogAnalyticsClient) ListLabels(ctx context.Context, request ListLabelsRequest) (response ListLabelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5443,9 +5518,10 @@ func (client LogAnalyticsClient) listLogAnalyticsEntityTypes(ctx context.Context
 }
 
 // ListLogAnalyticsLogGroups Returns a list of log groups in a compartment. You may limit the number of log groups, provide sorting options, and filter the results by specifying a display name.
+// A default retry strategy applies to this operation ListLogAnalyticsLogGroups()
 func (client LogAnalyticsClient) ListLogAnalyticsLogGroups(ctx context.Context, request ListLogAnalyticsLogGroupsRequest) (response ListLogAnalyticsLogGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5496,9 +5572,10 @@ func (client LogAnalyticsClient) listLogAnalyticsLogGroups(ctx context.Context, 
 }
 
 // ListLogAnalyticsObjectCollectionRules Gets list of collection rules.
+// A default retry strategy applies to this operation ListLogAnalyticsObjectCollectionRules()
 func (client LogAnalyticsClient) ListLogAnalyticsObjectCollectionRules(ctx context.Context, request ListLogAnalyticsObjectCollectionRulesRequest) (response ListLogAnalyticsObjectCollectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5549,9 +5626,10 @@ func (client LogAnalyticsClient) listLogAnalyticsObjectCollectionRules(ctx conte
 }
 
 // ListLogSets This API returns a list of log sets.
+// A default retry strategy applies to this operation ListLogSets()
 func (client LogAnalyticsClient) ListLogSets(ctx context.Context, request ListLogSetsRequest) (response ListLogSetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5602,9 +5680,10 @@ func (client LogAnalyticsClient) listLogSets(ctx context.Context, request common
 }
 
 // ListLookups Returns a list of lookups, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as lookup name, description and type.
+// A default retry strategy applies to this operation ListLookups()
 func (client LogAnalyticsClient) ListLookups(ctx context.Context, request ListLookupsRequest) (response ListLookupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5655,9 +5734,10 @@ func (client LogAnalyticsClient) listLookups(ctx context.Context, request common
 }
 
 // ListMetaSourceTypes Lists the types of log sources supported.
+// A default retry strategy applies to this operation ListMetaSourceTypes()
 func (client LogAnalyticsClient) ListMetaSourceTypes(ctx context.Context, request ListMetaSourceTypesRequest) (response ListMetaSourceTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5709,9 +5789,10 @@ func (client LogAnalyticsClient) listMetaSourceTypes(ctx context.Context, reques
 
 // ListNamespaces Given a tenancy OCID, this API returns the namespace of the tenancy if it is valid and subscribed to the region.  The
 // result also indicates if the tenancy is onboarded with Logging Analytics.
+// A default retry strategy applies to this operation ListNamespaces()
 func (client LogAnalyticsClient) ListNamespaces(ctx context.Context, request ListNamespacesRequest) (response ListNamespacesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5762,9 +5843,10 @@ func (client LogAnalyticsClient) listNamespaces(ctx context.Context, request com
 }
 
 // ListParserFunctions Lists the parser functions defined for the specified parser.
+// A default retry strategy applies to this operation ListParserFunctions()
 func (client LogAnalyticsClient) ListParserFunctions(ctx context.Context, request ListParserFunctionsRequest) (response ListParserFunctionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5815,9 +5897,10 @@ func (client LogAnalyticsClient) listParserFunctions(ctx context.Context, reques
 }
 
 // ListParserMetaPlugins Lists the parser meta plugins available for defining parser functions.
+// A default retry strategy applies to this operation ListParserMetaPlugins()
 func (client LogAnalyticsClient) ListParserMetaPlugins(ctx context.Context, request ListParserMetaPluginsRequest) (response ListParserMetaPluginsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5868,9 +5951,10 @@ func (client LogAnalyticsClient) listParserMetaPlugins(ctx context.Context, requ
 }
 
 // ListParsers Returns a list of parsers, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as parser name, type, display name and description.
+// A default retry strategy applies to this operation ListParsers()
 func (client LogAnalyticsClient) ListParsers(ctx context.Context, request ListParsersRequest) (response ListParsersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5921,9 +6005,10 @@ func (client LogAnalyticsClient) listParsers(ctx context.Context, request common
 }
 
 // ListQueryWorkRequests List active asynchronous queries.
+// A default retry strategy applies to this operation ListQueryWorkRequests()
 func (client LogAnalyticsClient) ListQueryWorkRequests(ctx context.Context, request ListQueryWorkRequestsRequest) (response ListQueryWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5974,9 +6059,10 @@ func (client LogAnalyticsClient) listQueryWorkRequests(ctx context.Context, requ
 }
 
 // ListRecalledData This API returns the list of recalled data of a tenancy.
+// A default retry strategy applies to this operation ListRecalledData()
 func (client LogAnalyticsClient) ListRecalledData(ctx context.Context, request ListRecalledDataRequest) (response ListRecalledDataResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6028,9 +6114,10 @@ func (client LogAnalyticsClient) listRecalledData(ctx context.Context, request c
 
 // ListResourceCategories Returns a list of resources and their category assignments.
 // You may limit the number of results, provide sorting order, and filter by information such as resource type.
+// A default retry strategy applies to this operation ListResourceCategories()
 func (client LogAnalyticsClient) ListResourceCategories(ctx context.Context, request ListResourceCategoriesRequest) (response ListResourceCategoriesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6081,9 +6168,10 @@ func (client LogAnalyticsClient) listResourceCategories(ctx context.Context, req
 }
 
 // ListScheduledTasks Lists scheduled tasks.
+// A default retry strategy applies to this operation ListScheduledTasks()
 func (client LogAnalyticsClient) ListScheduledTasks(ctx context.Context, request ListScheduledTasksRequest) (response ListScheduledTasksResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6134,9 +6222,10 @@ func (client LogAnalyticsClient) listScheduledTasks(ctx context.Context, request
 }
 
 // ListSourceAssociations Returns the list of entity associations in the input compartment for the specified source.
+// A default retry strategy applies to this operation ListSourceAssociations()
 func (client LogAnalyticsClient) ListSourceAssociations(ctx context.Context, request ListSourceAssociationsRequest) (response ListSourceAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6187,9 +6276,10 @@ func (client LogAnalyticsClient) listSourceAssociations(ctx context.Context, req
 }
 
 // ListSourceEventTypes Lists the event types mapped to the source with the specified name. The event type string could be the fully qualified name or a prefix that matches the event type.
+// A default retry strategy applies to this operation ListSourceEventTypes()
 func (client LogAnalyticsClient) ListSourceEventTypes(ctx context.Context, request ListSourceEventTypesRequest) (response ListSourceEventTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6240,9 +6330,10 @@ func (client LogAnalyticsClient) listSourceEventTypes(ctx context.Context, reque
 }
 
 // ListSourceExtendedFieldDefinitions Lists the extended field definitions for the source with the specified name.
+// A default retry strategy applies to this operation ListSourceExtendedFieldDefinitions()
 func (client LogAnalyticsClient) ListSourceExtendedFieldDefinitions(ctx context.Context, request ListSourceExtendedFieldDefinitionsRequest) (response ListSourceExtendedFieldDefinitionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6293,9 +6384,10 @@ func (client LogAnalyticsClient) listSourceExtendedFieldDefinitions(ctx context.
 }
 
 // ListSourceLabelOperators Lists the supported conditional operators that could be used for matching log field values to generate a label. You may use patterns to specify a condition. If a log entry matches that condition, it is tagged with the corresponding label.
+// A default retry strategy applies to this operation ListSourceLabelOperators()
 func (client LogAnalyticsClient) ListSourceLabelOperators(ctx context.Context, request ListSourceLabelOperatorsRequest) (response ListSourceLabelOperatorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6346,9 +6438,10 @@ func (client LogAnalyticsClient) listSourceLabelOperators(ctx context.Context, r
 }
 
 // ListSourceMetaFunctions Lists the functions that could be used to enrich log entries based on meaningful information extracted from the log fields.
+// A default retry strategy applies to this operation ListSourceMetaFunctions()
 func (client LogAnalyticsClient) ListSourceMetaFunctions(ctx context.Context, request ListSourceMetaFunctionsRequest) (response ListSourceMetaFunctionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6399,9 +6492,10 @@ func (client LogAnalyticsClient) listSourceMetaFunctions(ctx context.Context, re
 }
 
 // ListSourcePatterns Lists the source patterns for the source with the specified name.
+// A default retry strategy applies to this operation ListSourcePatterns()
 func (client LogAnalyticsClient) ListSourcePatterns(ctx context.Context, request ListSourcePatternsRequest) (response ListSourcePatternsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6452,9 +6546,10 @@ func (client LogAnalyticsClient) listSourcePatterns(ctx context.Context, request
 }
 
 // ListSources Returns a list of sources, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as display name, description and entity type.
+// A default retry strategy applies to this operation ListSources()
 func (client LogAnalyticsClient) ListSources(ctx context.Context, request ListSourcesRequest) (response ListSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6505,9 +6600,10 @@ func (client LogAnalyticsClient) listSources(ctx context.Context, request common
 }
 
 // ListStorageWorkRequestErrors This API returns the list of work request errors if any.
+// A default retry strategy applies to this operation ListStorageWorkRequestErrors()
 func (client LogAnalyticsClient) ListStorageWorkRequestErrors(ctx context.Context, request ListStorageWorkRequestErrorsRequest) (response ListStorageWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6558,9 +6654,10 @@ func (client LogAnalyticsClient) listStorageWorkRequestErrors(ctx context.Contex
 }
 
 // ListStorageWorkRequests This API lists storage work requests.  Use query parameters to narrow down or sort the result list.
+// A default retry strategy applies to this operation ListStorageWorkRequests()
 func (client LogAnalyticsClient) ListStorageWorkRequests(ctx context.Context, request ListStorageWorkRequestsRequest) (response ListStorageWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6611,9 +6708,10 @@ func (client LogAnalyticsClient) listStorageWorkRequests(ctx context.Context, re
 }
 
 // ListSupportedCharEncodings Gets list of character encodings which are supported by on-demand upload.
+// A default retry strategy applies to this operation ListSupportedCharEncodings()
 func (client LogAnalyticsClient) ListSupportedCharEncodings(ctx context.Context, request ListSupportedCharEncodingsRequest) (response ListSupportedCharEncodingsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6664,9 +6762,10 @@ func (client LogAnalyticsClient) listSupportedCharEncodings(ctx context.Context,
 }
 
 // ListSupportedTimezones Gets list of timezones which are supported by on-demand upload.
+// A default retry strategy applies to this operation ListSupportedTimezones()
 func (client LogAnalyticsClient) ListSupportedTimezones(ctx context.Context, request ListSupportedTimezonesRequest) (response ListSupportedTimezonesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6717,9 +6816,10 @@ func (client LogAnalyticsClient) listSupportedTimezones(ctx context.Context, req
 }
 
 // ListUploadFiles Gets list of files in an upload along with its processing state.
+// A default retry strategy applies to this operation ListUploadFiles()
 func (client LogAnalyticsClient) ListUploadFiles(ctx context.Context, request ListUploadFilesRequest) (response ListUploadFilesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6770,9 +6870,10 @@ func (client LogAnalyticsClient) listUploadFiles(ctx context.Context, request co
 }
 
 // ListUploadWarnings Gets list of warnings in an upload caused by incorrect configuration.
+// A default retry strategy applies to this operation ListUploadWarnings()
 func (client LogAnalyticsClient) ListUploadWarnings(ctx context.Context, request ListUploadWarningsRequest) (response ListUploadWarningsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6824,9 +6925,10 @@ func (client LogAnalyticsClient) listUploadWarnings(ctx context.Context, request
 
 // ListUploads Gets a list of all On-demand uploads.
 // To use this and other API operations, you must be authorized in an IAM policy.
+// A default retry strategy applies to this operation ListUploads()
 func (client LogAnalyticsClient) ListUploads(ctx context.Context, request ListUploadsRequest) (response ListUploadsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -6877,9 +6979,10 @@ func (client LogAnalyticsClient) listUploads(ctx context.Context, request common
 }
 
 // ListWarnings Returns a list of collection warnings, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as start time, end time, warning type, warning state, source name, source pattern and entity name.
+// A default retry strategy applies to this operation ListWarnings()
 func (client LogAnalyticsClient) ListWarnings(ctx context.Context, request ListWarningsRequest) (response ListWarningsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7205,9 +7308,10 @@ func (client LogAnalyticsClient) onboardNamespace(ctx context.Context, request c
 }
 
 // ParseQuery Describe query
+// A default retry strategy applies to this operation ParseQuery()
 func (client LogAnalyticsClient) ParseQuery(ctx context.Context, request ParseQueryRequest) (response ParseQueryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7260,9 +7364,10 @@ func (client LogAnalyticsClient) parseQuery(ctx context.Context, request common.
 }
 
 // PauseScheduledTask Pause the scheduled task specified by {scheduledTaskId}.
+// A default retry strategy applies to this operation PauseScheduledTask()
 func (client LogAnalyticsClient) PauseScheduledTask(ctx context.Context, request PauseScheduledTaskRequest) (response PauseScheduledTaskResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7427,9 +7532,10 @@ func (client LogAnalyticsClient) putQueryWorkRequestBackground(ctx context.Conte
 }
 
 // Query Performs a log analytics search, if shouldRunAsync is false returns the query results once they become available subject to 60 second timeout. If a query is subject to exceed that time then it should be run asynchronously. Asynchronous query submissions return the queryWorkRequestId to use for execution tracking, query submission lifecycle actions and to poll for query results.
+// A default retry strategy applies to this operation Query()
 func (client LogAnalyticsClient) Query(ctx context.Context, request QueryRequest) (response QueryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7542,9 +7648,10 @@ func (client LogAnalyticsClient) recallArchivedData(ctx context.Context, request
 }
 
 // RegisterLookup Creates a lookup with the specified name, type and description. The csv file containing the lookup content is passed in as binary data in the request.
+// A default retry strategy applies to this operation RegisterLookup()
 func (client LogAnalyticsClient) RegisterLookup(ctx context.Context, request RegisterLookupRequest) (response RegisterLookupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7662,9 +7769,10 @@ func (client LogAnalyticsClient) releaseRecalledData(ctx context.Context, reques
 }
 
 // RemoveEntityAssociations Delete association between input source log analytics entity and destination entities.
+// A default retry strategy applies to this operation RemoveEntityAssociations()
 func (client LogAnalyticsClient) RemoveEntityAssociations(ctx context.Context, request RemoveEntityAssociationsRequest) (response RemoveEntityAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7722,9 +7830,10 @@ func (client LogAnalyticsClient) removeEntityAssociations(ctx context.Context, r
 }
 
 // RemovePreferences Removes the tenant preferences. Currently, only "DEFAULT_HOMEPAGE" is supported.
+// A default retry strategy applies to this operation RemovePreferences()
 func (client LogAnalyticsClient) RemovePreferences(ctx context.Context, request RemovePreferencesRequest) (response RemovePreferencesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7782,9 +7891,10 @@ func (client LogAnalyticsClient) removePreferences(ctx context.Context, request 
 }
 
 // RemoveResourceCategories Removes the category assignments of DASHBOARD and SAVEDSEARCH resources.
+// A default retry strategy applies to this operation RemoveResourceCategories()
 func (client LogAnalyticsClient) RemoveResourceCategories(ctx context.Context, request RemoveResourceCategoriesRequest) (response RemoveResourceCategoriesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7837,9 +7947,10 @@ func (client LogAnalyticsClient) removeResourceCategories(ctx context.Context, r
 }
 
 // RemoveSourceEventTypes Remove one or more event types from a source.
+// A default retry strategy applies to this operation RemoveSourceEventTypes()
 func (client LogAnalyticsClient) RemoveSourceEventTypes(ctx context.Context, request RemoveSourceEventTypesRequest) (response RemoveSourceEventTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -7897,9 +8008,10 @@ func (client LogAnalyticsClient) removeSourceEventTypes(ctx context.Context, req
 }
 
 // ResumeScheduledTask Resume the scheduled task specified by {scheduledTaskId}.
+// A default retry strategy applies to this operation ResumeScheduledTask()
 func (client LogAnalyticsClient) ResumeScheduledTask(ctx context.Context, request ResumeScheduledTaskRequest) (response ResumeScheduledTaskResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8065,9 +8177,10 @@ func (client LogAnalyticsClient) setUnprocessedDataBucket(ctx context.Context, r
 }
 
 // Suggest Returns a context specific list of either commands, fields, or values to append to the end of the specified query string if applicable.
+// A default retry strategy applies to this operation Suggest()
 func (client LogAnalyticsClient) Suggest(ctx context.Context, request SuggestRequest) (response SuggestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8120,9 +8233,10 @@ func (client LogAnalyticsClient) suggest(ctx context.Context, request common.OCI
 }
 
 // SuppressWarning Supresses a list of warnings. Any unsuppressed warnings in the input list would be suppressed. Warnings in the input list which are already suppressed will not be modified.
+// A default retry strategy applies to this operation SuppressWarning()
 func (client LogAnalyticsClient) SuppressWarning(ctx context.Context, request SuppressWarningRequest) (response SuppressWarningResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8180,9 +8294,10 @@ func (client LogAnalyticsClient) suppressWarning(ctx context.Context, request co
 }
 
 // TestParser Tests the parser definition against the specified example content to ensure fields are successfully extracted.
+// A default retry strategy applies to this operation TestParser()
 func (client LogAnalyticsClient) TestParser(ctx context.Context, request TestParserRequest) (response TestParserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8240,9 +8355,10 @@ func (client LogAnalyticsClient) testParser(ctx context.Context, request common.
 }
 
 // UnsuppressWarning Unsupresses a list of warnings. Any suppressed warnings in the input list would be unsuppressed. Warnings in the input list which are already unsuppressed will not be modified.
+// A default retry strategy applies to this operation UnsuppressWarning()
 func (client LogAnalyticsClient) UnsuppressWarning(ctx context.Context, request UnsuppressWarningRequest) (response UnsuppressWarningResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8465,9 +8581,10 @@ func (client LogAnalyticsClient) updateLogAnalyticsEntityType(ctx context.Contex
 }
 
 // UpdateLogAnalyticsLogGroup Updates the specified log group's display name, description, defined tags, and free-form tags.
+// A default retry strategy applies to this operation UpdateLogAnalyticsLogGroup()
 func (client LogAnalyticsClient) UpdateLogAnalyticsLogGroup(ctx context.Context, request UpdateLogAnalyticsLogGroupRequest) (response UpdateLogAnalyticsLogGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8575,9 +8692,10 @@ func (client LogAnalyticsClient) updateLogAnalyticsObjectCollectionRule(ctx cont
 }
 
 // UpdateLookup Updates the metadata of the specified lookup, such as the lookup description.
+// A default retry strategy applies to this operation UpdateLookup()
 func (client LogAnalyticsClient) UpdateLookup(ctx context.Context, request UpdateLookupRequest) (response UpdateLookupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8635,9 +8753,10 @@ func (client LogAnalyticsClient) updateLookup(ctx context.Context, request commo
 }
 
 // UpdateLookupData Updates the lookup content. The csv file containing the content to be updated is passed in as binary data in the request.
+// A default retry strategy applies to this operation UpdateLookupData()
 func (client LogAnalyticsClient) UpdateLookupData(ctx context.Context, request UpdateLookupDataRequest) (response UpdateLookupDataResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8695,9 +8814,10 @@ func (client LogAnalyticsClient) updateLookupData(ctx context.Context, request c
 }
 
 // UpdatePreferences Updates the tenant preferences. Currently, only "DEFAULT_HOMEPAGE" is supported.
+// A default retry strategy applies to this operation UpdatePreferences()
 func (client LogAnalyticsClient) UpdatePreferences(ctx context.Context, request UpdatePreferencesRequest) (response UpdatePreferencesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8755,9 +8875,10 @@ func (client LogAnalyticsClient) updatePreferences(ctx context.Context, request 
 }
 
 // UpdateResourceCategories Updates the category assignments of DASHBOARD and SAVEDSEARCH resources.
+// A default retry strategy applies to this operation UpdateResourceCategories()
 func (client LogAnalyticsClient) UpdateResourceCategories(ctx context.Context, request UpdateResourceCategoriesRequest) (response UpdateResourceCategoriesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8810,9 +8931,10 @@ func (client LogAnalyticsClient) updateResourceCategories(ctx context.Context, r
 }
 
 // UpdateScheduledTask Update the scheduled task. Schedules may be updated only for taskType SAVED_SEARCH and PURGE.
+// A default retry strategy applies to this operation UpdateScheduledTask()
 func (client LogAnalyticsClient) UpdateScheduledTask(ctx context.Context, request UpdateScheduledTaskRequest) (response UpdateScheduledTaskResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8865,9 +8987,10 @@ func (client LogAnalyticsClient) updateScheduledTask(ctx context.Context, reques
 }
 
 // UpdateStorage This API updates the archiving configuration
+// A default retry strategy applies to this operation UpdateStorage()
 func (client LogAnalyticsClient) UpdateStorage(ctx context.Context, request UpdateStorageRequest) (response UpdateStorageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8920,9 +9043,10 @@ func (client LogAnalyticsClient) updateStorage(ctx context.Context, request comm
 }
 
 // UploadLogEventsFile Accepts log events for processing by Logging Analytics.
+// A default retry strategy applies to this operation UploadLogEventsFile()
 func (client LogAnalyticsClient) UploadLogEventsFile(ctx context.Context, request UploadLogEventsFileRequest) (response UploadLogEventsFileResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -8990,9 +9114,10 @@ func (client LogAnalyticsClient) uploadLogEventsFile(ctx context.Context, reques
 }
 
 // UploadLogFile Accepts log data for processing by Logging Analytics.
+// A default retry strategy applies to this operation UploadLogFile()
 func (client LogAnalyticsClient) UploadLogFile(ctx context.Context, request UploadLogFileRequest) (response UploadLogFileResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9060,9 +9185,10 @@ func (client LogAnalyticsClient) uploadLogFile(ctx context.Context, request comm
 }
 
 // UpsertAssociations Creates or updates associations between sources and entities. All entities should belong to the specified input compartment.
+// A default retry strategy applies to this operation UpsertAssociations()
 func (client LogAnalyticsClient) UpsertAssociations(ctx context.Context, request UpsertAssociationsRequest) (response UpsertAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9120,9 +9246,10 @@ func (client LogAnalyticsClient) upsertAssociations(ctx context.Context, request
 }
 
 // UpsertField Creates or updates a field that could be used in parser expressions to extract and assign value. To create a field, specify its display name. A name would be generated for the field. For subsequent calls to update the field, include the name attribute.
+// A default retry strategy applies to this operation UpsertField()
 func (client LogAnalyticsClient) UpsertField(ctx context.Context, request UpsertFieldRequest) (response UpsertFieldResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9180,9 +9307,10 @@ func (client LogAnalyticsClient) upsertField(ctx context.Context, request common
 }
 
 // UpsertLabel Creates or updates a label that could be used to tag a log entry. You may optionally designate the label as a problem, and assign it a priority. You may also provide its related terms (aliases). To create a label, specify its display name. A name would be generated for the label. For subsequent calls to update the label, include the name attribute.
+// A default retry strategy applies to this operation UpsertLabel()
 func (client LogAnalyticsClient) UpsertLabel(ctx context.Context, request UpsertLabelRequest) (response UpsertLabelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9240,9 +9368,10 @@ func (client LogAnalyticsClient) upsertLabel(ctx context.Context, request common
 }
 
 // UpsertParser Creates or updates a parser, which defines how fields are extracted from a log entry.
+// A default retry strategy applies to this operation UpsertParser()
 func (client LogAnalyticsClient) UpsertParser(ctx context.Context, request UpsertParserRequest) (response UpsertParserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9300,9 +9429,10 @@ func (client LogAnalyticsClient) upsertParser(ctx context.Context, request commo
 }
 
 // UpsertSource Creates or updates a log source. You may also specify parsers, labels, extended fields etc., for the source.
+// A default retry strategy applies to this operation UpsertSource()
 func (client LogAnalyticsClient) UpsertSource(ctx context.Context, request UpsertSourceRequest) (response UpsertSourceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9360,9 +9490,10 @@ func (client LogAnalyticsClient) upsertSource(ctx context.Context, request commo
 }
 
 // ValidateAssociationParameters Checks if the passed in entities could be associated with the specified sources. The validation is performed to ensure that the entities have the relevant property values that are used in the corresponding source patterns.
+// A default retry strategy applies to this operation ValidateAssociationParameters()
 func (client LogAnalyticsClient) ValidateAssociationParameters(ctx context.Context, request ValidateAssociationParametersRequest) (response ValidateAssociationParametersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9420,9 +9551,10 @@ func (client LogAnalyticsClient) validateAssociationParameters(ctx context.Conte
 }
 
 // ValidateFile Validates a log file to check whether it is eligible to be uploaded or not.
+// A default retry strategy applies to this operation ValidateFile()
 func (client LogAnalyticsClient) ValidateFile(ctx context.Context, request ValidateFileRequest) (response ValidateFileResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9473,9 +9605,10 @@ func (client LogAnalyticsClient) validateFile(ctx context.Context, request commo
 }
 
 // ValidateSource Checks if the specified input is a valid log source definition.
+// A default retry strategy applies to this operation ValidateSource()
 func (client LogAnalyticsClient) ValidateSource(ctx context.Context, request ValidateSourceRequest) (response ValidateSourceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9533,9 +9666,10 @@ func (client LogAnalyticsClient) validateSource(ctx context.Context, request com
 }
 
 // ValidateSourceExtendedFieldDetails Checks if the specified input contains valid extended field definitions against the provided example content.
+// A default retry strategy applies to this operation ValidateSourceExtendedFieldDetails()
 func (client LogAnalyticsClient) ValidateSourceExtendedFieldDetails(ctx context.Context, request ValidateSourceExtendedFieldDetailsRequest) (response ValidateSourceExtendedFieldDetailsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9593,9 +9727,10 @@ func (client LogAnalyticsClient) validateSourceExtendedFieldDetails(ctx context.
 }
 
 // ValidateSourceMapping Validates the source mapping for a given file and provides match status and the parsed representation of log data.
+// A default retry strategy applies to this operation ValidateSourceMapping()
 func (client LogAnalyticsClient) ValidateSourceMapping(ctx context.Context, request ValidateSourceMappingRequest) (response ValidateSourceMappingResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -9649,9 +9784,10 @@ func (client LogAnalyticsClient) validateSourceMapping(ctx context.Context, requ
 // For internal use only.
 // Optionally specify whether to return accelerated search results; the default is false.
 // The ScheduledTask taskType must be ACCELERATION.
+// A default retry strategy applies to this operation Verify()
 func (client LogAnalyticsClient) Verify(ctx context.Context, request VerifyRequest) (response VerifyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

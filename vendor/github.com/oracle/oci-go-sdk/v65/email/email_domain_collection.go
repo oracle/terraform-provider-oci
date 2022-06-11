@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// EmailDomainCollection Results of an EmailDomain search. Contains boh EmailDomainSummary items and other information, such as metadata.
+// EmailDomainCollection Results of an EmailDomain search. Contains both EmailDomainSummary items and other information, such as metadata.
 type EmailDomainCollection struct {
 
 	// List of email domains.

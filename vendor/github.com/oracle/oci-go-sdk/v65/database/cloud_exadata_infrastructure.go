@@ -105,6 +105,22 @@ type CloudExadataInfrastructure struct {
 	// Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.
 	// Up to 10 email addresses can be added to the customer contacts for a cloud Exadata infrastructure instance.
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
+
+	// The software version of the storage servers (cells) in the cloud Exadata infrastructure.
+	// Example: 20.1.15
+	StorageServerVersion *string `mandatory:"false" json:"storageServerVersion"`
+
+	// The software version of the database servers (dom0) in the cloud Exadata infrastructure.
+	// Example: 20.1.15
+	DbServerVersion *string `mandatory:"false" json:"dbServerVersion"`
+
+	// The monthly software version of the storage servers (cells) in the cloud Exadata infrastructure.
+	// Example: 20.1.15
+	MonthlyStorageServerVersion *string `mandatory:"false" json:"monthlyStorageServerVersion"`
+
+	// The monthly software version of the database servers (dom0) in the cloud Exadata infrastructure.
+	// Example: 20.1.15
+	MonthlyDbServerVersion *string `mandatory:"false" json:"monthlyDbServerVersion"`
 }
 
 func (m CloudExadataInfrastructure) String() string {

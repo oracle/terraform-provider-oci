@@ -43,6 +43,12 @@ const (
 	OperationTypesUpdateMetastoreConfig     OperationTypesEnum = "UPDATE_METASTORE_CONFIG"
 	OperationTypesActivateMetastoreConfig   OperationTypesEnum = "ACTIVATE_METASTORE_CONFIG"
 	OperationTypesTestMetastoreConfig       OperationTypesEnum = "TEST_METASTORE_CONFIG"
+	OperationTypesCreateLakehouseConfig     OperationTypesEnum = "CREATE_LAKEHOUSE_CONFIG"
+	OperationTypesDeleteLakehouseConfig     OperationTypesEnum = "DELETE_LAKEHOUSE_CONFIG"
+	OperationTypesUpdateLakehouseConfig     OperationTypesEnum = "UPDATE_LAKEHOUSE_CONFIG"
+	OperationTypesActivateLakehouseConfig   OperationTypesEnum = "ACTIVATE_LAKEHOUSE_CONFIG"
+	OperationTypesDeactivateLakehouseConfig OperationTypesEnum = "DEACTIVATE_LAKEHOUSE_CONFIG"
+	OperationTypesTestLakehouseConfig       OperationTypesEnum = "TEST_LAKEHOUSE_CONFIG"
 	OperationTypesPatchBds                  OperationTypesEnum = "PATCH_BDS"
 	OperationTypesPatchOdh                  OperationTypesEnum = "PATCH_ODH"
 )
@@ -73,6 +79,12 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"UPDATE_METASTORE_CONFIG":      OperationTypesUpdateMetastoreConfig,
 	"ACTIVATE_METASTORE_CONFIG":    OperationTypesActivateMetastoreConfig,
 	"TEST_METASTORE_CONFIG":        OperationTypesTestMetastoreConfig,
+	"CREATE_LAKEHOUSE_CONFIG":      OperationTypesCreateLakehouseConfig,
+	"DELETE_LAKEHOUSE_CONFIG":      OperationTypesDeleteLakehouseConfig,
+	"UPDATE_LAKEHOUSE_CONFIG":      OperationTypesUpdateLakehouseConfig,
+	"ACTIVATE_LAKEHOUSE_CONFIG":    OperationTypesActivateLakehouseConfig,
+	"DEACTIVATE_LAKEHOUSE_CONFIG":  OperationTypesDeactivateLakehouseConfig,
+	"TEST_LAKEHOUSE_CONFIG":        OperationTypesTestLakehouseConfig,
 	"PATCH_BDS":                    OperationTypesPatchBds,
 	"PATCH_ODH":                    OperationTypesPatchOdh,
 }
@@ -103,6 +115,12 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"update_metastore_config":      OperationTypesUpdateMetastoreConfig,
 	"activate_metastore_config":    OperationTypesActivateMetastoreConfig,
 	"test_metastore_config":        OperationTypesTestMetastoreConfig,
+	"create_lakehouse_config":      OperationTypesCreateLakehouseConfig,
+	"delete_lakehouse_config":      OperationTypesDeleteLakehouseConfig,
+	"update_lakehouse_config":      OperationTypesUpdateLakehouseConfig,
+	"activate_lakehouse_config":    OperationTypesActivateLakehouseConfig,
+	"deactivate_lakehouse_config":  OperationTypesDeactivateLakehouseConfig,
+	"test_lakehouse_config":        OperationTypesTestLakehouseConfig,
 	"patch_bds":                    OperationTypesPatchBds,
 	"patch_odh":                    OperationTypesPatchOdh,
 }
@@ -144,6 +162,12 @@ func GetOperationTypesEnumStringValues() []string {
 		"UPDATE_METASTORE_CONFIG",
 		"ACTIVATE_METASTORE_CONFIG",
 		"TEST_METASTORE_CONFIG",
+		"CREATE_LAKEHOUSE_CONFIG",
+		"DELETE_LAKEHOUSE_CONFIG",
+		"UPDATE_LAKEHOUSE_CONFIG",
+		"ACTIVATE_LAKEHOUSE_CONFIG",
+		"DEACTIVATE_LAKEHOUSE_CONFIG",
+		"TEST_LAKEHOUSE_CONFIG",
 		"PATCH_BDS",
 		"PATCH_ODH",
 	}

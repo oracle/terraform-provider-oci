@@ -70,18 +70,21 @@ type BdsMetastoreConfigurationMetastoreTypeEnum string
 
 // Set of constants representing the allowable values for BdsMetastoreConfigurationMetastoreTypeEnum
 const (
-	BdsMetastoreConfigurationMetastoreTypeLocal    BdsMetastoreConfigurationMetastoreTypeEnum = "LOCAL"
-	BdsMetastoreConfigurationMetastoreTypeExternal BdsMetastoreConfigurationMetastoreTypeEnum = "EXTERNAL"
+	BdsMetastoreConfigurationMetastoreTypeLocal     BdsMetastoreConfigurationMetastoreTypeEnum = "LOCAL"
+	BdsMetastoreConfigurationMetastoreTypeExternal  BdsMetastoreConfigurationMetastoreTypeEnum = "EXTERNAL"
+	BdsMetastoreConfigurationMetastoreTypeLakehouse BdsMetastoreConfigurationMetastoreTypeEnum = "LAKEHOUSE"
 )
 
 var mappingBdsMetastoreConfigurationMetastoreTypeEnum = map[string]BdsMetastoreConfigurationMetastoreTypeEnum{
-	"LOCAL":    BdsMetastoreConfigurationMetastoreTypeLocal,
-	"EXTERNAL": BdsMetastoreConfigurationMetastoreTypeExternal,
+	"LOCAL":     BdsMetastoreConfigurationMetastoreTypeLocal,
+	"EXTERNAL":  BdsMetastoreConfigurationMetastoreTypeExternal,
+	"LAKEHOUSE": BdsMetastoreConfigurationMetastoreTypeLakehouse,
 }
 
 var mappingBdsMetastoreConfigurationMetastoreTypeEnumLowerCase = map[string]BdsMetastoreConfigurationMetastoreTypeEnum{
-	"local":    BdsMetastoreConfigurationMetastoreTypeLocal,
-	"external": BdsMetastoreConfigurationMetastoreTypeExternal,
+	"local":     BdsMetastoreConfigurationMetastoreTypeLocal,
+	"external":  BdsMetastoreConfigurationMetastoreTypeExternal,
+	"lakehouse": BdsMetastoreConfigurationMetastoreTypeLakehouse,
 }
 
 // GetBdsMetastoreConfigurationMetastoreTypeEnumValues Enumerates the set of values for BdsMetastoreConfigurationMetastoreTypeEnum
@@ -98,6 +101,7 @@ func GetBdsMetastoreConfigurationMetastoreTypeEnumStringValues() []string {
 	return []string{
 		"LOCAL",
 		"EXTERNAL",
+		"LAKEHOUSE",
 	}
 }
 

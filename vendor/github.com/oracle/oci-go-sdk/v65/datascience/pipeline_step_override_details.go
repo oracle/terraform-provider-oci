@@ -10,60 +10,32 @@
 package datascience
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// StepConfigurationDetails The details of the step's configuration.
-type StepConfigurationDetails struct {
+// PipelineStepOverrideDetails Override details of the step. Only Step Configuration is allowed to be overridden.
+type PipelineStepOverrideDetails struct {
 
 	// The name of the step.
 	StepName *string `mandatory:"true" json:"stepName"`
 
-	StepConfigurationOverrideDetails PipelineConfigurationDetails `mandatory:"true" json:"stepConfigurationOverrideDetails"`
+	StepConfigurationDetails *PipelineStepConfigurationDetails `mandatory:"true" json:"stepConfigurationDetails"`
 }
 
-func (m StepConfigurationDetails) String() string {
+func (m PipelineStepOverrideDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m StepConfigurationDetails) ValidateEnumValue() (bool, error) {
+func (m PipelineStepOverrideDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *StepConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		StepName                         *string                      `json:"stepName"`
-		StepConfigurationOverrideDetails pipelineconfigurationdetails `json:"stepConfigurationOverrideDetails"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.StepName = model.StepName
-
-	nn, e = model.StepConfigurationOverrideDetails.UnmarshalPolymorphicJSON(model.StepConfigurationOverrideDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.StepConfigurationOverrideDetails = nn.(PipelineConfigurationDetails)
-	} else {
-		m.StepConfigurationOverrideDetails = nil
-	}
-
-	return
 }

@@ -15,10 +15,10 @@ import (
 // GetStepArtifactContentRequest wrapper for the GetStepArtifactContent operation
 type GetStepArtifactContentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline.
 	PipelineId *string `mandatory:"true" contributesTo:"path" name:"pipelineId"`
 
-	// Unique Step identifier in a pipeline
+	// Unique Step identifier in a pipeline.
 	StepName *string `mandatory:"true" contributesTo:"path" name:"stepName"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact Oracle about a particular request, then provide the request ID.

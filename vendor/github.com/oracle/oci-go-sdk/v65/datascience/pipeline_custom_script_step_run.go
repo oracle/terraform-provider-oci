@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// CustomScriptStepRun Detail of each CustomScriptStepRun.
-type CustomScriptStepRun struct {
+// PipelineCustomScriptStepRun Detail of each CustomScriptStepRun.
+type PipelineCustomScriptStepRun struct {
 
 	// The date and time the pipeline step run was started in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeStarted *common.SDKTime `mandatory:"true" json:"timeStarted"`
@@ -32,46 +32,46 @@ type CustomScriptStepRun struct {
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// The state of the step run.
-	LifecycleState StepRunLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	LifecycleState PipelineStepRunLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
 //GetTimeStarted returns TimeStarted
-func (m CustomScriptStepRun) GetTimeStarted() *common.SDKTime {
+func (m PipelineCustomScriptStepRun) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
 //GetTimeFinished returns TimeFinished
-func (m CustomScriptStepRun) GetTimeFinished() *common.SDKTime {
+func (m PipelineCustomScriptStepRun) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
 //GetStepName returns StepName
-func (m CustomScriptStepRun) GetStepName() *string {
+func (m PipelineCustomScriptStepRun) GetStepName() *string {
 	return m.StepName
 }
 
 //GetLifecycleState returns LifecycleState
-func (m CustomScriptStepRun) GetLifecycleState() StepRunLifecycleStateEnum {
+func (m PipelineCustomScriptStepRun) GetLifecycleState() PipelineStepRunLifecycleStateEnum {
 	return m.LifecycleState
 }
 
 //GetLifecycleDetails returns LifecycleDetails
-func (m CustomScriptStepRun) GetLifecycleDetails() *string {
+func (m PipelineCustomScriptStepRun) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-func (m CustomScriptStepRun) String() string {
+func (m PipelineCustomScriptStepRun) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CustomScriptStepRun) ValidateEnumValue() (bool, error) {
+func (m PipelineCustomScriptStepRun) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingStepRunLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetStepRunLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingPipelineStepRunLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetPipelineStepRunLifecycleStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -80,14 +80,14 @@ func (m CustomScriptStepRun) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m CustomScriptStepRun) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeCustomScriptStepRun CustomScriptStepRun
+func (m PipelineCustomScriptStepRun) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypePipelineCustomScriptStepRun PipelineCustomScriptStepRun
 	s := struct {
 		DiscriminatorParam string `json:"stepType"`
-		MarshalTypeCustomScriptStepRun
+		MarshalTypePipelineCustomScriptStepRun
 	}{
 		"CUSTOM_SCRIPT",
-		(MarshalTypeCustomScriptStepRun)(m),
+		(MarshalTypePipelineCustomScriptStepRun)(m),
 	}
 
 	return json.Marshal(&s)

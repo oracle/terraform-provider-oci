@@ -14,7 +14,7 @@ import (
 // UpdatePipelineRunRequest wrapper for the UpdatePipelineRun operation
 type UpdatePipelineRunRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline run
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline run.
 	PipelineRunId *string `mandatory:"true" contributesTo:"path" name:"pipelineRunId"`
 
 	// The information to be updated.

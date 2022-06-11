@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// DkimCollection Results of a search. Contains boh DkimSummary items and other information, such as metadata.
+// DkimCollection Results of a search. Contains both DkimSummary items and other information, such as metadata.
 type DkimCollection struct {
 
 	// List of dkims.

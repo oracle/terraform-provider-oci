@@ -14,7 +14,7 @@ import (
 // ChangePipelineCompartmentRequest wrapper for the ChangePipelineCompartment operation
 type ChangePipelineCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline.
 	PipelineId *string `mandatory:"true" contributesTo:"path" name:"pipelineId"`
 
 	// Details for the compartment move.
@@ -22,9 +22,6 @@ type ChangePipelineCompartmentRequest struct {
 
 	// Unique Oracle assigned identifier for the request. If you need to contact Oracle about a particular request, then provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again. Retry tokens expire after 24 hours, but can be invalidated before then due to conflicting operations. For example, if a resource has been deleted and purged from the system, then a retry of the original creation request might be rejected.
-	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the

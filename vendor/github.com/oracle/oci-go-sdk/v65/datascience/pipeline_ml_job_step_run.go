@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// MlJobStepRun Detail of each MLJobStepRun.
-type MlJobStepRun struct {
+// PipelineMlJobStepRun Detail of each MLJobStepRun.
+type PipelineMlJobStepRun struct {
 
 	// The date and time the pipeline step run was started in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeStarted *common.SDKTime `mandatory:"true" json:"timeStarted"`
@@ -35,46 +35,46 @@ type MlJobStepRun struct {
 	JobRunId *string `mandatory:"false" json:"jobRunId"`
 
 	// The state of the step run.
-	LifecycleState StepRunLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	LifecycleState PipelineStepRunLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
 //GetTimeStarted returns TimeStarted
-func (m MlJobStepRun) GetTimeStarted() *common.SDKTime {
+func (m PipelineMlJobStepRun) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
 //GetTimeFinished returns TimeFinished
-func (m MlJobStepRun) GetTimeFinished() *common.SDKTime {
+func (m PipelineMlJobStepRun) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
 //GetStepName returns StepName
-func (m MlJobStepRun) GetStepName() *string {
+func (m PipelineMlJobStepRun) GetStepName() *string {
 	return m.StepName
 }
 
 //GetLifecycleState returns LifecycleState
-func (m MlJobStepRun) GetLifecycleState() StepRunLifecycleStateEnum {
+func (m PipelineMlJobStepRun) GetLifecycleState() PipelineStepRunLifecycleStateEnum {
 	return m.LifecycleState
 }
 
 //GetLifecycleDetails returns LifecycleDetails
-func (m MlJobStepRun) GetLifecycleDetails() *string {
+func (m PipelineMlJobStepRun) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-func (m MlJobStepRun) String() string {
+func (m PipelineMlJobStepRun) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m MlJobStepRun) ValidateEnumValue() (bool, error) {
+func (m PipelineMlJobStepRun) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingStepRunLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetStepRunLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingPipelineStepRunLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetPipelineStepRunLifecycleStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -83,14 +83,14 @@ func (m MlJobStepRun) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m MlJobStepRun) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeMlJobStepRun MlJobStepRun
+func (m PipelineMlJobStepRun) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypePipelineMlJobStepRun PipelineMlJobStepRun
 	s := struct {
 		DiscriminatorParam string `json:"stepType"`
-		MarshalTypeMlJobStepRun
+		MarshalTypePipelineMlJobStepRun
 	}{
 		"ML_JOB",
-		(MarshalTypeMlJobStepRun)(m),
+		(MarshalTypePipelineMlJobStepRun)(m),
 	}
 
 	return json.Marshal(&s)

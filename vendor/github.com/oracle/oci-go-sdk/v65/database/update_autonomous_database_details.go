@@ -200,6 +200,12 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	// List of database tools details.
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
+
+	// Specifies the Data Guard tier of the Autonomous Database on shared Exadata infrastructure.
+	// The CRITICAL Autonomous Data Guard tier provides business-critical data recovery with a quicker recovery time objective (RTO) during Failover or Switchover.
+	// The STANDARD Autonomous Data Guard tier provides lower-cost data recovery with a higher recovery time objective (RTO) during Failover or Switchover.
+	// Default value is CRITICAL.
+	LocalAutonomousDataGuardTier UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum `mandatory:"false" json:"localAutonomousDataGuardTier,omitempty"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {
@@ -232,6 +238,9 @@ func (m UpdateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingUpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum(string(m.LocalAutonomousDataGuardTier)); !ok && m.LocalAutonomousDataGuardTier != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LocalAutonomousDataGuardTier: %s. Supported values are: %s.", m.LocalAutonomousDataGuardTier, strings.Join(GetUpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -496,5 +505,47 @@ func GetUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnumStringValues() []str
 // GetMappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum(val string) (UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum, bool) {
 	enum, ok := mappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum Enum with underlying type: string
+type UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum string
+
+// Set of constants representing the allowable values for UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum
+const (
+	UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierCritical UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum = "CRITICAL"
+	UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierStandard UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum = "STANDARD"
+)
+
+var mappingUpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum = map[string]UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum{
+	"CRITICAL": UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierCritical,
+	"STANDARD": UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierStandard,
+}
+
+var mappingUpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnumLowerCase = map[string]UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum{
+	"critical": UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierCritical,
+	"standard": UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierStandard,
+}
+
+// GetUpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum
+func GetUpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnumValues() []UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum {
+	values := make([]UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum, 0)
+	for _, v := range mappingUpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnumStringValues Enumerates the set of values in String for UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum
+func GetUpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnumStringValues() []string {
+	return []string{
+		"CRITICAL",
+		"STANDARD",
+	}
+}
+
+// GetMappingUpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum(val string) (UpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnum, bool) {
+	enum, ok := mappingUpdateAutonomousDatabaseDetailsLocalAutonomousDataGuardTierEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

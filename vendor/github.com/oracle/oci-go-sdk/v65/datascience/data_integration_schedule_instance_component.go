@@ -19,6 +19,9 @@ import (
 // DataIntegrationScheduleInstanceComponent Reference to Data Integration Schedule
 type DataIntegrationScheduleInstanceComponent struct {
 
+	// Identifier of Schedule.
+	Identifier *string `mandatory:"true" json:"identifier"`
+
 	// OCID of Data Integration Workspace in which Schedule is located.
 	WorkspaceId *string `mandatory:"true" json:"workspaceId"`
 

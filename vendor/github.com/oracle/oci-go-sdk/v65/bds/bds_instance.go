@@ -73,6 +73,9 @@ type BdsInstance struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For example, `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The OCID of the Key Management master encryption key.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 
 func (m BdsInstance) String() string {

@@ -334,5 +334,11 @@
         "realmDomainComponent": "oraclecloud14.com", 
         "regionIdentifier": "eu-dcc-milan-2", 
         "realmKey": "oc14"
+    }, 
+    {
+        "regionKey": "dus", 
+        "realmDomainComponent": "oraclecloud14.com", 
+        "regionIdentifier": "eu-dcc-rating-1", 
+        "realmKey": "oc14"
     }
 ]

@@ -22,36 +22,48 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeCreateDkim        OperationTypeEnum = "CREATE_DKIM"
-	OperationTypeDeleteDkim        OperationTypeEnum = "DELETE_DKIM"
-	OperationTypeMoveDkim          OperationTypeEnum = "MOVE_DKIM"
-	OperationTypeUpdateDkim        OperationTypeEnum = "UPDATE_DKIM"
-	OperationTypeCreateEmailDomain OperationTypeEnum = "CREATE_EMAIL_DOMAIN"
-	OperationTypeDeleteEmailDomain OperationTypeEnum = "DELETE_EMAIL_DOMAIN"
-	OperationTypeMoveEmailDomain   OperationTypeEnum = "MOVE_EMAIL_DOMAIN"
-	OperationTypeUpdateEmailDomain OperationTypeEnum = "UPDATE_EMAIL_DOMAIN"
+	OperationTypeCreateDkim            OperationTypeEnum = "CREATE_DKIM"
+	OperationTypeDeleteDkim            OperationTypeEnum = "DELETE_DKIM"
+	OperationTypeMoveDkim              OperationTypeEnum = "MOVE_DKIM"
+	OperationTypeUpdateDkim            OperationTypeEnum = "UPDATE_DKIM"
+	OperationTypeCreateEmailDomain     OperationTypeEnum = "CREATE_EMAIL_DOMAIN"
+	OperationTypeDeleteEmailDomain     OperationTypeEnum = "DELETE_EMAIL_DOMAIN"
+	OperationTypeMoveEmailDomain       OperationTypeEnum = "MOVE_EMAIL_DOMAIN"
+	OperationTypeUpdateEmailDomain     OperationTypeEnum = "UPDATE_EMAIL_DOMAIN"
+	OperationTypeCreatePrivateEndpoint OperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
+	OperationTypeDeletePrivateEndpoint OperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
+	OperationTypeMovePrivateEndpoint   OperationTypeEnum = "MOVE_PRIVATE_ENDPOINT"
+	OperationTypeUpdatePrivateEndpoint OperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
-	"CREATE_DKIM":         OperationTypeCreateDkim,
-	"DELETE_DKIM":         OperationTypeDeleteDkim,
-	"MOVE_DKIM":           OperationTypeMoveDkim,
-	"UPDATE_DKIM":         OperationTypeUpdateDkim,
-	"CREATE_EMAIL_DOMAIN": OperationTypeCreateEmailDomain,
-	"DELETE_EMAIL_DOMAIN": OperationTypeDeleteEmailDomain,
-	"MOVE_EMAIL_DOMAIN":   OperationTypeMoveEmailDomain,
-	"UPDATE_EMAIL_DOMAIN": OperationTypeUpdateEmailDomain,
+	"CREATE_DKIM":             OperationTypeCreateDkim,
+	"DELETE_DKIM":             OperationTypeDeleteDkim,
+	"MOVE_DKIM":               OperationTypeMoveDkim,
+	"UPDATE_DKIM":             OperationTypeUpdateDkim,
+	"CREATE_EMAIL_DOMAIN":     OperationTypeCreateEmailDomain,
+	"DELETE_EMAIL_DOMAIN":     OperationTypeDeleteEmailDomain,
+	"MOVE_EMAIL_DOMAIN":       OperationTypeMoveEmailDomain,
+	"UPDATE_EMAIL_DOMAIN":     OperationTypeUpdateEmailDomain,
+	"CREATE_PRIVATE_ENDPOINT": OperationTypeCreatePrivateEndpoint,
+	"DELETE_PRIVATE_ENDPOINT": OperationTypeDeletePrivateEndpoint,
+	"MOVE_PRIVATE_ENDPOINT":   OperationTypeMovePrivateEndpoint,
+	"UPDATE_PRIVATE_ENDPOINT": OperationTypeUpdatePrivateEndpoint,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
-	"create_dkim":         OperationTypeCreateDkim,
-	"delete_dkim":         OperationTypeDeleteDkim,
-	"move_dkim":           OperationTypeMoveDkim,
-	"update_dkim":         OperationTypeUpdateDkim,
-	"create_email_domain": OperationTypeCreateEmailDomain,
-	"delete_email_domain": OperationTypeDeleteEmailDomain,
-	"move_email_domain":   OperationTypeMoveEmailDomain,
-	"update_email_domain": OperationTypeUpdateEmailDomain,
+	"create_dkim":             OperationTypeCreateDkim,
+	"delete_dkim":             OperationTypeDeleteDkim,
+	"move_dkim":               OperationTypeMoveDkim,
+	"update_dkim":             OperationTypeUpdateDkim,
+	"create_email_domain":     OperationTypeCreateEmailDomain,
+	"delete_email_domain":     OperationTypeDeleteEmailDomain,
+	"move_email_domain":       OperationTypeMoveEmailDomain,
+	"update_email_domain":     OperationTypeUpdateEmailDomain,
+	"create_private_endpoint": OperationTypeCreatePrivateEndpoint,
+	"delete_private_endpoint": OperationTypeDeletePrivateEndpoint,
+	"move_private_endpoint":   OperationTypeMovePrivateEndpoint,
+	"update_private_endpoint": OperationTypeUpdatePrivateEndpoint,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -74,6 +86,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_EMAIL_DOMAIN",
 		"MOVE_EMAIL_DOMAIN",
 		"UPDATE_EMAIL_DOMAIN",
+		"CREATE_PRIVATE_ENDPOINT",
+		"DELETE_PRIVATE_ENDPOINT",
+		"MOVE_PRIVATE_ENDPOINT",
+		"UPDATE_PRIVATE_ENDPOINT",
 	}
 }
 

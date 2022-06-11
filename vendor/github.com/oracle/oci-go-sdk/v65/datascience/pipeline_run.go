@@ -41,7 +41,7 @@ type PipelineRun struct {
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// Array of StepRun object for each step.
-	StepRuns []StepRun `mandatory:"true" json:"stepRuns"`
+	StepRuns []PipelineStepRun `mandatory:"true" json:"stepRuns"`
 
 	// The current state of the pipeline run.
 	LifecycleState PipelineRunLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -55,14 +55,14 @@ type PipelineRun struct {
 	// The date and time the pipeline run request was finished in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 
-	PipelineConfigurationDetails PipelineConfigurationDetails `mandatory:"false" json:"pipelineConfigurationDetails"`
+	ConfigurationDetails PipelineConfigurationDetails `mandatory:"false" json:"configurationDetails"`
 
-	PipelineConfigurationOverrideDetails PipelineConfigurationDetails `mandatory:"false" json:"pipelineConfigurationOverrideDetails"`
+	ConfigurationOverrideDetails PipelineConfigurationDetails `mandatory:"false" json:"configurationOverrideDetails"`
 
-	PipelineLogConfigurationOverrideDetails *PipelineLogConfigurationDetails `mandatory:"false" json:"pipelineLogConfigurationOverrideDetails"`
+	LogConfigurationOverrideDetails *PipelineLogConfigurationDetails `mandatory:"false" json:"logConfigurationOverrideDetails"`
 
-	// The configuration override details for each step.
-	StepConfigurationOverrideDetails []StepConfigurationDetails `mandatory:"false" json:"stepConfigurationOverrideDetails"`
+	// Array of step override details. Only Step Configuration is allowed to be overridden.
+	StepOverrideDetails []PipelineStepOverrideDetails `mandatory:"false" json:"stepOverrideDetails"`
 
 	LogDetails *PipelineRunLogDetails `mandatory:"false" json:"logDetails"`
 
@@ -104,27 +104,27 @@ func (m PipelineRun) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *PipelineRun) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		TimeStarted                             *common.SDKTime                   `json:"timeStarted"`
-		TimeUpdated                             *common.SDKTime                   `json:"timeUpdated"`
-		TimeFinished                            *common.SDKTime                   `json:"timeFinished"`
-		PipelineConfigurationDetails            pipelineconfigurationdetails      `json:"pipelineConfigurationDetails"`
-		PipelineConfigurationOverrideDetails    pipelineconfigurationdetails      `json:"pipelineConfigurationOverrideDetails"`
-		PipelineLogConfigurationOverrideDetails *PipelineLogConfigurationDetails  `json:"pipelineLogConfigurationOverrideDetails"`
-		StepConfigurationOverrideDetails        []StepConfigurationDetails        `json:"stepConfigurationOverrideDetails"`
-		LogDetails                              *PipelineRunLogDetails            `json:"logDetails"`
-		LifecycleDetails                        *string                           `json:"lifecycleDetails"`
-		FreeformTags                            map[string]string                 `json:"freeformTags"`
-		DefinedTags                             map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags                              map[string]map[string]interface{} `json:"systemTags"`
-		Id                                      *string                           `json:"id"`
-		TimeAccepted                            *common.SDKTime                   `json:"timeAccepted"`
-		CreatedBy                               *string                           `json:"createdBy"`
-		ProjectId                               *string                           `json:"projectId"`
-		CompartmentId                           *string                           `json:"compartmentId"`
-		PipelineId                              *string                           `json:"pipelineId"`
-		DisplayName                             *string                           `json:"displayName"`
-		StepRuns                                []steprun                         `json:"stepRuns"`
-		LifecycleState                          PipelineRunLifecycleStateEnum     `json:"lifecycleState"`
+		TimeStarted                     *common.SDKTime                   `json:"timeStarted"`
+		TimeUpdated                     *common.SDKTime                   `json:"timeUpdated"`
+		TimeFinished                    *common.SDKTime                   `json:"timeFinished"`
+		ConfigurationDetails            pipelineconfigurationdetails      `json:"configurationDetails"`
+		ConfigurationOverrideDetails    pipelineconfigurationdetails      `json:"configurationOverrideDetails"`
+		LogConfigurationOverrideDetails *PipelineLogConfigurationDetails  `json:"logConfigurationOverrideDetails"`
+		StepOverrideDetails             []PipelineStepOverrideDetails     `json:"stepOverrideDetails"`
+		LogDetails                      *PipelineRunLogDetails            `json:"logDetails"`
+		LifecycleDetails                *string                           `json:"lifecycleDetails"`
+		FreeformTags                    map[string]string                 `json:"freeformTags"`
+		DefinedTags                     map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                      map[string]map[string]interface{} `json:"systemTags"`
+		Id                              *string                           `json:"id"`
+		TimeAccepted                    *common.SDKTime                   `json:"timeAccepted"`
+		CreatedBy                       *string                           `json:"createdBy"`
+		ProjectId                       *string                           `json:"projectId"`
+		CompartmentId                   *string                           `json:"compartmentId"`
+		PipelineId                      *string                           `json:"pipelineId"`
+		DisplayName                     *string                           `json:"displayName"`
+		StepRuns                        []pipelinesteprun                 `json:"stepRuns"`
+		LifecycleState                  PipelineRunLifecycleStateEnum     `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -138,31 +138,31 @@ func (m *PipelineRun) UnmarshalJSON(data []byte) (e error) {
 
 	m.TimeFinished = model.TimeFinished
 
-	nn, e = model.PipelineConfigurationDetails.UnmarshalPolymorphicJSON(model.PipelineConfigurationDetails.JsonData)
+	nn, e = model.ConfigurationDetails.UnmarshalPolymorphicJSON(model.ConfigurationDetails.JsonData)
 	if e != nil {
 		return
 	}
 	if nn != nil {
-		m.PipelineConfigurationDetails = nn.(PipelineConfigurationDetails)
+		m.ConfigurationDetails = nn.(PipelineConfigurationDetails)
 	} else {
-		m.PipelineConfigurationDetails = nil
+		m.ConfigurationDetails = nil
 	}
 
-	nn, e = model.PipelineConfigurationOverrideDetails.UnmarshalPolymorphicJSON(model.PipelineConfigurationOverrideDetails.JsonData)
+	nn, e = model.ConfigurationOverrideDetails.UnmarshalPolymorphicJSON(model.ConfigurationOverrideDetails.JsonData)
 	if e != nil {
 		return
 	}
 	if nn != nil {
-		m.PipelineConfigurationOverrideDetails = nn.(PipelineConfigurationDetails)
+		m.ConfigurationOverrideDetails = nn.(PipelineConfigurationDetails)
 	} else {
-		m.PipelineConfigurationOverrideDetails = nil
+		m.ConfigurationOverrideDetails = nil
 	}
 
-	m.PipelineLogConfigurationOverrideDetails = model.PipelineLogConfigurationOverrideDetails
+	m.LogConfigurationOverrideDetails = model.LogConfigurationOverrideDetails
 
-	m.StepConfigurationOverrideDetails = make([]StepConfigurationDetails, len(model.StepConfigurationOverrideDetails))
-	for i, n := range model.StepConfigurationOverrideDetails {
-		m.StepConfigurationOverrideDetails[i] = n
+	m.StepOverrideDetails = make([]PipelineStepOverrideDetails, len(model.StepOverrideDetails))
+	for i, n := range model.StepOverrideDetails {
+		m.StepOverrideDetails[i] = n
 	}
 
 	m.LogDetails = model.LogDetails
@@ -189,14 +189,14 @@ func (m *PipelineRun) UnmarshalJSON(data []byte) (e error) {
 
 	m.DisplayName = model.DisplayName
 
-	m.StepRuns = make([]StepRun, len(model.StepRuns))
+	m.StepRuns = make([]PipelineStepRun, len(model.StepRuns))
 	for i, n := range model.StepRuns {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
 		if e != nil {
 			return e
 		}
 		if nn != nil {
-			m.StepRuns[i] = nn.(StepRun)
+			m.StepRuns[i] = nn.(PipelineStepRun)
 		} else {
 			m.StepRuns[i] = nil
 		}

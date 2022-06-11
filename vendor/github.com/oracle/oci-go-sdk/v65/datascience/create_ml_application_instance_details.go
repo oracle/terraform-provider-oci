@@ -33,6 +33,9 @@ type CreateMlApplicationInstanceDetails struct {
 	// Data that are used for provisioning of the given MlApplicationInstance. These are validated against configurationSchema defined in referenced MlApplication.
 	Configuration []ConfigurationProperty `mandatory:"false" json:"configuration"`
 
+	// Defines whether the MlApplicationInstance will be created in ACTIVE (true value) or INACTIVE (false value) lifecycle state.
+	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -63,6 +66,7 @@ func (m *CreateMlApplicationInstanceDetails) UnmarshalJSON(data []byte) (e error
 	model := struct {
 		AuthConfiguration authconfiguration                 `json:"authConfiguration"`
 		Configuration     []ConfigurationProperty           `json:"configuration"`
+		IsEnabled         *bool                             `json:"isEnabled"`
 		FreeformTags      map[string]string                 `json:"freeformTags"`
 		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
 		Name              *string                           `json:"name"`
@@ -89,6 +93,8 @@ func (m *CreateMlApplicationInstanceDetails) UnmarshalJSON(data []byte) (e error
 	for i, n := range model.Configuration {
 		m.Configuration[i] = n
 	}
+
+	m.IsEnabled = model.IsEnabled
 
 	m.FreeformTags = model.FreeformTags
 

@@ -14,13 +14,13 @@ import (
 // DeletePipelineRequest wrapper for the DeletePipeline operation
 type DeletePipelineRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline.
 	PipelineId *string `mandatory:"true" contributesTo:"path" name:"pipelineId"`
 
-	// A boolean value to specify whether to delete related PipelineRuns or not
+	// A boolean value to specify whether to delete related PipelineRuns or not.
 	DeleteRelatedPipelineRuns *bool `mandatory:"false" contributesTo:"query" name:"deleteRelatedPipelineRuns"`
 
-	// A boolean value to specify whether to delete related jobRuns or not
+	// A boolean value to specify whether to delete related jobRuns or not.
 	DeleteRelatedJobRuns *bool `mandatory:"false" contributesTo:"query" name:"deleteRelatedJobRuns"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

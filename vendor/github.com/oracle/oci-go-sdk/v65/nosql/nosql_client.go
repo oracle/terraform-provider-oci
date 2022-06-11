@@ -91,9 +91,10 @@ func (client *NosqlClient) ConfigurationProvider() *common.ConfigurationProvider
 }
 
 // ChangeTableCompartment Change a table's compartment.
+// A default retry strategy applies to this operation ChangeTableCompartment()
 func (client NosqlClient) ChangeTableCompartment(ctx context.Context, request ChangeTableCompartmentRequest) (response ChangeTableCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -149,9 +150,10 @@ func (client NosqlClient) changeTableCompartment(ctx context.Context, request co
 }
 
 // CreateIndex Create a new index on the table identified by tableNameOrId.
+// A default retry strategy applies to this operation CreateIndex()
 func (client NosqlClient) CreateIndex(ctx context.Context, request CreateIndexRequest) (response CreateIndexResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -207,9 +209,10 @@ func (client NosqlClient) createIndex(ctx context.Context, request common.OCIReq
 }
 
 // CreateTable Create a new table.
+// A default retry strategy applies to this operation CreateTable()
 func (client NosqlClient) CreateTable(ctx context.Context, request CreateTableRequest) (response CreateTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -477,9 +480,10 @@ func (client NosqlClient) deleteWorkRequest(ctx context.Context, request common.
 }
 
 // GetIndex Get information about a single index.
+// A default retry strategy applies to this operation GetIndex()
 func (client NosqlClient) GetIndex(ctx context.Context, request GetIndexRequest) (response GetIndexResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -530,9 +534,10 @@ func (client NosqlClient) getIndex(ctx context.Context, request common.OCIReques
 }
 
 // GetRow Get a single row from the table by primary key.
+// A default retry strategy applies to this operation GetRow()
 func (client NosqlClient) GetRow(ctx context.Context, request GetRowRequest) (response GetRowResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -583,9 +588,10 @@ func (client NosqlClient) getRow(ctx context.Context, request common.OCIRequest,
 }
 
 // GetTable Get table info by identifier.
+// A default retry strategy applies to this operation GetTable()
 func (client NosqlClient) GetTable(ctx context.Context, request GetTableRequest) (response GetTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -636,9 +642,10 @@ func (client NosqlClient) getTable(ctx context.Context, request common.OCIReques
 }
 
 // GetWorkRequest Get the status of the work request with the given ID.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client NosqlClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -689,9 +696,10 @@ func (client NosqlClient) getWorkRequest(ctx context.Context, request common.OCI
 }
 
 // ListIndexes Get a list of indexes on a table.
+// A default retry strategy applies to this operation ListIndexes()
 func (client NosqlClient) ListIndexes(ctx context.Context, request ListIndexesRequest) (response ListIndexesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -742,9 +750,10 @@ func (client NosqlClient) listIndexes(ctx context.Context, request common.OCIReq
 }
 
 // ListTableUsage Get table usage info.
+// A default retry strategy applies to this operation ListTableUsage()
 func (client NosqlClient) ListTableUsage(ctx context.Context, request ListTableUsageRequest) (response ListTableUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -795,9 +804,10 @@ func (client NosqlClient) listTableUsage(ctx context.Context, request common.OCI
 }
 
 // ListTables Get a list of tables in a compartment.
+// A default retry strategy applies to this operation ListTables()
 func (client NosqlClient) ListTables(ctx context.Context, request ListTablesRequest) (response ListTablesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -848,9 +858,10 @@ func (client NosqlClient) listTables(ctx context.Context, request common.OCIRequ
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client NosqlClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -901,9 +912,10 @@ func (client NosqlClient) listWorkRequestErrors(ctx context.Context, request com
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client NosqlClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -954,9 +966,10 @@ func (client NosqlClient) listWorkRequestLogs(ctx context.Context, request commo
 }
 
 // ListWorkRequests List the work requests in a compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client NosqlClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1007,9 +1020,10 @@ func (client NosqlClient) listWorkRequests(ctx context.Context, request common.O
 }
 
 // PrepareStatement Prepare a SQL statement for use in a query with variable substitution.
+// A default retry strategy applies to this operation PrepareStatement()
 func (client NosqlClient) PrepareStatement(ctx context.Context, request PrepareStatementRequest) (response PrepareStatementResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1113,9 +1127,10 @@ func (client NosqlClient) query(ctx context.Context, request common.OCIRequest, 
 }
 
 // SummarizeStatement Check the syntax and return a brief summary of a SQL statement.
+// A default retry strategy applies to this operation SummarizeStatement()
 func (client NosqlClient) SummarizeStatement(ctx context.Context, request SummarizeStatementRequest) (response SummarizeStatementResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

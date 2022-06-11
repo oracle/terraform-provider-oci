@@ -27,6 +27,7 @@ const (
 	ActionTypeDeleted    ActionTypeEnum = "DELETED"
 	ActionTypeInProgress ActionTypeEnum = "IN_PROGRESS"
 	ActionTypeRelated    ActionTypeEnum = "RELATED"
+	ActionTypeFailed     ActionTypeEnum = "FAILED"
 )
 
 var mappingActionTypeEnum = map[string]ActionTypeEnum{
@@ -35,6 +36,7 @@ var mappingActionTypeEnum = map[string]ActionTypeEnum{
 	"DELETED":     ActionTypeDeleted,
 	"IN_PROGRESS": ActionTypeInProgress,
 	"RELATED":     ActionTypeRelated,
+	"FAILED":      ActionTypeFailed,
 }
 
 var mappingActionTypeEnumLowerCase = map[string]ActionTypeEnum{
@@ -43,6 +45,7 @@ var mappingActionTypeEnumLowerCase = map[string]ActionTypeEnum{
 	"deleted":     ActionTypeDeleted,
 	"in_progress": ActionTypeInProgress,
 	"related":     ActionTypeRelated,
+	"failed":      ActionTypeFailed,
 }
 
 // GetActionTypeEnumValues Enumerates the set of values for ActionTypeEnum
@@ -62,6 +65,7 @@ func GetActionTypeEnumStringValues() []string {
 		"DELETED",
 		"IN_PROGRESS",
 		"RELATED",
+		"FAILED",
 	}
 }
 

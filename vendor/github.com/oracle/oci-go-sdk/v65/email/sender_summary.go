@@ -35,7 +35,7 @@ type SenderSummary struct {
 	LifecycleState SenderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Date time the approved sender was added, in "YYYY-MM-ddThh:mmZ"
-	// format with a Z offset, as defined by RFC 3339.
+	// format with a Z offset, as defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

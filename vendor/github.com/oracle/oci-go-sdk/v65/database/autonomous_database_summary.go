@@ -31,7 +31,7 @@ type AutonomousDatabaseSummary struct {
 	// The database name.
 	DbName *string `mandatory:"true" json:"dbName"`
 
-	// The number of OCPU cores to be made available to the database. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
+	// The number of OCPU cores to be made available to the database. When the ECPU is selected, the value for cpuCoreCount is 0. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
 
@@ -363,6 +363,18 @@ type AutonomousDatabaseSummary struct {
 
 	// List of database tools details.
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
+
+	// Specifies the Data Guard tier of the Autonomous Database on shared Exadata infrastructure.
+	// The CRITICAL Autonomous Data Guard tier provides business-critical data recovery with a quicker recovery time objective (RTO) during Failover or Switchover.
+	// The STANDARD Autonomous Data Guard tier provides lower-cost data recovery with a higher recovery time objective (RTO) during Failover or Switchover.
+	// Default value is CRITICAL.
+	LocalAutonomousDataGuardTier AutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum `mandatory:"false" json:"localAutonomousDataGuardTier,omitempty"`
+
+	// Specifies the Data Guard tier of the Autonomous Database on shared Exadata infrastructure.
+	// The CRITICAL Autonomous Data Guard tier provides business-critical data recovery with a quicker recovery time objective (RTO) during Failover or Switchover.
+	// The STANDARD Autonomous Data Guard tier provides lower-cost data recovery with a higher recovery time objective (RTO) during Failover or Switchover.
+	// Default value is CRITICAL.
+	RemoteAutonomousDataGuardTier AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum `mandatory:"false" json:"remoteAutonomousDataGuardTier,omitempty"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {
@@ -422,6 +434,12 @@ func (m AutonomousDatabaseSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum(string(m.LocalAutonomousDataGuardTier)); !ok && m.LocalAutonomousDataGuardTier != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LocalAutonomousDataGuardTier: %s. Supported values are: %s.", m.LocalAutonomousDataGuardTier, strings.Join(GetAutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum(string(m.RemoteAutonomousDataGuardTier)); !ok && m.RemoteAutonomousDataGuardTier != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RemoteAutonomousDataGuardTier: %s. Supported values are: %s.", m.RemoteAutonomousDataGuardTier, strings.Join(GetAutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -1230,5 +1248,89 @@ func GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues() []string {
 // GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(val string) (AutonomousDatabaseSummaryDatabaseEditionEnum, bool) {
 	enum, ok := mappingAutonomousDatabaseSummaryDatabaseEditionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum Enum with underlying type: string
+type AutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum
+const (
+	AutonomousDatabaseSummaryLocalAutonomousDataGuardTierCritical AutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum = "CRITICAL"
+	AutonomousDatabaseSummaryLocalAutonomousDataGuardTierStandard AutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum = "STANDARD"
+)
+
+var mappingAutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum = map[string]AutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum{
+	"CRITICAL": AutonomousDatabaseSummaryLocalAutonomousDataGuardTierCritical,
+	"STANDARD": AutonomousDatabaseSummaryLocalAutonomousDataGuardTierStandard,
+}
+
+var mappingAutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnumLowerCase = map[string]AutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum{
+	"critical": AutonomousDatabaseSummaryLocalAutonomousDataGuardTierCritical,
+	"standard": AutonomousDatabaseSummaryLocalAutonomousDataGuardTierStandard,
+}
+
+// GetAutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnumValues Enumerates the set of values for AutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum
+func GetAutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnumValues() []AutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum {
+	values := make([]AutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum, 0)
+	for _, v := range mappingAutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum
+func GetAutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnumStringValues() []string {
+	return []string{
+		"CRITICAL",
+		"STANDARD",
+	}
+}
+
+// GetMappingAutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum(val string) (AutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnum, bool) {
+	enum, ok := mappingAutonomousDatabaseSummaryLocalAutonomousDataGuardTierEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum Enum with underlying type: string
+type AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum
+const (
+	AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierCritical AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum = "CRITICAL"
+	AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierStandard AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum = "STANDARD"
+)
+
+var mappingAutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum = map[string]AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum{
+	"CRITICAL": AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierCritical,
+	"STANDARD": AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierStandard,
+}
+
+var mappingAutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnumLowerCase = map[string]AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum{
+	"critical": AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierCritical,
+	"standard": AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierStandard,
+}
+
+// GetAutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnumValues Enumerates the set of values for AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum
+func GetAutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnumValues() []AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum {
+	values := make([]AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum, 0)
+	for _, v := range mappingAutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum
+func GetAutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnumStringValues() []string {
+	return []string{
+		"CRITICAL",
+		"STANDARD",
+	}
+}
+
+// GetMappingAutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum(val string) (AutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnum, bool) {
+	enum, ok := mappingAutonomousDatabaseSummaryRemoteAutonomousDataGuardTierEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

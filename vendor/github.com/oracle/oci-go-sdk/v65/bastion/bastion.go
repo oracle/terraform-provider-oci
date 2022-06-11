@@ -61,6 +61,9 @@ type Bastion struct {
 	// The maximum number of active sessions allowed on the bastion.
 	MaxSessionsAllowed *int `mandatory:"false" json:"maxSessionsAllowed"`
 
+	// Flag to allow DNS Proxy for Reverse Connection on Private Endpoint
+	IsDnsSupported *bool `mandatory:"false" json:"isDnsSupported"`
+
 	// The time the bastion was updated. Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2020-01-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`

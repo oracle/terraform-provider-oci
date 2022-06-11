@@ -26,6 +26,9 @@ type Category struct {
 	// The OCID of the tenancy. The tenancy is the root compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// The name associated with the compartment.
+	CompartmentName *string `mandatory:"true" json:"compartmentName"`
+
 	// The name assigned to the category.
 	Name *string `mandatory:"true" json:"name"`
 

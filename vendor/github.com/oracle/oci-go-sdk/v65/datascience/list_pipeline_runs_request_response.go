@@ -20,7 +20,7 @@ type ListPipelineRunsRequest struct {
 	// <b>Filter</b> results by OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for the resource type.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline.
 	PipelineId *string `mandatory:"false" contributesTo:"query" name:"pipelineId"`
 
 	// <b>Filter</b> results by its user-friendly name.

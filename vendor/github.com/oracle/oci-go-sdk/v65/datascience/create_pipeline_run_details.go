@@ -31,12 +31,12 @@ type CreatePipelineRunDetails struct {
 	// A user-friendly display name for the resource.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	PipelineConfigurationOverrideDetails PipelineConfigurationDetails `mandatory:"false" json:"pipelineConfigurationOverrideDetails"`
+	ConfigurationOverrideDetails PipelineConfigurationDetails `mandatory:"false" json:"configurationOverrideDetails"`
 
-	PipelineLogConfigurationOverrideDetails *PipelineLogConfigurationDetails `mandatory:"false" json:"pipelineLogConfigurationOverrideDetails"`
+	LogConfigurationOverrideDetails *PipelineLogConfigurationDetails `mandatory:"false" json:"logConfigurationOverrideDetails"`
 
-	// The configuration override details for each step.
-	StepConfigurationOverrideDetails []StepConfigurationDetails `mandatory:"false" json:"stepConfigurationOverrideDetails"`
+	// Array of step override details. Only Step Configuration is allowed to be overridden.
+	StepOverrideDetails []PipelineStepOverrideDetails `mandatory:"false" json:"stepOverrideDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -70,16 +70,16 @@ func (m CreatePipelineRunDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreatePipelineRunDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName                             *string                           `json:"displayName"`
-		PipelineConfigurationOverrideDetails    pipelineconfigurationdetails      `json:"pipelineConfigurationOverrideDetails"`
-		PipelineLogConfigurationOverrideDetails *PipelineLogConfigurationDetails  `json:"pipelineLogConfigurationOverrideDetails"`
-		StepConfigurationOverrideDetails        []StepConfigurationDetails        `json:"stepConfigurationOverrideDetails"`
-		FreeformTags                            map[string]string                 `json:"freeformTags"`
-		DefinedTags                             map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags                              map[string]map[string]interface{} `json:"systemTags"`
-		ProjectId                               *string                           `json:"projectId"`
-		CompartmentId                           *string                           `json:"compartmentId"`
-		PipelineId                              *string                           `json:"pipelineId"`
+		DisplayName                     *string                           `json:"displayName"`
+		ConfigurationOverrideDetails    pipelineconfigurationdetails      `json:"configurationOverrideDetails"`
+		LogConfigurationOverrideDetails *PipelineLogConfigurationDetails  `json:"logConfigurationOverrideDetails"`
+		StepOverrideDetails             []PipelineStepOverrideDetails     `json:"stepOverrideDetails"`
+		FreeformTags                    map[string]string                 `json:"freeformTags"`
+		DefinedTags                     map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                      map[string]map[string]interface{} `json:"systemTags"`
+		ProjectId                       *string                           `json:"projectId"`
+		CompartmentId                   *string                           `json:"compartmentId"`
+		PipelineId                      *string                           `json:"pipelineId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -89,21 +89,21 @@ func (m *CreatePipelineRunDetails) UnmarshalJSON(data []byte) (e error) {
 	var nn interface{}
 	m.DisplayName = model.DisplayName
 
-	nn, e = model.PipelineConfigurationOverrideDetails.UnmarshalPolymorphicJSON(model.PipelineConfigurationOverrideDetails.JsonData)
+	nn, e = model.ConfigurationOverrideDetails.UnmarshalPolymorphicJSON(model.ConfigurationOverrideDetails.JsonData)
 	if e != nil {
 		return
 	}
 	if nn != nil {
-		m.PipelineConfigurationOverrideDetails = nn.(PipelineConfigurationDetails)
+		m.ConfigurationOverrideDetails = nn.(PipelineConfigurationDetails)
 	} else {
-		m.PipelineConfigurationOverrideDetails = nil
+		m.ConfigurationOverrideDetails = nil
 	}
 
-	m.PipelineLogConfigurationOverrideDetails = model.PipelineLogConfigurationOverrideDetails
+	m.LogConfigurationOverrideDetails = model.LogConfigurationOverrideDetails
 
-	m.StepConfigurationOverrideDetails = make([]StepConfigurationDetails, len(model.StepConfigurationOverrideDetails))
-	for i, n := range model.StepConfigurationOverrideDetails {
-		m.StepConfigurationOverrideDetails[i] = n
+	m.StepOverrideDetails = make([]PipelineStepOverrideDetails, len(model.StepOverrideDetails))
+	for i, n := range model.StepOverrideDetails {
+		m.StepOverrideDetails[i] = n
 	}
 
 	m.FreeformTags = model.FreeformTags

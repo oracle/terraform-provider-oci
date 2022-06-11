@@ -258,7 +258,7 @@ func (client OptimizerClient) deleteProfile(ctx context.Context, request common.
 	return response, err
 }
 
-// FilterResourceActions Queries the Cloud Advisor resource actions that are supported by the specified recommendation.
+// FilterResourceActions Queries the Cloud Advisor resource actions that are supported.
 func (client OptimizerClient) FilterResourceActions(ctx context.Context, request FilterResourceActionsRequest) (response FilterResourceActionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -948,7 +948,7 @@ func (client OptimizerClient) listRecommendationStrategies(ctx context.Context, 
 	return response, err
 }
 
-// ListRecommendations Lists the Cloud Advisor recommendations that are currently supported in the specified category.
+// ListRecommendations Lists the Cloud Advisor recommendations that are currently supported.
 func (client OptimizerClient) ListRecommendations(ctx context.Context, request ListRecommendationsRequest) (response ListRecommendationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1054,7 +1054,7 @@ func (client OptimizerClient) listResourceActionQueryableFields(ctx context.Cont
 	return response, err
 }
 
-// ListResourceActions Lists the Cloud Advisor resource actions that are supported by the specified recommendation.
+// ListResourceActions Lists the Cloud Advisor resource actions that are supported.
 func (client OptimizerClient) ListResourceActions(ctx context.Context, request ListResourceActionsRequest) (response ListResourceActionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
