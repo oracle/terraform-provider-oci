@@ -12,8 +12,8 @@ import (
 	oci_audit "github.com/oracle/oci-go-sdk/v65/audit"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"terraform-provider-oci/internal/client"
+	"terraform-provider-oci/internal/tfresource"
 )
 
 func AuditAuditEventsDataSource() *schema.Resource {

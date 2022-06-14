@@ -459,7 +459,7 @@ support for - Cluster Network: new optional parameter to Update API
 - Support for Email Authentication: DKIM API
 
 ### Fixed
-- Update issue in `oci_database_autonomous_database` - Issue [1417](https://github.com/terraform-providers/terraform-provider-oci/issues/1417)
+- Update issue in `oci_database_autonomous_database` - Issue [1417](https://github.com/oracle/terraform-provider-oci/issues/1417)
 
 ## 4.36.0 (July 21, 2021)
 
@@ -609,7 +609,7 @@ support for - Cluster Network: new optional parameter to Update API
 
 ### Fixed
 - Fixed functions resource to sync `image_digest` with `image` appropriately
-- Removed incorrect document for `oci_data_safe_on_prem_connectors_configuration`. Issue [1344](https://github.com/terraform-providers/terraform-provider-oci/issues/1344)
+- Removed incorrect document for `oci_data_safe_on_prem_connectors_configuration`. Issue [1344](https://github.com/oracle/terraform-provider-oci/issues/1344)
 - Property `ipv6cidr_block` and `ipv6public_cidr_block` are removed from `oci_core_vcn`
 - Property `ipv6public_cidr_block` is removed from `oci_core_subnet`
 
@@ -742,7 +742,7 @@ support for - Cluster Network: new optional parameter to Update API
 ## 4.8.0 (January 06, 2021)
 
 ### Fixed
-- Fixed typo in load balancer shape. Issue [#1252](https://github.com/terraform-providers/terraform-provider-oci/issues/1252)
+- Fixed typo in load balancer shape. Issue [#1252](https://github.com/oracle/terraform-provider-oci/issues/1252)
 
 ## 4.7.0 (December 16, 2020)
 
@@ -759,7 +759,7 @@ support for - Cluster Network: new optional parameter to Update API
 
 ### Fixed
 - Fix `idcs_access_token` as `required` now. Note that this will break current import scenario, user need to add `idcs_access_token` to Terraform config.
-[Github issue 1264](https://github.com/terraform-providers/terraform-provider-oci/issues/1264)
+[Github issue 1264](https://github.com/oracle/terraform-provider-oci/issues/1264)
 
 ## 4.6.0 (December 09, 2020)
 
@@ -807,7 +807,7 @@ support for - Cluster Network: new optional parameter to Update API
 ### Fixed
 - Fix ExaCS cloud VM cluster as source of `oci_database_db_home` resource creation. ExaCS cloud VM clusters can be specified
 as source using `vm_cluster_id` and `SOURCE=VM_CLUSTER_NEW`.
-[Github issue 1218](https://github.com/terraform-providers/terraform-provider-oci/issues/1218)
+[Github issue 1218](https://github.com/oracle/terraform-provider-oci/issues/1218)
 
 ## 4.2.0 (November 04, 2020)
 
@@ -1125,9 +1125,9 @@ importing such db_systems. New behavior will put an empty placeholder in the sta
 - Support resource discovery for functions resources
 
 ### Fixed
-- Add missing attributes for `oci_file_storage_mount_target` import [Github issue #1037](https://github.com/terraform-providers/terraform-provider-oci/issues/1037)
-- Fixed the diff for `whitelisted_ips` arguments order in `oci_database_autonomous_database` resource [Issue #1050](https://github.com/terraform-providers/terraform-provider-oci/issues/1050)
-- Fixed the `placement_configs` order mismatch in `oci_containerengine_node_pool` [GitHub issue #1045](https://github.com/terraform-providers/terraform-provider-oci/issues/1045)
+- Add missing attributes for `oci_file_storage_mount_target` import [Github issue #1037](https://github.com/oracle/terraform-provider-oci/issues/1037)
+- Fixed the diff for `whitelisted_ips` arguments order in `oci_database_autonomous_database` resource [Issue #1050](https://github.com/oracle/terraform-provider-oci/issues/1050)
+- Fixed the `placement_configs` order mismatch in `oci_containerengine_node_pool` [GitHub issue #1045](https://github.com/oracle/terraform-provider-oci/issues/1045)
 - Fixed Instance Metadata examples to use the Instance Metadata Service version 2
 
 ## 3.74.0 (May 06, 2020)
@@ -1159,7 +1159,7 @@ importing such db_systems. New behavior will put an empty placeholder in the sta
 - Support for `maintenance_window` in `oci_database_db_system` resource for ExaCS infrastructure
 
 ### Fixed
-- Update `cpu_core_count` with the other attributes in `oci_database_db_system` resource [Github issue #1026](https://github.com/terraform-providers/terraform-provider-oci/issues/1026)
+- Update `cpu_core_count` with the other attributes in `oci_database_db_system` resource [Github issue #1026](https://github.com/oracle/terraform-provider-oci/issues/1026)
 
 ### Notes
 `oci_streaming_stream_archiver` data source and resource were not supported by the service and removed from the provider since v3.72.0
@@ -1245,7 +1245,7 @@ importing such db_systems. New behavior will put an empty placeholder in the sta
 - Support for Data Flow Service
 
 ### Fixed
-- Address issue where budget resource `time_spend_computed` attribute results in error [Github issue #966](https://github.com/terraform-providers/terraform-provider-oci/issues/966)
+- Address issue where budget resource `time_spend_computed` attribute results in error [Github issue #966](https://github.com/oracle/terraform-provider-oci/issues/966)
 
 ## 3.60.0 (January 29, 2020)
 
@@ -1401,7 +1401,7 @@ Load balancer certificates created with previous versions and upgrading to this 
 
 ### Fixed
 
-- Fix compositeId parsing for pre-authenticated requests in object storage [Issue #867](https://github.com/terraform-providers/terraform-provider-oci/issues/867)
+- Fix compositeId parsing for pre-authenticated requests in object storage [Issue #867](https://github.com/oracle/terraform-provider-oci/issues/867)
 - Fixed ssl_configuration is optional only in `oci_load_balancer_backend_set` resource
 
 ## 3.45.0 (September 25, 2019)
@@ -1468,7 +1468,7 @@ Load balancer certificates created with previous versions and upgrading to this 
 - Support for ipv6 in `oci_core_virtual_circuit` resources.
 
 ### Fixed
-- Fixed the diff for `options` arguments order in `oci_core_dhcp_options` resource [Issue #829](https://github.com/terraform-providers/terraform-provider-oci/issues/829)
+- Fixed the diff for `options` arguments order in `oci_core_dhcp_options` resource [Issue #829](https://github.com/oracle/terraform-provider-oci/issues/829)
 - Fixed typo in docs for `source_type` in `oci_core_network_security_group_security_rule` and docs updated
 - Fixed `listing_id` reference in docs for App Catalog
 - Removing `compartment_id` from `oci_core_volume_attachment` as the service does not accept that parameter. The compartment_id of the volume is the one used by the service.
@@ -1495,7 +1495,7 @@ Load balancer certificates created with previous versions and upgrading to this 
 - Support for scheduling KMS vault deletion by specified time
 
 ### Fixed
-- Fixed `oci_load_balancer_backend_set` by explicitly making `session_persistence_configuration` and `lb_cookie_session_persistence_configuration` mutually exclusive [Issue #825](https://github.com/terraform-providers/terraform-provider-oci/issues/825)
+- Fixed `oci_load_balancer_backend_set` by explicitly making `session_persistence_configuration` and `lb_cookie_session_persistence_configuration` mutually exclusive [Issue #825](https://github.com/oracle/terraform-provider-oci/issues/825)
 - Fixed use case of `oci_load_balancer_backend_set` with `lb_cookie_session_persistence_configuration` update operation without setting optional parameters `max_age_in_seconds` and `domain`
 - Fixed `oci_identity_user_capabilities_management` to correctly set `can_use_auth_tokens` field
 
@@ -1531,7 +1531,7 @@ Load balancer certificates created with previous versions and upgrading to this 
 - Removing deprecated fields `content-length` and `content-type` from data source `oci_objectstorage_object_head`. `content_length` and `content_type` should be used instead
 - Removing `compartment_id` from resource `oci_core_drg_attachment` as an Optional field as the service does not accept it. The compartment of the VCN is the one used by the service. Keeping it as a computed field. 
 - Removing deprecated field `db_data_size_in_mbs` from resource `oci_database_backup`. `database_size_in_gbs` should be used instead
-- Fixed `extended_metadata` field in `oci_core_instance` to correctly handle JSON [Issue #817](https://github.com/terraform-providers/terraform-provider-oci/issues/817)
+- Fixed `extended_metadata` field in `oci_core_instance` to correctly handle JSON [Issue #817](https://github.com/oracle/terraform-provider-oci/issues/817)
 - Consistently use the new `oci_core_vcn` rather than the legacy `oci_core_virtual_network` resource for VCN in examples
 
 ## 3.33.0 (July 10, 2019)
@@ -1595,7 +1595,7 @@ Optional/Computed fields.
 ### Added
 - `oci_core_ipsec_connection_tunnel_management` resource to manage IPSec tunnel connection
 ### Fixed
-- `oci_core_ipsec` backward compatibility issue by removing `tunnel_configuration` property, which is reported by https://github.com/terraform-providers/terraform-provider-oci/issues/779
+- `oci_core_ipsec` backward compatibility issue by removing `tunnel_configuration` property, which is reported by https://github.com/oracle/terraform-provider-oci/issues/779
 
 ## 3.28.1 (June 05, 2019)
 
@@ -1752,7 +1752,7 @@ Optional/Computed fields.
 
 ### Fixed
 - Timeout should be updatable for the `oci_containerengine_cluster` and `oci_containerengine_node_pool` resources
-- Virtual Circuit `public_prefixes` to be updatable and importable. [Issue #700](https://github.com/terraform-providers/terraform-provider-oci/issues/700)
+- Virtual Circuit `public_prefixes` to be updatable and importable. [Issue #700](https://github.com/oracle/terraform-provider-oci/issues/700)
 
 ## 3.14.0 (January 29, 2019)
 
@@ -1766,8 +1766,8 @@ Optional/Computed fields.
 
 ### Fixed
 - Fixed an issue where the default retry timeout is zero seconds if `retry_duration_seconds` isn't specified
-- Modifying immutable `metadata` fields such as `ssh_authorized_keys` and `user_data` should result in new instances. [Issue #673](https://github.com/terraform-providers/terraform-provider-oci/issues/673)
-- Vendored Terraform helper/schema SDK to return matching data type for maps in case of empty state. [Issue #685](https://github.com/terraform-providers/terraform-provider-oci/issues/685)
+- Modifying immutable `metadata` fields such as `ssh_authorized_keys` and `user_data` should result in new instances. [Issue #673](https://github.com/oracle/terraform-provider-oci/issues/673)
+- Vendored Terraform helper/schema SDK to return matching data type for maps in case of empty state. [Issue #685](https://github.com/oracle/terraform-provider-oci/issues/685)
 
 ## 3.12.0 (January 15, 2019)
 
@@ -1816,7 +1816,7 @@ Optional/Computed fields.
 ## 3.10.0 (December 11, 2018)
 
 ### Added
-- Support for attaching Route Table to Subnet. Issue [#270](https://github.com/terraform-providers/terraform-provider-oci/issues/270)
+- Support for attaching Route Table to Subnet. Issue [#270](https://github.com/oracle/terraform-provider-oci/issues/270)
 
 ## 3.9.0 (December 04, 2018)
 
@@ -1888,7 +1888,7 @@ Optional/Computed fields.
 - Fields "assigned_entity_id" and "assigned_entity_type" to Public IPs to allow distinguishing Public IPs of the NAT Gateway.
 
 ### Fixed
-- Importing of volumes with backup policies. Issue [#590](https://github.com/terraform-providers/terraform-provider-oci/issues/590)
+- Importing of volumes with backup policies. Issue [#590](https://github.com/oracle/terraform-provider-oci/issues/590)
 - Updating of Virtual Circuits fails with field bgpMd5AuthKey is not supported
 
 ## 3.3.0 (October 04, 2018)
@@ -1897,7 +1897,7 @@ Optional/Computed fields.
 - Support for new Image launch mode: paravirtualization
 
 ### Fixed
-- Fix logic to prevent unexpected diffs related to numbers. Issue [#607](https://github.com/terraform-providers/terraform-provider-oci/issues/607)
+- Fix logic to prevent unexpected diffs related to numbers. Issue [#607](https://github.com/oracle/terraform-provider-oci/issues/607)
 
 ## 3.2.0 (September 28, 2018)
 
@@ -1905,8 +1905,8 @@ Optional/Computed fields.
 - Support updating size of offline volumes
 
 ### Fixed
-- Specifying lifecycle state in container engine cluster datasource properly filters. Issue [#600](https://github.com/terraform-providers/terraform-provider-oci/issues/600)
-- Importing the assign_public_ip attribute for instances has the correct default. Issue [#593](https://github.com/terraform-providers/terraform-provider-oci/issues/593)
+- Specifying lifecycle state in container engine cluster datasource properly filters. Issue [#600](https://github.com/oracle/terraform-provider-oci/issues/600)
+- Importing the assign_public_ip attribute for instances has the correct default. Issue [#593](https://github.com/oracle/terraform-provider-oci/issues/593)
 - ADW and ATP resources destruction still succeeds if the database lifecycle state becomes `Unavailable`
 
 ## 3.1.1 (September 21, 2018)

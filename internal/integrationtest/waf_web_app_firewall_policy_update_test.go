@@ -13,12 +13,12 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_waf "github.com/oracle/oci-go-sdk/v65/waf"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"terraform-provider-oci/internal/acctest"
+	tf_client "terraform-provider-oci/internal/client"
+	"terraform-provider-oci/internal/tfresource"
+	"terraform-provider-oci/internal/utils"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"terraform-provider-oci/httpreplay"
 )
 
 /*

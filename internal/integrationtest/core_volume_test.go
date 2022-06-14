@@ -18,12 +18,12 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"terraform-provider-oci/httpreplay"
+	"terraform-provider-oci/internal/acctest"
+	tf_client "terraform-provider-oci/internal/client"
+	"terraform-provider-oci/internal/resourcediscovery"
+	"terraform-provider-oci/internal/tfresource"
+	"terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -386,7 +386,7 @@ variable "volume_state" { default = "AVAILABLE" }
 
 // This is a test to validate that interpolation syntax can be passed into int64
 // fields that are being represented as strings in the schema. This is a regression
-// test for issue found in https://github.com/terraform-providers/terraform-provider-oci/issues/607
+// test for issue found in https://github.com/oracle/terraform-provider-oci/issues/607
 // issue-routing-tag: core/blockStorage
 func TestCoreVolumeResource_int64_interpolation(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeResource_int64_interpolation")

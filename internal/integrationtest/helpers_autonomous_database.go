@@ -9,10 +9,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"terraform-provider-oci/internal/acctest"
+	tf_client "terraform-provider-oci/internal/client"
+	"terraform-provider-oci/internal/tfresource"
+	"terraform-provider-oci/internal/utils"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
