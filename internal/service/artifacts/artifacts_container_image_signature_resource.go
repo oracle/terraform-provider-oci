@@ -10,8 +10,8 @@ import (
 
 	oci_artifacts "github.com/oracle/oci-go-sdk/v65/artifacts"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"terraform-provider-oci/internal/client"
+	"terraform-provider-oci/internal/tfresource"
 )
 
 func ArtifactsContainerImageSignatureResource() *schema.Resource {

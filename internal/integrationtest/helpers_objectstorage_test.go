@@ -6,7 +6,7 @@ package integrationtest
 import (
 	"testing"
 
-	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
+	tf_objectstorage "terraform-provider-oci/internal/service/objectstorage"
 )
 
 // issue-routing-tag: terraform/default

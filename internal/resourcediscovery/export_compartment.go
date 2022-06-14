@@ -19,8 +19,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"terraform-provider-oci/internal/globalvar"
+	"terraform-provider-oci/internal/tfresource"
 
 	"golang.org/x/mod/semver"
 
@@ -31,9 +31,9 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	tf_provider "github.com/terraform-providers/terraform-provider-oci/internal/provider"
-	utils "github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	tf_client "terraform-provider-oci/internal/client"
+	tf_provider "terraform-provider-oci/internal/provider"
+	utils "terraform-provider-oci/internal/utils"
 )
 
 type ResourceDiscoveryStage int
