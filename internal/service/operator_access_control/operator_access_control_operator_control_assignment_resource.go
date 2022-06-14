@@ -12,8 +12,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_operator_access_control "github.com/oracle/oci-go-sdk/v65/operatoraccesscontrol"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"terraform-provider-oci/internal/client"
+	"terraform-provider-oci/internal/tfresource"
 )
 
 func OperatorAccessControlOperatorControlAssignmentResource() *schema.Resource {

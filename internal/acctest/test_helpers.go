@@ -20,23 +20,23 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
+	"terraform-provider-oci/internal/globalvar"
 
 	"github.com/hashicorp/go-multierror"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	tf_provider "github.com/terraform-providers/terraform-provider-oci/internal/provider"
+	tf_client "terraform-provider-oci/internal/client"
+	tf_provider "terraform-provider-oci/internal/provider"
 
-	//tf_resource_discovery "github.com/terraform-providers/terraform-provider-oci/oci/resourcediscovery"
-	tf_resource "github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	//tf_resource_discovery "terraform-provider-oci/oci/resourcediscovery"
+	tf_resource "terraform-provider-oci/internal/tfresource"
+	"terraform-provider-oci/internal/utils"
 )
 
 var (

@@ -6,14 +6,14 @@ import (
 	"reflect"
 	"testing"
 
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
+	tf_client "terraform-provider-oci/internal/client"
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
-	"github.com/terraform-providers/terraform-provider-oci/internal/provider"
+	"terraform-provider-oci/internal/globalvar"
+	"terraform-provider-oci/internal/provider"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/go-cty/cty"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"

@@ -12,8 +12,8 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"terraform-provider-oci/internal/client"
+	"terraform-provider-oci/internal/tfresource"
 )
 
 func CoreCaptureFilterResource() *schema.Resource {
