@@ -9,11 +9,11 @@ import (
 	"encoding/base64"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"terraform-provider-oci/internal/acctest"
+	tf_client "terraform-provider-oci/internal/client"
+	"terraform-provider-oci/internal/resourcediscovery"
+	"terraform-provider-oci/internal/tfresource"
+	"terraform-provider-oci/internal/utils"
 
 	"encoding/hex"
 	"fmt"
@@ -30,7 +30,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"terraform-provider-oci/httpreplay"
 )
 
 var (

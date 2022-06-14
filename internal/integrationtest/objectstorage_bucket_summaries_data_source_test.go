@@ -6,9 +6,9 @@ package integrationtest
 import (
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	"terraform-provider-oci/internal/acctest"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"

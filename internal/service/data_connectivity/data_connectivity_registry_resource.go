@@ -15,8 +15,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_connectivity "github.com/oracle/oci-go-sdk/v65/dataconnectivity"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"terraform-provider-oci/internal/client"
+	"terraform-provider-oci/internal/tfresource"
 )
 
 func DataConnectivityRegistryResource() *schema.Resource {

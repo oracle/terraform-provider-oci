@@ -8,12 +8,12 @@ description: |-
 ### Terraform OCI Provider Version 2
 All Oracle Bare Metal Cloud (OBMC) technologies and services have been renamed to Oracle Cloud Infrastructure (OCI).
 
-The [V2.0.0 release](https://github.com/terraform-providers/terraform-provider-oci/releases/tag/v2.0.0) will require you to make changes to your configuration files and state file.
+The [V2.0.0 release](https://github.com/oracle/terraform-provider-oci/releases/tag/v2.0.0) will require you to make changes to your configuration files and state file.
 
 You can still use previous versions of the provider without modifying the configuration files and state file.
 
 ## Migration tool
-As part of the release on September 13th, a migration tool will be supplied that will help you update your terraform plans and state files to work with the new version of the provider. The latest version can be found on the [V2.0.2 release page](https://github.com/terraform-providers/terraform-provider-oci/releases/tag/2.0.2) in the oci-tool.zip file. If you would like to review the source and potentially build your own migration tool, the files can be found [here](https://github.com/terraform-providers/terraform-provider-oci/tree/v2.2.0/tools/oci-tool). A readme on using the tool is also in that directory.
+As part of the release on September 13th, a migration tool will be supplied that will help you update your terraform plans and state files to work with the new version of the provider. The latest version can be found on the [V2.0.2 release page](https://github.com/oracle/terraform-provider-oci/releases/tag/2.0.2) in the oci-tool.zip file. If you would like to review the source and potentially build your own migration tool, the files can be found [here](https://github.com/oracle/terraform-provider-oci/tree/v2.2.0/tools/oci-tool). A readme on using the tool is also in that directory.
 
 The changes in this release affect all our current Terraform Provider users.
 You will be able to run this tool against a plan directory and it will:

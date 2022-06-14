@@ -8,15 +8,15 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"terraform-provider-oci/internal/acctest"
+	"terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"terraform-provider-oci/httpreplay"
 )
 
 var (

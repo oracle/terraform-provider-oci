@@ -13,7 +13,7 @@ import (
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
+	"terraform-provider-oci/internal/globalvar"
 )
 
 type errorTypeEnum string

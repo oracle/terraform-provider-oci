@@ -11,11 +11,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
+	"terraform-provider-oci/internal/globalvar"
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"terraform-provider-oci/httpreplay"
 
 	"github.com/oracle/oci-go-sdk/v65/common"
 )

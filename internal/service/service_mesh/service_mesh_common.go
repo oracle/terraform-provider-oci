@@ -6,7 +6,7 @@ import (
 
 	oci_service_mesh "github.com/oracle/oci-go-sdk/v65/servicemesh"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"terraform-provider-oci/internal/utils"
 )
 
 func AccessLoggingConfigurationToMap(obj *oci_service_mesh.AccessLoggingConfiguration) map[string]interface{} {

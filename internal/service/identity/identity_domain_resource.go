@@ -15,8 +15,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"terraform-provider-oci/internal/client"
+	"terraform-provider-oci/internal/tfresource"
 )
 
 func IdentityDomainResource() *schema.Resource {
