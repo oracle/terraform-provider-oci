@@ -74,6 +74,7 @@ The following attributes are exported:
 	* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function. 
 	* `kind` - The type descriminator. 
 	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Logging Analytics log group. 
+	* `log_source_identifier` - Identifier of the log source that you want to use for processing data received from the service connector source. Applies to `StreamingSource` only. Equivalent to `name` at [LogAnalyticsSource](https://docs.cloud.oracle.com/iaas/api/#/en/logan-api-spec/latest/LogAnalyticsSource/). 
 	* `metric` - The name of the metric.  Example: `CpuUtilization` 
 	* `metric_namespace` - The namespace of the metric.  Example: `oci_computeagent` 
 	* `namespace` - The namespace. 

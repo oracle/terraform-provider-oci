@@ -57,9 +57,16 @@ var (
 		"tasks":          acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceConnectorFunctionTasksRepresentation},
 	}
 
+	logAnalyticsTargetRepresentation = map[string]interface{}{
+		"kind":                  acctest.Representation{RepType: acctest.Required, Create: `loggingAnalytics`},
+		"log_group_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.logAn_log_group_ocid}`},
+		"log_source_identifier": acctest.Representation{RepType: acctest.Required, Create: `${var.logAn_log_source_name}`},
+	}
+
 	// targets for streaming as a source
 	serviceConnectorFunctionTargetStreamingSourceRepresentation             = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTargetStreamingSource, functionTargetRepresentation)
 	serviceConnectorFunctionTargetStreamingSourceFunctionTaskRepresentation = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTargetStreamingSourceFunctionTask, functionTargetRepresentation)
+	serviceConnectorLogAnTargetStreamingSourceRepresentation                = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTargetStreamingSource, logAnalyticsTargetRepresentation)
 
 	updatedServiceConnectorFunctionTasksRepresentation = map[string]interface{}{
 		"kind":              acctest.Representation{RepType: acctest.Optional, Update: `function`},
@@ -87,6 +94,12 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 
 	image := utils.GetEnvSettingWithBlankDefault("image")
 	imageVariableStr := fmt.Sprintf("variable \"image\" { default = \"%s\" }\n", image)
+
+	logAnLogGroupId := utils.GetEnvSettingWithBlankDefault("logAn_log_group_ocid")
+	logAnLogGroupIdVariableStr := fmt.Sprintf("variable \"logAn_log_group_ocid\" { default = \"%s\" }\n", logAnLogGroupId)
+
+	logAnLogSourceName := utils.GetEnvSettingWithBlankDefault("logAn_log_source_name")
+	logAnLogSourceNameVariableStr := fmt.Sprintf("variable \"logAn_log_source_name\" { default = \"%s\" }\n", logAnLogSourceName)
 
 	resourceName := "oci_sch_service_connector.test_service_connector"
 	singularDatasourceName := "data.oci_sch_service_connector.test_service_connector"
@@ -222,6 +235,34 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr,
+		},
+
+		{
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr + logAnLogGroupIdVariableStr + logAnLogSourceNameVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorLogAnTargetStreamingSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "streaming"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.cursor.0.kind", "LATEST"),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.stream_id"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.kind", "loggingAnalytics"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.log_source_identifier"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
 		// verify resource import
 		{
 			Config:                  config + SchServiceConnectorRequiredOnlyResource,
