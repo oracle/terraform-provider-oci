@@ -22,7 +22,7 @@ import (
 type CreateApdexRulesDetails struct {
 	Rules []Apdex `mandatory:"true" json:"rules"`
 
-	// The name by which this rule set is displayed to the end user.
+	// The name by which a configuration entity is displayed to the end user.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

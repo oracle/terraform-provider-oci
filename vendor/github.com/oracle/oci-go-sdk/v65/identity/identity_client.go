@@ -220,6 +220,134 @@ func (client IdentityClient) activateMfaTotpDevice(ctx context.Context, request 
 	return response, err
 }
 
+// AddTagDefaultLock Add a resource lock to a tag default.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/AddTagDefaultLock.go.html to see an example of how to use AddTagDefaultLock API.
+// A default retry strategy applies to this operation AddTagDefaultLock()
+func (client IdentityClient) AddTagDefaultLock(ctx context.Context, request AddTagDefaultLockRequest) (response AddTagDefaultLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addTagDefaultLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddTagDefaultLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddTagDefaultLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddTagDefaultLockResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddTagDefaultLockResponse")
+	}
+	return
+}
+
+// addTagDefaultLock implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) addTagDefaultLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagDefaults/{tagDefaultId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddTagDefaultLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagDefault/AddTagDefaultLock"
+		err = common.PostProcessServiceError(err, "Identity", "AddTagDefaultLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddTagNamespaceLock Add a resource lock to a tag namespace.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/AddTagNamespaceLock.go.html to see an example of how to use AddTagNamespaceLock API.
+// A default retry strategy applies to this operation AddTagNamespaceLock()
+func (client IdentityClient) AddTagNamespaceLock(ctx context.Context, request AddTagNamespaceLockRequest) (response AddTagNamespaceLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addTagNamespaceLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddTagNamespaceLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddTagNamespaceLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddTagNamespaceLockResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddTagNamespaceLockResponse")
+	}
+	return
+}
+
+// addTagNamespaceLock implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) addTagNamespaceLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagNamespaces/{tagNamespaceId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddTagNamespaceLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagNamespace/AddTagNamespaceLock"
+		err = common.PostProcessServiceError(err, "Identity", "AddTagNamespaceLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddUserToGroup Adds the specified user to the specified group and returns a `UserGroupMembership` object with its own OCID.
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
 // object, first make sure its `lifecycleState` has changed to ACTIVE.
@@ -3457,7 +3585,6 @@ func (client IdentityClient) deleteSwiftPassword(ctx context.Context, request co
 // DeleteTag Deletes the specified tag definition. This operation triggers a process that removes the
 // tag from all resources in your tenancy.
 // These things happen immediately:
-//
 //   * If the tag was a cost-tracking tag, it no longer counts against your 10 cost-tracking
 //   tags limit, whether you first disabled it or not.
 //   * If the tag was used with dynamic groups, none of the rules that contain the tag will
@@ -7527,6 +7654,134 @@ func (client IdentityClient) recoverCompartment(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/RecoverCompartment"
 		err = common.PostProcessServiceError(err, "Identity", "RecoverCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveTagDefaultLock Remove a resource lock from a tag default.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/RemoveTagDefaultLock.go.html to see an example of how to use RemoveTagDefaultLock API.
+// A default retry strategy applies to this operation RemoveTagDefaultLock()
+func (client IdentityClient) RemoveTagDefaultLock(ctx context.Context, request RemoveTagDefaultLockRequest) (response RemoveTagDefaultLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeTagDefaultLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveTagDefaultLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveTagDefaultLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveTagDefaultLockResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveTagDefaultLockResponse")
+	}
+	return
+}
+
+// removeTagDefaultLock implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) removeTagDefaultLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagDefaults/{tagDefaultId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveTagDefaultLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagDefault/RemoveTagDefaultLock"
+		err = common.PostProcessServiceError(err, "Identity", "RemoveTagDefaultLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveTagNamespaceLock Remove a resource lock from a tag namespace.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/RemoveTagNamespaceLock.go.html to see an example of how to use RemoveTagNamespaceLock API.
+// A default retry strategy applies to this operation RemoveTagNamespaceLock()
+func (client IdentityClient) RemoveTagNamespaceLock(ctx context.Context, request RemoveTagNamespaceLockRequest) (response RemoveTagNamespaceLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeTagNamespaceLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveTagNamespaceLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveTagNamespaceLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveTagNamespaceLockResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveTagNamespaceLockResponse")
+	}
+	return
+}
+
+// removeTagNamespaceLock implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) removeTagNamespaceLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagNamespaces/{tagNamespaceId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveTagNamespaceLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagNamespace/RemoveTagNamespaceLock"
+		err = common.PostProcessServiceError(err, "Identity", "RemoveTagNamespaceLock", apiReferenceLink)
 		return response, err
 	}
 

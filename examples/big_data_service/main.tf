@@ -77,6 +77,18 @@ variable "bds_instance_worker_node_shape" {
   default = "VM.Standard2.1"
 }
 
+variable "bds_instance_compute_only_worker_node_shape" {
+  default = "VM.Standard.E4.Flex"
+}
+
+variable "bds_instance_compute_only_worker_memory_per_node" {
+  default = 32
+}
+
+variable "bds_instance_compute_only_worker_ocpu_per_node" {
+  default = 3
+}
+
 variable "bds_instance_state" {
   default = "ACTIVE"
 }
@@ -164,6 +176,19 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
     subnet_id                = oci_core_subnet.regional_subnet_bds.id
     block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
     number_of_nodes          = 4
+  }
+
+  compute_only_worker_node {
+    #Required
+    shape = var.bds_instance_compute_only_worker_node_shape
+
+    subnet_id                = oci_core_subnet.regional_subnet_bds.id
+    block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
+    number_of_nodes          = 1
+    shape_config {
+      memory_in_gbs = var.bds_instance_compute_only_worker_memory_per_node
+      ocpus         = var.bds_instance_compute_only_worker_ocpu_per_node
+    }
   }
 
   #   cloud_sql_details {

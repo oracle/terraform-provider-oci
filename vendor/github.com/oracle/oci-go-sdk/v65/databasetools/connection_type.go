@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -19,14 +19,17 @@ type ConnectionTypeEnum string
 // Set of constants representing the allowable values for ConnectionTypeEnum
 const (
 	ConnectionTypeOracleDatabase ConnectionTypeEnum = "ORACLE_DATABASE"
+	ConnectionTypeMysql          ConnectionTypeEnum = "MYSQL"
 )
 
 var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
 	"ORACLE_DATABASE": ConnectionTypeOracleDatabase,
+	"MYSQL":           ConnectionTypeMysql,
 }
 
 var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
 	"oracle_database": ConnectionTypeOracleDatabase,
+	"mysql":           ConnectionTypeMysql,
 }
 
 // GetConnectionTypeEnumValues Enumerates the set of values for ConnectionTypeEnum
@@ -42,6 +45,7 @@ func GetConnectionTypeEnumValues() []ConnectionTypeEnum {
 func GetConnectionTypeEnumStringValues() []string {
 	return []string{
 		"ORACLE_DATABASE",
+		"MYSQL",
 	}
 }
 

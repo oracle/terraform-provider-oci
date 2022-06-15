@@ -67,6 +67,7 @@ import (
 	tf_oce "github.com/terraform-providers/terraform-provider-oci/internal/service/oce"
 	tf_ocvp "github.com/terraform-providers/terraform-provider-oci/internal/service/ocvp"
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
+	tf_onesubscription "github.com/terraform-providers/terraform-provider-oci/internal/service/onesubscription"
 	tf_ons "github.com/terraform-providers/terraform-provider-oci/internal/service/ons"
 	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
 	tf_opsi "github.com/terraform-providers/terraform-provider-oci/internal/service/opsi"
@@ -89,6 +90,7 @@ import (
 	tf_vault "github.com/terraform-providers/terraform-provider-oci/internal/service/vault"
 	tf_visual_builder "github.com/terraform-providers/terraform-provider-oci/internal/service/visual_builder"
 	tf_vulnerability_scanning "github.com/terraform-providers/terraform-provider-oci/internal/service/vulnerability_scanning"
+	tf_waa "github.com/terraform-providers/terraform-provider-oci/internal/service/waa"
 	tf_waas "github.com/terraform-providers/terraform-provider-oci/internal/service/waas"
 	tf_waf "github.com/terraform-providers/terraform-provider-oci/internal/service/waf"
 )
@@ -1033,6 +1035,20 @@ func init() {
 	// oda service
 	RegisterDatasource("oci_oda_oda_instance", tf_oda.OdaOdaInstanceDataSource())
 	RegisterDatasource("oci_oda_oda_instances", tf_oda.OdaOdaInstancesDataSource())
+	// onesubscription service
+	RegisterDatasource("oci_onesubscription_aggregated_computed_usages", tf_onesubscription.OnesubscriptionAggregatedComputedUsagesDataSource())
+	RegisterDatasource("oci_onesubscription_billing_schedules", tf_onesubscription.OnesubscriptionBillingSchedulesDataSource())
+	RegisterDatasource("oci_onesubscription_commitment", tf_onesubscription.OnesubscriptionCommitmentDataSource())
+	RegisterDatasource("oci_onesubscription_commitments", tf_onesubscription.OnesubscriptionCommitmentsDataSource())
+	RegisterDatasource("oci_onesubscription_computed_usage", tf_onesubscription.OnesubscriptionComputedUsageDataSource())
+	RegisterDatasource("oci_onesubscription_computed_usages", tf_onesubscription.OnesubscriptionComputedUsagesDataSource())
+	RegisterDatasource("oci_onesubscription_invoice_line_computed_usages", tf_onesubscription.OnesubscriptionInvoiceLineComputedUsagesDataSource())
+	RegisterDatasource("oci_onesubscription_invoices", tf_onesubscription.OnesubscriptionInvoicesDataSource())
+	RegisterDatasource("oci_onesubscription_organization_subscriptions", tf_onesubscription.OnesubscriptionOrganizationSubscriptionsDataSource())
+	RegisterDatasource("oci_onesubscription_ratecards", tf_onesubscription.OnesubscriptionRatecardsDataSource())
+	RegisterDatasource("oci_onesubscription_subscribed_service", tf_onesubscription.OnesubscriptionSubscribedServiceDataSource())
+	RegisterDatasource("oci_onesubscription_subscribed_services", tf_onesubscription.OnesubscriptionSubscribedServicesDataSource())
+	RegisterDatasource("oci_onesubscription_subscriptions", tf_onesubscription.OnesubscriptionSubscriptionsDataSource())
 	// ons service
 	RegisterDatasource("oci_ons_notification_topic", tf_ons.OnsNotificationTopicDataSource())
 	RegisterDatasource("oci_ons_notification_topics", tf_ons.OnsNotificationTopicsDataSource())
@@ -1195,6 +1211,11 @@ func init() {
 	RegisterDatasource("oci_vulnerability_scanning_host_scan_recipes", tf_vulnerability_scanning.VulnerabilityScanningHostScanRecipesDataSource())
 	RegisterDatasource("oci_vulnerability_scanning_host_scan_target", tf_vulnerability_scanning.VulnerabilityScanningHostScanTargetDataSource())
 	RegisterDatasource("oci_vulnerability_scanning_host_scan_targets", tf_vulnerability_scanning.VulnerabilityScanningHostScanTargetsDataSource())
+	// waa service
+	RegisterDatasource("oci_waa_web_app_acceleration", tf_waa.WaaWebAppAccelerationDataSource())
+	RegisterDatasource("oci_waa_web_app_acceleration_policies", tf_waa.WaaWebAppAccelerationPoliciesDataSource())
+	RegisterDatasource("oci_waa_web_app_acceleration_policy", tf_waa.WaaWebAppAccelerationPolicyDataSource())
+	RegisterDatasource("oci_waa_web_app_accelerations", tf_waa.WaaWebAppAccelerationsDataSource())
 	// waas service
 	RegisterDatasource("oci_waas_address_list", tf_waas.WaasAddressListDataSource())
 	RegisterDatasource("oci_waas_address_lists", tf_waas.WaasAddressListsDataSource())

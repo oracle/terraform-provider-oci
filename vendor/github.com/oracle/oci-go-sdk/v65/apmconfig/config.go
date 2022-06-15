@@ -84,6 +84,10 @@ func (m *config) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.ConfigType {
+	case "OPTIONS":
+		mm := Options{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "METRIC_GROUP":
 		mm := MetricGroup{}
 		err = json.Unmarshal(data, &mm)

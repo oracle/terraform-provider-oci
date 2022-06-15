@@ -21,7 +21,7 @@ import (
 // process. The set is then published to a namespace, which is a product level subdivision of metrics.
 type CreateMetricGroupDetails struct {
 
-	// The name of the metric group.
+	// The name by which a configuration entity is displayed to the end user.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Span Filter. The filterId is mandatory for the creation

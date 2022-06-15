@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ChangeDatabaseToolsConnectionCompartmentDetails Contains the details for the compartment to move the DatabaseToolsConnection to.
+// ChangeDatabaseToolsConnectionCompartmentDetails Contains the details for the compartment to move the `DatabaseToolsConnection` to.
 type ChangeDatabaseToolsConnectionCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the DatabaseToolsConnection to.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the `DatabaseToolsConnection` to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

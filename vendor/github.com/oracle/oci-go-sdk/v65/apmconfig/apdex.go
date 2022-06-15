@@ -59,7 +59,7 @@ type Apdex struct {
 	// score to "frustrating" regardless of the configured thresholds. The default is "false".
 	IsApplyToErrorSpans *bool `mandatory:"false" json:"isApplyToErrorSpans"`
 
-	// A user-friendly name that provides a short description of this rule.
+	// The name by which a configuration entity is displayed to the end user.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 }
 

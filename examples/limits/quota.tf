@@ -104,3 +104,32 @@ data "oci_limits_limit_values" "test_limit_values" {
   scope_type          = "AD"
 }
 
+
+## quota lock example
+
+resource "oci_limits_quota" "test_quota_lock" {
+  #Required
+  compartment_id = var.tenancy_ocid
+  description    = "Quotas for VCN"
+  name           = "TestQuotaLocks"
+  statements     = ["Set vcn quotas to 0 in tenancy"]
+  depends_on = [oci_identity_tag.tag1] 
+  #Optional
+  locks { 
+        type = "FULL"
+        #Optional
+        message  = "lock testing" 
+        #Optional
+        related_resource_id = "some resource id"
+  } 
+}
+
+data "oci_limits_quotas" "test_quotas_lock" {
+  #Required
+  compartment_id = var.tenancy_ocid 
+  depends_on = [oci_limits_quota.test_quota_lock]
+  #Optional  
+  name  = "TestQuotaLocks"
+  state = "ACTIVE"
+}
+
