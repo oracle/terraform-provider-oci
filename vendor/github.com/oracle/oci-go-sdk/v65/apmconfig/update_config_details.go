@@ -75,6 +75,10 @@ func (m *updateconfigdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := UpdateSpanFilterDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OPTIONS":
+		mm := UpdateOptionsDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}

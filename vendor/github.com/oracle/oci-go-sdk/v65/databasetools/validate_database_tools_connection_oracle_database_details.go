@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ValidateDatabaseToolsConnectionOracleDatabaseDetails Connection validation details for Oracle Database.
+// ValidateDatabaseToolsConnectionOracleDatabaseDetails Connection validation details for the Oracle Database.
 type ValidateDatabaseToolsConnectionOracleDatabaseDetails struct {
 }
 

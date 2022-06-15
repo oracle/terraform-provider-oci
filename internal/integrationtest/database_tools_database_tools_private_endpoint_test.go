@@ -58,12 +58,12 @@ var (
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"private_endpoint_ip": acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.4`},
-		//"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesDatabaseToolsPrivateEndpointRepresentation},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesDatabaseToolsPrivateEndpointRepresentation},
 	}
 
-	//ignoreChangesDatabaseToolsPrivateEndpointRepresentation = map[string]interface{}{   // On R1 only
-	//	"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
-	//}
+	ignoreChangesDatabaseToolsPrivateEndpointRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
 
 	DatabaseToolsPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
@@ -101,7 +101,8 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckDatabaseToolsDatabaseToolsPrivateEndpointDestroy,
 		Steps: []resource.TestStep{
-			// 0. verify create
+			// Find these steps in the test log easily with "Executing step (number)"
+			// Step 1. Verify create
 			{
 				Config: config + compartmentIdVariableStr + DatabaseToolsPrivateEndpointResourceDependencies +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, databaseToolsEndpointServiceSingularDataSourceRepresentation) +
@@ -120,11 +121,11 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 				),
 			},
 
-			// 1. delete before next create
+			// Step 2. Delete before next create
 			{
 				Config: config + compartmentIdVariableStr + DatabaseToolsPrivateEndpointResourceDependencies,
 			},
-			// 2. verify create with optionals
+			// Step 3. Verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + DatabaseToolsPrivateEndpointResourceDependencies +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, databaseToolsEndpointServiceSingularDataSourceRepresentation) +
@@ -155,7 +156,7 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 				),
 			},
 
-			// 3. verify update to the compartment (the compartment will be switched back in the next step)
+			// Step 4. Verify update to the compartment (the compartment will be switched back in the next step)
 			{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseToolsPrivateEndpointResourceDependencies +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, databaseToolsEndpointServiceSingularDataSourceRepresentation) +
@@ -187,7 +188,7 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 				),
 			},
 
-			// 4. verify updates to updatable parameters
+			// Step 5. Verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + DatabaseToolsPrivateEndpointResourceDependencies +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, databaseToolsEndpointServiceSingularDataSourceRepresentation) +
@@ -215,7 +216,7 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 					},
 				),
 			},
-			// 5. verify datasource
+			// Step 6. Verify datasource
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, databaseToolsEndpointServiceSingularDataSourceRepresentation) +
@@ -234,7 +235,7 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "database_tools_private_endpoint_collection.0.items.#", "1"),
 				),
 			},
-			// 6. verify singular datasource
+			// Step 7. Verify singular datasource
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, databaseToolsEndpointServiceDataSourceRepresentation) +
@@ -258,7 +259,7 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),
 				),
 			},
-			// 8. verify resource import
+			// Step 8. Verify resource import
 			{
 				Config:                  config + DatabaseToolsPrivateEndpointRequiredOnlyResource,
 				ImportState:             true,
@@ -272,7 +273,7 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseToolsDatabaseToolsPrivateEndpointDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).DatabaseToolsClient()
+	client := acctest.GetTestClients(&schema.ResourceData{}).DatabaseToolsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_tools_database_tools_private_endpoint" {
 			noResourceFound = false

@@ -72,6 +72,10 @@ func (m *createconfigdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := CreateMetricGroupDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OPTIONS":
+		mm := CreateOptionsDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "APDEX":
 		mm := CreateApdexRulesDetails{}
 		err = json.Unmarshal(data, &mm)

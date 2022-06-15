@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// CreateDatabaseToolsConnectionOracleDatabaseDetails The information about new DatabaseToolsConnection for an Oracle Database
+// CreateDatabaseToolsConnectionOracleDatabaseDetails Details of the new Database Tools connection for an Oracle Database.
 type CreateDatabaseToolsConnectionOracleDatabaseDetails struct {
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the containing Compartment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
@@ -35,22 +35,22 @@ type CreateDatabaseToolsConnectionOracleDatabaseDetails struct {
 
 	RelatedResource *CreateDatabaseToolsRelatedResourceDetails `mandatory:"false" json:"relatedResource"`
 
-	// Connect descriptor or Easy Connect Naming method to connect to the database.
+	// The connect descriptor or Easy Connect Naming method use to connect to the database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
-	// Database user name.
+	// The database user name.
 	UserName *string `mandatory:"false" json:"userName"`
 
 	UserPassword DatabaseToolsUserPasswordDetails `mandatory:"false" json:"userPassword"`
 
-	// Advanced connection properties key-value pair (e.g., oracle.net.ssl_server_dn_match).
+	// The advanced connection properties key-value pair (e.g., `oracle.net.ssl_server_dn_match`).
 	AdvancedProperties map[string]string `mandatory:"false" json:"advancedProperties"`
 
 	// Oracle wallet or Java Keystores containing trusted certificates for authenticating the server's public certificate and
 	// the client private key and associated certificates required for client authentication.
 	KeyStores []DatabaseToolsKeyStoreDetails `mandatory:"false" json:"keyStores"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DatabaseToolsPrivateEndpoint used to access the database in the Customer VCN.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint used to access the database in the customer VCN.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 }
 

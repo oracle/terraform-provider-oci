@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -30,7 +30,7 @@ type WorkRequestResource struct {
 	// The identifier of the resource the work request affects.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
-	// The URI path that the user can do a GET on to access the resource metadata
+	// The URI path that the user can use for a GET operation to access the resource metadata.
 	EntityUri *string `mandatory:"false" json:"entityUri"`
 }
 

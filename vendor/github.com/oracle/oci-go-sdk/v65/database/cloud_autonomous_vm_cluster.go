@@ -61,6 +61,9 @@ type CloudAutonomousVmCluster struct {
 	// The last date and time that the cloud Autonomous VM cluster was updated.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// The time zone of the Cloud Autonomous VM Cluster.
+	ClusterTimeZone *string `mandatory:"false" json:"clusterTimeZone"`
+
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 

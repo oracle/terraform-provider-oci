@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 //
-// We will create a database_tools_connection.
+// We will create a database_tools_connection for an Oracle database.
 // The database_tools_connection will use a database_tools_private_endpoint.
 // The database_tools_private_endpoint will need to be in a subnet, so we will create a vcn and a subnet.
 // We will also create an oci_core_network_security_group to be used by the database_tools_private_endpoint.
@@ -120,7 +120,7 @@ resource "oci_database_tools_database_tools_connection" "dbtools_connection" {
   user_password {
     value_type = "SECRETID"
 
-    # Here, we assume that the user password to use exists as a secret in an OCI Vault
+    # The user password to use exists as a secret in an OCI Vault
     secret_id  = "ocid1.vaultsecret.oc1.phx.exampleaihuofciaiazy2u5ko3uyz3sspwd6hf7oqhqmlk5xu3xdetkpffff"
   }
 

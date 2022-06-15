@@ -5,13 +5,13 @@ package limits
 
 import (
 	"context"
-
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_limits "github.com/oracle/oci-go-sdk/v65/limits"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
@@ -64,7 +64,47 @@ func LimitsQuotaResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"locks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
 
+						// Optional
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			// Computed
+			"is_lock_override": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			// Computed
 			"state": {
 				Type:     schema.TypeString,
@@ -165,6 +205,23 @@ func (s *LimitsQuotaResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if locks, ok := s.D.GetOkExists("locks"); ok {
+		interfaces := locks.([]interface{})
+		tmp := make([]oci_limits.AddLockDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+			converted, err := s.mapToAddLockDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("locks") {
+			request.Locks = tmp
+		}
+	}
+
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
@@ -231,6 +288,14 @@ func (s *LimitsQuotaResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if locks, ok := s.D.GetOkExists("locks"); ok {
+		tmp := locks.([]interface{})
+		if len(tmp) != 0 {
+			isLockOverride := true
+			request.IsLockOverride = &isLockOverride
+		}
+	}
+
 	tmp := s.D.Id()
 	request.QuotaId = &tmp
 
@@ -261,6 +326,14 @@ func (s *LimitsQuotaResourceCrud) Update() error {
 func (s *LimitsQuotaResourceCrud) Delete() error {
 	request := oci_limits.DeleteQuotaRequest{}
 
+	if locks, ok := s.D.GetOkExists("locks"); ok {
+		tmp := locks.([]interface{})
+		if len(tmp) != 0 {
+			isLockOverride := true
+			request.IsLockOverride = &isLockOverride
+		}
+	}
+
 	tmp := s.D.Id()
 	request.QuotaId = &tmp
 
@@ -285,6 +358,18 @@ func (s *LimitsQuotaResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
+	if len(locks) != 0 {
+		s.D.Set("is_lock_override", true)
+	} else {
+		s.D.Set("is_lock_override", false)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -298,4 +383,44 @@ func (s *LimitsQuotaResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *LimitsQuotaResourceCrud) mapToAddLockDetails(fieldKeyFormat string) (oci_limits.AddLockDetails, error) {
+	result := oci_limits.AddLockDetails{}
+
+	if message, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "message")); ok {
+		tmp := message.(string)
+		result.Message = &tmp
+	}
+
+	if relatedResourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "related_resource_id")); ok {
+		tmp := relatedResourceId.(string)
+		result.RelatedResourceId = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_limits.AddLockDetailsTypeEnum(type_.(string))
+	}
+
+	return result, nil
+}
+
+func ResourceLockToMap(obj oci_limits.ResourceLock) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Message != nil {
+		result["message"] = string(*obj.Message)
+	}
+
+	if obj.RelatedResourceId != nil {
+		result["related_resource_id"] = string(*obj.RelatedResourceId)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	result["type"] = string(obj.Type)
+
+	return result
 }

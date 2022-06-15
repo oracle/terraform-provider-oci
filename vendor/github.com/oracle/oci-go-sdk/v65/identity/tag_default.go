@@ -59,6 +59,9 @@ type TagDefault struct {
 
 	// The tag default's current state. After creating a `TagDefault`, make sure its `lifecycleState` is ACTIVE before using it.
 	LifecycleState TagDefaultLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m TagDefault) String() string {

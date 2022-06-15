@@ -522,12 +522,13 @@ func (s *MysqlMysqlBackupResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
-	_, err := s.Client.UpdateBackup(context.Background(), request)
+	response, err := s.Client.UpdateBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	return s.Get()
+	s.Res = &response.Backup
+	return nil
 }
 
 func (s *MysqlMysqlBackupResourceCrud) Delete() error {

@@ -82,6 +82,7 @@ import (
 	tf_vault "github.com/terraform-providers/terraform-provider-oci/internal/service/vault"
 	tf_visual_builder "github.com/terraform-providers/terraform-provider-oci/internal/service/visual_builder"
 	tf_vulnerability_scanning "github.com/terraform-providers/terraform-provider-oci/internal/service/vulnerability_scanning"
+	tf_waa "github.com/terraform-providers/terraform-provider-oci/internal/service/waa"
 	tf_waas "github.com/terraform-providers/terraform-provider-oci/internal/service/waas"
 	tf_waf "github.com/terraform-providers/terraform-provider-oci/internal/service/waf"
 )
@@ -270,7 +271,6 @@ func init() {
 	RegisterResource("oci_database_autonomous_container_database_dataguard_association_operation", tf_database.DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResource())
 	RegisterResource("oci_database_autonomous_database", tf_database.DatabaseAutonomousDatabaseResource())
 	RegisterResource("oci_database_autonomous_database_backup", tf_database.DatabaseAutonomousDatabaseBackupResource())
-	RegisterDatasource("oci_database_autonomous_database_character_sets", tf_database.DatabaseAutonomousDatabaseCharacterSetsDataSource())
 	RegisterResource("oci_database_autonomous_database_instance_wallet_management", tf_database.DatabaseAutonomousDatabaseInstanceWalletManagementResource())
 	RegisterResource("oci_database_autonomous_database_regional_wallet_management", tf_database.DatabaseAutonomousDatabaseRegionalWalletManagementResource())
 	RegisterResource("oci_database_autonomous_database_wallet", tf_database.DatabaseAutonomousDatabaseWalletResource())
@@ -508,6 +508,7 @@ func init() {
 	RegisterResource("oci_network_load_balancer_backend_set", tf_network_load_balancer.NetworkLoadBalancerBackendSetResource())
 	RegisterResource("oci_network_load_balancer_listener", tf_network_load_balancer.NetworkLoadBalancerListenerResource())
 	RegisterResource("oci_network_load_balancer_network_load_balancer", tf_network_load_balancer.NetworkLoadBalancerNetworkLoadBalancerResource())
+	RegisterResource("oci_network_load_balancer_network_load_balancers_backend_sets_unified", tf_network_load_balancer.NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource())
 	// nosql service
 	RegisterResource("oci_nosql_index", tf_nosql.NosqlIndexResource())
 	RegisterResource("oci_nosql_table", tf_nosql.NosqlTableResource())
@@ -525,6 +526,7 @@ func init() {
 	RegisterResource("oci_ocvp_sddc", tf_ocvp.OcvpSddcResource())
 	// oda service
 	RegisterResource("oci_oda_oda_instance", tf_oda.OdaOdaInstanceResource())
+	// onesubscription service
 	// ons service
 	RegisterResource("oci_ons_notification_topic", tf_ons.OnsNotificationTopicResource())
 	RegisterResource("oci_ons_subscription", tf_ons.OnsSubscriptionResource())
@@ -601,6 +603,9 @@ func init() {
 	RegisterResource("oci_vulnerability_scanning_container_scan_target", tf_vulnerability_scanning.VulnerabilityScanningContainerScanTargetResource())
 	RegisterResource("oci_vulnerability_scanning_host_scan_recipe", tf_vulnerability_scanning.VulnerabilityScanningHostScanRecipeResource())
 	RegisterResource("oci_vulnerability_scanning_host_scan_target", tf_vulnerability_scanning.VulnerabilityScanningHostScanTargetResource())
+	// waa service
+	RegisterResource("oci_waa_web_app_acceleration", tf_waa.WaaWebAppAccelerationResource())
+	RegisterResource("oci_waa_web_app_acceleration_policy", tf_waa.WaaWebAppAccelerationPolicyResource())
 	// waas service
 	RegisterResource("oci_waas_address_list", tf_waas.WaasAddressListResource())
 	RegisterResource("oci_waas_certificate", tf_waas.WaasCertificateResource())

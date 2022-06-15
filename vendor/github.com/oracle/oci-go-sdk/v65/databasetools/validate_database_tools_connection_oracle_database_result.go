@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -19,7 +19,7 @@ import (
 // ValidateDatabaseToolsConnectionOracleDatabaseResult Connection validaton result for the Oracle Database.
 type ValidateDatabaseToolsConnectionOracleDatabaseResult struct {
 
-	// A short code that defines the result of the validation, meant for programmatic parsing.
+	// A short code that defines the result of the validation, meant for programmatic parsing. The value OK indicates that the validation was successful.
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human-readable message that describes the result of the validation.

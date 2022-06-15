@@ -4,7 +4,7 @@
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -19,19 +19,19 @@ import (
 // DatabaseToolsConnectionOracleDatabaseSummary DatabaseToolsConnectionSummary of an Oracle Database.
 type DatabaseToolsConnectionOracleDatabaseSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DatabaseToolsConnection.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `DatabaseToolsConnection`.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the containing Compartment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The time the DatabaseToolsConnection was created. An RFC3339 formatted datetime string
+	// The time the Database Tools connection was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The time the DatabaseToolsConnection was updated. An RFC3339 formatted datetime string
+	// The time the Database Tools connection was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
@@ -51,25 +51,25 @@ type DatabaseToolsConnectionOracleDatabaseSummary struct {
 
 	RelatedResource *DatabaseToolsRelatedResource `mandatory:"false" json:"relatedResource"`
 
-	// Connect descriptor or Easy Connect Naming method to connect to the database.
+	// The connect descriptor or Easy Connect Naming method used to connect to the database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
-	// Database user name.
+	// The database user name.
 	UserName *string `mandatory:"false" json:"userName"`
 
 	UserPassword DatabaseToolsUserPasswordSummary `mandatory:"false" json:"userPassword"`
 
-	// Advanced connection properties key-value pair (e.g., oracle.net.ssl_server_dn_match).
+	// The advanced connection properties key-value pair (e.g., `oracle.net.ssl_server_dn_match`).
 	AdvancedProperties map[string]string `mandatory:"false" json:"advancedProperties"`
 
 	// Oracle wallet or Java Keystores containing trusted certificates for authenticating the server's public certificate and
 	// the client private key and associated certificates required for client authentication.
 	KeyStores []DatabaseToolsKeyStoreSummary `mandatory:"false" json:"keyStores"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DatabaseToolsPrivateEndpoint used to access the database in the Customer VCN.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `DatabaseToolsPrivateEndpoint` used to access the database in the customer VCN.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 
-	// The current state of the DatabaseToolsConnection.
+	// The current state of the Database Tools connection.
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 

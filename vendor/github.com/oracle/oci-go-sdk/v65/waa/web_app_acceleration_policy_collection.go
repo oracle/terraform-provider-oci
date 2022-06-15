@@ -2,12 +2,14 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Tools
+// Web Application Acceleration (WAA) API
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// API for the Web Application Acceleration service.
+// Use this API to manage regional Web App Acceleration policies such as Caching and Compression
+// for accelerating HTTP services.
 //
 
-package databasetools
+package waa
 
 import (
 	"fmt"
@@ -15,24 +17,21 @@ import (
 	"strings"
 )
 
-// DatabaseToolsVirtualSource A VCN OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) and a list of CIDR blocks.
-type DatabaseToolsVirtualSource struct {
+// WebAppAccelerationPolicyCollection Contains WebAppAccelerationPolicySummary items.
+type WebAppAccelerationPolicyCollection struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a VCN.
-	VcnId *string `mandatory:"false" json:"vcnId"`
-
-	// A list of CIDR blocks.
-	IpRanges []string `mandatory:"false" json:"ipRanges"`
+	// A list of WebAppAccelerationPolicySummary objects.
+	Items []WebAppAccelerationPolicySummary `mandatory:"true" json:"items"`
 }
 
-func (m DatabaseToolsVirtualSource) String() string {
+func (m WebAppAccelerationPolicyCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DatabaseToolsVirtualSource) ValidateEnumValue() (bool, error) {
+func (m WebAppAccelerationPolicyCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
