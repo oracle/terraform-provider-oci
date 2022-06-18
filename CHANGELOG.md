@@ -1,3 +1,13 @@
+## 4.81.0 (Unreleased)
+
+### Added
+- Support for APM Configuration Options
+- Support for DBM: Database Diagnostics - Alert & Attention Log, OnDemand Run ADDM
+Data Labeling Service [DLS] FY22Q4 v3 Release
+### Bug Fix
+: Regression introduced database server datasource
+- New Datasource DevopsRepoFileLineDataSource
+
 ## 4.80.1 (June 16, 2022)
 ### Bug Fix
 - Fixed terraform crash for oci_core_route_table resource
