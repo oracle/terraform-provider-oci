@@ -16,19 +16,33 @@ import (
 	"strings"
 )
 
-// TextDatasetFormatDetails It indicates the dataset is comprised of TXT files.
-type TextDatasetFormatDetails struct {
-	TextFileTypeMetadata TextFileTypeMetadata `mandatory:"false" json:"textFileTypeMetadata"`
+// DelimitedFileTypeMetadata Metadata of delimited files.
+type DelimitedFileTypeMetadata struct {
+
+	// The index of a selected column. This is a zero-based index.
+	ColumnIndex *int `mandatory:"true" json:"columnIndex"`
+
+	// The name of a selected column.
+	ColumnName *string `mandatory:"false" json:"columnName"`
+
+	// A column delimiter
+	ColumnDelimiter *string `mandatory:"false" json:"columnDelimiter"`
+
+	// A line delimiter.
+	LineDelimiter *string `mandatory:"false" json:"lineDelimiter"`
+
+	// An escape character.
+	EscapeCharacter *string `mandatory:"false" json:"escapeCharacter"`
 }
 
-func (m TextDatasetFormatDetails) String() string {
+func (m DelimitedFileTypeMetadata) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m TextDatasetFormatDetails) ValidateEnumValue() (bool, error) {
+func (m DelimitedFileTypeMetadata) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -38,39 +52,15 @@ func (m TextDatasetFormatDetails) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m TextDatasetFormatDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeTextDatasetFormatDetails TextDatasetFormatDetails
+func (m DelimitedFileTypeMetadata) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeDelimitedFileTypeMetadata DelimitedFileTypeMetadata
 	s := struct {
 		DiscriminatorParam string `json:"formatType"`
-		MarshalTypeTextDatasetFormatDetails
+		MarshalTypeDelimitedFileTypeMetadata
 	}{
-		"TEXT",
-		(MarshalTypeTextDatasetFormatDetails)(m),
+		"DELIMITED",
+		(MarshalTypeDelimitedFileTypeMetadata)(m),
 	}
 
 	return json.Marshal(&s)
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *TextDatasetFormatDetails) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		TextFileTypeMetadata textfiletypemetadata `json:"textFileTypeMetadata"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	nn, e = model.TextFileTypeMetadata.UnmarshalPolymorphicJSON(model.TextFileTypeMetadata.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.TextFileTypeMetadata = nn.(TextFileTypeMetadata)
-	} else {
-		m.TextFileTypeMetadata = nil
-	}
-
-	return
 }
