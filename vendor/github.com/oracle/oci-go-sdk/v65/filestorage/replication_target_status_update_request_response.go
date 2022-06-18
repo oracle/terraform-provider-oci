@@ -34,7 +34,7 @@ type ReplicationTargetStatusUpdateRequest struct {
 	NewSnapshotNum *string `mandatory:"false" contributesTo:"query" name:"newSnapshotNum"`
 
 	// The `snapshotTime` of the most recent recoverable replication snapshot.
-	RecoveryPointTime *int `mandatory:"false" contributesTo:"query" name:"recoveryPointTime"`
+	RecoveryPointTime *string `mandatory:"false" contributesTo:"query" name:"recoveryPointTime"`
 
 	// The kmsKeyOcid for the Snapshot in-flight.
 	KmsKeyOcid *string `mandatory:"false" contributesTo:"query" name:"kmsKeyOcid"`

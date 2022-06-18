@@ -66,7 +66,8 @@ type InvokeFunctionDeployStageSummary struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// Optional binary artifact OCID user may provide to this stage.
+	// Optional artifact OCID. The artifact will be included in the body for the function invocation during the stage's execution.
+	// If the DeployArtifact.argumentSubstituitionMode is set to SUBSTITUTE_PLACEHOLDERS, then the pipeline parameter values will be used to replace the placeholders in the artifact content.
 	DeployArtifactId *string `mandatory:"false" json:"deployArtifactId"`
 
 	// The current state of the deployment stage.

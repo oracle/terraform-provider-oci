@@ -45,6 +45,13 @@ type ScanProxy struct {
 	// listeners
 	Protocol ScanProxyProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
 
+	// Type indicating whether Scan proxy is IP multiplexing based or Port multiplexing based.
+	ScanMultiplexingType ScanProxyScanMultiplexingTypeEnum `mandatory:"false" json:"scanMultiplexingType,omitempty"`
+
+	// The IP address in the service VCN to be used to reach the reverse connection SCAN proxy
+	// service.
+	ScanProxyIp *string `mandatory:"false" json:"scanProxyIp"`
+
 	// The scan proxy instance's current state.
 	LifecycleState ScanProxyLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
@@ -71,6 +78,9 @@ func (m ScanProxy) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingScanProxyProtocolEnum(string(m.Protocol)); !ok && m.Protocol != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Protocol: %s. Supported values are: %s.", m.Protocol, strings.Join(GetScanProxyProtocolEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingScanProxyScanMultiplexingTypeEnum(string(m.ScanMultiplexingType)); !ok && m.ScanMultiplexingType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScanMultiplexingType: %s. Supported values are: %s.", m.ScanMultiplexingType, strings.Join(GetScanProxyScanMultiplexingTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingScanProxyLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetScanProxyLifecycleStateEnumStringValues(), ",")))
@@ -162,6 +172,48 @@ func GetScanProxyProtocolEnumStringValues() []string {
 // GetMappingScanProxyProtocolEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingScanProxyProtocolEnum(val string) (ScanProxyProtocolEnum, bool) {
 	enum, ok := mappingScanProxyProtocolEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ScanProxyScanMultiplexingTypeEnum Enum with underlying type: string
+type ScanProxyScanMultiplexingTypeEnum string
+
+// Set of constants representing the allowable values for ScanProxyScanMultiplexingTypeEnum
+const (
+	ScanProxyScanMultiplexingTypePort ScanProxyScanMultiplexingTypeEnum = "PORT"
+	ScanProxyScanMultiplexingTypeIp   ScanProxyScanMultiplexingTypeEnum = "IP"
+)
+
+var mappingScanProxyScanMultiplexingTypeEnum = map[string]ScanProxyScanMultiplexingTypeEnum{
+	"PORT": ScanProxyScanMultiplexingTypePort,
+	"IP":   ScanProxyScanMultiplexingTypeIp,
+}
+
+var mappingScanProxyScanMultiplexingTypeEnumLowerCase = map[string]ScanProxyScanMultiplexingTypeEnum{
+	"port": ScanProxyScanMultiplexingTypePort,
+	"ip":   ScanProxyScanMultiplexingTypeIp,
+}
+
+// GetScanProxyScanMultiplexingTypeEnumValues Enumerates the set of values for ScanProxyScanMultiplexingTypeEnum
+func GetScanProxyScanMultiplexingTypeEnumValues() []ScanProxyScanMultiplexingTypeEnum {
+	values := make([]ScanProxyScanMultiplexingTypeEnum, 0)
+	for _, v := range mappingScanProxyScanMultiplexingTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetScanProxyScanMultiplexingTypeEnumStringValues Enumerates the set of values in String for ScanProxyScanMultiplexingTypeEnum
+func GetScanProxyScanMultiplexingTypeEnumStringValues() []string {
+	return []string{
+		"PORT",
+		"IP",
+	}
+}
+
+// GetMappingScanProxyScanMultiplexingTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingScanProxyScanMultiplexingTypeEnum(val string) (ScanProxyScanMultiplexingTypeEnum, bool) {
+	enum, ok := mappingScanProxyScanMultiplexingTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

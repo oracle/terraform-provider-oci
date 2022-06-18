@@ -44,6 +44,9 @@ type CreateAutonomousDatabaseBase interface {
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	GetCpuCoreCount() *int
 
+	// The number of ECPU to be made available to the database. If it's autonomous shared database, then the minimum value is 2, if it's autonomous dedicated database, then the minimum value is 0.2.
+	GetEcpuCount() *float32
+
 	// The number of OCPU cores to be made available to the database.
 	// The following points apply:
 	// - For Autonomous Databases on dedicated Exadata infrastructure, to provision less than 1 core, enter a fractional value in an increment of 0.1. For example, you can provision 0.3 or 0.4 cores, but not 0.35 cores. (Note that fractional OCPU values are not supported for Autonomous Databasese on shared Exadata infrastructure.)
@@ -207,6 +210,7 @@ type createautonomousdatabasebase struct {
 	NcharacterSet                            *string                                                           `mandatory:"false" json:"ncharacterSet"`
 	DbName                                   *string                                                           `mandatory:"false" json:"dbName"`
 	CpuCoreCount                             *int                                                              `mandatory:"false" json:"cpuCoreCount"`
+	EcpuCount                                *float32                                                          `mandatory:"false" json:"ecpuCount"`
 	OcpuCount                                *float32                                                          `mandatory:"false" json:"ocpuCount"`
 	DbWorkload                               CreateAutonomousDatabaseBaseDbWorkloadEnum                        `mandatory:"false" json:"dbWorkload,omitempty"`
 	DataStorageSizeInTBs                     *int                                                              `mandatory:"false" json:"dataStorageSizeInTBs"`
@@ -261,6 +265,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.NcharacterSet = s.Model.NcharacterSet
 	m.DbName = s.Model.DbName
 	m.CpuCoreCount = s.Model.CpuCoreCount
+	m.EcpuCount = s.Model.EcpuCount
 	m.OcpuCount = s.Model.OcpuCount
 	m.DbWorkload = s.Model.DbWorkload
 	m.DataStorageSizeInTBs = s.Model.DataStorageSizeInTBs
@@ -366,6 +371,11 @@ func (m createautonomousdatabasebase) GetDbName() *string {
 //GetCpuCoreCount returns CpuCoreCount
 func (m createautonomousdatabasebase) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
+}
+
+//GetEcpuCount returns EcpuCount
+func (m createautonomousdatabasebase) GetEcpuCount() *float32 {
+	return m.EcpuCount
 }
 
 //GetOcpuCount returns OcpuCount

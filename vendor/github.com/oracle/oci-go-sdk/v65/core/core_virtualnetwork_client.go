@@ -16240,6 +16240,59 @@ func (client VirtualNetworkClient) listDrgRouteTables(ctx context.Context, reque
 	return response, err
 }
 
+// ListDrgUrtRouteRules Lists the urt route rules for a given DRG attachment.
+func (client VirtualNetworkClient) ListDrgUrtRouteRules(ctx context.Context, request ListDrgUrtRouteRulesRequest) (response ListDrgUrtRouteRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDrgUrtRouteRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDrgUrtRouteRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDrgUrtRouteRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDrgUrtRouteRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDrgUrtRouteRulesResponse")
+	}
+	return
+}
+
+// listDrgUrtRouteRules implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listDrgUrtRouteRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/drgUrtRouteRules/{drgAttachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDrgUrtRouteRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgUrtRouteRuleDetails/ListDrgUrtRouteRules"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListDrgUrtRouteRules", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListDrgs Lists the DRGs in the specified compartment.
 func (client VirtualNetworkClient) ListDrgs(ctx context.Context, request ListDrgsRequest) (response ListDrgsResponse, err error) {
 	var ociResponse common.OCIResponse

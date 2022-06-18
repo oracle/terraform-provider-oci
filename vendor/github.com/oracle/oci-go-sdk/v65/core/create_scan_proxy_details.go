@@ -34,6 +34,13 @@ type CreateScanProxyDetails struct {
 	Protocol ScanProxyProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
 
 	ScanListenerWallet *WalletInfo `mandatory:"false" json:"scanListenerWallet"`
+
+	// Type indicating whether Scan proxy is IP multiplexing based or Port multiplexing based.
+	ScanMultiplexingType ScanProxyScanMultiplexingTypeEnum `mandatory:"false" json:"scanMultiplexingType,omitempty"`
+
+	// The port input from customer to which service DB client has to connect on scan proxy to initiate scan
+	// connections.
+	ScanProxyPort *int `mandatory:"false" json:"scanProxyPort"`
 }
 
 func (m CreateScanProxyDetails) String() string {
@@ -51,6 +58,9 @@ func (m CreateScanProxyDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingScanProxyProtocolEnum(string(m.Protocol)); !ok && m.Protocol != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Protocol: %s. Supported values are: %s.", m.Protocol, strings.Join(GetScanProxyProtocolEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingScanProxyScanMultiplexingTypeEnum(string(m.ScanMultiplexingType)); !ok && m.ScanMultiplexingType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScanMultiplexingType: %s. Supported values are: %s.", m.ScanMultiplexingType, strings.Join(GetScanProxyScanMultiplexingTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

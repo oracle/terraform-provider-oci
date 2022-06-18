@@ -36,12 +36,21 @@ type NfsStorage struct {
 	// ocid of the ACD attached to the NFS Storage.
 	AssociatedAutonomousContainerDatabase *string `mandatory:"false" json:"associatedAutonomousContainerDatabase"`
 
+	// Name of the ACD attached to the NFS Storage.
+	AssociatedAutonomousContainerDatabaseName *string `mandatory:"false" json:"associatedAutonomousContainerDatabaseName"`
+
 	// The current lifecycle state of the NFS Storage.
 	LifecycleState NfsStorageLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A descriptive text associated with the lifecycleState.
 	// Typically contains additional displayable text
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// The date and time that the NFS Storage was created.
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// The date and time that the NFS Storage was updated.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

@@ -42,6 +42,13 @@ type ScanProxySummary struct {
 	// listeners
 	Protocol ScanProxyProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
 
+	// Type indicating whether Scan proxy is IP multiplexing based or Port multiplexing based.
+	ScanMultiplexingType ScanProxyScanMultiplexingTypeEnum `mandatory:"false" json:"scanMultiplexingType,omitempty"`
+
+	// The IP address in the service VCN to be used to reach the reverse connection SCAN proxy
+	// service.
+	ScanProxyIp *string `mandatory:"false" json:"scanProxyIp"`
+
 	ScanListenerWallet *WalletInfo `mandatory:"false" json:"scanListenerWallet"`
 
 	// The scan proxy instance's current state.
@@ -63,6 +70,9 @@ func (m ScanProxySummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingScanProxyProtocolEnum(string(m.Protocol)); !ok && m.Protocol != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Protocol: %s. Supported values are: %s.", m.Protocol, strings.Join(GetScanProxyProtocolEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingScanProxyScanMultiplexingTypeEnum(string(m.ScanMultiplexingType)); !ok && m.ScanMultiplexingType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScanMultiplexingType: %s. Supported values are: %s.", m.ScanMultiplexingType, strings.Join(GetScanProxyScanMultiplexingTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingScanProxyLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetScanProxyLifecycleStateEnumStringValues(), ",")))

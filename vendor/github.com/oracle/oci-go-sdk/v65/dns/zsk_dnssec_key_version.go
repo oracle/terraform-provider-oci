@@ -44,12 +44,13 @@ type ZskDnssecKeyVersion struct {
 	TimeActivated *common.SDKTime `mandatory:"false" json:"timeActivated"`
 
 	// The date and time the key version went, or will go, inactive, expressed in RFC 3339 timestamp format. This
-	// is when the key material will no longer be used to generate RRSIGs.
+	// is when the key material will no longer be used to generate RRSIGs. For a KSK DnssecKeyVersion, this will be
+	// populated after PromoteZoneDnssecKeyVersion has been called on its successor DnssecKeyVersion.
 	// **Example:** `2016-07-22T17:23:59:00Z`
 	TimeInactivated *common.SDKTime `mandatory:"false" json:"timeInactivated"`
 
 	// The date and time the key version was, or will be, unpublished, expressed in RFC 3339 timestamp format. This
-	// is when the corresponding DNSKEY will be removed from zone contents. For a KSK DnssecKeyVersion this will be
+	// is when the corresponding DNSKEY will be removed from zone contents. For a KSK DnssecKeyVersion, this will be
 	// populated after PromoteZoneDnssecKeyVersion has been called on its successor DnssecKeyVersion.
 	// **Example:** `2016-07-22T17:23:59:00Z`
 	TimeUnpublished *common.SDKTime `mandatory:"false" json:"timeUnpublished"`

@@ -75,14 +75,17 @@ type WorkRequestSummaryOperationTypeEnum = WorkRequestOperationTypeEnum
 // Set of constants representing the allowable values for WorkRequestOperationTypeEnum
 // Deprecated
 const (
-	WorkRequestSummaryOperationTypeClusterCreate     WorkRequestOperationTypeEnum = "CLUSTER_CREATE"
-	WorkRequestSummaryOperationTypeClusterUpdate     WorkRequestOperationTypeEnum = "CLUSTER_UPDATE"
-	WorkRequestSummaryOperationTypeClusterDelete     WorkRequestOperationTypeEnum = "CLUSTER_DELETE"
-	WorkRequestSummaryOperationTypeNodepoolCreate    WorkRequestOperationTypeEnum = "NODEPOOL_CREATE"
-	WorkRequestSummaryOperationTypeNodepoolUpdate    WorkRequestOperationTypeEnum = "NODEPOOL_UPDATE"
-	WorkRequestSummaryOperationTypeNodepoolDelete    WorkRequestOperationTypeEnum = "NODEPOOL_DELETE"
-	WorkRequestSummaryOperationTypeNodepoolReconcile WorkRequestOperationTypeEnum = "NODEPOOL_RECONCILE"
-	WorkRequestSummaryOperationTypeWorkrequestCancel WorkRequestOperationTypeEnum = "WORKREQUEST_CANCEL"
+	WorkRequestSummaryOperationTypeClusterCreate         WorkRequestOperationTypeEnum = "CLUSTER_CREATE"
+	WorkRequestSummaryOperationTypeClusterUpdate         WorkRequestOperationTypeEnum = "CLUSTER_UPDATE"
+	WorkRequestSummaryOperationTypeClusterDelete         WorkRequestOperationTypeEnum = "CLUSTER_DELETE"
+	WorkRequestSummaryOperationTypeNodepoolCreate        WorkRequestOperationTypeEnum = "NODEPOOL_CREATE"
+	WorkRequestSummaryOperationTypeNodepoolUpdate        WorkRequestOperationTypeEnum = "NODEPOOL_UPDATE"
+	WorkRequestSummaryOperationTypeNodepoolDelete        WorkRequestOperationTypeEnum = "NODEPOOL_DELETE"
+	WorkRequestSummaryOperationTypeNodepoolReconcile     WorkRequestOperationTypeEnum = "NODEPOOL_RECONCILE"
+	WorkRequestSummaryOperationTypeWorkrequestCancel     WorkRequestOperationTypeEnum = "WORKREQUEST_CANCEL"
+	WorkRequestSummaryOperationTypeVirtualnodepoolCreate WorkRequestOperationTypeEnum = "VIRTUALNODEPOOL_CREATE"
+	WorkRequestSummaryOperationTypeVirtualnodepoolUpdate WorkRequestOperationTypeEnum = "VIRTUALNODEPOOL_UPDATE"
+	WorkRequestSummaryOperationTypeVirtualnodepoolDelete WorkRequestOperationTypeEnum = "VIRTUALNODEPOOL_DELETE"
 )
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum

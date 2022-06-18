@@ -42,6 +42,9 @@ type CreateVirtualAutonomousDatabaseCloneDetails struct {
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
+	// The number of ECPU to be made available to the database. If it's autonomous shared database, then the minimum value is 2, if it's autonomous dedicated database, then the minimum value is 0.2.
+	EcpuCount *float32 `mandatory:"false" json:"ecpuCount"`
+
 	// The number of OCPU cores to be made available to the database.
 	// The following points apply:
 	// - For Autonomous Databases on dedicated Exadata infrastructure, to provision less than 1 core, enter a fractional value in an increment of 0.1. For example, you can provision 0.3 or 0.4 cores, but not 0.35 cores. (Note that fractional OCPU values are not supported for Autonomous Databasese on shared Exadata infrastructure.)
@@ -221,6 +224,11 @@ func (m CreateVirtualAutonomousDatabaseCloneDetails) GetDbName() *string {
 //GetCpuCoreCount returns CpuCoreCount
 func (m CreateVirtualAutonomousDatabaseCloneDetails) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
+}
+
+//GetEcpuCount returns EcpuCount
+func (m CreateVirtualAutonomousDatabaseCloneDetails) GetEcpuCount() *float32 {
+	return m.EcpuCount
 }
 
 //GetOcpuCount returns OcpuCount

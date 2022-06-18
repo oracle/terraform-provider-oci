@@ -23,7 +23,6 @@ import (
 //   - In the request to create the standby database, the `sourceId` value should be the OCID of the primary database.
 // The following parameters are required for the cross-region standby database and must contain the same values as the source Autonomous Database:
 //   - dbName
-//   - cpuCoreCount
 //   - dataStorageSizeInTB
 //   - dbVersion
 // The following parameters are optional for the cross-region standby database. If included in the request, these parameters contain the same values as the source Autonomous Database:
@@ -84,6 +83,9 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	// The number of OCPU cores to be made available to the database. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
+
+	// The number of ECPU to be made available to the database. If it's autonomous shared database, then the minimum value is 2, if it's autonomous dedicated database, then the minimum value is 0.2.
+	EcpuCount *float32 `mandatory:"false" json:"ecpuCount"`
 
 	// The number of OCPU cores to be made available to the database.
 	// The following points apply:
@@ -270,6 +272,11 @@ func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetDbName() *string
 //GetCpuCoreCount returns CpuCoreCount
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
+}
+
+//GetEcpuCount returns EcpuCount
+func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetEcpuCount() *float32 {
+	return m.EcpuCount
 }
 
 //GetOcpuCount returns OcpuCount
