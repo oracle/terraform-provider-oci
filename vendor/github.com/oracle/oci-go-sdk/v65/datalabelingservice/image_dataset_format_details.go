@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ImageDatasetFormatDetails Indicates the dataset is comprised of images.
+// ImageDatasetFormatDetails It indicates the dataset is comprised of images.
 type ImageDatasetFormatDetails struct {
 }
 

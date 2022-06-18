@@ -19,13 +19,13 @@ import (
 // ObjectStorageSourceDetails Specifies the dataset location in object storage. This requires that all records are in this bucket, and under this prefix. We do not support a dataset with objects in arbitrary locations across buckets or prefixes.
 type ObjectStorageSourceDetails struct {
 
-	// Namespace of the bucket that contains the dataset data source
+	// The namespace of the bucket that contains the dataset data source.
 	Namespace *string `mandatory:"true" json:"namespace"`
 
-	// The object storage bucket that contains the dataset data source
+	// The object storage bucket that contains the dataset data source.
 	Bucket *string `mandatory:"true" json:"bucket"`
 
-	// A common path prefix shared by the objects that make up the dataset. Records will not be generated for objects whose name match exactly with prefix.
+	// A common path prefix shared by the objects that make up the dataset. Except for the CSV file type, records are not generated for the objects whose names exactly match with the prefix.
 	Prefix *string `mandatory:"false" json:"prefix"`
 }
 

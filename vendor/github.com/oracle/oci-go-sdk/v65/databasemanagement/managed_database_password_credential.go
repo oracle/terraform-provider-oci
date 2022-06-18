@@ -21,7 +21,7 @@ import (
 // ManagedDatabasePasswordCredential User provides a password to be used to connect to the database.
 type ManagedDatabasePasswordCredential struct {
 
-	// The user to connect to the database.
+	// The user name used to connect to the database.
 	Username *string `mandatory:"true" json:"username"`
 
 	// The database user's password encoded using BASE64 scheme.

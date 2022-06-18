@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DocumentDatasetFormatDetails Allows the user to specify that the dataset is comprised of document files (e.g. PDFs, DOCs, etc.).  It is open for further configurability.
+// DocumentDatasetFormatDetails It indicates the dataset is comprised of document files.  It is open for further configurability.
 type DocumentDatasetFormatDetails struct {
 }
 

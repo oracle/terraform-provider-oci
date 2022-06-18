@@ -2,12 +2,14 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Data Labeling Management API
+// Database Management API
 //
-// Use Data Labeling Management API to create, list, edit & delete datasets.
+// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
+// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
+// running a SQL job on a Managed Database or Managed Database Group.
 //
 
-package datalabelingservice
+package databasemanagement
 
 import (
 	"fmt"
@@ -15,21 +17,24 @@ import (
 	"strings"
 )
 
-// Label It represents a label.
-type Label struct {
+// RunHistoricAddmDetails The details of the ADDM task, which include the beginning and ending AWR snapshot IDs.
+type RunHistoricAddmDetails struct {
 
-	// An unique name for a label within its dataset.
-	Name *string `mandatory:"false" json:"name"`
+	// The ID number of the beginning AWR snapshot.
+	StartSnapshotId *int64 `mandatory:"true" json:"startSnapshotId"`
+
+	// The ID of the ending AWR snapshot.
+	EndSnapshotId *int64 `mandatory:"true" json:"endSnapshotId"`
 }
 
-func (m Label) String() string {
+func (m RunHistoricAddmDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m Label) ValidateEnumValue() (bool, error) {
+func (m RunHistoricAddmDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

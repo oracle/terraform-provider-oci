@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// LabelSet An ordered collection of Labels that are unique by name.
+// LabelSet An ordered collection of labels that are unique by name.
 type LabelSet struct {
 
-	// An ordered collection of Labels that are unique by name.
+	// An ordered collection of labels that are unique by name.
 	Items []Label `mandatory:"false" json:"items"`
 }
 

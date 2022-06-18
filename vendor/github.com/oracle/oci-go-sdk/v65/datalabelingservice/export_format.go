@@ -52,33 +52,36 @@ type ExportFormatNameEnum string
 
 // Set of constants representing the allowable values for ExportFormatNameEnum
 const (
-	ExportFormatNameJsonl             ExportFormatNameEnum = "JSONL"
-	ExportFormatNameJsonlConsolidated ExportFormatNameEnum = "JSONL_CONSOLIDATED"
-	ExportFormatNameConll             ExportFormatNameEnum = "CONLL"
-	ExportFormatNameSpacy             ExportFormatNameEnum = "SPACY"
-	ExportFormatNameCoco              ExportFormatNameEnum = "COCO"
-	ExportFormatNameYolo              ExportFormatNameEnum = "YOLO"
-	ExportFormatNamePascalVoc         ExportFormatNameEnum = "PASCAL_VOC"
+	ExportFormatNameJsonl                   ExportFormatNameEnum = "JSONL"
+	ExportFormatNameJsonlConsolidated       ExportFormatNameEnum = "JSONL_CONSOLIDATED"
+	ExportFormatNameConll                   ExportFormatNameEnum = "CONLL"
+	ExportFormatNameSpacy                   ExportFormatNameEnum = "SPACY"
+	ExportFormatNameCoco                    ExportFormatNameEnum = "COCO"
+	ExportFormatNameYolo                    ExportFormatNameEnum = "YOLO"
+	ExportFormatNamePascalVoc               ExportFormatNameEnum = "PASCAL_VOC"
+	ExportFormatNameJsonlCompactPlusContent ExportFormatNameEnum = "JSONL_COMPACT_PLUS_CONTENT"
 )
 
 var mappingExportFormatNameEnum = map[string]ExportFormatNameEnum{
-	"JSONL":              ExportFormatNameJsonl,
-	"JSONL_CONSOLIDATED": ExportFormatNameJsonlConsolidated,
-	"CONLL":              ExportFormatNameConll,
-	"SPACY":              ExportFormatNameSpacy,
-	"COCO":               ExportFormatNameCoco,
-	"YOLO":               ExportFormatNameYolo,
-	"PASCAL_VOC":         ExportFormatNamePascalVoc,
+	"JSONL":                      ExportFormatNameJsonl,
+	"JSONL_CONSOLIDATED":         ExportFormatNameJsonlConsolidated,
+	"CONLL":                      ExportFormatNameConll,
+	"SPACY":                      ExportFormatNameSpacy,
+	"COCO":                       ExportFormatNameCoco,
+	"YOLO":                       ExportFormatNameYolo,
+	"PASCAL_VOC":                 ExportFormatNamePascalVoc,
+	"JSONL_COMPACT_PLUS_CONTENT": ExportFormatNameJsonlCompactPlusContent,
 }
 
 var mappingExportFormatNameEnumLowerCase = map[string]ExportFormatNameEnum{
-	"jsonl":              ExportFormatNameJsonl,
-	"jsonl_consolidated": ExportFormatNameJsonlConsolidated,
-	"conll":              ExportFormatNameConll,
-	"spacy":              ExportFormatNameSpacy,
-	"coco":               ExportFormatNameCoco,
-	"yolo":               ExportFormatNameYolo,
-	"pascal_voc":         ExportFormatNamePascalVoc,
+	"jsonl":                      ExportFormatNameJsonl,
+	"jsonl_consolidated":         ExportFormatNameJsonlConsolidated,
+	"conll":                      ExportFormatNameConll,
+	"spacy":                      ExportFormatNameSpacy,
+	"coco":                       ExportFormatNameCoco,
+	"yolo":                       ExportFormatNameYolo,
+	"pascal_voc":                 ExportFormatNamePascalVoc,
+	"jsonl_compact_plus_content": ExportFormatNameJsonlCompactPlusContent,
 }
 
 // GetExportFormatNameEnumValues Enumerates the set of values for ExportFormatNameEnum
@@ -100,6 +103,7 @@ func GetExportFormatNameEnumStringValues() []string {
 		"COCO",
 		"YOLO",
 		"PASCAL_VOC",
+		"JSONL_COMPACT_PLUS_CONTENT",
 	}
 }
 
