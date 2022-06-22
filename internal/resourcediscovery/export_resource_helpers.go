@@ -17,13 +17,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
+	"terraform-provider-oci/internal/service/bds"
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	tf_client "terraform-provider-oci/internal/client"
+	"terraform-provider-oci/internal/globalvar"
+	"terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 

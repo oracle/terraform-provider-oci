@@ -51,21 +51,28 @@ The following attributes are exported:
 
 * `annotation_format` - The annotation format name required for labeling records.
 * `compartment_id` - The OCID of the compartment of the resource.
-* `dataset_format_details` - Specifies how to process the data. Supported formats include DOCUMENT, IMAGE and TEXT.
-	* `format_type` - Format type. DOCUMENT format is for record contents that are PDFs or TIFFs. IMAGE format is for record contents that are JPEGs or PNGs. TEXT format is for record contents that are txt files.
+* `dataset_format_details` - It specifies how to process the data. Supported formats include DOCUMENT, IMAGE, and TEXT.
+	* `format_type` - The format type. DOCUMENT format is for record contents that are PDFs or TIFFs. IMAGE format is for record contents that are JPEGs or PNGs. TEXT format is for record contents that are TXT files.
+	* `text_file_type_metadata` - Metadata for files with text content.
+		* `column_delimiter` - A column delimiter
+		* `column_index` - The index of a selected column. This is a zero-based index.
+		* `column_name` - The name of a selected column.
+		* `escape_character` - An escape character.
+		* `format_type` - It defines the format type of text files.
+		* `line_delimiter` - A line delimiter.
 * `dataset_source_details` - This allows the customer to specify the source of the dataset.
-	* `bucket` - The object storage bucket that contains the dataset data source
-	* `namespace` - Namespace of the bucket that contains the dataset data source
-	* `prefix` - A common path prefix shared by the objects that make up the dataset. Records will not be generated for objects whose name match exactly with prefix.
-	* `source_type` - Source type.  OBJECT_STORAGE allows the customer to describe where the dataset is in object storage.
+	* `bucket` - The object storage bucket that contains the dataset data source.
+	* `namespace` - The namespace of the bucket that contains the dataset data source.
+	* `prefix` - A common path prefix shared by the objects that make up the dataset. Except for the CSV file type, records are not generated for the objects whose names exactly match with the prefix.
+	* `source_type` - The source type. OBJECT_STORAGE allows the user to describe where in object storage the dataset is.
 * `defined_tags` - The defined tags for this resource. Each key is predefined and scoped to a namespace. For example: `{"foo-namespace": {"bar-key": "value"}}` 
 * `description` - A user provided description of the dataset
 * `display_name` - A user-friendly display name for the resource.
 * `freeform_tags` - A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only. For example: `{"bar-key": "value"}` 
 * `id` - The OCID of the Dataset.
-* `initial_record_generation_configuration` - Initial Generate Records configuration, generates records from the Dataset's source.
-* `label_set` - An ordered collection of Labels that are unique by name. 
-	* `items` - An ordered collection of Labels that are unique by name.
+* `initial_record_generation_configuration` - The initial generate records configuration. It generates records from the dataset's source.
+* `label_set` - An ordered collection of labels that are unique by name. 
+	* `items` - An ordered collection of labels that are unique by name.
 		* `name` - An unique name for a label within its dataset.
 * `labeling_instructions` - The labeling instructions for human labelers in rich text format
 * `lifecycle_details` - A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in FAILED or NEEDS_ATTENTION state.

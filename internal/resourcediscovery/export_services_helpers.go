@@ -13,9 +13,9 @@ import (
 
 	oci_dns "github.com/oracle/oci-go-sdk/v65/dns"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
+	"terraform-provider-oci/internal/service/log_analytics"
 
-	tf_logging "github.com/terraform-providers/terraform-provider-oci/internal/service/logging"
+	tf_logging "terraform-provider-oci/internal/service/logging"
 
 	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v65/networkloadbalancer"
 
@@ -24,12 +24,12 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 	oci_objectstorage "github.com/oracle/oci-go-sdk/v65/objectstorage"
 
-	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
-	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
-	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
-	tf_log_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
-	tf_network_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/network_load_balancer"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	tf_bds "terraform-provider-oci/internal/service/bds"
+	tf_identity "terraform-provider-oci/internal/service/identity"
+	tf_load_balancer "terraform-provider-oci/internal/service/load_balancer"
+	tf_log_analytics "terraform-provider-oci/internal/service/log_analytics"
+	tf_network_load_balancer "terraform-provider-oci/internal/service/network_load_balancer"
+	"terraform-provider-oci/internal/tfresource"
 )
 
 var loadBalancerCertificateNameMap map[string]map[string]string // helper map to generate references for certificate names, stores certificate name to certificate name interpolation

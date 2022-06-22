@@ -18,10 +18,10 @@ import (
 	"strings"
 )
 
-// ManagedDatabaseCredential The credential to connect to the managed database in order to get optimizer statistics gathering & advisor task details.
+// ManagedDatabaseCredential The credential used to connect to the Managed Database and obtain the details of the optimizer statistics tasks.
 type ManagedDatabaseCredential interface {
 
-	// The user to connect to the database.
+	// The user name used to connect to the database.
 	GetUsername() *string
 
 	// The role of the database user.
