@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"terraform-provider-oci/internal/client"
+	"terraform-provider-oci/internal/tfresource"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v65/datalabelingservice"
@@ -52,12 +52,73 @@ func DataLabelingServiceDatasetResource() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						// Required
 						"format_type": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"DOCUMENT",
+								"IMAGE",
+								"TEXT",
+							}, true),
 						},
 
 						// Optional
+						"text_file_type_metadata": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"column_index": {
+										Type:     schema.TypeInt,
+										Required: true,
+										ForceNew: true,
+									},
+									"format_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"DELIMITED",
+										}, true),
+									},
+
+									// Optional
+									"column_delimiter": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"column_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"escape_character": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"line_delimiter": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 
 						// Computed
 					},
@@ -700,6 +761,14 @@ func DatasetFormatDetailsToMap(obj *oci_data_labeling_service.DatasetFormatDetai
 		result["format_type"] = "IMAGE"
 	case oci_data_labeling_service.TextDatasetFormatDetails:
 		result["format_type"] = "TEXT"
+
+		if v.TextFileTypeMetadata != nil {
+			textFileTypeMetadataArray := []interface{}{}
+			if textFileTypeMetadataMap := TextFileTypeMetadataToMap(&v.TextFileTypeMetadata); textFileTypeMetadataMap != nil {
+				textFileTypeMetadataArray = append(textFileTypeMetadataArray, textFileTypeMetadataMap)
+			}
+			result["text_file_type_metadata"] = textFileTypeMetadataArray
+		}
 	default:
 		log.Printf("[WARN] Received 'format_type' of unknown type %v of type %v", *obj, v)
 		return nil
@@ -907,6 +976,79 @@ func LabelSetToMap(obj *oci_data_labeling_service.LabelSet) map[string]interface
 		items = append(items, LabelToMap(item))
 	}
 	result["items"] = items
+
+	return result
+}
+
+func (s *DataLabelingServiceDatasetResourceCrud) mapToTextFileTypeMetadata(fieldKeyFormat string) (oci_data_labeling_service.TextFileTypeMetadata, error) {
+	var baseObject oci_data_labeling_service.TextFileTypeMetadata
+	//discriminator
+	formatTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "format_type"))
+	var formatType string
+	if ok {
+		formatType = formatTypeRaw.(string)
+	} else {
+		formatType = "" // default value
+	}
+	switch strings.ToLower(formatType) {
+	case strings.ToLower("DELIMITED"):
+		details := oci_data_labeling_service.DelimitedFileTypeMetadata{}
+		if columnDelimiter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "column_delimiter")); ok {
+			tmp := columnDelimiter.(string)
+			details.ColumnDelimiter = &tmp
+		}
+		if columnIndex, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "column_index")); ok {
+			tmp := columnIndex.(int)
+			details.ColumnIndex = &tmp
+		}
+		if columnName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "column_name")); ok {
+			tmp := columnName.(string)
+			details.ColumnName = &tmp
+		}
+		if escapeCharacter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "escape_character")); ok {
+			tmp := escapeCharacter.(string)
+			details.EscapeCharacter = &tmp
+		}
+		if lineDelimiter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "line_delimiter")); ok {
+			tmp := lineDelimiter.(string)
+			details.LineDelimiter = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown format_type '%v' was specified", formatType)
+	}
+	return baseObject, nil
+}
+
+func TextFileTypeMetadataToMap(obj *oci_data_labeling_service.TextFileTypeMetadata) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_data_labeling_service.DelimitedFileTypeMetadata:
+		result["format_type"] = "DELIMITED"
+
+		if v.ColumnDelimiter != nil {
+			result["column_delimiter"] = string(*v.ColumnDelimiter)
+		}
+
+		if v.ColumnIndex != nil {
+			result["column_index"] = int(*v.ColumnIndex)
+		}
+
+		if v.ColumnName != nil {
+			result["column_name"] = string(*v.ColumnName)
+		}
+
+		if v.EscapeCharacter != nil {
+			result["escape_character"] = string(*v.EscapeCharacter)
+		}
+
+		if v.LineDelimiter != nil {
+			result["line_delimiter"] = string(*v.LineDelimiter)
+		}
+	default:
+		log.Printf("[WARN] Received 'format_type' of unknown type %v", *obj)
+		return nil
+	}
 
 	return result
 }

@@ -16,18 +16,18 @@ import (
 
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
+	"terraform-provider-oci/internal/globalvar"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/stretchr/testify/assert"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/provider"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	tf_client "terraform-provider-oci/internal/client"
+	"terraform-provider-oci/internal/provider"
+	"terraform-provider-oci/internal/utils"
 )
 
 // This test runs the Provider sanity checks.

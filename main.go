@@ -13,21 +13,21 @@ import (
 
 	"github.com/fatih/color"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"terraform-provider-oci/internal/resourcediscovery"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
+	"terraform-provider-oci/internal/globalvar"
 
 	//	"strings"
 
-	//"github.com/terraform-providers/terraform-provider-oci/oci/resourcediscovery"
+	//"terraform-provider-oci/oci/resourcediscovery"
 
-	//	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	//	"terraform-provider-oci/oci/tfresource"
 
 	//	"github.com/fatih/color"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/provider"
+	"terraform-provider-oci/internal/provider"
 )
 
 func main() {

@@ -51,7 +51,7 @@ vet:
 
 fmt:
 	gofmt -w $(GOFMT_FILES)
-	goimports -w -local github.com/terraform-providers/terraform-provider-oci $(GOFMT_FILES)
+	goimports -w -local terraform-provider-oci $(GOFMT_FILES)
 	@if [ -x "$$(command -v terraform)" ]; then \
 		terraform fmt; \
 	else \
