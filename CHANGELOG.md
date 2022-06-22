@@ -1,4 +1,4 @@
-## 4.81.0 (Unreleased)
+## 4.81.0 (June 22, 2022)
 
 ### Added
 - Support for APM Configuration Options
