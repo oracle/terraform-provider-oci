@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"strconv"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -45,18 +46,19 @@ var (
 	}
 
 	nodePoolRepresentation = map[string]interface{}{
-		"cluster_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
-		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"kubernetes_version":  acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
-		"name":                acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
-		"node_image_name":     acctest.Representation{RepType: acctest.Required, Create: `Oracle-Linux-7.6`},
-		"node_shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`, Update: `VM.Standard2.1`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"initial_node_labels": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nodePoolInitialNodeLabelsRepresentation},
-		"node_metadata":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"nodeMetadata": "nodeMetadata"}, Update: map[string]string{"nodeMetadata2": "nodeMetadata2"}},
-		"ssh_public_key":      acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
-		"node_config_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: nodeConfigDetailsRepresentation},
+		"cluster_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"kubernetes_version":               acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
+		"name":                             acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
+		"node_image_name":                  acctest.Representation{RepType: acctest.Required, Create: `Oracle-Linux-7.6`},
+		"node_shape":                       acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`, Update: `VM.Standard2.1`},
+		"defined_tags":                     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"initial_node_labels":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: nodePoolInitialNodeLabelsRepresentation},
+		"node_metadata":                    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"nodeMetadata": "nodeMetadata"}, Update: map[string]string{"nodeMetadata2": "nodeMetadata2"}},
+		"ssh_public_key":                   acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
+		"node_config_details":              acctest.RepresentationGroup{RepType: acctest.Required, Group: nodeConfigDetailsRepresentation},
+		"node_eviction_node_pool_settings": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nodePoolNodeEvictionNodePoolSettingsRepresentation},
 	}
 
 	nodeConfigDetailsRepresentation = map[string]interface{}{
@@ -76,6 +78,10 @@ var (
 	nodePoolInitialNodeLabelsRepresentation = map[string]interface{}{
 		"key":   acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`, Update: `value2`},
+	}
+	nodePoolNodeEvictionNodePoolSettingsRepresentation = map[string]interface{}{
+		"eviction_grace_duration":              acctest.Representation{RepType: acctest.Optional, Create: `PT1H`, Update: `PT50M`},
+		"is_force_delete_after_grace_duration": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
 	routeTableRouteRulesforNodePoolRepresentation = map[string]interface{}{
@@ -187,7 +193,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.2"),
-				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "node_config_details.0.placement_configs", nil, []string{"capacity_reservation_id"}),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -213,11 +219,14 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value"),
 				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.0.eviction_grace_duration", "PT1H"),
+				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.0.is_force_delete_after_grace_duration", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
 				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.2"),
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
-				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "node_config_details.0.placement_configs", nil, []string{"capacity_reservation_id"}),
 				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.size", "1"),
 				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.is_pv_encryption_in_transit_enabled", "false"),
@@ -246,6 +255,9 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value2"),
 				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 				resource.TestCheckResourceAttr(resourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.0.eviction_grace_duration", "PT50M"),
+				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.0.is_force_delete_after_grace_duration", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "node_image_name"),
 				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
@@ -284,6 +296,9 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.value", "value2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.kubernetes_version"),
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.name", "name2"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_eviction_node_pool_settings.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_eviction_node_pool_settings.0.eviction_grace_duration", "PT50M"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_eviction_node_pool_settings.0.is_force_delete_after_grace_duration", "true"),
 				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_name"),
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard2.1"),
@@ -309,6 +324,9 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.0.value", "value2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "kubernetes_version"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_eviction_node_pool_settings.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_eviction_node_pool_settings.0.eviction_grace_duration", "PT50M"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_eviction_node_pool_settings.0.is_force_delete_after_grace_duration", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_metadata.%", "1"),
@@ -341,10 +359,18 @@ func testAccCheckContainerengineNodePoolDestroy(s *terraform.State) error {
 
 			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "containerengine")
 
-			_, err := client.GetNodePool(context.Background(), request)
+			response, err := client.GetNodePool(context.Background(), request)
 
 			if err == nil {
-				return fmt.Errorf("resource still exists")
+				deletedLifecycleStates := map[string]bool{
+					string(oci_containerengine.NodePoolLifecycleStateDeleted): true,
+				}
+				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
+					//resource lifecycle state is not in expected deleted lifecycle states.
+					return fmt.Errorf("resource lifecycle state: %s is not in expected deleted lifecycle states", response.LifecycleState)
+				}
+				//resource lifecycle state is in expected deleted lifecycle states. continue with next one.
+				continue
 			}
 
 			//Verify that exception is for '404 not found'.
@@ -392,6 +418,8 @@ func sweepContainerengineNodePoolResource(compartment string) error {
 				fmt.Printf("Error deleting NodePool %s %s, It is possible that the resource is already deleted. Please verify manually \n", nodePoolId, error)
 				continue
 			}
+			acctest.WaitTillCondition(acctest.TestAccProvider, &nodePoolId, nodePoolSweepWaitCondition, time.Duration(3*time.Minute),
+				nodePoolSweepResponseFetchOperation, "containerengine", true)
 		}
 	}
 	return nil
@@ -408,6 +436,7 @@ func getNodePoolIds(compartment string) ([]string, error) {
 
 	listNodePoolsRequest := oci_containerengine.ListNodePoolsRequest{}
 	listNodePoolsRequest.CompartmentId = &compartmentId
+	listNodePoolsRequest.LifecycleState = []oci_containerengine.NodePoolLifecycleStateEnum{oci_containerengine.NodePoolLifecycleStateNeedsAttention}
 	listNodePoolsResponse, err := containerEngineClient.ListNodePools(context.Background(), listNodePoolsRequest)
 
 	if err != nil {
@@ -419,4 +448,22 @@ func getNodePoolIds(compartment string) ([]string, error) {
 		acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "NodePoolId", id)
 	}
 	return resourceIds, nil
+}
+
+func nodePoolSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if nodePoolResponse, ok := response.Response.(oci_containerengine.GetNodePoolResponse); ok {
+		return nodePoolResponse.LifecycleState != oci_containerengine.NodePoolLifecycleStateDeleted
+	}
+	return false
+}
+
+func nodePoolSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.ContainerEngineClient().GetNodePool(context.Background(), oci_containerengine.GetNodePoolRequest{
+		NodePoolId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

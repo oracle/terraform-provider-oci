@@ -29,6 +29,18 @@ variable "kms_vault_id" {
 
 }
 
+variable "node_pool_node_eviction_node_pool_settings_eviction_grace_duration" {
+  default = "PT50M"
+}
+
+variable "node_pool_node_eviction_node_pool_settings_is_force_delete_after_grace_duration" {
+  default = false
+}
+
+variable "node_pool_state" {
+  default = []
+}
+
 provider "oci" {
   region           = var.region
   tenancy_ocid     = var.tenancy_ocid
@@ -195,6 +207,12 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
     value = "value"
   }
 
+  node_eviction_node_pool_settings {
+    #Optional
+    eviction_grace_duration              = var.node_pool_node_eviction_node_pool_settings_eviction_grace_duration
+    is_force_delete_after_grace_duration = var.node_pool_node_eviction_node_pool_settings_is_force_delete_after_grace_duration
+  }
+
   node_source_details {
     #Required
     image_id    = local.image_id
@@ -306,6 +324,14 @@ resource "local_file" "test_cluster_kube_config_file" {
 
 data "oci_identity_availability_domains" "test_availability_domains" {
   compartment_id = var.tenancy_ocid
+}
+
+data "oci_containerengine_node_pools" "test_node_pools" {
+  #Required
+  compartment_id = var.compartment_ocid
+
+  #Optional
+  state      = var.node_pool_state
 }
 
 variable "InstanceImageOCID" {

@@ -193,6 +193,32 @@ func ContainerengineNodePoolResource() *schema.Resource {
 					},
 				},
 			},
+			"node_eviction_node_pool_settings": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"eviction_grace_duration": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"is_force_delete_after_grace_duration": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"node_image_id": {
 				Type:          schema.TypeString,
 				Optional:      true,
@@ -300,6 +326,10 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			},
 
 			// Computed
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"node_source": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -417,6 +447,10 @@ func ContainerengineNodePoolResource() *schema.Resource {
 					},
 				},
 			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -463,6 +497,31 @@ type ContainerengineNodePoolResourceCrud struct {
 
 func (s *ContainerengineNodePoolResourceCrud) ID() string {
 	return *s.Res.Id
+}
+
+func (s *ContainerengineNodePoolResourceCrud) CreatedPending() []string {
+	return []string{
+		string(oci_containerengine.NodePoolLifecycleStateCreating),
+	}
+}
+
+func (s *ContainerengineNodePoolResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_containerengine.NodePoolLifecycleStateActive),
+		string(oci_containerengine.NodePoolLifecycleStateNeedsAttention),
+	}
+}
+
+func (s *ContainerengineNodePoolResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_containerengine.NodePoolLifecycleStateDeleting),
+	}
+}
+
+func (s *ContainerengineNodePoolResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_containerengine.NodePoolLifecycleStateDeleted),
+	}
 }
 
 func (s *ContainerengineNodePoolResourceCrud) Create() error {
@@ -528,6 +587,16 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 		}
 	}
 
+	if nodeEvictionNodePoolSettings, ok := s.D.GetOkExists("node_eviction_node_pool_settings"); ok {
+		if tmpList := nodeEvictionNodePoolSettings.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_eviction_node_pool_settings", 0)
+			tmp, err := s.mapToNodeEvictionNodePoolSettings(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NodeEvictionNodePoolSettings = &tmp
+		}
+	}
 	if nodeImageId, ok := s.D.GetOkExists("node_image_id"); ok {
 		tmp := nodeImageId.(string)
 		request.NodeImageName = &tmp
@@ -869,6 +938,11 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 		}
 	}
 
+	if isForceDeletionAfterOverrideGraceDuration, ok := s.D.GetOkExists("is_force_deletion_after_override_grace_duration"); ok {
+		tmp := isForceDeletionAfterOverrideGraceDuration.(bool)
+		request.IsForceDeletionAfterOverrideGraceDuration = &tmp
+	}
+
 	if kubernetesVersion, ok := s.D.GetOkExists("kubernetes_version"); ok {
 		tmp := kubernetesVersion.(string)
 		request.KubernetesVersion = &tmp
@@ -887,6 +961,17 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 				return err
 			}
 			request.NodeConfigDetails = &tmp
+		}
+	}
+
+	if nodeEvictionNodePoolSettings, ok := s.D.GetOkExists("node_eviction_node_pool_settings"); ok {
+		if tmpList := nodeEvictionNodePoolSettings.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_eviction_node_pool_settings", 0)
+			tmp, err := s.mapToNodeEvictionNodePoolSettings(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NodeEvictionNodePoolSettings = &tmp
 		}
 	}
 
@@ -922,6 +1007,11 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 			}
 			request.NodeSourceDetails = tmp
 		}
+	}
+
+	if overrideEvictionGraceDuration, ok := s.D.GetOkExists("override_eviction_grace_duration"); ok {
+		tmp := overrideEvictionGraceDuration.(string)
+		request.OverrideEvictionGraceDuration = &tmp
 	}
 
 	if quantityPerSubnet, ok := s.D.GetOkExists("quantity_per_subnet"); ok && s.D.HasChange("quantity_per_subnet") {
@@ -960,8 +1050,18 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 func (s *ContainerengineNodePoolResourceCrud) Delete() error {
 	request := oci_containerengine.DeleteNodePoolRequest{}
 
+	if isForceDeletionAfterOverrideGraceDuration, ok := s.D.GetOkExists("is_force_deletion_after_override_grace_duration"); ok {
+		tmp := isForceDeletionAfterOverrideGraceDuration.(bool)
+		request.IsForceDeletionAfterOverrideGraceDuration = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.NodePoolId = &tmp
+
+	if overrideEvictionGraceDuration, ok := s.D.GetOkExists("override_eviction_grace_duration"); ok {
+		tmp := overrideEvictionGraceDuration.(string)
+		request.OverrideEvictionGraceDuration = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
@@ -1002,6 +1102,10 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("kubernetes_version", *s.Res.KubernetesVersion)
 	}
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -1010,6 +1114,12 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("node_config_details", []interface{}{NodePoolNodeConfigDetailsToMap(s.Res.NodeConfigDetails, false)})
 	} else {
 		s.D.Set("node_config_details", nil)
+	}
+
+	if s.Res.NodeEvictionNodePoolSettings != nil {
+		s.D.Set("node_eviction_node_pool_settings", []interface{}{NodeEvictionNodePoolSettingsToMap(s.Res.NodeEvictionNodePoolSettings)})
+	} else {
+		s.D.Set("node_eviction_node_pool_settings", nil)
 	}
 
 	if s.Res.NodeImageId != nil {
@@ -1065,6 +1175,14 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 	if s.Res.SshPublicKey != nil {
 		s.D.Set("ssh_public_key", *s.Res.SshPublicKey)
 	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	subnetIds := []interface{}{}
+	for _, item := range s.Res.SubnetIds {
+		subnetIds = append(subnetIds, item)
+	}
+	s.D.Set("subnet_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, subnetIds))
 
 	if s.Res.SubnetIds != nil {
 		subnetIds := []interface{}{}
@@ -1343,6 +1461,36 @@ func NodeErrorToMap(obj *oci_containerengine.NodeError) map[string]interface{} {
 
 	if obj.Status != nil {
 		result["status"] = string(*obj.Status)
+	}
+
+	return result
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToNodeEvictionNodePoolSettings(fieldKeyFormat string) (oci_containerengine.NodeEvictionNodePoolSettings, error) {
+	result := oci_containerengine.NodeEvictionNodePoolSettings{}
+
+	if evictionGraceDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "eviction_grace_duration")); ok {
+		tmp := evictionGraceDuration.(string)
+		result.EvictionGraceDuration = &tmp
+	}
+
+	if isForceDeleteAfterGraceDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_force_delete_after_grace_duration")); ok {
+		tmp := isForceDeleteAfterGraceDuration.(bool)
+		result.IsForceDeleteAfterGraceDuration = &tmp
+	}
+
+	return result, nil
+}
+
+func NodeEvictionNodePoolSettingsToMap(obj *oci_containerengine.NodeEvictionNodePoolSettings) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.EvictionGraceDuration != nil {
+		result["eviction_grace_duration"] = string(*obj.EvictionGraceDuration)
+	}
+
+	if obj.IsForceDeleteAfterGraceDuration != nil {
+		result["is_force_delete_after_grace_duration"] = bool(*obj.IsForceDeleteAfterGraceDuration)
 	}
 
 	return result
