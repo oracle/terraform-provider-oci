@@ -606,6 +606,10 @@ var exportContainerengineNodePoolHints = &TerraformResourceHints{
 	datasourceItemsAttr:    "node_pools",
 	resourceAbbreviation:   "node_pool",
 	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_containerengine.NodePoolLifecycleStateActive),
+		string(oci_containerengine.NodePoolLifecycleStateNeedsAttention),
+	},
 }
 
 var exportCoreBootVolumeBackupHints = &TerraformResourceHints{

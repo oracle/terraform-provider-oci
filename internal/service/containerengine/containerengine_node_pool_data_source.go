@@ -90,6 +90,10 @@ func (s *ContainerengineNodePoolDataSourceCrud) SetData() error {
 		s.D.Set("kubernetes_version", *s.Res.KubernetesVersion)
 	}
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -98,6 +102,12 @@ func (s *ContainerengineNodePoolDataSourceCrud) SetData() error {
 		s.D.Set("node_config_details", []interface{}{NodePoolNodeConfigDetailsToMap(s.Res.NodeConfigDetails, true)})
 	} else {
 		s.D.Set("node_config_details", nil)
+	}
+
+	if s.Res.NodeEvictionNodePoolSettings != nil {
+		s.D.Set("node_eviction_node_pool_settings", []interface{}{NodeEvictionNodePoolSettingsToMap(s.Res.NodeEvictionNodePoolSettings)})
+	} else {
+		s.D.Set("node_eviction_node_pool_settings", nil)
 	}
 
 	if s.Res.NodeImageId != nil {
@@ -153,6 +163,8 @@ func (s *ContainerengineNodePoolDataSourceCrud) SetData() error {
 	if s.Res.SshPublicKey != nil {
 		s.D.Set("ssh_public_key", *s.Res.SshPublicKey)
 	}
+
+	s.D.Set("state", s.Res.LifecycleState)
 
 	s.D.Set("subnet_ids", s.Res.SubnetIds)
 

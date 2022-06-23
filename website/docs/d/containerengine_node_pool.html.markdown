@@ -41,6 +41,7 @@ The following attributes are exported:
 	* `key` - The key of the pair.
 	* `value` - The value of the pair.
 * `kubernetes_version` - The version of Kubernetes running on the nodes in the node pool.
+* `lifecycle_details` - Details about the state of the nodepool.
 * `name` - The name of the node pool.
 * `node_config_details` - The configuration of nodes in the node pool.
 	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
@@ -56,6 +57,9 @@ The following attributes are exported:
 		* `fault_domains` - A list of fault domains in which to place nodes. 
 		* `subnet_id` - The OCID of the subnet in which to place nodes.
 	* `size` - The number of nodes in the node pool. 
+* `node_eviction_node_pool_settings` - Node Eviction Details configuration
+	* `eviction_grace_duration` - Duration after which OKE will give up eviction of the pods on the node. PT0M will indicate you want to delete the node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M 
+	* `is_force_delete_after_grace_duration` - If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
 * `node_image_id` - Deprecated. see `nodeSource`. The OCID of the image running on the nodes in the node pool. 
 * `node_image_name` - Deprecated. see `nodeSource`. The name of the image running on the nodes in the node pool. 
 * `node_metadata` - A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
@@ -91,5 +95,6 @@ The following attributes are exported:
 	* `subnet_id` - The OCID of the subnet in which this node is placed.
 * `quantity_per_subnet` - The number of nodes in each subnet.
 * `ssh_public_key` - The SSH public key on each node in the node pool on launch.
+* `state` - The state of the nodepool.
 * `subnet_ids` - The OCIDs of the subnets in which to place nodes for this node pool.
 
