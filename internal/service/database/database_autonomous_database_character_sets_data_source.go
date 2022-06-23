@@ -18,6 +18,14 @@ func DatabaseAutonomousDatabaseCharacterSetsDataSource() *schema.Resource {
 		Read: readDatabaseAutonomousDatabaseCharacterSets,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"character_set_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"is_shared": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"autonomous_database_character_sets": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -59,6 +67,15 @@ func (s *DatabaseAutonomousDatabaseCharacterSetsDataSourceCrud) VoidState() {
 
 func (s *DatabaseAutonomousDatabaseCharacterSetsDataSourceCrud) Get() error {
 	request := oci_database.ListAutonomousDatabaseCharacterSetsRequest{}
+
+	if characterSetType, ok := s.D.GetOkExists("character_set_type"); ok {
+		request.CharacterSetType = oci_database.ListAutonomousDatabaseCharacterSetsCharacterSetTypeEnum(characterSetType.(string))
+	}
+
+	if isShared, ok := s.D.GetOkExists("is_shared"); ok {
+		tmp := isShared.(bool)
+		request.IsShared = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 

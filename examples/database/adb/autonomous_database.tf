@@ -40,6 +40,8 @@ resource "oci_database_autonomous_database" "autonomous_database" {
   license_model                                  = var.autonomous_database_license_model
   is_preview_version_with_service_terms_accepted = "false"
   whitelisted_ips                                = ["1.1.1.1/28"]
+  character_set                                  = "AL32UTF8"
+  ncharacter_set                                 = "AL16UTF16"
 }
 
 resource "oci_database_autonomous_database" "test_autonomous_database" {
