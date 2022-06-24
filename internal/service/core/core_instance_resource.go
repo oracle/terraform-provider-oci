@@ -620,6 +620,14 @@ func CoreInstanceResource() *schema.Resource {
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
+						"boot_volume_vpus_per_gb": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
 						"kms_key_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -1744,6 +1752,7 @@ func (s *CoreInstanceResourceCrud) mapToInstanceSourceDetails(fieldKeyFormat str
 	//discriminator
 	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
 	var sourceType string
+	var defaultVpusPerGb int64 = 10
 	if ok {
 		sourceType = sourceTypeRaw.(string)
 	} else {
@@ -1766,6 +1775,22 @@ func (s *CoreInstanceResourceCrud) mapToInstanceSourceDetails(fieldKeyFormat str
 				return nil, fmt.Errorf("unable to convert bootVolumeSizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
 			}
 			details.BootVolumeSizeInGBs = &tmpInt64
+		}
+
+		bootVolumeVpusPerGB, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_vpus_per_gb"))
+		if ok {
+			tmp := bootVolumeVpusPerGB.(string)
+			if tmp != "" {
+				tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert bootVolumeVpusPerGB string: %s to an int64 and encountered error: %v", tmp, err)
+				}
+				details.BootVolumeVpusPerGB = &tmpInt64
+			} else {
+				details.BootVolumeVpusPerGB = &defaultVpusPerGb
+			}
+		} else {
+			details.BootVolumeVpusPerGB = &defaultVpusPerGb
 		}
 		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
 			tmp := kmsKeyId.(string)
@@ -1804,6 +1829,14 @@ func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume 
 			// The service could omit the boot volume size in the InstanceSourceViaImageDetails, so use the boot volume
 			// SizeInGBs property if that's the case.
 			result["boot_volume_size_in_gbs"] = strconv.FormatInt(*bootVolume.SizeInGBs, 10)
+		}
+
+		if v.BootVolumeVpusPerGB != nil && *v.BootVolumeVpusPerGB != 0 {
+			result["boot_volume_vpus_per_gb"] = strconv.FormatInt(*v.BootVolumeVpusPerGB, 10)
+		} else if bootVolume != nil && bootVolume.VpusPerGB != nil && *bootVolume.VpusPerGB != 0 {
+			result["boot_volume_vpus_per_gb"] = strconv.FormatInt(*bootVolume.VpusPerGB, 10)
+		} else {
+			result["boot_volume_vpus_per_gb"] = "10"
 		}
 
 		if v.KmsKeyId != nil {
