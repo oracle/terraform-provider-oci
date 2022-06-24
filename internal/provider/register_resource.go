@@ -82,6 +82,7 @@ import (
 	tf_usage_proxy "terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "terraform-provider-oci/internal/service/vault"
 	tf_visual_builder "terraform-provider-oci/internal/service/visual_builder"
+	tf_vn_monitoring "terraform-provider-oci/internal/service/vn_monitoring"
 	tf_vulnerability_scanning "terraform-provider-oci/internal/service/vulnerability_scanning"
 	tf_waa "terraform-provider-oci/internal/service/waa"
 	tf_waas "terraform-provider-oci/internal/service/waas"
@@ -601,6 +602,9 @@ func init() {
 	RegisterResource("oci_ai_vision_model", tf_ai_vision.AiVisionModelResource())
 	// visual_builder service
 	RegisterResource("oci_visual_builder_vb_instance", tf_visual_builder.VisualBuilderVbInstanceResource())
+	// vn_monitoring service
+	RegisterResource("oci_vn_monitoring_path_analysi", tf_vn_monitoring.VnMonitoringPathAnalysiResource())
+	RegisterResource("oci_vn_monitoring_path_analyzer_test", tf_vn_monitoring.VnMonitoringPathAnalyzerTestResource())
 	// vulnerability_scanning service
 	RegisterResource("oci_vulnerability_scanning_container_scan_recipe", tf_vulnerability_scanning.VulnerabilityScanningContainerScanRecipeResource())
 	RegisterResource("oci_vulnerability_scanning_container_scan_target", tf_vulnerability_scanning.VulnerabilityScanningContainerScanTargetResource())
