@@ -90,6 +90,7 @@ import (
 	tf_usage_proxy "terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "terraform-provider-oci/internal/service/vault"
 	tf_visual_builder "terraform-provider-oci/internal/service/visual_builder"
+	tf_vn_monitoring "terraform-provider-oci/internal/service/vn_monitoring"
 	tf_vulnerability_scanning "terraform-provider-oci/internal/service/vulnerability_scanning"
 	tf_waa "terraform-provider-oci/internal/service/waa"
 	tf_waas "terraform-provider-oci/internal/service/waas"
@@ -1219,6 +1220,11 @@ func init() {
 	RegisterDatasource("oci_visual_builder_vb_instance", tf_visual_builder.VisualBuilderVbInstanceDataSource())
 	RegisterDatasource("oci_visual_builder_vb_instances", tf_visual_builder.VisualBuilderVbInstancesDataSource())
 	RegisterDatasource("oci_visual_builder_vb_instance_applications", tf_visual_builder.VisualBuilderVbInstanceApplicationsDataSource())
+
+	// vn_monitoring service
+	RegisterDatasource("oci_vn_monitoring_path_analyzer_test", tf_vn_monitoring.VnMonitoringPathAnalyzerTestDataSource())
+	RegisterDatasource("oci_vn_monitoring_path_analyzer_tests", tf_vn_monitoring.VnMonitoringPathAnalyzerTestsDataSource())
+
 	// vulnerability_scanning service
 	RegisterDatasource("oci_vulnerability_scanning_container_scan_recipe", tf_vulnerability_scanning.VulnerabilityScanningContainerScanRecipeDataSource())
 	RegisterDatasource("oci_vulnerability_scanning_container_scan_recipes", tf_vulnerability_scanning.VulnerabilityScanningContainerScanRecipesDataSource())
