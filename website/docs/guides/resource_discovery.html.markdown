@@ -192,6 +192,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
     * `vault` - Discovers vault resources within the specified compartment
     * `visual_builder` - Discovers visual_builder resources within the specified compartment
+    * `vn_monitoring` - Discovers vn_monitoring resources within the specified compartment
     * `vulnerability_scanning` - Discovers vulnerability_scanning resources within the specified compartment
     * `waa` - Discovers waa resources within the specified compartment
     * `waas` - Discovers waas resources within the specified compartment
@@ -826,6 +827,11 @@ vault
 visual_builder
     
 * oci\_visual\_builder\_vb\_instance
+
+vn_monitoring
+    
+* oci\_vn\_monitoring\_path\_analyzer\_test
+* oci\_vn\_monitoring\_path\_analysi
 
 vulnerability_scanning
     

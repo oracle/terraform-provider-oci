@@ -82,6 +82,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"tagging":                 taggingResourceGraph,
 	"vault":                   vaultResourceGraph,
 	"visual_builder":          visualBuilderResourceGraph,
+	"vn_monitoring":           vnMonitoringResourceGraph,
 	"vulnerability_scanning":  vulnerabilityScanningResourceGraph,
 	"waa":                     waaResourceGraph,
 	"waas":                    waasResourceGraph,
@@ -1288,6 +1289,12 @@ var vaultResourceGraph = TerraformResourceGraph{
 var visualBuilderResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportVisualBuilderVbInstanceHints},
+	},
+}
+
+var vnMonitoringResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportVnMonitoringPathAnalyzerTestHints},
 	},
 }
 
