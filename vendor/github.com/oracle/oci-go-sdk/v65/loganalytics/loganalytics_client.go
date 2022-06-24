@@ -380,6 +380,67 @@ func (client LogAnalyticsClient) cancelQueryWorkRequest(ctx context.Context, req
 	return response, err
 }
 
+// ChangeIngestTimeRuleCompartment Moves the specified ingest time rule to a different compartment.
+// A default retry strategy applies to this operation ChangeIngestTimeRuleCompartment()
+func (client LogAnalyticsClient) ChangeIngestTimeRuleCompartment(ctx context.Context, request ChangeIngestTimeRuleCompartmentRequest) (response ChangeIngestTimeRuleCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeIngestTimeRuleCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeIngestTimeRuleCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeIngestTimeRuleCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeIngestTimeRuleCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeIngestTimeRuleCompartmentResponse")
+	}
+	return
+}
+
+// changeIngestTimeRuleCompartment implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) changeIngestTimeRuleCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/ingestTimeRules/{ingestTimeRuleId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeIngestTimeRuleCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/IngestTimeRule/ChangeIngestTimeRuleCompartment"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ChangeIngestTimeRuleCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeLogAnalyticsEmBridgeCompartment Update the compartment of the log analytics enterprise manager bridge with the given id.
 // A default retry strategy applies to this operation ChangeLogAnalyticsEmBridgeCompartment()
 func (client LogAnalyticsClient) ChangeLogAnalyticsEmBridgeCompartment(ctx context.Context, request ChangeLogAnalyticsEmBridgeCompartmentRequest) (response ChangeLogAnalyticsEmBridgeCompartmentResponse, err error) {
@@ -787,6 +848,67 @@ func (client LogAnalyticsClient) compareContent(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryDetails/CompareContent"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "CompareContent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateIngestTimeRule Creates a new ingest time rule in the specified compartment. You may also specify optional information such as description, defined tags, and free-form tags.
+// A default retry strategy applies to this operation CreateIngestTimeRule()
+func (client LogAnalyticsClient) CreateIngestTimeRule(ctx context.Context, request CreateIngestTimeRuleRequest) (response CreateIngestTimeRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createIngestTimeRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateIngestTimeRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateIngestTimeRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateIngestTimeRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateIngestTimeRuleResponse")
+	}
+	return
+}
+
+// createIngestTimeRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) createIngestTimeRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/ingestTimeRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateIngestTimeRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/IngestTimeRule/CreateIngestTimeRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "CreateIngestTimeRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -1266,6 +1388,60 @@ func (client LogAnalyticsClient) deleteField(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsField/DeleteField"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteField", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteIngestTimeRule Deletes the specified ingest time rule.
+// A default retry strategy applies to this operation DeleteIngestTimeRule()
+func (client LogAnalyticsClient) DeleteIngestTimeRule(ctx context.Context, request DeleteIngestTimeRuleRequest) (response DeleteIngestTimeRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteIngestTimeRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteIngestTimeRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteIngestTimeRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteIngestTimeRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteIngestTimeRuleResponse")
+	}
+	return
+}
+
+// deleteIngestTimeRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) deleteIngestTimeRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/ingestTimeRules/{ingestTimeRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteIngestTimeRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/IngestTimeRule/DeleteIngestTimeRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteIngestTimeRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -2108,6 +2284,60 @@ func (client LogAnalyticsClient) disableAutoAssociation(ctx context.Context, req
 	return response, err
 }
 
+// DisableIngestTimeRule Disables the specified ingest time rule.
+// A default retry strategy applies to this operation DisableIngestTimeRule()
+func (client LogAnalyticsClient) DisableIngestTimeRule(ctx context.Context, request DisableIngestTimeRuleRequest) (response DisableIngestTimeRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.disableIngestTimeRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableIngestTimeRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableIngestTimeRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableIngestTimeRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableIngestTimeRuleResponse")
+	}
+	return
+}
+
+// disableIngestTimeRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) disableIngestTimeRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/ingestTimeRules/{ingestTimeRuleId}/actions/disableIngestTimeRule", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableIngestTimeRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/IngestTimeRule/DisableIngestTimeRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DisableIngestTimeRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DisableSourceEventTypes Disable one or more event types in a source.
 // A default retry strategy applies to this operation DisableSourceEventTypes()
 func (client LogAnalyticsClient) DisableSourceEventTypes(ctx context.Context, request DisableSourceEventTypesRequest) (response DisableSourceEventTypesResponse, err error) {
@@ -2279,6 +2509,60 @@ func (client LogAnalyticsClient) enableAutoAssociation(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/EnableAutoAssociation"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "EnableAutoAssociation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableIngestTimeRule Enables the specified ingest time rule.
+// A default retry strategy applies to this operation EnableIngestTimeRule()
+func (client LogAnalyticsClient) EnableIngestTimeRule(ctx context.Context, request EnableIngestTimeRuleRequest) (response EnableIngestTimeRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.enableIngestTimeRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableIngestTimeRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableIngestTimeRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableIngestTimeRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableIngestTimeRuleResponse")
+	}
+	return
+}
+
+// enableIngestTimeRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) enableIngestTimeRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/ingestTimeRules/{ingestTimeRuleId}/actions/enableIngestTimeRule", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableIngestTimeRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/IngestTimeRule/EnableIngestTimeRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "EnableIngestTimeRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -3135,6 +3419,60 @@ func (client LogAnalyticsClient) getFieldsSummary(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsField/GetFieldsSummary"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "GetFieldsSummary", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetIngestTimeRule Gets detailed information about the specified ingest time rule such as description, defined tags, and free-form tags.
+// A default retry strategy applies to this operation GetIngestTimeRule()
+func (client LogAnalyticsClient) GetIngestTimeRule(ctx context.Context, request GetIngestTimeRuleRequest) (response GetIngestTimeRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getIngestTimeRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetIngestTimeRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetIngestTimeRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetIngestTimeRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetIngestTimeRuleResponse")
+	}
+	return
+}
+
+// getIngestTimeRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) getIngestTimeRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/ingestTimeRules/{ingestTimeRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetIngestTimeRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/IngestTimeRule/GetIngestTimeRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetIngestTimeRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -5143,6 +5481,60 @@ func (client LogAnalyticsClient) listFields(ctx context.Context, request common.
 	return response, err
 }
 
+// ListIngestTimeRules Returns a list of ingest time rules in a compartment. You may limit the number of rules, provide sorting options, and filter the results.
+// A default retry strategy applies to this operation ListIngestTimeRules()
+func (client LogAnalyticsClient) ListIngestTimeRules(ctx context.Context, request ListIngestTimeRulesRequest) (response ListIngestTimeRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listIngestTimeRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListIngestTimeRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListIngestTimeRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListIngestTimeRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListIngestTimeRulesResponse")
+	}
+	return
+}
+
+// listIngestTimeRules implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) listIngestTimeRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/ingestTimeRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListIngestTimeRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/IngestTimeRule/ListIngestTimeRules"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListIngestTimeRules", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListLabelPriorities Lists the available problem priorities that could be associated with a label.
 // A default retry strategy applies to this operation ListLabelPriorities()
 func (client LogAnalyticsClient) ListLabelPriorities(ctx context.Context, request ListLabelPrioritiesRequest) (response ListLabelPrioritiesResponse, err error) {
@@ -6160,6 +6552,60 @@ func (client LogAnalyticsClient) listResourceCategories(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsCategory/ListResourceCategories"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "ListResourceCategories", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRules Returns a list of ingest time rules and scheduled tasks in a compartment. You may limit the number of items returned, provide sorting options, and filter the results.
+// A default retry strategy applies to this operation ListRules()
+func (client LogAnalyticsClient) ListRules(ctx context.Context, request ListRulesRequest) (response ListRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRulesResponse")
+	}
+	return
+}
+
+// listRules implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) listRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/rules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Rule/ListRules"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -8408,6 +8854,62 @@ func (client LogAnalyticsClient) unsuppressWarning(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsWarning/UnsuppressWarning"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "UnsuppressWarning", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateIngestTimeRule Updates the specified ingest time rule's description, defined tags, and free-form tags.
+// A default retry strategy applies to this operation UpdateIngestTimeRule()
+func (client LogAnalyticsClient) UpdateIngestTimeRule(ctx context.Context, request UpdateIngestTimeRuleRequest) (response UpdateIngestTimeRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateIngestTimeRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateIngestTimeRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateIngestTimeRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateIngestTimeRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateIngestTimeRuleResponse")
+	}
+	return
+}
+
+// updateIngestTimeRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) updateIngestTimeRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/ingestTimeRules/{ingestTimeRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateIngestTimeRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/IngestTimeRule/UpdateIngestTimeRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateIngestTimeRule", apiReferenceLink)
 		return response, err
 	}
 

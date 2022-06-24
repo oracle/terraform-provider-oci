@@ -4,6 +4,7 @@ require (
 	github.com/fatih/color v1.7.0
 	github.com/hashicorp/go-cty v1.4.1-0.20200414143053-d3edf31b6320
 	github.com/hashicorp/go-multierror v1.0.0
+	github.com/hashicorp/go-version v1.3.0
 	github.com/hashicorp/hcl2 v0.0.0-20190618163856-0b64543c968c
 	github.com/hashicorp/terraform-exec v0.14.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.7.0
@@ -43,7 +44,6 @@ require (
 	github.com/hashicorp/go-plugin v1.4.1 // indirect
 	github.com/hashicorp/go-safetemp v1.0.0 // indirect
 	github.com/hashicorp/go-uuid v1.0.1 // indirect
-	github.com/hashicorp/go-version v1.3.0 // indirect
 	github.com/hashicorp/hcl v0.0.0-20170504190234-a4b07c25de5f // indirect
 	github.com/hashicorp/hcl/v2 v2.8.2 // indirect
 	github.com/hashicorp/logutils v1.0.0 // indirect

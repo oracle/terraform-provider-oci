@@ -34,6 +34,9 @@ type DeltaCommandDescriptor struct {
 	// Fields declared in command fragment from user specified query string.
 	DeclaredFields []AbstractField `mandatory:"false" json:"declaredFields"`
 
+	// Field denoting if this is a hidden command that is not shown in the query string.
+	IsHidden *bool `mandatory:"false" json:"isHidden"`
+
 	// Value specified in DELTA command in queryString if set controlling whether delta is calculating difference between consecutive result rows or skipping N rows for each calculation.
 	Step *int `mandatory:"false" json:"step"`
 }
@@ -61,6 +64,11 @@ func (m DeltaCommandDescriptor) GetReferencedFields() []AbstractField {
 //GetDeclaredFields returns DeclaredFields
 func (m DeltaCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
+}
+
+//GetIsHidden returns IsHidden
+func (m DeltaCommandDescriptor) GetIsHidden() *bool {
+	return m.IsHidden
 }
 
 func (m DeltaCommandDescriptor) String() string {
@@ -99,6 +107,7 @@ func (m *DeltaCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 		Category            *string         `json:"category"`
 		ReferencedFields    []abstractfield `json:"referencedFields"`
 		DeclaredFields      []abstractfield `json:"declaredFields"`
+		IsHidden            *bool           `json:"isHidden"`
 		Step                *int            `json:"step"`
 		DisplayQueryString  *string         `json:"displayQueryString"`
 		InternalQueryString *string         `json:"internalQueryString"`
@@ -136,6 +145,8 @@ func (m *DeltaCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
+
+	m.IsHidden = model.IsHidden
 
 	m.Step = model.Step
 

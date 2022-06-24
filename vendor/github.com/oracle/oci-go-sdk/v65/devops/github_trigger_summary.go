@@ -52,6 +52,9 @@ type GithubTriggerSummary struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// The OCID of the connection resource used to get details for triggered events.
+	ConnectionId *string `mandatory:"false" json:"connectionId"`
+
 	// The current state of the trigger.
 	LifecycleState TriggerLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }

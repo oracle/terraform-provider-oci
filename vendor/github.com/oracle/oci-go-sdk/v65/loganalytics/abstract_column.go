@@ -117,8 +117,24 @@ func (m *abstractcolumn) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := TrendColumn{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "TIME_STATS_COLUMN":
+		mm := TimeStatsColumn{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "TIME_CLUSTER_COLUMN":
+		mm := TimeClusterColumn{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "COLUMN":
 		mm := Column{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "TIME_CLUSTER_DATA_COLUMN":
+		mm := TimeClusterDataColumn{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "TIME_STATS_DATA_COLUMN":
+		mm := TimeStatsDataColumn{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "CHART_COLUMN":
@@ -216,30 +232,42 @@ type AbstractColumnTypeEnum string
 
 // Set of constants representing the allowable values for AbstractColumnTypeEnum
 const (
-	AbstractColumnTypeColumn          AbstractColumnTypeEnum = "COLUMN"
-	AbstractColumnTypeChartColumn     AbstractColumnTypeEnum = "CHART_COLUMN"
-	AbstractColumnTypeChartDataColumn AbstractColumnTypeEnum = "CHART_DATA_COLUMN"
-	AbstractColumnTypeTimeColumn      AbstractColumnTypeEnum = "TIME_COLUMN"
-	AbstractColumnTypeTrendColumn     AbstractColumnTypeEnum = "TREND_COLUMN"
-	AbstractColumnTypeClassifyColumn  AbstractColumnTypeEnum = "CLASSIFY_COLUMN"
+	AbstractColumnTypeColumn                AbstractColumnTypeEnum = "COLUMN"
+	AbstractColumnTypeChartColumn           AbstractColumnTypeEnum = "CHART_COLUMN"
+	AbstractColumnTypeChartDataColumn       AbstractColumnTypeEnum = "CHART_DATA_COLUMN"
+	AbstractColumnTypeTimeStatsColumn       AbstractColumnTypeEnum = "TIME_STATS_COLUMN"
+	AbstractColumnTypeTimeStatsDataColumn   AbstractColumnTypeEnum = "TIME_STATS_DATA_COLUMN"
+	AbstractColumnTypeTimeClusterColumn     AbstractColumnTypeEnum = "TIME_CLUSTER_COLUMN"
+	AbstractColumnTypeTimeClusterDataColumn AbstractColumnTypeEnum = "TIME_CLUSTER_DATA_COLUMN"
+	AbstractColumnTypeTimeColumn            AbstractColumnTypeEnum = "TIME_COLUMN"
+	AbstractColumnTypeTrendColumn           AbstractColumnTypeEnum = "TREND_COLUMN"
+	AbstractColumnTypeClassifyColumn        AbstractColumnTypeEnum = "CLASSIFY_COLUMN"
 )
 
 var mappingAbstractColumnTypeEnum = map[string]AbstractColumnTypeEnum{
-	"COLUMN":            AbstractColumnTypeColumn,
-	"CHART_COLUMN":      AbstractColumnTypeChartColumn,
-	"CHART_DATA_COLUMN": AbstractColumnTypeChartDataColumn,
-	"TIME_COLUMN":       AbstractColumnTypeTimeColumn,
-	"TREND_COLUMN":      AbstractColumnTypeTrendColumn,
-	"CLASSIFY_COLUMN":   AbstractColumnTypeClassifyColumn,
+	"COLUMN":                   AbstractColumnTypeColumn,
+	"CHART_COLUMN":             AbstractColumnTypeChartColumn,
+	"CHART_DATA_COLUMN":        AbstractColumnTypeChartDataColumn,
+	"TIME_STATS_COLUMN":        AbstractColumnTypeTimeStatsColumn,
+	"TIME_STATS_DATA_COLUMN":   AbstractColumnTypeTimeStatsDataColumn,
+	"TIME_CLUSTER_COLUMN":      AbstractColumnTypeTimeClusterColumn,
+	"TIME_CLUSTER_DATA_COLUMN": AbstractColumnTypeTimeClusterDataColumn,
+	"TIME_COLUMN":              AbstractColumnTypeTimeColumn,
+	"TREND_COLUMN":             AbstractColumnTypeTrendColumn,
+	"CLASSIFY_COLUMN":          AbstractColumnTypeClassifyColumn,
 }
 
 var mappingAbstractColumnTypeEnumLowerCase = map[string]AbstractColumnTypeEnum{
-	"column":            AbstractColumnTypeColumn,
-	"chart_column":      AbstractColumnTypeChartColumn,
-	"chart_data_column": AbstractColumnTypeChartDataColumn,
-	"time_column":       AbstractColumnTypeTimeColumn,
-	"trend_column":      AbstractColumnTypeTrendColumn,
-	"classify_column":   AbstractColumnTypeClassifyColumn,
+	"column":                   AbstractColumnTypeColumn,
+	"chart_column":             AbstractColumnTypeChartColumn,
+	"chart_data_column":        AbstractColumnTypeChartDataColumn,
+	"time_stats_column":        AbstractColumnTypeTimeStatsColumn,
+	"time_stats_data_column":   AbstractColumnTypeTimeStatsDataColumn,
+	"time_cluster_column":      AbstractColumnTypeTimeClusterColumn,
+	"time_cluster_data_column": AbstractColumnTypeTimeClusterDataColumn,
+	"time_column":              AbstractColumnTypeTimeColumn,
+	"trend_column":             AbstractColumnTypeTrendColumn,
+	"classify_column":          AbstractColumnTypeClassifyColumn,
 }
 
 // GetAbstractColumnTypeEnumValues Enumerates the set of values for AbstractColumnTypeEnum
@@ -257,6 +285,10 @@ func GetAbstractColumnTypeEnumStringValues() []string {
 		"COLUMN",
 		"CHART_COLUMN",
 		"CHART_DATA_COLUMN",
+		"TIME_STATS_COLUMN",
+		"TIME_STATS_DATA_COLUMN",
+		"TIME_CLUSTER_COLUMN",
+		"TIME_CLUSTER_DATA_COLUMN",
 		"TIME_COLUMN",
 		"TREND_COLUMN",
 		"CLASSIFY_COLUMN",

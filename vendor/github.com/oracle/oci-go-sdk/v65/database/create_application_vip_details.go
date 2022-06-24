@@ -24,11 +24,11 @@ type CreateApplicationVipDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cloud VM cluster associated with the application virtual IP (VIP) address.
 	CloudVmClusterId *string `mandatory:"true" json:"cloudVmClusterId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet associated with the application virtual IP (VIP) address.
+	SubnetId *string `mandatory:"true" json:"subnetId"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DB node associated with the application virtual IP (VIP) address.
 	DbNodeId *string `mandatory:"false" json:"dbNodeId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet associated with the application virtual IP (VIP) address.
-	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// The application virtual IP (VIP) address.
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
