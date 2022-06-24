@@ -162,6 +162,7 @@ resource "oci_core_instance" "test_instance" {
 
 		#Optional
 		boot_volume_size_in_gbs = var.instance_source_details_boot_volume_size_in_gbs
+		boot_volume_vpus_per_gb = var.instance_source_details_boot_volume_vpus_per_gb
 		kms_key_id = oci_kms_key.test_key.id
 	}
 	preserve_boot_volume = false
@@ -388,6 +389,14 @@ The following arguments are supported:
 	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the instance. 
 * `source_details` - (Optional) (Updatable) 
 	* `boot_volume_size_in_gbs` - (Applicable when source_type=image) (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB). 
+	* `boot_volume_vpus_per_gb` - (Applicable when source_type=image) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
+
+		Allowed values:
+		* `10`: Represents Balanced option.
+		* `20`: Represents Higher Performance option.
+		* `30`-`120`: Represents the Ultra High Performance option.
+
+		For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB. 
 	* `kms_key_id` - (Applicable when source_type=image) The OCID of the Key Management key to assign as the master encryption key for the boot volume.
 	* `source_id` - (Required) The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - (Required) The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
@@ -540,6 +549,14 @@ The following attributes are exported:
 	* `processor_description` - A short description of the instance's processor (CPU). 
 * `source_details` - 
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB). 
+	* `boot_volume_vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
+
+		Allowed values:
+		* `10`: Represents Balanced option.
+		* `20`: Represents Higher Performance option.
+		* `30`-`120`: Represents the Ultra High Performance option.
+
+		For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB. 
 	* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the boot volume.
 	* `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
