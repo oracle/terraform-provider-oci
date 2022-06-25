@@ -1,3 +1,14 @@
+## 4.82.0 (Unreleased)
+
+### Added
+- Data Plane Guest VM Events
+- Support for safe delete
+- Support for character sets for Autonomous Database on Shared Infrastructure
+- Support VSS app scan settings
+- Parameter `bootVolumeVpusPerGB` to Launch Instance API
+- VN Path Analyzer Resource
+- Operations Insights EM DataWarehouse
+
 ## 4.81.0 (June 22, 2022)
 
 ### Added
