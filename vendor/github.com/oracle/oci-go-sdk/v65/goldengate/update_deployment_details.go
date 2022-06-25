@@ -36,7 +36,7 @@ type UpdateDeploymentDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// An array of Network Security Group (https://docs.cloud.oracle.com/Content/Network/Concepts/networksecuritygroups.htm) OCIDs used to define network access for a deployment.
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.

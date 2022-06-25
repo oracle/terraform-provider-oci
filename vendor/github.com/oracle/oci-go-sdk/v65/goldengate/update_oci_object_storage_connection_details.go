@@ -48,6 +48,9 @@ type UpdateOciObjectStorageConnectionDetails struct {
 	// manage secrets.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related OCI tenancy.
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
 
@@ -95,6 +98,11 @@ func (m UpdateOciObjectStorageConnectionDetails) GetVaultId() *string {
 //GetKeyId returns KeyId
 func (m UpdateOciObjectStorageConnectionDetails) GetKeyId() *string {
 	return m.KeyId
+}
+
+//GetNsgIds returns NsgIds
+func (m UpdateOciObjectStorageConnectionDetails) GetNsgIds() []string {
+	return m.NsgIds
 }
 
 func (m UpdateOciObjectStorageConnectionDetails) String() string {

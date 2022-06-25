@@ -511,7 +511,7 @@ func (client ResourceManagerClient) createJob(ctx context.Context, request commo
 	return response, err
 }
 
-// CreatePrivateEndpoint Creates a a private endpoint in the specified compartment.
+// CreatePrivateEndpoint Creates a private endpoint in the specified compartment.
 // A default retry strategy applies to this operation CreatePrivateEndpoint()
 func (client ResourceManagerClient) CreatePrivateEndpoint(ctx context.Context, request CreatePrivateEndpointRequest) (response CreatePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1455,7 +1455,8 @@ func (client ResourceManagerClient) getPrivateEndpoint(ctx context.Context, requ
 	return response, err
 }
 
-// GetReachableIp Gets the alternative IP address of the private resource. This IP will be used by Resource Manager Service to connect to the private resource.
+// GetReachableIp Gets the reachable, or alternative, IP address for a nonpublic IP address that is associated with the private endpoint.
+// Resource Manager uses this IP address to connect to nonpublic resources through the associated private endpoint.
 // A default retry strategy applies to this operation GetReachableIp()
 func (client ResourceManagerClient) GetReachableIp(ctx context.Context, request GetReachableIpRequest) (response GetReachableIpResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2005,7 +2006,7 @@ func (client ResourceManagerClient) listJobs(ctx context.Context, request common
 }
 
 // ListPrivateEndpoints Lists private endpoints according to the specified filter.
-// - For `compartmentId`, lists all private endpoint in the matching compartment.
+// - For `compartmentId`, lists all private endpoints in the matching compartment.
 // - For `privateEndpointId`, lists the matching private endpoint.
 // A default retry strategy applies to this operation ListPrivateEndpoints()
 func (client ResourceManagerClient) ListPrivateEndpoints(ctx context.Context, request ListPrivateEndpointsRequest) (response ListPrivateEndpointsResponse, err error) {

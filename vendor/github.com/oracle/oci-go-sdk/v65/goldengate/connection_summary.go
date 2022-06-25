@@ -62,8 +62,28 @@ type ConnectionSummary interface {
 	// actionable information for a resource in a Failed state.
 	GetLifecycleDetails() *string
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer vault being
+	// referenced.
+	// If provided, this will reference a vault which the customer will be required to ensure
+	// the policies are established to permit the GoldenGate Service to manage secrets contained
+	// within this vault.
+	GetVaultId() *string
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer "Master" key being
+	// referenced.
+	// If provided, this will reference a key which the customer will be required to ensure
+	// the policies are established to permit the GoldenGate Service to utilize this key to
+	// manage secrets.
+	GetKeyId() *string
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
 	GetSubnetId() *string
+
+	// List of ingress IP addresses, from where the GoldenGate deployment connects to this connection's privateIp.
+	GetIngressIps() []IngressIpDetails
+
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
+	GetNsgIds() []string
 }
 
 type connectionsummary struct {
@@ -79,7 +99,11 @@ type connectionsummary struct {
 	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
+	VaultId          *string                           `mandatory:"false" json:"vaultId"`
+	KeyId            *string                           `mandatory:"false" json:"keyId"`
 	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
+	IngressIps       []IngressIpDetails                `mandatory:"false" json:"ingressIps"`
+	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
 	ConnectionType   string                            `json:"connectionType"`
 }
 
@@ -105,7 +129,11 @@ func (m *connectionsummary) UnmarshalJSON(data []byte) error {
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
 	m.LifecycleDetails = s.Model.LifecycleDetails
+	m.VaultId = s.Model.VaultId
+	m.KeyId = s.Model.KeyId
 	m.SubnetId = s.Model.SubnetId
+	m.IngressIps = s.Model.IngressIps
+	m.NsgIds = s.Model.NsgIds
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -200,9 +228,29 @@ func (m connectionsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
+//GetVaultId returns VaultId
+func (m connectionsummary) GetVaultId() *string {
+	return m.VaultId
+}
+
+//GetKeyId returns KeyId
+func (m connectionsummary) GetKeyId() *string {
+	return m.KeyId
+}
+
 //GetSubnetId returns SubnetId
 func (m connectionsummary) GetSubnetId() *string {
 	return m.SubnetId
+}
+
+//GetIngressIps returns IngressIps
+func (m connectionsummary) GetIngressIps() []IngressIpDetails {
+	return m.IngressIps
+}
+
+//GetNsgIds returns NsgIds
+func (m connectionsummary) GetNsgIds() []string {
+	return m.NsgIds
 }
 
 func (m connectionsummary) String() string {

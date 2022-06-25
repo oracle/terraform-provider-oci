@@ -59,8 +59,28 @@ type GoldenGateConnectionSummary struct {
 	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer vault being
+	// referenced.
+	// If provided, this will reference a vault which the customer will be required to ensure
+	// the policies are established to permit the GoldenGate Service to manage secrets contained
+	// within this vault.
+	VaultId *string `mandatory:"false" json:"vaultId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer "Master" key being
+	// referenced.
+	// If provided, this will reference a key which the customer will be required to ensure
+	// the policies are established to permit the GoldenGate Service to utilize this key to
+	// manage secrets.
+	KeyId *string `mandatory:"false" json:"keyId"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
+
+	// List of ingress IP addresses, from where the GoldenGate deployment connects to this connection's privateIp.
+	IngressIps []IngressIpDetails `mandatory:"false" json:"ingressIps"`
+
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
 	DeploymentId *string `mandatory:"false" json:"deploymentId"`
@@ -73,7 +93,7 @@ type GoldenGateConnectionSummary struct {
 
 	// The private IP address of the connection's endpoint in the customer's VCN, typically a
 	// database endpoint or a big data endpoint (e.g. Kafka bootstrap server).
-	// In case the privateIp is provided the subnetId must also be provided.
+	// In case the privateIp is provided, the subnetId must also be provided.
 	// In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible.
 	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
@@ -140,9 +160,29 @@ func (m GoldenGateConnectionSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
+//GetVaultId returns VaultId
+func (m GoldenGateConnectionSummary) GetVaultId() *string {
+	return m.VaultId
+}
+
+//GetKeyId returns KeyId
+func (m GoldenGateConnectionSummary) GetKeyId() *string {
+	return m.KeyId
+}
+
 //GetSubnetId returns SubnetId
 func (m GoldenGateConnectionSummary) GetSubnetId() *string {
 	return m.SubnetId
+}
+
+//GetIngressIps returns IngressIps
+func (m GoldenGateConnectionSummary) GetIngressIps() []IngressIpDetails {
+	return m.IngressIps
+}
+
+//GetNsgIds returns NsgIds
+func (m GoldenGateConnectionSummary) GetNsgIds() []string {
+	return m.NsgIds
 }
 
 func (m GoldenGateConnectionSummary) String() string {

@@ -80,11 +80,11 @@ type OciObjectStorageConnection struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
-	// A Private Endpoint IP Address created in the customer's subnet.  A customer
-	// database can expect network traffic initiated by GGS from this IP address and send network traffic
-	// to this IP address, typically in response to requests from GGS (OGG).  The customer may utilize
-	// this IP address in Security Lists or Network Security Groups (NSG) as needed.
-	RcePrivateIp *string `mandatory:"false" json:"rcePrivateIp"`
+	// List of ingress IP addresses, from where the GoldenGate deployment connects to this connection's privateIp.
+	IngressIps []IngressIpDetails `mandatory:"false" json:"ingressIps"`
+
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related OCI tenancy.
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
@@ -169,9 +169,14 @@ func (m OciObjectStorageConnection) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetRcePrivateIp returns RcePrivateIp
-func (m OciObjectStorageConnection) GetRcePrivateIp() *string {
-	return m.RcePrivateIp
+//GetIngressIps returns IngressIps
+func (m OciObjectStorageConnection) GetIngressIps() []IngressIpDetails {
+	return m.IngressIps
+}
+
+//GetNsgIds returns NsgIds
+func (m OciObjectStorageConnection) GetNsgIds() []string {
+	return m.NsgIds
 }
 
 func (m OciObjectStorageConnection) String() string {

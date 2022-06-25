@@ -47,6 +47,9 @@ type UpdateConnectionDetails interface {
 	// the policies are established to permit the GoldenGate Service to utilize this key to
 	// manage secrets.
 	GetKeyId() *string
+
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
+	GetNsgIds() []string
 }
 
 type updateconnectiondetails struct {
@@ -57,6 +60,7 @@ type updateconnectiondetails struct {
 	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	VaultId        *string                           `mandatory:"false" json:"vaultId"`
 	KeyId          *string                           `mandatory:"false" json:"keyId"`
+	NsgIds         []string                          `mandatory:"false" json:"nsgIds"`
 	ConnectionType string                            `json:"connectionType"`
 }
 
@@ -77,6 +81,7 @@ func (m *updateconnectiondetails) UnmarshalJSON(data []byte) error {
 	m.DefinedTags = s.Model.DefinedTags
 	m.VaultId = s.Model.VaultId
 	m.KeyId = s.Model.KeyId
+	m.NsgIds = s.Model.NsgIds
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -144,6 +149,11 @@ func (m updateconnectiondetails) GetVaultId() *string {
 //GetKeyId returns KeyId
 func (m updateconnectiondetails) GetKeyId() *string {
 	return m.KeyId
+}
+
+//GetNsgIds returns NsgIds
+func (m updateconnectiondetails) GetNsgIds() []string {
+	return m.NsgIds
 }
 
 func (m updateconnectiondetails) String() string {

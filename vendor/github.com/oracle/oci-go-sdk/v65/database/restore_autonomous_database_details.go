@@ -24,7 +24,7 @@ type RestoreAutonomousDatabaseDetails struct {
 	// Restores using the backup with the System Change Number (SCN) specified.
 	DatabaseSCN *string `mandatory:"false" json:"databaseSCN"`
 
-	// Restores to the last known good state with the least possible data loss.
+	// Restores to the last known good state with the least possible data loss. For shared infrastructure it restores to the latest available backup.
 	Latest *bool `mandatory:"false" json:"latest"`
 }
 

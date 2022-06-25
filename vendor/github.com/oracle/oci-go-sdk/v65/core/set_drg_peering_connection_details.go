@@ -30,6 +30,9 @@ type SetDrgPeeringConnectionDetails struct {
 
 	// OCI region name to include in the routeData
 	PeerRegionName *string `mandatory:"true" json:"peerRegionName"`
+
+	// ingress VIP of the peered DRG
+	PeerIngressVIP *string `mandatory:"false" json:"peerIngressVIP"`
 }
 
 func (m SetDrgPeeringConnectionDetails) String() string {

@@ -59,7 +59,7 @@ type CreateDeploymentDetails struct {
 	// A three-label Fully Qualified Domain Name (FQDN) for a resource.
 	Fqdn *string `mandatory:"false" json:"fqdn"`
 
-	// An array of Network Security Group (https://docs.cloud.oracle.com/Content/Network/Concepts/networksecuritygroups.htm) OCIDs used to define network access for a deployment.
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// True if this object is publicly available.

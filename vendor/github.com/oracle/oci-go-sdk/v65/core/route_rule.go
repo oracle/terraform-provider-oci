@@ -59,7 +59,7 @@ type RouteRule struct {
 	// An optional description of your choice for the rule.
 	Description *string `mandatory:"false" json:"description"`
 
-	// A route rule can be STATIC if manually added to the Route Table, LOCAL if added by OCI to the Route Table.
+	// A route rule can be STATIC if manually added to the route table, LOCAL if added by OCI to the route table.
 	RouteType RouteRuleRouteTypeEnum `mandatory:"false" json:"routeType,omitempty"`
 }
 

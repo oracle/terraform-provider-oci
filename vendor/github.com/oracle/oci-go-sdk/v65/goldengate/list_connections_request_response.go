@@ -26,7 +26,7 @@ type ListConnectionsRequest struct {
 	// The OCID of the deployment which for the connection must be assigned.
 	AssignedDeploymentId *string `mandatory:"false" contributesTo:"query" name:"assignedDeploymentId"`
 
-	// Filters for connections which can be, but currently not assigned to the deployment specified by its id.
+	// Filters for compatible connections which can be, but currently not assigned to the deployment specified by its id.
 	AssignableDeploymentId *string `mandatory:"false" contributesTo:"query" name:"assignableDeploymentId"`
 
 	// Filters for connections which can be assigned to the latest version of the specified deployment type.

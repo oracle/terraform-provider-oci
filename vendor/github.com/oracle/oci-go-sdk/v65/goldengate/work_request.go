@@ -16,7 +16,7 @@ import (
 )
 
 // WorkRequest The API operations that create and configure GoldenGate resources do not take effect
-// immediately. In these cases, the operation spawns an asynchronous workflow to fulfill teh
+// immediately. In these cases, the operation spawns an asynchronous workflow to fulfill the
 // request. Work requests provide visibility into the status of these in-progress, long-running
 // asynchronous workflows.
 type WorkRequest struct {

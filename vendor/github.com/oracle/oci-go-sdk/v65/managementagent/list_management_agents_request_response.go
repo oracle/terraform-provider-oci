@@ -59,6 +59,12 @@ type ListManagementAgentsRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// if set to true then it fetches resources for all compartments where user has access to else only on the compartment specified.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
+	// When the value is "ACCESSIBLE", insufficient permissions for a compartment will filter out resources in that compartment without rejecting the request.
+	AccessLevel *string `mandatory:"false" contributesTo:"query" name:"accessLevel"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

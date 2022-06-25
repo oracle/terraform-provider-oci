@@ -16,6 +16,7 @@ import (
 )
 
 // ConnectionAssignment Represents the metadata description of a connection assignment.
+// Before you can use a connection as a GoldenGate source or target, you must assign it to a deployment.
 type ConnectionAssignment struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connection assignment being

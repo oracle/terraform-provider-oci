@@ -19,8 +19,14 @@ import (
 	"strings"
 )
 
-// CreateConfigSourceDetails Property details for the configuration source used for the stack.
-type CreateConfigSourceDetails interface {
+// UpdateDevOpsConfigSourceDetails Details for updating the DevOps (https://docs.cloud.oracle.com/iaas/Content/devops/using/home.htm) configuration source.
+type UpdateDevOpsConfigSourceDetails struct {
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Project.
+	ProjectId *string `mandatory:"true" json:"projectId"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Repository.
+	RepositoryId *string `mandatory:"true" json:"repositoryId"`
 
 	// File path to the directory to use for running Terraform.
 	// If not specified, the root directory is used.
@@ -28,87 +34,43 @@ type CreateConfigSourceDetails interface {
 	// Ignored for the `configSourceType` value of `COMPARTMENT_CONFIG_SOURCE`.
 	// For more information about required and recommended file structure, see
 	// File Structure (Terraform Configurations for Resource Manager) (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/terraformconfigresourcemanager.htm#filestructure).
-	GetWorkingDirectory() *string
-}
-
-type createconfigsourcedetails struct {
-	JsonData         []byte
 	WorkingDirectory *string `mandatory:"false" json:"workingDirectory"`
-	ConfigSourceType string  `json:"configSourceType"`
-}
 
-// UnmarshalJSON unmarshals json
-func (m *createconfigsourcedetails) UnmarshalJSON(data []byte) error {
-	m.JsonData = data
-	type Unmarshalercreateconfigsourcedetails createconfigsourcedetails
-	s := struct {
-		Model Unmarshalercreateconfigsourcedetails
-	}{}
-	err := json.Unmarshal(data, &s.Model)
-	if err != nil {
-		return err
-	}
-	m.WorkingDirectory = s.Model.WorkingDirectory
-	m.ConfigSourceType = s.Model.ConfigSourceType
-
-	return err
-}
-
-// UnmarshalPolymorphicJSON unmarshals polymorphic json
-func (m *createconfigsourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
-
-	if data == nil || string(data) == "null" {
-		return nil, nil
-	}
-
-	var err error
-	switch m.ConfigSourceType {
-	case "DEVOPS_CONFIG_SOURCE":
-		mm := CreateDevOpsConfigSourceDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "ZIP_UPLOAD":
-		mm := CreateZipUploadConfigSourceDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "GIT_CONFIG_SOURCE":
-		mm := CreateGitConfigSourceDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "OBJECT_STORAGE_CONFIG_SOURCE":
-		mm := CreateObjectStorageConfigSourceDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "COMPARTMENT_CONFIG_SOURCE":
-		mm := CreateCompartmentConfigSourceDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "TEMPLATE_CONFIG_SOURCE":
-		mm := CreateStackTemplateConfigSourceDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	default:
-		return *m, nil
-	}
+	// The name of the branch that contains the Terraform configuration.
+	BranchName *string `mandatory:"false" json:"branchName"`
 }
 
 //GetWorkingDirectory returns WorkingDirectory
-func (m createconfigsourcedetails) GetWorkingDirectory() *string {
+func (m UpdateDevOpsConfigSourceDetails) GetWorkingDirectory() *string {
 	return m.WorkingDirectory
 }
 
-func (m createconfigsourcedetails) String() string {
+func (m UpdateDevOpsConfigSourceDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m createconfigsourcedetails) ValidateEnumValue() (bool, error) {
+func (m UpdateDevOpsConfigSourceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m UpdateDevOpsConfigSourceDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeUpdateDevOpsConfigSourceDetails UpdateDevOpsConfigSourceDetails
+	s := struct {
+		DiscriminatorParam string `json:"configSourceType"`
+		MarshalTypeUpdateDevOpsConfigSourceDetails
+	}{
+		"DEVOPS_CONFIG_SOURCE",
+		(MarshalTypeUpdateDevOpsConfigSourceDetails)(m),
+	}
+
+	return json.Marshal(&s)
 }

@@ -75,6 +75,10 @@ func (m *updateconfigsourcedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := UpdateZipUploadConfigSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DEVOPS_CONFIG_SOURCE":
+		mm := UpdateDevOpsConfigSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}

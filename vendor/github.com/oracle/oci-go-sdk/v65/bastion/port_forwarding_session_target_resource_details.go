@@ -30,11 +30,9 @@ type PortForwardingSessionTargetResourceDetails struct {
 
 	// The display name of the target Compute instance that the session connects to.
 	TargetResourceDisplayName *string `mandatory:"false" json:"targetResourceDisplayName"`
-}
 
-//GetTargetResourcePort returns TargetResourcePort
-func (m PortForwardingSessionTargetResourceDetails) GetTargetResourcePort() *int {
-	return m.TargetResourcePort
+	// The Fully Qualified Domain Name of the target resource that the session connects to.
+	TargetResourceFqdn *string `mandatory:"false" json:"targetResourceFqdn"`
 }
 
 func (m PortForwardingSessionTargetResourceDetails) String() string {

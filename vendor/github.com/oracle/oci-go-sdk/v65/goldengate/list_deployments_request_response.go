@@ -23,6 +23,9 @@ type ListDeploymentsRequest struct {
 	// The OCID of the connection which for the deployment must be assigned.
 	AssignedConnectionId *string `mandatory:"false" contributesTo:"query" name:"assignedConnectionId"`
 
+	// Filters for compatible deployments which can be, but currently not assigned to the connection specified by its id.
+	AssignableConnectionId *string `mandatory:"false" contributesTo:"query" name:"assignableConnectionId"`
+
 	// A filter to return only the resources that match the 'lifecycleState' given.
 	LifecycleState ListDeploymentsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 

@@ -79,11 +79,11 @@ type Connection interface {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
 	GetSubnetId() *string
 
-	// A Private Endpoint IP Address created in the customer's subnet.  A customer
-	// database can expect network traffic initiated by GGS from this IP address and send network traffic
-	// to this IP address, typically in response to requests from GGS (OGG).  The customer may utilize
-	// this IP address in Security Lists or Network Security Groups (NSG) as needed.
-	GetRcePrivateIp() *string
+	// List of ingress IP addresses, from where the GoldenGate deployment connects to this connection's privateIp.
+	GetIngressIps() []IngressIpDetails
+
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
+	GetNsgIds() []string
 }
 
 type connection struct {
@@ -102,7 +102,8 @@ type connection struct {
 	VaultId          *string                           `mandatory:"false" json:"vaultId"`
 	KeyId            *string                           `mandatory:"false" json:"keyId"`
 	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
-	RcePrivateIp     *string                           `mandatory:"false" json:"rcePrivateIp"`
+	IngressIps       []IngressIpDetails                `mandatory:"false" json:"ingressIps"`
+	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
 	ConnectionType   string                            `json:"connectionType"`
 }
 
@@ -131,7 +132,8 @@ func (m *connection) UnmarshalJSON(data []byte) error {
 	m.VaultId = s.Model.VaultId
 	m.KeyId = s.Model.KeyId
 	m.SubnetId = s.Model.SubnetId
-	m.RcePrivateIp = s.Model.RcePrivateIp
+	m.IngressIps = s.Model.IngressIps
+	m.NsgIds = s.Model.NsgIds
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -241,9 +243,14 @@ func (m connection) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetRcePrivateIp returns RcePrivateIp
-func (m connection) GetRcePrivateIp() *string {
-	return m.RcePrivateIp
+//GetIngressIps returns IngressIps
+func (m connection) GetIngressIps() []IngressIpDetails {
+	return m.IngressIps
+}
+
+//GetNsgIds returns NsgIds
+func (m connection) GetNsgIds() []string {
+	return m.NsgIds
 }
 
 func (m connection) String() string {

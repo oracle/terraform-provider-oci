@@ -48,6 +48,9 @@ type UpdateKafkaConnectionDetails struct {
 	// manage secrets.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the stream pool being referenced.
 	StreamPoolId *string `mandatory:"false" json:"streamPoolId"`
 
@@ -117,6 +120,11 @@ func (m UpdateKafkaConnectionDetails) GetVaultId() *string {
 //GetKeyId returns KeyId
 func (m UpdateKafkaConnectionDetails) GetKeyId() *string {
 	return m.KeyId
+}
+
+//GetNsgIds returns NsgIds
+func (m UpdateKafkaConnectionDetails) GetNsgIds() []string {
+	return m.NsgIds
 }
 
 func (m UpdateKafkaConnectionDetails) String() string {

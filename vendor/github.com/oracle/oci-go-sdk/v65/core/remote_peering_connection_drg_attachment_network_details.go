@@ -45,6 +45,9 @@ type RemotePeeringConnectionDrgAttachmentNetworkDetails struct {
 
 	// The BGP ASN to use for the IPSec connection's route target.
 	RegionalOciAsn *string `mandatory:"false" json:"regionalOciAsn"`
+
+	// IPv4 address used to encapsulate ingress traffic to the DRG through this attachment
+	IngressVip *string `mandatory:"false" json:"ingressVip"`
 }
 
 //GetId returns Id

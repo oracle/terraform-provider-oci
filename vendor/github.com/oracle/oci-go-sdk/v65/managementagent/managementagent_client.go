@@ -846,7 +846,8 @@ func (client ManagementAgentClient) listManagementAgentPlugins(ctx context.Conte
 }
 
 // ListManagementAgents Returns a list of Management Agents.
-// If no explicit page size limit is specified, it will default to 5000.
+// If no explicit page size limit is specified, it will default to 1000 when compartmentIdInSubtree is true and 5000 otherwise.
+// The response is limited to maximum 1000 records when compartmentIdInSubtree is true.
 func (client ManagementAgentClient) ListManagementAgents(ctx context.Context, request ListManagementAgentsRequest) (response ListManagementAgentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

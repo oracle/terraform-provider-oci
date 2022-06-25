@@ -48,6 +48,9 @@ type UpdateGoldenGateConnectionDetails struct {
 	// manage secrets.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
 	DeploymentId *string `mandatory:"false" json:"deploymentId"`
 
@@ -59,7 +62,7 @@ type UpdateGoldenGateConnectionDetails struct {
 
 	// The private IP address of the connection's endpoint in the customer's VCN, typically a
 	// database endpoint or a big data endpoint (e.g. Kafka bootstrap server).
-	// In case the privateIp is provided the subnetId must also be provided.
+	// In case the privateIp is provided, the subnetId must also be provided.
 	// In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible.
 	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
@@ -93,6 +96,11 @@ func (m UpdateGoldenGateConnectionDetails) GetVaultId() *string {
 //GetKeyId returns KeyId
 func (m UpdateGoldenGateConnectionDetails) GetKeyId() *string {
 	return m.KeyId
+}
+
+//GetNsgIds returns NsgIds
+func (m UpdateGoldenGateConnectionDetails) GetNsgIds() []string {
+	return m.NsgIds
 }
 
 func (m UpdateGoldenGateConnectionDetails) String() string {

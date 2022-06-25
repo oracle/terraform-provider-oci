@@ -62,6 +62,9 @@ type CreateOciObjectStorageConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related OCI tenancy.
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
 
@@ -114,6 +117,11 @@ func (m CreateOciObjectStorageConnectionDetails) GetKeyId() *string {
 //GetSubnetId returns SubnetId
 func (m CreateOciObjectStorageConnectionDetails) GetSubnetId() *string {
 	return m.SubnetId
+}
+
+//GetNsgIds returns NsgIds
+func (m CreateOciObjectStorageConnectionDetails) GetNsgIds() []string {
+	return m.NsgIds
 }
 
 func (m CreateOciObjectStorageConnectionDetails) String() string {

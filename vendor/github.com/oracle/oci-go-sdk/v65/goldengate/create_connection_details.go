@@ -53,6 +53,9 @@ type CreateConnectionDetails interface {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
 	GetSubnetId() *string
+
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
+	GetNsgIds() []string
 }
 
 type createconnectiondetails struct {
@@ -65,6 +68,7 @@ type createconnectiondetails struct {
 	VaultId        *string                           `mandatory:"false" json:"vaultId"`
 	KeyId          *string                           `mandatory:"false" json:"keyId"`
 	SubnetId       *string                           `mandatory:"false" json:"subnetId"`
+	NsgIds         []string                          `mandatory:"false" json:"nsgIds"`
 	ConnectionType string                            `json:"connectionType"`
 }
 
@@ -87,6 +91,7 @@ func (m *createconnectiondetails) UnmarshalJSON(data []byte) error {
 	m.VaultId = s.Model.VaultId
 	m.KeyId = s.Model.KeyId
 	m.SubnetId = s.Model.SubnetId
+	m.NsgIds = s.Model.NsgIds
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -164,6 +169,11 @@ func (m createconnectiondetails) GetKeyId() *string {
 //GetSubnetId returns SubnetId
 func (m createconnectiondetails) GetSubnetId() *string {
 	return m.SubnetId
+}
+
+//GetNsgIds returns NsgIds
+func (m createconnectiondetails) GetNsgIds() []string {
+	return m.NsgIds
 }
 
 func (m createconnectiondetails) String() string {

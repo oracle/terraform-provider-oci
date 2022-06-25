@@ -59,8 +59,28 @@ type KafkaConnectionSummary struct {
 	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer vault being
+	// referenced.
+	// If provided, this will reference a vault which the customer will be required to ensure
+	// the policies are established to permit the GoldenGate Service to manage secrets contained
+	// within this vault.
+	VaultId *string `mandatory:"false" json:"vaultId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer "Master" key being
+	// referenced.
+	// If provided, this will reference a key which the customer will be required to ensure
+	// the policies are established to permit the GoldenGate Service to utilize this key to
+	// manage secrets.
+	KeyId *string `mandatory:"false" json:"keyId"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
+
+	// List of ingress IP addresses, from where the GoldenGate deployment connects to this connection's privateIp.
+	IngressIps []IngressIpDetails `mandatory:"false" json:"ingressIps"`
+
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the stream pool being referenced.
 	StreamPoolId *string `mandatory:"false" json:"streamPoolId"`
@@ -141,9 +161,29 @@ func (m KafkaConnectionSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
+//GetVaultId returns VaultId
+func (m KafkaConnectionSummary) GetVaultId() *string {
+	return m.VaultId
+}
+
+//GetKeyId returns KeyId
+func (m KafkaConnectionSummary) GetKeyId() *string {
+	return m.KeyId
+}
+
 //GetSubnetId returns SubnetId
 func (m KafkaConnectionSummary) GetSubnetId() *string {
 	return m.SubnetId
+}
+
+//GetIngressIps returns IngressIps
+func (m KafkaConnectionSummary) GetIngressIps() []IngressIpDetails {
+	return m.IngressIps
+}
+
+//GetNsgIds returns NsgIds
+func (m KafkaConnectionSummary) GetNsgIds() []string {
+	return m.NsgIds
 }
 
 func (m KafkaConnectionSummary) String() string {

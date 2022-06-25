@@ -64,6 +64,9 @@ type CreateOracleConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// Connect descriptor or Easy Connect Naming method that Oracle GoldenGate uses to connect to a
 	// database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
@@ -74,7 +77,7 @@ type CreateOracleConnectionDetails struct {
 
 	// The private IP address of the connection's endpoint in the customer's VCN, typically a
 	// database endpoint or a big data endpoint (e.g. Kafka bootstrap server).
-	// In case the privateIp is provided the subnetId must also be provided.
+	// In case the privateIp is provided, the subnetId must also be provided.
 	// In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible.
 	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
@@ -130,6 +133,11 @@ func (m CreateOracleConnectionDetails) GetKeyId() *string {
 //GetSubnetId returns SubnetId
 func (m CreateOracleConnectionDetails) GetSubnetId() *string {
 	return m.SubnetId
+}
+
+//GetNsgIds returns NsgIds
+func (m CreateOracleConnectionDetails) GetNsgIds() []string {
+	return m.NsgIds
 }
 
 func (m CreateOracleConnectionDetails) String() string {

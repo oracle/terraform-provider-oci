@@ -26,15 +26,10 @@ type CreateManagedSshSessionTargetResourceDetails struct {
 	TargetResourceId *string `mandatory:"true" json:"targetResourceId"`
 
 	// The port number to connect to on the target resource.
-	TargetResourcePort *int `mandatory:"false" json:"targetResourcePort"`
+	TargetResourcePort *int `mandatory:"true" json:"targetResourcePort"`
 
 	// The private IP address of the target resource that the session connects to.
 	TargetResourcePrivateIpAddress *string `mandatory:"false" json:"targetResourcePrivateIpAddress"`
-}
-
-//GetTargetResourcePort returns TargetResourcePort
-func (m CreateManagedSshSessionTargetResourceDetails) GetTargetResourcePort() *int {
-	return m.TargetResourcePort
 }
 
 func (m CreateManagedSshSessionTargetResourceDetails) String() string {

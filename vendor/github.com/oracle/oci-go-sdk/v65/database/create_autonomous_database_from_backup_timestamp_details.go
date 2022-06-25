@@ -183,6 +183,9 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 	// List of database tools details.
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
 
+	// Clone from latest available backup timestamp.
+	UseLatestAvailableBackupTimeStamp *bool `mandatory:"false" json:"useLatestAvailableBackupTimeStamp"`
+
 	// The Autonomous Database clone type.
 	CloneType CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum `mandatory:"true" json:"cloneType"`
 
