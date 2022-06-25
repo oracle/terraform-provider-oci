@@ -1,3 +1,14 @@
+## 4.82.0 (Unreleased)
+
+### Added
+- Operations Insights EM DataWarehouse
+- VN Path Analyzer Resource
+parameter `bootVolumeVpusPerGB` to Launch Instance API
+- Support VSS app scan settings
+- Support for character sets for Autonomous Database on Shared Infrastructure
+- Support for safe delete
+- Data Plane Guest VM Events
+
 ## 4.81.0 (Unreleased)
 
 ### Added
