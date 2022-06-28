@@ -43,11 +43,11 @@ The following arguments are supported:
 * `apm_domain_id` - (Required) (Updatable) The APM domain ID the request is intended for. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Required) Unique dedicated vantage point name that cannot be edited. The name should not contain any confidential information.
-* `dvp_stack_details` - (Required) (Updatable) Details of DVP Stack.
-	* `dvp_stack_id` - (Required) (Updatable) Stack [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of DVP RM stack.
+* `dvp_stack_details` - (Required) (Updatable) Details of a Dedicated Vantage Point (DVP) stack in Resource Manager.
+	* `dvp_stack_id` - (Required) (Updatable) Stack [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Resource Manager stack for dedicated vantage point.
 	* `dvp_stack_type` - (Required) (Updatable) Type of stack.
-	* `dvp_stream_id` - (Required) (Updatable) Stream [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of DVP RM stack.
-	* `dvp_version` - (Required) (Updatable) Version of DVP.
+	* `dvp_stream_id` - (Required) (Updatable) Stream [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Resource Manager stack for dedicated vantage point.
+	* `dvp_version` - (Required) (Updatable) Version of the dedicated vantage point.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `region` - (Required) (Updatable) Name of the region.
 * `status` - (Optional) (Updatable) Status of the dedicated vantage point.
@@ -62,11 +62,11 @@ The following attributes are exported:
 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Unique dedicated vantage point name that cannot be edited. The name should not contain any confidential information.
-* `dvp_stack_details` - Details of DVP Stack.
-	* `dvp_stack_id` - Stack [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of DVP RM stack.
+* `dvp_stack_details` - Details of a Dedicated Vantage Point (DVP) stack in Resource Manager.
+	* `dvp_stack_id` - Stack [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Resource Manager stack for dedicated vantage point.
 	* `dvp_stack_type` - Type of stack.
-	* `dvp_stream_id` - Stream [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of DVP RM stack.
-	* `dvp_version` - Version of DVP.
+	* `dvp_stream_id` - Stream [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Resource Manager stack for dedicated vantage point.
+	* `dvp_version` - Version of the dedicated vantage point.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated vantage point.
 * `monitor_status_count_map` - Details of the monitor count per state. Example: `{ "total" : 5, "enabled" : 3 , "disabled" : 2, "invalid" : 0 }` 
