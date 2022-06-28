@@ -285,7 +285,7 @@ func TestApmSyntheticsMonitorResource(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + MonitorRequiredOnlyResource,
+			Config:            config + ApmSyntheticsMonitorRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

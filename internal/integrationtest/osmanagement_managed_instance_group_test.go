@@ -26,13 +26,13 @@ import (
 )
 
 var (
-	ManagedInstanceGroupRequiredOnlyResource = ManagedInstanceGroupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, managedInstanceGroupRepresentation)
+	OsmanagementManagedInstanceGroupRequiredOnlyResource = OsmanagementManagedInstanceGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, OsmanagementManagedInstanceGroupRepresentation)
 
-	ManagedInstanceGroupResourceConfig = ManagedInstanceGroupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Update, managedInstanceGroupRepresentation)
+	OsmanagementManagedInstanceGroupResourceConfig = OsmanagementManagedInstanceGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Update, OsmanagementManagedInstanceGroupRepresentation)
 
-	managedInstanceGroupSingularDataSourceRepresentation = map[string]interface{}{
+	OsmanagementOsmanagementManagedInstanceGroupSingularDataSourceRepresentation = map[string]interface{}{
 		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_osmanagement_managed_instance_group.test_managed_instance_group.id}`},
 	}
 
@@ -43,13 +43,13 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: managedGroupDisplayName, Update: managedGroupUpdateDisplayName},
 		"os_family":      acctest.Representation{RepType: acctest.Optional, Create: `WINDOWS`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: managedInstanceGroupDataSourceFilterRepresentation}}
-	managedInstanceGroupDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: OsmanagementManagedInstanceGroupDataSourceFilterRepresentation}}
+	OsmanagementManagedInstanceGroupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_osmanagement_managed_instance_group.test_managed_instance_group.id}`}},
 	}
 
-	managedInstanceGroupRepresentation = map[string]interface{}{
+	OsmanagementManagedInstanceGroupRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: managedGroupDisplayName, Update: managedGroupUpdateDisplayName},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -58,7 +58,7 @@ var (
 		"os_family":      acctest.Representation{RepType: acctest.Optional, Create: `WINDOWS`},
 	}
 
-	ManagedInstanceGroupResourceDependencies = DefinedTagsDependencies
+	OsmanagementManagedInstanceGroupResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: osmanagement/default
@@ -80,14 +80,14 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ManagedInstanceGroupResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Create, managedInstanceGroupRepresentation), "osmanagement", "managedInstanceGroup", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OsmanagementManagedInstanceGroupResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Create, OsmanagementManagedInstanceGroupRepresentation), "osmanagement", "managedInstanceGroup", t)
 
 	acctest.ResourceTest(t, testAccCheckOsmanagementManagedInstanceGroupDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ManagedInstanceGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, managedInstanceGroupRepresentation),
+			Config: config + compartmentIdVariableStr + OsmanagementManagedInstanceGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, OsmanagementManagedInstanceGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", managedGroupDisplayName),
@@ -101,12 +101,12 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ManagedInstanceGroupResourceDependencies,
+			Config: config + compartmentIdVariableStr + OsmanagementManagedInstanceGroupResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ManagedInstanceGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Create, managedInstanceGroupRepresentation),
+			Config: config + compartmentIdVariableStr + OsmanagementManagedInstanceGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Create, OsmanagementManagedInstanceGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -129,9 +129,9 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedInstanceGroupResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OsmanagementManagedInstanceGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(managedInstanceGroupRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(OsmanagementManagedInstanceGroupRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -154,8 +154,8 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ManagedInstanceGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Update, managedInstanceGroupRepresentation),
+			Config: config + compartmentIdVariableStr + OsmanagementManagedInstanceGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Update, OsmanagementManagedInstanceGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -177,8 +177,8 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_groups", "test_managed_instance_groups", acctest.Optional, acctest.Update, managedInstanceGroupDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedInstanceGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Update, managedInstanceGroupRepresentation),
+				compartmentIdVariableStr + OsmanagementManagedInstanceGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Update, OsmanagementManagedInstanceGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", managedGroupUpdateDisplayName),
@@ -198,8 +198,8 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, managedInstanceGroupSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedInstanceGroupResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, OsmanagementOsmanagementManagedInstanceGroupSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OsmanagementManagedInstanceGroupResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_group_id"),
 
@@ -215,7 +215,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ManagedInstanceGroupRequiredOnlyResource,
+			Config:                  config + OsmanagementManagedInstanceGroupRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -279,7 +279,7 @@ func init() {
 
 func sweepOsmanagementManagedInstanceGroupResource(compartment string) error {
 	osManagementClient := acctest.GetTestClients(&schema.ResourceData{}).OsManagementClient()
-	managedInstanceGroupIds, err := getManagedInstanceGroupIds(compartment)
+	managedInstanceGroupIds, err := getOsmanagementManagedInstanceGroupIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -295,14 +295,14 @@ func sweepOsmanagementManagedInstanceGroupResource(compartment string) error {
 				fmt.Printf("Error deleting ManagedInstanceGroup %s %s, It is possible that the resource is already deleted. Please verify manually \n", managedInstanceGroupId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &managedInstanceGroupId, managedInstanceGroupSweepWaitCondition, time.Duration(3*time.Minute),
-				managedInstanceGroupSweepResponseFetchOperation, "osmanagement", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &managedInstanceGroupId, OsmanagementManagedInstanceGroupSweepWaitCondition, time.Duration(3*time.Minute),
+				OsmanagementManagedInstanceGroupSweepResponseFetchOperation, "osmanagement", true)
 		}
 	}
 	return nil
 }
 
-func getManagedInstanceGroupIds(compartment string) ([]string, error) {
+func getOsmanagementManagedInstanceGroupIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ManagedInstanceGroupId")
 	if ids != nil {
 		return ids, nil
@@ -327,7 +327,7 @@ func getManagedInstanceGroupIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func managedInstanceGroupSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OsmanagementManagedInstanceGroupSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if managedInstanceGroupResponse, ok := response.Response.(oci_osmanagement.GetManagedInstanceGroupResponse); ok {
 		return managedInstanceGroupResponse.LifecycleState != oci_osmanagement.LifecycleStatesDeleted
@@ -335,7 +335,7 @@ func managedInstanceGroupSweepWaitCondition(response common.OCIOperationResponse
 	return false
 }
 
-func managedInstanceGroupSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OsmanagementManagedInstanceGroupSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.OsManagementClient().GetManagedInstanceGroup(context.Background(), oci_osmanagement.GetManagedInstanceGroupRequest{
 		ManagedInstanceGroupId: resourceId,
 		RequestMetadata: common.RequestMetadata{

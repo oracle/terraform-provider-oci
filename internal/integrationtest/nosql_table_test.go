@@ -25,39 +25,39 @@ import (
 )
 
 var (
-	TableRequiredOnlyResource = TableResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Required, acctest.Create, tableRepresentation)
+	NosqlTableRequiredOnlyResource = NosqlTableResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Required, acctest.Create, NosqlTableRepresentation)
 
-	TableResourceConfig = TableResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Optional, acctest.Update, tableRepresentation)
+	NosqlTableResourceConfig = NosqlTableResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Optional, acctest.Update, NosqlTableRepresentation)
 
-	tableSingularDataSourceRepresentation = map[string]interface{}{
+	NosqlNosqlTableSingularDataSourceRepresentation = map[string]interface{}{
 		"table_name_or_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_nosql_table.test_table.id}`},
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 	ddlStatement = "CREATE TABLE IF NOT EXISTS test_table(id INTEGER, name STRING, age STRING, info JSON, PRIMARY KEY(SHARD(id)))"
 
-	tableDataSourceRepresentation = map[string]interface{}{
+	NosqlNosqlTableDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `test_table`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: tableDataSourceFilterRepresentation}}
-	tableDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: NosqlTableDataSourceFilterRepresentation}}
+	NosqlTableDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_nosql_table.test_table.id}`}},
 	}
 
-	tableRepresentation = map[string]interface{}{
+	NosqlTableRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"ddl_statement":       acctest.Representation{RepType: acctest.Required, Create: ddlStatement},
 		"name":                acctest.Representation{RepType: acctest.Required, Create: `test_table`},
-		"table_limits":        acctest.RepresentationGroup{RepType: acctest.Required, Group: tableTableLimitsRepresentation},
+		"table_limits":        acctest.RepresentationGroup{RepType: acctest.Required, Group: NosqlTableTableLimitsRepresentation},
 		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_auto_reclaimable": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreTableDefinedTags},
 	}
-	tableTableLimitsRepresentation = map[string]interface{}{
+	NosqlTableTableLimitsRepresentation = map[string]interface{}{
 		"max_read_units":     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"max_storage_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"max_write_units":    acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
@@ -67,7 +67,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	TableResourceDependencies = DefinedTagsDependencies
+	NosqlTableResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: nosql/default
@@ -90,14 +90,14 @@ func TestNosqlTableResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+TableResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Optional, acctest.Create, tableRepresentation), "nosql", "table", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+NosqlTableResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Optional, acctest.Create, NosqlTableRepresentation), "nosql", "table", t)
 
 	acctest.ResourceTest(t, testAccCheckNosqlTableDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + TableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Required, acctest.Create, tableRepresentation),
+			Config: config + compartmentIdVariableStr + NosqlTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Required, acctest.Create, NosqlTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
@@ -116,12 +116,12 @@ func TestNosqlTableResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + TableResourceDependencies,
+			Config: config + compartmentIdVariableStr + NosqlTableResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + TableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Optional, acctest.Create, tableRepresentation),
+			Config: config + compartmentIdVariableStr + NosqlTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Optional, acctest.Create, NosqlTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
@@ -149,9 +149,9 @@ func TestNosqlTableResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + TableResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NosqlTableResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(tableRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(NosqlTableRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -179,8 +179,8 @@ func TestNosqlTableResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + TableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Optional, acctest.Update, tableRepresentation),
+			Config: config + compartmentIdVariableStr + NosqlTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Optional, acctest.Update, NosqlTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
@@ -206,9 +206,9 @@ func TestNosqlTableResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_nosql_tables", "test_tables", acctest.Optional, acctest.Update, tableDataSourceRepresentation) +
-				compartmentIdVariableStr + TableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Optional, acctest.Update, tableRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_nosql_tables", "test_tables", acctest.Optional, acctest.Update, NosqlNosqlTableDataSourceRepresentation) +
+				compartmentIdVariableStr + NosqlTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Optional, acctest.Update, NosqlTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "test_table"),
@@ -221,8 +221,8 @@ func TestNosqlTableResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Required, acctest.Create, tableSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + TableResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Required, acctest.Create, NosqlNosqlTableSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + NosqlTableResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "table_name_or_id"),
@@ -245,7 +245,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + TableRequiredOnlyResource,
+			Config:                  config + NosqlTableRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -317,7 +317,7 @@ func init() {
 
 func sweepNosqlTableResource(compartment string) error {
 	nosqlClient := acctest.GetTestClients(&schema.ResourceData{}).NosqlClient()
-	tableIds, err := getTableIds(compartment)
+	tableIds, err := getNosqlTableIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -331,14 +331,14 @@ func sweepNosqlTableResource(compartment string) error {
 				fmt.Printf("Error deleting Table %s %s, It is possible that the resource is already deleted. Please verify manually \n", tableId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &tableId, tableSweepWaitCondition, time.Duration(3*time.Minute),
-				tableSweepResponseFetchOperation, "nosql", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &tableId, NosqlTableSweepWaitCondition, time.Duration(3*time.Minute),
+				NosqlTableSweepResponseFetchOperation, "nosql", true)
 		}
 	}
 	return nil
 }
 
-func getTableIds(compartment string) ([]string, error) {
+func getNosqlTableIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "TableId")
 	if ids != nil {
 		return ids, nil
@@ -363,7 +363,7 @@ func getTableIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func tableSweepWaitCondition(response common.OCIOperationResponse) bool {
+func NosqlTableSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if tableResponse, ok := response.Response.(oci_nosql.GetTableResponse); ok {
 		return tableResponse.LifecycleState != oci_nosql.TableLifecycleStateDeleted
@@ -371,7 +371,7 @@ func tableSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func tableSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func NosqlTableSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.NosqlClient().GetTable(context.Background(), oci_nosql.GetTableRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},

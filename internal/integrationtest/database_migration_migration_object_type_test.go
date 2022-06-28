@@ -16,9 +16,9 @@ import (
 )
 
 var (
-	migrationObjectTypeDataSourceRepresentation = map[string]interface{}{}
+	DatabaseMigrationmigrationObjectTypeDataSourceRepresentation = map[string]interface{}{}
 
-	MigrationObjectTypeResourceConfig = ""
+	DatabaseMigrationMigrationObjectTypeResourceConfig = ""
 )
 
 // issue-routing-tag: database_migration/default
@@ -39,8 +39,8 @@ func TestDatabaseMigrationMigrationObjectTypeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_migration_object_types", "test_migration_object_types", acctest.Required, acctest.Create, migrationObjectTypeDataSourceRepresentation) +
-				compartmentIdVariableStr + MigrationObjectTypeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_migration_object_types", "test_migration_object_types", acctest.Required, acctest.Create, DatabaseMigrationmigrationObjectTypeDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseMigrationMigrationObjectTypeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttrSet(datasourceName, "migration_object_type_summary_collection.#"),

@@ -39,6 +39,7 @@ import (
 	tf_datascience "terraform-provider-oci/internal/service/datascience"
 	tf_devops "terraform-provider-oci/internal/service/devops"
 	tf_dns "terraform-provider-oci/internal/service/dns"
+	tf_em_warehouse "terraform-provider-oci/internal/service/em_warehouse"
 	tf_email "terraform-provider-oci/internal/service/email"
 	tf_events "terraform-provider-oci/internal/service/events"
 	tf_file_storage "terraform-provider-oci/internal/service/file_storage"
@@ -89,6 +90,7 @@ import (
 	tf_usage_proxy "terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "terraform-provider-oci/internal/service/vault"
 	tf_visual_builder "terraform-provider-oci/internal/service/visual_builder"
+	tf_vn_monitoring "terraform-provider-oci/internal/service/vn_monitoring"
 	tf_vulnerability_scanning "terraform-provider-oci/internal/service/vulnerability_scanning"
 	tf_waa "terraform-provider-oci/internal/service/waa"
 	tf_waas "terraform-provider-oci/internal/service/waas"
@@ -763,6 +765,12 @@ func init() {
 	RegisterDatasource("oci_dns_view", tf_dns.DnsViewDataSource())
 	RegisterDatasource("oci_dns_views", tf_dns.DnsViewsDataSource())
 	RegisterDatasource("oci_dns_zones", tf_dns.DnsZonesDataSource())
+	// em_warehouse service
+	RegisterDatasource("oci_em_warehouse_em_warehouse", tf_em_warehouse.EmWarehouseEmWarehouseDataSource())
+	RegisterDatasource("oci_em_warehouse_em_warehouse_etl_run", tf_em_warehouse.EmWarehouseEmWarehouseEtlRunDataSource())
+	RegisterDatasource("oci_em_warehouse_em_warehouse_etl_runs", tf_em_warehouse.EmWarehouseEmWarehouseEtlRunsDataSource())
+	RegisterDatasource("oci_em_warehouse_em_warehouse_resource_usage", tf_em_warehouse.EmWarehouseEmWarehouseResourceUsageDataSource())
+	RegisterDatasource("oci_em_warehouse_em_warehouses", tf_em_warehouse.EmWarehouseEmWarehousesDataSource())
 	// email service
 	RegisterDatasource("oci_email_dkim", tf_email.EmailDkimDataSource())
 	RegisterDatasource("oci_email_dkims", tf_email.EmailDkimsDataSource())
@@ -1212,6 +1220,11 @@ func init() {
 	RegisterDatasource("oci_visual_builder_vb_instance", tf_visual_builder.VisualBuilderVbInstanceDataSource())
 	RegisterDatasource("oci_visual_builder_vb_instances", tf_visual_builder.VisualBuilderVbInstancesDataSource())
 	RegisterDatasource("oci_visual_builder_vb_instance_applications", tf_visual_builder.VisualBuilderVbInstanceApplicationsDataSource())
+
+	// vn_monitoring service
+	RegisterDatasource("oci_vn_monitoring_path_analyzer_test", tf_vn_monitoring.VnMonitoringPathAnalyzerTestDataSource())
+	RegisterDatasource("oci_vn_monitoring_path_analyzer_tests", tf_vn_monitoring.VnMonitoringPathAnalyzerTestsDataSource())
+
 	// vulnerability_scanning service
 	RegisterDatasource("oci_vulnerability_scanning_container_scan_recipe", tf_vulnerability_scanning.VulnerabilityScanningContainerScanRecipeDataSource())
 	RegisterDatasource("oci_vulnerability_scanning_container_scan_recipes", tf_vulnerability_scanning.VulnerabilityScanningContainerScanRecipesDataSource())

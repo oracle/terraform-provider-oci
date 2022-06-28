@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	repositoryFileDiffSingularDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsRepositoryFileDiffSingularDataSourceRepresentation = map[string]interface{}{
 		"base_version":                  acctest.Representation{RepType: acctest.Required, Create: `main`},
 		"repository_id":                 acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("repository_id_for_static_resource")},
 		"target_version":                acctest.Representation{RepType: acctest.Required, Create: `main2`},
@@ -43,7 +43,7 @@ func TestDevopsRepositoryFileDiffResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_file_diff", "test_repository_file_diff", acctest.Required, acctest.Create, repositoryFileDiffSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_file_diff", "test_repository_file_diff", acctest.Required, acctest.Create, DevopsDevopsRepositoryFileDiffSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "base_version", "main"),

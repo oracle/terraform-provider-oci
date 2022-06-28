@@ -16,17 +16,17 @@ import (
 )
 
 var (
-	maskingAnalyticSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafemaskingAnalyticSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"group_by":                  acctest.Representation{RepType: acctest.Optional, Create: `targetId`},
 	}
 
-	maskingAnalyticDataSourceRepresentation = map[string]interface{}{
+	DataSafemaskingAnalyticDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	MaskingAnalyticResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_analytics", "test_masking_analytics", acctest.Required, acctest.Create, maskingAnalyticDataSourceRepresentation)
+	DataSafeMaskingAnalyticResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_analytics", "test_masking_analytics", acctest.Required, acctest.Create, DataSafemaskingAnalyticDataSourceRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -47,7 +47,7 @@ func TestDataSafeMaskingAnalyticResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				compartmentIdVariableStr + MaskingAnalyticResourceConfig,
+				compartmentIdVariableStr + DataSafeMaskingAnalyticResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "masking_analytics_collection.#"),
 			),

@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	vmClusterRemoveVirtualMachineRepresentation = map[string]interface{}{
-		"db_servers":    acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterRemoveVirtualMachineDbServersRepresentation},
+	DatabaseVmClusterRemoveVirtualMachineRepresentation = map[string]interface{}{
+		"db_servers":    acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseVmClusterRemoveVirtualMachineDbServersRepresentation},
 		"vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
-	vmClusterRemoveVirtualMachineDbServersRepresentation = map[string]interface{}{
+	DatabaseVmClusterRemoveVirtualMachineDbServersRepresentation = map[string]interface{}{
 		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.2.id}`},
 	}
 
@@ -44,7 +44,7 @@ var (
 		"time_zone":                   acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
 	}
 
-	VmClusterRemoveVirtualMachineResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, dbServerDataSourceRepresentation) +
+	DatabaseVmClusterRemoveVirtualMachineResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabaseDatabaseDbServerDataSourceRepresentation) +
 		DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update,
 			acctest.RepresentationCopyWithNewProperties(exadataInfrastructureActivateHalfRackRepresentation, map[string]interface{}{
@@ -69,8 +69,8 @@ func TestDatabaseVmClusterRemoveVirtualMachineResource_basic(t *testing.T) {
 	resourceName := "oci_database_vm_cluster_remove_virtual_machine.test_vm_cluster_remove_virtual_machine"
 
 	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+VmClusterRemoveVirtualMachineResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_remove_virtual_machine", "test_vm_cluster_remove_virtual_machine", acctest.Required, acctest.Create, vmClusterRemoveVirtualMachineRepresentation), "database", "vmClusterRemoveVirtualMachine", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseVmClusterRemoveVirtualMachineResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_remove_virtual_machine", "test_vm_cluster_remove_virtual_machine", acctest.Required, acctest.Create, DatabaseVmClusterRemoveVirtualMachineRepresentation), "database", "vmClusterRemoveVirtualMachine", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
@@ -81,8 +81,8 @@ func TestDatabaseVmClusterRemoveVirtualMachineResource_basic(t *testing.T) {
 			// verify create
 
 			{
-				Config: config + compartmentIdVariableStr + VmClusterRemoveVirtualMachineResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_remove_virtual_machine", "test_vm_cluster_remove_virtual_machine", acctest.Required, acctest.Create, vmClusterRemoveVirtualMachineRepresentation),
+				Config: config + compartmentIdVariableStr + DatabaseVmClusterRemoveVirtualMachineResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_remove_virtual_machine", "test_vm_cluster_remove_virtual_machine", acctest.Required, acctest.Create, DatabaseVmClusterRemoveVirtualMachineRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "180"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "2"),

@@ -27,14 +27,14 @@ import (
 )
 
 var (
-	NotebookSessionConfigDetailsRequiredOnlyResource = NotebookSessionConfigDetailsResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Required, acctest.Create, notebookSessionConfigDetailsRepresentation)
+	DatascienceNotebookSessionRequiredOnlyResource = DatascienceNotebookSessionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Required, acctest.Create, DatascienceNotebookSessionRepresentation)
 
 	NotebookSessionConfigurationDetailsRequiredOnlyResource = NotebookSessionConfigurationDetailsResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Required, acctest.Create, notebookSessionConfigurationDetailsRepresentation)
 
-	NotebookSessionConfigDetailsResourceConfig = NotebookSessionConfigDetailsResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Update, notebookSessionConfigDetailsRepresentation)
+	DatascienceNotebookSessionResourceConfig = DatascienceNotebookSessionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Update, DatascienceNotebookSessionRepresentation)
 
 	NotebookSessionConfigurationDetailsResourceConfig = NotebookSessionConfigurationDetailsResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Update, notebookSessionConfigurationDetailsRepresentation)
@@ -47,13 +47,13 @@ var (
 		"notebook_session_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_notebook_session.test_notebook_session.id}`},
 	}
 
-	notebookSessionConfigDetailsDataSourceRepresentation = map[string]interface{}{
+	DatascienceDatascienceNotebookSessionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_notebook_session.test_notebook_session.id}`},
 		"project_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_project.test_project.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: notebookSessionConfigDetailsDataSourceFilterRepresentation},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceNotebookSessionDataSourceFilterRepresentation},
 	}
 
 	notebookSessionConfigurationDetailsDataSourceRepresentation = map[string]interface{}{
@@ -65,7 +65,7 @@ var (
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: notebookSessionConfigurationDetailsDataSourceFilterRepresentation},
 	}
 
-	notebookSessionConfigDetailsDataSourceFilterRepresentation = map[string]interface{}{
+	DatascienceNotebookSessionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_datascience_notebook_session.test_notebook_session.id}`}},
 	}
@@ -75,7 +75,7 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_datascience_notebook_session.test_notebook_session.id}`}},
 	}
 
-	notebookSessionConfigDetailsRepresentation = map[string]interface{}{
+	DatascienceNotebookSessionRepresentation = map[string]interface{}{
 		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"project_id":                      acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
 		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -92,14 +92,14 @@ var (
 
 	notebookSessionConfigurationDetailsRepresentation = map[string]interface{}{
 		"compartment_id":                         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"notebook_session_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: notebookSessionNotebookSessionConfigurationDetailsRepresentation},
+		"notebook_session_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceNotebookSessionNotebookSessionConfigurationDetailsRepresentation},
 		"project_id":                             acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
 		"defined_tags":                           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	notebookSessionNotebookSessionConfigurationDetailsRepresentation = map[string]interface{}{
+	DatascienceNotebookSessionNotebookSessionConfigurationDetailsRepresentation = map[string]interface{}{
 		"shape":                     acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
 		"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `50`},
@@ -109,12 +109,12 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	NotebookSessionConfigDetailsResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, projectRepresentation) +
+	DatascienceNotebookSessionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
 		DefinedTagsDependencies
 
-	NotebookSessionConfigurationDetailsResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, projectRepresentation) +
+	NotebookSessionConfigurationDetailsResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -137,14 +137,14 @@ func TestDatascienceNotebookSessionWithConfigDetailsResource_basic(t *testing.T)
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+NotebookSessionConfigDetailsResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Create, notebookSessionConfigDetailsRepresentation), "datascience", "notebookSession", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatascienceNotebookSessionResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Create, DatascienceNotebookSessionRepresentation), "datascience", "notebookSession", t)
 
 	acctest.ResourceTest(t, testAccCheckDatascienceNotebookSessionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + NotebookSessionConfigDetailsResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Required, acctest.Create, notebookSessionConfigDetailsRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceNotebookSessionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Required, acctest.Create, DatascienceNotebookSessionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
@@ -158,12 +158,12 @@ func TestDatascienceNotebookSessionWithConfigDetailsResource_basic(t *testing.T)
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + NotebookSessionConfigDetailsResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatascienceNotebookSessionResourceDependencies,
 		},
 		// verify Create with NotebookSessionConfigDetails with optionals
 		{
-			Config: config + compartmentIdVariableStr + NotebookSessionConfigDetailsResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Create, notebookSessionConfigDetailsRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceNotebookSessionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Create, DatascienceNotebookSessionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -191,8 +191,8 @@ func TestDatascienceNotebookSessionWithConfigDetailsResource_basic(t *testing.T)
 		},
 		// verify Create with NotebookSessionConfigurationDetails with optionals
 		{
-			Config: config + compartmentIdVariableStr + NotebookSessionConfigDetailsResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Create, notebookSessionConfigDetailsRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceNotebookSessionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Create, DatascienceNotebookSessionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -217,9 +217,9 @@ func TestDatascienceNotebookSessionWithConfigDetailsResource_basic(t *testing.T)
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NotebookSessionConfigDetailsResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatascienceNotebookSessionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(notebookSessionConfigDetailsRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatascienceNotebookSessionRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -248,8 +248,8 @@ func TestDatascienceNotebookSessionWithConfigDetailsResource_basic(t *testing.T)
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + NotebookSessionConfigDetailsResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Update, notebookSessionConfigDetailsRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceNotebookSessionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Update, DatascienceNotebookSessionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -277,7 +277,7 @@ func TestDatascienceNotebookSessionWithConfigDetailsResource_basic(t *testing.T)
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Required, acctest.Create, notebookSessionConfigDetailsSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + NotebookSessionConfigDetailsResourceConfig,
+				compartmentIdVariableStr + DatascienceNotebookSessionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "notebook_session_id"),
 
@@ -297,7 +297,7 @@ func TestDatascienceNotebookSessionWithConfigDetailsResource_basic(t *testing.T)
 		},
 		// verify resource import
 		{
-			Config:                  config + NotebookSessionConfigDetailsRequiredOnlyResource,
+			Config:                  config + DatascienceNotebookSessionRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -466,7 +466,7 @@ func TestDatascienceNotebookSessionWithConfigurationDetailsResource_basic(t *tes
 		},
 		// verify resource import
 		{
-			Config:                  config + NotebookSessionConfigDetailsRequiredOnlyResource,
+			Config:                  config + DatascienceNotebookSessionRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -530,7 +530,7 @@ func init() {
 
 func sweepDatascienceNotebookSessionResource(compartment string) error {
 	dataScienceClient := acctest.GetTestClients(&schema.ResourceData{}).DataScienceClient()
-	notebookSessionIds, err := getNotebookSessionIds(compartment)
+	notebookSessionIds, err := getDatascienceNotebookSessionIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -546,14 +546,14 @@ func sweepDatascienceNotebookSessionResource(compartment string) error {
 				fmt.Printf("Error deleting NotebookSession %s %s, It is possible that the resource is already deleted. Please verify manually \n", notebookSessionId, err)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &notebookSessionId, notebookSessionSweepWaitCondition, time.Duration(3*time.Minute),
-				notebookSessionSweepResponseFetchOperation, "datascience", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &notebookSessionId, DatascienceNotebookSessionSweepWaitCondition, time.Duration(3*time.Minute),
+				DatascienceNotebookSessionSweepResponseFetchOperation, "datascience", true)
 		}
 	}
 	return nil
 }
 
-func getNotebookSessionIds(compartment string) ([]string, error) {
+func getDatascienceNotebookSessionIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "NotebookSessionId")
 	if ids != nil {
 		return ids, nil
@@ -578,7 +578,7 @@ func getNotebookSessionIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func notebookSessionSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatascienceNotebookSessionSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if notebookSessionResponse, ok := response.Response.(oci_datascience.GetNotebookSessionResponse); ok {
 		return notebookSessionResponse.LifecycleState != oci_datascience.NotebookSessionLifecycleStateDeleted
@@ -586,7 +586,7 @@ func notebookSessionSweepWaitCondition(response common.OCIOperationResponse) boo
 	return false
 }
 
-func notebookSessionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatascienceNotebookSessionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataScienceClient().GetNotebookSession(context.Background(), oci_datascience.GetNotebookSessionRequest{
 		NotebookSessionId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -24,22 +24,22 @@ import (
 )
 
 var (
-	SmtpCredentialRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Required, acctest.Create, smtpCredentialRepresentation)
+	IdentitySmtpCredentialRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Required, acctest.Create, IdentitySmtpCredentialRepresentation)
 
-	smtpCredentialDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentitySmtpCredentialDataSourceRepresentation = map[string]interface{}{
 		"user_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
-		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: smtpCredentialDataSourceFilterRepresentation}}
-	smtpCredentialDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentitySmtpCredentialDataSourceFilterRepresentation}}
+	IdentitySmtpCredentialDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_smtp_credential.test_smtp_credential.id}`}},
 	}
 
-	smtpCredentialRepresentation = map[string]interface{}{
+	IdentitySmtpCredentialRepresentation = map[string]interface{}{
 		"description": acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 		"user_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	SmtpCredentialResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
+	IdentitySmtpCredentialResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -59,14 +59,14 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 	var compositeId string
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SmtpCredentialResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Required, acctest.Create, smtpCredentialRepresentation), "identity", "smtpCredential", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentitySmtpCredentialResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Required, acctest.Create, IdentitySmtpCredentialRepresentation), "identity", "smtpCredential", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentitySmtpCredentialDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SmtpCredentialResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Required, acctest.Create, smtpCredentialRepresentation),
+			Config: config + compartmentIdVariableStr + IdentitySmtpCredentialResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Required, acctest.Create, IdentitySmtpCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -88,8 +88,8 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SmtpCredentialResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Optional, acctest.Update, smtpCredentialRepresentation),
+			Config: config + compartmentIdVariableStr + IdentitySmtpCredentialResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Optional, acctest.Update, IdentitySmtpCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -106,9 +106,9 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_smtp_credentials", "test_smtp_credentials", acctest.Optional, acctest.Update, smtpCredentialDataSourceRepresentation) +
-				compartmentIdVariableStr + SmtpCredentialResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Optional, acctest.Update, smtpCredentialRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_smtp_credentials", "test_smtp_credentials", acctest.Optional, acctest.Update, IdentityIdentitySmtpCredentialDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentitySmtpCredentialResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Optional, acctest.Update, IdentitySmtpCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
@@ -123,7 +123,7 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + SmtpCredentialRequiredOnlyResource,
+			Config:            config + IdentitySmtpCredentialRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getSmtpCredentialImportId(resourceName),

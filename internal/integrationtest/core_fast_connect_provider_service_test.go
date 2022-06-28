@@ -15,15 +15,15 @@ import (
 )
 
 var (
-	fastConnectProviderServiceSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreFastConnectProviderServiceSingularDataSourceRepresentation = map[string]interface{}{
 		"provider_service_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
 	}
 
-	fastConnectProviderServiceDataSourceRepresentation = map[string]interface{}{
+	CoreCoreFastConnectProviderServiceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	FastConnectProviderServiceResourceConfig = ""
+	CoreFastConnectProviderServiceResourceConfig = ""
 )
 
 // issue-routing-tag: core/default
@@ -45,8 +45,8 @@ func TestCoreFastConnectProviderServiceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", acctest.Required, acctest.Create, fastConnectProviderServiceDataSourceRepresentation) +
-				compartmentIdVariableStr + FastConnectProviderServiceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", acctest.Required, acctest.Create, CoreCoreFastConnectProviderServiceDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreFastConnectProviderServiceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -68,9 +68,9 @@ func TestCoreFastConnectProviderServiceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", acctest.Required, acctest.Create, fastConnectProviderServiceDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_service", "test_fast_connect_provider_service", acctest.Required, acctest.Create, fastConnectProviderServiceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + FastConnectProviderServiceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", acctest.Required, acctest.Create, CoreCoreFastConnectProviderServiceDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_service", "test_fast_connect_provider_service", acctest.Required, acctest.Create, CoreCoreFastConnectProviderServiceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreFastConnectProviderServiceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "provider_service_id"),
 

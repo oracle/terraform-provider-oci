@@ -16,29 +16,29 @@ import (
 )
 
 var (
-	namespaceSingularDataSourceRepresentation2 = map[string]interface{}{
+	LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation = map[string]interface{}{
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_log_analytics_namespaces.test_namespaces.namespace_collection[0].items[0], "namespace")}`},
 	}
 
-	namespaceDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsNamespaceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 	}
 
-	namespaceResourceOnBoardRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsNamespaceResourceOnBoardRepresentation = map[string]interface{}{
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_log_analytics_namespaces.test_namespaces.namespace_collection[0].items[0], "namespace")}`},
 		"is_onboarded":   acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 	}
 
-	namespaceResourceOffBoardRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsNamespaceResourceOffBoardRepresentation = map[string]interface{}{
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_log_analytics_namespaces.test_namespaces.namespace_collection[0].items[0], "namespace")}`},
 		"is_onboarded":   acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 	}
 
-	NameSpaceResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespaces", "test_namespaces", acctest.Required, acctest.Create, namespaceDataSourceRepresentation)
+	LogAnalyticsLogAnalyticsNameSpaceResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespaces", "test_namespaces", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceDataSourceRepresentation)
 
-	NameSpaceSingularDataSourceDependencies = NameSpaceResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceResourceOnBoardRepresentation)
+	LogAnalyticsLogAnalyticsNameSpaceSingularDataSourceDependencies = LogAnalyticsLogAnalyticsNameSpaceResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceResourceOnBoardRepresentation)
 )
 
 // issue-routing-tag: log_analytics/default
@@ -63,7 +63,7 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 		// verify datasource also works as a dependency for next step
 		{
 			Config: config + compartmentIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespaces", "test_namespaces", acctest.Required, acctest.Create, namespaceDataSourceRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespaces", "test_namespaces", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
@@ -73,8 +73,8 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 		// verify onboard
 		{
 			Config: config +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceResourceOnBoardRepresentation) +
-				compartmentIdVariableStr + NameSpaceResourceDependencies,
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceResourceOnBoardRepresentation) +
+				compartmentIdVariableStr + LogAnalyticsLogAnalyticsNameSpaceResourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
@@ -84,8 +84,8 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation2) +
-				compartmentIdVariableStr + NameSpaceSingularDataSourceDependencies,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LogAnalyticsLogAnalyticsNameSpaceSingularDataSourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 
@@ -96,8 +96,8 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 		// verify offboard
 		{
 			Config: config +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceResourceOffBoardRepresentation) +
-				compartmentIdVariableStr + NameSpaceResourceDependencies,
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceResourceOffBoardRepresentation) +
+				compartmentIdVariableStr + LogAnalyticsLogAnalyticsNameSpaceResourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),

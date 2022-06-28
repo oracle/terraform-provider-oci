@@ -26,78 +26,78 @@ import (
 )
 
 var (
-	ClusterRequiredOnlyResource = ClusterResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create, clusterRepresentation)
+	ContainerengineClusterRequiredOnlyResource = ContainerengineClusterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create, ContainerengineClusterRepresentation)
 
-	clusterDataSourceRepresentation = map[string]interface{}{
+	ContainerengineContainerengineClusterDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: []string{`CREATING`, `ACTIVE`, `FAILED`, `DELETING`, `DELETED`, `UPDATING`}},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: clusterDataSourceFilterRepresentation}}
-	clusterDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineClusterDataSourceFilterRepresentation}}
+	ContainerengineClusterDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_containerengine_cluster.test_cluster.id}`}},
 	}
 
-	clusterRepresentation = map[string]interface{}{
+	ContainerengineClusterRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"kubernetes_version":  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-2]}`, Update: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-1]}`},
 		"name":                acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"vcn_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"endpoint_config":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterEndpointConfigRepresentation},
+		"endpoint_config":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterEndpointConfigRepresentation},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"image_policy_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterImagePolicyConfigRepresentation},
+		"image_policy_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterImagePolicyConfigRepresentation},
 		"kms_key_id":          acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"options":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterOptionsRepresentation},
+		"options":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsRepresentation},
 	}
-	clusterEndpointConfigRepresentation = map[string]interface{}{
+	ContainerengineClusterEndpointConfigRepresentation = map[string]interface{}{
 		"is_public_ip_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
 		"nsg_ids":              acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 		"subnet_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
-	clusterImagePolicyConfigRepresentation = map[string]interface{}{
+	ContainerengineClusterImagePolicyConfigRepresentation = map[string]interface{}{
 		"is_policy_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"key_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterImagePolicyConfigKeyDetailsRepresentation},
+		"key_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterImagePolicyConfigKeyDetailsRepresentation},
 	}
-	clusterOptionsRepresentation = map[string]interface{}{
-		"add_ons":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterOptionsAddOnsRepresentation},
-		"admission_controller_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterOptionsAdmissionControllerOptionsRepresentation},
-		"kubernetes_network_config":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterOptionsKubernetesNetworkConfigRepresentation},
-		"persistent_volume_config":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterOptionsPersistentVolumeConfigRepresentation},
-		"service_lb_config":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterOptionsServiceLbConfigRepresentation},
+	ContainerengineClusterOptionsRepresentation = map[string]interface{}{
+		"add_ons":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsAddOnsRepresentation},
+		"admission_controller_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsAdmissionControllerOptionsRepresentation},
+		"kubernetes_network_config":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsKubernetesNetworkConfigRepresentation},
+		"persistent_volume_config":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsPersistentVolumeConfigRepresentation},
+		"service_lb_config":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsServiceLbConfigRepresentation},
 		"service_lb_subnet_ids":        acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_subnet.clusterSubnet_1.id}`, `${oci_core_subnet.clusterSubnet_2.id}`}},
 	}
-	clusterImagePolicyConfigKeyDetailsRepresentation = map[string]interface{}{
+	ContainerengineClusterImagePolicyConfigKeyDetailsRepresentation = map[string]interface{}{
 		"kms_key_id": acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
 	}
-	clusterOptionsAddOnsRepresentation = map[string]interface{}{
+	ContainerengineClusterOptionsAddOnsRepresentation = map[string]interface{}{
 		"is_kubernetes_dashboard_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"is_tiller_enabled":               acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
-	clusterOptionsAdmissionControllerOptionsRepresentation = map[string]interface{}{
+	ContainerengineClusterOptionsAdmissionControllerOptionsRepresentation = map[string]interface{}{
 		"is_pod_security_policy_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	clusterOptionsKubernetesNetworkConfigRepresentation = map[string]interface{}{
+	ContainerengineClusterOptionsKubernetesNetworkConfigRepresentation = map[string]interface{}{
 		"pods_cidr":     acctest.Representation{RepType: acctest.Optional, Create: `10.1.0.0/16`},
 		"services_cidr": acctest.Representation{RepType: acctest.Optional, Create: `10.2.0.0/16`},
 	}
-	clusterOptionsPersistentVolumeConfigRepresentation = map[string]interface{}{
+	ContainerengineClusterOptionsPersistentVolumeConfigRepresentation = map[string]interface{}{
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
-	clusterOptionsServiceLbConfigRepresentation = map[string]interface{}{
+	ContainerengineClusterOptionsServiceLbConfigRepresentation = map[string]interface{}{
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	ClusterResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster1`}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.21.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster2`}})) +
+	ContainerengineClusterResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster1`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.21.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster2`}})) +
 		AvailabilityDomainConfig +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", acctest.Required, acctest.Create, clusterOptionSingularDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", acctest.Required, acctest.Create, ContainerengineContainerengineClusterOptionSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
 		DefinedTagsDependencies +
@@ -119,14 +119,14 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ClusterResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Optional, acctest.Create, clusterRepresentation), "containerengine", "cluster", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ContainerengineClusterResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Optional, acctest.Create, ContainerengineClusterRepresentation), "containerengine", "cluster", t)
 
 	acctest.ResourceTest(t, testAccCheckContainerengineClusterDestroy, []resource.TestStep{
 		//verify Create
 		{
-			Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create, clusterRepresentation),
+			Config: config + compartmentIdVariableStr + ContainerengineClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create, ContainerengineClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
@@ -142,12 +142,12 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ClusterResourceDependencies,
+			Config: config + compartmentIdVariableStr + ContainerengineClusterResourceDependencies,
 		},
 		//verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Optional, acctest.Create, clusterRepresentation),
+			Config: config + compartmentIdVariableStr + ContainerengineClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Optional, acctest.Create, ContainerengineClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
@@ -190,8 +190,8 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Optional, acctest.Update, clusterRepresentation),
+			Config: config + compartmentIdVariableStr + ContainerengineClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Optional, acctest.Update, ContainerengineClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
@@ -236,9 +236,9 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_clusters", "test_clusters", acctest.Optional, acctest.Update, clusterDataSourceRepresentation) +
-				compartmentIdVariableStr + ClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Optional, acctest.Update, clusterRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_clusters", "test_clusters", acctest.Optional, acctest.Update, ContainerengineContainerengineClusterDataSourceRepresentation) +
+				compartmentIdVariableStr + ContainerengineClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Optional, acctest.Update, ContainerengineClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
@@ -280,7 +280,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ClusterRequiredOnlyResource,
+			Config:                  config + ContainerengineClusterRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -344,7 +344,7 @@ func init() {
 
 func sweepContainerengineClusterResource(compartment string) error {
 	containerEngineClient := acctest.GetTestClients(&schema.ResourceData{}).ContainerEngineClient()
-	clusterIds, err := getClusterIds(compartment)
+	clusterIds, err := getContainerengineClusterIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -360,14 +360,14 @@ func sweepContainerengineClusterResource(compartment string) error {
 				fmt.Printf("Error deleting Cluster %s %s, It is possible that the resource is already deleted. Please verify manually \n", clusterId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &clusterId, clusterSweepWaitCondition, time.Duration(3*time.Minute),
-				clusterSweepResponseFetchOperation, "containerengine", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &clusterId, ContainerengineClusterSweepWaitCondition, time.Duration(3*time.Minute),
+				ContainerengineClusterSweepResponseFetchOperation, "containerengine", true)
 		}
 	}
 	return nil
 }
 
-func getClusterIds(compartment string) ([]string, error) {
+func getContainerengineClusterIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ClusterId")
 	if ids != nil {
 		return ids, nil
@@ -392,7 +392,7 @@ func getClusterIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func clusterSweepWaitCondition(response common.OCIOperationResponse) bool {
+func ContainerengineClusterSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if clusterResponse, ok := response.Response.(oci_containerengine.GetClusterResponse); ok {
 		return clusterResponse.LifecycleState != oci_containerengine.ClusterLifecycleStateDeleted
@@ -400,7 +400,7 @@ func clusterSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func clusterSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func ContainerengineClusterSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ContainerEngineClient().GetCluster(context.Background(), oci_containerengine.GetClusterRequest{
 		ClusterId: resourceId,
 		RequestMetadata: common.RequestMetadata{

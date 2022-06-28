@@ -15,15 +15,15 @@ import (
 )
 
 var (
-	resourceAvailabilitySingularDataSourceRepresentation = map[string]interface{}{
+	LimitsLimitsResourceAvailabilitySingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"limit_name":          acctest.Representation{RepType: acctest.Required, Create: `adb-free-count`},
 		"service_name":        acctest.Representation{RepType: acctest.Required, Create: `database`},
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 	}
 
-	ResourceAvailabilityResourceConfig = AvailabilityDomainConfig +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_limits_services", "test_services", acctest.Required, acctest.Create, limitsServiceDataSourceRepresentation)
+	LimitsResourceAvailabilityResourceConfig = AvailabilityDomainConfig +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_limits_services", "test_services", acctest.Required, acctest.Create, LimitsLimitsServiceDataSourceRepresentation)
 )
 
 // issue-routing-tag: limits/default
@@ -45,8 +45,8 @@ func TestLimitsResourceAvailabilityResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_resource_availability", "test_resource_availability", acctest.Required, acctest.Create, resourceAvailabilitySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ResourceAvailabilityResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_resource_availability", "test_resource_availability", acctest.Required, acctest.Create, LimitsLimitsResourceAvailabilitySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LimitsResourceAvailabilityResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "limit_name"),

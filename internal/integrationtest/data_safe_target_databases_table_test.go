@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	targetDatabasesTableDataSourceRepresentation = map[string]interface{}{
+	DataSafetargetDatabasesTableDataSourceRepresentation = map[string]interface{}{
 		"target_database_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_target_database.test_target_database.id}`},
 		"schema_name":          acctest.Representation{RepType: acctest.Optional, Create: []string{`schemaName`}},
 		"schema_name_contains": acctest.Representation{RepType: acctest.Optional, Create: `schemaNameContains`},
@@ -24,9 +24,9 @@ var (
 		"table_name_contains":  acctest.Representation{RepType: acctest.Optional, Create: `tableNameContains`},
 	}
 
-	TargetDatabasesTableResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Required, acctest.Create, tableRepresentation)
+	DataSafeTargetDatabasesTableResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Required, acctest.Create, NosqlTableRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -49,8 +49,8 @@ func TestDataSafeTargetDatabasesTableResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_databases_tables", "test_target_databases_tables", acctest.Required, acctest.Create, targetDatabasesTableDataSourceRepresentation) +
-				compartmentIdVariableStr + TargetDatabasesTableResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_databases_tables", "test_target_databases_tables", acctest.Required, acctest.Create, DataSafetargetDatabasesTableDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeTargetDatabasesTableResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "schema_name.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "schema_name_contains", "schemaNameContains"),

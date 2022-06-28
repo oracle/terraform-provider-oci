@@ -37,6 +37,7 @@ import (
 	tf_datascience "terraform-provider-oci/internal/service/datascience"
 	tf_devops "terraform-provider-oci/internal/service/devops"
 	tf_dns "terraform-provider-oci/internal/service/dns"
+	tf_em_warehouse "terraform-provider-oci/internal/service/em_warehouse"
 	tf_email "terraform-provider-oci/internal/service/email"
 	tf_events "terraform-provider-oci/internal/service/events"
 	tf_file_storage "terraform-provider-oci/internal/service/file_storage"
@@ -81,6 +82,7 @@ import (
 	tf_usage_proxy "terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "terraform-provider-oci/internal/service/vault"
 	tf_visual_builder "terraform-provider-oci/internal/service/visual_builder"
+	tf_vn_monitoring "terraform-provider-oci/internal/service/vn_monitoring"
 	tf_vulnerability_scanning "terraform-provider-oci/internal/service/vulnerability_scanning"
 	tf_waa "terraform-provider-oci/internal/service/waa"
 	tf_waas "terraform-provider-oci/internal/service/waas"
@@ -375,6 +377,8 @@ func init() {
 	RegisterResource("oci_dns_tsig_key", tf_dns.DnsTsigKeyResource())
 	RegisterResource("oci_dns_view", tf_dns.DnsViewResource())
 	RegisterResource("oci_dns_zone", tf_dns.DnsZoneResource())
+	// em_warehouse service
+	RegisterResource("oci_em_warehouse_em_warehouse", tf_em_warehouse.EmWarehouseEmWarehouseResource())
 	// email service
 	RegisterResource("oci_email_dkim", tf_email.EmailDkimResource())
 	RegisterResource("oci_email_email_domain", tf_email.EmailEmailDomainResource())
@@ -598,6 +602,9 @@ func init() {
 	RegisterResource("oci_ai_vision_model", tf_ai_vision.AiVisionModelResource())
 	// visual_builder service
 	RegisterResource("oci_visual_builder_vb_instance", tf_visual_builder.VisualBuilderVbInstanceResource())
+	// vn_monitoring service
+	RegisterResource("oci_vn_monitoring_path_analysi", tf_vn_monitoring.VnMonitoringPathAnalysiResource())
+	RegisterResource("oci_vn_monitoring_path_analyzer_test", tf_vn_monitoring.VnMonitoringPathAnalyzerTestResource())
 	// vulnerability_scanning service
 	RegisterResource("oci_vulnerability_scanning_container_scan_recipe", tf_vulnerability_scanning.VulnerabilityScanningContainerScanRecipeResource())
 	RegisterResource("oci_vulnerability_scanning_container_scan_target", tf_vulnerability_scanning.VulnerabilityScanningContainerScanTargetResource())

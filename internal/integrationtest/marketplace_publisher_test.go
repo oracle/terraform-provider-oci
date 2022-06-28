@@ -15,12 +15,12 @@ import (
 )
 
 var (
-	publisherDataSourceRepresentation = map[string]interface{}{
+	MarketplaceMarketplacePublisherDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"publisher_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_marketplace_publisher.test_publisher.id}`},
 	}
 
-	PublisherResourceConfig = ``
+	MarketplacePublisherResourceConfig = ``
 )
 
 // issue-routing-tag: marketplace/default
@@ -41,8 +41,8 @@ func TestMarketplacePublisherResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_publishers", "test_publishers", acctest.Required, acctest.Create, publisherDataSourceRepresentation) +
-				compartmentIdVariableStr + PublisherResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_publishers", "test_publishers", acctest.Required, acctest.Create, MarketplaceMarketplacePublisherDataSourceRepresentation) +
+				compartmentIdVariableStr + MarketplacePublisherResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttrSet(datasourceName, "publishers.#"),

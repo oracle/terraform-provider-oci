@@ -26,9 +26,9 @@ var (
 		"vm_cluster_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
 	}
 
-	DbNodeResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, cloudVmClusterRepresentation) +
+	DbNodeResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudVmClusterRepresentation) +
 		AvailabilityDomainConfig +
-		CloudVmClusterResourceDependencies +
+		DatabaseCloudVmClusterResourceDependencies +
 		DefinedTagsDependencies
 )
 

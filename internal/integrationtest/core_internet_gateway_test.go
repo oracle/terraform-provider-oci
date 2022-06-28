@@ -25,21 +25,21 @@ import (
 )
 
 var (
-	InternetGatewayRequiredOnlyResource = InternetGatewayResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, internetGatewayRepresentation)
+	CoreInternetGatewayRequiredOnlyResource = CoreInternetGatewayResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation)
 
-	internetGatewayDataSourceRepresentation = map[string]interface{}{
+	CoreCoreInternetGatewayDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `MyInternetGateway`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: internetGatewayDataSourceFilterRepresentation}}
-	internetGatewayDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInternetGatewayDataSourceFilterRepresentation}}
+	CoreInternetGatewayDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_internet_gateway.test_internet_gateway.id}`}},
 	}
 
-	internetGatewayRepresentation = map[string]interface{}{
+	CoreInternetGatewayRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -48,7 +48,7 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	InternetGatewayResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreInternetGatewayResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -70,14 +70,14 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+InternetGatewayResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Create, internetGatewayRepresentation), "core", "internetGateway", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreInternetGatewayResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Create, CoreInternetGatewayRepresentation), "core", "internetGateway", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreInternetGatewayDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + InternetGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, internetGatewayRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInternetGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -91,12 +91,12 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + InternetGatewayResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreInternetGatewayResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + InternetGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Create, internetGatewayRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInternetGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Create, CoreInternetGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyInternetGateway"),
@@ -120,9 +120,9 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InternetGatewayResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreInternetGatewayResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(internetGatewayRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreInternetGatewayRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -146,8 +146,8 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + InternetGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Update, internetGatewayRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInternetGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Update, CoreInternetGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -169,9 +169,9 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_internet_gateways", "test_internet_gateways", acctest.Optional, acctest.Update, internetGatewayDataSourceRepresentation) +
-				compartmentIdVariableStr + InternetGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Update, internetGatewayRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_internet_gateways", "test_internet_gateways", acctest.Optional, acctest.Update, CoreCoreInternetGatewayDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreInternetGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Update, CoreInternetGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -191,7 +191,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + InternetGatewayRequiredOnlyResource,
+			Config:                  config + CoreInternetGatewayRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -255,7 +255,7 @@ func init() {
 
 func sweepCoreInternetGatewayResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	internetGatewayIds, err := getInternetGatewayIds(compartment)
+	internetGatewayIds, err := getCoreInternetGatewayIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -271,14 +271,14 @@ func sweepCoreInternetGatewayResource(compartment string) error {
 				fmt.Printf("Error deleting InternetGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", internetGatewayId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &internetGatewayId, internetGatewaySweepWaitCondition, time.Duration(3*time.Minute),
-				internetGatewaySweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &internetGatewayId, CoreInternetGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+				CoreInternetGatewaySweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getInternetGatewayIds(compartment string) ([]string, error) {
+func getCoreInternetGatewayIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "InternetGatewayId")
 	if ids != nil {
 		return ids, nil
@@ -303,7 +303,7 @@ func getInternetGatewayIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func internetGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreInternetGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if internetGatewayResponse, ok := response.Response.(oci_core.GetInternetGatewayResponse); ok {
 		return internetGatewayResponse.LifecycleState != oci_core.InternetGatewayLifecycleStateTerminated
@@ -311,7 +311,7 @@ func internetGatewaySweepWaitCondition(response common.OCIOperationResponse) boo
 	return false
 }
 
-func internetGatewaySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreInternetGatewaySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetInternetGateway(context.Background(), oci_core.GetInternetGatewayRequest{
 		IgId: resourceId,
 		RequestMetadata: common.RequestMetadata{

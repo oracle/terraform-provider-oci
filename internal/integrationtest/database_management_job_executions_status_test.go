@@ -19,14 +19,14 @@ import (
 )
 
 var (
-	jobExecutionsStatusSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementJobExecutionsStatusSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"end_time":            acctest.Representation{RepType: acctest.Required, Create: `${var.end_time}`},
 		"start_time":          acctest.Representation{RepType: acctest.Required, Create: `${var.start_time}`},
 		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}testManagedDatabase0`},
 	}
 
-	jobExecutionsStatusDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementJobExecutionsStatusDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"end_time":            acctest.Representation{RepType: acctest.Required, Create: `${var.end_time}`},
 		"start_time":          acctest.Representation{RepType: acctest.Required, Create: `${var.start_time}`},
@@ -66,7 +66,7 @@ func TestDatabaseManagementJobExecutionsStatusResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_job_executions_statuses", "test_job_executions_statuses", acctest.Required, acctest.Create, jobExecutionsStatusDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_job_executions_statuses", "test_job_executions_statuses", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementJobExecutionsStatusDataSourceRepresentation) +
 					compartmentIdVariableStr + JobExecutionsStatusResourceConfig + endTimeVariableStr + startTimeVariableStr,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -80,7 +80,7 @@ func TestDatabaseManagementJobExecutionsStatusResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_job_executions_status", "test_job_executions_status", acctest.Required, acctest.Create, jobExecutionsStatusSingularDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_job_executions_status", "test_job_executions_status", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementJobExecutionsStatusSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + JobExecutionsStatusResourceConfig + endTimeVariableStr + startTimeVariableStr,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

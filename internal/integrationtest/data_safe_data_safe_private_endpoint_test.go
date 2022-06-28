@@ -26,17 +26,17 @@ import (
 )
 
 var (
-	DataSafePrivateEndpointRequiredOnlyResource = DataSafePrivateEndpointResourceDependencies +
+	DataSafeDataSafePrivateEndpointRequiredOnlyResource = DataSafeDataSafePrivateEndpointResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", acctest.Required, acctest.Create, dataSafePrivateEndpointRepresentation)
 
-	DataSafePrivateEndpointResourceConfig = DataSafePrivateEndpointResourceDependencies +
+	DataSafeDataSafePrivateEndpointResourceConfig = DataSafeDataSafePrivateEndpointResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", acctest.Optional, acctest.Update, dataSafePrivateEndpointRepresentation)
 
-	dataSafePrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafedataSafePrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
 		"data_safe_private_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_data_safe_private_endpoint.test_data_safe_private_endpoint.id}`},
 	}
 
-	dataSafePrivateEndpointDataSourceRepresentation = map[string]interface{}{
+	DataSafedataSafePrivateEndpointDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
@@ -60,9 +60,9 @@ var (
 		"nsg_ids":        acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 	}
 
-	DataSafePrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	DataSafeDataSafePrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -85,13 +85,13 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafePrivateEndpointResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeDataSafePrivateEndpointResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", acctest.Optional, acctest.Create, dataSafePrivateEndpointRepresentation), "datasafe", "dataSafePrivateEndpoint", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeDataSafePrivateEndpointDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeDataSafePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", acctest.Required, acctest.Create, dataSafePrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -108,11 +108,11 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies,
+			Config: config + compartmentIdVariableStr + DataSafeDataSafePrivateEndpointResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeDataSafePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", acctest.Optional, acctest.Create, dataSafePrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -140,7 +140,7 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafePrivateEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeDataSafePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(dataSafePrivateEndpointRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -168,7 +168,7 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeDataSafePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", acctest.Optional, acctest.Update, dataSafePrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -194,8 +194,8 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoints", "test_data_safe_private_endpoints", acctest.Optional, acctest.Update, dataSafePrivateEndpointDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoints", "test_data_safe_private_endpoints", acctest.Optional, acctest.Update, DataSafedataSafePrivateEndpointDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeDataSafePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", acctest.Optional, acctest.Update, dataSafePrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
@@ -222,8 +222,8 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", acctest.Required, acctest.Create, dataSafePrivateEndpointSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafePrivateEndpointResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", acctest.Required, acctest.Create, DataSafedataSafePrivateEndpointSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeDataSafePrivateEndpointResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_safe_private_endpoint_id"),
 
@@ -240,7 +240,7 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DataSafePrivateEndpointRequiredOnlyResource,
+			Config:                  config + DataSafeDataSafePrivateEndpointRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -304,7 +304,7 @@ func init() {
 
 func sweepDataSafeDataSafePrivateEndpointResource(compartment string) error {
 	dataSafeClient := acctest.GetTestClients(&schema.ResourceData{}).DataSafeClient()
-	dataSafePrivateEndpointIds, err := getDataSafePrivateEndpointIds(compartment)
+	dataSafePrivateEndpointIds, err := getDataSafeDataSafePrivateEndpointIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -320,14 +320,14 @@ func sweepDataSafeDataSafePrivateEndpointResource(compartment string) error {
 				fmt.Printf("Error deleting DataSafePrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", dataSafePrivateEndpointId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &dataSafePrivateEndpointId, dataSafePrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
-				dataSafePrivateEndpointSweepResponseFetchOperation, "data_safe", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &dataSafePrivateEndpointId, DataSafedataSafePrivateEndpointsSweepWaitCondition, time.Duration(3*time.Minute),
+				DataSafedataSafePrivateEndpointsSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
 	return nil
 }
 
-func getDataSafePrivateEndpointIds(compartment string) ([]string, error) {
+func getDataSafeDataSafePrivateEndpointIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DataSafePrivateEndpointId")
 	if ids != nil {
 		return ids, nil
@@ -352,7 +352,7 @@ func getDataSafePrivateEndpointIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func dataSafePrivateEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataSafedataSafePrivateEndpointsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if dataSafePrivateEndpointResponse, ok := response.Response.(oci_data_safe.GetDataSafePrivateEndpointResponse); ok {
 		return dataSafePrivateEndpointResponse.LifecycleState != oci_data_safe.LifecycleStateDeleted
@@ -360,7 +360,7 @@ func dataSafePrivateEndpointSweepWaitCondition(response common.OCIOperationRespo
 	return false
 }
 
-func dataSafePrivateEndpointSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataSafedataSafePrivateEndpointsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataSafeClient().GetDataSafePrivateEndpoint(context.Background(), oci_data_safe.GetDataSafePrivateEndpointRequest{
 		DataSafePrivateEndpointId: resourceId,
 		RequestMetadata: common.RequestMetadata{

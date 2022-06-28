@@ -25,28 +25,28 @@ import (
 )
 
 var (
-	SecurityRecipeRequiredOnlyResource = SecurityRecipeResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Required, acctest.Create, securityRecipeRepresentation)
+	CloudGuardSecurityRecipeRequiredOnlyResource = CloudGuardSecurityRecipeResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Required, acctest.Create, CloudGuardSecurityRecipeRepresentation)
 
-	SecurityRecipeResourceConfig = SecurityRecipeResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Optional, acctest.Update, securityRecipeRepresentation)
+	CloudGuardSecurityRecipeResourceConfig = CloudGuardSecurityRecipeResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Optional, acctest.Update, CloudGuardSecurityRecipeRepresentation)
 
-	securityRecipeSingularDataSourceRepresentation = map[string]interface{}{
+	CloudGuardCloudGuardSecurityRecipeSingularDataSourceRepresentation = map[string]interface{}{
 		"security_recipe_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_guard_security_recipe.test_security_recipe.id}`},
 	}
 
-	securityRecipeDataSourceRepresentation = map[string]interface{}{
+	CloudGuardCloudGuardSecurityRecipeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_guard_security_recipe.test_security_recipe.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: securityRecipeDataSourceFilterRepresentation}}
-	securityRecipeDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudGuardSecurityRecipeDataSourceFilterRepresentation}}
+	CloudGuardSecurityRecipeDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_cloud_guard_security_recipe.test_security_recipe.id}`}},
 	}
 
-	securityRecipeRepresentation = map[string]interface{}{
+	CloudGuardSecurityRecipeRepresentation = map[string]interface{}{
 		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"security_policies": acctest.Representation{RepType: acctest.Required, Create: []string{securityPolicyId}, Update: []string{securityPolicyId}},
@@ -60,13 +60,13 @@ var (
 	// 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`}},
 	// 	}
 
-	SecurityRecipeResourceDependencies = DefinedTagsDependencies + SecurityPolicyResourceDependencies
+	CloudGuardSecurityRecipeResourceDependencies = DefinedTagsDependencies + SecurityPolicyResourceDependencies
 
-	securityPolicyDataSourceRepresentationPluralDataSource = map[string]interface{}{
+	CloudGuardSecurityPolicyDataSourceRepresentationPluralDataSource = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("compartment_ocid")},
 	}
 	securityPolicyId                   = `${data.oci_cloud_guard_security_policies.oracle_security_policy.security_policy_collection.0.items.0.id}`
-	SecurityPolicyResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_policies", "oracle_security_policy", acctest.Required, acctest.Create, securityPolicyDataSourceRepresentationPluralDataSource)
+	SecurityPolicyResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_policies", "oracle_security_policy", acctest.Required, acctest.Create, CloudGuardSecurityPolicyDataSourceRepresentationPluralDataSource)
 )
 
 // issue-routing-tag: cloud_guard/default
@@ -85,14 +85,14 @@ func TestCloudGuardSecurityRecipeResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SecurityRecipeResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Optional, acctest.Create, securityRecipeRepresentation), "cloudguard", "securityRecipe", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudGuardSecurityRecipeResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Optional, acctest.Create, CloudGuardSecurityRecipeRepresentation), "cloudguard", "securityRecipe", t)
 
 	acctest.ResourceTest(t, testAccCheckCloudGuardSecurityRecipeDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SecurityRecipeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Required, acctest.Create, securityRecipeRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardSecurityRecipeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Required, acctest.Create, CloudGuardSecurityRecipeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -107,12 +107,12 @@ func TestCloudGuardSecurityRecipeResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SecurityRecipeResourceDependencies,
+			Config: config + compartmentIdVariableStr + CloudGuardSecurityRecipeResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SecurityRecipeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Optional, acctest.Create, securityRecipeRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardSecurityRecipeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Optional, acctest.Create, CloudGuardSecurityRecipeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -136,9 +136,9 @@ func TestCloudGuardSecurityRecipeResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + SecurityRecipeResourceDependencies +
+			Config: config + compartmentIdVariableStr + CloudGuardSecurityRecipeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(securityRecipeRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CloudGuardSecurityRecipeRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -162,8 +162,8 @@ func TestCloudGuardSecurityRecipeResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SecurityRecipeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Optional, acctest.Update, securityRecipeRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardSecurityRecipeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Optional, acctest.Update, CloudGuardSecurityRecipeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -185,9 +185,9 @@ func TestCloudGuardSecurityRecipeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_recipes", "test_security_recipes", acctest.Optional, acctest.Update, securityRecipeDataSourceRepresentation) +
-				compartmentIdVariableStr + SecurityRecipeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Optional, acctest.Update, securityRecipeRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_recipes", "test_security_recipes", acctest.Optional, acctest.Update, CloudGuardCloudGuardSecurityRecipeDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardSecurityRecipeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Optional, acctest.Update, CloudGuardSecurityRecipeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -200,8 +200,8 @@ func TestCloudGuardSecurityRecipeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Required, acctest.Create, securityRecipeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SecurityRecipeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Required, acctest.Create, CloudGuardCloudGuardSecurityRecipeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardSecurityRecipeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "security_recipe_id"),
 
@@ -218,7 +218,7 @@ func TestCloudGuardSecurityRecipeResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + SecurityRecipeRequiredOnlyResource,
+			Config:                  config + CloudGuardSecurityRecipeRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -282,7 +282,7 @@ func init() {
 
 func sweepCloudGuardSecurityRecipeResource(compartment string) error {
 	cloudGuardClient := acctest.GetTestClients(&schema.ResourceData{}).CloudGuardClient()
-	securityRecipeIds, err := getSecurityRecipeIds(compartment)
+	securityRecipeIds, err := getCloudGuardSecurityRecipeIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -298,14 +298,14 @@ func sweepCloudGuardSecurityRecipeResource(compartment string) error {
 				fmt.Printf("Error deleting SecurityRecipe %s %s, It is possible that the resource is already deleted. Please verify manually \n", securityRecipeId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &securityRecipeId, securityRecipeSweepWaitCondition, time.Duration(3*time.Minute),
-				securityRecipeSweepResponseFetchOperation, "cloud_guard", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &securityRecipeId, CloudGuardSecurityRecipeSweepWaitCondition, time.Duration(3*time.Minute),
+				CloudGuardSecurityRecipeSweepResponseFetchOperation, "cloud_guard", true)
 		}
 	}
 	return nil
 }
 
-func getSecurityRecipeIds(compartment string) ([]string, error) {
+func getCloudGuardSecurityRecipeIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "SecurityRecipeId")
 	if ids != nil {
 		return ids, nil
@@ -330,7 +330,7 @@ func getSecurityRecipeIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func securityRecipeSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CloudGuardSecurityRecipeSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if securityRecipeResponse, ok := response.Response.(oci_cloud_guard.GetSecurityRecipeResponse); ok {
 		return securityRecipeResponse.LifecycleState != oci_cloud_guard.LifecycleStateDeleted
@@ -338,7 +338,7 @@ func securityRecipeSweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func securityRecipeSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CloudGuardSecurityRecipeSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.CloudGuardClient().GetSecurityRecipe(context.Background(), oci_cloud_guard.GetSecurityRecipeRequest{
 		SecurityRecipeId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	managedDatabaseSqlTuningAdvisorTasksFindingSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabaseSqlTuningAdvisorTasksFindingSingularDataSourceRepresentation = map[string]interface{}{
 		"managed_database_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_managed_database.test_managed_database.id}`},
 		"sql_tuning_advisor_task_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_sql_tuning_advisor_task.test_sql_tuning_advisor_task.id}`},
 		"begin_exec_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_management_begin_exec.test_begin_exec.id}`},
@@ -27,7 +27,7 @@ var (
 		"stats_hash_filter":          acctest.Representation{RepType: acctest.Optional, Create: `statsHashFilter`},
 	}
 
-	managedDatabaseSqlTuningAdvisorTasksFindingDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabaseSqlTuningAdvisorTasksFindingDataSourceRepresentation = map[string]interface{}{
 		"managed_database_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_managed_database.test_managed_database.id}`},
 		"sql_tuning_advisor_task_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_sql_tuning_advisor_task.test_sql_tuning_advisor_task.id}`},
 		"begin_exec_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_management_begin_exec.test_begin_exec.id}`},
@@ -38,7 +38,7 @@ var (
 		"stats_hash_filter":          acctest.Representation{RepType: acctest.Optional, Create: `statsHashFilter`},
 	}
 
-	ManagedDatabaseSqlTuningAdvisorTasksFindingResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", acctest.Required, acctest.Create, managedDatabaseDataSourceRepresentation)
+	DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksFindingResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseDataSourceRepresentation)
 )
 
 // issue-routing-tag: database_management/default
@@ -61,8 +61,8 @@ func TestDatabaseManagementManagedDatabaseSqlTuningAdvisorTasksFindingResource_b
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_sql_tuning_advisor_tasks_findings", "test_managed_database_sql_tuning_advisor_tasks_findings", acctest.Required, acctest.Create, managedDatabaseSqlTuningAdvisorTasksFindingDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedDatabaseSqlTuningAdvisorTasksFindingResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_sql_tuning_advisor_tasks_findings", "test_managed_database_sql_tuning_advisor_tasks_findings", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseSqlTuningAdvisorTasksFindingDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksFindingResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sql_tuning_advisor_task_id"),
@@ -74,8 +74,8 @@ func TestDatabaseManagementManagedDatabaseSqlTuningAdvisorTasksFindingResource_b
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_sql_tuning_advisor_tasks_finding", "test_managed_database_sql_tuning_advisor_tasks_finding", acctest.Required, acctest.Create, managedDatabaseSqlTuningAdvisorTasksFindingSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedDatabaseSqlTuningAdvisorTasksFindingResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_sql_tuning_advisor_tasks_finding", "test_managed_database_sql_tuning_advisor_tasks_finding", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseSqlTuningAdvisorTasksFindingSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksFindingResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sql_tuning_advisor_task_id"),

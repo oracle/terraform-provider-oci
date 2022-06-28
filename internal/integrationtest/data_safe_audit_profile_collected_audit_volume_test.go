@@ -16,21 +16,21 @@ import (
 )
 
 var (
-	auditProfileCollectedAuditVolumeSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditProfileCollectedAuditVolumeSingularDataSourceRepresentation = map[string]interface{}{
 		"audit_profile_id":                    acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_audit_profile.test_audit_profile.id}`},
 		"work_request_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_work_request.test_work_request.id}`},
 		"month_in_consideration_greater_than": acctest.Representation{RepType: acctest.Optional, Create: `monthInConsiderationGreaterThan`},
 		"month_in_consideration_less_than":    acctest.Representation{RepType: acctest.Optional, Create: `monthInConsiderationLessThan`},
 	}
 
-	auditProfileCollectedAuditVolumeDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditProfileCollectedAuditVolumeDataSourceRepresentation = map[string]interface{}{
 		"audit_profile_id":                    acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_audit_profile.test_audit_profile.id}`},
 		"work_request_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_work_request.test_work_request.id}`},
 		"month_in_consideration_greater_than": acctest.Representation{RepType: acctest.Optional, Create: `monthInConsiderationGreaterThan`},
 		"month_in_consideration_less_than":    acctest.Representation{RepType: acctest.Optional, Create: `monthInConsiderationLessThan`},
 	}
 
-	AuditProfileCollectedAuditVolumeResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", acctest.Required, acctest.Create, workRequestDataSourceRepresentation) +
+	DataSafeAuditProfileCollectedAuditVolumeResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", acctest.Required, acctest.Create, ContainerengineContainerengineWorkRequestDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_profile", "test_audit_profile", acctest.Required, acctest.Create, auditProfileRepresentation)
 )
 
@@ -53,8 +53,8 @@ func TestDataSafeAuditProfileCollectedAuditVolumeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_collected_audit_volumes", "test_audit_profile_collected_audit_volumes", acctest.Required, acctest.Create, auditProfileCollectedAuditVolumeDataSourceRepresentation) +
-				compartmentIdVariableStr + AuditProfileCollectedAuditVolumeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_collected_audit_volumes", "test_audit_profile_collected_audit_volumes", acctest.Required, acctest.Create, DataSafeauditProfileCollectedAuditVolumeDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeAuditProfileCollectedAuditVolumeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "audit_profile_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "month_in_consideration_greater_than"),
@@ -67,8 +67,8 @@ func TestDataSafeAuditProfileCollectedAuditVolumeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_collected_audit_volume", "test_audit_profile_collected_audit_volume", acctest.Required, acctest.Create, auditProfileCollectedAuditVolumeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AuditProfileCollectedAuditVolumeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_collected_audit_volume", "test_audit_profile_collected_audit_volume", acctest.Required, acctest.Create, DataSafeauditProfileCollectedAuditVolumeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeAuditProfileCollectedAuditVolumeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "audit_profile_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "month_in_consideration_greater_than", "monthInConsiderationGreaterThan"),

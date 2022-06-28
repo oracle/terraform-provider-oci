@@ -32,6 +32,7 @@ import (
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 	oci_dns "github.com/oracle/oci-go-sdk/v65/dns"
 	oci_email "github.com/oracle/oci-go-sdk/v65/email"
+	oci_em_warehouse "github.com/oracle/oci-go-sdk/v65/emwarehouse"
 	oci_events "github.com/oracle/oci-go-sdk/v65/events"
 	oci_file_storage "github.com/oracle/oci-go-sdk/v65/filestorage"
 	oci_functions "github.com/oracle/oci-go-sdk/v65/functions"
@@ -67,6 +68,7 @@ import (
 	oci_metering_computation "github.com/oracle/oci-go-sdk/v65/usageapi"
 	oci_vault "github.com/oracle/oci-go-sdk/v65/vault"
 	oci_visual_builder "github.com/oracle/oci-go-sdk/v65/visualbuilder"
+	oci_vn_monitoring "github.com/oracle/oci-go-sdk/v65/vnmonitoring"
 	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v65/vulnerabilityscanning"
 	oci_waa "github.com/oracle/oci-go-sdk/v65/waa"
 	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
@@ -606,6 +608,10 @@ var exportContainerengineNodePoolHints = &TerraformResourceHints{
 	datasourceItemsAttr:    "node_pools",
 	resourceAbbreviation:   "node_pool",
 	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_containerengine.NodePoolLifecycleStateActive),
+		string(oci_containerengine.NodePoolLifecycleStateNeedsAttention),
+	},
 }
 
 var exportCoreBootVolumeBackupHints = &TerraformResourceHints{
@@ -2026,6 +2032,18 @@ var exportDnsRrsetHints = &TerraformResourceHints{
 	resourceAbbreviation: "rrset",
 }
 
+var exportEmWarehouseEmWarehouseHints = &TerraformResourceHints{
+	resourceClass:          "oci_em_warehouse_em_warehouse",
+	datasourceClass:        "oci_em_warehouse_em_warehouses",
+	datasourceItemsAttr:    "em_warehouse_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "em_warehouse",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_em_warehouse.EmWarehouseLifecycleStateActive),
+	},
+}
+
 var exportEmailSuppressionHints = &TerraformResourceHints{
 	resourceClass:        "oci_email_suppression",
 	datasourceClass:      "oci_email_suppressions",
@@ -3347,6 +3365,23 @@ var exportVisualBuilderVbInstanceHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_visual_builder.VbInstanceLifecycleStateActive),
 	},
+}
+
+var exportVnMonitoringPathAnalyzerTestHints = &TerraformResourceHints{
+	resourceClass:          "oci_vn_monitoring_path_analyzer_test",
+	datasourceClass:        "oci_vn_monitoring_path_analyzer_tests",
+	datasourceItemsAttr:    "path_analyzer_test_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "path_analyzer_test",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_vn_monitoring.PathAnalyzerTestLifecycleStateActive),
+	},
+}
+
+var exportVnMonitoringPathAnalysiHints = &TerraformResourceHints{
+	resourceClass:        "oci_vn_monitoring_path_analysi",
+	resourceAbbreviation: "path_analysi",
 }
 
 var exportVaultSecretHints = &TerraformResourceHints{

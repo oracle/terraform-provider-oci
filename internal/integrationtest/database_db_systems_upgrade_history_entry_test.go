@@ -16,33 +16,33 @@ import (
 )
 
 var (
-	dbSystemsUpgradeHistoryEntrySingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDbSystemsUpgradeHistoryEntrySingularDataSourceRepresentation = map[string]interface{}{
 		"db_system_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_system.test_db_system.id}`},
 		"upgrade_history_entry_id": acctest.Representation{RepType: acctest.Required, Create: `{}`},
 	}
 
-	dbSystemsUpgradeHistoryEntryDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDbSystemsUpgradeHistoryEntryDataSourceRepresentation = map[string]interface{}{
 		"db_system_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_system.test_db_system.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"upgrade_action": acctest.Representation{RepType: acctest.Optional, Create: `PRECHECK`},
 	}
 
-	DbSystemsUpgradeHistoryEntryResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Required, acctest.Create, vlanRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, backupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, databaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentation) +
-		BackupResourceDependencies +
+	DatabaseDbSystemsUpgradeHistoryEntryResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Required, acctest.Create, CoreVlanRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, DatabaseBackupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, DatabaseDatabaseRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, DatabaseDbHomeRepresentation) +
+		DatabaseBackupResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationNFSRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": acctest.Representation{RepType: acctest.Optional, Update: activationFilePath}})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, vmClusterNetworkValidateRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_db_system", "test_db_system", acctest.Required, acctest.Create, dbSystemsUpgradeHistoryEntryDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, exadataInfrastructureRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create, vmClusterNetworkRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, vmClusterRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_system", "test_db_system", acctest.Required, acctest.Create, DatabaseDatabaseDbSystemsUpgradeHistoryEntryDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseAutonomousExadataInfrastructureRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create, DatabaseVmClusterNetworkRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudAutonomousVmClusterRepresentation) +
 		AvailabilityDomainConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Required, acctest.Create, domainRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Required, acctest.Create, IdentityDomainRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -65,8 +65,8 @@ func TestDatabaseDbSystemsUpgradeHistoryEntryResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_systems_upgrade_history_entries", "test_db_systems_upgrade_history_entries", acctest.Required, acctest.Create, dbSystemsUpgradeHistoryEntryDataSourceRepresentation) +
-				compartmentIdVariableStr + DbSystemsUpgradeHistoryEntryResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_systems_upgrade_history_entries", "test_db_systems_upgrade_history_entries", acctest.Required, acctest.Create, DatabaseDatabaseDbSystemsUpgradeHistoryEntryDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDbSystemsUpgradeHistoryEntryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -86,8 +86,8 @@ func TestDatabaseDbSystemsUpgradeHistoryEntryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_systems_upgrade_history_entry", "test_db_systems_upgrade_history_entry", acctest.Required, acctest.Create, dbSystemsUpgradeHistoryEntrySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DbSystemsUpgradeHistoryEntryResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_systems_upgrade_history_entry", "test_db_systems_upgrade_history_entry", acctest.Required, acctest.Create, DatabaseDatabaseDbSystemsUpgradeHistoryEntrySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDbSystemsUpgradeHistoryEntryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "upgrade_history_entry_id"),

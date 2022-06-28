@@ -79,8 +79,8 @@ var (
 
 	DatabaseSoftwareImageResourceDependenciesForExaShape = DefinedTagsDependencies
 
-	DatabaseSoftwareImageResourceDependenciesForSourceDbHome = acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, databaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentation) +
+	DatabaseSoftwareImageResourceDependenciesForSourceDbHome = acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, DatabaseDatabaseRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, DatabaseDbHomeRepresentation) +
 		ExaBaseDependencies + AvailabilityDomainConfig +
 		DatabaseSoftwareImageResourceDependenciesForExaShape
 
@@ -549,7 +549,7 @@ func TestDatabaseDatabaseSoftwareImageResourceExadata_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DatabaseSoftwareImageRequiredOnlyResource,
+			Config:                  config + DatabaseDatabaseSoftwareImageRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{

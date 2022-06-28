@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	resultSingularDataSourceRepresentation = map[string]interface{}{
+	ApmSyntheticsApmSyntheticsresultSingularDataSourceRepresentation = map[string]interface{}{
 		"apm_domain_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.apm_domain_id}`},
 		"execution_time":      acctest.Representation{RepType: acctest.Required, Create: `${var.execution_time}`},
 		"monitor_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.monitor_id}`},
@@ -57,7 +57,7 @@ func TestApmSyntheticsResultResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + apmDomainIdVariableStr + monitorIdVariableStr + executionTimeVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_result", "test_result", acctest.Required, acctest.Create, resultSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_result", "test_result", acctest.Required, acctest.Create, ApmSyntheticsApmSyntheticsresultSingularDataSourceRepresentation) +
 				compartmentIdVariableStr, //+ ResultResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),

@@ -15,21 +15,21 @@ import (
 )
 
 var (
-	recommendationStrategySingularDataSourceRepresentation = map[string]interface{}{
+	OptimizerOptimizerRecommendationStrategySingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"name":                      acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"recommendation_name":       acctest.Representation{RepType: acctest.Required, Create: `${oci_optimizer_recommendation.test_recommendation.name}`},
 	}
 
-	recommendationStrategyDataSourceRepresentation = map[string]interface{}{
+	OptimizerOptimizerRecommendationStrategyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"name":                      acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"recommendation_name":       acctest.Representation{RepType: acctest.Required, Create: `${oci_optimizer_recommendation.test_recommendation.name}`},
 	}
 
-	RecommendationStrategyResourceConfig = RecommendationResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, recommendationRepresentation)
+	OptimizerRecommendationStrategyResourceConfig = OptimizerRecommendationResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, OptimizerRecommendationRepresentation)
 )
 
 // issue-routing-tag: optimizer/default
@@ -51,8 +51,8 @@ func TestOptimizerRecommendationStrategyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendation_strategies", "test_recommendation_strategies", acctest.Required, acctest.Create, recommendationStrategyDataSourceRepresentation) +
-				compartmentIdVariableStr + RecommendationStrategyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendation_strategies", "test_recommendation_strategies", acctest.Required, acctest.Create, OptimizerOptimizerRecommendationStrategyDataSourceRepresentation) +
+				compartmentIdVariableStr + OptimizerRecommendationStrategyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
@@ -66,8 +66,8 @@ func TestOptimizerRecommendationStrategyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendation_strategy", "test_recommendation_strategy", acctest.Required, acctest.Create, recommendationStrategySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + RecommendationStrategyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendation_strategy", "test_recommendation_strategy", acctest.Required, acctest.Create, OptimizerOptimizerRecommendationStrategySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OptimizerRecommendationStrategyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id_in_subtree", "true"),

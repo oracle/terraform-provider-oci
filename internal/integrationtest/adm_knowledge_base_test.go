@@ -29,17 +29,17 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	KnowledgeBaseRequiredOnlyResource = KnowledgeBaseResourceDependencies +
+	AdmKnowledgeBaseRequiredOnlyResource = AdmKnowledgeBaseResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_adm_knowledge_base", "test_knowledge_base", acctest.Required, acctest.Create, knowledgeBaseRepresentation)
 
-	KnowledgeBaseResourceConfig = KnowledgeBaseResourceDependencies +
+	AdmKnowledgeBaseResourceConfig = AdmKnowledgeBaseResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_adm_knowledge_base", "test_knowledge_base", acctest.Optional, acctest.Update, knowledgeBaseRepresentation)
 
-	knowledgeBaseSingularDataSourceRepresentation = map[string]interface{}{
+	AdmknowledgeBaseSingularDataSourceRepresentation = map[string]interface{}{
 		"knowledge_base_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_adm_knowledge_base.test_knowledge_base.id}`},
 	}
 
-	knowledgeBaseDataSourceRepresentation = map[string]interface{}{
+	AdmknowledgeBaseDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_adm_knowledge_base.test_knowledge_base.id}`},
@@ -58,7 +58,7 @@ var (
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreKnowledgeBaseDefinedTagsChangesRepresentation},
 	}
 
-	KnowledgeBaseResourceDependencies = DefinedTagsDependencies
+	AdmKnowledgeBaseResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: adm/default
@@ -80,13 +80,13 @@ func TestAdmKnowledgeBaseResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+KnowledgeBaseResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+AdmKnowledgeBaseResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_adm_knowledge_base", "test_knowledge_base", acctest.Optional, acctest.Create, knowledgeBaseRepresentation), "adm", "knowledgeBase", t)
 
 	acctest.ResourceTest(t, testAccCheckAdmKnowledgeBaseDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + KnowledgeBaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + AdmKnowledgeBaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_adm_knowledge_base", "test_knowledge_base", acctest.Required, acctest.Create, knowledgeBaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -100,11 +100,11 @@ func TestAdmKnowledgeBaseResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + KnowledgeBaseResourceDependencies,
+			Config: config + compartmentIdVariableStr + AdmKnowledgeBaseResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + KnowledgeBaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + AdmKnowledgeBaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_adm_knowledge_base", "test_knowledge_base", acctest.Optional, acctest.Create, knowledgeBaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -129,7 +129,7 @@ func TestAdmKnowledgeBaseResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + KnowledgeBaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AdmKnowledgeBaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_adm_knowledge_base", "test_knowledge_base", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(knowledgeBaseRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -155,7 +155,7 @@ func TestAdmKnowledgeBaseResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + KnowledgeBaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + AdmKnowledgeBaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_adm_knowledge_base", "test_knowledge_base", acctest.Optional, acctest.Update, knowledgeBaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -178,8 +178,8 @@ func TestAdmKnowledgeBaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_adm_knowledge_bases", "test_knowledge_bases", acctest.Optional, acctest.Update, knowledgeBaseDataSourceRepresentation) +
-				compartmentIdVariableStr + KnowledgeBaseResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_adm_knowledge_bases", "test_knowledge_bases", acctest.Optional, acctest.Update, AdmknowledgeBaseDataSourceRepresentation) +
+				compartmentIdVariableStr + AdmKnowledgeBaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_adm_knowledge_base", "test_knowledge_base", acctest.Optional, acctest.Update, knowledgeBaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -194,8 +194,8 @@ func TestAdmKnowledgeBaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_adm_knowledge_base", "test_knowledge_base", acctest.Required, acctest.Create, knowledgeBaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + KnowledgeBaseResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_adm_knowledge_base", "test_knowledge_base", acctest.Required, acctest.Create, AdmknowledgeBaseSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AdmKnowledgeBaseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "knowledge_base_id"),
 
@@ -210,7 +210,7 @@ func TestAdmKnowledgeBaseResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + KnowledgeBaseRequiredOnlyResource,
+			Config:                  config + AdmKnowledgeBaseRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -274,7 +274,7 @@ func init() {
 
 func sweepAdmKnowledgeBaseResource(compartment string) error {
 	applicationDependencyManagementClient := acctest.GetTestClients(&schema.ResourceData{}).ApplicationDependencyManagementClient()
-	knowledgeBaseIds, err := getKnowledgeBaseIds(compartment)
+	knowledgeBaseIds, err := getAdmKnowledgeBaseIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -290,14 +290,14 @@ func sweepAdmKnowledgeBaseResource(compartment string) error {
 				fmt.Printf("Error deleting KnowledgeBase %s %s, It is possible that the resource is already deleted. Please verify manually \n", knowledgeBaseId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &knowledgeBaseId, knowledgeBaseSweepWaitCondition, time.Duration(3*time.Minute),
-				knowledgeBaseSweepResponseFetchOperation, "adm", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &knowledgeBaseId, AdmknowledgeBasesSweepWaitCondition, time.Duration(3*time.Minute),
+				AdmknowledgeBasesSweepResponseFetchOperation, "adm", true)
 		}
 	}
 	return nil
 }
 
-func getKnowledgeBaseIds(compartment string) ([]string, error) {
+func getAdmKnowledgeBaseIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "KnowledgeBaseId")
 	if ids != nil {
 		return ids, nil
@@ -322,7 +322,7 @@ func getKnowledgeBaseIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func knowledgeBaseSweepWaitCondition(response common.OCIOperationResponse) bool {
+func AdmknowledgeBasesSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if knowledgeBaseResponse, ok := response.Response.(oci_adm.GetKnowledgeBaseResponse); ok {
 		return knowledgeBaseResponse.LifecycleState != oci_adm.KnowledgeBaseLifecycleStateDeleted
@@ -330,7 +330,7 @@ func knowledgeBaseSweepWaitCondition(response common.OCIOperationResponse) bool 
 	return false
 }
 
-func knowledgeBaseSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func AdmknowledgeBasesSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ApplicationDependencyManagementClient().GetKnowledgeBase(context.Background(), oci_adm.GetKnowledgeBaseRequest{
 		KnowledgeBaseId: resourceId,
 		RequestMetadata: common.RequestMetadata{

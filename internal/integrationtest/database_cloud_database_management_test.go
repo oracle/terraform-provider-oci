@@ -14,23 +14,23 @@ import (
 )
 
 var (
-	databaseManagementRepresentation = map[string]interface{}{
+	DatabaseCloudDatabaseManagementRepresentation = map[string]interface{}{
 		"database_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_databases.t.databases.0.id}`},
 		//Update: `ADVANCED` to be uncommented to explicitly call ModifyDatabaseManagement
 		"management_type":      acctest.Representation{RepType: acctest.Required, Create: `BASIC` /*, Update: `ADVANCED`*/},
 		"private_end_point_id": acctest.Representation{RepType: acctest.Required, Create: `ocid1.dbmgmtprivateendpoint.oc1.ap-hyderabad-1.amaaaaaacsc5xjaamlmllhfxmxict6jf3irizwsydralyklninmwsrovggkq`},
 		"service_name":         acctest.Representation{RepType: acctest.Required, Create: `DB0809_hyd17q.sub02231620340.dbmgmtcustomer.oraclevcn.com`},
-		"credentialdetails":    acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseCredentialDetailsRepresentation},
+		"credentialdetails":    acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseCloudDatabaseManagementCredentialDetailsRepresentation},
 		//Update: `false` to be uncommented to explicitly call DisableDatabaseManagement
 		"enable_management": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
 	}
 
-	databaseCredentialDetailsRepresentation = map[string]interface{}{
+	DatabaseCloudDatabaseManagementCredentialDetailsRepresentation = map[string]interface{}{
 		"user_name":          acctest.Representation{RepType: acctest.Required, Create: `dbsnmp`},
 		"password_secret_id": acctest.Representation{RepType: acctest.Required, Create: `ocid1.vaultsecret.oc1.ap-hyderabad-1.amaaaaaacsc5xjaa2q7r6kfzdm44ylxqwomht6uinb5zyhezka7sl2t62ecq`},
 	}
 
-	dbSystemForDatabaseManagementRepresentation = `
+	DatabaseCloudDatabaseManagementDbSystemForDatabaseManagementRepresentation = `
 		resource "oci_database_db_system" "t" {
 			availability_domain = "${var.availability_domain}"
 			compartment_id = "${var.compartment_id}"
@@ -133,13 +133,13 @@ func TestDatabaseCloudDatabaseManagementResource_basic(t *testing.T) {
 			// Create dbSystem
 			{
 				Config: config + compartmentIdVariableStr + domainNameVariableStr + subnetIdVariableStr +
-					availabilityDomainVariableStr + dbSystemForDatabaseManagementRepresentation,
+					availabilityDomainVariableStr + DatabaseCloudDatabaseManagementDbSystemForDatabaseManagementRepresentation,
 			},
 			// enable database management
 			{
 				Config: config + compartmentIdVariableStr + domainNameVariableStr + subnetIdVariableStr +
-					availabilityDomainVariableStr + dbSystemForDatabaseManagementRepresentation +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", acctest.Required, acctest.Create, databaseManagementRepresentation),
+					availabilityDomainVariableStr + DatabaseCloudDatabaseManagementDbSystemForDatabaseManagementRepresentation +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", acctest.Required, acctest.Create, DatabaseCloudDatabaseManagementRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.#", "1"),
 				),
@@ -147,8 +147,8 @@ func TestDatabaseCloudDatabaseManagementResource_basic(t *testing.T) {
 			// verify enable database management
 			{
 				Config: config + compartmentIdVariableStr + domainNameVariableStr + subnetIdVariableStr +
-					availabilityDomainVariableStr + dbSystemForDatabaseManagementRepresentation +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", acctest.Required, acctest.Create, databaseManagementRepresentation),
+					availabilityDomainVariableStr + DatabaseCloudDatabaseManagementDbSystemForDatabaseManagementRepresentation +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", acctest.Required, acctest.Create, DatabaseCloudDatabaseManagementRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.#", "1"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "db_name"),
@@ -159,14 +159,14 @@ func TestDatabaseCloudDatabaseManagementResource_basic(t *testing.T) {
 			// Update / disable database management
 			{
 				Config: config + compartmentIdVariableStr + domainNameVariableStr + subnetIdVariableStr +
-					availabilityDomainVariableStr + dbSystemForDatabaseManagementRepresentation +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", acctest.Required, acctest.Update, databaseManagementRepresentation),
+					availabilityDomainVariableStr + DatabaseCloudDatabaseManagementDbSystemForDatabaseManagementRepresentation +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", acctest.Required, acctest.Update, DatabaseCloudDatabaseManagementRepresentation),
 			},
 			// verify Update / disable database management
 			{
 				Config: config + compartmentIdVariableStr + domainNameVariableStr + subnetIdVariableStr +
-					availabilityDomainVariableStr + dbSystemForDatabaseManagementRepresentation +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", acctest.Required, acctest.Update, databaseManagementRepresentation),
+					availabilityDomainVariableStr + DatabaseCloudDatabaseManagementDbSystemForDatabaseManagementRepresentation +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", acctest.Required, acctest.Update, DatabaseCloudDatabaseManagementRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.#", "1"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "db_name"),

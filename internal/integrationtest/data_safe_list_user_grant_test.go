@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	listUserGrantDataSourceRepresentation = map[string]interface{}{
+	DataSafelistUserGrantDataSourceRepresentation = map[string]interface{}{
 		"user_assessment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_user_assessment.test_user_assessment.id}`},
 		"user_key":                             acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_data_safe_user_assessment_users.test_user_assessment_users.users[0], "key")}`},
 		"depth_level":                          acctest.Representation{RepType: acctest.Optional, Create: `10`},
@@ -28,8 +28,8 @@ var (
 		"privilege_type":                       acctest.Representation{RepType: acctest.Optional, Create: `privilegeType`},
 	}
 
-	ListUserGrantResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, userAssessmentRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment_users", "test_user_assessment_users", acctest.Required, acctest.Create, userAssessmentUserDataSourceRepresentation)
+	DataSafeListUserGrantResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, userAssessmentRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment_users", "test_user_assessment_users", acctest.Required, acctest.Create, DataSafeuserAssessmentUserDataSourceRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -44,16 +44,16 @@ func TestDataSafeListUserGrantResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_data_safe_list_user_grants.test_list_user_grants"
 
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ListUserGrantResourceConfig+
-		acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_list_user_grants", "test_list_user_grants", acctest.Required, acctest.Create, listUserGrantDataSourceRepresentation), "datasafe", "listUserGrants", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeListUserGrantResourceConfig+
+		acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_list_user_grants", "test_list_user_grants", acctest.Required, acctest.Create, DataSafelistUserGrantDataSourceRepresentation), "datasafe", "listUserGrants", t)
 	acctest.SaveConfigContent("", "", "", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_list_user_grants", "test_list_user_grants", acctest.Required, acctest.Create, listUserGrantDataSourceRepresentation) +
-				compartmentIdVariableStr + ListUserGrantResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_list_user_grants", "test_list_user_grants", acctest.Required, acctest.Create, DataSafelistUserGrantDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeListUserGrantResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessment_id"),
 

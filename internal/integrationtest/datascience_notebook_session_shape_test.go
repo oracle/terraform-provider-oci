@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	notebookSessionShapeDataSourceRepresentation = map[string]interface{}{
+	DatascienceDatascienceNotebookSessionShapeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	NotebookSessionShapeResourceConfig = ""
+	DatascienceNotebookSessionShapeResourceConfig = ""
 )
 
 // issue-routing-tag: datascience/default
@@ -41,8 +41,8 @@ func TestDatascienceNotebookSessionShapeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_notebook_session_shapes", "test_notebook_session_shapes", acctest.Required, acctest.Create, notebookSessionShapeDataSourceRepresentation) +
-				compartmentIdVariableStr + NotebookSessionShapeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_notebook_session_shapes", "test_notebook_session_shapes", acctest.Required, acctest.Create, DatascienceDatascienceNotebookSessionShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + DatascienceNotebookSessionShapeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

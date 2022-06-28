@@ -102,7 +102,7 @@ func TestResourceKmsKeyRestore_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + DefinedTagsDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(keyRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(KmsKeyRepresentation, map[string]interface{}{
 						"restore_from_object_store": acctest.RepresentationGroup{RepType: acctest.Required, Group: keyrestoreFromObjectUriBackupLocationRepresentation}})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),

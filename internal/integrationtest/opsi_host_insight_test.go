@@ -26,32 +26,32 @@ import (
 )
 
 var (
-	HostInsightRequiredOnlyResource = HostInsightResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Required, acctest.Create, hostInsightRepresentation)
+	OpsiHostInsightRequiredOnlyResource = OpsiHostInsightResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Required, acctest.Create, OpsiHostInsightRepresentation)
 
-	HostInsightResourceConfig = HostInsightResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Optional, acctest.Update, hostInsightRepresentation)
+	OpsiHostInsightResourceConfig = OpsiHostInsightResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Optional, acctest.Update, OpsiHostInsightRepresentation)
 
-	hostInsightSingularDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiHostInsightSingularDataSourceRepresentation = map[string]interface{}{
 		"host_insight_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_host_insight.test_host_insight.id}`},
 	}
 
-	hostInsightDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiHostInsightDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"host_type":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`EXTERNAL-HOST`}},
 		"id":                        acctest.Representation{RepType: acctest.Optional, Create: `${oci_opsi_host_insight.test_host_insight.id}`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
 		"status":                    acctest.Representation{RepType: acctest.Optional, Create: []string{`Enabled`}, Update: []string{`DISABLED`}},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: hostInsightDataSourceFilterRepresentation},
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: OpsiHostInsightDataSourceFilterRepresentation},
 	}
 
-	hostInsightDataSourceFilterRepresentation = map[string]interface{}{
+	OpsiHostInsightDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_opsi_host_insight.test_host_insight.id}`}},
 	}
 
-	hostInsightRepresentation = map[string]interface{}{
+	OpsiHostInsightRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"entity_source":       acctest.Representation{RepType: acctest.Required, Create: `MACS_MANAGED_EXTERNAL_HOST`},
 		"management_agent_id": acctest.Representation{RepType: acctest.Required, Create: `${var.managed_agent_id}`},
@@ -65,7 +65,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	HostInsightResourceDependencies = DefinedTagsDependencies
+	OpsiHostInsightResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: opsi/controlPlane
@@ -93,14 +93,14 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+managementAgentIdVariableStr+HostInsightResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Optional, acctest.Create, hostInsightRepresentation), "opsi", "hostInsight", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+managementAgentIdVariableStr+OpsiHostInsightResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Optional, acctest.Create, OpsiHostInsightRepresentation), "opsi", "hostInsight", t)
 
 	acctest.ResourceTest(t, testAccCheckOpsiHostInsightDestroy, []resource.TestStep{
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Optional, acctest.Create, hostInsightRepresentation),
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + OpsiHostInsightResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Optional, acctest.Create, OpsiHostInsightRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "entity_source", "MACS_MANAGED_EXTERNAL_HOST"),
@@ -126,9 +126,9 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + compartmentIdUVariableStr + HostInsightResourceDependencies +
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + compartmentIdUVariableStr + OpsiHostInsightResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(hostInsightRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(OpsiHostInsightRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -154,8 +154,8 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Optional, acctest.Update, hostInsightRepresentation),
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + OpsiHostInsightResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Optional, acctest.Update, OpsiHostInsightRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "entity_source", "MACS_MANAGED_EXTERNAL_HOST"),
@@ -180,9 +180,9 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_host_insights", "test_host_insights", acctest.Optional, acctest.Update, hostInsightDataSourceRepresentation) +
-				compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Optional, acctest.Update, hostInsightRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_host_insights", "test_host_insights", acctest.Optional, acctest.Update, OpsiOpsiHostInsightDataSourceRepresentation) +
+				compartmentIdVariableStr + managementAgentIdVariableStr + OpsiHostInsightResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Optional, acctest.Update, OpsiHostInsightRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
@@ -198,8 +198,8 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Required, acctest.Create, hostInsightSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Required, acctest.Create, OpsiOpsiHostInsightSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + managementAgentIdVariableStr + OpsiHostInsightResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "host_insight_id"),
 
@@ -223,9 +223,9 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 		},
 		// Verify enable operation
 		{
-			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + OpsiHostInsightResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(hostInsightRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(OpsiHostInsightRepresentation, map[string]interface{}{
 						"status": acctest.Representation{RepType: acctest.Required, Update: `ENABLED`},
 					})),
 
@@ -242,7 +242,7 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + HostInsightRequiredOnlyResource,
+			Config:                  config + OpsiHostInsightRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -306,7 +306,7 @@ func init() {
 
 func sweepOpsiHostInsightResource(compartment string) error {
 	operationsInsightsClient := acctest.GetTestClients(&schema.ResourceData{}).OperationsInsightsClient()
-	hostInsightIds, err := getHostInsightIds(compartment)
+	hostInsightIds, err := getOpsiHostInsightIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -322,7 +322,7 @@ func sweepOpsiHostInsightResource(compartment string) error {
 				continue
 			}
 			acctest.WaitTillCondition(acctest.TestAccProvider, &hostInsightId, hostInsightDisableSweepWaitCondition, time.Duration(3*time.Minute),
-				hostInsightSweepResponseFetchOperation, "opsi", true)
+				OpsiHostInsightSweepResponseFetchOperation, "opsi", true)
 
 			deleteHostInsightRequest := oci_opsi.DeleteHostInsightRequest{}
 
@@ -334,14 +334,14 @@ func sweepOpsiHostInsightResource(compartment string) error {
 				fmt.Printf("Error deleting HostInsight %s %s, It is possible that the resource is already deleted. Please verify manually \n", hostInsightId, error1)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &hostInsightId, hostInsightSweepWaitCondition, time.Duration(3*time.Minute),
-				hostInsightSweepResponseFetchOperation, "opsi", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &hostInsightId, OpsiHostInsightSweepWaitCondition, time.Duration(3*time.Minute),
+				OpsiHostInsightSweepResponseFetchOperation, "opsi", true)
 		}
 	}
 	return nil
 }
 
-func getHostInsightIds(compartment string) ([]string, error) {
+func getOpsiHostInsightIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "HostInsightId")
 	if ids != nil {
 		return ids, nil
@@ -366,7 +366,7 @@ func getHostInsightIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func hostInsightSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OpsiHostInsightSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if hostInsightResponse, ok := response.Response.(oci_opsi.GetHostInsightResponse); ok {
 		return hostInsightResponse.GetLifecycleState() != oci_opsi.LifecycleStateDeleted
@@ -374,7 +374,7 @@ func hostInsightSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func hostInsightSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OpsiHostInsightSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.OperationsInsightsClient().GetHostInsight(context.Background(), oci_opsi.GetHostInsightRequest{
 		HostInsightId: resourceId,
 		RequestMetadata: common.RequestMetadata{

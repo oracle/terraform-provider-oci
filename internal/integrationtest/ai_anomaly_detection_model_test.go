@@ -247,7 +247,7 @@ func TestAiAnomalyDetectionModelResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ModelRequiredOnlyResource,
+			Config:                  config + AiAnomalyDetectionModelRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

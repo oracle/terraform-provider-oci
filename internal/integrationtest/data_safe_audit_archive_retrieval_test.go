@@ -26,17 +26,17 @@ import (
 )
 
 var (
-	AuditArchiveRetrievalRequiredOnlyResource = AuditArchiveRetrievalResourceDependencies +
+	DataSafeAuditArchiveRetrievalRequiredOnlyResource = DataSafeAuditArchiveRetrievalResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Required, acctest.Create, auditArchiveRetrievalRepresentation)
 
-	AuditArchiveRetrievalResourceConfig = AuditArchiveRetrievalResourceDependencies +
+	DataSafeAuditArchiveRetrievalResourceConfig = DataSafeAuditArchiveRetrievalResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Optional, acctest.Update, auditArchiveRetrievalRepresentation)
 
-	auditArchiveRetrievalSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditArchiveRetrievalSingularDataSourceRepresentation = map[string]interface{}{
 		"audit_archive_retrieval_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_audit_archive_retrieval.test_audit_archive_retrieval.id}`},
 	}
 
-	auditArchiveRetrievalDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditArchiveRetrievalDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":               acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"audit_archive_retrieval_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_audit_archive_retrieval.test_audit_archive_retrieval.id}`},
@@ -62,7 +62,7 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	AuditArchiveRetrievalResourceDependencies = DefinedTagsDependencies
+	DataSafeAuditArchiveRetrievalResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -85,13 +85,13 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+AuditArchiveRetrievalResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeAuditArchiveRetrievalResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Optional, acctest.Create, auditArchiveRetrievalRepresentation), "datasafe", "auditArchiveRetrieval", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeAuditArchiveRetrievalDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + AuditArchiveRetrievalResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Required, acctest.Create, auditArchiveRetrievalRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -108,11 +108,11 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + AuditArchiveRetrievalResourceDependencies,
+			Config: config + compartmentIdVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + AuditArchiveRetrievalResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Optional, acctest.Create, auditArchiveRetrievalRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -139,7 +139,7 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AuditArchiveRetrievalResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(auditArchiveRetrievalRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -167,7 +167,7 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + AuditArchiveRetrievalResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Optional, acctest.Update, auditArchiveRetrievalRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -192,8 +192,8 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_archive_retrievals", "test_audit_archive_retrievals", acctest.Optional, acctest.Update, auditArchiveRetrievalDataSourceRepresentation) +
-				compartmentIdVariableStr + AuditArchiveRetrievalResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_archive_retrievals", "test_audit_archive_retrievals", acctest.Optional, acctest.Update, DataSafeauditArchiveRetrievalDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Optional, acctest.Update, auditArchiveRetrievalRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
@@ -211,8 +211,8 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Required, acctest.Create, auditArchiveRetrievalSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AuditArchiveRetrievalResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Required, acctest.Create, DataSafeauditArchiveRetrievalSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeAuditArchiveRetrievalResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "audit_archive_retrieval_id"),
 
@@ -233,7 +233,7 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + AuditArchiveRetrievalResourceConfig,
+			Config: config + compartmentIdVariableStr + DataSafeAuditArchiveRetrievalResourceConfig,
 		},
 		// verify resource import
 		{
@@ -301,7 +301,7 @@ func init() {
 
 func sweepDataSafeAuditArchiveRetrievalResource(compartment string) error {
 	dataSafeClient := acctest.GetTestClients(&schema.ResourceData{}).DataSafeClient()
-	auditArchiveRetrievalIds, err := getAuditArchiveRetrievalIds(compartment)
+	auditArchiveRetrievalIds, err := getDataSafeAuditArchiveRetrievalIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -317,14 +317,14 @@ func sweepDataSafeAuditArchiveRetrievalResource(compartment string) error {
 				fmt.Printf("Error deleting AuditArchiveRetrieval %s %s, It is possible that the resource is already deleted. Please verify manually \n", auditArchiveRetrievalId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &auditArchiveRetrievalId, auditArchiveRetrievalSweepWaitCondition, time.Duration(3*time.Minute),
-				auditArchiveRetrievalSweepResponseFetchOperation, "data_safe", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &auditArchiveRetrievalId, DataSafeauditArchiveRetrievalsSweepWaitCondition, time.Duration(3*time.Minute),
+				DataSafeauditArchiveRetrievalsSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
 	return nil
 }
 
-func getAuditArchiveRetrievalIds(compartment string) ([]string, error) {
+func getDataSafeAuditArchiveRetrievalIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "AuditArchiveRetrievalId")
 	if ids != nil {
 		return ids, nil
@@ -349,7 +349,7 @@ func getAuditArchiveRetrievalIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func auditArchiveRetrievalSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataSafeauditArchiveRetrievalsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if auditArchiveRetrievalResponse, ok := response.Response.(oci_data_safe.GetAuditArchiveRetrievalResponse); ok {
 		return auditArchiveRetrievalResponse.LifecycleState != oci_data_safe.AuditArchiveRetrievalLifecycleStateDeleted
@@ -357,7 +357,7 @@ func auditArchiveRetrievalSweepWaitCondition(response common.OCIOperationRespons
 	return false
 }
 
-func auditArchiveRetrievalSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataSafeauditArchiveRetrievalsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataSafeClient().GetAuditArchiveRetrieval(context.Background(), oci_data_safe.GetAuditArchiveRetrievalRequest{
 		AuditArchiveRetrievalId: resourceId,
 		RequestMetadata: common.RequestMetadata{

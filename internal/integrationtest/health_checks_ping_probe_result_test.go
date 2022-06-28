@@ -18,15 +18,15 @@ import (
 )
 
 var (
-	pringProbeStartTime                     = time.Now()
-	pingProbeResultDataSourceRepresentation = map[string]interface{}{
+	pringProbeStartTime                                             = time.Now()
+	HealthChecksHealthChecksPingProbeResultDataSourceRepresentation = map[string]interface{}{
 		"probe_configuration_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_health_checks_ping_monitor.test_ping_monitor.id}`},
 		"start_time_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: strconv.FormatInt(pringProbeStartTime.UnixNano()/(int64(time.Millisecond)/int64(time.Nanosecond)), 10)},
 		"start_time_less_than_or_equal_to":    acctest.Representation{RepType: acctest.Optional, Create: strconv.FormatInt(pringProbeStartTime.Add(30*time.Minute).UnixNano()/(int64(time.Millisecond)/int64(time.Nanosecond)), 10)},
 		"target":                              acctest.Representation{RepType: acctest.Optional, Create: `www.oracle.com`},
 	}
 
-	PingProbeResultResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Required, acctest.Create, pingMonitorRepresentation)
+	HealthChecksPingProbeResultResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Required, acctest.Create, HealthChecksPingMonitorRepresentation)
 )
 
 // issue-routing-tag: health_checks/default
@@ -46,7 +46,7 @@ func TestHealthChecksPingProbeResultResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config + compartmentIdVariableStr + PingProbeResultResourceConfig,
+			Config: config + compartmentIdVariableStr + HealthChecksPingProbeResultResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
 					if httpreplay.ShouldRetryImmediately() {
@@ -60,8 +60,8 @@ func TestHealthChecksPingProbeResultResource_basic(t *testing.T) {
 		},
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_health_checks_ping_probe_results", "test_ping_probe_results", acctest.Optional, acctest.Create, pingProbeResultDataSourceRepresentation) +
-				compartmentIdVariableStr + PingProbeResultResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_health_checks_ping_probe_results", "test_ping_probe_results", acctest.Optional, acctest.Create, HealthChecksHealthChecksPingProbeResultDataSourceRepresentation) +
+				compartmentIdVariableStr + HealthChecksPingProbeResultResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "probe_configuration_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "start_time_greater_than_or_equal_to"),

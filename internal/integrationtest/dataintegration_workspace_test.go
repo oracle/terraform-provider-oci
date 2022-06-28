@@ -26,26 +26,26 @@ import (
 )
 
 var (
-	WorkspaceRequiredOnlyResource = WorkspaceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Required, acctest.Create, workspaceRepresentation)
+	DataintegrationWorkspaceRequiredOnlyResource = DataintegrationWorkspaceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Required, acctest.Create, DataintegrationWorkspaceRepresentation)
 
-	WorkspaceResourceConfig = WorkspaceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Optional, acctest.Update, workspaceRepresentation)
+	DataintegrationWorkspaceResourceConfig = DataintegrationWorkspaceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Optional, acctest.Update, DataintegrationWorkspaceRepresentation)
 
-	workspaceSingularDataSourceRepresentation = map[string]interface{}{
+	DataintegrationDataintegrationWorkspaceSingularDataSourceRepresentation = map[string]interface{}{
 		"workspace_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dataintegration_workspace.test_workspace.id}`},
 	}
 
-	workspaceDataSourceRepresentation = map[string]interface{}{
+	DataintegrationDataintegrationWorkspaceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: workspaceDataSourceFilterRepresentation}}
-	workspaceDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DataintegrationWorkspaceDataSourceFilterRepresentation}}
+	DataintegrationWorkspaceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_dataintegration_workspace.test_workspace.id}`}},
 	}
 
-	workspaceRepresentation = map[string]interface{}{
+	DataintegrationWorkspaceRepresentation = map[string]interface{}{
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -56,8 +56,8 @@ var (
 		"vcn_id":                     acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 
-	WorkspaceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`}})) +
+	DataintegrationWorkspaceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`}})) +
 		DefinedTagsDependencies
 )
 
@@ -80,14 +80,14 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+WorkspaceResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Optional, acctest.Create, workspaceRepresentation), "dataintegration", "workspace", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataintegrationWorkspaceResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Optional, acctest.Create, DataintegrationWorkspaceRepresentation), "dataintegration", "workspace", t)
 
 	acctest.ResourceTest(t, testAccCheckDataintegrationWorkspaceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("is_private_network_enabled", acctest.Representation{RepType: acctest.Required, Create: `false`}, workspaceRepresentation)),
+			Config: config + compartmentIdVariableStr + DataintegrationWorkspaceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("is_private_network_enabled", acctest.Representation{RepType: acctest.Required, Create: `false`}, DataintegrationWorkspaceRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -102,12 +102,12 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies,
+			Config: config + compartmentIdVariableStr + DataintegrationWorkspaceResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Optional, acctest.Create, workspaceRepresentation),
+			Config: config + compartmentIdVariableStr + DataintegrationWorkspaceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Optional, acctest.Create, DataintegrationWorkspaceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -130,9 +130,9 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WorkspaceResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataintegrationWorkspaceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(workspaceRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DataintegrationWorkspaceRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -155,8 +155,8 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Optional, acctest.Update, workspaceRepresentation),
+			Config: config + compartmentIdVariableStr + DataintegrationWorkspaceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Optional, acctest.Update, DataintegrationWorkspaceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -179,9 +179,9 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dataintegration_workspaces", "test_workspaces", acctest.Optional, acctest.Update, workspaceDataSourceRepresentation) +
-				compartmentIdVariableStr + WorkspaceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Optional, acctest.Update, workspaceRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dataintegration_workspaces", "test_workspaces", acctest.Optional, acctest.Update, DataintegrationDataintegrationWorkspaceDataSourceRepresentation) +
+				compartmentIdVariableStr + DataintegrationWorkspaceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Optional, acctest.Update, DataintegrationWorkspaceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -200,8 +200,8 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Required, acctest.Create, workspaceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + WorkspaceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", acctest.Required, acctest.Create, DataintegrationDataintegrationWorkspaceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataintegrationWorkspaceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "workspace_id"),
 
@@ -219,7 +219,7 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + WorkspaceRequiredOnlyResource,
+			Config:                  config + DataintegrationWorkspaceRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"is_private_network_enabled", "state_message"},
@@ -283,7 +283,7 @@ func init() {
 
 func sweepDataintegrationWorkspaceResource(compartment string) error {
 	dataIntegrationClient := acctest.GetTestClients(&schema.ResourceData{}).DataIntegrationClient()
-	workspaceIds, err := getWorkspaceIds(compartment)
+	workspaceIds, err := getDataintegrationWorkspaceIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -299,14 +299,14 @@ func sweepDataintegrationWorkspaceResource(compartment string) error {
 				fmt.Printf("Error deleting Workspace %s %s, It is possible that the resource is already deleted. Please verify manually \n", workspaceId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &workspaceId, workspaceSweepWaitCondition, time.Duration(3*time.Minute),
-				workspaceSweepResponseFetchOperation, "dataintegration", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &workspaceId, DataintegrationWorkspaceSweepWaitCondition, time.Duration(3*time.Minute),
+				DataintegrationWorkspaceSweepResponseFetchOperation, "dataintegration", true)
 		}
 	}
 	return nil
 }
 
-func getWorkspaceIds(compartment string) ([]string, error) {
+func getDataintegrationWorkspaceIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "WorkspaceId")
 	if ids != nil {
 		return ids, nil
@@ -331,7 +331,7 @@ func getWorkspaceIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func workspaceSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataintegrationWorkspaceSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if workspaceResponse, ok := response.Response.(oci_dataintegration.GetWorkspaceResponse); ok {
 		return workspaceResponse.LifecycleState != oci_dataintegration.WorkspaceLifecycleStateDeleted
@@ -339,7 +339,7 @@ func workspaceSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func workspaceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataintegrationWorkspaceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataIntegrationClient().GetWorkspace(context.Background(), oci_dataintegration.GetWorkspaceRequest{
 		WorkspaceId: resourceId,
 		RequestMetadata: common.RequestMetadata{

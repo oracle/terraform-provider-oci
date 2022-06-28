@@ -38,8 +38,8 @@ func (s *ResourcePrivateIPTestSuite) SetupTest() {
 		instance_id = "${oci_core_instance.t.id}"
 	}`
 	s.VlanConfig = acctest.LegacyTestProviderConfig() +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Required, acctest.Create, vlanRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Required, acctest.Create, CoreVlanRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig + DefinedTagsDependencies
 
 	s.ResourceName = "oci_core_private_ip.t"

@@ -25,26 +25,26 @@ import (
 )
 
 var (
-	ConfigRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_span_filter", acctest.Required, acctest.Create, configSpanFilterRepresentation)
+	ApmConfigConfigRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_span_filter", acctest.Required, acctest.Create, configSpanFilterRepresentation)
 
-	ConfigResourceSpanFilter = ConfigResourceDependencies +
+	ApmConfigConfigResourceSpanFilter = ApmConfigConfigResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_span_filter", acctest.Optional, acctest.Update, configSpanFilterRepresentation)
 
-	ConfigDataResourceSpanFilter = acctest.GenerateDataSourceFromRepresentationMap("oci_apm_config_config", "test_span_filter", acctest.Required, acctest.Create, configSpanFilterSingularDataSourceRepresentation)
+	ApmConfigConfigDataResourceSpanFilter = acctest.GenerateDataSourceFromRepresentationMap("oci_apm_config_config", "test_span_filter", acctest.Required, acctest.Create, ApmConfigconfigSingularDataSourceRepresentation)
 
-	configSpanFilterSingularDataSourceRepresentation = map[string]interface{}{
+	ApmConfigconfigSingularDataSourceRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"config_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_config_config.test_span_filter.id}`},
 	}
 
-	configSpanFilterDataSourceRepresentation = map[string]interface{}{
+	ApmConfigconfigSpanFilterDataSourceRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"config_type":   acctest.Representation{RepType: acctest.Optional, Create: configTypeSpanFilter, Update: configTypeSpanFilter},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"filter":        acctest.RepresentationGroup{RepType: acctest.Required, Group: configSpanFilterDataSourceFilterRepresentation},
+		"filter":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ApmConfigconfigSpanFilterDataSourceFilterRepresentation},
 	}
 
-	configSpanFilterDataSourceFilterRepresentation = map[string]interface{}{
+	ApmConfigconfigSpanFilterDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${data.oci_apm_config_config.test_span_filter.id}`}},
 	}
@@ -64,7 +64,7 @@ var (
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	ConfigResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", acctest.Required, acctest.Create, apmDomainRepresentation) +
+	ApmConfigConfigResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", acctest.Required, acctest.Create, apmDomainRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -85,7 +85,7 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ConfigResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApmConfigConfigResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_span_filter", acctest.Optional, acctest.Create, configSpanFilterRepresentation), "apmconfig", "config", t)
 
 	resource.Test(t, resource.TestCase{
@@ -98,7 +98,7 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 			// Find these steps in the test log easily with "Executing step (number)"
 			// Step 0: verify create Span Filter
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies +
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_span_filter", acctest.Required, acctest.Create, configSpanFilterRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
@@ -115,11 +115,11 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 			},
 			// Step 1: delete Span Filter before next create
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies,
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies,
 			},
 			// Step 2: verify create Span Filter with optionals
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies +
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_span_filter", acctest.Optional, acctest.Create, configSpanFilterRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
@@ -143,7 +143,7 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 			},
 			// Step 3: verify updates to Span Filter updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies +
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_span_filter", acctest.Optional, acctest.Update, configSpanFilterRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
@@ -166,8 +166,8 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 			// Step 4: verify datasource (span filter)
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_apm_config_configs", "test_span_filters", acctest.Optional, acctest.Update, configSpanFilterDataSourceRepresentation) +
-					compartmentIdVariableStr + ConfigResourceSpanFilter + ConfigDataResourceSpanFilter,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_apm_config_configs", "test_span_filters", acctest.Optional, acctest.Update, ApmConfigconfigSpanFilterDataSourceRepresentation) +
+					compartmentIdVariableStr + ApmConfigConfigResourceSpanFilter + ApmConfigConfigDataResourceSpanFilter,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttr(datasourceName, "config_type", configTypeSpanFilter),
@@ -178,7 +178,7 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 			},
 			// Step 5 verify singular datasource (span filter)
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceSpanFilter + ConfigDataResourceSpanFilter,
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceSpanFilter + ApmConfigConfigDataResourceSpanFilter,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "config_id"),
@@ -194,11 +194,11 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 			},
 			// Step 6 remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceSpanFilter,
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceSpanFilter,
 			},
 			// Step 7 verify resource import
 			{
-				Config:            config + ConfigRequiredOnlyResource,
+				Config:            config + ApmConfigConfigRequiredOnlyResource,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

@@ -29,6 +29,11 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
   ocpu_count                      = var.cloud_vm_cluster_ocpu_count
   scan_listener_port_tcp          = var.cloud_vm_cluster_scan_listener_port_tcp
   scan_listener_port_tcp_ssl      = var.cloud_vm_cluster_scan_listener_port_tcp_ssl
+
+  data_collection_options {
+    #Optional
+    is_diagnostics_events_enabled = "true"
+  }
 }
 
 resource "oci_database_db_home" "test_db_home_vm_cluster" {

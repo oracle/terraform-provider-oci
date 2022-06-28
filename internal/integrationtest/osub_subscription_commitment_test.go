@@ -16,12 +16,12 @@ import (
 )
 
 var (
-	commitmentSingularDataSourceRepresentation = map[string]interface{}{
+	OsubSubscriptionOsubSubscriptionCommitmentSingularDataSourceRepresentation = map[string]interface{}{
 		"commitment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.commitment_id}`},
 		"x_one_origin_region": acctest.Representation{RepType: acctest.Required, Create: `${var.x_one_origin_region}`},
 	}
 
-	commitmentDataSourceRepresentation = map[string]interface{}{
+	OsubSubscriptionOsubSubscriptionCommitmentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"subscribed_service_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subscribed_service_id}`},
 		"x_one_origin_region":   acctest.Representation{RepType: acctest.Required, Create: `${var.x_one_origin_region}`},
@@ -56,7 +56,7 @@ func TestOsubSubscriptionCommitmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_subscription_commitments", "test_commitments", acctest.Required, acctest.Create, commitmentDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_subscription_commitments", "test_commitments", acctest.Required, acctest.Create, OsubSubscriptionOsubSubscriptionCommitmentDataSourceRepresentation) +
 				compartmentIdVariableStr + subsServIdVariableStr + oneRegionVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -76,7 +76,7 @@ func TestOsubSubscriptionCommitmentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_subscription_commitment", "test_commitment", acctest.Required, acctest.Create, commitmentSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_subscription_commitment", "test_commitment", acctest.Required, acctest.Create, OsubSubscriptionOsubSubscriptionCommitmentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + commitmentIdVariableStr + oneRegionVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "commitment_id"),

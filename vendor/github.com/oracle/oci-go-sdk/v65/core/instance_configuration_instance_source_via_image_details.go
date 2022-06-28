@@ -29,6 +29,15 @@ type InstanceConfigurationInstanceSourceViaImageDetails struct {
 
 	// The OCID of the image used to boot the instance.
 	ImageId *string `mandatory:"false" json:"imageId"`
+
+	// The number of volume performance units (VPUs) that will be applied to this volume per GB,
+	// representing the Block Volume service's elastic performance options.
+	// See Block Volume Performance Levels (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
+	// Allowed values:
+	//   * `10`: Represents Balanced option.
+	//   * `20`: Represents Higher Performance option.
+	//   * `30`-`120`: Represents the Ultra High Performance option.
+	BootVolumeVpusPerGB *int64 `mandatory:"false" json:"bootVolumeVpusPerGB"`
 }
 
 func (m InstanceConfigurationInstanceSourceViaImageDetails) String() string {

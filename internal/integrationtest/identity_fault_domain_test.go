@@ -16,12 +16,12 @@ import (
 )
 
 var (
-	faultDomainDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityFaultDomainDataSourceRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	FaultDomainResourceConfig = AvailabilityDomainConfig
+	IdentityFaultDomainResourceConfig = AvailabilityDomainConfig
 )
 
 // issue-routing-tag: identity/default
@@ -42,8 +42,8 @@ func TestIdentityFaultDomainResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_fault_domains", "test_fault_domains", acctest.Required, acctest.Create, faultDomainDataSourceRepresentation) +
-				compartmentIdVariableStr + FaultDomainResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_fault_domains", "test_fault_domains", acctest.Required, acctest.Create, IdentityIdentityFaultDomainDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityFaultDomainResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(datasourceName, "availability_domain", regexp.MustCompile(`\w+-AD-\d+`)),
 				resource.TestMatchResourceAttr(datasourceName, "compartment_id", regexp.MustCompile(`.*?(tenancy|compartment).*?`)),

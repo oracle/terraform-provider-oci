@@ -27,13 +27,13 @@ import (
 )
 
 var (
-	VbInstanceRequiredOnlyResource = VbInstanceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Required, acctest.Create, vbInstanceRepresentation)
+	VisualBuilderVbInstanceRequiredOnlyResource = VisualBuilderVbInstanceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Required, acctest.Create, VisualBuilderVbInstanceRepresentation)
 
-	VbInstanceResourceConfig = VbInstanceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Update, vbInstanceRepresentation)
+	VisualBuilderVbInstanceResourceConfig = VisualBuilderVbInstanceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Update, VisualBuilderVbInstanceRepresentation)
 
-	vbInstanceSingularDataSourceRepresentation = map[string]interface{}{
+	VisualBuilderVisualBuilderVbInstanceSingularDataSourceRepresentation = map[string]interface{}{
 		"vb_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_visual_builder_vb_instance.test_vb_instance.id}`},
 	}
 
@@ -42,39 +42,39 @@ var (
 		"idcs_open_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
 	}
 
-	vbInstanceDataSourceRepresentation = map[string]interface{}{
+	VisualBuilderVisualBuilderVbInstanceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: vbInstanceDataSourceFilterRepresentation}}
-	vbInstanceDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: VisualBuilderVbInstanceDataSourceFilterRepresentation}}
+	VisualBuilderVbInstanceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_visual_builder_vb_instance.test_vb_instance.id}`}},
 	}
 
-	vbInstanceRepresentation = map[string]interface{}{
+	VisualBuilderVbInstanceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"node_count":     acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 		// Not supported yet
-		// "alternate_custom_endpoints": RepresentationGroup{Optional, vbInstanceAlternateCustomEndpointsRepresentation},
+		// "alternate_custom_endpoints": RepresentationGroup{Optional, VisualBuilderVbInstanceAlternateCustomEndpointsRepresentation},
 		"consumption_model":         acctest.Representation{RepType: acctest.Optional, Create: `UCM`},
-		"custom_endpoint":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: vbInstanceCustomEndpointRepresentation},
+		"custom_endpoint":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: VisualBuilderVbInstanceCustomEndpointRepresentation},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"idcs_open_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
 		"is_visual_builder_enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
 	}
-	vbInstanceAlternateCustomEndpointsRepresentation = map[string]interface{}{
+	VisualBuilderVbInstanceAlternateCustomEndpointsRepresentation = map[string]interface{}{
 		"hostname":              acctest.Representation{RepType: acctest.Required, Create: `hostname.com`, Update: `hostname2.com`},
 		"certificate_secret_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_vault_secret.test_secret.id}`},
 	}
-	vbInstanceCustomEndpointRepresentation = map[string]interface{}{
+	VisualBuilderVbInstanceCustomEndpointRepresentation = map[string]interface{}{
 		"hostname":              acctest.Representation{RepType: acctest.Required, Create: `hostname.com`, Update: `hostname2.com`},
 		"certificate_secret_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.oci_vault_secret_id}`},
 	}
 
-	VbInstanceResourceDependencies = DefinedTagsDependencies
+	VisualBuilderVbInstanceResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: visual_builder/default
@@ -99,14 +99,14 @@ func TestVisualBuilderVbInstanceResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+VbInstanceResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Create, vbInstanceRepresentation), "visualbuilder", "vbInstance", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+VisualBuilderVbInstanceResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Create, VisualBuilderVbInstanceRepresentation), "visualbuilder", "vbInstance", t)
 
 	acctest.ResourceTest(t, testAccCheckVisualBuilderVbInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + idcsOpenIdVariableStr() + VbInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Required, acctest.Create, vbInstanceRepresentation),
+			Config: config + compartmentIdVariableStr + idcsOpenIdVariableStr() + VisualBuilderVbInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Required, acctest.Create, VisualBuilderVbInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -128,8 +128,8 @@ func TestVisualBuilderVbInstanceResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr +
 				idcsOpenIdVariableStr() +
 				vaultSecretIdStr +
-				VbInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Create, vbInstanceRepresentation),
+				VisualBuilderVbInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Create, VisualBuilderVbInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
 				//resource.TestCheckResourceAttrSet(resourceName, "alternate_custom_endpoints.0.certificate_secret_id"),
@@ -162,9 +162,9 @@ func TestVisualBuilderVbInstanceResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsOpenIdVariableStr() + vaultSecretIdStr + VbInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsOpenIdVariableStr() + vaultSecretIdStr + VisualBuilderVbInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(vbInstanceRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(VisualBuilderVbInstanceRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -197,8 +197,8 @@ func TestVisualBuilderVbInstanceResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + idcsOpenIdVariableStr() + vaultSecretIdStr + VbInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Update, vbInstanceRepresentation),
+			Config: config + compartmentIdVariableStr + idcsOpenIdVariableStr() + vaultSecretIdStr + VisualBuilderVbInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Update, VisualBuilderVbInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
 				//resource.TestCheckResourceAttrSet(resourceName, "alternate_custom_endpoints.0.certificate_secret_id"),
@@ -229,9 +229,9 @@ func TestVisualBuilderVbInstanceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_visual_builder_vb_instances", "test_vb_instances", acctest.Optional, acctest.Update, vbInstanceDataSourceRepresentation) +
-				compartmentIdVariableStr + idcsOpenIdVariableStr() + vaultSecretIdStr + VbInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Update, vbInstanceRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_visual_builder_vb_instances", "test_vb_instances", acctest.Optional, acctest.Update, VisualBuilderVisualBuilderVbInstanceDataSourceRepresentation) +
+				compartmentIdVariableStr + idcsOpenIdVariableStr() + vaultSecretIdStr + VisualBuilderVbInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Update, VisualBuilderVbInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -244,9 +244,9 @@ func TestVisualBuilderVbInstanceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Required, acctest.Create, vbInstanceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + idcsOpenIdVariableStr() + vaultSecretIdStr + VbInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Update, vbInstanceRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Required, acctest.Create, VisualBuilderVisualBuilderVbInstanceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + idcsOpenIdVariableStr() + vaultSecretIdStr + VisualBuilderVbInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Update, VisualBuilderVbInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vb_instance_id"),
 
@@ -273,8 +273,8 @@ func TestVisualBuilderVbInstanceResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_visual_builder_vb_instance_applications", "test_vb_instance_applications", acctest.Required, acctest.Create, vbInstanceApplicationsSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + idcsOpenIdVariableStr() + vaultSecretIdStr + VbInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Update, vbInstanceRepresentation),
+				compartmentIdVariableStr + idcsOpenIdVariableStr() + vaultSecretIdStr + VisualBuilderVbInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Update, VisualBuilderVbInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// Don't know what to test as the data source will be empty because there will be error using this idcs token
 				// The datasource returns {}
@@ -285,7 +285,7 @@ func TestVisualBuilderVbInstanceResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + VbInstanceRequiredOnlyResource,
+			Config:            config + VisualBuilderVbInstanceRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -351,7 +351,7 @@ func init() {
 
 func sweepVisualBuilderVbInstanceResource(compartment string) error {
 	vbInstanceClient := acctest.GetTestClients(&schema.ResourceData{}).VbInstanceClient()
-	vbInstanceIds, err := getVbInstanceIds(compartment)
+	vbInstanceIds, err := getVisualBuilderVbInstanceIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -367,14 +367,14 @@ func sweepVisualBuilderVbInstanceResource(compartment string) error {
 				fmt.Printf("Error deleting VbInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", vbInstanceId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &vbInstanceId, vbInstanceSweepWaitCondition, time.Duration(3*time.Minute),
-				vbInstanceSweepResponseFetchOperation, "visual_builder", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &vbInstanceId, VisualBuilderVbInstanceSweepWaitCondition, time.Duration(3*time.Minute),
+				VisualBuilderVbInstanceSweepResponseFetchOperation, "visual_builder", true)
 		}
 	}
 	return nil
 }
 
-func getVbInstanceIds(compartment string) ([]string, error) {
+func getVisualBuilderVbInstanceIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "VbInstanceId")
 	if ids != nil {
 		return ids, nil
@@ -399,7 +399,7 @@ func getVbInstanceIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func vbInstanceSweepWaitCondition(response common.OCIOperationResponse) bool {
+func VisualBuilderVbInstanceSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if vbInstanceResponse, ok := response.Response.(oci_visual_builder.GetVbInstanceResponse); ok {
 		return vbInstanceResponse.LifecycleState != oci_visual_builder.VbInstanceLifecycleStateDeleted
@@ -407,7 +407,7 @@ func vbInstanceSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func vbInstanceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func VisualBuilderVbInstanceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VbInstanceClient().GetVbInstance(context.Background(), oci_visual_builder.GetVbInstanceRequest{
 		VbInstanceId: resourceId,
 		RequestMetadata: common.RequestMetadata{

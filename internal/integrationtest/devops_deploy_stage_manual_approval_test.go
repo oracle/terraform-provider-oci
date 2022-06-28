@@ -19,10 +19,10 @@ import (
 )
 
 var (
-	DeployManualApprovalStageRequiredOnlyResource = DeployStageResourceDependencies +
+	DeployManualApprovalStageRequiredOnlyResource = DevopsDeployStageResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Required, acctest.Create, deployManualApprovalStageRepresentation)
 
-	DeployManualApprovalStageResourceConfig = DeployStageResourceDependencies +
+	DeployManualApprovalStageResourceConfig = DevopsDeployStageResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Update, deployManualApprovalStageRepresentation)
 
 	deployManualApprovalStageSingularDataSourceRepresentation = map[string]interface{}{
@@ -30,7 +30,7 @@ var (
 	}
 
 	deployManualApprovalStageRepresentation = acctest.GetUpdatedRepresentationCopy("deploy_stage_type", acctest.Representation{RepType: acctest.Required, Create: `MANUAL_APPROVAL`},
-		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(deployStageRepresentation, []string{"wait_criteria"}), map[string]interface{}{
+		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DevopsDeployStageRepresentation, []string{"wait_criteria"}), map[string]interface{}{
 			"approval_policy": acctest.RepresentationGroup{RepType: acctest.Required, Group: deployStageApprovalPolicyRepresentation},
 		}))
 
@@ -56,13 +56,13 @@ func TestDevopsDeployStageResource_ManualApproval(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DeployStageResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DevopsDeployStageResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Create, deployManualApprovalStageRepresentation), "devops", "deployStage", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsDeployStageDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DeployStageResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsDeployStageResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Required, acctest.Create, deployManualApprovalStageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
@@ -83,11 +83,11 @@ func TestDevopsDeployStageResource_ManualApproval(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DeployStageResourceDependencies,
+			Config: config + compartmentIdVariableStr + DevopsDeployStageResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DeployStageResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsDeployStageResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Create, deployManualApprovalStageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -120,7 +120,7 @@ func TestDevopsDeployStageResource_ManualApproval(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DeployStageResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsDeployStageResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Update, deployManualApprovalStageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -149,8 +149,8 @@ func TestDevopsDeployStageResource_ManualApproval(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", acctest.Optional, acctest.Update, deployStageDataSourceRepresentation) +
-				compartmentIdVariableStr + DeployStageResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", acctest.Optional, acctest.Update, DevopsDevopsDeployStageDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsDeployStageResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Update, deployManualApprovalStageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

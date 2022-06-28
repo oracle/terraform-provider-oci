@@ -18,9 +18,9 @@ import (
 )
 
 var (
-	VolumeBackupCopyRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", acctest.Required, acctest.Create, volumeBackupWithSourceDetailsRepresentation)
+	VolumeBackupCopyRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", acctest.Required, acctest.Create, CoreVolumeBackupWithSourceDetailsRepresentation)
 
-	VolumeBackupCopyResourceDependencies = VolumeBackupResourceDependencies
+	VolumeBackupCopyResourceDependencies = CoreVolumeBackupResourceDependencies
 )
 
 // issue-routing-tag: core/blockStorage
@@ -50,7 +50,7 @@ func TestResourceCoreVolumeBackup_copy(t *testing.T) {
 		"region":           acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("source_region")},
 		"kms_key_id":       acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
-	volumeBackupWithSourceDetailsRepresentation = acctest.GetUpdatedRepresentationCopy("source_details", acctest.RepresentationGroup{RepType: acctest.Required, Group: volumeBackupSourceDetailsRepresentation}, volumeBackupWithSourceDetailsRepresentation)
+	CoreVolumeBackupWithSourceDetailsRepresentation = acctest.GetUpdatedRepresentationCopy("source_details", acctest.RepresentationGroup{RepType: acctest.Required, Group: volumeBackupSourceDetailsRepresentation}, CoreVolumeBackupWithSourceDetailsRepresentation)
 
 	var resId string
 
@@ -59,7 +59,7 @@ func TestResourceCoreVolumeBackup_copy(t *testing.T) {
 		{
 			Config: config +
 				compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", acctest.Required, acctest.Create, volumeBackupWithSourceDetailsRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", acctest.Required, acctest.Create, CoreVolumeBackupWithSourceDetailsRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceNameCopy, "volume_id"),
 
@@ -78,7 +78,7 @@ func TestResourceCoreVolumeBackup_copy(t *testing.T) {
 		{
 			Config: config +
 				compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", acctest.Optional, acctest.Create, volumeBackupWithSourceDetailsRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", acctest.Optional, acctest.Create, CoreVolumeBackupWithSourceDetailsRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceNameCopy, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceNameCopy, "display_name", "displayName"),
@@ -99,7 +99,7 @@ func TestResourceCoreVolumeBackup_copy(t *testing.T) {
 		{
 			Config: config +
 				compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", acctest.Optional, acctest.Update, volumeBackupWithSourceDetailsRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", acctest.Optional, acctest.Update, CoreVolumeBackupWithSourceDetailsRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceNameCopy, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceNameCopy, "display_name", "displayName2"),
@@ -122,9 +122,9 @@ func TestResourceCoreVolumeBackup_copy(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_volume_backups", "test_volume_backups", acctest.Optional, acctest.Update, volumeBackupFromSourceDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_volume_backups", "test_volume_backups", acctest.Optional, acctest.Update, CoreVolumeBackupFromSourceDataSourceRepresentation) +
 				compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", acctest.Optional, acctest.Update, volumeBackupWithSourceDetailsRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", acctest.Optional, acctest.Update, CoreVolumeBackupWithSourceDetailsRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

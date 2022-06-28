@@ -27,7 +27,7 @@ var (
 		"subnet_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 
-	InstanceWithPreemptibleInstanceConfigResourceConfig = InstanceResourceDependenciesWithoutDHV +
+	InstanceWithPreemptibleInstanceConfigResourceConfig = CoreInstanceResourceDependenciesWithoutDHV +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceWithPreemptibleInstanceConfigRepresentation)
 
 	instanceWithPreemtibleInstanceConfigDataSourceRepresentation = map[string]interface{}{
@@ -69,7 +69,7 @@ func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckCoreInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: acctest.ProviderTestConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
+			Config: acctest.ProviderTestConfig() + compartmentIdVariableStr + CoreInstanceResourceDependenciesWithoutDHV +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceWithPreemptibleInstanceConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -93,7 +93,7 @@ func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", acctest.Required, acctest.Create, instanceWithPreemtibleInstanceConfigDataSourceRepresentation) +
-				compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
+				compartmentIdVariableStr + CoreInstanceResourceDependenciesWithoutDHV +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceWithPreemptibleInstanceConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),

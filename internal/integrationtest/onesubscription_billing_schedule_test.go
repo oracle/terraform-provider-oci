@@ -16,14 +16,14 @@ import (
 )
 
 var (
-	onesubBillingScheduleDataSourceRepresentation = map[string]interface{}{
+	OnesubscriptionOnesubscriptionBillingScheduleDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"subscription_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
 		"subscribed_service_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.subscribed_service_id}`},
 	}
 
-	BillingScheduleResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_subscribed_services", "test_subscribed_services", acctest.Required, acctest.Create, subscribedServiceDataSourceRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_subscriptions", "test_subscriptions", acctest.Required, acctest.Create, subscriptionDataSourceRepresentation)
+	OnesubscriptionBillingScheduleResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_subscribed_services", "test_subscribed_services", acctest.Required, acctest.Create, OnesubscriptionOnesubscriptionSubscribedServiceDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_subscriptions", "test_subscriptions", acctest.Required, acctest.Create, OnsOnsSubscriptionDataSourceRepresentation)
 )
 
 // issue-routing-tag: onesubscription/default
@@ -48,7 +48,7 @@ func TestOnesubscriptionBillingScheduleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_billing_schedules", "test_billing_schedules", acctest.Required, acctest.Create, onesubBillingScheduleDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_billing_schedules", "test_billing_schedules", acctest.Required, acctest.Create, OnesubscriptionOnesubscriptionBillingScheduleDataSourceRepresentation) +
 				compartmentIdVariableStr + subscriptionIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
