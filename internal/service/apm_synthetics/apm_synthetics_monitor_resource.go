@@ -577,7 +577,6 @@ func (s *ApmSyntheticsMonitorResourceCrud) Create() error {
 		request.SchedulingPolicy = oci_apm_synthetics.SchedulingPolicyEnum(schedulingPolicy.(string))
 	}
 
-
 	if compositeId, ok := s.D.GetOkExists("script_id"); ok {
 		tmp := compositeId.(string)
 		scriptId, apmDomainId, err := parseScriptCompositeId(tmp)
