@@ -293,7 +293,7 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"apm_domain_id",
-				"batch_interval_in_seconds",
+				"batch_interval_in_seconds", //ignore as it does not apply to this case
 			},
 			ResourceName: resourceName,
 		},
