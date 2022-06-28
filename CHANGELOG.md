@@ -1,4 +1,4 @@
-## 4.82.0 (Unreleased)
+## 4.82.0 (June 28, 2022)
 
 ### Added
 - Data Plane Guest VM Events
