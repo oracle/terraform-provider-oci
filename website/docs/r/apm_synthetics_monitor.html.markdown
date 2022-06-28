@@ -25,10 +25,17 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
 	vantage_points = []
 
 	#Optional
+	batch_interval_in_seconds = var.monitor_batch_interval_in_seconds
 	configuration {
 
 		#Optional
 		config_type = var.monitor_configuration_config_type
+		dns_configuration {
+
+			#Optional
+			is_override_dns = var.monitor_configuration_dns_configuration_is_override_dns
+			override_dns_ip = var.monitor_configuration_dns_configuration_override_dns_ip
+		}
 		is_certificate_validation_enabled = var.monitor_configuration_is_certificate_validation_enabled
 		is_failure_retried = var.monitor_configuration_is_failure_retried
 		is_redirection_enabled = var.monitor_configuration_is_redirection_enabled
@@ -83,7 +90,9 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
 	}
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
+	is_run_now = var.monitor_is_run_now
 	is_run_once = var.monitor_is_run_once
+	scheduling_policy = var.monitor_scheduling_policy
 	script_id = oci_apm_synthetics_script.test_script.id
 	script_parameters {
 		#Required
@@ -101,12 +110,19 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
 The following arguments are supported:
 
 * `apm_domain_id` - (Required) (Updatable) The APM domain ID the request is intended for. 
+<<<<<<< ours
+* `batch_interval_in_seconds` - (Optional) (Updatable) Time interval between 2 runs in round robin batch mode (*SchedulingPolicy - BATCHED_ROUND_ROBIN).
+=======
 * `display_name` - (Required) (Updatable) Unique name that can be edited. The name should not contain any confidential information.
 * `monitor_type` - (Required) Type of monitor.
 * `repeat_interval_in_seconds` - (Required) (Updatable) Interval in seconds after the start time when the job should be repeated. Minimum repeatIntervalInSeconds should be 300 seconds.
 * `vantage_points` - (Required) (Updatable) A list of vantage points from which to execute the monitor. Use /publicVantagePoints to fetch public vantage points.
+>>>>>>> theirs
 * `configuration` - (Optional) (Updatable) Details of monitor configuration.
 	* `config_type` - (Optional) (Updatable) Type of configuration.
+	* `dns_configuration` - (Optional) (Updatable) Dns settings.
+		* `is_override_dns` - (Optional) (Updatable) If isOverrideDns is true, then dns will be overridden.
+		* `override_dns_ip` - (Optional) (Updatable) Override dns ip value. This value will be honored only if *ref-isOverrideDns is set to true.
 	* `is_certificate_validation_enabled` - (Applicable when config_type=BROWSER_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG) (Updatable) If certificate validation is enabled, then the call will fail in case of certification errors.
 	* `is_failure_retried` - (Optional) (Updatable) If isFailureRetried is enabled, then a failed call will be retried.
 	* `is_redirection_enabled` - (Applicable when config_type=REST_CONFIG) (Updatable) If redirection enabled, then redirects will be allowed while accessing target URL.
@@ -142,9 +158,11 @@ The following arguments are supported:
 		* `text` - (Applicable when config_type=BROWSER_CONFIG) (Updatable) Verification text in the response.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `is_run_now` - (Optional) (Updatable) If isRunNow is enabled, then the monitor will run now.
 * `is_run_once` - (Optional) (Updatable) If runOnce is enabled, then the monitor will run once.
 * `monitor_type` - (Required) Type of monitor.
 * `repeat_interval_in_seconds` - (Required) (Updatable) Interval in seconds after the start time when the job should be repeated. Minimum repeatIntervalInSeconds should be 300 seconds for Scripted REST, Scripted Browser and Browser monitors, and 60 seconds for REST monitor. 
+* `scheduling_policy` - (Optional) (Updatable) Scheduling policy on Vantage points.
 * `script_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the script. scriptId is mandatory for creation of SCRIPTED_BROWSER and SCRIPTED_REST monitor types. For other monitor types, it should be set to null. 
 * `script_parameters` - (Optional) (Updatable) List of script parameters in the monitor. This is valid only for SCRIPTED_BROWSER and SCRIPTED_REST monitor types. For other monitor types, it should be set to null. Example: `[{"paramName": "userid", "paramValue":"testuser"}]` 
 	* `param_name` - (Required) (Updatable) Name of the parameter.
@@ -162,8 +180,12 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `batch_interval_in_seconds` - Time interval between 2 runs in round robin batch mode (*SchedulingPolicy - BATCHED_ROUND_ROBIN).
 * `configuration` - Details of monitor configuration.
 	* `config_type` - Type of configuration.
+	* `dns_configuration` - Dns settings.
+		* `is_override_dns` - If isOverrideDns is true, then dns will be overridden.
+		* `override_dns_ip` - Override dns ip value. This value will be honored only if *ref-isOverrideDns is set to true.
 	* `is_certificate_validation_enabled` - If certificate validation is enabled, then the call will fail in case of certification errors.
 	* `is_failure_retried` - If isFailureRetried is enabled, then a failed call will be retried.
 	* `is_redirection_enabled` - If redirection enabled, then redirects will be allowed while accessing target URL.
@@ -201,9 +223,11 @@ The following attributes are exported:
 * `display_name` - Unique name that can be edited. The name should not contain any confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitor.
+* `is_run_now` - If isRunNow is enabled, then the monitor will run now.
 * `is_run_once` - If runOnce is enabled, then the monitor will run once.
 * `monitor_type` - Type of the monitor.
 * `repeat_interval_in_seconds` - Interval in seconds after the start time when the job should be repeated. Minimum repeatIntervalInSeconds should be 300 seconds for Scripted REST, Scripted Browser and Browser monitors, and 60 seconds for REST monitor. 
+* `scheduling_policy` - Scheduling policy on Vantage points.
 * `script_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the script. scriptId is mandatory for creation of SCRIPTED_BROWSER and SCRIPTED_REST monitor types. For other monitor types, it should be set to null. 
 * `script_name` - Name of the script.
 * `script_parameters` - List of script parameters. Example: `[{"monitorScriptParameter": {"paramName": "userid", "paramValue":"testuser"}, "isSecret": false, "isOverwritten": false}]` 

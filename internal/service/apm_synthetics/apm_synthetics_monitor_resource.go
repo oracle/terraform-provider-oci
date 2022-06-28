@@ -60,6 +60,11 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 			},
 
 			// Optional
+			"batch_interval_in_seconds": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"configuration": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -82,6 +87,32 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 								"SCRIPTED_BROWSER_CONFIG",
 								"SCRIPTED_REST_CONFIG",
 							}, true),
+						},
+						"dns_configuration": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"is_override_dns": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"override_dns_ip": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
 						},
 						"is_certificate_validation_enabled": {
 							Type:     schema.TypeBool,
@@ -329,8 +360,18 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_run_now": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_run_once": {
 				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"scheduling_policy": {
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
@@ -480,6 +521,11 @@ func (s *ApmSyntheticsMonitorResourceCrud) Create() error {
 		request.ApmDomainId = &tmp
 	}
 
+	if batchIntervalInSeconds, ok := s.D.GetOkExists("batch_interval_in_seconds"); ok {
+		tmp := batchIntervalInSeconds.(int)
+		request.BatchIntervalInSeconds = &tmp
+	}
+
 	if configuration, ok := s.D.GetOkExists("configuration"); ok {
 		if tmpList := configuration.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "configuration", 0)
@@ -508,6 +554,11 @@ func (s *ApmSyntheticsMonitorResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isRunNow, ok := s.D.GetOkExists("is_run_now"); ok {
+		tmp := isRunNow.(bool)
+		request.IsRunNow = &tmp
+	}
+
 	if isRunOnce, ok := s.D.GetOkExists("is_run_once"); ok {
 		tmp := isRunOnce.(bool)
 		request.IsRunOnce = &tmp
@@ -521,6 +572,11 @@ func (s *ApmSyntheticsMonitorResourceCrud) Create() error {
 		tmp := repeatIntervalInSeconds.(int)
 		request.RepeatIntervalInSeconds = &tmp
 	}
+
+	if schedulingPolicy, ok := s.D.GetOkExists("scheduling_policy"); ok {
+		request.SchedulingPolicy = oci_apm_synthetics.SchedulingPolicyEnum(schedulingPolicy.(string))
+	}
+
 
 	if compositeId, ok := s.D.GetOkExists("script_id"); ok {
 		tmp := compositeId.(string)
@@ -618,6 +674,11 @@ func (s *ApmSyntheticsMonitorResourceCrud) Update() error {
 		request.ApmDomainId = &tmp
 	}
 
+	if batchIntervalInSeconds, ok := s.D.GetOkExists("batch_interval_in_seconds"); ok {
+		tmp := batchIntervalInSeconds.(int)
+		request.BatchIntervalInSeconds = &tmp
+	}
+
 	if configuration, ok := s.D.GetOkExists("configuration"); ok {
 		if tmpList := configuration.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "configuration", 0)
@@ -646,6 +707,11 @@ func (s *ApmSyntheticsMonitorResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isRunNow, ok := s.D.GetOkExists("is_run_now"); ok {
+		tmp := isRunNow.(bool)
+		request.IsRunNow = &tmp
+	}
+
 	if isRunOnce, ok := s.D.GetOkExists("is_run_once"); ok {
 		tmp := isRunOnce.(bool)
 		request.IsRunOnce = &tmp
@@ -662,6 +728,10 @@ func (s *ApmSyntheticsMonitorResourceCrud) Update() error {
 	if repeatIntervalInSeconds, ok := s.D.GetOkExists("repeat_interval_in_seconds"); ok {
 		tmp := repeatIntervalInSeconds.(int)
 		request.RepeatIntervalInSeconds = &tmp
+	}
+
+	if schedulingPolicy, ok := s.D.GetOkExists("scheduling_policy"); ok {
+		request.SchedulingPolicy = oci_apm_synthetics.SchedulingPolicyEnum(schedulingPolicy.(string))
 	}
 
 	if compositeId, ok := s.D.GetOkExists("script_id"); ok {
@@ -762,6 +832,10 @@ func (s *ApmSyntheticsMonitorResourceCrud) SetData() error {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}
 
+	if s.Res.BatchIntervalInSeconds != nil {
+		s.D.Set("batch_interval_in_seconds", *s.Res.BatchIntervalInSeconds)
+	}
+
 	if s.Res.Configuration != nil {
 		configurationArray := []interface{}{}
 		if configurationMap := MonitorConfigurationToMap(&s.Res.Configuration); configurationMap != nil {
@@ -782,6 +856,10 @@ func (s *ApmSyntheticsMonitorResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsRunNow != nil {
+		s.D.Set("is_run_now", *s.Res.IsRunNow)
+	}
+
 	if s.Res.IsRunOnce != nil {
 		s.D.Set("is_run_once", *s.Res.IsRunOnce)
 	}
@@ -791,6 +869,8 @@ func (s *ApmSyntheticsMonitorResourceCrud) SetData() error {
 	if s.Res.RepeatIntervalInSeconds != nil {
 		s.D.Set("repeat_interval_in_seconds", *s.Res.RepeatIntervalInSeconds)
 	}
+
+	s.D.Set("scheduling_policy", s.Res.SchedulingPolicy)
 
 	if s.Res.ScriptId != nil {
 		s.D.Set("script_id", GetScriptCompositeId(*s.Res.ScriptId, apmDomainId))
@@ -856,6 +936,36 @@ func parseMonitorCompositeId(compositeId string) (monitorId string, apmDomainId 
 	apmDomainId, _ = url.PathUnescape(parts[3])
 
 	return
+}
+
+func (s *ApmSyntheticsMonitorResourceCrud) mapToDnsConfiguration(fieldKeyFormat string) (oci_apm_synthetics.DnsConfiguration, error) {
+	result := oci_apm_synthetics.DnsConfiguration{}
+
+	if isOverrideDns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_override_dns")); ok {
+		tmp := isOverrideDns.(bool)
+		result.IsOverrideDns = &tmp
+	}
+
+	if overrideDnsIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "override_dns_ip")); ok {
+		tmp := overrideDnsIp.(string)
+		result.OverrideDnsIp = &tmp
+	}
+
+	return result, nil
+}
+
+func DnsConfigurationToMap(obj *oci_apm_synthetics.DnsConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsOverrideDns != nil {
+		result["is_override_dns"] = bool(*obj.IsOverrideDns)
+	}
+
+	if obj.OverrideDnsIp != nil {
+		result["override_dns_ip"] = string(*obj.OverrideDnsIp)
+	}
+
+	return result
 }
 
 func (s *ApmSyntheticsMonitorResourceCrud) mapToHeader(fieldKeyFormat string) (oci_apm_synthetics.Header, error) {
@@ -929,6 +1039,16 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 			}
 			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "verify_texts")) {
 				details.VerifyTexts = tmp
+			}
+		}
+		if dnsConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dns_configuration")); ok {
+			if tmpList := dnsConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dns_configuration"), 0)
+				tmp, err := s.mapToDnsConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert dns_configuration, encountered error: %v", err)
+				}
+				details.DnsConfiguration = &tmp
 			}
 		}
 		if isFailureRetried, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_failure_retried")); ok {
@@ -1024,6 +1144,16 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 			tmp := verifyResponseContent.(string)
 			details.VerifyResponseContent = &tmp
 		}
+		if dnsConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dns_configuration")); ok {
+			if tmpList := dnsConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dns_configuration"), 0)
+				tmp, err := s.mapToDnsConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert dns_configuration, encountered error: %v", err)
+				}
+				details.DnsConfiguration = &tmp
+			}
+		}
 		if isFailureRetried, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_failure_retried")); ok {
 			tmp := isFailureRetried.(bool)
 			details.IsFailureRetried = &tmp
@@ -1045,6 +1175,16 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 				details.NetworkConfiguration = &tmp
 			}
 		}
+		if dnsConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dns_configuration")); ok {
+			if tmpList := dnsConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dns_configuration"), 0)
+				tmp, err := s.mapToDnsConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert dns_configuration, encountered error: %v", err)
+				}
+				details.DnsConfiguration = &tmp
+			}
+		}
 		if isFailureRetried, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_failure_retried")); ok {
 			tmp := isFailureRetried.(bool)
 			details.IsFailureRetried = &tmp
@@ -1060,6 +1200,16 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 					return details, fmt.Errorf("unable to convert network_configuration, encountered error: %v", err)
 				}
 				details.NetworkConfiguration = &tmp
+			}
+		}
+		if dnsConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dns_configuration")); ok {
+			if tmpList := dnsConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dns_configuration"), 0)
+				tmp, err := s.mapToDnsConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert dns_configuration, encountered error: %v", err)
+				}
+				details.DnsConfiguration = &tmp
 			}
 		}
 		if isFailureRetried, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_failure_retried")); ok {
@@ -1092,6 +1242,10 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 			verifyTexts = append(verifyTexts, VerifyTextToMap(item))
 		}
 		result["verify_texts"] = verifyTexts
+
+		if v.DnsConfiguration != nil {
+			result["dns_configuration"] = []interface{}{DnsConfigurationToMap(v.DnsConfiguration)}
+		}
 
 		if v.IsFailureRetried != nil {
 			result["is_failure_retried"] = bool(*v.IsFailureRetried)
@@ -1141,6 +1295,10 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 			result["verify_response_content"] = string(*v.VerifyResponseContent)
 		}
 
+		if v.DnsConfiguration != nil {
+			result["dns_configuration"] = []interface{}{DnsConfigurationToMap(v.DnsConfiguration)}
+		}
+
 		if v.IsFailureRetried != nil {
 			result["is_failure_retried"] = bool(*v.IsFailureRetried)
 		}
@@ -1155,6 +1313,10 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 			result["network_configuration"] = []interface{}{NetworkConfigurationToMap(v.NetworkConfiguration)}
 		}
 
+		if v.DnsConfiguration != nil {
+			result["dns_configuration"] = []interface{}{DnsConfigurationToMap(v.DnsConfiguration)}
+		}
+
 		if v.IsFailureRetried != nil {
 			result["is_failure_retried"] = bool(*v.IsFailureRetried)
 		}
@@ -1163,6 +1325,10 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 
 		if v.NetworkConfiguration != nil {
 			result["network_configuration"] = []interface{}{NetworkConfigurationToMap(v.NetworkConfiguration)}
+		}
+
+		if v.DnsConfiguration != nil {
+			result["dns_configuration"] = []interface{}{DnsConfigurationToMap(v.DnsConfiguration)}
 		}
 
 		if v.IsFailureRetried != nil {
@@ -1193,6 +1359,10 @@ func MonitorScriptParameterToMap(obj *oci_apm_synthetics.MonitorScriptParameter)
 func MonitorSummaryToMap(obj oci_apm_synthetics.MonitorSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.BatchIntervalInSeconds != nil {
+		result["batch_interval_in_seconds"] = int(*obj.BatchIntervalInSeconds)
+	}
+
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
 	}
@@ -1207,6 +1377,10 @@ func MonitorSummaryToMap(obj oci_apm_synthetics.MonitorSummary) map[string]inter
 		result["id"] = string(*obj.Id)
 	}
 
+	if obj.IsRunNow != nil {
+		result["is_run_now"] = bool(*obj.IsRunNow)
+	}
+
 	if obj.IsRunOnce != nil {
 		result["is_run_once"] = bool(*obj.IsRunOnce)
 	}
@@ -1216,6 +1390,8 @@ func MonitorSummaryToMap(obj oci_apm_synthetics.MonitorSummary) map[string]inter
 	if obj.RepeatIntervalInSeconds != nil {
 		result["repeat_interval_in_seconds"] = int(*obj.RepeatIntervalInSeconds)
 	}
+
+	result["scheduling_policy"] = string(obj.SchedulingPolicy)
 
 	if obj.ScriptId != nil {
 		result["script_id"] = string(*obj.ScriptId)
