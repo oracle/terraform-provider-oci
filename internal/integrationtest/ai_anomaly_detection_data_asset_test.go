@@ -116,11 +116,10 @@ var (
 		"organization_name":     acctest.Representation{RepType: acctest.Optional, Create: `organizationName`},
 		"retention_policy_name": acctest.Representation{RepType: acctest.Optional, Create: `${oci_identity_policy.test_policy.name}`},
 	}
-
 	//Change this to only what is required
 	AiAnomalyDetectionDataAssetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", acctest.Required, acctest.Create, aiAnomalyDetectionProjectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, vcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -363,7 +362,7 @@ func init() {
 
 func sweepAiAnomalyDetectionDataAssetResource(compartment string) error {
 	anomalyDetectionClient := acctest.GetTestClients(&schema.ResourceData{}).AnomalyDetectionClient()
-	dataAssetIds, err := getDataAssetIds(compartment)
+	dataAssetIds, err := getAiAnomalyDetectionDataAssetIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -379,14 +378,14 @@ func sweepAiAnomalyDetectionDataAssetResource(compartment string) error {
 				fmt.Printf("Error deleting DataAsset %s %s, It is possible that the resource is already deleted. Please verify manually \n", dataAssetId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &dataAssetId, dataAssetSweepWaitCondition, time.Duration(3*time.Minute),
-				dataAssetSweepResponseFetchOperation, "ai_anomaly_detection", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &dataAssetId, AiAnomalyDetectiondataAssetsSweepWaitCondition, time.Duration(3*time.Minute),
+				AiAnomalyDetectiondataAssetsSweepResponseFetchOperation, "ai_anomaly_detection", true)
 		}
 	}
 	return nil
 }
 
-func getDataAssetIds(compartment string) ([]string, error) {
+func getAiAnomalyDetectionDataAssetIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DataAssetId")
 	if ids != nil {
 		return ids, nil
@@ -411,7 +410,7 @@ func getDataAssetIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func dataAssetSweepWaitCondition(response common.OCIOperationResponse) bool {
+func AiAnomalyDetectiondataAssetsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if dataAssetResponse, ok := response.Response.(oci_ai_anomaly_detection.GetDataAssetResponse); ok {
 		return dataAssetResponse.LifecycleState != oci_ai_anomaly_detection.DataAssetLifecycleStateDeleted
@@ -419,7 +418,7 @@ func dataAssetSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func dataAssetSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func AiAnomalyDetectiondataAssetsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.AnomalyDetectionClient().GetDataAsset(context.Background(), oci_ai_anomaly_detection.GetDataAssetRequest{
 		DataAssetId: resourceId,
 		RequestMetadata: common.RequestMetadata{

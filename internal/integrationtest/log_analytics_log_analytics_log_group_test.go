@@ -25,28 +25,28 @@ import (
 )
 
 var (
-	LogAnalyticsLogGroupRequiredOnlyResource = LogAnalyticsLogGroupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Required, acctest.Create, logAnalyticsLogGroupRepresentation)
+	LogAnalyticsLogAnalyticsLogGroupRequiredOnlyResource = LogAnalyticsLogAnalyticsLogGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogGroupRepresentation)
 
-	LogAnalyticsLogGroupResourceConfig = LogAnalyticsLogGroupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Optional, acctest.Update, logAnalyticsLogGroupRepresentation)
+	LogAnalyticsLogAnalyticsLogGroupResourceConfig = LogAnalyticsLogAnalyticsLogGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Optional, acctest.Update, LogAnalyticsLogAnalyticsLogGroupRepresentation)
 
-	logAnalyticsLogGroupSingularDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogAnalyticsLogGroupSingularDataSourceRepresentation = map[string]interface{}{
 		"log_analytics_log_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_log_analytics_log_analytics_log_group.test_log_analytics_log_group.id}`},
 		"namespace":                  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
-	logAnalyticsLogGroupDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogAnalyticsLogGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: logAnalyticsLogGroupDataSourceFilterRepresentation}}
-	logAnalyticsLogGroupDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsLogAnalyticsLogGroupDataSourceFilterRepresentation}}
+	LogAnalyticsLogAnalyticsLogGroupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_log_analytics_log_analytics_log_group.test_log_analytics_log_group.id}`}},
 	}
 
-	logAnalyticsLogGroupRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogGroupRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
@@ -55,8 +55,8 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	LogAnalyticsLogGroupResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+	LogAnalyticsLogAnalyticsLogGroupResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: log_analytics/default
@@ -78,14 +78,14 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+LogAnalyticsLogGroupResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Optional, acctest.Create, logAnalyticsLogGroupRepresentation), "loganalytics", "logAnalyticsLogGroup", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+LogAnalyticsLogAnalyticsLogGroupResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Optional, acctest.Create, LogAnalyticsLogAnalyticsLogGroupRepresentation), "loganalytics", "logAnalyticsLogGroup", t)
 
 	acctest.ResourceTest(t, testAccCheckLogAnalyticsLogAnalyticsLogGroupDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsLogGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Required, acctest.Create, logAnalyticsLogGroupRepresentation),
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsLogGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -100,12 +100,12 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsLogGroupResourceDependencies,
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsLogGroupResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsLogGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Optional, acctest.Create, logAnalyticsLogGroupRepresentation),
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsLogGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Optional, acctest.Create, LogAnalyticsLogAnalyticsLogGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -127,9 +127,9 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LogAnalyticsLogGroupResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LogAnalyticsLogAnalyticsLogGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(logAnalyticsLogGroupRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(LogAnalyticsLogAnalyticsLogGroupRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -151,8 +151,8 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsLogGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Optional, acctest.Update, logAnalyticsLogGroupRepresentation),
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsLogGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Optional, acctest.Update, LogAnalyticsLogAnalyticsLogGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -172,9 +172,9 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_log_groups", "test_log_analytics_log_groups", acctest.Optional, acctest.Update, logAnalyticsLogGroupDataSourceRepresentation) +
-				compartmentIdVariableStr + LogAnalyticsLogGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Optional, acctest.Update, logAnalyticsLogGroupRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_log_groups", "test_log_analytics_log_groups", acctest.Optional, acctest.Update, LogAnalyticsLogAnalyticsLogAnalyticsLogGroupDataSourceRepresentation) +
+				compartmentIdVariableStr + LogAnalyticsLogAnalyticsLogGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Optional, acctest.Update, LogAnalyticsLogAnalyticsLogGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -187,8 +187,8 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Required, acctest.Create, logAnalyticsLogGroupSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + LogAnalyticsLogGroupResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogAnalyticsLogGroupSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LogAnalyticsLogAnalyticsLogGroupResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "log_analytics_log_group_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
@@ -204,7 +204,7 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + LogAnalyticsLogGroupRequiredOnlyResource,
+			Config:                  config + LogAnalyticsLogAnalyticsLogGroupRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateIdFunc:       getLogAnalyticsLogGroupsEndpointImportId(resourceName),
@@ -265,7 +265,7 @@ func init() {
 
 func sweepLogAnalyticsLogAnalyticsLogGroupResource(compartment string) error {
 	logAnalyticsClient := acctest.GetTestClients(&schema.ResourceData{}).LogAnalyticsClient()
-	logAnalyticsLogGroupIds, err := getLogAnalyticsLogGroupIds(compartment)
+	logAnalyticsLogGroupIds, err := getLogAnalyticsLogAnalyticsLogGroupIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -286,7 +286,7 @@ func sweepLogAnalyticsLogAnalyticsLogGroupResource(compartment string) error {
 	return nil
 }
 
-func getLogAnalyticsLogGroupIds(compartment string) ([]string, error) {
+func getLogAnalyticsLogAnalyticsLogGroupIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "LogAnalyticsLogGroupId")
 	if ids != nil {
 		return ids, nil

@@ -25,30 +25,30 @@ import (
 )
 
 var (
-	SecurityZoneRequiredOnlyResource = SecurityZoneResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Required, acctest.Create, securityZoneRepresentation)
+	CloudGuardSecurityZoneRequiredOnlyResource = CloudGuardSecurityZoneResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Required, acctest.Create, CloudGuardSecurityZoneRepresentation)
 
-	SecurityZoneResourceConfig = SecurityZoneResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Optional, acctest.Update, securityZoneRepresentation)
+	CloudGuardSecurityZoneResourceConfig = CloudGuardSecurityZoneResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Optional, acctest.Update, CloudGuardSecurityZoneRepresentation)
 
-	securityZoneSingularDataSourceRepresentation = map[string]interface{}{
+	CloudGuardCloudGuardSecurityZoneSingularDataSourceRepresentation = map[string]interface{}{
 		"security_zone_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_guard_security_zone.test_security_zone.id}`},
 	}
 
-	securityZoneDataSourceRepresentation = map[string]interface{}{
+	CloudGuardCloudGuardSecurityZoneDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                          acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":                                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_guard_security_zone.test_security_zone.id}`},
 		"is_required_security_zones_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"security_recipe_id":                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_guard_security_recipe.test_security_recipe.id}`},
 		"state":                                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: securityZoneDataSourceFilterRepresentation}}
-	securityZoneDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudGuardSecurityZoneDataSourceFilterRepresentation}}
+	CloudGuardSecurityZoneDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_cloud_guard_security_zone.test_security_zone.id}`}},
 	}
 
-	securityZoneRepresentation = map[string]interface{}{
+	CloudGuardSecurityZoneRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"security_zone_recipe_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_guard_security_recipe.test_security_recipe.id}`},
@@ -62,8 +62,8 @@ var (
 	// 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`}},
 	// 	}
 
-	SecurityZoneResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Required, acctest.Create, securityRecipeRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_policies", "oracle_security_policy", acctest.Required, acctest.Create, securityPolicyDataSourceRepresentationPluralDataSource) +
+	CloudGuardSecurityZoneResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Required, acctest.Create, CloudGuardSecurityRecipeRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_policies", "oracle_security_policy", acctest.Required, acctest.Create, CloudGuardSecurityPolicyDataSourceRepresentationPluralDataSource) +
 		DefinedTagsDependencies
 )
 
@@ -83,14 +83,14 @@ func TestCloudGuardSecurityZoneResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SecurityZoneResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Optional, acctest.Create, securityZoneRepresentation), "cloudguard", "securityZone", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudGuardSecurityZoneResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Optional, acctest.Create, CloudGuardSecurityZoneRepresentation), "cloudguard", "securityZone", t)
 
 	acctest.ResourceTest(t, testAccCheckCloudGuardSecurityZoneDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SecurityZoneResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Required, acctest.Create, securityZoneRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardSecurityZoneResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Required, acctest.Create, CloudGuardSecurityZoneRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -105,12 +105,12 @@ func TestCloudGuardSecurityZoneResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SecurityZoneResourceDependencies,
+			Config: config + compartmentIdVariableStr + CloudGuardSecurityZoneResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SecurityZoneResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Optional, acctest.Create, securityZoneRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardSecurityZoneResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Optional, acctest.Create, CloudGuardSecurityZoneRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -133,9 +133,9 @@ func TestCloudGuardSecurityZoneResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + SecurityZoneResourceDependencies +
+			Config: config + compartmentIdVariableStr + CloudGuardSecurityZoneResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(securityZoneRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CloudGuardSecurityZoneRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -158,8 +158,8 @@ func TestCloudGuardSecurityZoneResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SecurityZoneResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Optional, acctest.Update, securityZoneRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardSecurityZoneResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Optional, acctest.Update, CloudGuardSecurityZoneRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -180,9 +180,9 @@ func TestCloudGuardSecurityZoneResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_zones", "test_security_zones", acctest.Optional, acctest.Update, securityZoneDataSourceRepresentation) +
-				compartmentIdVariableStr + SecurityZoneResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Optional, acctest.Update, securityZoneRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_zones", "test_security_zones", acctest.Optional, acctest.Update, CloudGuardCloudGuardSecurityZoneDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardSecurityZoneResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Optional, acctest.Update, CloudGuardSecurityZoneRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -198,8 +198,8 @@ func TestCloudGuardSecurityZoneResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Required, acctest.Create, securityZoneSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SecurityZoneResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Required, acctest.Create, CloudGuardCloudGuardSecurityZoneSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardSecurityZoneResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "security_zone_id"),
 
@@ -217,7 +217,7 @@ func TestCloudGuardSecurityZoneResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + SecurityZoneRequiredOnlyResource,
+			Config:                  config + CloudGuardSecurityZoneRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -281,7 +281,7 @@ func init() {
 
 func sweepCloudGuardSecurityZoneResource(compartment string) error {
 	cloudGuardClient := acctest.GetTestClients(&schema.ResourceData{}).CloudGuardClient()
-	securityZoneIds, err := getSecurityZoneIds(compartment)
+	securityZoneIds, err := getCloudGuardSecurityZoneIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -297,14 +297,14 @@ func sweepCloudGuardSecurityZoneResource(compartment string) error {
 				fmt.Printf("Error deleting SecurityZone %s %s, It is possible that the resource is already deleted. Please verify manually \n", securityZoneId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &securityZoneId, securityZoneSweepWaitCondition, time.Duration(3*time.Minute),
-				securityZoneSweepResponseFetchOperation, "cloud_guard", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &securityZoneId, CloudGuardSecurityZoneSweepWaitCondition, time.Duration(3*time.Minute),
+				CloudGuardSecurityZoneSweepResponseFetchOperation, "cloud_guard", true)
 		}
 	}
 	return nil
 }
 
-func getSecurityZoneIds(compartment string) ([]string, error) {
+func getCloudGuardSecurityZoneIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "SecurityZoneId")
 	if ids != nil {
 		return ids, nil
@@ -329,7 +329,7 @@ func getSecurityZoneIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func securityZoneSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CloudGuardSecurityZoneSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if securityZoneResponse, ok := response.Response.(oci_cloud_guard.GetSecurityZoneResponse); ok {
 		return securityZoneResponse.LifecycleState != oci_cloud_guard.LifecycleStateDeleted
@@ -337,7 +337,7 @@ func securityZoneSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func securityZoneSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CloudGuardSecurityZoneSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.CloudGuardClient().GetSecurityZone(context.Background(), oci_cloud_guard.GetSecurityZoneRequest{
 		SecurityZoneId: resourceId,
 		RequestMetadata: common.RequestMetadata{

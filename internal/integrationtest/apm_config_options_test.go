@@ -76,7 +76,7 @@ func TestApmConfigOptionsResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ConfigResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApmConfigConfigResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_options", acctest.Optional, acctest.Create, configOptionsRepresentation), "apmconfig", "config", t)
 
 	resource.Test(t, resource.TestCase{
@@ -88,7 +88,7 @@ func TestApmConfigOptionsResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// Step 1: verify create Options
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies +
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_options", acctest.Required, acctest.Create, configOptionsRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(optionsResourceName, "apm_domain_id"),
@@ -105,11 +105,11 @@ func TestApmConfigOptionsResource_basic(t *testing.T) {
 			},
 			// Step 2: delete Options
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies,
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies,
 			},
 			// Step 3: create Options with optionals
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies +
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_options", acctest.Optional, acctest.Create, configOptionsRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(optionsResourceName, "apm_domain_id"),
@@ -134,13 +134,13 @@ func TestApmConfigOptionsResource_basic(t *testing.T) {
 			},
 			// Step 4: delete Options before next create
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies,
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies,
 			},
 			// Step 5: verify datasource
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_apm_config_configs", "test_optionss", acctest.Optional, acctest.Update, configOptionsDataSourceRepresentation) +
-					compartmentIdVariableStr + ConfigResourceDependencies +
+					compartmentIdVariableStr + ApmConfigConfigResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_options", acctest.Optional, acctest.Update, configOptionsRepresentation) +
 					ConfigDataResourceOptions,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -155,7 +155,7 @@ func TestApmConfigOptionsResource_basic(t *testing.T) {
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_apm_config_config", "test_options", acctest.Required, acctest.Create, configOptionsSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ConfigResourceDependencies +
+					compartmentIdVariableStr + ApmConfigConfigResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_options", acctest.Optional, acctest.Update, configOptionsRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularOptionsDatasourceName, "apm_domain_id"),

@@ -28,17 +28,17 @@ import (
 )
 
 var (
-	AnalyticsInstanceRequiredOnlyResource = AnalyticsInstanceResourceDependencies +
+	AnalyticsAnalyticsInstanceRequiredOnlyResource = AnalyticsAnalyticsInstanceResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Required, acctest.Create, analyticsInstanceRepresentation)
 
-	AnalyticsInstanceResourceConfig = AnalyticsInstanceResourceDependencies +
+	AnalyticsAnalyticsInstanceResourceConfig = AnalyticsAnalyticsInstanceResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Update, analyticsInstanceRepresentation)
 
-	analyticsInstanceSingularDataSourceRepresentation = map[string]interface{}{
+	AnalyticsanalyticsInstanceSingularDataSourceRepresentation = map[string]interface{}{
 		"analytics_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_analytics_analytics_instance.test_analytics_instance.id}`},
 	}
 
-	analyticsInstanceDataSourceRepresentation = map[string]interface{}{
+	AnalyticsanalyticsInstanceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"capacity_type":  acctest.Representation{RepType: acctest.Optional, Create: `OLPU_COUNT`},
 		"feature_set":    acctest.Representation{RepType: acctest.Optional, Create: `ENTERPRISE_ANALYTICS`},
@@ -80,6 +80,8 @@ var (
 		"vcn_id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 
+	AnalyticsAnalyticsInstanceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) + acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		KeyResourceDependencyConfig
 	analyticsInstanceCapacityUpdateRepresentation = map[string]interface{}{
 		"capacity_type":  acctest.Representation{RepType: acctest.Required, Create: `OLPU_COUNT`},
 		"capacity_value": acctest.Representation{RepType: acctest.Required, Create: `4`},
@@ -90,10 +92,6 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: vaultName},
 		"vault_type":     acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
 	}
-
-	AnalyticsInstanceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		KeyResourceDependencyConfig
 )
 
 // issue-routing-tag: analytics/default
@@ -120,14 +118,14 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_analytics_analytics_instance.test_analytics_instance"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+AnalyticsInstanceResourceDependencies+
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+AnalyticsAnalyticsInstanceResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Create, analyticsInstanceRepresentation), "analytics", "analyticsInstance", t)
 
 	acctest.ResourceTest(t, testAccCheckAnalyticsAnalyticsInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("name", acctest.Representation{RepType: acctest.Required, Create: analyticsinstanceName}, analyticsInstanceRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
@@ -148,12 +146,12 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies,
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies,
 		},
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Create, analyticsInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
@@ -190,7 +188,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		},
 		// verify update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -232,14 +230,14 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		// update test, or there are problems with the import check at the end.
 		// It is necessary to revert the compartment back first, since the new compartment may not have the required permissions to update the key.
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`}})),
 		},
 
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
 						"kms_key_id": acctest.Representation{RepType: acctest.Optional, Create: ``}})),
@@ -247,7 +245,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Update, analyticsInstanceRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
@@ -272,7 +270,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 
 		// verify up scaling
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(analyticsInstanceRepresentation, []string{"capacity"}), map[string]interface{}{
 						"capacity": acctest.RepresentationGroup{RepType: acctest.Required, Group: analyticsInstanceCapacityUpdateRepresentation},
@@ -305,7 +303,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		},
 		// verify down scaling
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Update, analyticsInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
@@ -339,7 +337,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		},
 		// verify stop
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
 					"state": acctest.Representation{RepType: acctest.Required, Create: `INACTIVE`},
 				})),
@@ -371,7 +369,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		},
 		// verify start
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
 					"state": acctest.Representation{RepType: acctest.Required, Create: `ACTIVE`},
 				})),
@@ -404,8 +402,8 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_analytics_analytics_instances", "test_analytics_instances", acctest.Optional, acctest.Update, analyticsInstanceDataSourceRepresentation) +
-				compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_analytics_analytics_instances", "test_analytics_instances", acctest.Optional, acctest.Update, AnalyticsanalyticsInstanceDataSourceRepresentation) +
+				compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Update, analyticsInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "capacity_type", "OLPU_COUNT"),
@@ -438,8 +436,8 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Required, acctest.Create, analyticsInstanceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Required, acctest.Create, AnalyticsanalyticsInstanceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "analytics_instance_id"),
 
@@ -465,7 +463,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + AnalyticsInstanceRequiredOnlyResource,
+			Config:            config + AnalyticsAnalyticsInstanceRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -531,7 +529,7 @@ func init() {
 
 func sweepAnalyticsAnalyticsInstanceResource(compartment string) error {
 	analyticsClient := acctest.GetTestClients(&schema.ResourceData{}).AnalyticsClient()
-	analyticsInstanceIds, err := getAnalyticsInstanceIds(compartment)
+	analyticsInstanceIds, err := getAnalyticsAnalyticsInstanceIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -547,14 +545,14 @@ func sweepAnalyticsAnalyticsInstanceResource(compartment string) error {
 				fmt.Printf("Error deleting AnalyticsInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", analyticsInstanceId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &analyticsInstanceId, analyticsInstanceSweepWaitCondition, time.Duration(3*time.Minute),
-				analyticsInstanceSweepResponseFetchOperation, "analytics", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &analyticsInstanceId, AnalyticsanalyticsInstancesSweepWaitCondition, time.Duration(3*time.Minute),
+				AnalyticsanalyticsInstancesSweepResponseFetchOperation, "analytics", true)
 		}
 	}
 	return nil
 }
 
-func getAnalyticsInstanceIds(compartment string) ([]string, error) {
+func getAnalyticsAnalyticsInstanceIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "AnalyticsInstanceId")
 	if ids != nil {
 		return ids, nil
@@ -579,7 +577,7 @@ func getAnalyticsInstanceIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func analyticsInstanceSweepWaitCondition(response common.OCIOperationResponse) bool {
+func AnalyticsanalyticsInstancesSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if analyticsInstanceResponse, ok := response.Response.(oci_analytics.GetAnalyticsInstanceResponse); ok {
 		return analyticsInstanceResponse.LifecycleState != oci_analytics.AnalyticsInstanceLifecycleStateDeleted
@@ -587,7 +585,7 @@ func analyticsInstanceSweepWaitCondition(response common.OCIOperationResponse) b
 	return false
 }
 
-func analyticsInstanceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func AnalyticsanalyticsInstancesSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.AnalyticsClient().GetAnalyticsInstance(context.Background(), oci_analytics.GetAnalyticsInstanceRequest{
 		AnalyticsInstanceId: resourceId,
 		RequestMetadata: common.RequestMetadata{

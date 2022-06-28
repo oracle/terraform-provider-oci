@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	blockchainPlatformPatchDataSourceRepresentation = map[string]interface{}{
+	BlockchainblockchainPlatformPatchDataSourceRepresentation = map[string]interface{}{
 		"blockchain_platform_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
 	}
 
-	BlockchainPlatformPatchResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Required, acctest.Create, blockchainPlatformRepresentation)
+	BlockchainBlockchainPlatformPatchResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Required, acctest.Create, blockchainPlatformRepresentation)
 )
 
 // issue-routing-tag: blockchain/default
@@ -43,8 +43,8 @@ func TestBlockchainBlockchainPlatformPatchResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformPatchResourceConfig +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platform_patches", "test_blockchain_platform_patches", acctest.Required, acctest.Create, blockchainPlatformPatchDataSourceRepresentation),
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainBlockchainPlatformPatchResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platform_patches", "test_blockchain_platform_patches", acctest.Required, acctest.Create, BlockchainblockchainPlatformPatchDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "blockchain_platform_patch_collection.#"),
 				resource.TestCheckResourceAttr(datasourceName, "blockchain_platform_patch_collection.0.items.#", "0"),

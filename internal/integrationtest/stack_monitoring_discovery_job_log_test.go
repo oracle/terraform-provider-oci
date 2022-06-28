@@ -16,12 +16,12 @@ import (
 )
 
 var (
-	stackMonitoringDiscoveryJobLogsDataSourceRepresentation = map[string]interface{}{
+	StackMonitoringStackMonitoringDiscoveryJobLogDataSourceRepresentation = map[string]interface{}{
 		"discovery_job_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_stack_monitoring_discovery_job.test_discovery_job.id}`},
 		"log_type":         acctest.Representation{RepType: acctest.Optional, Create: `INFO`},
 	}
 
-	DiscoveryJobLogResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, stackMonitoringDiscoveryJobRepresentation)
+	StackMonitoringDiscoveryJobLogResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, StackMonitoringDiscoveryJobRepresentation)
 )
 
 // issue-routing-tag: stack_monitoring/default
@@ -48,8 +48,8 @@ func TestStackMonitoringDiscoveryJobLogResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_discovery_job_logs", "test_discovery_job_logs", acctest.Optional, acctest.Update, stackMonitoringDiscoveryJobLogsDataSourceRepresentation) +
-				compartmentIdVariableStr + managementAgentIdVariableStr + DiscoveryJobLogResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_discovery_job_logs", "test_discovery_job_logs", acctest.Optional, acctest.Update, StackMonitoringStackMonitoringDiscoveryJobLogDataSourceRepresentation) +
+				compartmentIdVariableStr + managementAgentIdVariableStr + StackMonitoringDiscoveryJobLogResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "discovery_job_id"),
 				resource.TestCheckResourceAttr(datasourceName, "discovery_job_log_collection.#", "1"),

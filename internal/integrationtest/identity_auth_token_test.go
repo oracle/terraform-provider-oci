@@ -25,22 +25,22 @@ import (
 )
 
 var (
-	AuthTokenRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Required, acctest.Create, authTokenRepresentation)
+	AuthTokenRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Required, acctest.Create, IdentityAuthTokenRepresentation)
 
-	authTokenDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityAuthTokenDataSourceRepresentation = map[string]interface{}{
 		"user_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
-		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: authTokenDataSourceFilterRepresentation}}
-	authTokenDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityAuthTokenDataSourceFilterRepresentation}}
+	IdentityAuthTokenDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_auth_token.test_auth_token.id}`}},
 	}
 
-	authTokenRepresentation = map[string]interface{}{
+	IdentityAuthTokenRepresentation = map[string]interface{}{
 		"description": acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 		"user_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	AuthTokenResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
+	IdentityAuthTokenResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -60,14 +60,14 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 	var compositeId string
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+AuthTokenResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Required, acctest.Create, authTokenRepresentation), "identity", "authToken", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentityAuthTokenResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Required, acctest.Create, IdentityAuthTokenRepresentation), "identity", "authToken", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityAuthTokenDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + AuthTokenResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Required, acctest.Create, authTokenRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityAuthTokenResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Required, acctest.Create, IdentityAuthTokenRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -89,8 +89,8 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + AuthTokenResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Optional, acctest.Update, authTokenRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityAuthTokenResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Optional, acctest.Update, IdentityAuthTokenRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -107,9 +107,9 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_auth_tokens", "test_auth_tokens", acctest.Optional, acctest.Update, authTokenDataSourceRepresentation) +
-				compartmentIdVariableStr + AuthTokenResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Optional, acctest.Update, authTokenRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_auth_tokens", "test_auth_tokens", acctest.Optional, acctest.Update, IdentityIdentityAuthTokenDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityAuthTokenResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Optional, acctest.Update, IdentityAuthTokenRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 

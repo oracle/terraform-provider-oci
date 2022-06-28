@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	auditTrailAnalyticSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditTrailAnalyticSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -43,7 +43,7 @@ func TestDataSafeAuditTrailAnalyticResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_trail_analytic", "test_audit_trail_analytic", acctest.Required, acctest.Create, auditTrailAnalyticSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_trail_analytic", "test_audit_trail_analytic", acctest.Required, acctest.Create, DataSafeauditTrailAnalyticSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "items.#"),

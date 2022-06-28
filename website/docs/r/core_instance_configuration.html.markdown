@@ -171,6 +171,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				#Optional
 				boot_volume_id = oci_core_boot_volume.test_boot_volume.id
 				boot_volume_size_in_gbs = var.instance_configuration_instance_details_launch_details_source_details_boot_volume_size_in_gbs
+				boot_volume_vpus_per_gb = var.instance_configuration_instance_details_launch_details_source_details_boot_volume_vpus_per_gb
 				image_id = oci_core_image.test_image.id
 			}
 		}
@@ -409,6 +410,12 @@ The following arguments are supported:
 		* `source_details` - (Optional) 
 			* `boot_volume_id` - (Applicable when source_type=bootVolume) The OCID of the boot volume used to boot the instance.
 			* `boot_volume_size_in_gbs` - (Applicable when source_type=image) The size of the boot volume in GBs. The minimum value is 50 GB and the maximum value is 32,768 GB (32 TB). 
+			* `boot_volume_vpus_per_gb` - (Applicable when source_type=image) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
+
+				Allowed values:
+				* `10`: Represents Balanced option.
+				* `20`: Represents Higher Performance option.
+				* `30`-`120`: Represents the Ultra High Performance option. 
 			* `image_id` - (Applicable when source_type=image) The OCID of the image used to boot the instance.
 			* `source_type` - (Required) The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 	* `secondary_vnics` - (Optional) 
@@ -653,6 +660,12 @@ The following attributes are exported:
 		* `source_details` - 
 			* `boot_volume_id` - The OCID of the boot volume used to boot the instance.
 			* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. The minimum value is 50 GB and the maximum value is 32,768 GB (32 TB). 
+			* `boot_volume_vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
+
+				Allowed values:
+				* `10`: Represents Balanced option.
+				* `20`: Represents Higher Performance option.
+				* `30`-`120`: Represents the Ultra High Performance option. 
 			* `image_id` - The OCID of the image used to boot the instance.
 			* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 	* `secondary_vnics` - 

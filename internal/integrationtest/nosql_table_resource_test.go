@@ -41,7 +41,7 @@ var (
 	onDemandToPrevisonTableRepresentation  = acctest.RepresentationCopyWithNewProperties(
 		onDemandNoLfcTableLimitsRepresentation,
 		map[string]interface{}{
-			"table_limits": acctest.RepresentationGroup{RepType: acctest.Required, Group: tableTableLimitsRepresentation},
+			"table_limits": acctest.RepresentationGroup{RepType: acctest.Required, Group: NosqlTableTableLimitsRepresentation},
 		},
 	)
 

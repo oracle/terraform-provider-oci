@@ -16,18 +16,18 @@ import (
 )
 
 var (
-	bootVolumeAttachmentDataSourceRepresentation = map[string]interface{}{
+	CoreCoreBootVolumeAttachmentDataSourceRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"boot_volume_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_instance.test_instance.boot_volume_id}`},
 		"instance_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_instance.test_instance.id}`},
 	}
 
-	BootVolumeAttachmentResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Required, acctest.Create, bootVolumeRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreBootVolumeAttachmentResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Required, acctest.Create, CoreBootVolumeRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
 		AvailabilityDomainConfig
 )
 
@@ -49,8 +49,8 @@ func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
 		// verify datasource can retrieve a specific attachment using server-side filtering
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_boot_volume_attachments", "test_boot_volume_attachments", acctest.Optional, acctest.Create, bootVolumeAttachmentDataSourceRepresentation) +
-				compartmentIdVariableStr + BootVolumeAttachmentResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_boot_volume_attachments", "test_boot_volume_attachments", acctest.Optional, acctest.Create, CoreCoreBootVolumeAttachmentDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreBootVolumeAttachmentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -71,8 +71,8 @@ func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
 		// verify datasource can retrieve all boot volume attachments in a compartment by specifying no filtering options
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_boot_volume_attachments", "test_boot_volume_attachments", acctest.Required, acctest.Update, bootVolumeAttachmentDataSourceRepresentation) +
-				compartmentIdVariableStr + BootVolumeAttachmentResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_boot_volume_attachments", "test_boot_volume_attachments", acctest.Required, acctest.Update, CoreCoreBootVolumeAttachmentDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreBootVolumeAttachmentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestMatchResourceAttr(datasourceName, "boot_volume_attachments.#", regexp.MustCompile("[1-9][0-9]*")),

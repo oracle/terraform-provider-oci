@@ -15,12 +15,12 @@ import (
 )
 
 var (
-	listingSingularDataSourceRepresentation = map[string]interface{}{
+	MarketplaceMarketplaceListingSingularDataSourceRepresentation = map[string]interface{}{
 		"listing_id":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listings.test_listings.listings.0.id}`},
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 	}
 
-	listingDataSourceRepresentation = map[string]interface{}{
+	MarketplaceMarketplaceListingDataSourceRepresentation = map[string]interface{}{
 		"category":          acctest.Representation{RepType: acctest.Optional, Create: []string{`category`}},
 		"compartment_id":    acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"image_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_image.test_image.id}`},
@@ -34,7 +34,7 @@ var (
 		"publisher_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_marketplace_publisher.test_publisher.id}`},
 	}
 
-	ListingResourceConfig = ``
+	MarketplaceListingResourceConfig = ``
 )
 
 // issue-routing-tag: marketplace/default
@@ -57,10 +57,10 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", acctest.Required, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(listingDataSourceRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(MarketplaceMarketplaceListingDataSourceRepresentation, map[string]interface{}{
 						"name": acctest.Representation{RepType: acctest.Required, Create: []string{`FortiGate Next-Gen Firewall (2 cores)`}},
 					})) +
-				compartmentIdVariableStr + ListingResourceConfig,
+				compartmentIdVariableStr + MarketplaceListingResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttrSet(datasourceName, "listings.#"),
@@ -80,9 +80,9 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", acctest.Required, acctest.Create, listingDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", acctest.Required, acctest.Create, listingSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ListingResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", acctest.Required, acctest.Create, MarketplaceMarketplaceListingDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", acctest.Required, acctest.Create, MarketplaceMarketplaceListingSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MarketplaceListingResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
 

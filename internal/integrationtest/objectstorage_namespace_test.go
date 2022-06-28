@@ -20,11 +20,11 @@ import (
 )
 
 var (
-	namespaceSingularDataSourceRepresentation = map[string]interface{}{
+	ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 	}
 
-	NamespaceResourceConfig = ""
+	ObjectStorageNamespaceResourceConfig = ""
 )
 
 // issue-routing-tag: object_storage/default
@@ -45,8 +45,8 @@ func TestObjectStorageNamespaceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Optional, acctest.Create, namespaceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + NamespaceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Optional, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ObjectStorageNamespaceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 			),

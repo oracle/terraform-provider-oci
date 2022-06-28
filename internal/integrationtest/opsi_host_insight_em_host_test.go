@@ -26,10 +26,10 @@ import (
 )
 
 var (
-	EmHostInsightRequiredOnlyResource = HostInsightResourceDependencies +
+	EmHostInsightRequiredOnlyResource = OpsiHostInsightResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Required, acctest.Create, emHostInsightRepresentation)
 
-	EmHostInsightResourceConfig = HostInsightResourceDependencies +
+	EmHostInsightResourceConfig = OpsiHostInsightResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Optional, acctest.Update, emHostInsightRepresentation)
 
 	emHostInsightSingularDataSourceRepresentation = map[string]interface{}{
@@ -259,7 +259,7 @@ func TestOpsiEmHostInsightResource_basic(t *testing.T) {
 
 		// verify resource import
 		{
-			Config:                  config + HostInsightRequiredOnlyResource,
+			Config:                  config + OpsiHostInsightRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

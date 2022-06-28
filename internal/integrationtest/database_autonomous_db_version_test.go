@@ -16,12 +16,12 @@ import (
 )
 
 var (
-	autonomousDbVersionDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseAutonomousDbVersionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"db_workload":    acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
 	}
 
-	AutonomousDbVersionResourceConfig = ""
+	DatabaseAutonomousDbVersionResourceConfig = ""
 )
 
 // issue-routing-tag: database/default
@@ -42,8 +42,8 @@ func TestDatabaseAutonomousDbVersionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", acctest.Required, acctest.Create, autonomousDbVersionDataSourceRepresentation) +
-				compartmentIdVariableStr + AutonomousDbVersionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousDbVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousDbVersionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -57,8 +57,8 @@ func TestDatabaseAutonomousDbVersionResource_basic(t *testing.T) {
 
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", acctest.Optional, acctest.Create, autonomousDbVersionDataSourceRepresentation) +
-				compartmentIdVariableStr + AutonomousDbVersionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", acctest.Optional, acctest.Create, DatabaseDatabaseAutonomousDbVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousDbVersionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "db_workload", "OLTP"),

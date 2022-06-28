@@ -114,31 +114,31 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "exadata_subnet", acctest.Optional, acctest.Create, exaSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "exadata_backup_subnet", acctest.Optional, acctest.Create, exaBackupSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_system", "test_db_system", acctest.Optional, acctest.Create, exadbSystemRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "exadata_route_table", acctest.Optional, acctest.Create, routeTableRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Create, internetGatewayRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "exadata_route_table", acctest.Optional, acctest.Create, CoreRouteTableRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Create, CoreInternetGatewayRepresentation)
 
-	DatabaseRequiredOnlyResource = DatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, databaseRepresentation)
+	DatabaseRequiredOnlyResource = DatabaseDatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, DatabaseDatabaseRepresentation)
 
-	DatabaseResourceConfig = DatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, databaseRepresentation)
+	DatabaseDatabaseResourceConfig = DatabaseDatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, DatabaseDatabaseRepresentation)
 
-	databaseSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDatabaseSingularDataSourceRepresentation = map[string]interface{}{
 		"database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_database.test_database.id}`},
 	}
 
-	databaseDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDatabaseDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"db_home_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_db_home.test_db_home.id}`},
 		"db_name":        acctest.Representation{RepType: acctest.Optional, Create: `myTestDb`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseDataSourceFilterRepresentation}}
-	databaseDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseDatabaseDataSourceFilterRepresentation}}
+	DatabaseDatabaseDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_database.test_database.id}`}},
 	}
 
-	databaseRepresentation = map[string]interface{}{
+	DatabaseDatabaseRepresentation = map[string]interface{}{
 		"database":         acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseDatabaseRepresentation},
 		"db_home_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home.id}`},
 		"source":           acctest.Representation{RepType: acctest.Required, Create: `NONE`},
@@ -178,7 +178,7 @@ var (
 		"id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_backup_destination.id}`},
 	}
 
-	DatabaseResourceDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig +
+	DatabaseDatabaseResourceDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone)
 )
 
@@ -199,14 +199,14 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, databaseRepresentation), "database", "database", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseDatabaseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseRepresentation), "database", "database", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseDestroy, []resource.TestStep{
 		// verify create
 		{
-			Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, databaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, DatabaseDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
@@ -217,7 +217,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 		},
 		// verify migrate kms_key
 		{
-			Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, databaseRepresentationMigration),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
@@ -230,12 +230,12 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 		},
 		// delete before next create
 		{
-			Config: config + compartmentIdVariableStr + DatabaseResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies,
 		},
 		// verify create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, databaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
@@ -274,8 +274,8 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, databaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, DatabaseDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
@@ -311,9 +311,9 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_databases", "test_databases", acctest.Optional, acctest.Update, databaseDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, databaseRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_databases", "test_databases", acctest.Optional, acctest.Update, DatabaseDatabaseDatabaseDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, DatabaseDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_home_id"),
@@ -341,8 +341,8 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, databaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, DatabaseDatabaseDatabaseSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDatabaseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
 
@@ -436,7 +436,7 @@ func init() {
 
 func sweepDatabaseDatabaseResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	databaseIds, err := getDatabaseIds(compartment)
+	databaseIds, err := getDatabaseDatabaseIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -452,14 +452,14 @@ func sweepDatabaseDatabaseResource(compartment string) error {
 				fmt.Printf("Error deleting Database %s %s, It is possible that the resource is already deleted. Please verify manually \n", databaseId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &databaseId, databaseSweepWaitCondition, time.Duration(3*time.Minute),
-				databaseSweepResponseFetchOperation, "database", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &databaseId, DatabaseDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseDatabaseSweepResponseFetchOperation, "database", true)
 		}
 	}
 	return nil
 }
 
-func getDatabaseIds(compartment string) ([]string, error) {
+func getDatabaseDatabaseIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DatabaseId")
 	if ids != nil {
 		return ids, nil
@@ -471,7 +471,7 @@ func getDatabaseIds(compartment string) ([]string, error) {
 	listDatabasesRequest := oci_database.ListDatabasesRequest{}
 	listDatabasesRequest.CompartmentId = &compartmentId
 
-	dbHomeIds, err := getDbHomeIds(compartment)
+	dbHomeIds, err := getDatabaseDbHomeIds(compartment)
 	if err != nil {
 		return resourceIds, err
 	}
@@ -492,7 +492,7 @@ func getDatabaseIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func databaseSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseDatabaseSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if databaseResponse, ok := response.Response.(oci_database.GetDatabaseResponse); ok {
 		return databaseResponse.LifecycleState != oci_database.DatabaseLifecycleStateTerminated
@@ -500,7 +500,7 @@ func databaseSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func databaseSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseDatabaseSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseClient().GetDatabase(context.Background(), oci_database.GetDatabaseRequest{
 		DatabaseId: resourceId,
 		RequestMetadata: common.RequestMetadata{

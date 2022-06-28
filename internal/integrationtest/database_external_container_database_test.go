@@ -25,34 +25,34 @@ import (
 )
 
 var (
-	ExternalContainerDatabaseRequiredOnlyResource = ExternalContainerDatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Required, acctest.Create, externalContainerDatabaseRepresentation)
+	DatabaseExternalContainerDatabaseRequiredOnlyResource = DatabaseExternalContainerDatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Required, acctest.Create, DatabaseExternalContainerDatabaseRepresentation)
 
-	ExternalContainerDatabaseResourceConfig = ExternalContainerDatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Optional, acctest.Update, externalContainerDatabaseRepresentation)
+	DatabaseExternalContainerDatabaseResourceConfig = DatabaseExternalContainerDatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Optional, acctest.Update, DatabaseExternalContainerDatabaseRepresentation)
 
-	externalContainerDatabaseSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseExternalContainerDatabaseSingularDataSourceRepresentation = map[string]interface{}{
 		"external_container_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_external_container_database.test_external_container_database.id}`},
 	}
 
-	externalContainerDatabaseDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseExternalContainerDatabaseDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `myTestExternalCdb`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `NOT_CONNECTED`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: externalContainerDatabaseDataSourceFilterRepresentation}}
-	externalContainerDatabaseDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseExternalContainerDatabaseDataSourceFilterRepresentation}}
+	DatabaseExternalContainerDatabaseDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_external_container_database.test_external_container_database.id}`}},
 	}
 
-	externalContainerDatabaseRepresentation = map[string]interface{}{
+	DatabaseExternalContainerDatabaseRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `myTestExternalCdb`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	ExternalContainerDatabaseResourceDependencies = DefinedTagsDependencies
+	DatabaseExternalContainerDatabaseResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: database/default
@@ -74,14 +74,14 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ExternalContainerDatabaseResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Optional, acctest.Create, externalContainerDatabaseRepresentation), "database", "externalContainerDatabase", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExternalContainerDatabaseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Optional, acctest.Create, DatabaseExternalContainerDatabaseRepresentation), "database", "externalContainerDatabase", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseExternalContainerDatabaseDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ExternalContainerDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Required, acctest.Create, externalContainerDatabaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExternalContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Required, acctest.Create, DatabaseExternalContainerDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalCdb"),
@@ -95,12 +95,12 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ExternalContainerDatabaseResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseExternalContainerDatabaseResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ExternalContainerDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Optional, acctest.Create, externalContainerDatabaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExternalContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Optional, acctest.Create, DatabaseExternalContainerDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalCdb"),
@@ -123,9 +123,9 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ExternalContainerDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseExternalContainerDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(externalContainerDatabaseRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatabaseExternalContainerDatabaseRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -148,8 +148,8 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ExternalContainerDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Optional, acctest.Update, externalContainerDatabaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExternalContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Optional, acctest.Update, DatabaseExternalContainerDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalCdb"),
@@ -170,9 +170,9 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_container_databases", "test_external_container_databases", acctest.Optional, acctest.Update, externalContainerDatabaseDataSourceRepresentation) +
-				compartmentIdVariableStr + ExternalContainerDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Optional, acctest.Update, externalContainerDatabaseRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_container_databases", "test_external_container_databases", acctest.Optional, acctest.Update, DatabaseDatabaseExternalContainerDatabaseDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseExternalContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Optional, acctest.Update, DatabaseExternalContainerDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "myTestExternalCdb"),
@@ -193,8 +193,8 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Required, acctest.Create, externalContainerDatabaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ExternalContainerDatabaseResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Required, acctest.Create, DatabaseDatabaseExternalContainerDatabaseSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseExternalContainerDatabaseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_container_database_id"),
 
@@ -211,7 +211,7 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ExternalContainerDatabaseRequiredOnlyResource,
+			Config:                  config + DatabaseExternalContainerDatabaseRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -275,7 +275,7 @@ func init() {
 
 func sweepDatabaseExternalContainerDatabaseResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	externalContainerDatabaseIds, err := getExternalContainerDatabaseIds(compartment)
+	externalContainerDatabaseIds, err := getDatabaseExternalContainerDatabaseIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -292,13 +292,13 @@ func sweepDatabaseExternalContainerDatabaseResource(compartment string) error {
 				continue
 			}
 			acctest.WaitTillCondition(acctest.TestAccProvider, &externalContainerDatabaseId, externalContainerDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
-				externalContainerDatabaseSweepResponseFetchOperation, "database", true)
+				DatabaseExternalContainerDatabaseSweepResponseFetchOperation, "database", true)
 		}
 	}
 	return nil
 }
 
-func getExternalContainerDatabaseIds(compartment string) ([]string, error) {
+func getDatabaseExternalContainerDatabaseIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ExternalContainerDatabaseId")
 	if ids != nil {
 		return ids, nil
@@ -331,7 +331,7 @@ func externalContainerDatabaseSweepWaitCondition(response common.OCIOperationRes
 	return false
 }
 
-func externalContainerDatabaseSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseExternalContainerDatabaseSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseClient().GetExternalContainerDatabase(context.Background(), oci_database.GetExternalContainerDatabaseRequest{
 		ExternalContainerDatabaseId: resourceId,
 		RequestMetadata: common.RequestMetadata{

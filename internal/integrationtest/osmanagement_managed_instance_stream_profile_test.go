@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	managedInstanceStreamProfileDataSourceRepresentation = map[string]interface{}{
+	OsmanagementOsmanagementManagedInstanceStreamProfileDataSourceRepresentation = map[string]interface{}{
 		"managed_instance_id": acctest.Representation{RepType: acctest.Required, Create: managedInstanceOCID},
 	}
 )
@@ -39,7 +39,7 @@ func TestOsmanagementManagedInstanceStreamProfileResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_stream_profiles", "test_managed_instance_stream_profiles", acctest.Required, acctest.Create, managedInstanceStreamProfileDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_stream_profiles", "test_managed_instance_stream_profiles", acctest.Required, acctest.Create, OsmanagementOsmanagementManagedInstanceStreamProfileDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_instance_id"),

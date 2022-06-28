@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	pluggableDatabasesRemoteCloneRepresentation = map[string]interface{}{
+	DatabasePluggableDatabasesRemoteCloneRepresentation = map[string]interface{}{
 		"cloned_pdb_name":                    acctest.Representation{RepType: acctest.Required, Create: `NewSalesPdb`},
 		"pdb_admin_password":                 acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"pluggable_database_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
@@ -24,7 +24,7 @@ var (
 		"target_tde_wallet_password":         acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"should_pdb_admin_account_be_locked": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
-	AvailabilityDomainConfigClone = acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains_clone", acctest.Required, acctest.Create, availabilityDomainDataSourceRepresentation)
+	AvailabilityDomainConfigClone = acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains_clone", acctest.Required, acctest.Create, IdentityIdentityAvailabilityDomainDataSourceRepresentation)
 
 	ResourcePluggableDatabaseBaseCloneConfig = `
 
@@ -160,7 +160,7 @@ var (
 			  database_id = "${data.oci_database_databases.tClone.databases.0.id}"
 		}`
 
-	PluggableDatabaseResourceCloneDependencies = ResourcePluggableDatabaseBaseCloneConfig + dbSystemForPluggableDbCloneRepresentation
+	DatabasePluggableDatabasesRemoteCloneResourceDependencies = ResourcePluggableDatabaseBaseCloneConfig + dbSystemForPluggableDbCloneRepresentation
 )
 
 // issue-routing-tag: database/default
@@ -176,16 +176,16 @@ func TestDatabasePluggableDatabasesRemoteCloneResource_basic(t *testing.T) {
 	resourceName := "oci_database_pluggable_databases_remote_clone.test_pluggable_databases_remote_clone"
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+PluggableDatabaseResourceDependencies+PluggableDatabaseResourceCloneDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_databases_remote_clone", "test_pluggable_databases_remote_clone", acctest.Optional, acctest.Create, pluggableDatabasesRemoteCloneRepresentation), "database", "pluggableDatabasesRemoteClone", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabasePluggableDatabaseResourceDependencies+DatabasePluggableDatabasesRemoteCloneResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_databases_remote_clone", "test_pluggable_databases_remote_clone", acctest.Optional, acctest.Create, DatabasePluggableDatabasesRemoteCloneRepresentation), "database", "pluggableDatabasesRemoteClone", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 
 		//Remote Clone
 		{
-			Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies + AvailabilityDomainConfigClone + PluggableDatabaseResourceCloneDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Update, pluggableDatabaseRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_databases_remote_clone", "test_pluggable_databases_remote_clone", acctest.Optional, acctest.Create, pluggableDatabasesRemoteCloneRepresentation),
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies + AvailabilityDomainConfigClone + DatabasePluggableDatabasesRemoteCloneResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Update, DatabasePluggableDatabaseRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_databases_remote_clone", "test_pluggable_databases_remote_clone", acctest.Optional, acctest.Create, DatabasePluggableDatabasesRemoteCloneRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cloned_pdb_name", "NewSalesPdb"),
 				resource.TestCheckResourceAttrSet(resourceName, "pluggable_database_id"),

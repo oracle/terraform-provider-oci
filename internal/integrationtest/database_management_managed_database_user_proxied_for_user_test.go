@@ -16,19 +16,19 @@ import (
 )
 
 var (
-	managedDatabaseUserProxiedForUserSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabaseUserProxiedForUserSingularDataSourceRepresentation = map[string]interface{}{
 		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_managed_database.test_managed_database.id}`},
 		"user_name":           acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.name}`},
 		"name":                acctest.Representation{RepType: acctest.Optional, Create: `name`},
 	}
 
-	managedDatabaseUserProxiedForUserDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabaseUserProxiedForUserDataSourceRepresentation = map[string]interface{}{
 		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_managed_database.test_managed_database.id}`},
 		"user_name":           acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.name}`},
 		"name":                acctest.Representation{RepType: acctest.Optional, Create: `name`},
 	}
 
-	ManagedDatabaseUserProxiedForUserResourceConfig = ""
+	DatabaseManagementManagedDatabaseUserProxiedForUserResourceConfig = ""
 )
 
 // issue-routing-tag: database_management/default
@@ -51,8 +51,8 @@ func TestDatabaseManagementManagedDatabaseUserProxiedForUserResource_basic(t *te
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user_proxied_for_users", "test_managed_database_user_proxied_for_users", acctest.Required, acctest.Create, managedDatabaseUserProxiedForUserDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedDatabaseUserProxiedForUserResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user_proxied_for_users", "test_managed_database_user_proxied_for_users", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseUserProxiedForUserDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseManagementManagedDatabaseUserProxiedForUserResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_name"),
@@ -64,8 +64,8 @@ func TestDatabaseManagementManagedDatabaseUserProxiedForUserResource_basic(t *te
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user_proxied_for_user", "test_managed_database_user_proxied_for_user", acctest.Required, acctest.Create, managedDatabaseUserProxiedForUserSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedDatabaseUserProxiedForUserResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user_proxied_for_user", "test_managed_database_user_proxied_for_user", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseUserProxiedForUserSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseManagementManagedDatabaseUserProxiedForUserResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_name"),

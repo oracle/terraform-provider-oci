@@ -16,15 +16,15 @@ import (
 )
 
 var (
-	alarmStatusDataSourceRepresentation = map[string]interface{}{
+	MonitoringMonitoringAlarmStatusDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_monitoring_alarm.test_alarm.display_name}`},
 	}
 
-	AlarmStatusResourceConfig = DefinedTagsDependencies + AvailabilityDomainConfig +
+	MonitoringAlarmStatusResourceConfig = DefinedTagsDependencies + AvailabilityDomainConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, utils.CharsetWithoutDigits, "talarmstatus")) +
-		acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Required, acctest.Create, alarmRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Required, acctest.Create, MonitoringAlarmRepresentation)
 )
 
 // issue-routing-tag: monitoring/default
@@ -45,8 +45,8 @@ func TestMonitoringAlarmStatusResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_alarm_statuses", "test_alarm_statuses", acctest.Optional, acctest.Create, alarmStatusDataSourceRepresentation) +
-				compartmentIdVariableStr + AlarmStatusResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_alarm_statuses", "test_alarm_statuses", acctest.Optional, acctest.Create, MonitoringMonitoringAlarmStatusDataSourceRepresentation) +
+				compartmentIdVariableStr + MonitoringAlarmStatusResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),

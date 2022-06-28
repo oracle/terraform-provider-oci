@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	jobAdvisorReportSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseMigrationjobAdvisorReportSingularDataSourceRepresentation = map[string]interface{}{
 		"job_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_job.test_job.id}`},
 	}
 
-	JobAdvisorReportResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, jobRepresentation)
+	DatabaseMigrationJobAdvisorReportResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, jobRepresentation)
 )
 
 // issue-routing-tag: database_migration/default
@@ -42,7 +42,7 @@ func TestDatabaseMigrationJobAdvisorReportResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_job_advisor_report", "test_job_advisor_report", acctest.Required, acctest.Create, jobAdvisorReportSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_job_advisor_report", "test_job_advisor_report", acctest.Required, acctest.Create, DatabaseMigrationjobAdvisorReportSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "number_of_fatal_blockers", "0"),

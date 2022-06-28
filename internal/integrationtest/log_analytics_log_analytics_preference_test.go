@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	logAnalyticsPreferenceSingularDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogAnalyticsPreferenceSingularDataSourceRepresentation = map[string]interface{}{
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 )
@@ -39,8 +39,8 @@ func TestLogAnalyticsLogAnalyticsPreferenceResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Set preference to test data source
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsPreferencesManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_preferences_management", "test_log_analytics_preferences_management", acctest.Required, acctest.Create, logAnalyticsPreferencesManagementRepresentation),
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsPreferencesManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_preferences_management", "test_log_analytics_preferences_management", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsPreferencesManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -49,8 +49,8 @@ func TestLogAnalyticsLogAnalyticsPreferenceResource_basic(t *testing.T) {
 
 		// verify singular datasource
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsPreferencesManagementResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_preference", "test_log_analytics_preference", acctest.Required, acctest.Create, logAnalyticsPreferenceSingularDataSourceRepresentation),
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsPreferencesManagementResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_preference", "test_log_analytics_preference", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogAnalyticsPreferenceSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "items.#", "1"),
@@ -59,7 +59,7 @@ func TestLogAnalyticsLogAnalyticsPreferenceResource_basic(t *testing.T) {
 
 		// Delete the preference
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsPreferencesManagementResourceDependencies,
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsPreferencesManagementResourceDependencies,
 		},
 	})
 }

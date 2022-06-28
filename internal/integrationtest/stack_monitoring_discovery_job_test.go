@@ -31,40 +31,40 @@ import (
 */
 var (
 	StackMonitoringDiscoveryJobRequiredOnlyResource = StackMonitoringDiscoveryJobResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Required, acctest.Create, stackMonitoringDiscoveryJobRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Required, acctest.Create, StackMonitoringDiscoveryJobRepresentation)
 
 	StackMonitoringDiscoveryJobResourceConfig = StackMonitoringDiscoveryJobResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Update, stackMonitoringDiscoveryJobRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Update, StackMonitoringDiscoveryJobRepresentation)
 
-	stackMonitoringDiscoveryJobSingularDataSourceRepresentation = map[string]interface{}{
+	StackMonitoringStackMonitoringDiscoveryJobSingularDataSourceRepresentation = map[string]interface{}{
 		"discovery_job_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_stack_monitoring_discovery_job.test_discovery_job.id}`},
 	}
 
-	stackMonitoringDiscoveryJobDataSourceRepresentation = map[string]interface{}{
+	StackMonitoringStackMonitoringDiscoveryJobDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `terraformDiscoveryJob`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: stackMonitoringDiscoveryJobDataSourceFilterRepresentation}}
-	stackMonitoringDiscoveryJobDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringDiscoveryJobDataSourceFilterRepresentation}}
+	StackMonitoringDiscoveryJobDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_stack_monitoring_discovery_job.test_discovery_job.id}`}},
 	}
 
-	stackMonitoringDiscoveryJobRepresentation = map[string]interface{}{
+	StackMonitoringDiscoveryJobRepresentation = map[string]interface{}{
 		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"discovery_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: stackMonitoringDiscoveryJobDiscoveryDetailsRepresentation},
+		"discovery_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringDiscoveryJobDiscoveryDetailsRepresentation},
 		"discovery_client":  acctest.Representation{RepType: acctest.Optional, Create: `LA_SERVICE`},
 		"discovery_type":    acctest.Representation{RepType: acctest.Optional, Create: `ADD`},
 		"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSensitiveDiscoveryJobDataRepresentation},
 	}
-	stackMonitoringDiscoveryJobDiscoveryDetailsRepresentation = map[string]interface{}{
+	StackMonitoringDiscoveryJobDiscoveryDetailsRepresentation = map[string]interface{}{
 		"agent_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.stack_mon_management_agent_id_discovery}`},
-		"properties":    acctest.RepresentationGroup{RepType: acctest.Required, Group: stackMonitoringDiscoveryJobDiscoveryDetailsPropertiesRepresentation},
+		"properties":    acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringDiscoveryJobDiscoveryDetailsPropertiesRepresentation},
 		"resource_name": acctest.Representation{RepType: acctest.Required, Create: `terraformDiscoveryJob`},
 		"resource_type": acctest.Representation{RepType: acctest.Required, Create: `WEBLOGIC_DOMAIN`},
-		"credentials":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: stackMonitoringDiscoveryJobDiscoveryDetailsCredentialsRepresentation},
-		"tags":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: stackMonitoringDiscoveryJobDiscoveryDetailsTagsRepresentation},
+		"credentials":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringDiscoveryJobDiscoveryDetailsCredentialsRepresentation},
+		"tags":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringDiscoveryJobDiscoveryDetailsTagsRepresentation},
 	}
-	stackMonitoringDiscoveryJobDiscoveryDetailsPropertiesRepresentation = map[string]interface{}{
+	StackMonitoringDiscoveryJobDiscoveryDetailsPropertiesRepresentation = map[string]interface{}{
 		"properties_map": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"admin_server_host": "somehost.us.oracle.com",
 			"admin_server_port":     "7001",
 			"admin_server_protocol": "t3"}},
@@ -73,18 +73,18 @@ var (
 	ignoreSensitiveDiscoveryJobDataRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`discovery_details`, `system_tags`, `defined_tags`}},
 	}
-	stackMonitoringDiscoveryJobDiscoveryDetailsCredentialsRepresentation = map[string]interface{}{
-		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: stackMonitoringDiscoveryJobDiscoveryDetailsCredentialsItemsRepresentation},
+	StackMonitoringDiscoveryJobDiscoveryDetailsCredentialsRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringDiscoveryJobDiscoveryDetailsCredentialsItemsRepresentation},
 	}
-	stackMonitoringDiscoveryJobDiscoveryDetailsTagsRepresentation = map[string]interface{}{
+	StackMonitoringDiscoveryJobDiscoveryDetailsTagsRepresentation = map[string]interface{}{
 		"properties_map": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"propertiesMap": "propertiesMap"}, Update: map[string]string{"propertiesMap2": "propertiesMap2"}},
 	}
-	stackMonitoringDiscoveryJobDiscoveryDetailsCredentialsItemsRepresentation = map[string]interface{}{
+	StackMonitoringDiscoveryJobDiscoveryDetailsCredentialsItemsRepresentation = map[string]interface{}{
 		"credential_name": acctest.Representation{RepType: acctest.Required, Create: `Sk1YQ3JlZHM=`},
 		"credential_type": acctest.Representation{RepType: acctest.Required, Create: `Sk1YQ3JlZHM=`},
-		"properties":      acctest.RepresentationGroup{RepType: acctest.Required, Group: stackMonitoringDiscoveryJobDiscoveryDetailsCredentialsItemsPropertiesRepresentation},
+		"properties":      acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringDiscoveryJobDiscoveryDetailsCredentialsItemsPropertiesRepresentation},
 	}
-	stackMonitoringDiscoveryJobDiscoveryDetailsCredentialsItemsPropertiesRepresentation = map[string]interface{}{
+	StackMonitoringDiscoveryJobDiscoveryDetailsCredentialsItemsPropertiesRepresentation = map[string]interface{}{
 		"properties_map": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Username": "d2VibG9naWM=",
 			"Password": "d2VibG9naWM="}},
 	}
@@ -115,13 +115,13 @@ func TestStackMonitoringDiscoveryJobResource_basic(t *testing.T) {
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+StackMonitoringDiscoveryJobResourceDependencies+managementAgentIdVariableStr+
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, stackMonitoringDiscoveryJobRepresentation), "stackmonitoring", "discoveryJob", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, StackMonitoringDiscoveryJobRepresentation), "stackmonitoring", "discoveryJob", t)
 
 	acctest.ResourceTest(t, testAccCheckStackMonitoringDiscoveryJobDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + StackMonitoringDiscoveryJobResourceDependencies + managementAgentIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, stackMonitoringDiscoveryJobRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, StackMonitoringDiscoveryJobRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "discovery_details.#", "1"),
@@ -139,7 +139,7 @@ func TestStackMonitoringDiscoveryJobResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + StackMonitoringDiscoveryJobResourceDependencies + managementAgentIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, stackMonitoringDiscoveryJobRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, StackMonitoringDiscoveryJobRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "discovery_client", "LA_SERVICE"),
@@ -167,9 +167,9 @@ func TestStackMonitoringDiscoveryJobResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_discovery_jobs", "test_discovery_jobs", acctest.Optional, acctest.Update, stackMonitoringDiscoveryJobDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_discovery_jobs", "test_discovery_jobs", acctest.Optional, acctest.Update, StackMonitoringStackMonitoringDiscoveryJobDataSourceRepresentation) +
 				compartmentIdVariableStr + StackMonitoringDiscoveryJobResourceDependencies + managementAgentIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Update, stackMonitoringDiscoveryJobRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Update, StackMonitoringDiscoveryJobRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "terraformDiscoveryJob"),
@@ -181,7 +181,7 @@ func TestStackMonitoringDiscoveryJobResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Required, acctest.Create, stackMonitoringDiscoveryJobSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Required, acctest.Create, StackMonitoringStackMonitoringDiscoveryJobSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + managementAgentIdVariableStr + StackMonitoringDiscoveryJobResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "discovery_job_id"),
@@ -292,8 +292,8 @@ func sweepStackMonitoringDiscoveryJobResource(compartment string) error {
 				fmt.Printf("Error deleting DiscoveryJob %s %s, It is possible that the resource is already deleted. Please verify manually \n", discoveryJobId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &discoveryJobId, stackMonitoringDiscoveryJobSweepWaitCondition, time.Duration(3*time.Minute),
-				stackMonitoringDiscoveryJobSweepResponseFetchOperation, "stack_monitoring", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &discoveryJobId, StackMonitoringDiscoveryJobSweepWaitCondition, time.Duration(3*time.Minute),
+				StackMonitoringDiscoveryJobSweepResponseFetchOperation, "stack_monitoring", true)
 		}
 	}
 	return nil
@@ -323,7 +323,7 @@ func getStackMonitoringDiscoveryJobIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func stackMonitoringDiscoveryJobSweepWaitCondition(response common.OCIOperationResponse) bool {
+func StackMonitoringDiscoveryJobSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if discoveryJobResponse, ok := response.Response.(oci_stack_monitoring.GetDiscoveryJobResponse); ok {
 		return discoveryJobResponse.LifecycleState != oci_stack_monitoring.LifecycleStateDeleted
@@ -331,7 +331,7 @@ func stackMonitoringDiscoveryJobSweepWaitCondition(response common.OCIOperationR
 	return false
 }
 
-func stackMonitoringDiscoveryJobSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func StackMonitoringDiscoveryJobSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.StackMonitoringClient().GetDiscoveryJob(context.Background(), oci_stack_monitoring.GetDiscoveryJobRequest{
 		DiscoveryJobId: resourceId,
 		RequestMetadata: common.RequestMetadata{

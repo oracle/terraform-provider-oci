@@ -45,6 +45,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"datascience":             datascienceResourceGraph,
 	"devops":                  devopsResourceGraph,
 	"dns":                     dnsResourceGraph,
+	"em_warehouse":            emWarehouseResourceGraph,
 	"email":                   emailResourceGraph,
 	"events":                  eventsResourceGraph,
 	"file_storage":            fileStorageResourceGraph,
@@ -82,6 +83,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"tagging":                 taggingResourceGraph,
 	"vault":                   vaultResourceGraph,
 	"visual_builder":          visualBuilderResourceGraph,
+	"vn_monitoring":           vnMonitoringResourceGraph,
 	"vulnerability_scanning":  vulnerabilityScanningResourceGraph,
 	"waa":                     waaResourceGraph,
 	"waas":                    waasResourceGraph,
@@ -743,6 +745,12 @@ var dnsResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var emWarehouseResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportEmWarehouseEmWarehouseHints},
+	},
+}
+
 var emailResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportEmailSenderHints},
@@ -1288,6 +1296,12 @@ var vaultResourceGraph = TerraformResourceGraph{
 var visualBuilderResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportVisualBuilderVbInstanceHints},
+	},
+}
+
+var vnMonitoringResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportVnMonitoringPathAnalyzerTestHints},
 	},
 }
 

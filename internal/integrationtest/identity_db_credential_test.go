@@ -23,23 +23,23 @@ import (
 )
 
 var (
-	dbCredentialDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityDbCredentialDataSourceRepresentation = map[string]interface{}{
 		"user_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
 		"name":    acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"state":   acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: dbCredentialDataSourceFilterRepresentation}}
-	dbCredentialDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDbCredentialDataSourceFilterRepresentation}}
+	IdentityDbCredentialDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_db_credential.test_db_credential.id}`}},
 	}
 
-	dbCredentialRepresentation = map[string]interface{}{
+	IdentityDbCredentialRepresentation = map[string]interface{}{
 		"description": acctest.Representation{RepType: acctest.Required, Create: `description`},
 		"password":    acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#112`},
 		"user_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	DbCredentialResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
+	IdentityDbCredentialResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -57,14 +57,14 @@ func TestIdentityDbCredentialResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DbCredentialResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_db_credential", "test_db_credential", acctest.Required, acctest.Create, dbCredentialRepresentation), "identity", "dbCredential", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentityDbCredentialResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_db_credential", "test_db_credential", acctest.Required, acctest.Create, IdentityDbCredentialRepresentation), "identity", "dbCredential", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityDbCredentialDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DbCredentialResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_db_credential", "test_db_credential", acctest.Required, acctest.Create, dbCredentialRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityDbCredentialResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_db_credential", "test_db_credential", acctest.Required, acctest.Create, IdentityDbCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#112"),
@@ -85,9 +85,9 @@ func TestIdentityDbCredentialResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_db_credentials", "test_db_credentials", acctest.Optional, acctest.Update, dbCredentialDataSourceRepresentation) +
-				compartmentIdVariableStr + DbCredentialResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_db_credential", "test_db_credential", acctest.Optional, acctest.Update, dbCredentialRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_db_credentials", "test_db_credentials", acctest.Optional, acctest.Update, IdentityIdentityDbCredentialDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityDbCredentialResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_db_credential", "test_db_credential", acctest.Optional, acctest.Update, IdentityDbCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "name", "name"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),

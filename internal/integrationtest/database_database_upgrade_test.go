@@ -17,33 +17,33 @@ import (
 )
 
 var (
-	DatabasePrecheckResourceRepresentation = acctest.GenerateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", acctest.Optional, acctest.Update, databasePrecheckRepresentation)
-	DatabaseUpgradeResourceRepresentation  = acctest.GenerateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", acctest.Optional, acctest.Update, databaseUpgradeRepresentation)
+	DatabasePrecheckResourceRepresentation = acctest.GenerateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", acctest.Optional, acctest.Update, DatabaseDatabasePrecheckRepresentation)
+	DatabaseDatabaseUpgradeRepresentation  = acctest.GenerateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", acctest.Optional, acctest.Update, DatabaseDatabaseUpgradeRepresentation2)
 
-	databasePrecheckRepresentation = map[string]interface{}{
+	DatabaseDatabasePrecheckRepresentation = map[string]interface{}{
 		"action":                          acctest.Representation{RepType: acctest.Required, Create: `PRECHECK`},
 		"database_id":                     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_databases.t.databases.0.id}`},
-		"database_upgrade_source_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databasePrecheckDatabaseUpgradeSourceDbVersionRepresentation},
+		"database_upgrade_source_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabasePrecheckDatabaseUpgradeSourceDbVersionRepresentation},
 	}
 
-	databasePrecheckDatabaseUpgradeSourceDbVersionRepresentation = map[string]interface{}{
+	DatabaseDatabasePrecheckDatabaseUpgradeSourceDbVersionRepresentation = map[string]interface{}{
 		"db_version": acctest.Representation{RepType: acctest.Optional, Create: `19.0.0.0`},
 		"source":     acctest.Representation{RepType: acctest.Optional, Create: `DB_VERSION`},
 	}
 
-	databaseUpgradeRepresentation = map[string]interface{}{
+	DatabaseDatabaseUpgradeRepresentation2 = map[string]interface{}{
 		"action":                          acctest.Representation{RepType: acctest.Required, Create: `UPGRADE`},
 		"database_id":                     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_databases.t.databases.0.id}`},
-		"database_upgrade_source_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseUpgradeDatabaseUpgradeSourceDbVersionRepresentation},
+		"database_upgrade_source_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseUpgradeDatabaseUpgradeSourceDbVersionRepresentation},
 	}
 
-	databaseUpgradeDatabaseUpgradeSourceDbVersionRepresentation = map[string]interface{}{
+	DatabaseDatabaseUpgradeDatabaseUpgradeSourceDbVersionRepresentation = map[string]interface{}{
 		"db_version": acctest.Representation{RepType: acctest.Optional, Create: `19.0.0.0`},
 		"options":    acctest.Representation{RepType: acctest.Optional, Create: `-upgradeTimezone false -keepEvents`},
 		"source":     acctest.Representation{RepType: acctest.Optional, Create: `DB_VERSION`},
 	}
 
-	dbSystemForDbUpgradeRepresentation = `
+	DatabaseSystemForDbUpgradeRepresentation = `
 		resource "oci_database_db_system" "t" {
 			availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 			compartment_id = "${var.compartment_id}"
@@ -130,12 +130,12 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(ResourceDatabaseBaseConfig+dbSystemForDbUpgradeRepresentation, "database", "databaseUpgrade", t)
+	acctest.SaveConfigContent(ResourceDatabaseBaseConfig+DatabaseSystemForDbUpgradeRepresentation, "database", "databaseUpgrade", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Create dependencies
 		{
-			Config: ResourceDatabaseBaseConfig + dbSystemForDbUpgradeRepresentation,
+			Config: ResourceDatabaseBaseConfig + DatabaseSystemForDbUpgradeRepresentation,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// DB System Resource tests
 				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
@@ -164,7 +164,7 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 		},
 		// verify PRECHECK action on database with source=DB_VERSION
 		{
-			Config: ResourceDatabaseBaseConfig + DatabasePrecheckResourceRepresentation + dbSystemForDbUpgradeRepresentation,
+			Config: ResourceDatabaseBaseConfig + DatabasePrecheckResourceRepresentation + DatabaseSystemForDbUpgradeRepresentation,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// DBHome
 				resource.TestCheckResourceAttrSet("data.oci_database_db_home.t", "db_home_id"),
@@ -180,7 +180,7 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 		},
 		// verify upgrade history entries singular and plural datasources after PRECHECK action on database
 		{
-			Config: ResourceDatabaseBaseConfig + DatabasePrecheckResourceRepresentation + dbSystemForDbUpgradeRepresentation + ResourceDatabaseTokenFn(`
+			Config: ResourceDatabaseBaseConfig + DatabasePrecheckResourceRepresentation + DatabaseSystemForDbUpgradeRepresentation + ResourceDatabaseTokenFn(`
 				data "oci_database_database_upgrade_history_entries" "t" {
 					database_id = "${data.oci_database_databases.t.databases.0.id}"
 				}
@@ -217,7 +217,7 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 		},
 		// verify UPGRADE action on database with source=DB_VERSION
 		{
-			Config: ResourceDatabaseBaseConfig + DatabaseUpgradeResourceRepresentation + dbSystemForDbUpgradeRepresentation,
+			Config: ResourceDatabaseBaseConfig + DatabaseDatabaseUpgradeRepresentation + DatabaseSystemForDbUpgradeRepresentation,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// Database
 				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "id"),
@@ -233,7 +233,7 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 		},
 		// verify upgrade history entries singular and plural datasources after UPGRADE action on database
 		{
-			Config: ResourceDatabaseBaseConfig + DatabaseUpgradeResourceRepresentation + dbSystemForDbUpgradeRepresentation + ResourceDatabaseTokenFn(`
+			Config: ResourceDatabaseBaseConfig + DatabaseDatabaseUpgradeRepresentation + DatabaseSystemForDbUpgradeRepresentation + ResourceDatabaseTokenFn(`
 				data "oci_database_database_upgrade_history_entries" "t" {
 					database_id = "${data.oci_database_databases.t.databases.0.id}"
 				}

@@ -18,12 +18,12 @@ import (
 )
 
 var (
-	securityAssessmentComparisonSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafesecurityAssessmentComparisonSingularDataSourceRepresentation = map[string]interface{}{
 		"comparison_security_assessment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_security_assessment.test_security_assessment3.id}`},
 		"security_assessment_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_security_assessment.test_security_assessment4.id}`},
 	}
 
-	SecurityAssessmentComparisonResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment3", acctest.Required, acctest.Create, securityAssessmentRepresentation) +
+	DataSafeSecurityAssessmentComparisonResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment3", acctest.Required, acctest.Create, securityAssessmentRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment4", acctest.Required, acctest.Create, securityAssessmentRepresentation)
 )
 
@@ -45,8 +45,8 @@ func TestDataSafeSecurityAssessmentComparisonResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
-			Config: config + SecurityAssessmentComparisonResourceConfig + compartmentIdVariableStr + targetIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessment_comparison", "test_security_assessment_comparison", acctest.Required, acctest.Create, securityAssessmentComparisonSingularDataSourceRepresentation),
+			Config: config + DataSafeSecurityAssessmentComparisonResourceConfig + compartmentIdVariableStr + targetIdVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessment_comparison", "test_security_assessment_comparison", acctest.Required, acctest.Create, DataSafesecurityAssessmentComparisonSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
 					if failure, isServiceError := oci_common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {

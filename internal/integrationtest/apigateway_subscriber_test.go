@@ -25,29 +25,29 @@ import (
 )
 
 var (
-	SubscriberRequiredOnlyResource = SubscriberResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Required, acctest.Create, subscriberRepresentation)
+	ApigatewaySubscriberRequiredOnlyResource = ApigatewaySubscriberResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Required, acctest.Create, ApigatewaySubscriberRepresentation)
 
-	SubscriberResourceConfig = SubscriberResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Optional, acctest.Update, subscriberRepresentation)
+	ApigatewaySubscriberResourceConfig = ApigatewaySubscriberResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Optional, acctest.Update, ApigatewaySubscriberRepresentation)
 
-	subscriberSingularDataSourceRepresentation = map[string]interface{}{
+	ApigatewaySubscriberSingularDataSourceRepresentation = map[string]interface{}{
 		"subscriber_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_subscriber.test_subscriber.id}`},
 	}
 
-	subscriberDataSourceRepresentation = map[string]interface{}{
+	ApigatewaySubscriberDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		// "usage_plan_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_apigateway_usage_plan.test_usage_plan.id}`},
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: subscriberDataSourceFilterRepresentation}}
-	subscriberDataSourceFilterRepresentation = map[string]interface{}{
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewaySubscriberDataSourceFilterRepresentation}}
+	ApigatewaySubscriberDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apigateway_subscriber.test_subscriber.id}`}},
 	}
 
-	subscriberRepresentation = map[string]interface{}{
-		"clients":        acctest.RepresentationGroup{RepType: acctest.Required, Group: subscriberClientsRepresentation},
+	ApigatewaySubscriberRepresentation = map[string]interface{}{
+		"clients":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewaySubscriberClientsRepresentation},
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"usage_plans":    acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apigateway_usage_plan.test_usage_plan.id}`}, Update: []string{`${oci_apigateway_usage_plan.test_usage_plan2.id}`}},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -58,14 +58,14 @@ var (
 	ignoreChangesSubscriberRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
-	subscriberClientsRepresentation = map[string]interface{}{
+	ApigatewaySubscriberClientsRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"token": acctest.Representation{RepType: acctest.Required, Create: `token`, Update: `token2`},
 	}
 
-	// SubscriberResourceDependencies = DefinedTagsDependencies
-	SubscriberResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Required, acctest.Create, usagePlanRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan2", acctest.Required, acctest.Create, usagePlanRepresentation) +
+	// ApigatewaySubscriberResourceDependencies = DefinedTagsDependencies
+	ApigatewaySubscriberResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan", acctest.Required, acctest.Create, ApigatewayUsagePlanRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_usage_plan", "test_usage_plan2", acctest.Required, acctest.Create, ApigatewayUsagePlanRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -88,14 +88,14 @@ func TestApigatewaySubscriberResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SubscriberResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Optional, acctest.Create, subscriberRepresentation), "apigateway", "subscriber", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApigatewaySubscriberResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Optional, acctest.Create, ApigatewaySubscriberRepresentation), "apigateway", "subscriber", t)
 
 	acctest.ResourceTest(t, testAccCheckApigatewaySubscriberDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SubscriberResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Required, acctest.Create, subscriberRepresentation),
+			Config: config + compartmentIdVariableStr + ApigatewaySubscriberResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Required, acctest.Create, ApigatewaySubscriberRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "clients.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "clients.0.name", "name"),
@@ -112,12 +112,12 @@ func TestApigatewaySubscriberResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SubscriberResourceDependencies,
+			Config: config + compartmentIdVariableStr + ApigatewaySubscriberResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SubscriberResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Optional, acctest.Create, subscriberRepresentation),
+			Config: config + compartmentIdVariableStr + ApigatewaySubscriberResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Optional, acctest.Create, ApigatewaySubscriberRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "clients.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "clients.0.name", "name"),
@@ -145,9 +145,9 @@ func TestApigatewaySubscriberResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SubscriberResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApigatewaySubscriberResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(subscriberRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ApigatewaySubscriberRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -175,8 +175,8 @@ func TestApigatewaySubscriberResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SubscriberResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Optional, acctest.Update, subscriberRepresentation),
+			Config: config + compartmentIdVariableStr + ApigatewaySubscriberResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Optional, acctest.Update, ApigatewaySubscriberRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "clients.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "clients.0.name", "name2"),
@@ -202,9 +202,9 @@ func TestApigatewaySubscriberResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_subscribers", "test_subscribers", acctest.Optional, acctest.Update, subscriberDataSourceRepresentation) +
-				compartmentIdVariableStr + SubscriberResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Optional, acctest.Update, subscriberRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_subscribers", "test_subscribers", acctest.Optional, acctest.Update, ApigatewaySubscriberDataSourceRepresentation) +
+				compartmentIdVariableStr + ApigatewaySubscriberResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Optional, acctest.Update, ApigatewaySubscriberRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -218,8 +218,8 @@ func TestApigatewaySubscriberResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Required, acctest.Create, subscriberSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SubscriberResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_subscriber", "test_subscriber", acctest.Required, acctest.Create, ApigatewaySubscriberSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ApigatewaySubscriberResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "subscriber_id"),
 
@@ -238,7 +238,7 @@ func TestApigatewaySubscriberResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + SubscriberRequiredOnlyResource,
+			Config:            config + ApigatewaySubscriberRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

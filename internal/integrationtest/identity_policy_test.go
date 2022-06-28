@@ -23,20 +23,20 @@ import (
 )
 
 var (
-	PolicyRequiredOnlyResource = PolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Required, acctest.Create, policyRepresentation)
+	IdentityPolicyRequiredOnlyResource = IdentityPolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Required, acctest.Create, IdentityPolicyRepresentation)
 
-	policyDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityPolicyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `LaunchInstances`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: policyDataSourceFilterRepresentation}}
-	policyDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityPolicyDataSourceFilterRepresentation}}
+	IdentityPolicyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_policy.test_policy.id}`}},
 	}
 
-	policyRepresentation = map[string]interface{}{
+	IdentityPolicyRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"description":    acctest.Representation{RepType: acctest.Required, Create: `Policy for users who need to launch instances, attach volumes, manage images`, Update: `description2`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `LaunchInstances`},
@@ -46,7 +46,7 @@ var (
 		"version_date":   acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `2018-01-01`},
 	}
 
-	PolicyResourceDependencies = DefinedTagsDependencies
+	IdentityPolicyResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: identity/default
@@ -65,14 +65,14 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+PolicyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Optional, acctest.Create, policyRepresentation), "identity", "policy", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentityPolicyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Optional, acctest.Create, IdentityPolicyRepresentation), "identity", "policy", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityPolicyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Required, acctest.Create, policyRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Required, acctest.Create, IdentityPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
@@ -88,12 +88,12 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + PolicyResourceDependencies,
+			Config: config + compartmentIdVariableStr + IdentityPolicyResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Optional, acctest.Create, policyRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Optional, acctest.Create, IdentityPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
@@ -119,8 +119,8 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Optional, acctest.Update, policyRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Optional, acctest.Update, IdentityPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -144,9 +144,9 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_policies", "test_policies", acctest.Optional, acctest.Update, policyDataSourceRepresentation) +
-				compartmentIdVariableStr + PolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Optional, acctest.Update, policyRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_policies", "test_policies", acctest.Optional, acctest.Update, IdentityIdentityPolicyDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Optional, acctest.Update, IdentityPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "LaunchInstances"),
@@ -166,7 +166,7 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + PolicyRequiredOnlyResource,
+			Config:            config + IdentityPolicyRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

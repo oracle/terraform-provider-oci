@@ -24,27 +24,27 @@ import (
 )
 
 var (
-	HttpMonitorRequiredOnlyResource = HttpMonitorResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Required, acctest.Create, httpMonitorRepresentation)
+	HealthChecksHttpMonitorRequiredOnlyResource = HealthChecksHttpMonitorResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Required, acctest.Create, HealthChecksHttpMonitorRepresentation)
 
-	HttpMonitorResourceConfig = HttpMonitorResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Optional, acctest.Update, httpMonitorRepresentation)
+	HealthChecksHttpMonitorResourceConfig = HealthChecksHttpMonitorResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Optional, acctest.Update, HealthChecksHttpMonitorRepresentation)
 
-	httpMonitorSingularDataSourceRepresentation = map[string]interface{}{
+	HealthChecksHealthChecksHttpMonitorSingularDataSourceRepresentation = map[string]interface{}{
 		"monitor_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_health_checks_http_monitor.test_http_monitor.id}`},
 	}
 
-	httpMonitorDataSourceRepresentation = map[string]interface{}{
+	HealthChecksHealthChecksHttpMonitorDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"home_region":    acctest.Representation{RepType: acctest.Optional, Create: `${var.region}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: httpMonitorDataSourceFilterRepresentation}}
-	httpMonitorDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: HealthChecksHttpMonitorDataSourceFilterRepresentation}}
+	HealthChecksHttpMonitorDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_health_checks_http_monitor.test_http_monitor.id}`}},
 	}
 
-	httpMonitorRepresentation = map[string]interface{}{
+	HealthChecksHttpMonitorRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"interval_in_seconds": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `30`},
@@ -61,7 +61,7 @@ var (
 		"vantage_point_names": acctest.Representation{RepType: acctest.Optional, Create: []string{`goo-chs`}},
 	}
 
-	HttpMonitorResourceDependencies = DefinedTagsDependencies
+	HealthChecksHttpMonitorResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: health_checks/default
@@ -83,14 +83,14 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+HttpMonitorResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Optional, acctest.Create, httpMonitorRepresentation), "healthchecks", "httpMonitor", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+HealthChecksHttpMonitorResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Optional, acctest.Create, HealthChecksHttpMonitorRepresentation), "healthchecks", "httpMonitor", t)
 
 	acctest.ResourceTest(t, testAccCheckHealthChecksHttpMonitorDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Required, acctest.Create, httpMonitorRepresentation),
+			Config: config + compartmentIdVariableStr + HealthChecksHttpMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Required, acctest.Create, HealthChecksHttpMonitorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -107,12 +107,12 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies,
+			Config: config + compartmentIdVariableStr + HealthChecksHttpMonitorResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Optional, acctest.Create, httpMonitorRepresentation),
+			Config: config + compartmentIdVariableStr + HealthChecksHttpMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Optional, acctest.Create, HealthChecksHttpMonitorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -142,9 +142,9 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + HttpMonitorResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + HealthChecksHttpMonitorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(httpMonitorRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(HealthChecksHttpMonitorRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -174,8 +174,8 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Optional, acctest.Update, httpMonitorRepresentation),
+			Config: config + compartmentIdVariableStr + HealthChecksHttpMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Optional, acctest.Update, HealthChecksHttpMonitorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -203,9 +203,9 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_health_checks_http_monitors", "test_http_monitors", acctest.Optional, acctest.Update, httpMonitorDataSourceRepresentation) +
-				compartmentIdVariableStr + HttpMonitorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Optional, acctest.Update, httpMonitorRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_health_checks_http_monitors", "test_http_monitors", acctest.Optional, acctest.Update, HealthChecksHealthChecksHttpMonitorDataSourceRepresentation) +
+				compartmentIdVariableStr + HealthChecksHttpMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Optional, acctest.Update, HealthChecksHttpMonitorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -227,8 +227,8 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Required, acctest.Create, httpMonitorSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + HttpMonitorResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Required, acctest.Create, HealthChecksHealthChecksHttpMonitorSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + HealthChecksHttpMonitorResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
 
@@ -253,7 +253,7 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + HttpMonitorRequiredOnlyResource,
+			Config:                  config + HealthChecksHttpMonitorRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -309,7 +309,7 @@ func init() {
 
 func sweepHealthChecksHttpMonitorResource(compartment string) error {
 	healthChecksClient := acctest.GetTestClients(&schema.ResourceData{}).HealthChecksClient()
-	httpMonitorIds, err := getHttpMonitorIds(compartment)
+	httpMonitorIds, err := getHealthChecksHttpMonitorIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -330,7 +330,7 @@ func sweepHealthChecksHttpMonitorResource(compartment string) error {
 	return nil
 }
 
-func getHttpMonitorIds(compartment string) ([]string, error) {
+func getHealthChecksHttpMonitorIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "HttpMonitorId")
 	if ids != nil {
 		return ids, nil

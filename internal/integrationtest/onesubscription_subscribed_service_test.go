@@ -16,12 +16,12 @@ import (
 )
 
 var (
-	subscribedServiceSingularDataSourceRepresentation = map[string]interface{}{
+	OnesubscriptionOnesubscriptionSubscribedServiceSingularDataSourceRepresentation = map[string]interface{}{
 		"subscribed_service_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subscribed_service_id}`},
 		"fields":                acctest.Representation{RepType: acctest.Optional, Create: `${var.fields}`},
 	}
 
-	subscribedServiceDataSourceRepresentation = map[string]interface{}{
+	OnesubscriptionOnesubscriptionSubscribedServiceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"subscription_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
 		"order_line_id":   acctest.Representation{RepType: acctest.Optional, Create: `${var.order_line_id}`},
@@ -54,7 +54,7 @@ func TestOnesubscriptionSubscribedServiceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_subscribed_services", "test_subscribed_services", acctest.Required, acctest.Create, subscribedServiceDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_subscribed_services", "test_subscribed_services", acctest.Required, acctest.Create, OnesubscriptionOnesubscriptionSubscribedServiceDataSourceRepresentation) +
 				compartmentIdVariableStr + subscriptionIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -176,7 +176,7 @@ func TestOnesubscriptionSubscribedServiceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_subscribed_service", "test_subscribed_service", acctest.Required, acctest.Create, subscribedServiceSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_subscribed_service", "test_subscribed_service", acctest.Required, acctest.Create, OnesubscriptionOnesubscriptionSubscribedServiceSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + subsServIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//resource.TestCheckResourceAttr(singularDatasourceName, "fields.#", "1"),

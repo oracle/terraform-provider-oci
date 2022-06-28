@@ -15,11 +15,11 @@ import (
 )
 
 var (
-	crossConnectPortSpeedShapeDataSourceRepresentation = map[string]interface{}{
+	CoreCoreCrossConnectPortSpeedShapeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	CrossConnectPortSpeedShapeResourceConfig = ""
+	CoreCrossConnectPortSpeedShapeResourceConfig = ""
 )
 
 // issue-routing-tag: core/default
@@ -40,8 +40,8 @@ func TestCoreCrossConnectPortSpeedShapeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_port_speed_shapes", "test_cross_connect_port_speed_shapes", acctest.Required, acctest.Create, crossConnectPortSpeedShapeDataSourceRepresentation) +
-				compartmentIdVariableStr + CrossConnectPortSpeedShapeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_port_speed_shapes", "test_cross_connect_port_speed_shapes", acctest.Required, acctest.Create, CoreCoreCrossConnectPortSpeedShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreCrossConnectPortSpeedShapeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

@@ -16,12 +16,12 @@ import (
 )
 
 var (
-	databasePdbConversionHistoryEntrySingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDatabasePdbConversionHistoryEntrySingularDataSourceRepresentation = map[string]interface{}{
 		"database_id":                     acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("converted_to_pdb_db_id")},
 		"pdb_conversion_history_entry_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("pdb_conversion_history_entry_id")},
 	}
 
-	databasePdbConversionHistoryEntryDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDatabasePdbConversionHistoryEntryDataSourceRepresentation = map[string]interface{}{
 		"database_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("converted_to_pdb_db_id")},
 	}
 )
@@ -45,7 +45,7 @@ func TestDatabaseDatabasePdbConversionHistoryEntryResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database_pdb_conversion_history_entries", "test_database_pdb_conversion_history_entries", acctest.Required, acctest.Create, databasePdbConversionHistoryEntryDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database_pdb_conversion_history_entries", "test_database_pdb_conversion_history_entries", acctest.Required, acctest.Create, DatabaseDatabaseDatabasePdbConversionHistoryEntryDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
@@ -63,7 +63,7 @@ func TestDatabaseDatabasePdbConversionHistoryEntryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database_pdb_conversion_history_entry", "test_database_pdb_conversion_history_entry", acctest.Required, acctest.Create, databasePdbConversionHistoryEntrySingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database_pdb_conversion_history_entry", "test_database_pdb_conversion_history_entry", acctest.Required, acctest.Create, DatabaseDatabaseDatabasePdbConversionHistoryEntrySingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),

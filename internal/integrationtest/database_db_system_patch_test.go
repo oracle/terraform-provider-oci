@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	dbSystemPatchDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDbSystemPatchDataSourceRepresentation = map[string]interface{}{
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_system.test_db_system.id}`},
 	}
 
-	DbSystemPatchResourceConfig = DbSystemResourceConfig
+	DatabaseDbSystemPatchResourceConfig = DbSystemResourceConfig
 )
 
 // issue-routing-tag: database/default
@@ -41,8 +41,8 @@ func TestDatabaseDbSystemPatchResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_system_patches", "test_db_system_patches", acctest.Required, acctest.Create, dbSystemPatchDataSourceRepresentation) +
-				compartmentIdVariableStr + DbSystemPatchResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_system_patches", "test_db_system_patches", acctest.Required, acctest.Create, DatabaseDatabaseDbSystemPatchDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDbSystemPatchResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 

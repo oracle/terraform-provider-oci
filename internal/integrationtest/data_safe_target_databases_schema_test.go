@@ -16,15 +16,15 @@ import (
 )
 
 var (
-	targetDatabasesSchemaDataSourceRepresentation = map[string]interface{}{
+	DataSafetargetDatabasesSchemaDataSourceRepresentation = map[string]interface{}{
 		"target_database_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_target_database.test_target_database.id}`},
 		"is_oracle_maintained": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"schema_name":          acctest.Representation{RepType: acctest.Optional, Create: []string{`schemaName`}},
 		"schema_name_contains": acctest.Representation{RepType: acctest.Optional, Create: `schemaNameContains`},
 	}
 
-	TargetDatabasesSchemaResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
+	DataSafeTargetDatabasesSchemaResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -47,8 +47,8 @@ func TestDataSafeTargetDatabasesSchemaResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_databases_schemas", "test_target_databases_schemas", acctest.Required, acctest.Create, targetDatabasesSchemaDataSourceRepresentation) +
-				compartmentIdVariableStr + TargetDatabasesSchemaResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_databases_schemas", "test_target_databases_schemas", acctest.Required, acctest.Create, DataSafetargetDatabasesSchemaDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeTargetDatabasesSchemaResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "is_oracle_maintained", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "schema_name.#", "1"),

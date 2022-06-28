@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	osubSubscriptionsDataSourceRepresentation = map[string]interface{}{
+	OsubSubscriptionOsubSubscriptionSubscriptionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"buyer_email":             acctest.Representation{RepType: acctest.Optional, Create: `buyerEmail`},
 		"is_commit_info_required": acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -50,7 +50,7 @@ func TestOsubSubscriptionSubscriptionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_subscription_subscriptions", "test_subscriptions", acctest.Required, acctest.Create, osubSubscriptionsDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_subscription_subscriptions", "test_subscriptions", acctest.Required, acctest.Create, OsubSubscriptionOsubSubscriptionSubscriptionDataSourceRepresentation) +
 				compartmentIdVariableStr + subscriptionIdVariableStr + oneRegionVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

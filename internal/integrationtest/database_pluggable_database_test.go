@@ -25,29 +25,29 @@ import (
 )
 
 var (
-	PluggableDatabaseRequiredOnlyResource = PluggableDatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, pluggableDatabaseRepresentation)
+	DatabasePluggableDatabaseRequiredOnlyResource = DatabasePluggableDatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation)
 
-	PluggableDatabaseResourceConfig = PluggableDatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Update, pluggableDatabaseRepresentation)
+	DatabasePluggableDatabaseResourceConfig = DatabasePluggableDatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Update, DatabasePluggableDatabaseRepresentation)
 
-	pluggableDatabaseSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabasePluggableDatabaseSingularDataSourceRepresentation = map[string]interface{}{
 		"pluggable_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
 	}
 	ignoreChangesPdbepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
-	pluggableDatabaseDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabasePluggableDatabaseDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"pdb_name":       acctest.Representation{RepType: acctest.Optional, Create: `SalesPdb`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: pluggableDatabaseDataSourceFilterRepresentation}}
-	pluggableDatabaseDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabasePluggableDatabaseDataSourceFilterRepresentation}}
+	DatabasePluggableDatabaseDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_pluggable_database.test_pluggable_database.id}`}},
 	}
 
-	pluggableDatabaseRepresentation = map[string]interface{}{
+	DatabasePluggableDatabaseRepresentation = map[string]interface{}{
 		"container_database_id":              acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_database.t.id}`},
 		"pdb_admin_password":                 acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"pdb_name":                           acctest.Representation{RepType: acctest.Required, Create: `SalesPdb`},
@@ -193,7 +193,7 @@ var (
 			  database_id = "${data.oci_database_databases.t.databases.0.id}"
 		}`
 
-	PluggableDatabaseResourceDependencies = AvailabilityDomainConfig + ResourcePluggableDatabaseBaseConfig +
+	DatabasePluggableDatabaseResourceDependencies = AvailabilityDomainConfig + ResourcePluggableDatabaseBaseConfig +
 		DefinedTagsDependencies + dbSystemForPluggableDbRepresentation
 )
 
@@ -213,14 +213,14 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+PluggableDatabaseResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Create, pluggableDatabaseRepresentation), "database", "pluggableDatabase", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabasePluggableDatabaseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Create, DatabasePluggableDatabaseRepresentation), "database", "pluggableDatabase", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabasePluggableDatabaseDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, pluggableDatabaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),
@@ -236,12 +236,12 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Create, pluggableDatabaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Create, DatabasePluggableDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
@@ -269,8 +269,8 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Update, pluggableDatabaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Update, DatabasePluggableDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
@@ -296,9 +296,9 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_pluggable_databases", "test_pluggable_databases", acctest.Optional, acctest.Update, pluggableDatabaseDataSourceRepresentation) +
-				compartmentIdVariableStr + PluggableDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Update, pluggableDatabaseRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_pluggable_databases", "test_pluggable_databases", acctest.Optional, acctest.Update, DatabaseDatabasePluggableDatabaseDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Update, DatabasePluggableDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "pdb_name", "SalesPdb"),
@@ -318,8 +318,8 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Update, pluggableDatabaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + PluggableDatabaseResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Update, DatabaseDatabasePluggableDatabaseSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabasePluggableDatabaseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "pluggable_database_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
@@ -334,7 +334,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + PluggableDatabaseRequiredOnlyResource,
+			Config:            config + DatabasePluggableDatabaseRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -402,7 +402,7 @@ func init() {
 
 func sweepDatabasePluggableDatabaseResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	pluggableDatabaseIds, err := getPluggableDatabaseIds(compartment)
+	pluggableDatabaseIds, err := getDatabasePluggableDatabaseIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -418,14 +418,14 @@ func sweepDatabasePluggableDatabaseResource(compartment string) error {
 				fmt.Printf("Error deleting PluggableDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", pluggableDatabaseId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &pluggableDatabaseId, pluggableDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
-				pluggableDatabaseSweepResponseFetchOperation, "database", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &pluggableDatabaseId, DatabasePluggableDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabasePluggableDatabaseSweepResponseFetchOperation, "database", true)
 		}
 	}
 	return nil
 }
 
-func getPluggableDatabaseIds(compartment string) ([]string, error) {
+func getDatabasePluggableDatabaseIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "PluggableDatabaseId")
 	if ids != nil {
 		return ids, nil
@@ -450,7 +450,7 @@ func getPluggableDatabaseIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func pluggableDatabaseSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabasePluggableDatabaseSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if pluggableDatabaseResponse, ok := response.Response.(oci_database.GetPluggableDatabaseResponse); ok {
 		return pluggableDatabaseResponse.LifecycleState != oci_database.PluggableDatabaseLifecycleStateTerminated
@@ -458,7 +458,7 @@ func pluggableDatabaseSweepWaitCondition(response common.OCIOperationResponse) b
 	return false
 }
 
-func pluggableDatabaseSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabasePluggableDatabaseSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseClient().GetPluggableDatabase(context.Background(), oci_database.GetPluggableDatabaseRequest{
 		PluggableDatabaseId: resourceId,
 		RequestMetadata: common.RequestMetadata{

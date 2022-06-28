@@ -19,26 +19,26 @@ import (
 )
 
 var (
-	DataGuardAssociationRequiredOnlyResource = DataGuardAssociationResourceDependencies +
+	DatabaseDataGuardAssociationRequiredOnlyResource = DatabaseDataGuardAssociationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Required, acctest.Create, dataGuardAssociationRepresentationExistingDbSystem)
 
-	DataGuardAssociationResourceConfig = DataGuardAssociationResourceDependencies +
+	DatabaseDataGuardAssociationResourceConfig = DatabaseDataGuardAssociationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Update, dataGuardAssociationRepresentationExistingDbSystem)
 
-	dataGuardAssociationSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDataGuardAssociationSingularDataSourceRepresentation = map[string]interface{}{
 		"data_guard_association_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_data_guard_association.test_data_guard_association.id}`},
 		"database_id":               acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_databases.db.databases.0.id}`},
 	}
 
-	dataGuardAssociationDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDataGuardAssociationDataSourceRepresentation = map[string]interface{}{
 		"database_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_databases.db.databases.0.id}`},
-		"filter":      acctest.RepresentationGroup{RepType: acctest.Required, Group: dataGuardAssociationDataSourceFilterRepresentation}}
-	dataGuardAssociationDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseDataGuardAssociationDataSourceFilterRepresentation}}
+	DatabaseDataGuardAssociationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_data_guard_association.test_data_guard_association.id}`}},
 	}
 
-	dataGuardAssociationRepresentationBase = map[string]interface{}{
+	DatabaseDataGuardAssociationRepresentationBase = map[string]interface{}{
 		"depends_on":                       acctest.Representation{RepType: acctest.Required, Create: []string{"oci_database_db_system.test_db_system"}},
 		"database_admin_password":          acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"database_id":                      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_databases.db.databases.0.id}`},
@@ -60,12 +60,12 @@ var (
 		"is_active_data_guard_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
-	dataGuardAssociationRepresentationExistingDbSystem = acctest.RepresentationCopyWithNewProperties(dataGuardAssociationRepresentationBase, map[string]interface{}{
+	dataGuardAssociationRepresentationExistingDbSystem = acctest.RepresentationCopyWithNewProperties(DatabaseDataGuardAssociationRepresentationBase, map[string]interface{}{
 		"depends_on":        acctest.Representation{RepType: acctest.Required, Create: []string{`oci_database_db_system.test_db_system`, `oci_database_db_system.test_db_system2`}},
 		"creation_type":     acctest.Representation{RepType: acctest.Required, Create: `ExistingDbSystem`},
 		"peer_db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_system.test_db_system2.id}`},
 	})
-	dataGuardAssociationRepresentationNewDbSystem = acctest.RepresentationCopyWithNewProperties(dataGuardAssociationRepresentationBase, map[string]interface{}{
+	dataGuardAssociationRepresentationNewDbSystem = acctest.RepresentationCopyWithNewProperties(DatabaseDataGuardAssociationRepresentationBase, map[string]interface{}{
 		"creation_type":          acctest.Representation{RepType: acctest.Required, Create: `NewDbSystem`},
 		"availability_domain":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `displayName`},
@@ -76,8 +76,8 @@ var (
 		"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 	})
 
-	DataGuardAssociationResourceDependenciesBase = AvailabilityDomainConfig + DefinedTagsDependencies + VcnResourceConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Update, networkSecurityGroupRepresentation) +
+	DataGuardAssociationResourceDependenciesBase = AvailabilityDomainConfig + DefinedTagsDependencies + CoreVcnResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Update, CoreNetworkSecurityGroupRepresentation) +
 		`
 #dataguard requires the some port to be open on the subnet
 resource "oci_core_subnet" "test_subnet" {
@@ -124,7 +124,7 @@ data "oci_database_db_homes" "t" {
 }
 
 `
-	DataGuardAssociationResourceDependencies = DataGuardAssociationResourceDependenciesBase + `
+	DatabaseDataGuardAssociationResourceDependencies = DataGuardAssociationResourceDependenciesBase + `
 resource "oci_database_db_system" "test_db_system" {
 	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
 	compartment_id = "${var.compartment_id}"
@@ -232,7 +232,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataGuardAssociationResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseDataGuardAssociationResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Create, dataGuardAssociationRepresentationExistingDbSystem), "database", "dataGuardAssociation", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
@@ -260,11 +260,11 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependencies,
 		},
 		// verify Create with optionals on Existing DbSystem
 		{
-			Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Create, dataGuardAssociationRepresentationExistingDbSystem),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "10"),
@@ -296,7 +296,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Update, dataGuardAssociationRepresentationExistingDbSystem),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "10"),
@@ -326,8 +326,8 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_data_guard_associations", acctest.Optional, acctest.Update, dataGuardAssociationDataSourceRepresentation) +
-				compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_data_guard_associations", acctest.Optional, acctest.Update, DatabaseDatabaseDataGuardAssociationDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Update, dataGuardAssociationRepresentationExistingDbSystem),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
@@ -347,8 +347,8 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Required, acctest.Create, dataGuardAssociationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Required, acctest.Create, DatabaseDatabaseDataGuardAssociationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Update, dataGuardAssociationRepresentationExistingDbSystem),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),

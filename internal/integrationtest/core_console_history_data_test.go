@@ -15,17 +15,17 @@ import (
 )
 
 var (
-	consoleHistoryContentSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreConsoleHistoryContentSingularDataSourceRepresentation = map[string]interface{}{
 		"console_history_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_console_history.test_console_history.id}`},
 		"length":             acctest.Representation{RepType: acctest.Optional, Create: `10240`},
 		"offset":             acctest.Representation{RepType: acctest.Optional, Create: `0`},
 	}
 
-	ConsoleHistoryContentResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", acctest.Required, acctest.Create, consoleHistoryRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreConsoleHistoryContentResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", acctest.Required, acctest.Create, CoreConsoleHistoryRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
 		AvailabilityDomainConfig
 )
 
@@ -47,8 +47,8 @@ func TestCoreConsoleHistoryContentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_console_history_data", "test_console_history_content", acctest.Optional, acctest.Create, consoleHistoryContentSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ConsoleHistoryContentResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_console_history_data", "test_console_history_content", acctest.Optional, acctest.Create, CoreCoreConsoleHistoryContentSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreConsoleHistoryContentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "console_history_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "length", "10240"),

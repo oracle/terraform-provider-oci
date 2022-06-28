@@ -25,22 +25,22 @@ import (
 )
 
 var (
-	CatalogPrivateEndpointRequiredOnlyResource = CatalogPrivateEndpointResourceDependencies +
+	DatacatalogCatalogPrivateEndpointRequiredOnlyResource = DatacatalogCatalogPrivateEndpointResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", acctest.Required, acctest.Create, catalogPrivateEndpointRepresentation)
 
-	CatalogPrivateEndpointResourceConfig = CatalogPrivateEndpointResourceDependencies +
+	DatacatalogCatalogPrivateEndpointResourceConfig = DatacatalogCatalogPrivateEndpointResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", acctest.Optional, acctest.Update, catalogPrivateEndpointRepresentation)
 
-	catalogPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
+	DatacatalogDatacatalogCatalogPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
 		"catalog_private_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id}`},
 	}
 
-	catalogPrivateEndpointDataSourceRepresentation = map[string]interface{}{
+	DatacatalogDatacatalogCatalogPrivateEndpointDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: catalogPrivateEndpointDataSourceFilterRepresentation}}
-	catalogPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatacatalogCatalogPrivateEndpointDataSourceFilterRepresentation}}
+	DatacatalogCatalogPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id}`}},
 	}
@@ -60,8 +60,8 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	CatalogPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	DatacatalogCatalogPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -84,13 +84,13 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CatalogPrivateEndpointResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatacatalogCatalogPrivateEndpointResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", acctest.Optional, acctest.Create, catalogPrivateEndpointRepresentation), "datacatalog", "catalogPrivateEndpoint", t)
 
 	acctest.ResourceTest(t, testAccCheckDatacatalogCatalogPrivateEndpointDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CatalogPrivateEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatacatalogCatalogPrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", acctest.Required, acctest.Create, catalogPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -106,11 +106,11 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + CatalogPrivateEndpointResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatacatalogCatalogPrivateEndpointResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + CatalogPrivateEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatacatalogCatalogPrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", acctest.Optional, acctest.Create, catalogPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -134,7 +134,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CatalogPrivateEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatacatalogCatalogPrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(catalogPrivateEndpointRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -159,7 +159,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CatalogPrivateEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatacatalogCatalogPrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", acctest.Optional, acctest.Update, catalogPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -181,8 +181,8 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoints", "test_catalog_private_endpoints", acctest.Optional, acctest.Update, catalogPrivateEndpointDataSourceRepresentation) +
-				compartmentIdVariableStr + CatalogPrivateEndpointResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoints", "test_catalog_private_endpoints", acctest.Optional, acctest.Update, DatacatalogDatacatalogCatalogPrivateEndpointDataSourceRepresentation) +
+				compartmentIdVariableStr + DatacatalogCatalogPrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", acctest.Optional, acctest.Update, catalogPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -204,8 +204,8 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", acctest.Required, acctest.Create, catalogPrivateEndpointSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CatalogPrivateEndpointResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", acctest.Required, acctest.Create, DatacatalogDatacatalogCatalogPrivateEndpointSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatacatalogCatalogPrivateEndpointResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_private_endpoint_id"),
 
@@ -221,7 +221,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + CatalogPrivateEndpointRequiredOnlyResource,
+			Config:                  config + DatacatalogCatalogPrivateEndpointRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -285,7 +285,7 @@ func init() {
 
 func sweepDatacatalogCatalogPrivateEndpointResource(compartment string) error {
 	dataCatalogClient := acctest.GetTestClients(&schema.ResourceData{}).DataCatalogClient()
-	catalogPrivateEndpointIds, err := getCatalogPrivateEndpointIds(compartment)
+	catalogPrivateEndpointIds, err := getDatacatalogCatalogPrivateEndpointIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -301,14 +301,14 @@ func sweepDatacatalogCatalogPrivateEndpointResource(compartment string) error {
 				fmt.Printf("Error deleting CatalogPrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", catalogPrivateEndpointId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &catalogPrivateEndpointId, catalogPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
-				catalogPrivateEndpointSweepResponseFetchOperation, "datacatalog", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &catalogPrivateEndpointId, DatacatalogCatalogPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
+				DatacatalogCatalogPrivateEndpointSweepResponseFetchOperation, "datacatalog", true)
 		}
 	}
 	return nil
 }
 
-func getCatalogPrivateEndpointIds(compartment string) ([]string, error) {
+func getDatacatalogCatalogPrivateEndpointIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "CatalogPrivateEndpointId")
 	if ids != nil {
 		return ids, nil
@@ -333,7 +333,7 @@ func getCatalogPrivateEndpointIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func catalogPrivateEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatacatalogCatalogPrivateEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if catalogPrivateEndpointResponse, ok := response.Response.(oci_datacatalog.GetCatalogPrivateEndpointResponse); ok {
 		return catalogPrivateEndpointResponse.LifecycleState != oci_datacatalog.LifecycleStateDeleted
@@ -341,7 +341,7 @@ func catalogPrivateEndpointSweepWaitCondition(response common.OCIOperationRespon
 	return false
 }
 
-func catalogPrivateEndpointSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatacatalogCatalogPrivateEndpointSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataCatalogClient().GetCatalogPrivateEndpoint(context.Background(), oci_datacatalog.GetCatalogPrivateEndpointRequest{
 		CatalogPrivateEndpointId: resourceId,
 		RequestMetadata: common.RequestMetadata{

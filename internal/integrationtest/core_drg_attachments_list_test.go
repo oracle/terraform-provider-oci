@@ -18,19 +18,19 @@ import (
 )
 
 var (
-	DrgAttachmentsListRequiredOnlyResource = DrgAttachmentsListResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", acctest.Required, acctest.Create, drgAttachmentsListRepresentation)
+	CoreDrgAttachmentsListRequiredOnlyResource = CoreDrgAttachmentsListResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", acctest.Required, acctest.Create, CoreDrgAttachmentsListRepresentation)
 
-	drgAttachmentsListRepresentation = map[string]interface{}{
+	CoreDrgAttachmentsListRepresentation = map[string]interface{}{
 		"drg_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg.test_drg.id}`},
 		"attachment_type":  acctest.Representation{RepType: acctest.Optional, Create: `VCN`},
 		"is_cross_tenancy": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
-	DrgAttachmentsListResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", acctest.Required, acctest.Create, drgAttachmentRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, drgRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, routeTableRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreDrgAttachmentsListResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", acctest.Required, acctest.Create, CoreDrgAttachmentRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, CoreDrgRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -48,14 +48,14 @@ func TestCoreDrgAttachmentsListResource_basic(t *testing.T) {
 
 	var resId string
 	//Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DrgAttachmentsListResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", acctest.Optional, acctest.Create, drgAttachmentsListRepresentation), "core", "drgAttachmentsList", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreDrgAttachmentsListResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", acctest.Optional, acctest.Create, CoreDrgAttachmentsListRepresentation), "core", "drgAttachmentsList", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreDrgAttachmentDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DrgAttachmentsListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", acctest.Required, acctest.Create, drgAttachmentsListRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDrgAttachmentsListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", acctest.Required, acctest.Create, CoreDrgAttachmentsListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 			),
@@ -63,12 +63,12 @@ func TestCoreDrgAttachmentsListResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DrgAttachmentsListResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreDrgAttachmentsListResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DrgAttachmentsListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", acctest.Optional, acctest.Create, drgAttachmentsListRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDrgAttachmentsListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", acctest.Optional, acctest.Create, CoreDrgAttachmentsListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "attachment_type", "VCN"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),

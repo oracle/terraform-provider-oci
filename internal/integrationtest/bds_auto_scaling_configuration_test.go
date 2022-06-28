@@ -20,69 +20,69 @@ import (
 
 var (
 	BdsAutoScalingConfigurationRequiredOnlyResource = BdsAutoScalingConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, bdsAutoScalingConfigurationRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, BdsautoScalingConfigurationRepresentation)
 
 	BdsAutoScalingConfigurationResourceConfig = BdsAutoScalingConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, bdsAutoScalingConfigurationRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, BdsautoScalingConfigurationRepresentation)
 
-	bdsAutoScalingConfigurationSingularDataSourceRepresentation = map[string]interface{}{
+	BdsBdsautoScalingConfigurationSingularDataSourceRepresentation = map[string]interface{}{
 		"auto_scaling_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_auto_scaling_configuration.test_auto_scaling_configuration.id}`},
 		"bds_instance_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
 	}
 
-	bdsAutoScalingConfigurationDataSourceRepresentation = map[string]interface{}{
+	BdsBdsautoScalingConfigurationDataSourceRepresentation = map[string]interface{}{
 		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":    acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":           acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsAutoScalingConfigurationDataSourceFilterRepresentation}}
-	bdsAutoScalingConfigurationDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsautoScalingConfigurationDataSourceFilterRepresentation}}
+	BdsautoScalingConfigurationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_bds_auto_scaling_configuration.test_auto_scaling_configuration.id}`}},
 	}
 
-	bdsAutoScalingConfigurationRepresentation = map[string]interface{}{
+	BdsautoScalingConfigurationRepresentation = map[string]interface{}{
 		"bds_instance_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
 		"cluster_admin_password": acctest.Representation{RepType: acctest.Required, Create: `V2VsY29tZTE=`},
 		"is_enabled":             acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"node_type":              acctest.Representation{RepType: acctest.Required, Create: `WORKER`},
-		"policy":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPolicyRepresentation},
+		"policy":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsautoScalingConfigurationPolicyRepresentation},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 	}
-	autoScalingConfigurationPolicyRepresentation = map[string]interface{}{
+	BdsautoScalingConfigurationPolicyRepresentation = map[string]interface{}{
 		"policy_type": acctest.Representation{RepType: acctest.Required, Create: `THRESHOLD_BASED`, Update: `THRESHOLD_BASED`},
-		"rules":       []acctest.RepresentationGroup{{RepType: acctest.Required, Group: autoScalingConfigurationPolicyScaleUpRulesRepresentation}, {RepType: acctest.Required, Group: autoScalingConfigurationPolicyScaleDownRulesRepresentation}},
+		"rules":       []acctest.RepresentationGroup{{RepType: acctest.Required, Group: BdsautoScalingConfigurationPolicyScaleUpRulesRepresentation}, {RepType: acctest.Required, Group: BdsautoScalingConfigurationPolicyScaleDownRulesRepresentation}},
 	}
-	autoScalingConfigurationPolicyScaleUpRulesRepresentation = map[string]interface{}{
+	BdsautoScalingConfigurationPolicyScaleUpRulesRepresentation = map[string]interface{}{
 		"action": acctest.Representation{RepType: acctest.Required, Create: `CHANGE_SHAPE_SCALE_UP`, Update: `CHANGE_SHAPE_SCALE_UP`},
-		"metric": acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPolicyScaleUpRulesMetricRepresentation},
+		"metric": acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsautoScalingConfigurationPolicyScaleUpRulesMetricRepresentation},
 	}
-	autoScalingConfigurationPolicyScaleUpRulesMetricRepresentation = map[string]interface{}{
+	BdsautoScalingConfigurationPolicyScaleUpRulesMetricRepresentation = map[string]interface{}{
 		"metric_type": acctest.Representation{RepType: acctest.Required, Create: `CPU_UTILIZATION`, Update: `CPU_UTILIZATION`},
-		"threshold":   acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPolicyScaleUpRulesMetricThresholdRepresentation},
+		"threshold":   acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsautoScalingConfigurationPolicyScaleUpRulesMetricThresholdRepresentation},
 	}
-	autoScalingConfigurationPolicyScaleUpRulesMetricThresholdRepresentation = map[string]interface{}{
+	BdsautoScalingConfigurationPolicyScaleUpRulesMetricThresholdRepresentation = map[string]interface{}{
 		"duration_in_minutes": acctest.Representation{RepType: acctest.Required, Create: `25`, Update: `50`},
 		"operator":            acctest.Representation{RepType: acctest.Required, Create: `GT`, Update: `GT`},
 		"value":               acctest.Representation{RepType: acctest.Required, Create: `80`, Update: `90`},
 	}
-	autoScalingConfigurationPolicyScaleDownRulesRepresentation = map[string]interface{}{
+	BdsautoScalingConfigurationPolicyScaleDownRulesRepresentation = map[string]interface{}{
 		"action": acctest.Representation{RepType: acctest.Required, Create: `CHANGE_SHAPE_SCALE_DOWN`, Update: `CHANGE_SHAPE_SCALE_DOWN`},
-		"metric": acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPolicyScaleDownRulesMetricRepresentation},
+		"metric": acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsautoScalingConfigurationPolicyScaleDownRulesMetricRepresentation},
 	}
-	autoScalingConfigurationPolicyScaleDownRulesMetricRepresentation = map[string]interface{}{
+	BdsautoScalingConfigurationPolicyScaleDownRulesMetricRepresentation = map[string]interface{}{
 		"metric_type": acctest.Representation{RepType: acctest.Required, Create: `CPU_UTILIZATION`, Update: `CPU_UTILIZATION`},
-		"threshold":   acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPolicyScaleDownRulesMetricThresholdRepresentation},
+		"threshold":   acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsautoScalingConfigurationPolicyScaleDownRulesMetricThresholdRepresentation},
 	}
-	autoScalingConfigurationPolicyScaleDownRulesMetricThresholdRepresentation = map[string]interface{}{
+	BdsautoScalingConfigurationPolicyScaleDownRulesMetricThresholdRepresentation = map[string]interface{}{
 		"duration_in_minutes": acctest.Representation{RepType: acctest.Required, Create: `25`, Update: `50`},
 		"operator":            acctest.Representation{RepType: acctest.Required, Create: `LT`, Update: `LT`},
 		"value":               acctest.Representation{RepType: acctest.Required, Create: `15`, Update: `20`},
 	}
 
-	BdsAutoScalingConfigurationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation)
+	BdsAutoScalingConfigurationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, BdsbdsInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
 )
 
 // issue-routing-tag: bds/default
@@ -102,13 +102,13 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+BdsAutoScalingConfigurationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create, bdsAutoScalingConfigurationRepresentation), "bds", "autoScalingConfiguration", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create, BdsautoScalingConfigurationRepresentation), "bds", "autoScalingConfiguration", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, bdsAutoScalingConfigurationRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, BdsautoScalingConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
@@ -152,7 +152,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create, bdsAutoScalingConfigurationRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create, BdsautoScalingConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
@@ -202,7 +202,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, bdsAutoScalingConfigurationRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, BdsautoScalingConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
@@ -249,9 +249,9 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configurations", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, bdsAutoScalingConfigurationDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configurations", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, BdsBdsautoScalingConfigurationDataSourceRepresentation) +
 				compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, bdsAutoScalingConfigurationRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, BdsautoScalingConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -268,7 +268,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, bdsAutoScalingConfigurationSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, BdsBdsautoScalingConfigurationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + BdsAutoScalingConfigurationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_configuration_id"),

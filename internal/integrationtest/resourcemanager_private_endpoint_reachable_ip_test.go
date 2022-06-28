@@ -16,14 +16,14 @@ import (
 )
 
 var (
-	privateEndpointReachableIpSingularDataSourceRepresentation = map[string]interface{}{
+	ResourcemanagerResourcemanagerPrivateEndpointReachableIpSingularDataSourceRepresentation = map[string]interface{}{
 		"private_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_resourcemanager_private_endpoint.test_private_endpoint.id}`},
 		"private_ip":          acctest.Representation{RepType: acctest.Required, Create: `privateIp`},
 	}
 
-	PrivateEndpointReachableIpResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_private_endpoint", acctest.Required, acctest.Create, resourceManagerprivateEndpointRepresentation)
+	ResourcemanagerPrivateEndpointReachableIpResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_private_endpoint", acctest.Required, acctest.Create, ResourceManagerprivateEndpointRepresentation)
 )
 
 // issue-routing-tag: resourcemanager/default
@@ -44,8 +44,8 @@ func TestResourcemanagerPrivateEndpointReachableIpResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_private_endpoint_reachable_ip", "test_private_endpoint_reachable_ip", acctest.Required, acctest.Create, privateEndpointReachableIpSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + PrivateEndpointReachableIpResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_private_endpoint_reachable_ip", "test_private_endpoint_reachable_ip", acctest.Required, acctest.Create, ResourcemanagerResourcemanagerPrivateEndpointReachableIpSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ResourcemanagerPrivateEndpointReachableIpResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "private_ip", "privateIp"),

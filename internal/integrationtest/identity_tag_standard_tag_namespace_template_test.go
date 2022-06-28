@@ -14,16 +14,16 @@ import (
 )
 
 var (
-	tagStandardTagNamespaceTemplateSingularDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityTagStandardTagNamespaceTemplateSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"standard_tag_namespace_name": acctest.Representation{RepType: acctest.Required, Create: `Oracle-Standard`},
 	}
 
-	tagStandardTagNamespaceTemplateDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityTagStandardTagNamespaceTemplateDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	TagStandardTagNamespaceTemplateResourceConfig = ""
+	IdentityTagStandardTagNamespaceTemplateResourceConfig = ""
 )
 
 // issue-routing-tag: identity/default
@@ -42,8 +42,8 @@ func TestIdentityTagStandardTagNamespaceTemplateResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_standard_tag_namespace_templates", "test_tag_standard_tag_namespace_template", acctest.Required, acctest.Create, tagStandardTagNamespaceTemplateDataSourceRepresentation) +
-				TagStandardTagNamespaceTemplateResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_standard_tag_namespace_templates", "test_tag_standard_tag_namespace_template", acctest.Required, acctest.Create, IdentityIdentityTagStandardTagNamespaceTemplateDataSourceRepresentation) +
+				IdentityTagStandardTagNamespaceTemplateResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -56,8 +56,8 @@ func TestIdentityTagStandardTagNamespaceTemplateResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_standard_tag_namespace_template", "test_tag_standard_tag_namespace_template", acctest.Required, acctest.Create, tagStandardTagNamespaceTemplateSingularDataSourceRepresentation) +
-				TagStandardTagNamespaceTemplateResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_standard_tag_namespace_template", "test_tag_standard_tag_namespace_template", acctest.Required, acctest.Create, IdentityIdentityTagStandardTagNamespaceTemplateSingularDataSourceRepresentation) +
+				IdentityTagStandardTagNamespaceTemplateResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),

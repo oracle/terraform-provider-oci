@@ -85,7 +85,7 @@ func TestResourceOpsiEmHostInsight(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config + HostInsightRequiredOnlyResource,
+				Config:                  config + OpsiHostInsightRequiredOnlyResource,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

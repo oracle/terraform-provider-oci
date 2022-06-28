@@ -15,23 +15,23 @@ import (
 )
 
 var (
-	CloudVmClusterIormConfigRequiredOnlyResource = CloudVmClusterIormConfigResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster_iorm_config", "test_cloud_vm_cluster_iorm_config", acctest.Required, acctest.Create, cloudVmClusterIormConfigRepresentation)
+	DatabaseCloudVmClusterIormConfigRequiredOnlyResource = DatabaseCloudVmClusterIormConfigResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster_iorm_config", "test_cloud_vm_cluster_iorm_config", acctest.Required, acctest.Create, DatabaseCloudVmClusterIormConfigRepresentation)
 
-	CloudVmClusterIormConfigResourceConfig = CloudVmClusterIormConfigResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster_iorm_config", "test_cloud_vm_cluster_iorm_config", acctest.Optional, acctest.Update, cloudVmClusterIormConfigRepresentation)
+	DatabaseCloudVmClusterIormConfigResourceConfig = DatabaseCloudVmClusterIormConfigResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster_iorm_config", "test_cloud_vm_cluster_iorm_config", acctest.Optional, acctest.Update, DatabaseCloudVmClusterIormConfigRepresentation)
 
-	cloudVmClusterIormConfigSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseCloudVmClusterIormConfigSingularDataSourceRepresentation = map[string]interface{}{
 		"cloud_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
 	}
 
-	cloudVmClusterIormConfigRepresentation = map[string]interface{}{
+	DatabaseCloudVmClusterIormConfigRepresentation = map[string]interface{}{
 		"cloud_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
 		"objective":           acctest.Representation{RepType: acctest.Optional, Create: `AUTO`, Update: `BALANCED`},
 		"db_plans":            acctest.RepresentationGroup{RepType: acctest.Required, Group: dbPlanRepresentation},
 	}
 
-	CloudVmClusterIormConfigResourceDependencies = AvailabilityDomainConfig + CloudVmClusterRequiredOnlyResource
+	DatabaseCloudVmClusterIormConfigResourceDependencies = AvailabilityDomainConfig + DatabaseCloudVmClusterRequiredOnlyResource
 )
 
 // issue-routing-tag: database/ExaCS
@@ -51,14 +51,14 @@ func TestDatabaseCloudVmClusterIormConfigResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudVmClusterIormConfigResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster_iorm_config", "test_cloud_vm_cluster_iorm_config", acctest.Optional, acctest.Create, cloudVmClusterIormConfigRepresentation), "database", "exadataIormConfig", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseCloudVmClusterIormConfigResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster_iorm_config", "test_cloud_vm_cluster_iorm_config", acctest.Optional, acctest.Create, DatabaseCloudVmClusterIormConfigRepresentation), "database", "exadataIormConfig", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CloudVmClusterIormConfigResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster_iorm_config", "test_cloud_vm_cluster_iorm_config", acctest.Required, acctest.Create, cloudVmClusterIormConfigRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseCloudVmClusterIormConfigResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster_iorm_config", "test_cloud_vm_cluster_iorm_config", acctest.Required, acctest.Create, DatabaseCloudVmClusterIormConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cloud_vm_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "db_plans.#", "1"),
@@ -72,12 +72,12 @@ func TestDatabaseCloudVmClusterIormConfigResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + CloudVmClusterIormConfigResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseCloudVmClusterIormConfigResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + CloudVmClusterIormConfigResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster_iorm_config", "test_cloud_vm_cluster_iorm_config", acctest.Optional, acctest.Create, cloudVmClusterIormConfigRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseCloudVmClusterIormConfigResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster_iorm_config", "test_cloud_vm_cluster_iorm_config", acctest.Optional, acctest.Create, DatabaseCloudVmClusterIormConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "objective", "AUTO"),
 
@@ -95,8 +95,8 @@ func TestDatabaseCloudVmClusterIormConfigResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CloudVmClusterIormConfigResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster_iorm_config", "test_cloud_vm_cluster_iorm_config", acctest.Optional, acctest.Update, cloudVmClusterIormConfigRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseCloudVmClusterIormConfigResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster_iorm_config", "test_cloud_vm_cluster_iorm_config", acctest.Optional, acctest.Update, DatabaseCloudVmClusterIormConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cloud_vm_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "objective", "BALANCED"),
@@ -114,8 +114,8 @@ func TestDatabaseCloudVmClusterIormConfigResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_cloud_vm_cluster_iorm_config", "test_cloud_vm_cluster_iorm_config", acctest.Required, acctest.Create, cloudVmClusterIormConfigSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CloudVmClusterIormConfigResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_cloud_vm_cluster_iorm_config", "test_cloud_vm_cluster_iorm_config", acctest.Required, acctest.Create, DatabaseDatabaseCloudVmClusterIormConfigSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseCloudVmClusterIormConfigResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cloud_vm_cluster_id"),
 

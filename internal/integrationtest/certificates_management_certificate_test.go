@@ -36,7 +36,7 @@ var (
 	CertificatesManagementCertificateResourceConfig = CertificatesManagementCertificateResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_certificate", "test_certificate", acctest.Optional, acctest.Update, certificatesManagementCertificateRepresentation)
 
-	certificateSingularDataSourceRepresentation = map[string]interface{}{
+	CertificatesManagementcertificateSingularDataSourceRepresentation = map[string]interface{}{
 		"certificate_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_certificates_management_certificate.test_certificate.id}`},
 	}
 
@@ -114,7 +114,7 @@ var (
 	}
 
 	CertificatesManagementCertificateResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
 )
 
 func TestCertificatesManagementCertificateResource_basic(t *testing.T) {
@@ -408,7 +408,7 @@ func TestCertificatesManagementCertificateResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_certificate", "test_certificate", acctest.Required, acctest.Create, certificateSingularDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_certificate", "test_certificate", acctest.Required, acctest.Create, CertificatesManagementcertificateSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CertificatesManagementCertificateResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "certificate_id"),

@@ -19,13 +19,13 @@ import (
 var (
 	DatabaseBackupDestinationResourceRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationNFSRepresentation)
 
-	BackupDestinationNFSResourceConfig = BackupDestinationResourceDependencies +
+	BackupDestinationNFSResourceConfig = DatabaseBackupDestinationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Update, backupDestinationNFSRepresentation)
 
 	backupDestinationNFSDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"type":           acctest.Representation{RepType: acctest.Optional, Create: `NFS`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: backupDestinationDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseBackupDestinationDataSourceFilterRepresentation}}
 	backupDestinationNFSDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_backup_destination.test_backup_destination.id}`}},
@@ -64,7 +64,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckDatabaseBackupDestinationDestroy, []resource.TestStep{
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + BackupDestinationResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseBackupDestinationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationNFSRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -84,7 +84,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + BackupDestinationResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseBackupDestinationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Update, backupDestinationNFSRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -108,7 +108,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_backup_destinations", "test_backup_destinations", acctest.Optional, acctest.Update, backupDestinationNFSDataSourceRepresentation) +
-				compartmentIdVariableStr + BackupDestinationResourceDependencies +
+				compartmentIdVariableStr + DatabaseBackupDestinationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Update, backupDestinationNFSRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -130,7 +130,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Required, acctest.Create, backupDestinationSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Required, acctest.Create, DatabaseDatabaseBackupDestinationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + BackupDestinationNFSResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_destination_id"),

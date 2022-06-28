@@ -15,15 +15,15 @@ import (
 )
 
 var (
-	accessRequestSingularDataSourceRepresentation = map[string]interface{}{
+	OperatorAccessControlOperatorAccessControlAccessRequestSingularDataSourceRepresentation = map[string]interface{}{
 		"access_request_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_operator_access_control_access_requests.test_access_requests.access_request_collection.0.items.0.id}`},
 	}
 
-	accessRequestDataSourceRepresentation = map[string]interface{}{
+	OperatorAccessControlOperatorAccessControlAccessRequestDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	AccessRequestResourceConfig = ""
+	OperatorAccessControlAccessRequestResourceConfig = ""
 )
 
 // issue-routing-tag: operator_access_control/default
@@ -46,8 +46,8 @@ func TestOperatorAccessControlAccessRequestResource_basic(t *testing.T) {
 		// verify datasource step
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_access_requests", "test_access_requests", acctest.Required, acctest.Create, accessRequestDataSourceRepresentation) +
-				compartmentIdVariableStr + AccessRequestResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_access_requests", "test_access_requests", acctest.Required, acctest.Create, OperatorAccessControlOperatorAccessControlAccessRequestDataSourceRepresentation) +
+				compartmentIdVariableStr + OperatorAccessControlAccessRequestResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "access_request_collection.#"),
@@ -57,9 +57,9 @@ func TestOperatorAccessControlAccessRequestResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_access_requests", "test_access_requests", acctest.Required, acctest.Create, accessRequestDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_access_request", "test_access_request", acctest.Required, acctest.Create, accessRequestSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AccessRequestResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_access_requests", "test_access_requests", acctest.Required, acctest.Create, OperatorAccessControlOperatorAccessControlAccessRequestDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_access_request", "test_access_request", acctest.Required, acctest.Create, OperatorAccessControlOperatorAccessControlAccessRequestSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OperatorAccessControlAccessRequestResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "access_reason_summary"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "action_requests_list.#", "1"),

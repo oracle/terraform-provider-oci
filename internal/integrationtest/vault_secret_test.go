@@ -18,31 +18,31 @@ import (
 )
 
 var (
-	SecretRequiredOnlyResource = SecretResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, secretRepresentation)
+	VaultSecretRequiredOnlyResource = VaultSecretResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, VaultSecretRepresentation)
 
-	SecretResourceConfig = SecretResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Update, secretRepresentation)
+	VaultSecretResourceConfig = VaultSecretResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Update, VaultSecretRepresentation)
 
-	secretSingularDataSourceRepresentation = map[string]interface{}{
+	VaultVaultSecretSingularDataSourceRepresentation = map[string]interface{}{
 		"secret_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_secret.id}`},
 	}
 	secretName  = utils.RandomString(10, utils.CharsetWithoutDigits)
 	secretName2 = utils.RandomString(10, utils.CharsetWithoutDigits)
 
-	secretDataSourceRepresentation = map[string]interface{}{
+	VaultVaultSecretDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: secretName2},
 		"vault_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.vault_id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: secretDataSourceFilterRepresentation}}
-	secretDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: VaultSecretDataSourceFilterRepresentation}}
+	VaultSecretDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_vault_secret.test_secret.id}`}},
 	}
 
-	secretRepresentation = map[string]interface{}{
+	VaultSecretRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"secret_content": acctest.RepresentationGroup{RepType: acctest.Required, Group: secretSecretContentRepresentation},
+		"secret_content": acctest.RepresentationGroup{RepType: acctest.Required, Group: VaultSecretSecretContentRepresentation},
 		"secret_name":    acctest.Representation{RepType: acctest.Required, Create: secretName},
 		"vault_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.vault_id}`},
 		//"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -50,15 +50,15 @@ var (
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"key_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.key_id}`},
 		"metadata":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"metadata": "metadata"}, Update: map[string]string{"metadata2": "metadata2"}},
-		"secret_rules":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: secretSecretRulesRepresentation},
+		"secret_rules":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: VaultSecretSecretRulesRepresentation},
 	}
-	secretSecretContentRepresentation = map[string]interface{}{
+	VaultSecretSecretContentRepresentation = map[string]interface{}{
 		"content_type": acctest.Representation{RepType: acctest.Required, Create: `BASE64`},
 		"content":      acctest.Representation{RepType: acctest.Required, Create: `PHZhcj4mbHQ7YmFzZTY0X2VuY29kZWRfc2VjcmV0X2NvbnRlbnRzJmd0OzwvdmFyPg==`},
 		"name":         acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"stage":        acctest.Representation{RepType: acctest.Optional, Create: `CURRENT`},
 	}
-	secretSecretRulesRepresentation = map[string]interface{}{
+	VaultSecretSecretRulesRepresentation = map[string]interface{}{
 		"rule_type":                                     acctest.Representation{RepType: acctest.Required, Create: `SECRET_EXPIRY_RULE`, Update: `SECRET_REUSE_RULE`},
 		"is_enforced_on_deleted_secret_versions":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_secret_content_retrieval_blocked_on_expiry": acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -66,7 +66,7 @@ var (
 		"time_of_absolute_expiry":                       acctest.Representation{RepType: acctest.Optional, Create: deletionTime.Format(time.RFC3339)},
 	}
 
-	SecretResourceDependencies = DefinedTagsDependencies
+	VaultSecretResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: vault/default
@@ -94,16 +94,16 @@ func TestVaultSecretResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+vaultIdVariableStr+keyIdVariableStr+SecretResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(secretRepresentation, map[string]interface{}{
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+vaultIdVariableStr+keyIdVariableStr+VaultSecretResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(VaultSecretRepresentation, map[string]interface{}{
 			"secret_name": acctest.Representation{RepType: acctest.Required, Create: secretName2},
 		})), "vault", "secret", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + SecretResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, secretRepresentation),
+			Config: config + compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, VaultSecretRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "secret_content.#", "1"),
@@ -121,12 +121,12 @@ func TestVaultSecretResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + SecretResourceDependencies,
+			Config: config + compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + SecretResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(secretRepresentation, map[string]interface{}{
+			Config: config + compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(VaultSecretRepresentation, map[string]interface{}{
 					"secret_name": acctest.Representation{RepType: acctest.Required, Create: secretName2},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -166,9 +166,9 @@ func TestVaultSecretResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vaultIdVariableStr + keyIdVariableStr + SecretResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(secretRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(VaultSecretRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 						"secret_name":    acctest.Representation{RepType: acctest.Required, Create: secretName2},
 					})),
@@ -207,12 +207,12 @@ func TestVaultSecretResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + SecretResourceDependencies +
+			Config: config + compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Update,
 					acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
 						"secret_rules.secret_version_expiry_interval",
 						"secret_rules.time_of_absolute_expiry",
-					}, acctest.RepresentationCopyWithNewProperties(secretRepresentation, map[string]interface{}{
+					}, acctest.RepresentationCopyWithNewProperties(VaultSecretRepresentation, map[string]interface{}{
 						"secret_name": acctest.Representation{RepType: acctest.Required, Create: secretName2},
 					}))),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -250,12 +250,12 @@ func TestVaultSecretResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_vault_secrets", "test_secrets", acctest.Optional, acctest.Update, secretDataSourceRepresentation) +
-				vaultIdVariableStr + keyIdVariableStr + SecretResourceDependencies + compartmentIdVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_vault_secrets", "test_secrets", acctest.Optional, acctest.Update, VaultVaultSecretDataSourceRepresentation) +
+				vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies + compartmentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Update, acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
 					"secret_rules.secret_version_expiry_interval",
 					"secret_rules.time_of_absolute_expiry",
-				}, acctest.RepresentationCopyWithNewProperties(secretRepresentation, map[string]interface{}{
+				}, acctest.RepresentationCopyWithNewProperties(VaultSecretRepresentation, map[string]interface{}{
 					"secret_name": acctest.Representation{RepType: acctest.Required, Create: secretName2},
 				}))),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -278,12 +278,12 @@ func TestVaultSecretResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, secretSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + SecretResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, VaultVaultSecretSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Update, acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
 					"secret_rules.secret_version_expiry_interval",
 					"secret_rules.time_of_absolute_expiry",
-				}, acctest.RepresentationCopyWithNewProperties(secretRepresentation, map[string]interface{}{
+				}, acctest.RepresentationCopyWithNewProperties(VaultSecretRepresentation, map[string]interface{}{
 					"secret_name": acctest.Representation{RepType: acctest.Required, Create: secretName2},
 				}))),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -307,7 +307,7 @@ func TestVaultSecretResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + SecretRequiredOnlyResource,
+			Config:            config + VaultSecretRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

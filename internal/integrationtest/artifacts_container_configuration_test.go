@@ -18,19 +18,19 @@ import (
 )
 
 var (
-	ContainerConfigurationResourceConfig = ContainerConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", acctest.Optional, acctest.Update, containerConfigurationRepresentation)
+	ArtifactsContainerConfigurationResourceConfig = ArtifactsContainerConfigurationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", acctest.Optional, acctest.Update, ArtifactscontainerConfigurationRepresentation)
 
-	containerConfigurationSingularDataSourceRepresentation = map[string]interface{}{
+	ArtifactsArtifactscontainerConfigurationSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 	}
 
-	containerConfigurationRepresentation = map[string]interface{}{
+	ArtifactscontainerConfigurationRepresentation = map[string]interface{}{
 		"compartment_id":                      acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"is_repository_created_on_first_push": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
 	}
 
-	ContainerConfigurationResourceDependencies = ""
+	ArtifactsContainerConfigurationResourceDependencies = ""
 )
 
 // issue-routing-tag: artifacts/default
@@ -50,14 +50,14 @@ func TestArtifactsContainerConfigurationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ContainerConfigurationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", acctest.Required, acctest.Create, containerConfigurationRepresentation), "artifacts", "containerConfiguration", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ArtifactsContainerConfigurationResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", acctest.Required, acctest.Create, ArtifactscontainerConfigurationRepresentation), "artifacts", "containerConfiguration", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ContainerConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", acctest.Required, acctest.Create, containerConfigurationRepresentation),
+			Config: config + compartmentIdVariableStr + ArtifactsContainerConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", acctest.Required, acctest.Create, ArtifactscontainerConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "is_repository_created_on_first_push", "false"),
@@ -76,8 +76,8 @@ func TestArtifactsContainerConfigurationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ContainerConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", acctest.Optional, acctest.Update, containerConfigurationRepresentation),
+			Config: config + compartmentIdVariableStr + ArtifactsContainerConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", acctest.Optional, acctest.Update, ArtifactscontainerConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "is_repository_created_on_first_push", "true"),
@@ -95,8 +95,8 @@ func TestArtifactsContainerConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", acctest.Required, acctest.Create, containerConfigurationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ContainerConfigurationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", acctest.Required, acctest.Create, ArtifactsArtifactscontainerConfigurationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ArtifactsContainerConfigurationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 

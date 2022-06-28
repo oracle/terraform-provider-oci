@@ -43,13 +43,13 @@ var (
 	}
 `
 
-	govLoadBalancerResourceDependencies = VcnRequiredOnlyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+	govLoadBalancerResourceDependencies = CoreVcnRequiredOnlyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"ipv6cidr_block": acctest.Representation{RepType: acctest.Optional, Create: `fd00:aaaa:0123::/48`},
 			"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		})) +
 		VcnResourceDependencies + govLoadBalancerSubnetDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", acctest.Required, acctest.Create, networkSecurityGroupRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation)
 )
 
 // issue-routing-tag: load_balancer/default

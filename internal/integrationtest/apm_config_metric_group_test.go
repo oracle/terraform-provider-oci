@@ -84,7 +84,7 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ConfigResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApmConfigConfigResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_metric_group", acctest.Optional, acctest.Create, configMetricGroupRepresentation), "apmconfig", "config", t)
 
 	resource.Test(t, resource.TestCase{
@@ -97,7 +97,7 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 			// Find these steps in the test log easily with "Executing step (number)"
 			// Step 0: create Span Filter - we need it to create a Metric Group
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies +
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_span_filter", acctest.Required, acctest.Create, configSpanFilterRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(spanFilterResourceName, "apm_domain_id"),
@@ -114,7 +114,7 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 			},
 			// Step 1: verify create Metric Group
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceSpanFilter + ConfigDataResourceSpanFilter +
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceSpanFilter + ApmConfigConfigDataResourceSpanFilter +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_metric_group", acctest.Required, acctest.Create, configMetricGroupRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(metricGroupResourceName, "apm_domain_id"),
@@ -131,11 +131,11 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 			},
 			// Step 2: delete Metric Group before next create
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies,
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies,
 			},
 			// Step 3: create Metric Group with optionals
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceSpanFilter + ConfigDataResourceSpanFilter +
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceSpanFilter + ApmConfigConfigDataResourceSpanFilter +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_metric_group", acctest.Optional, acctest.Create, configMetricGroupRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(metricGroupResourceName, "apm_domain_id"),
@@ -163,13 +163,13 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 			},
 			// Step 4: delete Metric Group before next create
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies,
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies,
 			},
 			// Step 5: verify datasource
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_apm_config_configs", "test_metric_groups", acctest.Optional, acctest.Update, configMGroupDataSourceRepresentation) +
-					compartmentIdVariableStr + ConfigResourceSpanFilter + ConfigDataResourceSpanFilter +
+					compartmentIdVariableStr + ApmConfigConfigResourceSpanFilter + ApmConfigConfigDataResourceSpanFilter +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_metric_group", acctest.Optional, acctest.Update, configMetricGroupRepresentation) +
 					ConfigDataResourceMetricGroup,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -184,7 +184,7 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_apm_config_config", "test_metric_group", acctest.Required, acctest.Create, configMGroupSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ConfigResourceSpanFilter + ConfigDataResourceSpanFilter +
+					compartmentIdVariableStr + ApmConfigConfigResourceSpanFilter + ApmConfigConfigDataResourceSpanFilter +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_metric_group", acctest.Optional, acctest.Update, configMetricGroupRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularMGDatasourceName, "apm_domain_id"),

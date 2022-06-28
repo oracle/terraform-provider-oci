@@ -15,18 +15,18 @@ import (
 )
 
 var (
-	serviceEnvironmentSingularDataSourceRepresentation = map[string]interface{}{
+	ServiceManagerProxyServiceManagerProxyServiceEnvironmentSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"service_environment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.service_environment_id}`},
 	}
 
-	ServiceEnvironmentResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_service_manager_proxy_service_environment", "test_service_environment", acctest.Required, acctest.Create, serviceEnvironmentSingularDataSourceRepresentation)
+	ServiceManagerProxyServiceEnvironmentResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_service_manager_proxy_service_environment", "test_service_environment", acctest.Required, acctest.Create, ServiceManagerProxyServiceManagerProxyServiceEnvironmentSingularDataSourceRepresentation)
 
-	serviceEnvironmentDataSourceRepresentation = map[string]interface{}{
+	ServiceManagerProxyServiceManagerProxyServiceEnvironmentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	ServiceEnvironmentsResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_service_manager_proxy_service_environments", "test_service_environments", acctest.Required, acctest.Create, serviceEnvironmentDataSourceRepresentation)
+	ServiceEnvironmentsResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_service_manager_proxy_service_environments", "test_service_environments", acctest.Required, acctest.Create, ServiceManagerProxyServiceManagerProxyServiceEnvironmentDataSourceRepresentation)
 )
 
 // issue-routing-tag: service_manager_proxy/default
@@ -51,7 +51,7 @@ func TestServiceManagerProxyServiceEnvironmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_manager_proxy_service_environments", "test_service_environments", acctest.Required, acctest.Create, serviceEnvironmentDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_manager_proxy_service_environments", "test_service_environments", acctest.Required, acctest.Create, ServiceManagerProxyServiceManagerProxyServiceEnvironmentDataSourceRepresentation) +
 				compartmentIdVariableStr,
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -65,7 +65,7 @@ func TestServiceManagerProxyServiceEnvironmentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_manager_proxy_service_environment", "test_service_environment", acctest.Required, acctest.Create, serviceEnvironmentSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_manager_proxy_service_environment", "test_service_environment", acctest.Required, acctest.Create, ServiceManagerProxyServiceManagerProxyServiceEnvironmentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + serviceEnvironmentIdVariableStr,
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(

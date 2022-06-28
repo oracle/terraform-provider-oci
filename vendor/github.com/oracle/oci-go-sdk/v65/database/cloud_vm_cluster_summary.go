@@ -157,6 +157,8 @@ type CloudVmClusterSummary struct {
 
 	// The TCPS Single Client Access Name (SCAN) port. The default port is 2484.
 	ScanListenerPortTcpSsl *int `mandatory:"false" json:"scanListenerPortTcpSsl"`
+
+	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
 }
 
 func (m CloudVmClusterSummary) String() string {

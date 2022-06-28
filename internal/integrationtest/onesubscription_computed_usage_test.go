@@ -16,13 +16,13 @@ import (
 )
 
 var (
-	onesubComputedUsageSingularDataSourceRepresentation = map[string]interface{}{
+	OnesubscriptionOnesubscriptionComputedUsageSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"computed_usage_id": acctest.Representation{RepType: acctest.Required, Create: `${var.computed_usage_id}`},
 		"fields":            acctest.Representation{RepType: acctest.Optional, Create: `${var.fields}`},
 	}
 
-	onesubComputedUsageDataSourceRepresentation = map[string]interface{}{
+	OnesubscriptionOnesubscriptionComputedUsageDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"subscription_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
 		"time_from":        acctest.Representation{RepType: acctest.Required, Create: `2019-11-22T08:00:00Z`},
@@ -60,7 +60,7 @@ func TestOnesubscriptionComputedUsageResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_computed_usages", "test_computed_usages", acctest.Required, acctest.Create, onesubComputedUsageDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_computed_usages", "test_computed_usages", acctest.Required, acctest.Create, OnesubscriptionOnesubscriptionComputedUsageDataSourceRepresentation) +
 				compartmentIdVariableStr + subscriptionIdVariableStr + parentProductVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -92,7 +92,7 @@ func TestOnesubscriptionComputedUsageResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_computed_usage", "test_computed_usage", acctest.Required, acctest.Create, onesubComputedUsageSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_computed_usage", "test_computed_usage", acctest.Required, acctest.Create, OnesubscriptionOnesubscriptionComputedUsageSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + computedUsageIdVariableId,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

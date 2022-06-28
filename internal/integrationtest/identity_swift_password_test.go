@@ -24,22 +24,22 @@ import (
 )
 
 var (
-	SwiftPasswordRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", acctest.Required, acctest.Create, swiftPasswordRepresentation)
+	IdentitySwiftPasswordRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", acctest.Required, acctest.Create, IdentitySwiftPasswordRepresentation)
 
-	swiftPasswordDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentitySwiftPasswordDataSourceRepresentation = map[string]interface{}{
 		"user_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
-		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: swiftPasswordDataSourceFilterRepresentation}}
-	swiftPasswordDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentitySwiftPasswordDataSourceFilterRepresentation}}
+	IdentitySwiftPasswordDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_swift_password.test_swift_password.id}`}},
 	}
 
-	swiftPasswordRepresentation = map[string]interface{}{
+	IdentitySwiftPasswordRepresentation = map[string]interface{}{
 		"description": acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 		"user_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	SwiftPasswordResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
+	IdentitySwiftPasswordResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -59,14 +59,14 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 	var compositeId string
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SwiftPasswordResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", acctest.Required, acctest.Create, swiftPasswordRepresentation), "identity", "swiftPassword", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentitySwiftPasswordResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", acctest.Required, acctest.Create, IdentitySwiftPasswordRepresentation), "identity", "swiftPassword", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentitySwiftPasswordDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SwiftPasswordResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", acctest.Required, acctest.Create, swiftPasswordRepresentation),
+			Config: config + compartmentIdVariableStr + IdentitySwiftPasswordResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", acctest.Required, acctest.Create, IdentitySwiftPasswordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -88,8 +88,8 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SwiftPasswordResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", acctest.Optional, acctest.Update, swiftPasswordRepresentation),
+			Config: config + compartmentIdVariableStr + IdentitySwiftPasswordResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", acctest.Optional, acctest.Update, IdentitySwiftPasswordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -106,9 +106,9 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_swift_passwords", "test_swift_passwords", acctest.Optional, acctest.Update, swiftPasswordDataSourceRepresentation) +
-				compartmentIdVariableStr + SwiftPasswordResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", acctest.Optional, acctest.Update, swiftPasswordRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_swift_passwords", "test_swift_passwords", acctest.Optional, acctest.Update, IdentityIdentitySwiftPasswordDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentitySwiftPasswordResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", acctest.Optional, acctest.Update, IdentitySwiftPasswordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
@@ -122,7 +122,7 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + SwiftPasswordRequiredOnlyResource,
+			Config:            config + IdentitySwiftPasswordRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getSwiftPasswordImportId(resourceName),

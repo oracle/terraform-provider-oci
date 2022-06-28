@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	protectionCapabilityDataSourceRepresentation = map[string]interface{}{
+	WafWafProtectionCapabilityDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `SQL Injection (SQLi) basic SQL auth bypass attempts`},
 		"group_tag":         acctest.Representation{RepType: acctest.Optional, Create: []string{`OWASP`}},
@@ -25,7 +25,7 @@ var (
 		"type":              acctest.Representation{RepType: acctest.Optional, Create: `REQUEST_PROTECTION_CAPABILITY`},
 	}
 
-	ProtectionCapabilityResourceConfig = ""
+	WafProtectionCapabilityResourceConfig = ""
 )
 
 // issue-routing-tag: waf/default
@@ -46,8 +46,8 @@ func TestWafProtectionCapabilityResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_protection_capabilities", "test_protection_capabilities", acctest.Optional, acctest.Create, protectionCapabilityDataSourceRepresentation) +
-				compartmentIdVariableStr + ProtectionCapabilityResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_protection_capabilities", "test_protection_capabilities", acctest.Optional, acctest.Create, WafWafProtectionCapabilityDataSourceRepresentation) +
+				compartmentIdVariableStr + WafProtectionCapabilityResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "SQL Injection (SQLi) basic SQL auth bypass attempts"),

@@ -28,7 +28,7 @@ var (
 		"time_start":          acctest.Representation{RepType: acctest.Required, Create: `${var.test_timeStart}`},
 	}
 
-	ManagedDatabaseAddmTaskResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", acctest.Required, acctest.Create, managedDatabaseDataSourceRepresentation)
+	ManagedDatabaseAddmTaskResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseDataSourceRepresentation)
 )
 
 // issue-routing-tag: database_management/default

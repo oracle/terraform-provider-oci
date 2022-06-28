@@ -26,40 +26,40 @@ import (
 )
 
 var (
-	HttpRedirectRequiredOnlyResource = HttpRedirectResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Required, acctest.Create, httpRedirectRepresentation)
+	WaasHttpRedirectRequiredOnlyResource = WaasHttpRedirectResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Required, acctest.Create, WaasHttpRedirectRepresentation)
 
-	HttpRedirectResourceConfig = HttpRedirectResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Optional, acctest.Update, httpRedirectRepresentation)
+	WaasHttpRedirectResourceConfig = WaasHttpRedirectResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Optional, acctest.Update, WaasHttpRedirectRepresentation)
 
-	httpRedirectSingularDataSourceRepresentation = map[string]interface{}{
+	WaasWaasHttpRedirectSingularDataSourceRepresentation = map[string]interface{}{
 		"http_redirect_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_waas_http_redirect.test_http_redirect.id}`},
 	}
 	domainName = utils.RandomString(6, utils.CharsetWithoutDigits) + ".com"
 
-	httpRedirectDataSourceRepresentation = map[string]interface{}{
+	WaasWaasHttpRedirectDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_names":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`displayName2`}},
 		"ids":                                   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_waas_http_redirect.test_http_redirect.id}`}},
 		"states":                                acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
 		"time_created_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2018-01-01T00:00:00.000Z`},
 		"time_created_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `2038-01-01T00:00:00.000Z`},
-		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: httpRedirectDataSourceFilterRepresentation}}
-	httpRedirectDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: WaasHttpRedirectDataSourceFilterRepresentation}}
+	WaasHttpRedirectDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_waas_http_redirect.test_http_redirect.id}`}},
 	}
 
-	httpRedirectRepresentation = map[string]interface{}{
+	WaasHttpRedirectRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"domain":         acctest.Representation{RepType: acctest.Required, Create: domainName},
-		"target":         acctest.RepresentationGroup{RepType: acctest.Required, Group: httpRedirectTargetRepresentation},
+		"target":         acctest.RepresentationGroup{RepType: acctest.Required, Group: WaasHttpRedirectTargetRepresentation},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"response_code":  acctest.Representation{RepType: acctest.Optional, Create: `301`, Update: `302`},
 	}
-	httpRedirectTargetRepresentation = map[string]interface{}{
+	WaasHttpRedirectTargetRepresentation = map[string]interface{}{
 		"host":     acctest.Representation{RepType: acctest.Required, Create: `example1.com`, Update: `example2.com`},
 		"path":     acctest.Representation{RepType: acctest.Required, Create: `/test{path}`, Update: `/test2{path}`},
 		"protocol": acctest.Representation{RepType: acctest.Required, Create: `HTTP`, Update: `HTTPS`},
@@ -67,7 +67,7 @@ var (
 		"port":     acctest.Representation{RepType: acctest.Optional, Create: `8080`, Update: `8082`},
 	}
 
-	HttpRedirectResourceDependencies = DefinedTagsDependencies
+	WaasHttpRedirectResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: waas/default
@@ -89,14 +89,14 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+HttpRedirectResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Optional, acctest.Create, httpRedirectRepresentation), "waas", "httpRedirect", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+WaasHttpRedirectResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Optional, acctest.Create, WaasHttpRedirectRepresentation), "waas", "httpRedirect", t)
 
 	acctest.ResourceTest(t, testAccCheckWaasHttpRedirectDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Required, acctest.Create, httpRedirectRepresentation),
+			Config: config + compartmentIdVariableStr + WaasHttpRedirectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Required, acctest.Create, WaasHttpRedirectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "domain", domainName),
@@ -115,12 +115,12 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies,
+			Config: config + compartmentIdVariableStr + WaasHttpRedirectResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Optional, acctest.Create, httpRedirectRepresentation),
+			Config: config + compartmentIdVariableStr + WaasHttpRedirectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Optional, acctest.Create, WaasHttpRedirectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -148,9 +148,9 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + HttpRedirectResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WaasHttpRedirectResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(httpRedirectRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(WaasHttpRedirectRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -178,8 +178,8 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Optional, acctest.Update, httpRedirectRepresentation),
+			Config: config + compartmentIdVariableStr + WaasHttpRedirectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Optional, acctest.Update, WaasHttpRedirectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -205,9 +205,9 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_http_redirects", "test_http_redirects", acctest.Optional, acctest.Update, httpRedirectDataSourceRepresentation) +
-				compartmentIdVariableStr + HttpRedirectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Optional, acctest.Update, httpRedirectRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_http_redirects", "test_http_redirects", acctest.Optional, acctest.Update, WaasWaasHttpRedirectDataSourceRepresentation) +
+				compartmentIdVariableStr + WaasHttpRedirectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Optional, acctest.Update, WaasHttpRedirectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_names.#", "1"),
@@ -236,8 +236,8 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Required, acctest.Create, httpRedirectSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + HttpRedirectResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", acctest.Required, acctest.Create, WaasWaasHttpRedirectSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + WaasHttpRedirectResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "http_redirect_id"),
 
@@ -259,7 +259,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + HttpRedirectRequiredOnlyResource,
+			Config:                  config + WaasHttpRedirectRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -323,7 +323,7 @@ func init() {
 
 func sweepWaasHttpRedirectResource(compartment string) error {
 	redirectClient := acctest.GetTestClients(&schema.ResourceData{}).RedirectClient()
-	httpRedirectIds, err := getHttpRedirectIds(compartment)
+	httpRedirectIds, err := getWaasHttpRedirectIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -339,14 +339,14 @@ func sweepWaasHttpRedirectResource(compartment string) error {
 				fmt.Printf("Error deleting HttpRedirect %s %s, It is possible that the resource is already deleted. Please verify manually \n", httpRedirectId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &httpRedirectId, httpRedirectSweepWaitCondition, time.Duration(3*time.Minute),
-				httpRedirectSweepResponseFetchOperation, "waas", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &httpRedirectId, WaasHttpRedirectSweepWaitCondition, time.Duration(3*time.Minute),
+				WaasHttpRedirectSweepResponseFetchOperation, "waas", true)
 		}
 	}
 	return nil
 }
 
-func getHttpRedirectIds(compartment string) ([]string, error) {
+func getWaasHttpRedirectIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "HttpRedirectId")
 	if ids != nil {
 		return ids, nil
@@ -370,7 +370,7 @@ func getHttpRedirectIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func httpRedirectSweepWaitCondition(response common.OCIOperationResponse) bool {
+func WaasHttpRedirectSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if httpRedirectResponse, ok := response.Response.(oci_waas.GetHttpRedirectResponse); ok {
 		return httpRedirectResponse.LifecycleState != oci_waas.LifecycleStatesDeleted
@@ -378,7 +378,7 @@ func httpRedirectSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func httpRedirectSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func WaasHttpRedirectSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.RedirectClient().GetHttpRedirect(context.Background(), oci_waas.GetHttpRedirectRequest{
 		HttpRedirectId: resourceId,
 		RequestMetadata: common.RequestMetadata{

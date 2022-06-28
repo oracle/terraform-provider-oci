@@ -26,17 +26,17 @@ import (
 )
 
 var (
-	AiPrivateEndpointRequiredOnlyResource = AiPrivateEndpointResourceDependencies +
+	AiAnomalyDetectionAiPrivateEndpointRequiredOnlyResource = AiAnomalyDetectionAiPrivateEndpointResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", acctest.Required, acctest.Create, aiPrivateEndpointRepresentation)
 
-	AiPrivateEndpointResourceConfig = AiPrivateEndpointResourceDependencies +
+	AiAnomalyDetectionAiPrivateEndpointResourceConfig = AiAnomalyDetectionAiPrivateEndpointResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", acctest.Optional, acctest.Update, aiPrivateEndpointRepresentation)
 
-	aiPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
+	AiAnomalyDetectionaiPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
 		"ai_private_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_ai_anomaly_detection_ai_private_endpoint.test_ai_private_endpoint.id}`},
 	}
 
-	aiPrivateEndpointDataSourceRepresentation = map[string]interface{}{
+	AiAnomalyDetectionaiPrivateEndpointDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
@@ -56,8 +56,8 @@ var (
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
 	}
 
-	AiPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, vcnRepresentation) +
+	AiAnomalyDetectionAiPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -79,14 +79,14 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_ai_anomaly_detection_ai_private_endpoint.test_ai_private_endpoint"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+AiPrivateEndpointResourceDependencies+
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+AiAnomalyDetectionAiPrivateEndpointResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", acctest.Optional, acctest.Create, aiPrivateEndpointRepresentation), "aianomalydetection", "aiPrivateEndpoint", t)
 
 	acctest.ResourceTest(t, testAccCheckAiAnomalyDetectionAiPrivateEndpointDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + AiPrivateEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + AiAnomalyDetectionAiPrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", acctest.Required, acctest.Create, aiPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -103,11 +103,11 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + AiPrivateEndpointResourceDependencies,
+			Config: config + compartmentIdVariableStr + AiAnomalyDetectionAiPrivateEndpointResourceDependencies,
 		},
 		//verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + AiPrivateEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + AiAnomalyDetectionAiPrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", acctest.Optional, acctest.Create, aiPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -131,7 +131,7 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AiPrivateEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AiAnomalyDetectionAiPrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(aiPrivateEndpointRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -156,7 +156,7 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + AiPrivateEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + AiAnomalyDetectionAiPrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", acctest.Optional, acctest.Update, aiPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -178,8 +178,8 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoints", "test_ai_private_endpoints", acctest.Optional, acctest.Update, aiPrivateEndpointDataSourceRepresentation) +
-				compartmentIdVariableStr + AiPrivateEndpointResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoints", "test_ai_private_endpoints", acctest.Optional, acctest.Update, AiAnomalyDetectionaiPrivateEndpointDataSourceRepresentation) +
+				compartmentIdVariableStr + AiAnomalyDetectionAiPrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", acctest.Optional, acctest.Update, aiPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -193,8 +193,8 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", acctest.Required, acctest.Create, aiPrivateEndpointSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AiPrivateEndpointResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", acctest.Required, acctest.Create, AiAnomalyDetectionaiPrivateEndpointSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AiAnomalyDetectionAiPrivateEndpointResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ai_private_endpoint_id"),
 
@@ -210,7 +210,7 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + AiPrivateEndpointRequiredOnlyResource,
+			Config:                  config + AiAnomalyDetectionAiPrivateEndpointRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -274,7 +274,7 @@ func init() {
 
 func sweepAiAnomalyDetectionAiPrivateEndpointResource(compartment string) error {
 	anomalyDetectionClient := acctest.GetTestClients(&schema.ResourceData{}).AnomalyDetectionClient()
-	aiPrivateEndpointIds, err := getAiPrivateEndpointIds(compartment)
+	aiPrivateEndpointIds, err := getAiAnomalyDetectionAiPrivateEndpointIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -290,14 +290,14 @@ func sweepAiAnomalyDetectionAiPrivateEndpointResource(compartment string) error 
 				fmt.Printf("Error deleting AiPrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", aiPrivateEndpointId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &aiPrivateEndpointId, aiPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
-				aiPrivateEndpointSweepResponseFetchOperation, "ai_anomaly_detection", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &aiPrivateEndpointId, AiAnomalyDetectionaiPrivateEndpointsSweepWaitCondition, time.Duration(3*time.Minute),
+				AiAnomalyDetectionaiPrivateEndpointsSweepResponseFetchOperation, "ai_anomaly_detection", true)
 		}
 	}
 	return nil
 }
 
-func getAiPrivateEndpointIds(compartment string) ([]string, error) {
+func getAiAnomalyDetectionAiPrivateEndpointIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "AiPrivateEndpointId")
 	if ids != nil {
 		return ids, nil
@@ -322,7 +322,7 @@ func getAiPrivateEndpointIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func aiPrivateEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
+func AiAnomalyDetectionaiPrivateEndpointsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if aiPrivateEndpointResponse, ok := response.Response.(oci_ai_anomaly_detection.GetAiPrivateEndpointResponse); ok {
 		return aiPrivateEndpointResponse.LifecycleState != oci_ai_anomaly_detection.AiPrivateEndpointLifecycleStateDeleted
@@ -330,7 +330,7 @@ func aiPrivateEndpointSweepWaitCondition(response common.OCIOperationResponse) b
 	return false
 }
 
-func aiPrivateEndpointSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func AiAnomalyDetectionaiPrivateEndpointsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.AnomalyDetectionClient().GetAiPrivateEndpoint(context.Background(), oci_ai_anomaly_detection.GetAiPrivateEndpointRequest{
 		AiPrivateEndpointId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -26,20 +26,20 @@ import (
 )
 
 var (
-	ConnectionRequiredOnlyResource = ConnectionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Required, acctest.Create, connectionRepresentation)
+	DatacatalogConnectionRequiredOnlyResource = DatacatalogConnectionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Required, acctest.Create, DatacatalogConnectionRepresentation)
 
-	ConnectionResourceConfig = ConnectionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Optional, acctest.Update, connectionRepresentation)
+	DatacatalogConnectionResourceConfig = DatacatalogConnectionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Optional, acctest.Update, DatacatalogConnectionRepresentation)
 
-	connectionSingularDataSourceRepresentation = map[string]interface{}{
+	DatacatalogDatacatalogConnectionSingularDataSourceRepresentation = map[string]interface{}{
 		"catalog_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
 		"connection_key": acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_connection.test_connection.id}`},
 		"data_asset_key": acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
 		"fields":         acctest.Representation{RepType: acctest.Optional, Create: []string{}},
 	}
 
-	connectionDataSourceRepresentation = map[string]interface{}{
+	DatacatalogDatacatalogConnectionDataSourceRepresentation = map[string]interface{}{
 		"catalog_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
 		"data_asset_key":        acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
 		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -47,13 +47,13 @@ var (
 		"fields":                acctest.Representation{RepType: acctest.Optional, Create: []string{}},
 		"is_default":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionDataSourceFilterRepresentation}}
-	connectionDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: DatacatalogConnectionDataSourceFilterRepresentation}}
+	DatacatalogConnectionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `is_default`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`true`}},
 	}
 
-	connectionRepresentation = map[string]interface{}{
+	DatacatalogConnectionRepresentation = map[string]interface{}{
 		"catalog_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
 		"data_asset_key": acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
@@ -64,18 +64,18 @@ var (
 		"is_default":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
-	ConnectionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Required, acctest.Create, catalogRepresentation) +
+	DatacatalogConnectionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Required, acctest.Create, DatacatalogCatalogRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types_dataAssset", acctest.Optional, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(catalogTypeDataSourceRepresentation, map[string]interface{}{
+			acctest.RepresentationCopyWithNewProperties(DatacatalogDatacatalogCatalogTypeDataSourceRepresentation, map[string]interface{}{
 				"type_category": acctest.Representation{RepType: acctest.Optional, Create: `dataAsset`},
 				"name":          acctest.Representation{RepType: acctest.Optional, Create: `Oracle Database`}})) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types_connection", acctest.Optional, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(catalogTypeDataSourceRepresentation, map[string]interface{}{
+			acctest.RepresentationCopyWithNewProperties(DatacatalogDatacatalogCatalogTypeDataSourceRepresentation, map[string]interface{}{
 				"type_category": acctest.Representation{RepType: acctest.Optional, Create: `connection`},
 				"name":          acctest.Representation{RepType: acctest.Optional, Create: `JDBC`},
 			})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(dataAssetRepresentation, map[string]interface{}{
+			acctest.RepresentationCopyWithNewProperties(DatacatalogDataAssetRepresentation, map[string]interface{}{
 				"type_key": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_datacatalog_catalog_types.test_catalog_types_dataAssset.type_collection.0.items.0.key}`}}))
 )
 
@@ -97,14 +97,14 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 	var compositeId string
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ConnectionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Optional, acctest.Create, connectionRepresentation), "datacatalog", "connection", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatacatalogConnectionResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Optional, acctest.Create, DatacatalogConnectionRepresentation), "datacatalog", "connection", t)
 
 	acctest.ResourceTest(t, testAccCheckDatacatalogConnectionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Required, acctest.Create, connectionRepresentation),
+			Config: config + compartmentIdVariableStr + DatacatalogConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Required, acctest.Create, DatacatalogConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "data_asset_key"),
@@ -121,12 +121,12 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ConnectionResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatacatalogConnectionResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Optional, acctest.Create, connectionRepresentation),
+			Config: config + compartmentIdVariableStr + DatacatalogConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Optional, acctest.Create, DatacatalogConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "data_asset_key"),
@@ -156,8 +156,8 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Optional, acctest.Update, connectionRepresentation),
+			Config: config + compartmentIdVariableStr + DatacatalogConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Optional, acctest.Update, DatacatalogConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "data_asset_key"),
@@ -181,9 +181,9 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_connections", "test_connections", acctest.Optional, acctest.Update, connectionDataSourceRepresentation) +
-				compartmentIdVariableStr + ConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Optional, acctest.Update, connectionRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_connections", "test_connections", acctest.Optional, acctest.Update, DatacatalogDatacatalogConnectionDataSourceRepresentation) +
+				compartmentIdVariableStr + DatacatalogConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Optional, acctest.Update, DatacatalogConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "catalog_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "data_asset_key"),
@@ -197,8 +197,8 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Required, acctest.Create, connectionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ConnectionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", acctest.Required, acctest.Create, DatacatalogDatacatalogConnectionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatacatalogConnectionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_key"),
@@ -220,7 +220,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + ConnectionRequiredOnlyResource,
+			Config:            config + DatacatalogConnectionRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getDataAssetConnectionImportId(resourceName),

@@ -16,12 +16,12 @@ import (
 )
 
 var (
-	licenseMetricSingularDataSourceRepresentation = map[string]interface{}{
+	LicenseManagerLicenseManagerLicenseMetricSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"is_compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
-	LicenseMetricResourceConfig = ""
+	LicenseManagerLicenseMetricResourceConfig = ""
 )
 
 // issue-routing-tag: license_manager/default
@@ -42,8 +42,8 @@ func TestLicenseManagerLicenseMetricResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_license_metric", "test_license_metric", acctest.Required, acctest.Create, licenseMetricSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + LicenseMetricResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_license_manager_license_metric", "test_license_metric", acctest.Required, acctest.Create, LicenseManagerLicenseManagerLicenseMetricSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LicenseManagerLicenseMetricResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 

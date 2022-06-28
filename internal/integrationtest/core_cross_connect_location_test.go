@@ -15,11 +15,11 @@ import (
 )
 
 var (
-	crossConnectLocationDataSourceRepresentation = map[string]interface{}{
+	CoreCoreCrossConnectLocationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	CrossConnectLocationResourceConfig = ""
+	CoreCrossConnectLocationResourceConfig = ""
 )
 
 // issue-routing-tag: core/default
@@ -40,8 +40,8 @@ func TestCoreCrossConnectLocationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", acctest.Required, acctest.Create, crossConnectLocationDataSourceRepresentation) +
-				compartmentIdVariableStr + CrossConnectLocationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", acctest.Required, acctest.Create, CoreCoreCrossConnectLocationDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreCrossConnectLocationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

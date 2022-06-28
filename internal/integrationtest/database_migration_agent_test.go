@@ -26,15 +26,15 @@ import (
 )
 
 var (
-	AgentRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", acctest.Required, acctest.Create, agentRepresentation2)
+	DatabaseMigrationAgentRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", acctest.Required, acctest.Create, agentRepresentation2)
 
-	AgentResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", acctest.Optional, acctest.Update, agentRepresentation2)
+	DatabaseMigrationAgentResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", acctest.Optional, acctest.Update, agentRepresentation2)
 
-	agentSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseMigrationagentSingularDataSourceRepresentation = map[string]interface{}{
 		"agent_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_agent.test_agent.id}`},
 	}
 
-	agentDataSourceRepresentation = map[string]interface{}{
+	DatabaseMigrationagentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `TF_displayName`, Update: `TF_displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
@@ -63,8 +63,8 @@ var (
 		"version":        acctest.Representation{RepType: acctest.Optional, Create: `version`, Update: `version2`},
 	}
 
-	AgentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", acctest.Required, acctest.Create, agentRepresentation) +
-		DefinedTagsDependencies + acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Required, acctest.Create, streamRepresentation)
+	DatabaseMigrationAgentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", acctest.Required, acctest.Create, agentRepresentation) +
+		DefinedTagsDependencies + acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Required, acctest.Create, StreamingStreamRepresentation)
 )
 
 // issue-routing-tag: database_migration/default
@@ -87,7 +87,7 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ //AgentResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ //DatabaseMigrationAgentResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", acctest.Optional, acctest.Create, agentRepresentation), "databasemigration", "agent", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseMigrationAgentDestroy, []resource.TestStep{
@@ -203,8 +203,8 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_agent", "test_agent", acctest.Required, acctest.Create, agentSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AgentResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_agent", "test_agent", acctest.Required, acctest.Create, DatabaseMigrationagentSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseMigrationAgentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "agent_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -218,7 +218,7 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + AgentRequiredOnlyResource,
+			Config:                  config + DatabaseMigrationAgentRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       false,
 			ImportStateVerifyIgnore: []string{},
@@ -282,7 +282,7 @@ func init() {
 
 func sweepDatabaseMigrationAgentResource(compartment string) error {
 	databaseMigrationClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseMigrationClient()
-	agentIds, err := getAgentIds(compartment)
+	agentIds, err := getDatabaseMigrationAgentIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -298,14 +298,14 @@ func sweepDatabaseMigrationAgentResource(compartment string) error {
 				fmt.Printf("Error deleting Agent %s %s, It is possible that the resource is already deleted. Please verify manually \n", agentId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &agentId, agentSweepWaitCondition, time.Duration(3*time.Minute),
-				agentSweepResponseFetchOperation, "database_migration", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &agentId, DatabaseMigrationagentsSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseMigrationagentsSweepResponseFetchOperation, "database_migration", true)
 		}
 	}
 	return nil
 }
 
-func getAgentIds(compartment string) ([]string, error) {
+func getDatabaseMigrationAgentIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "AgentId")
 	if ids != nil {
 		return ids, nil
@@ -330,7 +330,7 @@ func getAgentIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func agentSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseMigrationagentsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if agentResponse, ok := response.Response.(oci_database_migration.GetAgentResponse); ok {
 		return agentResponse.LifecycleState != oci_database_migration.LifecycleStatesDeleted
@@ -338,7 +338,7 @@ func agentSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func agentSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseMigrationagentsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseMigrationClient().GetAgent(context.Background(), oci_database_migration.GetAgentRequest{
 		AgentId: resourceId,
 		RequestMetadata: common.RequestMetadata{

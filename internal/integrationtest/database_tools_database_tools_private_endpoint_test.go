@@ -26,29 +26,29 @@ import (
 )
 
 var (
-	DatabaseToolsPrivateEndpointRequiredOnlyResource = DatabaseToolsPrivateEndpointResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Required, acctest.Create, databaseToolsPrivateEndpointRepresentation)
+	DatabaseToolsDatabaseToolsPrivateEndpointRequiredOnlyResource = DatabaseToolsDatabaseToolsPrivateEndpointResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsPrivateEndpointRepresentation)
 
-	DatabaseToolsPrivateEndpointResourceConfig = DatabaseToolsPrivateEndpointResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Optional, acctest.Update, databaseToolsPrivateEndpointRepresentation)
+	DatabaseToolsDatabaseToolsPrivateEndpointResourceConfig = DatabaseToolsDatabaseToolsPrivateEndpointResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Optional, acctest.Update, DatabaseToolsDatabaseToolsPrivateEndpointRepresentation)
 
-	databaseToolsPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseToolsDatabaseToolsDatabaseToolsPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
 		"database_tools_private_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_tools_database_tools_private_endpoint.test_database_tools_private_endpoint.id}`},
 	}
 
-	databaseToolsPrivateEndpointDataSourceRepresentation = map[string]interface{}{
+	DatabaseToolsDatabaseToolsDatabaseToolsPrivateEndpointDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `MyPE`, Update: `displayName2`},
 		"endpoint_service_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_tools_database_tools_endpoint_services.test_database_tools_endpoint_services.database_tools_endpoint_service_collection.0.items.0.id}`},
 		"state":               acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"subnet_id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
-		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseToolsPrivateEndpointDataSourceFilterRepresentation}}
-	databaseToolsPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseToolsDatabaseToolsPrivateEndpointDataSourceFilterRepresentation}}
+	DatabaseToolsDatabaseToolsPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_tools_database_tools_private_endpoint.test_database_tools_private_endpoint.id}`}},
 	}
 
-	databaseToolsPrivateEndpointRepresentation = map[string]interface{}{
+	DatabaseToolsDatabaseToolsPrivateEndpointRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `MyPE`, Update: `displayName2`},
 		"endpoint_service_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_tools_database_tools_endpoint_services.test_database_tools_endpoint_services.database_tools_endpoint_service_collection.0.items.0.id}`},
@@ -65,9 +65,9 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	DatabaseToolsPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	DatabaseToolsDatabaseToolsPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -91,8 +91,8 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseToolsPrivateEndpointResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Optional, acctest.Create, databaseToolsPrivateEndpointRepresentation), "databasetools", "databaseToolsPrivateEndpoint", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseToolsDatabaseToolsPrivateEndpointResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Optional, acctest.Create, DatabaseToolsDatabaseToolsPrivateEndpointRepresentation), "databasetools", "databaseToolsPrivateEndpoint", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
@@ -104,10 +104,10 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 			// Find these steps in the test log easily with "Executing step (number)"
 			// Step 1. Verify create
 			{
-				Config: config + compartmentIdVariableStr + DatabaseToolsPrivateEndpointResourceDependencies +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, databaseToolsEndpointServiceSingularDataSourceRepresentation) +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, databaseToolsEndpointServiceDataSourceRepresentation) +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Required, acctest.Create, databaseToolsPrivateEndpointRepresentation),
+				Config: config + compartmentIdVariableStr + DatabaseToolsDatabaseToolsPrivateEndpointResourceDependencies +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceSingularDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceDataSourceRepresentation) +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsPrivateEndpointRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyPE"),
@@ -123,14 +123,14 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 
 			// Step 2. Delete before next create
 			{
-				Config: config + compartmentIdVariableStr + DatabaseToolsPrivateEndpointResourceDependencies,
+				Config: config + compartmentIdVariableStr + DatabaseToolsDatabaseToolsPrivateEndpointResourceDependencies,
 			},
 			// Step 3. Verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + DatabaseToolsPrivateEndpointResourceDependencies +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, databaseToolsEndpointServiceSingularDataSourceRepresentation) +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, databaseToolsEndpointServiceDataSourceRepresentation) +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Optional, acctest.Create, databaseToolsPrivateEndpointRepresentation),
+				Config: config + compartmentIdVariableStr + DatabaseToolsDatabaseToolsPrivateEndpointResourceDependencies +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceSingularDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceDataSourceRepresentation) +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Optional, acctest.Create, DatabaseToolsDatabaseToolsPrivateEndpointRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Private Endpoint for mySubnet"),
@@ -158,11 +158,11 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 
 			// Step 4. Verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseToolsPrivateEndpointResourceDependencies +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, databaseToolsEndpointServiceSingularDataSourceRepresentation) +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, databaseToolsEndpointServiceDataSourceRepresentation) +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseToolsDatabaseToolsPrivateEndpointResourceDependencies +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceSingularDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceDataSourceRepresentation) +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Optional, acctest.Create,
-						acctest.RepresentationCopyWithNewProperties(databaseToolsPrivateEndpointRepresentation, map[string]interface{}{
+						acctest.RepresentationCopyWithNewProperties(DatabaseToolsDatabaseToolsPrivateEndpointRepresentation, map[string]interface{}{
 							"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -190,10 +190,10 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 
 			// Step 5. Verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + DatabaseToolsPrivateEndpointResourceDependencies +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, databaseToolsEndpointServiceSingularDataSourceRepresentation) +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, databaseToolsEndpointServiceDataSourceRepresentation) +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Optional, acctest.Update, databaseToolsPrivateEndpointRepresentation),
+				Config: config + compartmentIdVariableStr + DatabaseToolsDatabaseToolsPrivateEndpointResourceDependencies +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceSingularDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceDataSourceRepresentation) +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Optional, acctest.Update, DatabaseToolsDatabaseToolsPrivateEndpointRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -219,11 +219,11 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 			// Step 6. Verify datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, databaseToolsEndpointServiceSingularDataSourceRepresentation) +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, databaseToolsEndpointServiceDataSourceRepresentation) +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoints", "test_database_tools_private_endpoints", acctest.Optional, acctest.Update, databaseToolsPrivateEndpointDataSourceRepresentation) +
-					compartmentIdVariableStr + DatabaseToolsPrivateEndpointResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Optional, acctest.Update, databaseToolsPrivateEndpointRepresentation),
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_service", "test_database_tools_endpoint_service", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceSingularDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoints", "test_database_tools_private_endpoints", acctest.Optional, acctest.Update, DatabaseToolsDatabaseToolsDatabaseToolsPrivateEndpointDataSourceRepresentation) +
+					compartmentIdVariableStr + DatabaseToolsDatabaseToolsPrivateEndpointResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Optional, acctest.Update, DatabaseToolsDatabaseToolsPrivateEndpointRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -238,9 +238,9 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 			// Step 7. Verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, databaseToolsEndpointServiceDataSourceRepresentation) +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Required, acctest.Create, databaseToolsPrivateEndpointSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DatabaseToolsPrivateEndpointResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsPrivateEndpointSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + DatabaseToolsDatabaseToolsPrivateEndpointResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_tools_private_endpoint_id"),
 
@@ -261,7 +261,7 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 			},
 			// Step 8. Verify resource import
 			{
-				Config:                  config + DatabaseToolsPrivateEndpointRequiredOnlyResource,
+				Config:                  config + DatabaseToolsDatabaseToolsPrivateEndpointRequiredOnlyResource,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},
@@ -326,7 +326,7 @@ func init() {
 
 func sweepDatabaseToolsDatabaseToolsPrivateEndpointResource(compartment string) error {
 	databaseToolsClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseToolsClient()
-	databaseToolsPrivateEndpointIds, err := getDatabaseToolsPrivateEndpointIds(compartment)
+	databaseToolsPrivateEndpointIds, err := getDatabaseToolsDatabaseToolsPrivateEndpointIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -342,14 +342,14 @@ func sweepDatabaseToolsDatabaseToolsPrivateEndpointResource(compartment string) 
 				fmt.Printf("Error deleting DatabaseToolsPrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", databaseToolsPrivateEndpointId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &databaseToolsPrivateEndpointId, databaseToolsPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
-				databaseToolsPrivateEndpointSweepResponseFetchOperation, "database_tools", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &databaseToolsPrivateEndpointId, DatabaseToolsDatabaseToolsPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseToolsDatabaseToolsPrivateEndpointSweepResponseFetchOperation, "database_tools", true)
 		}
 	}
 	return nil
 }
 
-func getDatabaseToolsPrivateEndpointIds(compartment string) ([]string, error) {
+func getDatabaseToolsDatabaseToolsPrivateEndpointIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DatabaseToolsPrivateEndpointId")
 	if ids != nil {
 		return ids, nil
@@ -374,7 +374,7 @@ func getDatabaseToolsPrivateEndpointIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func databaseToolsPrivateEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseToolsDatabaseToolsPrivateEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if databaseToolsPrivateEndpointResponse, ok := response.Response.(oci_database_tools.GetDatabaseToolsPrivateEndpointResponse); ok {
 		return databaseToolsPrivateEndpointResponse.LifecycleState != oci_database_tools.LifecycleStateDeleted
@@ -382,7 +382,7 @@ func databaseToolsPrivateEndpointSweepWaitCondition(response common.OCIOperation
 	return false
 }
 
-func databaseToolsPrivateEndpointSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseToolsDatabaseToolsPrivateEndpointSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseToolsClient().GetDatabaseToolsPrivateEndpoint(context.Background(), oci_database_tools.GetDatabaseToolsPrivateEndpointRequest{
 		DatabaseToolsPrivateEndpointId: resourceId,
 		RequestMetadata: common.RequestMetadata{

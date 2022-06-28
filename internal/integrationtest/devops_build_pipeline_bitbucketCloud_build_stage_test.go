@@ -82,10 +82,10 @@ var (
 	bitbucketCloudAccessTokenVaultId    = utils.GetEnvSettingWithBlankDefault("github_access_token_vault_id")
 	bitbucketCloudAccessTokenVaultIdStr = fmt.Sprintf("variable \"bitbucket_cloud_app_password_vault_id\" { default = \"%s\" }\n", bitbucketCloudAccessTokenVaultId)
 
-	BuildPipelineBuildStageBitbucketCloudResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, buildPipelineRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
+	BuildPipelineBuildStageBitbucketCloudResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, DevopsBuildPipelineRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation) +
 		bitbucketCloudAccessTokenVaultIdStr +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, devopsBitbucketCloudConnectionRepresentation)
 )

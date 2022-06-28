@@ -26,87 +26,87 @@ import (
 )
 
 var (
-	DeploymentRequiredOnlyResource = DeploymentResourceDependencies +
+	ApigatewayDeploymentRequiredOnlyResource = DeploymentResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentRepresentationCustomAuth)
 
-	DeploymentResourceConfig = DeploymentResourceDependencies +
+	ApigatewayDeploymentResourceConfig = DeploymentResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuth)
 
-	deploymentSingularDataSourceRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSingularDataSourceRepresentation = map[string]interface{}{
 		"deployment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_deployment.test_deployment.id}`},
 	}
 
-	deploymentDataSourceRepresentation = map[string]interface{}{
+	ApigatewayDeploymentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"gateway_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_apigateway_gateway.test_gateway.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentDataSourceFilterRepresentation}}
-	deploymentDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentDataSourceFilterRepresentation}}
+	ApigatewayDeploymentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apigateway_deployment.test_deployment.id}`}},
 	}
 
-	deploymentRepresentation = map[string]interface{}{
+	ApigatewayDeploymentRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"gateway_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_gateway.test_gateway.id}`},
 		"path_prefix":    acctest.Representation{RepType: acctest.Required, Create: `/v1`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"specification":  acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentSpecificationRepresentation},
-		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesDeploymentRepresentation},
+		"specification":  acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRepresentation},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentIgnoreChangesDeploymentRepresentation},
 	}
-	ignoreChangesDeploymentRepresentation = map[string]interface{}{
+	ApigatewayDeploymentIgnoreChangesDeploymentRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
-	deploymentSpecificationRepresentation = map[string]interface{}{
-		"logging_policies": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationLoggingPoliciesRepresentation},
-		"request_policies": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRequestPoliciesRepresentation},
-		"routes":           acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentSpecificationRoutesRepresentation},
+	ApigatewayDeploymentSpecificationRepresentation = map[string]interface{}{
+		"logging_policies": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationLoggingPoliciesRepresentation},
+		"request_policies": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesRepresentation},
+		"routes":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesRepresentation},
 	}
-	deploymentSpecificationLoggingPoliciesRepresentation = map[string]interface{}{
-		"access_log":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationLoggingPoliciesAccessLogRepresentation},
-		"execution_log": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationLoggingPoliciesExecutionLogRepresentation},
+	ApigatewayDeploymentSpecificationLoggingPoliciesRepresentation = map[string]interface{}{
+		"access_log":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationLoggingPoliciesAccessLogRepresentation},
+		"execution_log": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationLoggingPoliciesExecutionLogRepresentation},
 	}
-	deploymentSpecificationRequestPoliciesRepresentation = map[string]interface{}{
-		"authentication": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRequestPoliciesAuthenticationRepresentation},
-		"cors":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRequestPoliciesCorsRepresentation},
-		"mutual_tls":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRequestPoliciesMutualTlsRepresentation},
-		"rate_limiting":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRequestPoliciesRateLimitingRepresentation},
-		"usage_plans":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRequestPoliciesUsagePlansRepresentation},
+	ApigatewayDeploymentSpecificationRequestPoliciesRepresentation = map[string]interface{}{
+		"authentication": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationRepresentation},
+		"cors":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesCorsRepresentation},
+		"mutual_tls":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesMutualTlsRepresentation},
+		"rate_limiting":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesRateLimitingRepresentation},
+		"usage_plans":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesUsagePlansRepresentation},
 	}
-	deploymentSpecificationRoutesRepresentation = map[string]interface{}{
-		"backend":           acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentSpecificationRoutesBackendRepresentation},
+	ApigatewayDeploymentSpecificationRoutesRepresentation = map[string]interface{}{
+		"backend":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesBackendRepresentation},
 		"path":              acctest.Representation{RepType: acctest.Required, Create: `/hello`, Update: `/world`},
-		"logging_policies":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesLoggingPoliciesRepresentation},
+		"logging_policies":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesLoggingPoliciesRepresentation},
 		"methods":           acctest.Representation{RepType: acctest.Required, Create: []string{`GET`}, Update: []string{`GET`, `POST`}},
-		"request_policies":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesRepresentation},
-		"response_policies": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesResponsePoliciesRepresentation},
+		"request_policies":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesRepresentation},
+		"response_policies": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesResponsePoliciesRepresentation},
 	}
-	deploymentSpecificationLoggingPoliciesAccessLogRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationLoggingPoliciesAccessLogRepresentation = map[string]interface{}{
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	deploymentSpecificationLoggingPoliciesExecutionLogRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationLoggingPoliciesExecutionLogRepresentation = map[string]interface{}{
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"log_level":  acctest.Representation{RepType: acctest.Optional, Create: `INFO`, Update: `WARN`},
 	}
-	deploymentSpecificationRequestPoliciesAuthenticationRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationRepresentation = map[string]interface{}{
 		"type":                        acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_AUTHENTICATION`, Update: `CUSTOM_AUTHENTICATION`},
 		"audiences":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`audiences`}, Update: []string{`audiences2`}},
 		"function_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_functions_function.test_function.id}`},
 		"is_anonymous_access_allowed": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"issuers":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`issuers`}, Update: []string{`issuers2`}},
 		"max_clock_skew_in_seconds":   acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `2.0`},
-		"public_keys":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRequestPoliciesAuthenticationPublicKeysRepresentation},
+		"public_keys":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationPublicKeysRepresentation},
 		"token_auth_scheme":           acctest.Representation{RepType: acctest.Optional, Create: `Bearer`, Update: `Bearer`},
 		"token_header":                acctest.Representation{RepType: acctest.Optional, Create: `Authorization`, Update: `Authorization`},
-		"verify_claims":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRequestPoliciesAuthenticationVerifyClaimsRepresentation},
+		"verify_claims":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationVerifyClaimsRepresentation},
 	}
-	deploymentSpecificationRequestPoliciesAuthorizeScopeRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRequestPoliciesAuthorizeScopeRepresentation = map[string]interface{}{
 		"allowed_scope": acctest.Representation{RepType: acctest.Optional, Create: []string{`cors`}},
 	}
-	deploymentSpecificationRequestPoliciesCorsRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRequestPoliciesCorsRepresentation = map[string]interface{}{
 		"allowed_origins":              acctest.Representation{RepType: acctest.Required, Create: []string{`https://www.oracle.org`}, Update: []string{`*`}},
 		"allowed_headers":              acctest.Representation{RepType: acctest.Optional, Create: []string{`*`}, Update: []string{`*`, `Content-Type`}},
 		"allowed_methods":              acctest.Representation{RepType: acctest.Optional, Create: []string{`GET`}, Update: []string{`GET`, `POST`}},
@@ -114,68 +114,68 @@ var (
 		"is_allow_credentials_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"max_age_in_seconds":           acctest.Representation{RepType: acctest.Optional, Create: `600`, Update: `500`},
 	}
-	deploymentSpecificationRequestPoliciesMutualTlsRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRequestPoliciesMutualTlsRepresentation = map[string]interface{}{
 		"allowed_sans":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`allowedSans`}, Update: []string{`allowedSans2`}},
 		"is_verified_certificate_required": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	deploymentSpecificationRequestPoliciesRateLimitingRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRequestPoliciesRateLimitingRepresentation = map[string]interface{}{
 		"rate_in_requests_per_second": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"rate_key":                    acctest.Representation{RepType: acctest.Required, Create: `CLIENT_IP`, Update: `TOTAL`},
 	}
-	deploymentSpecificationRequestPoliciesUsagePlansRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRequestPoliciesUsagePlansRepresentation = map[string]interface{}{
 		"token_locations": acctest.Representation{RepType: acctest.Required, Create: []string{`request.headers[apiKeyLocation]`}, Update: []string{`request.path[apiKeyLocation]`}},
 	}
-	deploymentSpecificationRoutesBackendRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesBackendRepresentation = map[string]interface{}{
 		"type": acctest.Representation{RepType: acctest.Required, Create: `HTTP_BACKEND`, Update: `HTTP_BACKEND`},
 		"url":  acctest.Representation{RepType: acctest.Required, Create: `https://api.weather.gov`, Update: `https://www.oracle.com`},
 	}
-	deploymentSpecificationRoutesLoggingPoliciesRepresentation = map[string]interface{}{
-		"access_log":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesLoggingPoliciesAccessLogRepresentation},
-		"execution_log": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesLoggingPoliciesExecutionLogRepresentation},
+	ApigatewayDeploymentSpecificationRoutesLoggingPoliciesRepresentation = map[string]interface{}{
+		"access_log":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesLoggingPoliciesAccessLogRepresentation},
+		"execution_log": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesLoggingPoliciesExecutionLogRepresentation},
 	}
-	deploymentSpecificationRoutesRequestPoliciesRepresentation = map[string]interface{}{
-		"authorization":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesAuthorizationRepresentation},
-		"body_validation":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesBodyValidationRepresentation},
-		"cors":                            acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesCorsRepresentation},
-		"header_transformations":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsRepresentation},
-		"header_validations":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesHeaderValidationsRepresentation},
-		"query_parameter_transformations": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsRepresentation},
-		"query_parameter_validations":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsRepresentation},
-		"response_cache_lookup":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesResponseCacheLookupRepresentation},
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesRepresentation = map[string]interface{}{
+		"authorization":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesAuthorizationRepresentation},
+		"body_validation":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesBodyValidationRepresentation},
+		"cors":                            acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesCorsRepresentation},
+		"header_transformations":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderTransformationsRepresentation},
+		"header_validations":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderValidationsRepresentation},
+		"query_parameter_transformations": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsRepresentation},
+		"query_parameter_validations":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsRepresentation},
+		"response_cache_lookup":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesResponseCacheLookupRepresentation},
 	}
-	deploymentSpecificationRoutesResponsePoliciesRepresentation = map[string]interface{}{
-		"header_transformations": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsRepresentation},
-		"response_cache_store":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesResponsePoliciesResponseCacheStoreRepresentation},
+	ApigatewayDeploymentSpecificationRoutesResponsePoliciesRepresentation = map[string]interface{}{
+		"header_transformations": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesResponsePoliciesHeaderTransformationsRepresentation},
+		"response_cache_store":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesResponsePoliciesResponseCacheStoreRepresentation},
 	}
-	deploymentSpecificationRequestPoliciesAuthenticationPublicKeysRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationPublicKeysRepresentation = map[string]interface{}{
 		"type":                        acctest.Representation{RepType: acctest.Required, Create: `REMOTE_JWKS`, Update: `STATIC_KEYS`},
 		"is_ssl_verify_disabled":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"keys":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRequestPoliciesAuthenticationPublicKeysKeysRepresentation},
+		"keys":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationPublicKeysKeysRepresentation},
 		"max_cache_duration_in_hours": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"uri":                         acctest.Representation{RepType: acctest.Optional, Create: `https://oracle.com/jwks.json`, Update: `https://oracle.com/jwkstest.json`},
 	}
-	deploymentSpecificationRequestPoliciesAuthenticationVerifyClaimsRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationVerifyClaimsRepresentation = map[string]interface{}{
 		"is_required": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"key":         acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
 		"values":      acctest.Representation{RepType: acctest.Optional, Create: []string{`values`}, Update: []string{`values2`}},
 	}
-	deploymentSpecificationRoutesLoggingPoliciesAccessLogRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesLoggingPoliciesAccessLogRepresentation = map[string]interface{}{
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	deploymentSpecificationRoutesLoggingPoliciesExecutionLogRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesLoggingPoliciesExecutionLogRepresentation = map[string]interface{}{
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"log_level":  acctest.Representation{RepType: acctest.Optional, Create: `INFO`, Update: `WARN`},
 	}
 
-	deploymentSpecificationRoutesRequestPoliciesAuthorizationRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesAuthorizationRepresentation = map[string]interface{}{
 		"type": acctest.Representation{RepType: acctest.Optional, Create: `AUTHENTICATION_ONLY`, Update: `ANONYMOUS`},
 	}
-	deploymentSpecificationRoutesRequestPoliciesBodyValidationRepresentation = map[string]interface{}{
-		"content":         acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentSpecificationRoutesRequestPoliciesBodyValidationContentRepresentation},
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesBodyValidationRepresentation = map[string]interface{}{
+		"content":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesBodyValidationContentRepresentation},
 		"required":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"validation_mode": acctest.Representation{RepType: acctest.Optional, Create: `ENFORCING`, Update: `PERMISSIVE`},
 	}
-	deploymentSpecificationRoutesRequestPoliciesCorsRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesCorsRepresentation = map[string]interface{}{
 		"allowed_origins":              acctest.Representation{RepType: acctest.Required, Create: []string{`*`}, Update: []string{`*`}},
 		"allowed_headers":              acctest.Representation{RepType: acctest.Optional, Create: []string{`*`}, Update: []string{`*`, `Content-Type`}},
 		"allowed_methods":              acctest.Representation{RepType: acctest.Optional, Create: []string{`GET`}, Update: []string{`GET`, `POST`}},
@@ -183,94 +183,94 @@ var (
 		"is_allow_credentials_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"max_age_in_seconds":           acctest.Representation{RepType: acctest.Optional, Create: `600`, Update: `500`},
 	}
-	deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsRepresentation = map[string]interface{}{
-		"filter_headers": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersRepresentation},
-		"set_headers":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsSetHeadersRepresentation},
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderTransformationsRepresentation = map[string]interface{}{
+		"filter_headers": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersRepresentation},
+		"set_headers":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderTransformationsSetHeadersRepresentation},
 	}
-	deploymentSpecificationRoutesRequestPoliciesHeaderValidationsRepresentation = map[string]interface{}{
-		"headers":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesHeaderValidationsHeadersRepresentation},
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderValidationsRepresentation = map[string]interface{}{
+		"headers":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderValidationsHeadersRepresentation},
 		"validation_mode": acctest.Representation{RepType: acctest.Optional, Create: `ENFORCING`, Update: `PERMISSIVE`},
 	}
-	deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsRepresentation = map[string]interface{}{
-		"filter_query_parameters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersRepresentation},
-		"set_query_parameters":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsSetQueryParametersRepresentation},
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsRepresentation = map[string]interface{}{
+		"filter_query_parameters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersRepresentation},
+		"set_query_parameters":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsSetQueryParametersRepresentation},
 	}
-	deploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsRepresentation = map[string]interface{}{
-		"parameters":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsParametersRepresentation},
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsRepresentation = map[string]interface{}{
+		"parameters":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsParametersRepresentation},
 		"validation_mode": acctest.Representation{RepType: acctest.Optional, Create: `ENFORCING`, Update: `PERMISSIVE`},
 	}
-	deploymentSpecificationRoutesRequestPoliciesResponseCacheLookupRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesResponseCacheLookupRepresentation = map[string]interface{}{
 		"type":                       acctest.Representation{RepType: acctest.Required, Create: `SIMPLE_LOOKUP_POLICY`},
 		"cache_key_additions":        acctest.Representation{RepType: acctest.Optional, Create: []string{`request.query[Foo]`}, Update: []string{`request.query[Accept]`}},
 		"is_enabled":                 acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_private_caching_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsRepresentation = map[string]interface{}{
-		"filter_headers": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsFilterHeadersRepresentation},
-		"set_headers":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsSetHeadersRepresentation},
+	ApigatewayDeploymentSpecificationRoutesResponsePoliciesHeaderTransformationsRepresentation = map[string]interface{}{
+		"filter_headers": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesResponsePoliciesHeaderTransformationsFilterHeadersRepresentation},
+		"set_headers":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRoutesResponsePoliciesHeaderTransformationsSetHeadersRepresentation},
 	}
-	deploymentSpecificationRoutesResponsePoliciesResponseCacheStoreRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesResponsePoliciesResponseCacheStoreRepresentation = map[string]interface{}{
 		"time_to_live_in_seconds": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"type":                    acctest.Representation{RepType: acctest.Required, Create: `FIXED_TTL_STORE_POLICY`},
 	}
-	deploymentSpecificationRoutesRequestPoliciesBodyValidationContentRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesBodyValidationContentRepresentation = map[string]interface{}{
 		"media_type":      acctest.Representation{RepType: acctest.Required, Create: `*/*`, Update: `application/json`},
 		"validation_type": acctest.Representation{RepType: acctest.Required, Create: `NONE`},
 	}
-	deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersRepresentation = map[string]interface{}{
-		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersItemsRepresentation},
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersItemsRepresentation},
 		"type":  acctest.Representation{RepType: acctest.Required, Create: `BLOCK`},
 	}
-	deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsSetHeadersRepresentation = map[string]interface{}{
-		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsSetHeadersItemsRepresentation},
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderTransformationsSetHeadersRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderTransformationsSetHeadersItemsRepresentation},
 	}
-	deploymentSpecificationRoutesRequestPoliciesHeaderValidationsHeadersRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderValidationsHeadersRepresentation = map[string]interface{}{
 		"name":     acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"required": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersRepresentation = map[string]interface{}{
-		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersItemsRepresentation},
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersItemsRepresentation},
 		"type":  acctest.Representation{RepType: acctest.Required, Create: `BLOCK`},
 	}
-	deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsSetQueryParametersRepresentation = map[string]interface{}{
-		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsSetQueryParametersItemsRepresentation},
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsSetQueryParametersRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsSetQueryParametersItemsRepresentation},
 	}
-	deploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsParametersRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsParametersRepresentation = map[string]interface{}{
 		"name":     acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"required": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsFilterHeadersRepresentation = map[string]interface{}{
-		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsFilterHeadersItemsRepresentation},
+	ApigatewayDeploymentSpecificationRoutesResponsePoliciesHeaderTransformationsFilterHeadersRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesResponsePoliciesHeaderTransformationsFilterHeadersItemsRepresentation},
 		"type":  acctest.Representation{RepType: acctest.Required, Create: `BLOCK`},
 	}
-	deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsSetHeadersRepresentation = map[string]interface{}{
-		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsSetHeadersItemsRepresentation},
+	ApigatewayDeploymentSpecificationRoutesResponsePoliciesHeaderTransformationsSetHeadersRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesResponsePoliciesHeaderTransformationsSetHeadersItemsRepresentation},
 	}
-	deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersItemsRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersItemsRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 	}
-	deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsSetHeadersItemsRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderTransformationsSetHeadersItemsRepresentation = map[string]interface{}{
 		"name":      acctest.Representation{RepType: acctest.Required, Create: `nameA`, Update: `nameA2`},
 		"values":    acctest.Representation{RepType: acctest.Required, Create: []string{`values`}, Update: []string{`values2`}},
 		"if_exists": acctest.Representation{RepType: acctest.Optional, Create: `OVERWRITE`, Update: `SKIP`},
 	}
-	deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersItemsRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersItemsRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `nameB`, Update: `nameB2`},
 	}
-	deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsSetQueryParametersItemsRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsSetQueryParametersItemsRepresentation = map[string]interface{}{
 		"name":      acctest.Representation{RepType: acctest.Required, Create: `nameC`, Update: `nameC2`},
 		"values":    acctest.Representation{RepType: acctest.Required, Create: []string{`values`}, Update: []string{`values2`}},
 		"if_exists": acctest.Representation{RepType: acctest.Optional, Create: `OVERWRITE`, Update: `SKIP`},
 	}
-	deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsFilterHeadersItemsRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesResponsePoliciesHeaderTransformationsFilterHeadersItemsRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `nameD`, Update: `nameD2`},
 	}
-	deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsSetHeadersItemsRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRoutesResponsePoliciesHeaderTransformationsSetHeadersItemsRepresentation = map[string]interface{}{
 		"name":      acctest.Representation{RepType: acctest.Required, Create: `nameE`, Update: `nameE2`},
 		"values":    acctest.Representation{RepType: acctest.Required, Create: []string{`values`}, Update: []string{`values2`}},
 		"if_exists": acctest.Representation{RepType: acctest.Optional, Create: `OVERWRITE`, Update: `SKIP`},
 	}
-	deploymentSpecificationRequestPoliciesAuthenticationPublicKeysKeysRepresentation = map[string]interface{}{
+	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationPublicKeysKeysRepresentation = map[string]interface{}{
 		"format":  acctest.Representation{RepType: acctest.Required, Create: `PEM`, Update: `JSON_WEB_KEY`},
 		"alg":     acctest.Representation{RepType: acctest.Optional, Create: `alg`, Update: `RS256`},
 		"e":       acctest.Representation{RepType: acctest.Optional, Create: `e`, Update: `AQAB`},
@@ -290,12 +290,12 @@ var (
 	gatewayRepresentationWithCABundle = acctest.GetUpdatedRepresentationCopy(
 		"ca_bundles",
 		acctest.RepresentationGroup{RepType: acctest.Required, Group: gatewayCaBundlesRepresentationWithCABundle},
-		gatewayRepresentation)
+		ApigatewayRepresentation)
 
 	DeploymentResourceGatewayDependency = acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, gatewayRepresentationWithCABundle)
 
 	DeploymentResourceDependenciesWithoutCABundle = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRegionalRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 
 	DeploymentResourceDependencies = DeploymentResourceGatewayDependency + DeploymentResourceDependenciesWithoutCABundle +
@@ -308,7 +308,7 @@ var (
 		"specification.request_policies.authentication.public_keys",
 		"specification.request_policies.authentication.token_auth_scheme",
 		"specification.request_policies.authentication.verify_claims",
-	}, deploymentRepresentation)
+	}, ApigatewayDeploymentRepresentation)
 )
 
 // issue-routing-tag: apigateway/default
@@ -361,8 +361,8 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, applicationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, functionRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuth),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -498,8 +498,8 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + imageVariableStr + DeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, applicationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, functionRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(deploymentRepresentationCustomAuth, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -636,8 +636,8 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, applicationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, functionRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuth),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -767,9 +767,9 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + imageVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, applicationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, functionRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", acctest.Optional, acctest.Update, deploymentDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", acctest.Optional, acctest.Update, ApigatewayDeploymentDataSourceRepresentation) +
 				compartmentIdVariableStr + DeploymentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuth),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -787,10 +787,10 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + imageVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, applicationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, functionRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DeploymentResourceConfig,
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, ApigatewayDeploymentSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ApigatewayDeploymentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
 
@@ -912,7 +912,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + DeploymentRequiredOnlyResource,
+			Config:            config + ApigatewayDeploymentRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

@@ -16,18 +16,18 @@ import (
 )
 
 var (
-	invoiceSingularDataSourceRepresentation = map[string]interface{}{
+	OspGatewayOspGatewayInvoiceSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"internal_invoice_id": acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_osp_gateway_invoices.test_invoices.invoice_collection.0.items[3], "internal_invoice_id")}`},
 		"osp_home_region":     acctest.Representation{RepType: acctest.Required, Create: `${var.home_region}`},
 	}
 
-	invoiceDataSourceRepresentation = map[string]interface{}{
+	OspGatewayOspGatewayInvoiceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"osp_home_region": acctest.Representation{RepType: acctest.Required, Create: `${var.home_region}`},
 	}
 
-	InvoiceResourceConfig = ""
+	OspGatewayInvoiceResourceConfig = ""
 )
 
 // issue-routing-tag: osp_gateway/default
@@ -54,8 +54,8 @@ func TestOspGatewayInvoiceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_invoices", "test_invoices", acctest.Required, acctest.Create, invoiceDataSourceRepresentation) +
-				compartmentIdVariableStr + regionVariableStr + InvoiceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_invoices", "test_invoices", acctest.Required, acctest.Create, OspGatewayOspGatewayInvoiceDataSourceRepresentation) +
+				compartmentIdVariableStr + regionVariableStr + OspGatewayInvoiceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "osp_home_region", homeRegion),
@@ -66,9 +66,9 @@ func TestOspGatewayInvoiceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_invoices", "test_invoices", acctest.Required, acctest.Create, invoiceDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_invoice", "test_invoice", acctest.Required, acctest.Create, invoiceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + regionVariableStr + InvoiceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_invoices", "test_invoices", acctest.Required, acctest.Create, OspGatewayOspGatewayInvoiceDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_invoice", "test_invoice", acctest.Required, acctest.Create, OspGatewayOspGatewayInvoiceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + regionVariableStr + OspGatewayInvoiceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "internal_invoice_id"),

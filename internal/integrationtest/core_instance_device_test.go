@@ -15,16 +15,16 @@ import (
 )
 
 var (
-	instanceDeviceDataSourceRepresentation = map[string]interface{}{
+	CoreCoreInstanceDeviceDataSourceRepresentation = map[string]interface{}{
 		"instance_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
 		"is_available": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"name":         acctest.Representation{RepType: acctest.Optional, Create: `/dev/oracleoci/oraclevdb`},
 	}
 
-	InstanceDeviceResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreInstanceDeviceResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
 		AvailabilityDomainConfig
 )
 
@@ -46,8 +46,8 @@ func TestCoreInstanceDeviceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_devices", "test_instance_devices", acctest.Optional, acctest.Create, instanceDeviceDataSourceRepresentation) +
-				compartmentIdVariableStr + InstanceDeviceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_devices", "test_instance_devices", acctest.Optional, acctest.Create, CoreCoreInstanceDeviceDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreInstanceDeviceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
 				resource.TestCheckResourceAttr(datasourceName, "is_available", "true"),

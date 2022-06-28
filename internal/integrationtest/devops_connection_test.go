@@ -25,27 +25,27 @@ import (
 )
 
 var (
-	DevopsConnectionRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, devopsConnectionRepresentation)
+	DevopsConnectionRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, DevopsConnectionRepresentation)
 
-	DevopsConnectionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Optional, acctest.Update, devopsConnectionRepresentation) + DevopsConnectionResourceDependencies
+	DevopsConnectionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Optional, acctest.Update, DevopsConnectionRepresentation) + DevopsConnectionResourceDependencies
 
-	devopsConnectionSingularDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsConnectionSingularDataSourceRepresentation = map[string]interface{}{
 		"connection_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_connection.test_connection.id}`},
 	}
 
-	devopsConnectionDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsConnectionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_connection.test_connection.id}`},
 		"project_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_project.test_project.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: devopsConnectionDataSourceFilterRepresentation}}
-	devopsConnectionDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsConnectionDataSourceFilterRepresentation}}
+	DevopsConnectionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_devops_connection.test_connection.id}`}},
 	}
 
-	devopsConnectionRepresentation = map[string]interface{}{
+	DevopsConnectionRepresentation = map[string]interface{}{
 		"access_token":    acctest.Representation{RepType: acctest.Required, Create: `${var.github_access_token_vault_id}`},
 		"connection_type": acctest.Representation{RepType: acctest.Required, Create: `GITHUB_ACCESS_TOKEN`},
 		"project_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_project.test_project.id}`},
@@ -56,9 +56,9 @@ var (
 		"lifecycle":       acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 
-	DevopsConnectionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
+	DevopsConnectionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -81,13 +81,13 @@ func TestDevopsConnectionResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+githubAccessTokenVaultIdStr+DevopsConnectionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Optional, acctest.Create, devopsConnectionRepresentation), "devops", "connection", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Optional, acctest.Create, DevopsConnectionRepresentation), "devops", "connection", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsConnectionDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, devopsConnectionRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, DevopsConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "access_token"),
 				resource.TestCheckResourceAttr(resourceName, "connection_type", "GITHUB_ACCESS_TOKEN"),
@@ -107,7 +107,7 @@ func TestDevopsConnectionResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Optional, acctest.Create, devopsConnectionRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Optional, acctest.Create, DevopsConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "access_token"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -132,7 +132,7 @@ func TestDevopsConnectionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Optional, acctest.Update, devopsConnectionRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Optional, acctest.Update, DevopsConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "access_token"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -155,9 +155,9 @@ func TestDevopsConnectionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_connections", "test_connections", acctest.Optional, acctest.Update, devopsConnectionDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_connections", "test_connections", acctest.Optional, acctest.Update, DevopsDevopsConnectionDataSourceRepresentation) +
 				compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Optional, acctest.Update, devopsConnectionRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Optional, acctest.Update, DevopsConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -172,7 +172,7 @@ func TestDevopsConnectionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, devopsConnectionSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, DevopsDevopsConnectionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsConnectionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_id"),
@@ -245,7 +245,7 @@ func init() {
 
 func sweepDevopsConnectionResource(compartment string) error {
 	devopsClient := acctest.GetTestClients(&schema.ResourceData{}).DevopsClient()
-	connectionIds, err := devopsGetConnectionIds(compartment)
+	connectionIds, err := getDevopsConnectionIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -266,7 +266,7 @@ func sweepDevopsConnectionResource(compartment string) error {
 	return nil
 }
 
-func devopsGetConnectionIds(compartment string) ([]string, error) {
+func getDevopsConnectionIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ConnectionId")
 	if ids != nil {
 		return ids, nil

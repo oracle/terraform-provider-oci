@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	invoiceLineComputedUsageDataSourceRepresentation = map[string]interface{}{
+	OnesubscriptionOnesubscriptionInvoiceLineComputedUsageDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"invoice_line_id": acctest.Representation{RepType: acctest.Required, Create: `${var.invoice_line_id}`},
 		"fields":          acctest.Representation{RepType: acctest.Optional, Create: []string{`fields`}},
@@ -44,7 +44,7 @@ func TestOnesubscriptionInvoiceLineComputedUsageResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_invoice_line_computed_usages", "test_invoice_line_computed_usages", acctest.Required, acctest.Create, invoiceLineComputedUsageDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_invoice_line_computed_usages", "test_invoice_line_computed_usages", acctest.Required, acctest.Create, OnesubscriptionOnesubscriptionInvoiceLineComputedUsageDataSourceRepresentation) +
 				compartmentIdVariableStr + invoiceLineIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

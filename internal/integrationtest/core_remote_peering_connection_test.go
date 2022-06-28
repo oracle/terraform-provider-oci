@@ -25,19 +25,19 @@ import (
 )
 
 var (
-	RemotePeeringConnectionRequiredOnlyResource = RemotePeeringConnectionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", acctest.Required, acctest.Create, remotePeeringConnectionRepresentation)
+	CoreRemotePeeringConnectionRequiredOnlyResource = CoreRemotePeeringConnectionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", acctest.Required, acctest.Create, CoreRemotePeeringConnectionRepresentation)
 
-	remotePeeringConnectionDataSourceRepresentation = map[string]interface{}{
+	CoreCoreRemotePeeringConnectionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"drg_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg.test_drg.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: remotePeeringConnectionDataSourceFilterRepresentation}}
-	remotePeeringConnectionDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreRemotePeeringConnectionDataSourceFilterRepresentation}}
+	CoreRemotePeeringConnectionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_remote_peering_connection.test_remote_peering_connection.id}`}},
 	}
 
-	remotePeeringConnectionRepresentation = map[string]interface{}{
+	CoreRemotePeeringConnectionRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"drg_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg.test_drg.id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -45,7 +45,7 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	RemotePeeringConnectionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, drgRepresentation) +
+	CoreRemotePeeringConnectionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, CoreDrgRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -67,14 +67,14 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+RemotePeeringConnectionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", acctest.Optional, acctest.Create, remotePeeringConnectionRepresentation), "core", "remotePeeringConnection", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreRemotePeeringConnectionResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", acctest.Optional, acctest.Create, CoreRemotePeeringConnectionRepresentation), "core", "remotePeeringConnection", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreRemotePeeringConnectionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + RemotePeeringConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", acctest.Required, acctest.Create, remotePeeringConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + CoreRemotePeeringConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", acctest.Required, acctest.Create, CoreRemotePeeringConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
@@ -88,12 +88,12 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + RemotePeeringConnectionResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreRemotePeeringConnectionResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + RemotePeeringConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", acctest.Optional, acctest.Create, remotePeeringConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + CoreRemotePeeringConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", acctest.Optional, acctest.Create, CoreRemotePeeringConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -119,9 +119,9 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + RemotePeeringConnectionResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreRemotePeeringConnectionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(remotePeeringConnectionRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreRemotePeeringConnectionRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -146,8 +146,8 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + RemotePeeringConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", acctest.Optional, acctest.Update, remotePeeringConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + CoreRemotePeeringConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", acctest.Optional, acctest.Update, CoreRemotePeeringConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -171,9 +171,9 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_remote_peering_connections", "test_remote_peering_connections", acctest.Optional, acctest.Update, remotePeeringConnectionDataSourceRepresentation) +
-				compartmentIdVariableStr + RemotePeeringConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", acctest.Optional, acctest.Update, remotePeeringConnectionRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_remote_peering_connections", "test_remote_peering_connections", acctest.Optional, acctest.Update, CoreCoreRemotePeeringConnectionDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreRemotePeeringConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", acctest.Optional, acctest.Update, CoreRemotePeeringConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),
@@ -192,7 +192,7 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + RemotePeeringConnectionRequiredOnlyResource,
+			Config:                  config + CoreRemotePeeringConnectionRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -256,7 +256,7 @@ func init() {
 
 func sweepCoreRemotePeeringConnectionResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	remotePeeringConnectionIds, err := getRemotePeeringConnectionIds(compartment)
+	remotePeeringConnectionIds, err := getCoreRemotePeeringConnectionIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -272,14 +272,14 @@ func sweepCoreRemotePeeringConnectionResource(compartment string) error {
 				fmt.Printf("Error deleting RemotePeeringConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", remotePeeringConnectionId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &remotePeeringConnectionId, remotePeeringConnectionSweepWaitCondition, time.Duration(3*time.Minute),
-				remotePeeringConnectionSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &remotePeeringConnectionId, CoreRemotePeeringConnectionSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreRemotePeeringConnectionSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getRemotePeeringConnectionIds(compartment string) ([]string, error) {
+func getCoreRemotePeeringConnectionIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "RemotePeeringConnectionId")
 	if ids != nil {
 		return ids, nil
@@ -303,7 +303,7 @@ func getRemotePeeringConnectionIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func remotePeeringConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreRemotePeeringConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if remotePeeringConnectionResponse, ok := response.Response.(oci_core.GetRemotePeeringConnectionResponse); ok {
 		return remotePeeringConnectionResponse.LifecycleState != oci_core.RemotePeeringConnectionLifecycleStateTerminated
@@ -311,7 +311,7 @@ func remotePeeringConnectionSweepWaitCondition(response common.OCIOperationRespo
 	return false
 }
 
-func remotePeeringConnectionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreRemotePeeringConnectionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetRemotePeeringConnection(context.Background(), oci_core.GetRemotePeeringConnectionRequest{
 		RemotePeeringConnectionId: resourceId,
 		RequestMetadata: common.RequestMetadata{

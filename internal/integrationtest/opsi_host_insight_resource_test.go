@@ -54,7 +54,7 @@ func TestResourceOpsiHostInsight(t *testing.T) {
 	resourceName := "oci_opsi_host_insight.test_host_insight"
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+managementAgentIdVariableStr+HostInsightResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+managementAgentIdVariableStr+OpsiHostInsightResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Required, acctest.Create, hostInsightRequiredRepresentation), "opsi", "hostInsight", t)
 
 	resource.Test(t, resource.TestCase{
@@ -66,7 +66,7 @@ func TestResourceOpsiHostInsight(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify Create with optionals
 			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
+				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + OpsiHostInsightResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Required, acctest.Create, hostInsightRequiredRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -80,7 +80,7 @@ func TestResourceOpsiHostInsight(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config + HostInsightRequiredOnlyResource,
+				Config:                  config + OpsiHostInsightRequiredOnlyResource,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

@@ -15,11 +15,11 @@ import (
 )
 
 var (
-	vaultUsageSingularDataSourceRepresentation = map[string]interface{}{
+	KmsKmsVaultUsageSingularDataSourceRepresentation = map[string]interface{}{
 		"vault_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.id}`},
 	}
 
-	VaultUsageResourceConfig = KeyResourceDependencies
+	KmsVaultUsageResourceConfig = KmsKeyResourceDependencies
 )
 
 // issue-routing-tag: kms/default
@@ -40,8 +40,8 @@ func TestKmsVaultUsageResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_vault_usage", "test_vault_usage", acctest.Required, acctest.Create, vaultUsageSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VaultUsageResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_vault_usage", "test_vault_usage", acctest.Required, acctest.Create, KmsKmsVaultUsageSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + KmsVaultUsageResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
 

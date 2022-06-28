@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	reportSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafereportSingularDataSourceRepresentation = map[string]interface{}{
 		"report_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_report.test_report.id}`},
 	}
 
-	reportDataSourceRepresentation = map[string]interface{}{
+	DataSafereportDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -29,7 +29,7 @@ var (
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 	}
 
-	ReportResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Required, acctest.Create, reportDefinitionRepresentation)
+	DataSafeReportResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Required, acctest.Create, reportDefinitionRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -54,8 +54,8 @@ func TestDataSafeReportResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_reports", "test_reports", acctest.Required, acctest.Create, reportDataSourceRepresentation) +
-				compartmentIdVariableStr + ReportResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_reports", "test_reports", acctest.Required, acctest.Create, DataSafereportDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeReportResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -70,8 +70,8 @@ func TestDataSafeReportResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_report", "test_report", acctest.Required, acctest.Create, reportSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ReportResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_report", "test_report", acctest.Required, acctest.Create, DataSafereportSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeReportResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "report_id"),
 

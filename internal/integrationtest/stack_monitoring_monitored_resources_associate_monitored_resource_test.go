@@ -27,18 +27,18 @@ import (
       management_agent_id2 = var.stack_mon_management_agent_id_resource2
 */
 var (
-	MonitoredResourcesAssociateMonitoredResourceConfig = MonitoredResourcesAssociateMonitoredResourceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_associate_monitored_resource", "test_monitored_resources_associate_monitored_resource", acctest.Required, acctest.Create, monitoredResourcesAssociateMonitoredResourceRepresentation)
+	StackMonitoredResourcesAssociateMonitoredResourceConfig = StackMonitoringMonitoredResourcesAssociateMonitoredResourceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_associate_monitored_resource", "test_monitored_resources_associate_monitored_resource", acctest.Required, acctest.Create, StackMonitoringMonitoredResourcesAssociateMonitoredResourceRepresentation)
 
-	monitoredResourcesAssociateMonitoredResourceRepresentation = map[string]interface{}{
+	StackMonitoringMonitoredResourcesAssociateMonitoredResourceRepresentation = map[string]interface{}{
 		"association_type":        acctest.Representation{RepType: acctest.Required, Create: `contains`},
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"destination_resource_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_stack_monitoring_monitored_resource.test_destination_resource.id}`},
 		"source_resource_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_stack_monitoring_monitored_resource.test_source_resource.id}`},
 	}
 
-	MonitoredResourcesAssociateMonitoredResourceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_destination_resource", acctest.Optional, acctest.Create, monitoredResourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_source_resource", acctest.Optional, acctest.Create, monitoredResourceRepresentation2)
+	StackMonitoringMonitoredResourcesAssociateMonitoredResourceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_destination_resource", acctest.Optional, acctest.Create, StackMonitoringMonitoredResourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_source_resource", acctest.Optional, acctest.Create, StackMonitoredResourceRepresentation2)
 )
 
 // issue-routing-tag: stack_monitoring/default
@@ -79,14 +79,14 @@ func TestStackMonitoringMonitoredResourcesAssociateMonitoredResourceResource_bas
 
 	var resId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+MonitoredResourcesAssociateMonitoredResourceResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_associate_monitored_resource", "test_monitored_resources_associate_monitored_resource", acctest.Required, acctest.Create, monitoredResourcesAssociateMonitoredResourceRepresentation), "stackmonitoring", "monitoredResourcesAssociateMonitoredResource", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+StackMonitoringMonitoredResourcesAssociateMonitoredResourceResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_associate_monitored_resource", "test_monitored_resources_associate_monitored_resource", acctest.Required, acctest.Create, StackMonitoringMonitoredResourcesAssociateMonitoredResourceRepresentation), "stackmonitoring", "monitoredResourcesAssociateMonitoredResource", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + managementAgentId2VariableStr + hostname2VariableStr + MonitoredResourcesAssociateMonitoredResourceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_associate_monitored_resource", "test_monitored_resources_associate_monitored_resource", acctest.Required, acctest.Create, monitoredResourcesAssociateMonitoredResourceRepresentation),
+			Config: config + compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + managementAgentId2VariableStr + hostname2VariableStr + StackMonitoringMonitoredResourcesAssociateMonitoredResourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_associate_monitored_resource", "test_monitored_resources_associate_monitored_resource", acctest.Required, acctest.Create, StackMonitoringMonitoredResourcesAssociateMonitoredResourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "association_type", "contains"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),

@@ -18,18 +18,18 @@ import (
 )
 
 var (
-	importStandardTagsManagementRepresentation = map[string]interface{}{
+	IdentityImportStandardTagsManagementRepresentation = map[string]interface{}{
 		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"standard_tag_namespace_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_tag_namespace.test_tag_namespace.name}`},
 	}
 
-	standardTagNamespaceRepresentation = map[string]interface{}{
+	IdentityStandardTagNamespaceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"description":    acctest.Representation{RepType: acctest.Required, Create: `Oracle recommended tags`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `Oracle-Standard`},
 	}
 
-	ImportStandardTagsManagementResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Required, acctest.Create, standardTagNamespaceRepresentation)
+	IdentityImportStandardTagsManagementResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Required, acctest.Create, IdentityStandardTagNamespaceRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -43,14 +43,14 @@ func TestIdentityImportStandardTagsManagementResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	acctest.SaveConfigContent(config+ImportStandardTagsManagementResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_import_standard_tags_management", "test_import_standard_tags_management", acctest.Required, acctest.Create, importStandardTagsManagementRepresentation), "identity", "importStandardTagsManagement", t)
+	acctest.SaveConfigContent(config+IdentityImportStandardTagsManagementResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_import_standard_tags_management", "test_import_standard_tags_management", acctest.Required, acctest.Create, IdentityImportStandardTagsManagementRepresentation), "identity", "importStandardTagsManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + ImportStandardTagsManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_import_standard_tags_management", "test_import_standard_tags_management", acctest.Required, acctest.Create, importStandardTagsManagementRepresentation),
+			Config: config + IdentityImportStandardTagsManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_import_standard_tags_management", "test_import_standard_tags_management", acctest.Required, acctest.Create, IdentityImportStandardTagsManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "standard_tag_namespace_name"),

@@ -25,48 +25,48 @@ import (
 )
 
 var (
-	VirtualCircuitRequiredOnlyResource = VirtualCircuitResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, virtualCircuitRequiredOnlyRepresentation)
+	CoreVirtualCircuitRequiredOnlyResource = CoreVirtualCircuitResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, CoreVirtualCircuitRequiredOnlyRepresentation)
 
-	virtualCircuitSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreVirtualCircuitSingularDataSourceRepresentation = map[string]interface{}{
 		"virtual_circuit_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_virtual_circuit.test_virtual_circuit.id}`},
 	}
 
-	virtualCircuitDataSourceRepresentation = map[string]interface{}{
+	CoreCoreVirtualCircuitDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `PROVISIONED`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: virtualCircuitDataSourceFilterRepresentation}}
-	virtualCircuitDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVirtualCircuitDataSourceFilterRepresentation}}
+	CoreVirtualCircuitDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_virtual_circuit.test_virtual_circuit.id}`}},
 	}
 
-	virtualCircuitPublicRequiredOnlyRepresentation = map[string]interface{}{
+	CoreVirtualCircuitPublicRequiredOnlyRepresentation = map[string]interface{}{
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"type":                   acctest.Representation{RepType: acctest.Required, Create: `${var.virtual_circuit_type}`},
-		"cross_connect_mappings": acctest.RepresentationGroup{RepType: acctest.Required, Group: crossConnectMappingsPublicRequiredOnlyRepresentation},
+		"cross_connect_mappings": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVirtualCircuitCrossConnectMappingsPublicRequiredOnlyRepresentation},
 		"customer_bgp_asn":       acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
-		"public_prefixes":        acctest.RepresentationGroup{RepType: acctest.Required, Group: virtualCircuitPublicPrefixesRepresentation},
+		"public_prefixes":        acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVirtualCircuitPublicPrefixesRepresentation},
 	}
-	virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation = acctest.RepresentationCopyWithNewProperties(
-		acctest.RepresentationCopyWithRemovedProperties(virtualCircuitPublicRequiredOnlyRepresentation, []string{"customer_bgp_asn"}), map[string]interface{}{
+	CoreVirtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation = acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(CoreVirtualCircuitPublicRequiredOnlyRepresentation, []string{"customer_bgp_asn"}), map[string]interface{}{
 			"customer_asn": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		})
 
-	virtualCircuitRequiredOnlyRepresentation = map[string]interface{}{
+	CoreVirtualCircuitRequiredOnlyRepresentation = map[string]interface{}{
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"type":                   acctest.Representation{RepType: acctest.Required, Create: `${var.virtual_circuit_type}`},
-		"cross_connect_mappings": acctest.RepresentationGroup{RepType: acctest.Required, Group: crossConnectMappingsRequiredOnlyRepresentation},
+		"cross_connect_mappings": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVirtualCircuitCrossConnectMappingsRequiredOnlyRepresentation},
 		"customer_asn":           acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"gateway_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg.test_drg.id}`},
 	}
-	virtualCircuitRepresentation = map[string]interface{}{
+	CoreVirtualCircuitRepresentation = map[string]interface{}{
 		"ip_mtu":                 acctest.Representation{RepType: acctest.Optional, Create: `MTU_1500`, Update: `MTU_9000`},
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"type":                   acctest.Representation{RepType: acctest.Required, Create: `${var.virtual_circuit_type}`},
 		"bandwidth_shape_name":   acctest.Representation{RepType: acctest.Optional, Create: `10 Gbps`, Update: `20 Gbps`},
-		"cross_connect_mappings": acctest.RepresentationGroup{RepType: acctest.Required, Group: crossConnectMappingsRequiredOnlyRepresentation},
+		"cross_connect_mappings": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVirtualCircuitCrossConnectMappingsRequiredOnlyRepresentation},
 		"customer_asn":           acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -78,11 +78,11 @@ var (
 		"is_bfd_enabled":         acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
-	virtualCircuitWithProviderRepresentation = map[string]interface{}{
+	CoreVirtualCircuitWithProviderRepresentation = map[string]interface{}{
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"type":                   acctest.Representation{RepType: acctest.Required, Create: `${var.virtual_circuit_type}`},
 		"bandwidth_shape_name":   acctest.Representation{RepType: acctest.Optional, Create: "${data.oci_core_virtual_circuit_bandwidth_shapes.test_virtual_circuit_bandwidth_shapes.virtual_circuit_bandwidth_shapes.0.name}"},
-		"cross_connect_mappings": acctest.RepresentationGroup{RepType: acctest.Required, Group: virtualCircuitCrossConnectMappingsRepresentation},
+		"cross_connect_mappings": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVirtualCircuitCrossConnectMappingsRepresentation},
 		"customer_asn":           acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"gateway_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg.test_drg.id}`},
@@ -92,21 +92,21 @@ var (
 		"region": acctest.Representation{RepType: acctest.Optional, Create: `us-phoenix-1`},
 	}
 
-	crossConnectMappingsPublicRequiredOnlyRepresentation = map[string]interface{}{
+	CoreVirtualCircuitCrossConnectMappingsPublicRequiredOnlyRepresentation = map[string]interface{}{
 		"cross_connect_or_cross_connect_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_cross_connect.test_cross_connect.cross_connect_group_id}`},
 		"vlan": acctest.Representation{RepType: acctest.Required, Create: `200`, Update: `300`},
 	}
-	crossConnectMappingsRequiredOnlyRepresentation = map[string]interface{}{
+	CoreVirtualCircuitCrossConnectMappingsRequiredOnlyRepresentation = map[string]interface{}{
 		"cross_connect_or_cross_connect_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_cross_connect.test_cross_connect.cross_connect_group_id}`},
 		"customer_bgp_peering_ip":                 acctest.Representation{RepType: acctest.Required, Create: `10.0.0.18/31`, Update: `10.0.0.20/31`},
 		"oracle_bgp_peering_ip":                   acctest.Representation{RepType: acctest.Required, Create: `10.0.0.19/31`, Update: `10.0.0.21/31`},
 		"vlan":                                    acctest.Representation{RepType: acctest.Required, Create: `200`, Update: `300`},
 	}
-	virtualCircuitCrossConnectMappingsRepresentation = map[string]interface{}{
+	CoreVirtualCircuitCrossConnectMappingsRepresentation = map[string]interface{}{
 		"customer_bgp_peering_ip": acctest.Representation{RepType: acctest.Required, Create: `10.0.0.18/31`, Update: `10.0.0.20/31`},
 		"oracle_bgp_peering_ip":   acctest.Representation{RepType: acctest.Required, Create: `10.0.0.19/31`, Update: `10.0.0.21/31`},
 	}
-	virtualCircuitPublicPrefixesRepresentation = map[string]interface{}{
+	CoreVirtualCircuitPublicPrefixesRepresentation = map[string]interface{}{
 		"cidr_block": acctest.Representation{RepType: acctest.Required, Create: `11.0.0.0/24`, Update: `11.0.1.0/24`},
 	}
 
@@ -156,8 +156,8 @@ variable "virtual_circuit_type" { default = "PRIVATE" }
 variable "virtual_circuit_type" { default = "PUBLIC" }
 
 `
-	VirtualCircuitResourceDependencies          = DrgRequiredOnlyResource + CrossConnectWithGroupResourceConfig
-	VirtualCircuitResourceDependenciesCopyForVC = DrgRequiredOnlyResource + CrossConnectWithGroupResourceConfigCopyForVC
+	CoreVirtualCircuitResourceDependencies      = CoreDrgRequiredOnlyResource + CrossConnectWithGroupResourceConfig
+	VirtualCircuitResourceDependenciesCopyForVC = CoreDrgRequiredOnlyResource + CrossConnectWithGroupResourceConfigCopyForVC
 )
 
 // issue-routing-tag: core/default
@@ -191,14 +191,14 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+VirtualCircuitResourceDependencies+VirtualCircuitPublicPropertyVariables+secretIdVariableStrCKN+secretIdVariableStrCAK+secretVersionStrCAK+secretVersionStrCKN+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, virtualCircuitPublicRequiredOnlyRepresentation), "core", "virtualCircuit", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreVirtualCircuitResourceDependencies+VirtualCircuitPublicPropertyVariables+secretIdVariableStrCKN+secretIdVariableStrCAK+secretVersionStrCAK+secretVersionStrCKN+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, CoreVirtualCircuitPublicRequiredOnlyRepresentation), "core", "virtualCircuit", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreVirtualCircuitDestroy, []resource.TestStep{
 		// verify Create - PUBLIC Virtual Circuit
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependenciesCopyForVC + VirtualCircuitPublicPropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, virtualCircuitPublicRequiredOnlyRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, CoreVirtualCircuitPublicRequiredOnlyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -220,15 +220,15 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(virtualCircuitRepresentation, []string{"gateway_id", "cross_connect_mappings", "customer_asn"}),
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(CoreVirtualCircuitRepresentation, []string{"gateway_id", "cross_connect_mappings", "customer_asn"}),
 						map[string]interface{}{
-							"cross_connect_mappings": acctest.RepresentationGroup{RepType: acctest.Required, Group: crossConnectMappingsPublicRequiredOnlyRepresentation},
+							"cross_connect_mappings": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVirtualCircuitCrossConnectMappingsPublicRequiredOnlyRepresentation},
 							"customer_bgp_asn":       acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 						})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -246,8 +246,8 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify Update from customer_bgp_asn to customer_asn
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, CoreVirtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -272,8 +272,8 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify Update - PUBLIC Virtual Circuit
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Update, virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Update, CoreVirtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -302,8 +302,8 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify Create - PRIVATE Virtual Circuit with Provider
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create, virtualCircuitWithProviderRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create, CoreVirtualCircuitWithProviderRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -323,8 +323,8 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify Update - PRIVATE Virtual Circuit with Provider
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, virtualCircuitWithProviderRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, CoreVirtualCircuitWithProviderRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -347,12 +347,12 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
 		},
 
 		// verify Create - PRIVATE Virtual Circuit
 		{
-			Config: config + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + VirtualCircuitRequiredOnlyResource + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
+			Config: config + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + CoreVirtualCircuitRequiredOnlyResource + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -373,13 +373,13 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
 		},
 
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependenciesCopyForVC + VirtualCircuitPrivatePropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN + VirtualCircuitWithProviderResourceConfigFilter +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create, virtualCircuitRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create, CoreVirtualCircuitRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "10 Gbps"),
 				resource.TestCheckResourceAttr(resourceName, "bgp_admin_state", "ENABLED"),
@@ -415,7 +415,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VirtualCircuitResourceDependenciesCopyForVC + VirtualCircuitPrivatePropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(virtualCircuitRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreVirtualCircuitRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -449,7 +449,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependenciesCopyForVC + VirtualCircuitPrivatePropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, virtualCircuitRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, CoreVirtualCircuitRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "20 Gbps"),
 				resource.TestCheckResourceAttr(resourceName, "bgp_admin_state", "DISABLED"),
@@ -480,9 +480,9 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			Config: config + acctest.GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuits", "test_virtual_circuits", acctest.Optional, acctest.Update, virtualCircuitDataSourceRepresentation) +
-				compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, virtualCircuitRepresentation),
+			Config: config + acctest.GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuits", "test_virtual_circuits", acctest.Optional, acctest.Update, CoreCoreVirtualCircuitDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, CoreVirtualCircuitRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -517,9 +517,9 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config + acctest.GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, virtualCircuitSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, virtualCircuitRepresentation),
+			Config: config + acctest.GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, CoreCoreVirtualCircuitSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, CoreVirtualCircuitRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_circuit_id"),
@@ -553,7 +553,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + VirtualCircuitRequiredOnlyResource,
+			Config:            config + CoreVirtualCircuitRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -619,7 +619,7 @@ func init() {
 
 func sweepCoreVirtualCircuitResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	virtualCircuitIds, err := getVirtualCircuitIds(compartment)
+	virtualCircuitIds, err := getCoreVirtualCircuitIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -635,14 +635,14 @@ func sweepCoreVirtualCircuitResource(compartment string) error {
 				fmt.Printf("Error deleting VirtualCircuit %s %s, It is possible that the resource is already deleted. Please verify manually \n", virtualCircuitId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &virtualCircuitId, virtualCircuitSweepWaitCondition, time.Duration(3*time.Minute),
-				virtualCircuitSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &virtualCircuitId, CoreVirtualCircuitSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreVirtualCircuitSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getVirtualCircuitIds(compartment string) ([]string, error) {
+func getCoreVirtualCircuitIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "VirtualCircuitId")
 	if ids != nil {
 		return ids, nil
@@ -667,7 +667,7 @@ func getVirtualCircuitIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func virtualCircuitSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreVirtualCircuitSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if virtualCircuitResponse, ok := response.Response.(oci_core.GetVirtualCircuitResponse); ok {
 		return virtualCircuitResponse.LifecycleState != oci_core.VirtualCircuitLifecycleStateTerminated
@@ -675,7 +675,7 @@ func virtualCircuitSweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func virtualCircuitSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreVirtualCircuitSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetVirtualCircuit(context.Background(), oci_core.GetVirtualCircuitRequest{
 		VirtualCircuitId: resourceId,
 		RequestMetadata: common.RequestMetadata{

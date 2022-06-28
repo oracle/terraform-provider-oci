@@ -19,17 +19,17 @@ import (
 )
 
 var (
-	ModelProvenanceRequiredOnlyResource = ModelProvenanceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", acctest.Required, acctest.Create, modelProvenanceRepresentation)
+	DatascienceModelProvenanceRequiredOnlyResource = DatascienceModelProvenanceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", acctest.Required, acctest.Create, DatascienceModelProvenanceRepresentation)
 
-	ModelProvenanceResourceConfig = ModelProvenanceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", acctest.Optional, acctest.Update, modelProvenanceRepresentation)
+	DatascienceModelProvenanceResourceConfig = DatascienceModelProvenanceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", acctest.Optional, acctest.Update, DatascienceModelProvenanceRepresentation)
 
-	modelProvenanceSingularDataSourceRepresentation = map[string]interface{}{
+	DatascienceDatascienceModelProvenanceSingularDataSourceRepresentation = map[string]interface{}{
 		"model_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_model.test_model.id}`},
 	}
 
-	modelProvenanceRepresentation = map[string]interface{}{
+	DatascienceModelProvenanceRepresentation = map[string]interface{}{
 		"model_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_model.test_model.id}`},
 		"git_branch":      acctest.Representation{RepType: acctest.Optional, Create: `gitBranch`, Update: `gitBranch2`},
 		"git_commit":      acctest.Representation{RepType: acctest.Optional, Create: `gitCommit`, Update: `gitCommit2`},
@@ -39,8 +39,8 @@ var (
 		"training_script": acctest.Representation{RepType: acctest.Optional, Create: `trainingScript`, Update: `trainingScript2`},
 	}
 
-	ModelProvenanceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Required, acctest.Create, modelRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, projectRepresentation)
+	DatascienceModelProvenanceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Required, acctest.Create, DatascienceModelRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation)
 )
 
 // issue-routing-tag: datascience/default
@@ -60,14 +60,14 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ModelProvenanceResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", acctest.Optional, acctest.Create, modelProvenanceRepresentation), "datascience", "modelProvenance", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatascienceModelProvenanceResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", acctest.Optional, acctest.Create, DatascienceModelProvenanceRepresentation), "datascience", "modelProvenance", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", acctest.Required, acctest.Create, modelProvenanceRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceModelProvenanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", acctest.Required, acctest.Create, DatascienceModelProvenanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "model_id"),
 
@@ -79,8 +79,8 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 		},
 
 		{
-			Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", acctest.Optional, acctest.Create, modelProvenanceRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceModelProvenanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", acctest.Optional, acctest.Create, DatascienceModelProvenanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "git_branch", "gitBranch"),
 				resource.TestCheckResourceAttr(resourceName, "git_commit", "gitCommit"),
@@ -104,8 +104,8 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", acctest.Optional, acctest.Update, modelProvenanceRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceModelProvenanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", acctest.Optional, acctest.Update, DatascienceModelProvenanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "git_branch", "gitBranch2"),
 				resource.TestCheckResourceAttr(resourceName, "git_commit", "gitCommit2"),
@@ -127,8 +127,8 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", acctest.Required, acctest.Create, modelProvenanceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ModelProvenanceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", acctest.Required, acctest.Create, DatascienceDatascienceModelProvenanceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatascienceModelProvenanceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_id"),
 
@@ -141,7 +141,7 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ModelProvenanceRequiredOnlyResource,
+			Config:                  config + DatascienceModelProvenanceRequiredOnlyResource,
 			ImportStateIdFunc:       getDatascienceModelProvenanceCompositeIdForImport(resourceName),
 			ImportState:             true,
 			ImportStateVerify:       true,

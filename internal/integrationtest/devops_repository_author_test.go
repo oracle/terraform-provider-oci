@@ -16,19 +16,19 @@ import (
 )
 
 var (
-	repositoryAuthorSingularDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsRepositoryAuthorSingularDataSourceRepresentation = map[string]interface{}{
 		"repository_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
 		"ref_name":      acctest.Representation{RepType: acctest.Required, Create: `main`},
 	}
 
-	repositoryAuthorDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsRepositoryAuthorDataSourceRepresentation = map[string]interface{}{
 		"repository_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
 		"ref_name":      acctest.Representation{RepType: acctest.Required, Create: `main`},
 	}
 
-	RepositoryAuthorResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, devopsRepositoryRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+	DevopsRepositoryAuthorResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, DevopsRepositoryRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -50,8 +50,8 @@ func TestDevopsRepositoryAuthorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_authors", "test_repository_authors", acctest.Required, acctest.Create, repositoryAuthorDataSourceRepresentation) +
-				compartmentIdVariableStr + RepositoryAuthorResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_authors", "test_repository_authors", acctest.Required, acctest.Create, DevopsDevopsRepositoryAuthorDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsRepositoryAuthorResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "ref_name", "main"),
 				resource.TestCheckResourceAttrSet(datasourceName, "repository_id"),
@@ -63,8 +63,8 @@ func TestDevopsRepositoryAuthorResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_author", "test_repository_author", acctest.Required, acctest.Create, repositoryAuthorSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + RepositoryAuthorResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_author", "test_repository_author", acctest.Required, acctest.Create, DevopsDevopsRepositoryAuthorSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsRepositoryAuthorResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "ref_name", "main"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),

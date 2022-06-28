@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	onesubRatecardDataSourceRepresentation = map[string]interface{}{
+	OnesubscriptionOnesubscriptionRatecardDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"subscription_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
 		"part_number":     acctest.Representation{RepType: acctest.Optional, Create: `partNumber`},
@@ -46,7 +46,7 @@ func TestOnesubscriptionRatecardResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_ratecards", "test_ratecards", acctest.Required, acctest.Create, onesubRatecardDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_ratecards", "test_ratecards", acctest.Required, acctest.Create, OnesubscriptionOnesubscriptionRatecardDataSourceRepresentation) +
 				compartmentIdVariableStr + subscriptionIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

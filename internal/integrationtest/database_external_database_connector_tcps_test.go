@@ -75,7 +75,7 @@ var (
 		"service":  acctest.Representation{RepType: acctest.Required, Create: `testService`, Update: `service2`},
 	}
 
-	ExternalDatabaseTcpsConnectorResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Required, acctest.Create, externalNonContainerDatabaseRepresentation) +
+	ExternalDatabaseTcpsConnectorResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Required, acctest.Create, DatabaseExternalNonContainerDatabaseRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -375,7 +375,7 @@ func getExternalDatabaseTcpsConnectorIds(compartment string) ([]string, error) {
 	listExternalDatabaseConnectorsRequest := oci_database.ListExternalDatabaseConnectorsRequest{}
 	listExternalDatabaseConnectorsRequest.CompartmentId = &compartmentId
 
-	externalDatabaseIds, error := getDatabaseIds(compartment)
+	externalDatabaseIds, error := getDatabaseDatabaseIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting externalDatabaseId required for ExternalDatabaseConnector resource requests \n")
 	}

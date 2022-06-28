@@ -15,26 +15,26 @@ import (
 )
 
 var (
-	ipSecConnectionTunnelRouteRequiredOnlyResource = IpsecConnectionTunnelRouteResourceConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Required, acctest.Create, ipSecConnectionRepresentation)
+	CoreIpSecConnectionTunnelRouteRequiredOnlyResource = CoreIpsecConnectionTunnelRouteResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Required, acctest.Create, CoreIpSecConnectionRepresentation)
 
-	ipSecConnectionTunnelRepresentationCopy = map[string]interface{}{
+	CoreIpSecConnectionTunnelRepresentationCopy = map[string]interface{}{
 		"ipsec_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
 		"tunnel_id":        acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels.0.id}`},
 		"routing":          acctest.Representation{RepType: acctest.Required, Create: `BGP`},
 		"ike_version":      acctest.Representation{RepType: acctest.Optional, Create: `V1`},
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `MyIPSecConnectionTunnel`},
-		"bgp_session_info": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ipSecConnectionTunnelConfigurationBgpSessionInfoRepresentationCopy},
+		"bgp_session_info": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreIpSecConnectionTunnelConfigurationBgpSessionInfoRepresentationCopy},
 		"shared_secret":    acctest.Representation{RepType: acctest.Optional, Create: `sharedsecret1`, Update: `sharedsecret2`},
 	}
 
-	ipSecConnectionTunnelConfigurationBgpSessionInfoRepresentationCopy = map[string]interface{}{
+	CoreIpSecConnectionTunnelConfigurationBgpSessionInfoRepresentationCopy = map[string]interface{}{
 		"customer_bgp_asn":      acctest.Representation{RepType: acctest.Optional, Create: `1587232876`},
 		"customer_interface_ip": acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.16/31`},
 		"oracle_interface_ip":   acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.17/31`},
 	}
 
-	IpsecConnectionTunnelRouteResourceConfig = IpSecConnectionOptionalResourceCopy
+	CoreIpsecConnectionTunnelRouteResourceConfig = CoreIpSecConnectionOptionalResourceCopy
 )
 
 // issue-routing-tag: core/default
@@ -54,9 +54,9 @@ func TestCoreIpsecConnectionTunnelRouteResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config + compartmentIdVariableStr + IpsecConnectionTunnelRouteResourceConfig +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, ipSecConnectionTunnelDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", acctest.Optional, acctest.Create, ipSecConnectionTunnelRepresentationCopy) +
+			Config: config + compartmentIdVariableStr + CoreIpsecConnectionTunnelRouteResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, CoreIpSecConnectionTunnelDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", acctest.Optional, acctest.Create, CoreIpSecConnectionTunnelRepresentationCopy) +
 				`data "oci_core_ipsec_connection_tunnel_routes" "test_ipsec_connection_tunnel_routes" {
 					advertiser = "ORACLE"
 					ipsec_id = "${oci_core_ipsec.test_ip_sec_connection.id}"

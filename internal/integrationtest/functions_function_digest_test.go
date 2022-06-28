@@ -96,7 +96,7 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 
 		steps = append(steps, resource.TestStep{
 			// Reset the function to A1@a1
-			Config: config + compartmentIdVariableStr + FunctionResourceDependencies +
+			Config: config + compartmentIdVariableStr + FunctionsFunctionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Create, functionBaseRepresentation(imageA1, &imageA1Digest)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -125,7 +125,7 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 		})
 		steps = append(steps, resource.TestStep{
 			// Update the function with the new image coordinates
-			Config: config + compartmentIdVariableStr + FunctionResourceDependencies +
+			Config: config + compartmentIdVariableStr + FunctionsFunctionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Update, functionBaseRepresentation(tc2.newImage, tc2.newDigest)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -158,7 +158,7 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 		})
 		steps = append(steps, resource.TestStep{
 			// delete before next step to reset all state
-			Config: config + compartmentIdVariableStr + FunctionResourceDependencies,
+			Config: config + compartmentIdVariableStr + FunctionsFunctionResourceDependencies,
 		})
 	}
 
@@ -274,7 +274,7 @@ func TestFunctionsFunctionResource_digest_create(t *testing.T) {
 	} {
 		steps = append(steps, resource.TestStep{
 			// Create a function at A1@a1, through one means or another
-			Config: config + compartmentIdVariableStr + FunctionResourceDependencies +
+			Config: config + compartmentIdVariableStr + FunctionsFunctionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Create, functionBaseRepresentation(imageA1, tc.newDigest)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -304,7 +304,7 @@ func TestFunctionsFunctionResource_digest_create(t *testing.T) {
 		})
 		steps = append(steps, resource.TestStep{
 			// delete before next step to reset all state
-			Config: config + compartmentIdVariableStr + FunctionResourceDependencies,
+			Config: config + compartmentIdVariableStr + FunctionsFunctionResourceDependencies,
 		})
 	}
 

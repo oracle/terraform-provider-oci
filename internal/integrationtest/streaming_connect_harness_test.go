@@ -26,35 +26,35 @@ import (
 )
 
 var (
-	ConnectHarnessRequiredOnlyResource = ConnectHarnessResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Required, acctest.Create, connectHarnessRepresentation)
+	StreamingConnectHarnessRequiredOnlyResource = StreamingConnectHarnessResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Required, acctest.Create, StreamingConnectHarnessRepresentation)
 
-	ConnectHarnessResourceConfig = ConnectHarnessResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Optional, acctest.Update, connectHarnessRepresentation)
+	StreamingConnectHarnessResourceConfig = StreamingConnectHarnessResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Optional, acctest.Update, StreamingConnectHarnessRepresentation)
 
-	connectHarnessSingularDataSourceRepresentation = map[string]interface{}{
+	StreamingStreamingConnectHarnessSingularDataSourceRepresentation = map[string]interface{}{
 		"connect_harness_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_streaming_connect_harness.test_connect_harness.id}`},
 	}
 
-	connectHarnessDataSourceRepresentation = map[string]interface{}{
+	StreamingStreamingConnectHarnessDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_streaming_connect_harness.test_connect_harness.id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `mynewconnectharness`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: connectHarnessDataSourceFilterRepresentation}}
-	connectHarnessDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: StreamingConnectHarnessDataSourceFilterRepresentation}}
+	StreamingConnectHarnessDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_streaming_connect_harness.test_connect_harness.id}`}},
 	}
 
-	connectHarnessRepresentation = map[string]interface{}{
+	StreamingConnectHarnessRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `mynewconnectharness`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	ConnectHarnessResourceDependencies = DefinedTagsDependencies
+	StreamingConnectHarnessResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: streaming/default
@@ -76,14 +76,14 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ConnectHarnessResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Optional, acctest.Create, connectHarnessRepresentation), "streaming", "connectHarness", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+StreamingConnectHarnessResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Optional, acctest.Create, StreamingConnectHarnessRepresentation), "streaming", "connectHarness", t)
 
 	acctest.ResourceTest(t, testAccCheckStreamingConnectHarnessDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ConnectHarnessResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Required, acctest.Create, connectHarnessRepresentation),
+			Config: config + compartmentIdVariableStr + StreamingConnectHarnessResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Required, acctest.Create, StreamingConnectHarnessRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "mynewconnectharness"),
@@ -97,12 +97,12 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ConnectHarnessResourceDependencies,
+			Config: config + compartmentIdVariableStr + StreamingConnectHarnessResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ConnectHarnessResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Optional, acctest.Create, connectHarnessRepresentation),
+			Config: config + compartmentIdVariableStr + StreamingConnectHarnessResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Optional, acctest.Create, StreamingConnectHarnessRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -125,9 +125,9 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ConnectHarnessResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreamingConnectHarnessResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(connectHarnessRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(StreamingConnectHarnessRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -150,8 +150,8 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ConnectHarnessResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Optional, acctest.Update, connectHarnessRepresentation),
+			Config: config + compartmentIdVariableStr + StreamingConnectHarnessResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Optional, acctest.Update, StreamingConnectHarnessRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -172,9 +172,9 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_streaming_connect_harnesses", "test_connect_harnesses", acctest.Optional, acctest.Update, connectHarnessDataSourceRepresentation) +
-				compartmentIdVariableStr + ConnectHarnessResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Optional, acctest.Update, connectHarnessRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_streaming_connect_harnesses", "test_connect_harnesses", acctest.Optional, acctest.Update, StreamingStreamingConnectHarnessDataSourceRepresentation) +
+				compartmentIdVariableStr + StreamingConnectHarnessResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Optional, acctest.Update, StreamingConnectHarnessRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -193,8 +193,8 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Required, acctest.Create, connectHarnessSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ConnectHarnessResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", acctest.Required, acctest.Create, StreamingStreamingConnectHarnessSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + StreamingConnectHarnessResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "connect_harness_id"),
 
@@ -208,7 +208,7 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ConnectHarnessRequiredOnlyResource,
+			Config:                  config + StreamingConnectHarnessRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -272,7 +272,7 @@ func init() {
 
 func sweepStreamingConnectHarnessResource(compartment string) error {
 	streamAdminClient := acctest.GetTestClients(&schema.ResourceData{}).StreamAdminClient()
-	connectHarnessIds, err := getConnectHarnessIds(compartment)
+	connectHarnessIds, err := getStreamingConnectHarnessIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -288,14 +288,14 @@ func sweepStreamingConnectHarnessResource(compartment string) error {
 				fmt.Printf("Error deleting ConnectHarness %s %s, It is possible that the resource is already deleted. Please verify manually \n", connectHarnessId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &connectHarnessId, connectHarnessSweepWaitCondition, time.Duration(3*time.Minute),
-				connectHarnessSweepResponseFetchOperation, "streaming", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &connectHarnessId, StreamingConnectHarnessSweepWaitCondition, time.Duration(3*time.Minute),
+				StreamingConnectHarnessSweepResponseFetchOperation, "streaming", true)
 		}
 	}
 	return nil
 }
 
-func getConnectHarnessIds(compartment string) ([]string, error) {
+func getStreamingConnectHarnessIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ConnectHarnessId")
 	if ids != nil {
 		return ids, nil
@@ -320,7 +320,7 @@ func getConnectHarnessIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func connectHarnessSweepWaitCondition(response common.OCIOperationResponse) bool {
+func StreamingConnectHarnessSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if connectHarnessResponse, ok := response.Response.(oci_streaming.GetConnectHarnessResponse); ok {
 		return connectHarnessResponse.LifecycleState != oci_streaming.ConnectHarnessLifecycleStateDeleted
@@ -328,7 +328,7 @@ func connectHarnessSweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func connectHarnessSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func StreamingConnectHarnessSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.StreamAdminClient().GetConnectHarness(context.Background(), oci_streaming.GetConnectHarnessRequest{
 		ConnectHarnessId: resourceId,
 		RequestMetadata: common.RequestMetadata{

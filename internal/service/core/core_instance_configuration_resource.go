@@ -834,6 +834,14 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													ValidateFunc:     tfresource.ValidateInt64TypeString,
 													DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 												},
+												"boot_volume_vpus_per_gb": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													ForceNew:         true,
+													ValidateFunc:     tfresource.ValidateInt64TypeString,
+													DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+												},
 												"image_id": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -1786,6 +1794,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 	//discriminator
 	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
 	var sourceType string
+	var defaultVpusPerGb int64 = 10
 	if ok {
 		sourceType = sourceTypeRaw.(string)
 	} else {
@@ -1808,6 +1817,22 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 				return details, fmt.Errorf("unable to convert bootVolumeSizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
 			}
 			details.BootVolumeSizeInGBs = &tmpInt64
+		}
+
+		bootVolumeVpusPerGB, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_vpus_per_gb"))
+		if ok {
+			tmp := bootVolumeVpusPerGB.(string)
+			if tmp != "" {
+				tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert bootVolumeVpusPerGB string: %s to an int64 and encountered error: %v", tmp, err)
+				}
+				details.BootVolumeVpusPerGB = &tmpInt64
+			} else {
+				details.BootVolumeVpusPerGB = &defaultVpusPerGb
+			}
+		} else {
+			details.BootVolumeVpusPerGB = &defaultVpusPerGb
 		}
 		if imageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_id")); ok {
 			tmp := imageId.(string)
@@ -1834,6 +1859,10 @@ func InstanceConfigurationInstanceSourceDetailsToMap(obj *oci_core.InstanceConfi
 
 		if v.BootVolumeSizeInGBs != nil {
 			result["boot_volume_size_in_gbs"] = strconv.FormatInt(*v.BootVolumeSizeInGBs, 10)
+		}
+
+		if v.BootVolumeVpusPerGB != nil {
+			result["boot_volume_vpus_per_gb"] = strconv.FormatInt(*v.BootVolumeVpusPerGB, 10)
 		}
 
 		if v.ImageId != nil {

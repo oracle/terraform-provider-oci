@@ -16,13 +16,13 @@ import (
 )
 
 var (
-	logAnalyticsCategorySingularDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogAnalyticsCategorySingularDataSourceRepresentation = map[string]interface{}{
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"name":      acctest.Representation{RepType: acctest.Required, Create: `oracle`},
 	}
 
-	LogAnalyticsCategoryResourceConfig = "" +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+	LogAnalyticsLogAnalyticsCategoryResourceConfig = "" +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: log_analytics/default
@@ -43,8 +43,8 @@ func TestLogAnalyticsLogAnalyticsCategoryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_category", "test_log_analytics_category", acctest.Required, acctest.Create, logAnalyticsCategorySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + LogAnalyticsCategoryResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_category", "test_log_analytics_category", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogAnalyticsCategorySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LogAnalyticsLogAnalyticsCategoryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),

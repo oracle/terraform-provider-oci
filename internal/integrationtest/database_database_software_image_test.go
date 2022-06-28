@@ -26,29 +26,29 @@ import (
 )
 
 var (
-	DatabaseSoftwareImageRequiredOnlyResource = DatabaseSoftwareImageResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Required, acctest.Create, databaseSoftwareImageRepresentation)
+	DatabaseDatabaseSoftwareImageRequiredOnlyResource = DatabaseDatabaseSoftwareImageResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Required, acctest.Create, DatabaseDatabaseSoftwareImageRepresentation)
 
-	DatabaseSoftwareImageResourceConfig = DatabaseSoftwareImageResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Update, databaseSoftwareImageRepresentation)
+	DatabaseDatabaseSoftwareImageResourceConfig = DatabaseDatabaseSoftwareImageResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Update, DatabaseDatabaseSoftwareImageRepresentation)
 
-	databaseSoftwareImageSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDatabaseSoftwareImageSingularDataSourceRepresentation = map[string]interface{}{
 		"database_software_image_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_database_software_image.test_database_software_image.id}`},
 	}
 
-	databaseSoftwareImageDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDatabaseSoftwareImageDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `image1`, Update: `displayName2`},
 		"image_shape_family": acctest.Representation{RepType: acctest.Optional, Create: `VM_BM_SHAPE`},
 		"image_type":         acctest.Representation{RepType: acctest.Optional, Create: `DATABASE_IMAGE`},
 		"state":              acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseSoftwareImageDataSourceFilterRepresentation}}
-	databaseSoftwareImageDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseDatabaseSoftwareImageDataSourceFilterRepresentation}}
+	DatabaseDatabaseSoftwareImageDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_database_software_image.test_database_software_image.id}`}},
 	}
 
-	databaseSoftwareImageRepresentation = map[string]interface{}{
+	DatabaseDatabaseSoftwareImageRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"database_version": acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0`},
 		"display_name":     acctest.Representation{RepType: acctest.Required, Create: `image1`, Update: `displayName2`},
@@ -61,7 +61,7 @@ var (
 		"ls_inventory":       acctest.Representation{RepType: acctest.Optional, Create: `lsInventory`},
 	}
 
-	DatabaseSoftwareImageResourceDependencies = DefinedTagsDependencies
+	DatabaseDatabaseSoftwareImageResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: database/default
@@ -87,14 +87,14 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseSoftwareImageResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Create, databaseSoftwareImageRepresentation), "database", "databaseSoftwareImage", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseDatabaseSoftwareImageResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Create, DatabaseDatabaseSoftwareImageRepresentation), "database", "databaseSoftwareImage", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseSoftwareImageDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Required, acctest.Create, databaseSoftwareImageRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseSoftwareImageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Required, acctest.Create, DatabaseDatabaseSoftwareImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
@@ -109,12 +109,12 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseSoftwareImageResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Create, databaseSoftwareImageRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseSoftwareImageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Create, DatabaseDatabaseSoftwareImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
@@ -142,9 +142,9 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseSoftwareImageResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseDatabaseSoftwareImageResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(databaseSoftwareImageRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatabaseDatabaseSoftwareImageRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -172,8 +172,8 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Update, databaseSoftwareImageRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseSoftwareImageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Update, DatabaseDatabaseSoftwareImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
@@ -201,9 +201,9 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId, databaseSoftwareImageWaitTillAvailableConditionExa, time.Duration(20*time.Minute),
 				databaseSoftwareImageSweepResponseFetchOperationExa, "database", true),
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database_software_images", "test_database_software_images", acctest.Optional, acctest.Update, databaseSoftwareImageDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Update, databaseSoftwareImageRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database_software_images", "test_database_software_images", acctest.Optional, acctest.Update, DatabaseDatabaseDatabaseSoftwareImageDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDatabaseSoftwareImageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Optional, acctest.Update, DatabaseDatabaseSoftwareImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -230,8 +230,8 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Required, acctest.Create, databaseSoftwareImageSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseSoftwareImageResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", acctest.Required, acctest.Create, DatabaseDatabaseDatabaseSoftwareImageSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDatabaseSoftwareImageResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_software_image_id"),
 
@@ -252,7 +252,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DatabaseSoftwareImageRequiredOnlyResource,
+			Config:                  config + DatabaseDatabaseSoftwareImageRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -316,7 +316,7 @@ func init() {
 
 func sweepDatabaseDatabaseSoftwareImageResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	databaseSoftwareImageIds, err := getDatabaseSoftwareImageIds(compartment)
+	databaseSoftwareImageIds, err := getDatabaseDatabaseSoftwareImageIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -332,14 +332,14 @@ func sweepDatabaseDatabaseSoftwareImageResource(compartment string) error {
 				fmt.Printf("Error deleting DatabaseSoftwareImage %s %s, It is possible that the resource is already deleted. Please verify manually \n", databaseSoftwareImageId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &databaseSoftwareImageId, databaseSoftwareImageSweepWaitCondition, time.Duration(3*time.Minute),
-				databaseSoftwareImageSweepResponseFetchOperation, "database", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &databaseSoftwareImageId, DatabaseDatabaseSoftwareImageSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseDatabaseSoftwareImageSweepResponseFetchOperation, "database", true)
 		}
 	}
 	return nil
 }
 
-func getDatabaseSoftwareImageIds(compartment string) ([]string, error) {
+func getDatabaseDatabaseSoftwareImageIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DatabaseSoftwareImageId")
 	if ids != nil {
 		return ids, nil
@@ -364,7 +364,7 @@ func getDatabaseSoftwareImageIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func databaseSoftwareImageSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseDatabaseSoftwareImageSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if databaseSoftwareImageResponse, ok := response.Response.(oci_database.GetDatabaseSoftwareImageResponse); ok {
 		return (databaseSoftwareImageResponse.LifecycleState != oci_database.DatabaseSoftwareImageLifecycleStateDeleted) && (databaseSoftwareImageResponse.LifecycleState != oci_database.DatabaseSoftwareImageLifecycleStateTerminated)
@@ -372,7 +372,7 @@ func databaseSoftwareImageSweepWaitCondition(response common.OCIOperationRespons
 	return false
 }
 
-func databaseSoftwareImageSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseDatabaseSoftwareImageSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseClient().GetDatabaseSoftwareImage(context.Background(), oci_database.GetDatabaseSoftwareImageRequest{
 		DatabaseSoftwareImageId: resourceId,
 		RequestMetadata: common.RequestMetadata{

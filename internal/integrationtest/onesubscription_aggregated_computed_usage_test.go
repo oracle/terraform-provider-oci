@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	aggregatedComputedUsageDataSourceRepresentation = map[string]interface{}{
+	OnesubscriptionOnesubscriptionAggregatedComputedUsageDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"subscription_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
 		"time_from":       acctest.Representation{RepType: acctest.Required, Create: `2019-11-20T08:00:00Z`},
@@ -50,7 +50,7 @@ func TestOnesubscriptionAggregatedComputedUsageResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_aggregated_computed_usages", "test_aggregated_computed_usages", acctest.Required, acctest.Create, aggregatedComputedUsageDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_onesubscription_aggregated_computed_usages", "test_aggregated_computed_usages", acctest.Required, acctest.Create, OnesubscriptionOnesubscriptionAggregatedComputedUsageDataSourceRepresentation) +
 				compartmentIdVariableStr + subscriptionIdVariableStr + parentProductVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

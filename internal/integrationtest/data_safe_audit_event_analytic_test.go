@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	auditEventAnalyticSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditEventAnalyticSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -28,7 +28,7 @@ var (
 		"time_started":              acctest.Representation{RepType: acctest.Optional, Create: `timeStarted`},
 	}
 
-	AuditEventAnalyticResourceConfig = ""
+	DataSafeAuditEventAnalyticResourceConfig = ""
 )
 
 // issue-routing-tag: data_safe/default
@@ -49,8 +49,8 @@ func TestDataSafeAuditEventAnalyticResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_event_analytic", "test_audit_event_analytic", acctest.Required, acctest.Create, auditEventAnalyticSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AuditEventAnalyticResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_event_analytic", "test_audit_event_analytic", acctest.Required, acctest.Create, DataSafeauditEventAnalyticSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeAuditEventAnalyticResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 			),

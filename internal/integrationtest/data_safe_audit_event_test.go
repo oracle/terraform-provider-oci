@@ -16,14 +16,14 @@ import (
 )
 
 var (
-	auditEventSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditEventSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"scim_query":                acctest.Representation{RepType: acctest.Optional, Create: `scimQuery`},
 	}
 
-	dataSafeAuditEventDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditEventDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -52,7 +52,7 @@ func TestDataSafeAuditEventResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_events", "test_audit_events", acctest.Required, acctest.Create, dataSafeAuditEventDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_events", "test_audit_events", acctest.Required, acctest.Create, DataSafeauditEventDataSourceRepresentation) +
 				compartmentIdVariableStr + DataSafeAuditEventResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -62,7 +62,7 @@ func TestDataSafeAuditEventResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_event", "test_audit_event", acctest.Required, acctest.Create, auditEventSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_event", "test_audit_event", acctest.Required, acctest.Create, DataSafeauditEventSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DataSafeAuditEventResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

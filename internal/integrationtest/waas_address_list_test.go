@@ -26,30 +26,30 @@ import (
 )
 
 var (
-	AddressListRequiredOnlyResource = AddressListResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Required, acctest.Create, addressListRepresentation)
+	WaasAddressListRequiredOnlyResource = WaasAddressListResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Required, acctest.Create, WaasAddressListRepresentation)
 
-	AddressListResourceConfig = AddressListResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Optional, acctest.Update, addressListRepresentation)
+	WaasAddressListResourceConfig = WaasAddressListResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Optional, acctest.Update, WaasAddressListRepresentation)
 
-	addressListSingularDataSourceRepresentation = map[string]interface{}{
+	WaasWaasAddressListSingularDataSourceRepresentation = map[string]interface{}{
 		"address_list_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_waas_address_list.test_address_list.id}`},
 	}
 
-	addressListDataSourceRepresentation = map[string]interface{}{
+	WaasWaasAddressListDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"ids":                                   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_waas_address_list.test_address_list.id}`}},
 		"names":                                 acctest.Representation{RepType: acctest.Optional, Create: []string{`displayName2`}},
 		"states":                                acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
 		"time_created_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2018-01-01T00:00:00.000Z`},
 		"time_created_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `2038-01-01T00:00:00.000Z`},
-		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: addressListDataSourceFilterRepresentation}}
-	addressListDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: WaasAddressListDataSourceFilterRepresentation}}
+	WaasAddressListDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_waas_address_list.test_address_list.id}`}},
 	}
 
-	addressListRepresentation = map[string]interface{}{
+	WaasAddressListRepresentation = map[string]interface{}{
 		"addresses":      acctest.Representation{RepType: acctest.Required, Create: []string{`0.0.0.0/16`}, Update: []string{`0.0.0.0/20`}},
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
@@ -57,7 +57,7 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	AddressListResourceDependencies = DefinedTagsDependencies
+	WaasAddressListResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: waas/default
@@ -79,14 +79,14 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+AddressListResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Optional, acctest.Create, addressListRepresentation), "waas", "addressList", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+WaasAddressListResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Optional, acctest.Create, WaasAddressListRepresentation), "waas", "addressList", t)
 
 	acctest.ResourceTest(t, testAccCheckWaasAddressListDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Required, acctest.Create, addressListRepresentation),
+			Config: config + compartmentIdVariableStr + WaasAddressListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Required, acctest.Create, WaasAddressListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -101,12 +101,12 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + AddressListResourceDependencies,
+			Config: config + compartmentIdVariableStr + WaasAddressListResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Optional, acctest.Create, addressListRepresentation),
+			Config: config + compartmentIdVariableStr + WaasAddressListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Optional, acctest.Create, WaasAddressListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -127,9 +127,9 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AddressListResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WaasAddressListResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(addressListRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(WaasAddressListRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -150,8 +150,8 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Optional, acctest.Update, addressListRepresentation),
+			Config: config + compartmentIdVariableStr + WaasAddressListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Optional, acctest.Update, WaasAddressListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -170,9 +170,9 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_address_lists", "test_address_lists", acctest.Optional, acctest.Update, addressListDataSourceRepresentation) +
-				compartmentIdVariableStr + AddressListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Optional, acctest.Update, addressListRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_address_lists", "test_address_lists", acctest.Optional, acctest.Update, WaasWaasAddressListDataSourceRepresentation) +
+				compartmentIdVariableStr + WaasAddressListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Optional, acctest.Update, WaasAddressListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "ids.#", "1"),
@@ -194,8 +194,8 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Required, acctest.Create, addressListSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AddressListResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_address_list", "test_address_list", acctest.Required, acctest.Create, WaasWaasAddressListSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + WaasAddressListResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "address_list_id"),
 
@@ -211,7 +211,7 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + AddressListRequiredOnlyResource,
+			Config:                  config + WaasAddressListRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -275,7 +275,7 @@ func init() {
 
 func sweepWaasAddressListResource(compartment string) error {
 	waasClient := acctest.GetTestClients(&schema.ResourceData{}).WaasClient()
-	addressListIds, err := getAddressListIds(compartment)
+	addressListIds, err := getWaasAddressListIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -291,14 +291,14 @@ func sweepWaasAddressListResource(compartment string) error {
 				fmt.Printf("Error deleting AddressList %s %s, It is possible that the resource is already deleted. Please verify manually \n", addressListId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &addressListId, addressListSweepWaitCondition, time.Duration(3*time.Minute),
-				addressListSweepResponseFetchOperation, "waas", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &addressListId, WaasAddressListSweepWaitCondition, time.Duration(3*time.Minute),
+				WaasAddressListSweepResponseFetchOperation, "waas", true)
 		}
 	}
 	return nil
 }
 
-func getAddressListIds(compartment string) ([]string, error) {
+func getWaasAddressListIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "AddressListId")
 	if ids != nil {
 		return ids, nil
@@ -323,7 +323,7 @@ func getAddressListIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func addressListSweepWaitCondition(response common.OCIOperationResponse) bool {
+func WaasAddressListSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if addressListResponse, ok := response.Response.(oci_waas.GetAddressListResponse); ok {
 		return addressListResponse.LifecycleState != oci_waas.LifecycleStatesDeleted
@@ -331,7 +331,7 @@ func addressListSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func addressListSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func WaasAddressListSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.WaasClient().GetAddressList(context.Background(), oci_waas.GetAddressListRequest{
 		AddressListId: resourceId,
 		RequestMetadata: common.RequestMetadata{

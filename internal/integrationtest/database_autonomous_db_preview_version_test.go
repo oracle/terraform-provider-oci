@@ -16,11 +16,11 @@ import (
 )
 
 var (
-	autonomousDbPreviewVersionDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseAutonomousDbPreviewVersionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	AutonomousDbPreviewVersionResourceConfig = ""
+	DatabaseAutonomousDbPreviewVersionResourceConfig = ""
 )
 
 // issue-routing-tag: database/default
@@ -41,8 +41,8 @@ func TestDatabaseAutonomousDbPreviewVersionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_preview_versions", "test_autonomous_db_preview_versions", acctest.Required, acctest.Create, autonomousDbPreviewVersionDataSourceRepresentation) +
-				compartmentIdVariableStr + AutonomousDbPreviewVersionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_preview_versions", "test_autonomous_db_preview_versions", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousDbPreviewVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousDbPreviewVersionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
