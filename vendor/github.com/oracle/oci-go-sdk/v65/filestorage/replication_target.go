@@ -24,7 +24,7 @@ import (
 // All operations (except `DELETE`) must be done using the associated replication resource.
 // Deleting a `ReplicationTarget` allows the target file system to be exported.
 // Deleting a `ReplicationTarget` does not delete the associated `Replication` resource, but places it in a `FAILED` state.
-// For more information, see Using Replication (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/using-replication.htm).
+// For more information, see File System Replication (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/FSreplication.htm).
 type ReplicationTarget struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the replication.

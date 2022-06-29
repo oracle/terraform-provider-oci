@@ -17,16 +17,16 @@ import (
 	"strings"
 )
 
-// TestPreferredCredentialStatus The status of preferred credential is 'SUCCEEDED' if the credential is working else status is 'FAILED'.
+// TestPreferredCredentialStatus The status of the preferred credential test. The status is 'SUCCEEDED' if the preferred credential is working else the status is 'FAILED'.
 type TestPreferredCredentialStatus struct {
 
-	// The status of the test preferred credential whether it is 'SUCCEEDED' or 'FAILED'.
+	// The status of the preferred credential test. The status is 'SUCCEEDED' if the preferred credential is working else the status is 'FAILED'.
 	Status TestPreferredCredentialStatusStatusEnum `mandatory:"false" json:"status,omitempty"`
 
-	// An error code that defines the failure or `null` if the credential was tested successfully.
+	// An error code that defines the failure of the preferred credential test. The response is 'null' if the preferred credential test was successful.
 	ErrorCode *string `mandatory:"false" json:"errorCode"`
 
-	// The error message indicating the reason for failure or `null` if the credential was tested successfully.
+	// The error message that indicates the reason for the failure of the preferred credential test. The response is 'null' if the preferred credential test was successful.
 	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
 }
 

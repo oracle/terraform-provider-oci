@@ -20,22 +20,22 @@ import (
 // PreferredCredentialSummary The summary of preferred credentials.
 type PreferredCredentialSummary struct {
 
-	// Name of the preferred credential.
+	// The name of the preferred credential.
 	CredentialName *string `mandatory:"true" json:"credentialName"`
 
-	// Status of the preferred credential.
+	// The status of the preferred credential.
 	Status PreferredCredentialStatusEnum `mandatory:"true" json:"status"`
 
-	// Is preferred credential accessible.
+	// Indicates whether the preferred credential is accessible.
 	IsAccessible *bool `mandatory:"true" json:"isAccessible"`
 
-	// The user to connect to the database.
+	// The user name used to connect to the database.
 	UserName *string `mandatory:"false" json:"userName"`
 
-	// Role of the database user.
+	// The role of the database user.
 	Role RoleEnum `mandatory:"false" json:"role,omitempty"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the secret.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Vault service secret that contains the database user password.
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 }
 

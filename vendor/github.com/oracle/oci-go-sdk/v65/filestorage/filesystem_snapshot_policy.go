@@ -96,6 +96,7 @@ const (
 	FilesystemSnapshotPolicyLifecycleStateDeleting FilesystemSnapshotPolicyLifecycleStateEnum = "DELETING"
 	FilesystemSnapshotPolicyLifecycleStateDeleted  FilesystemSnapshotPolicyLifecycleStateEnum = "DELETED"
 	FilesystemSnapshotPolicyLifecycleStateInactive FilesystemSnapshotPolicyLifecycleStateEnum = "INACTIVE"
+	FilesystemSnapshotPolicyLifecycleStateFailed   FilesystemSnapshotPolicyLifecycleStateEnum = "FAILED"
 )
 
 var mappingFilesystemSnapshotPolicyLifecycleStateEnum = map[string]FilesystemSnapshotPolicyLifecycleStateEnum{
@@ -104,6 +105,7 @@ var mappingFilesystemSnapshotPolicyLifecycleStateEnum = map[string]FilesystemSna
 	"DELETING": FilesystemSnapshotPolicyLifecycleStateDeleting,
 	"DELETED":  FilesystemSnapshotPolicyLifecycleStateDeleted,
 	"INACTIVE": FilesystemSnapshotPolicyLifecycleStateInactive,
+	"FAILED":   FilesystemSnapshotPolicyLifecycleStateFailed,
 }
 
 var mappingFilesystemSnapshotPolicyLifecycleStateEnumLowerCase = map[string]FilesystemSnapshotPolicyLifecycleStateEnum{
@@ -112,6 +114,7 @@ var mappingFilesystemSnapshotPolicyLifecycleStateEnumLowerCase = map[string]File
 	"deleting": FilesystemSnapshotPolicyLifecycleStateDeleting,
 	"deleted":  FilesystemSnapshotPolicyLifecycleStateDeleted,
 	"inactive": FilesystemSnapshotPolicyLifecycleStateInactive,
+	"failed":   FilesystemSnapshotPolicyLifecycleStateFailed,
 }
 
 // GetFilesystemSnapshotPolicyLifecycleStateEnumValues Enumerates the set of values for FilesystemSnapshotPolicyLifecycleStateEnum
@@ -131,6 +134,7 @@ func GetFilesystemSnapshotPolicyLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"INACTIVE",
+		"FAILED",
 	}
 }
 

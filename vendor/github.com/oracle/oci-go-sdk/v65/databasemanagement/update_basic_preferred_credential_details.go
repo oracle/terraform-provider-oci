@@ -18,16 +18,16 @@ import (
 	"strings"
 )
 
-// UpdateBasicPreferredCredentialDetails The details of the basic preferred credentials.
+// UpdateBasicPreferredCredentialDetails The details of the 'BASIC' preferred credential.
 type UpdateBasicPreferredCredentialDetails struct {
 
-	// The user to connect to the database.
+	// The user name used to connect to the database.
 	UserName *string `mandatory:"false" json:"userName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the secret.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Vault service secret that contains the database user password.
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
-	// Role of the database user.
+	// The role of the database user.
 	Role RoleEnum `mandatory:"false" json:"role,omitempty"`
 }
 

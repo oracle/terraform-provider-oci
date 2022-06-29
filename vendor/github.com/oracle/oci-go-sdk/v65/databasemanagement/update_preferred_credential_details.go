@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// UpdatePreferredCredentialDetails The update details for the preferred credential.
+// UpdatePreferredCredentialDetails The details required to update the preferred credential.
 type UpdatePreferredCredentialDetails interface {
 }
 

@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// TestPreferredCredentialDetails The test details for the preferred credential.
+// TestPreferredCredentialDetails The status of the preferred credential test. The status is 'SUCCEEDED' if the preferred credential is working else the status is 'FAILED'.
 type TestPreferredCredentialDetails interface {
 }
 

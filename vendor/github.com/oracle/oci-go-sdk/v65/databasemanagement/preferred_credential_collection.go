@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// PreferredCredentialCollection A collection of Preferred credential attributes.
+// PreferredCredentialCollection A collection of preferred credential attributes.
 type PreferredCredentialCollection struct {
 
-	// An array of PreferredCredentialSummary.
+	// The attributes of the preferred credential.
 	Items []PreferredCredentialSummary `mandatory:"true" json:"items"`
 }
 

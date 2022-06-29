@@ -1172,7 +1172,7 @@ func (client DbManagementClient) deleteManagedDatabaseGroup(ctx context.Context,
 	return response, err
 }
 
-// DeletePreferredCredential Delete the preferred credential based on credentialName path attribute.
+// DeletePreferredCredential Deletes the preferred credential based on the credentialName.
 func (client DbManagementClient) DeletePreferredCredential(ctx context.Context, request DeletePreferredCredentialRequest) (response DeletePreferredCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2658,7 +2658,7 @@ func (client DbManagementClient) getPdbMetrics(ctx context.Context, request comm
 	return response, err
 }
 
-// GetPreferredCredential Get the preferred credential for a managed database based on credentialName path attribute.
+// GetPreferredCredential Gets the preferred credential details for a Managed Database based on credentialName.
 func (client DbManagementClient) GetPreferredCredential(ctx context.Context, request GetPreferredCredentialRequest) (response GetPreferredCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3972,7 +3972,7 @@ func (client DbManagementClient) listOptimizerStatisticsCollectionOperations(ctx
 	return response, err
 }
 
-// ListPreferredCredentials List the preferred credentials for a given managed database.
+// ListPreferredCredentials Gets the list of preferred credentials for a given Managed Database.
 func (client DbManagementClient) ListPreferredCredentials(ctx context.Context, request ListPreferredCredentialsRequest) (response ListPreferredCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5655,7 +5655,7 @@ func (client DbManagementClient) summarizeJobExecutionsStatuses(ctx context.Cont
 	return response, err
 }
 
-// TestPreferredCredential Test the preferred credential.
+// TestPreferredCredential Tests the preferred credential.
 func (client DbManagementClient) TestPreferredCredential(ctx context.Context, request TestPreferredCredentialRequest) (response TestPreferredCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5867,7 +5867,7 @@ func (client DbManagementClient) updateManagedDatabaseGroup(ctx context.Context,
 	return response, err
 }
 
-// UpdatePreferredCredential Update the preferred credential based on the credentialName path attribute.
+// UpdatePreferredCredential Updates the preferred credential based on the credentialName.
 func (client DbManagementClient) UpdatePreferredCredential(ctx context.Context, request UpdatePreferredCredentialRequest) (response UpdatePreferredCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -18,16 +18,16 @@ import (
 	"strings"
 )
 
-// PreferredCredential The details for the preferred credential.
+// PreferredCredential The details of the preferred credential.
 type PreferredCredential interface {
 
-	// Name of the preferred credential.
+	// The name of the preferred credential.
 	GetCredentialName() *string
 
-	// Status of the preferred credential.
+	// The status of the preferred credential.
 	GetStatus() PreferredCredentialStatusEnum
 
-	// Is preferred credential accessible.
+	// Indicates whether the preferred credential is accessible.
 	GetIsAccessible() *bool
 }
 

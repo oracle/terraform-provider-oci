@@ -246,18 +246,24 @@ type ModelModelTypeEnum string
 
 // Set of constants representing the allowable values for ModelModelTypeEnum
 const (
-	ModelModelTypeImageClassification ModelModelTypeEnum = "IMAGE_CLASSIFICATION"
-	ModelModelTypeObjectDetection     ModelModelTypeEnum = "OBJECT_DETECTION"
+	ModelModelTypeImageClassification    ModelModelTypeEnum = "IMAGE_CLASSIFICATION"
+	ModelModelTypeObjectDetection        ModelModelTypeEnum = "OBJECT_DETECTION"
+	ModelModelTypeKeyValueDetection      ModelModelTypeEnum = "KEY_VALUE_DETECTION"
+	ModelModelTypeDocumentClassification ModelModelTypeEnum = "DOCUMENT_CLASSIFICATION"
 )
 
 var mappingModelModelTypeEnum = map[string]ModelModelTypeEnum{
-	"IMAGE_CLASSIFICATION": ModelModelTypeImageClassification,
-	"OBJECT_DETECTION":     ModelModelTypeObjectDetection,
+	"IMAGE_CLASSIFICATION":    ModelModelTypeImageClassification,
+	"OBJECT_DETECTION":        ModelModelTypeObjectDetection,
+	"KEY_VALUE_DETECTION":     ModelModelTypeKeyValueDetection,
+	"DOCUMENT_CLASSIFICATION": ModelModelTypeDocumentClassification,
 }
 
 var mappingModelModelTypeEnumLowerCase = map[string]ModelModelTypeEnum{
-	"image_classification": ModelModelTypeImageClassification,
-	"object_detection":     ModelModelTypeObjectDetection,
+	"image_classification":    ModelModelTypeImageClassification,
+	"object_detection":        ModelModelTypeObjectDetection,
+	"key_value_detection":     ModelModelTypeKeyValueDetection,
+	"document_classification": ModelModelTypeDocumentClassification,
 }
 
 // GetModelModelTypeEnumValues Enumerates the set of values for ModelModelTypeEnum
@@ -274,6 +280,8 @@ func GetModelModelTypeEnumStringValues() []string {
 	return []string{
 		"IMAGE_CLASSIFICATION",
 		"OBJECT_DETECTION",
+		"KEY_VALUE_DETECTION",
+		"DOCUMENT_CLASSIFICATION",
 	}
 }
 

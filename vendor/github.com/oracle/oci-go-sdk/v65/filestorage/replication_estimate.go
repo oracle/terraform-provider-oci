@@ -20,7 +20,7 @@ import (
 type ReplicationEstimate struct {
 
 	// The rate of change on source filesystem which was used to provide the estimate in MegaBytes per second.
-	ChangeRateInMbps *int `mandatory:"true" json:"changeRateInMbps"`
+	ChangeRateInMBps *int `mandatory:"true" json:"changeRateInMBps"`
 
 	// Specifies whether replication can be enabled on the file system.
 	IsReplicationSupported *bool `mandatory:"true" json:"isReplicationSupported"`

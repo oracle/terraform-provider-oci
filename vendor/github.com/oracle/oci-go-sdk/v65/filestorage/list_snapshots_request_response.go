@@ -14,9 +14,6 @@ import (
 // ListSnapshotsRequest wrapper for the ListSnapshots operation
 type ListSnapshotsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
-	FileSystemId *string `mandatory:"true" contributesTo:"query" name:"fileSystemId"`
-
 	// For list pagination. The maximum number of results per page,
 	// or items to return in a paginated "List" call.
 	// 1 is the minimum, 100 is the maximum.
@@ -48,6 +45,12 @@ type ListSnapshotsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Filesystem Snapshot Policy
 	// that is associated with the filesystems or used to create the snapshots.
 	FilesystemSnapshotPolicyId *string `mandatory:"false" contributesTo:"query" name:"filesystemSnapshotPolicyId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
+	FileSystemId *string `mandatory:"false" contributesTo:"query" name:"fileSystemId"`
 
 	// The sort order to use, either 'asc' or 'desc', where 'asc' is
 	// ascending and 'desc' is descending. The default order is 'desc'

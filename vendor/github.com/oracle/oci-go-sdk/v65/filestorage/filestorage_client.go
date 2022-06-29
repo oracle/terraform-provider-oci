@@ -2634,7 +2634,8 @@ func (client FileStorageClient) listExports(ctx context.Context, request common.
 	return response, err
 }
 
-// ListFileSystems Lists the file system resources in the specified compartment.
+// ListFileSystems Lists the file system resources in the specified compartment, or by the specified compartment and
+// filesystem snapshot policy.
 func (client FileStorageClient) ListFileSystems(ctx context.Context, request ListFileSystemsRequest) (response ListFileSystemsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3076,7 +3077,9 @@ func (client FileStorageClient) listShares(ctx context.Context, request common.O
 	return response, err
 }
 
-// ListSnapshots Lists snapshots of the specified file system.
+// ListSnapshots Lists snapshots of the specified file system, or by filesystem snapshot policy and compartment,
+// or by filesystem snapshot policy and filesystem.
+// If file system ID is not specified, a filesystem snapshot policy ID and compartment ID have to be specified.
 func (client FileStorageClient) ListSnapshots(ctx context.Context, request ListSnapshotsRequest) (response ListSnapshotsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3175,6 +3178,64 @@ func (client FileStorageClient) modifyRootdirAttributes(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/ModifyRootdirAttributes"
 		err = common.PostProcessServiceError(err, "FileStorage", "ModifyRootdirAttributes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PauseFilesystemSnapshotPolicy This operation pauses the scheduled snapshot creation and deletion of the policy and updates the filesystem
+// snapshot policy from ACTIVE to INACTIVE state. If the policy is already paused, i.e. in INACTIVE state, the
+// policy will remain paused. You cannot not pause a policy that is in DELETING, DELETED, FAILED, or CREATING
+// state: a 409 conflict error would be returned if you do so.
+// When a filesystem snapshot policy is paused, i.e. in INACTIVE state, filesystems that are associated with the
+// policy would not have scheduled snapshot creation and deletion.
+func (client FileStorageClient) PauseFilesystemSnapshotPolicy(ctx context.Context, request PauseFilesystemSnapshotPolicyRequest) (response PauseFilesystemSnapshotPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.pauseFilesystemSnapshotPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PauseFilesystemSnapshotPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PauseFilesystemSnapshotPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PauseFilesystemSnapshotPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PauseFilesystemSnapshotPolicyResponse")
+	}
+	return
+}
+
+// pauseFilesystemSnapshotPolicy implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) pauseFilesystemSnapshotPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/filesystemSnapshotPolicies/{filesystemSnapshotPolicyId}/actions/pause", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PauseFilesystemSnapshotPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FilesystemSnapshotPolicy/PauseFilesystemSnapshotPolicy"
+		err = common.PostProcessServiceError(err, "FileStorage", "PauseFilesystemSnapshotPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -4033,6 +4094,64 @@ func (client FileStorageClient) testOutboundConnector(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/TestOutboundConnector"
 		err = common.PostProcessServiceError(err, "FileStorage", "TestOutboundConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UnpauseFilesystemSnapshotPolicy This operation unpauses a paused filesystem snapshot policy and updates the filesystem snapshot policy from
+// INACTIVE to ACTIVE state. If the policy is already in ACTIVE state, the policy will remain active. By default,
+// filesystem snapshot policies are in ACTIVE state. You cannot not unpause a policy that is in DELETING, DELETED,
+// FAILED, or CREATING state: a 409 conflict error would be returned if you do so.
+// When a filesystem snapshot policy is not paused, i.e. in ACTIVE state, filesystems that are associated with the
+// policy will have snapshots created / deleted, according to the schedules defined in the policy.
+func (client FileStorageClient) UnpauseFilesystemSnapshotPolicy(ctx context.Context, request UnpauseFilesystemSnapshotPolicyRequest) (response UnpauseFilesystemSnapshotPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.unpauseFilesystemSnapshotPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnpauseFilesystemSnapshotPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnpauseFilesystemSnapshotPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnpauseFilesystemSnapshotPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnpauseFilesystemSnapshotPolicyResponse")
+	}
+	return
+}
+
+// unpauseFilesystemSnapshotPolicy implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) unpauseFilesystemSnapshotPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/filesystemSnapshotPolicies/{filesystemSnapshotPolicyId}/actions/unpause", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnpauseFilesystemSnapshotPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FilesystemSnapshotPolicy/UnpauseFilesystemSnapshotPolicy"
+		err = common.PostProcessServiceError(err, "FileStorage", "UnpauseFilesystemSnapshotPolicy", apiReferenceLink)
 		return response, err
 	}
 

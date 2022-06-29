@@ -21,7 +21,7 @@ import (
 // located in another availability domain in the same or different region.
 // The replication retrieves the delta of data between two snapshots of a source file system
 // and sends it to the associated `ReplicationTarget`, which applies it to the target
-// file system. For more information, see Using Replication (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/using-replication.htm).
+// file system. For more information, see File System Replication (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/FSreplication.htm).
 type Replication struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the replication.
