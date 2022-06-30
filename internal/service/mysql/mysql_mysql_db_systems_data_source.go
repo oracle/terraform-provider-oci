@@ -165,6 +165,12 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 			mysqlDbSystem["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		if r.BackupPolicy != nil {
+			mysqlDbSystem["backup_policy"] = []interface{}{BackupPolicyToMap(r.BackupPolicy)}
+		} else {
+			mysqlDbSystem["backup_policy"] = nil
+		}
+
 		mysqlDbSystem["crash_recovery"] = r.CrashRecovery
 
 		if r.CurrentPlacement != nil {
@@ -227,6 +233,10 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 
 		if r.MysqlVersion != nil {
 			mysqlDbSystem["mysql_version"] = *r.MysqlVersion
+		}
+
+		if r.ShapeName != nil {
+			mysqlDbSystem["shape_name"] = *r.ShapeName
 		}
 
 		mysqlDbSystem["state"] = r.LifecycleState

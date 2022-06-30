@@ -48,7 +48,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_backup_db_system" {
   availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
   compartment_id      = var.compartment_ocid
   configuration_id    = data.oci_mysql_mysql_configurations.test_mysql_configurations.configurations[0].id
-  shape_name          = "VM.Standard.E2.2"
+  shape_name          = "MySQL.VM.Standard.E3.1.8GB"
   subnet_id           = oci_core_subnet.test_subnet.id
 
   #Optional
@@ -62,7 +62,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
   availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
   compartment_id      = var.compartment_ocid
   configuration_id    = data.oci_mysql_mysql_configurations.test_mysql_configurations.configurations[0].id
-  shape_name          = "VM.Standard.E2.2"
+  shape_name          = "MySQL.VM.Standard.E3.1.8GB"
   subnet_id           = oci_core_subnet.test_subnet.id
 
   #Optional
@@ -110,7 +110,7 @@ data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
 
   #Optional
   state        = "ACTIVE"
-  shape_name   = "VM.Standard.E2.2"
+  shape_name   = "MySQL.VM.Standard.E3.1.8GB"
 }
 
 data "oci_mysql_shapes" "test_shapes" {
