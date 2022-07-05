@@ -6,6 +6,7 @@ package core
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 
@@ -94,6 +95,7 @@ func CoreSubnetResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+				DiffSuppressFunc: ipv6Cidr_blocksSuppressFunction,
 			},
 			"prohibit_internet_ingress": {
 				Type:     schema.TypeBool,
@@ -568,6 +570,7 @@ func (s *CoreSubnetResourceCrud) updateIpv6CidrBlocks(oldRaw interface{}, newRaw
 			oldBlocks[i] = interfaces[i].(string)
 		}
 	}
+
 	interfaces = newRaw.([]interface{})
 	newBlocks := make([]string, len(interfaces))
 	for i := range interfaces {
@@ -575,63 +578,109 @@ func (s *CoreSubnetResourceCrud) updateIpv6CidrBlocks(oldRaw interface{}, newRaw
 			newBlocks[i] = interfaces[i].(string)
 		}
 	}
-	canEdit, operation, oldCidr, newCidr := ipv6CidrOneEditAway(oldBlocks, newBlocks)
+
+	canEdit, operation, changeCidr := ipv6CidrOneEditAway(oldBlocks, newBlocks)
 	if !canEdit {
 		return fmt.Errorf("only one add/remove or modification is allowed at once, new IPv6 cidr_block must be added at the end of list")
 	}
+
 	if operation == "add" {
 		addIpv6SubnetCidrRequest := oci_core.AddIpv6SubnetCidrRequest{}
 		addSubnetIpv6CidrDetails := oci_core.AddSubnetIpv6CidrDetails{}
 		idTmp := s.D.Id()
 		addIpv6SubnetCidrRequest.SubnetId = &idTmp
 		addIpv6SubnetCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
-		addSubnetIpv6CidrDetails.Ipv6CidrBlock = &newCidr
+		addSubnetIpv6CidrDetails.Ipv6CidrBlock = &changeCidr
 		addIpv6SubnetCidrRequest.AddSubnetIpv6CidrDetails = addSubnetIpv6CidrDetails
 		_, err := s.Client.AddIpv6SubnetCidr(context.Background(), addIpv6SubnetCidrRequest)
 		if err != nil {
 			return err
 		}
 	}
+
 	if operation == "remove" {
 		removeIpv6SubnetCidrRequest := oci_core.RemoveIpv6SubnetCidrRequest{}
 		removeSubnetIpv6CidrDetails := oci_core.RemoveSubnetIpv6CidrDetails{}
 		idTmp := s.D.Id()
 		removeIpv6SubnetCidrRequest.SubnetId = &idTmp
 		removeIpv6SubnetCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
-		removeSubnetIpv6CidrDetails.Ipv6CidrBlock = &oldCidr
+		removeSubnetIpv6CidrDetails.Ipv6CidrBlock = &changeCidr
 		removeIpv6SubnetCidrRequest.RemoveSubnetIpv6CidrDetails = removeSubnetIpv6CidrDetails
 		_, err := s.Client.RemoveIpv6SubnetCidr(context.Background(), removeIpv6SubnetCidrRequest)
 		if err != nil {
 			return err
 		}
 	}
+
 	return nil
 }
 
-func ipv6CidrOneEditAway(oldBlocks []string, newBlocks []string) (bool, string, string, string) {
-	if Abs(len(newBlocks)-len(oldBlocks)) > 1 {
-		return false, "", "", ""
-	}
-	if len(newBlocks) == len(oldBlocks) {
-		return false, "", "", ""
-	}
-	if len(newBlocks) > len(oldBlocks) {
-		for i := 0; i < len(oldBlocks); i++ {
-			if oldBlocks[i] != newBlocks[i] {
-				return false, "", "", ""
-			}
-		}
-		return true, "add", "", newBlocks[len(newBlocks)-1]
-	}
-	for i := 0; i < len(newBlocks); i++ {
-		if oldBlocks[i] != newBlocks[i] {
-			for j := i + 1; j < len(newBlocks); j++ {
-				if oldBlocks[j] != newBlocks[j-1] {
-					return false, "", "", ""
+func ipv6CidrOneEditAway(oldBlocks []string, newBlocks []string) (bool, string, string) {
+	var oldBlocksDiff []string
+	var newBlocksDiff []string
+
+	// operation add: newBlock will contain the CIDR to be added
+	if len(newBlocks)-len(oldBlocks) == 1 {
+		for i := 0; i < len(newBlocks); i++ {
+			elementToFind := newBlocks[i]
+			found := false
+			for _, n := range oldBlocks {
+				if convertToCanonical(elementToFind) == convertToCanonical(n) {
+					// do not add to list newBlocksDiff
+					found = true
+					break
+				}
+				if !found {
+					newBlocksDiff = append(newBlocksDiff, elementToFind)
 				}
 			}
-			return true, "remove", oldBlocks[i], ""
+		}
+
+		if len(newBlocksDiff) == 1 {
+			return true, "add", newBlocksDiff[0]
+		} else {
+			return false, "", ""
 		}
 	}
-	return true, "remove", oldBlocks[len(oldBlocks)-1], ""
+
+	// operation remove: oldBlock will contain the CIDR to be removed
+	if len(oldBlocks)-len(newBlocks) == 1 {
+		for i := 0; i < len(oldBlocks); i++ {
+			elementToFind := oldBlocks[i]
+			found := false
+			for _, n := range newBlocks {
+				if convertToCanonical(elementToFind) == convertToCanonical(n) {
+					// do not add to list oldBlocksDiff
+					found = true
+					break
+				}
+				if !found {
+					oldBlocksDiff = append(oldBlocksDiff, elementToFind)
+				}
+			}
+		}
+
+		if len(oldBlocksDiff) == 1 {
+			return true, "remove", oldBlocksDiff[0]
+		} else {
+			return false, "", ""
+		}
+	}
+
+	return false, "", ""
+}
+
+func convertToCanonical(block string) string {
+	splitString := strings.Split(block, ":")
+
+	final := []string{"0000", "0000", "0000", "0000", "0000", "0000", "0000", "0000"}
+
+	for i := 0; i < len(splitString)-2; i++ {
+
+		// append 4 - len(i) 0's to the left, and add it to string along with :
+		final[i] = strings.Repeat("0", 4-len(splitString[i])) + splitString[i]
+	}
+	result := strings.Join(final, ":")
+
+	return result + "/64"
 }
