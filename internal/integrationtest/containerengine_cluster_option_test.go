@@ -58,7 +58,7 @@ func TestContainerengineClusterOptionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_option_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_pod_network_options.#", "2"),
 				resource.TestMatchResourceAttr(singularDatasourceName, "kubernetes_versions.#", regexp.MustCompile("[1-9][0-9]*")),
 			),
 		},
