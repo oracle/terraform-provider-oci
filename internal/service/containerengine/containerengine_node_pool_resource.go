@@ -179,6 +179,52 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
+						"node_pool_pod_network_option_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"cni_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"FLANNEL_OVERLAY",
+											"OCI_VCN_IP_NATIVE",
+										}, true),
+									},
+
+									// Optional
+									"max_pods_per_node": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"pod_nsg_ids": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"pod_subnet_ids": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
 						"nsg_ids": {
 							Type:     schema.TypeSet,
 							Optional: true,
@@ -1221,6 +1267,17 @@ func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetai
 		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if nodePoolPodNetworkOptionDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "node_pool_pod_network_option_details")); ok {
+		if tmpList := nodePoolPodNetworkOptionDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "node_pool_pod_network_option_details"), 0)
+			tmp, err := s.mapToNodePoolPodNetworkOptionDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert node_pool_pod_network_option_details, encountered error: %v", err)
+			}
+			result.NodePoolPodNetworkOptionDetails = tmp
+		}
+	}
+
 	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -1276,6 +1333,14 @@ func NodePoolNodeConfigDetailsToMap(obj *oci_containerengine.NodePoolNodeConfigD
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.NodePoolPodNetworkOptionDetails != nil {
+		nodePoolPodNetworkOptionDetailsArray := []interface{}{}
+		if nodePoolPodNetworkOptionDetailsMap := NodePoolPodNetworkOptionDetailsToMap(&obj.NodePoolPodNetworkOptionDetails); nodePoolPodNetworkOptionDetailsMap != nil {
+			nodePoolPodNetworkOptionDetailsArray = append(nodePoolPodNetworkOptionDetailsArray, nodePoolPodNetworkOptionDetailsMap)
+		}
+		result["node_pool_pod_network_option_details"] = nodePoolPodNetworkOptionDetailsArray
+	}
 
 	nsgIds := []interface{}{}
 	for _, item := range obj.NsgIds {
@@ -1545,6 +1610,80 @@ func NodePoolPlacementConfigDetailsToMap(obj oci_containerengine.NodePoolPlaceme
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	return result
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolPodNetworkOptionDetails(fieldKeyFormat string) (oci_containerengine.NodePoolPodNetworkOptionDetails, error) {
+	var baseObject oci_containerengine.NodePoolPodNetworkOptionDetails
+	//discriminator
+	cniTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cni_type"))
+	var cniType string
+	if ok {
+		cniType = cniTypeRaw.(string)
+	} else {
+		cniType = "" // default value
+	}
+	switch strings.ToLower(cniType) {
+	case strings.ToLower("FLANNEL_OVERLAY"):
+		details := oci_containerengine.FlannelOverlayNodePoolPodNetworkOptionDetails{}
+		baseObject = details
+	case strings.ToLower("OCI_VCN_IP_NATIVE"):
+		details := oci_containerengine.OciVcnIpNativeNodePoolPodNetworkOptionDetails{}
+		if maxPodsPerNode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_pods_per_node")); ok {
+			tmp := maxPodsPerNode.(int)
+			details.MaxPodsPerNode = &tmp
+		}
+		if podNsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pod_nsg_ids")); ok {
+			interfaces := podNsgIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "pod_nsg_ids")) {
+				details.PodNsgIds = tmp
+			}
+		}
+		if podSubnetIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pod_subnet_ids")); ok {
+			interfaces := podSubnetIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "pod_subnet_ids")) {
+				details.PodSubnetIds = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown cni_type '%v' was specified", cniType)
+	}
+	return baseObject, nil
+}
+
+func NodePoolPodNetworkOptionDetailsToMap(obj *oci_containerengine.NodePoolPodNetworkOptionDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_containerengine.FlannelOverlayNodePoolPodNetworkOptionDetails:
+		result["cni_type"] = "FLANNEL_OVERLAY"
+	case oci_containerengine.OciVcnIpNativeNodePoolPodNetworkOptionDetails:
+		result["cni_type"] = "OCI_VCN_IP_NATIVE"
+
+		if v.MaxPodsPerNode != nil {
+			result["max_pods_per_node"] = int(*v.MaxPodsPerNode)
+		}
+
+		result["pod_nsg_ids"] = v.PodNsgIds
+
+		result["pod_subnet_ids"] = v.PodSubnetIds
+	default:
+		log.Printf("[WARN] Received 'cni_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result

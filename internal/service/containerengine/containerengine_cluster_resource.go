@@ -58,6 +58,26 @@ func ContainerengineClusterResource() *schema.Resource {
 			},
 
 			// Optional
+			"cluster_pod_network_options": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"cni_type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -480,6 +500,23 @@ func (s *ContainerengineClusterResourceCrud) DeletedTarget() []string {
 
 func (s *ContainerengineClusterResourceCrud) Create() error {
 	request := oci_containerengine.CreateClusterRequest{}
+
+	if clusterPodNetworkOptions, ok := s.D.GetOkExists("cluster_pod_network_options"); ok {
+		interfaces := clusterPodNetworkOptions.([]interface{})
+		tmp := make([]oci_containerengine.ClusterPodNetworkOptionDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "cluster_pod_network_options", stateDataIndex)
+			converted, err := s.mapToClusterPodNetworkOptionDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("cluster_pod_network_options") {
+			request.ClusterPodNetworkOptions = tmp
+		}
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -925,6 +962,12 @@ func (s *ContainerengineClusterResourceCrud) Delete() error {
 func (s *ContainerengineClusterResourceCrud) SetData() error {
 	s.D.Set("available_kubernetes_upgrades", s.Res.AvailableKubernetesUpgrades)
 
+	clusterPodNetworkOptions := []interface{}{}
+	for _, item := range s.Res.ClusterPodNetworkOptions {
+		clusterPodNetworkOptions = append(clusterPodNetworkOptions, ClusterPodNetworkOptionDetailsToMap(item))
+	}
+	s.D.Set("cluster_pod_network_options", clusterPodNetworkOptions)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -1202,6 +1245,44 @@ func ClusterMetadataToMap(obj *oci_containerengine.ClusterMetadata) map[string]i
 
 	if obj.UpdatedByWorkRequestId != nil {
 		result["updated_by_work_request_id"] = string(*obj.UpdatedByWorkRequestId)
+	}
+
+	return result
+}
+
+func (s *ContainerengineClusterResourceCrud) mapToClusterPodNetworkOptionDetails(fieldKeyFormat string) (oci_containerengine.ClusterPodNetworkOptionDetails, error) {
+	var baseObject oci_containerengine.ClusterPodNetworkOptionDetails
+	//discriminator
+	cniTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cni_type"))
+	var cniType string
+	if ok {
+		cniType = cniTypeRaw.(string)
+	} else {
+		cniType = "" // default value
+	}
+	switch strings.ToLower(cniType) {
+	case strings.ToLower("FLANNEL_OVERLAY"):
+		details := oci_containerengine.FlannelOverlayClusterPodNetworkOptionDetails{}
+		baseObject = details
+	case strings.ToLower("OCI_VCN_IP_NATIVE"):
+		details := oci_containerengine.OciVcnIpNativeClusterPodNetworkOptionDetails{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown cni_type '%v' was specified", cniType)
+	}
+	return baseObject, nil
+}
+
+func ClusterPodNetworkOptionDetailsToMap(obj oci_containerengine.ClusterPodNetworkOptionDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch (obj).(type) {
+	case oci_containerengine.FlannelOverlayClusterPodNetworkOptionDetails:
+		result["cni_type"] = "FLANNEL_OVERLAY"
+	case oci_containerengine.OciVcnIpNativeClusterPodNetworkOptionDetails:
+		result["cni_type"] = "OCI_VCN_IP_NATIVE"
+	default:
+		log.Printf("[WARN] Received 'cni_type' of unknown type %v", obj)
+		return nil
 	}
 
 	return result
