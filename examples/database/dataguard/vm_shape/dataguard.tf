@@ -122,12 +122,21 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
   delete_standby_db_home_on_delete = "true"
 
   #required for NewDbSystem creation_type
-  display_name        = "TFExampleDataGuardAssociationVM"
-  shape               = "VM.Standard2.1"
-  subnet_id           = oci_core_subnet.test_subnet.id
-  availability_domain = oci_core_subnet.test_subnet.availability_domain
-  nsg_ids             = [oci_core_network_security_group.test_network_security_group.id]
-  hostname            = "ocidb"
+  display_name              = "TFExampleDataGuardAssociationVM"
+  shape                     = "VM.Standard2.1"
+  subnet_id                 = oci_core_subnet.test_subnet.id
+  availability_domain       = oci_core_subnet.test_subnet.availability_domain
+  nsg_ids                   = [oci_core_network_security_group.test_network_security_group.id]
+  hostname                  = "ocidb"
+  db_system_defined_tags    = "${map("example-tag-namespace-all.example-tag", "dbSystemDefinedTags1")}"
+  db_system_freeform_tags   = {"dbSystemFreeformTagsK" = "dbSystemFreeformTagsV"}
+  database_defined_tags     = "${map("example-tag-namespace-all.example-tag", "databaseDefinedTags1")}"
+  database_freeform_tags    = {"databaseFreeformTagsK" = "databaseFreeformTagsV"}
+  fault_domains             = ["FAULT-DOMAIN-3"]
+  license_model             = "LICENSE_INCLUDED"
+  node_count                = "1"
+  private_ip                = "10.0.2.223"
+  time_zone                 = "US/Pacific"
 }
 
 resource "oci_core_network_security_group" "test_network_security_group" {
