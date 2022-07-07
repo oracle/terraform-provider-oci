@@ -1,3 +1,8 @@
+## 4.83.0 (July 07, 2022)
+
+### Added
+- Support for BackupPolicy to the DBSystemSummary
+
 ## 4.82.0 (June 28, 2022)
 
 ### Added
