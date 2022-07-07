@@ -36,19 +36,28 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 	availability_domain = var.data_guard_association_availability_domain
 	backup_network_nsg_ids = var.data_guard_association_backup_network_nsg_ids
 	cpu_core_count = var.data_guard_association_cpu_core_count
+	database_defined_tags = var.data_guard_association_database_defined_tags
+	database_freeform_tags = var.data_guard_association_database_freeform_tags
 	database_software_image_id = oci_database_database_software_image.test_database_software_image.id
+	db_system_defined_tags = var.data_guard_association_db_system_defined_tags
+	db_system_freeform_tags = var.data_guard_association_db_system_freeform_tags
 	display_name = var.data_guard_association_display_name
+	fault_domains = var.data_guard_association_fault_domains
 	hostname = var.data_guard_association_hostname
 	is_active_data_guard_enabled = var.data_guard_association_is_active_data_guard_enabled
+	license_model = var.data_guard_association_license_model
+	node_count = var.data_guard_association_node_count
 	nsg_ids = var.data_guard_association_nsg_ids
 	peer_db_home_id = oci_database_db_home.test_db_home.id
 	peer_db_system_id = oci_database_db_system.test_db_system.id
 	peer_db_unique_name = var.data_guard_association_peer_db_unique_name
 	peer_sid_prefix = var.data_guard_association_peer_sid_prefix
 	peer_vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
+	private_ip = var.data_guard_association_private_ip
 	shape = var.data_guard_association_shape
 	storage_volume_performance_mode = var.data_guard_association_storage_volume_performance_mode
 	subnet_id = oci_core_subnet.test_subnet.id
+	time_zone = var.data_guard_association_time_zone
 }
 ```
 
@@ -68,13 +77,28 @@ The following arguments are supported:
     * At least two numeric characters.
     * At least two special characters. Valid special characters include "_", "#", and "-" only.
 
-    **The password MUST be the same as the primary admin password.** 
+	**The password MUST be the same as the primary admin password.** 
+* `database_defined_tags` - (Applicable when creation_type=NewDbSystem) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+* `database_freeform_tags` - (Applicable when creation_type=NewDbSystem) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `database_id` - (Required) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `database_software_image_id` - (Optional) The database software image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Applicable only when creationType=`ExistingDbSystem` and when the existing database has Exadata shape.
+* `db_system_defined_tags` - (Applicable when creation_type=NewDbSystem) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+* `db_system_freeform_tags` - (Applicable when creation_type=NewDbSystem) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `delete_standby_db_home_on_delete` - (Required) (Updatable) if set to true the destroy operation will destroy the standby dbHome/dbSystem that is referenced in the Data Guard Association. The Data Guard Association gets destroyed when standby dbHome/dbSystem is terminated. Only `true` is supported at this time. If you change an argument that is used during the delete operation you must run `terraform apply` first so that that the change in the value is registered in the statefile before running `terraform destroy`. `terraform destroy` only looks at what is currently on the statefile and ignores the terraform configuration files. 
 * `display_name` - (Applicable when creation_type=NewDbSystem) The user-friendly name of the DB system that will contain the the standby database. The display name does not have to be unique.
+* `fault_domains` - (Applicable when creation_type=NewDbSystem) A Fault Domain is a grouping of hardware and infrastructure within an availability domain. Fault Domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or maintenance that affects one Fault Domain does not affect DB systems in other Fault Domains.
+
+	If you do not specify the Fault Domain, the system selects one for you. To change the Fault Domain for a DB system, terminate it and launch a new DB system in the preferred Fault Domain.
+
+	If the node count is greater than 1, you can specify which Fault Domains these nodes will be distributed into. The system assigns your nodes automatically to the Fault Domains you specify so that no Fault Domain contains more than one node.
+
+	To get a list of Fault Domains, use the [ListFaultDomains](https://docs.cloud.oracle.com/iaas/api/#/en/identity/latest/FaultDomain/ListFaultDomains) operation in the Identity and Access Management Service API.
+
+	Example: `FAULT-DOMAIN-1` 
 * `hostname` - (Applicable when creation_type=NewDbSystem) The hostname for the DB node.
 * `is_active_data_guard_enabled` - (Optional) (Updatable) True if active Data Guard is enabled.
+* `license_model` - (Applicable when creation_type=NewDbSystem) The Oracle license model that applies to all the databases on the dataguard standby DB system. The default is LICENSE_INCLUDED. 
+* `node_count` - (Applicable when creation_type=NewDbSystem) The number of nodes to launch for the DB system of the standby in the Data Guard association. For a 2-node RAC virtual machine DB system, specify either 1 or 2. If you do not supply this parameter, the default is the node count of the primary DB system. 
 * `nsg_ids` - (Applicable when creation_type=NewDbSystem) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 * `peer_db_home_id` - (Applicable when creation_type=ExistingDbSystem | ExistingVmCluster) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB home in which to create the standby database. You must supply this value to create standby database with an existing DB home 
@@ -82,6 +106,7 @@ The following arguments are supported:
 * `peer_db_unique_name` - (Optional) Specifies the `DB_UNIQUE_NAME` of the peer database to be created. 
 * `peer_sid_prefix` - (Optional) Specifies a prefix for the `Oracle SID` of the database to be created. 
 * `peer_vm_cluster_id` - (Applicable when creation_type=ExistingVmCluster) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster in which to create the standby database. You must supply this value if creationType is `ExistingVmCluster`. 
+* `private_ip` - (Applicable when creation_type=NewDbSystem) The IPv4 address from the provided Oracle Cloud Infrastructure subnet which needs to be assigned to the VNIC. If not provided, it will be auto-assigned with an available IPv4 address from the subnet. 
 * `protection_mode` - (Required) (Updatable) The protection mode to set up between the primary and standby databases. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation.
 
     **IMPORTANT** - The only protection mode currently supported by the Database service is MAXIMUM_PERFORMANCE. 
@@ -92,7 +117,8 @@ The following arguments are supported:
 * `subnet_id` - (Applicable when creation_type=NewDbSystem) The OCID of the subnet the DB system is associated with. **Subnet Restrictions:**
     * For 1- and 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.16.16/28
 
-    These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet. 
+	These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet. 
+* `time_zone` - (Applicable when creation_type=NewDbSystem) The time zone of the dataguard standby DB system. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 * `transport_type` - (Required) (Updatable) The redo transport type to use for this Data Guard association.  Valid values depend on the specified `protectionMode`:
     * MAXIMUM_AVAILABILITY - SYNC or FASTSYNC
     * MAXIMUM_PERFORMANCE - ASYNC
