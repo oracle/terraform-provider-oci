@@ -1,3 +1,11 @@
+## 4.84.0 (Unreleased)
+
+### Added
+- Support for Native Pod Networking
+- Support for Point-in-time Recovery for non-HA MySQL Database System
+- Support for database/db system tags, fault domains, license model, node count, private ip, and time-zone to creating data guard association (with new db system) service
+- Default description for service examples
+
 ## 4.83.0 (Unreleased)
 
 ### Added
