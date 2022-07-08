@@ -53,8 +53,14 @@ type PeComanagedManagedExternalDatabaseConfigurationSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 	DatabaseId *string `mandatory:"true" json:"databaseId"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
+	ParentId *string `mandatory:"true" json:"parentId"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
 	OpsiPrivateEndpointId *string `mandatory:"true" json:"opsiPrivateEndpointId"`
+
+	// Array of hostname and instance name.
+	Instances []HostInstanceMap `mandatory:"true" json:"instances"`
 
 	// Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.
 	ProcessorCount *int `mandatory:"false" json:"processorCount"`

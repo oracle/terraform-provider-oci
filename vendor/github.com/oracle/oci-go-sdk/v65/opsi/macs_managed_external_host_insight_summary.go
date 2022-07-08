@@ -54,6 +54,9 @@ type MacsManagedExternalHostInsightSummary struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+	OpsiPrivateEndpointId *string `mandatory:"false" json:"opsiPrivateEndpointId"`
+
 	// The time the the host insight was first enabled. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
@@ -118,6 +121,11 @@ func (m MacsManagedExternalHostInsightSummary) GetDefinedTags() map[string]map[s
 //GetSystemTags returns SystemTags
 func (m MacsManagedExternalHostInsightSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetOpsiPrivateEndpointId returns OpsiPrivateEndpointId
+func (m MacsManagedExternalHostInsightSummary) GetOpsiPrivateEndpointId() *string {
+	return m.OpsiPrivateEndpointId
 }
 
 //GetStatus returns Status

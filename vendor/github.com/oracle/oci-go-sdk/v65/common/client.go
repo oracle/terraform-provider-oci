@@ -342,6 +342,28 @@ func getDefaultConfigFilePath() string {
 	return fallbackConfigFile
 }
 
+// setRawPath sets the Path and RawPath fields of the URL based on the provided
+// escaped path p. It maintains the invariant that RawPath is only specified
+// when it differs from the default encoding of the path.
+// For example:
+// - setPath("/foo/bar")   will set Path="/foo/bar" and RawPath=""
+// - setPath("/foo%2fbar") will set Path="/foo/bar" and RawPath="/foo%2fbar"
+func setRawPath(u *url.URL) error {
+	oldPath := u.Path
+	path, err := url.PathUnescape(u.Path)
+	if err != nil {
+		return err
+	}
+	u.Path = path
+	if escp := u.EscapedPath(); oldPath == escp {
+		// Default encoding is fine.
+		u.RawPath = ""
+	} else {
+		u.RawPath = oldPath
+	}
+	return nil
+}
+
 // CustomProfileConfigProvider returns the config provider of given profile. The custom profile config provider
 // will look for configurations in 2 places: file in $HOME/.oci/config,  and variables names starting with the
 // string TF_VAR. If the same configuration is found in multiple places the provider will prefer the first one.
@@ -383,6 +405,10 @@ func (client *BaseClient) prepareRequest(request *http.Request) (err error) {
 	currentPath := request.URL.Path
 	if !strings.Contains(currentPath, fmt.Sprintf("/%s", client.BasePath)) {
 		request.URL.Path = path.Clean(fmt.Sprintf("/%s/%s", client.BasePath, currentPath))
+		err := setRawPath(request.URL)
+		if err != nil {
+			return err
+		}
 	}
 	return
 }
