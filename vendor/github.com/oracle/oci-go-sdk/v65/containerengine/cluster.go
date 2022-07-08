@@ -12,6 +12,7 @@
 package containerengine
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -75,6 +76,9 @@ type Cluster struct {
 
 	// The image verification policy for signature validation.
 	ImagePolicyConfig *ImagePolicyConfig `mandatory:"false" json:"imagePolicyConfig"`
+
+	// Available CNIs and network options for existing and new node pools of the cluster
+	ClusterPodNetworkOptions []ClusterPodNetworkOptionDetails `mandatory:"false" json:"clusterPodNetworkOptions"`
 }
 
 func (m Cluster) String() string {
@@ -94,4 +98,85 @@ func (m Cluster) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *Cluster) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Id                          *string                           `json:"id"`
+		Name                        *string                           `json:"name"`
+		CompartmentId               *string                           `json:"compartmentId"`
+		EndpointConfig              *ClusterEndpointConfig            `json:"endpointConfig"`
+		VcnId                       *string                           `json:"vcnId"`
+		KubernetesVersion           *string                           `json:"kubernetesVersion"`
+		KmsKeyId                    *string                           `json:"kmsKeyId"`
+		FreeformTags                map[string]string                 `json:"freeformTags"`
+		DefinedTags                 map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                  map[string]map[string]interface{} `json:"systemTags"`
+		Options                     *ClusterCreateOptions             `json:"options"`
+		Metadata                    *ClusterMetadata                  `json:"metadata"`
+		LifecycleState              ClusterLifecycleStateEnum         `json:"lifecycleState"`
+		LifecycleDetails            *string                           `json:"lifecycleDetails"`
+		Endpoints                   *ClusterEndpoints                 `json:"endpoints"`
+		AvailableKubernetesUpgrades []string                          `json:"availableKubernetesUpgrades"`
+		ImagePolicyConfig           *ImagePolicyConfig                `json:"imagePolicyConfig"`
+		ClusterPodNetworkOptions    []clusterpodnetworkoptiondetails  `json:"clusterPodNetworkOptions"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Id = model.Id
+
+	m.Name = model.Name
+
+	m.CompartmentId = model.CompartmentId
+
+	m.EndpointConfig = model.EndpointConfig
+
+	m.VcnId = model.VcnId
+
+	m.KubernetesVersion = model.KubernetesVersion
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	m.Options = model.Options
+
+	m.Metadata = model.Metadata
+
+	m.LifecycleState = model.LifecycleState
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.Endpoints = model.Endpoints
+
+	m.AvailableKubernetesUpgrades = make([]string, len(model.AvailableKubernetesUpgrades))
+	for i, n := range model.AvailableKubernetesUpgrades {
+		m.AvailableKubernetesUpgrades[i] = n
+	}
+
+	m.ImagePolicyConfig = model.ImagePolicyConfig
+
+	m.ClusterPodNetworkOptions = make([]ClusterPodNetworkOptionDetails, len(model.ClusterPodNetworkOptions))
+	for i, n := range model.ClusterPodNetworkOptions {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.ClusterPodNetworkOptions[i] = nn.(ClusterPodNetworkOptionDetails)
+		} else {
+			m.ClusterPodNetworkOptions[i] = nil
+		}
+	}
+
+	return
 }

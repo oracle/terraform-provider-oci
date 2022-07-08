@@ -20,69 +20,46 @@ import (
 	"strings"
 )
 
-// InstancePowerActionDetails A base object for all types of instance power action requests.
-type InstancePowerActionDetails interface {
+// RebootMigrateActionDetails Parameters for the rebootMigrate InstanceAction.
+type RebootMigrateActionDetails struct {
+
+	// For bare metal instances that have local storage, this must be set to true to verify that the local storage
+	// will be deleted during the migration.  For instances without, this parameter has no effect.
+	DeleteLocalStorage *bool `mandatory:"false" json:"deleteLocalStorage"`
+
+	// If present, this parameter will set (or re-set) the scheduled time that the instance will be reboot
+	// migrated in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).  This will also change
+	// the timeRebootMigrationDue field on the instance.
+	// If not present, the reboot migration will be triggered immediately.
+	TimeScheduled *common.SDKTime `mandatory:"false" json:"timeScheduled"`
 }
 
-type instancepoweractiondetails struct {
-	JsonData   []byte
-	ActionType string `json:"actionType"`
-}
-
-// UnmarshalJSON unmarshals json
-func (m *instancepoweractiondetails) UnmarshalJSON(data []byte) error {
-	m.JsonData = data
-	type Unmarshalerinstancepoweractiondetails instancepoweractiondetails
-	s := struct {
-		Model Unmarshalerinstancepoweractiondetails
-	}{}
-	err := json.Unmarshal(data, &s.Model)
-	if err != nil {
-		return err
-	}
-	m.ActionType = s.Model.ActionType
-
-	return err
-}
-
-// UnmarshalPolymorphicJSON unmarshals polymorphic json
-func (m *instancepoweractiondetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
-
-	if data == nil || string(data) == "null" {
-		return nil, nil
-	}
-
-	var err error
-	switch m.ActionType {
-	case "reset":
-		mm := ResetActionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "rebootMigrate":
-		mm := RebootMigrateActionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "softreset":
-		mm := SoftResetActionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	default:
-		return *m, nil
-	}
-}
-
-func (m instancepoweractiondetails) String() string {
+func (m RebootMigrateActionDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m instancepoweractiondetails) ValidateEnumValue() (bool, error) {
+func (m RebootMigrateActionDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m RebootMigrateActionDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeRebootMigrateActionDetails RebootMigrateActionDetails
+	s := struct {
+		DiscriminatorParam string `json:"actionType"`
+		MarshalTypeRebootMigrateActionDetails
+	}{
+		"rebootMigrate",
+		(MarshalTypeRebootMigrateActionDetails)(m),
+	}
+
+	return json.Marshal(&s)
 }

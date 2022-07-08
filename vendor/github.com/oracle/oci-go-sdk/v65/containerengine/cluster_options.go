@@ -12,6 +12,7 @@
 package containerengine
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -22,6 +23,9 @@ type ClusterOptions struct {
 
 	// Available Kubernetes versions.
 	KubernetesVersions []string `mandatory:"false" json:"kubernetesVersions"`
+
+	// Available CNIs and network options for existing and new node pools of the cluster
+	ClusterPodNetworkOptions []ClusterPodNetworkOptionDetails `mandatory:"false" json:"clusterPodNetworkOptions"`
 }
 
 func (m ClusterOptions) String() string {
@@ -38,4 +42,37 @@ func (m ClusterOptions) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ClusterOptions) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		KubernetesVersions       []string                         `json:"kubernetesVersions"`
+		ClusterPodNetworkOptions []clusterpodnetworkoptiondetails `json:"clusterPodNetworkOptions"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.KubernetesVersions = make([]string, len(model.KubernetesVersions))
+	for i, n := range model.KubernetesVersions {
+		m.KubernetesVersions[i] = n
+	}
+
+	m.ClusterPodNetworkOptions = make([]ClusterPodNetworkOptionDetails, len(model.ClusterPodNetworkOptions))
+	for i, n := range model.ClusterPodNetworkOptions {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.ClusterPodNetworkOptions[i] = nn.(ClusterPodNetworkOptionDetails)
+		} else {
+			m.ClusterPodNetworkOptions[i] = nil
+		}
+	}
+
+	return
 }

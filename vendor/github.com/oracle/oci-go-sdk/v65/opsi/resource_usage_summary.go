@@ -34,6 +34,9 @@ type ResourceUsageSummary struct {
 
 	// Change in resource utilization in percentage
 	UsageChangePercent *float64 `mandatory:"true" json:"usageChangePercent"`
+
+	// The user-friendly name for the Exadata system. The name does not have to be unique.
+	ExadataDisplayName *string `mandatory:"false" json:"exadataDisplayName"`
 }
 
 func (m ResourceUsageSummary) String() string {
