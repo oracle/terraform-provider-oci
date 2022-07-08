@@ -34,6 +34,9 @@ type ExadataInsightResourceInsightUtilizationItem struct {
 
 	// Days to reach projected low utilization
 	DaysToReachLowUtilization *int `mandatory:"true" json:"daysToReachLowUtilization"`
+
+	// The user-friendly name for the Exadata system. The name does not have to be unique.
+	ExadataDisplayName *string `mandatory:"false" json:"exadataDisplayName"`
 }
 
 func (m ExadataInsightResourceInsightUtilizationItem) String() string {

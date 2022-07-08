@@ -20,10 +20,19 @@ import (
 	"strings"
 )
 
-// ResetActionDetails Parameters for the reset instance action (https://docs.cloud.oracle.com/iaas/latest/Instance/InstanceAction). If omitted, default values are used.
+// ResetActionDetails Parameters for the reset InstanceAction. If omitted, default values are used.
 type ResetActionDetails struct {
 
-	// For instances with a date in the Maintenance reboot field, the flag denoting whether reboot migration is enabled for instances that use the DenseIO shape. The default value is 'false'.
+	// For instances that use a DenseIO shape, the flag denoting whether
+	// reboot migration (https://docs.cloud.oracle.com/iaas/Content/Compute/References/infrastructure-maintenance.htm#reboot)
+	// is performed for the instance. The default value is `false`.
+	// If the instance has a date in the Maintenance reboot field and you do nothing (or set this flag to `false`), the instance
+	// will be rebuilt at the scheduled maintenance time. The instance will experience 2-6 hours of downtime during the
+	// maintenance process. The local NVMe-based SSD will be preserved.
+	// If you want to minimize downtime and can delete the SSD, you can set this flag to `true` and proactively reboot the
+	// instance before the scheduled maintenance time. The instance will be reboot migrated to a healthy host and the SSD will be
+	// deleted. A short downtime occurs during the migration.
+	// **Caution:** When `true`, the SSD is permanently deleted. We recommend that you create a backup of the SSD before proceeding.
 	AllowDenseRebootMigration *bool `mandatory:"false" json:"allowDenseRebootMigration"`
 }
 

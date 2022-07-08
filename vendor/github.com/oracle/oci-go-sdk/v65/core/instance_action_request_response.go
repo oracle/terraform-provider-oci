@@ -126,6 +126,7 @@ const (
 	InstanceActionActionSoftstop                InstanceActionActionEnum = "SOFTSTOP"
 	InstanceActionActionSenddiagnosticinterrupt InstanceActionActionEnum = "SENDDIAGNOSTICINTERRUPT"
 	InstanceActionActionDiagnosticreboot        InstanceActionActionEnum = "DIAGNOSTICREBOOT"
+	InstanceActionActionRebootmigrate           InstanceActionActionEnum = "REBOOTMIGRATE"
 )
 
 var mappingInstanceActionActionEnum = map[string]InstanceActionActionEnum{
@@ -136,6 +137,7 @@ var mappingInstanceActionActionEnum = map[string]InstanceActionActionEnum{
 	"SOFTSTOP":                InstanceActionActionSoftstop,
 	"SENDDIAGNOSTICINTERRUPT": InstanceActionActionSenddiagnosticinterrupt,
 	"DIAGNOSTICREBOOT":        InstanceActionActionDiagnosticreboot,
+	"REBOOTMIGRATE":           InstanceActionActionRebootmigrate,
 }
 
 var mappingInstanceActionActionEnumLowerCase = map[string]InstanceActionActionEnum{
@@ -146,6 +148,7 @@ var mappingInstanceActionActionEnumLowerCase = map[string]InstanceActionActionEn
 	"softstop":                InstanceActionActionSoftstop,
 	"senddiagnosticinterrupt": InstanceActionActionSenddiagnosticinterrupt,
 	"diagnosticreboot":        InstanceActionActionDiagnosticreboot,
+	"rebootmigrate":           InstanceActionActionRebootmigrate,
 }
 
 // GetInstanceActionActionEnumValues Enumerates the set of values for InstanceActionActionEnum
@@ -167,6 +170,7 @@ func GetInstanceActionActionEnumStringValues() []string {
 		"SOFTSTOP",
 		"SENDDIAGNOSTICINTERRUPT",
 		"DIAGNOSTICREBOOT",
+		"REBOOTMIGRATE",
 	}
 }
 

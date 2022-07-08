@@ -12,6 +12,7 @@
 package containerengine
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -48,6 +49,9 @@ type CreateNodePoolNodeConfigDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The CNI related configuration of pods in the node pool.
+	NodePoolPodNetworkOptionDetails NodePoolPodNetworkOptionDetails `mandatory:"false" json:"nodePoolPodNetworkOptionDetails"`
 }
 
 func (m CreateNodePoolNodeConfigDetails) String() string {
@@ -64,4 +68,55 @@ func (m CreateNodePoolNodeConfigDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateNodePoolNodeConfigDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		NsgIds                          []string                          `json:"nsgIds"`
+		KmsKeyId                        *string                           `json:"kmsKeyId"`
+		IsPvEncryptionInTransitEnabled  *bool                             `json:"isPvEncryptionInTransitEnabled"`
+		FreeformTags                    map[string]string                 `json:"freeformTags"`
+		DefinedTags                     map[string]map[string]interface{} `json:"definedTags"`
+		NodePoolPodNetworkOptionDetails nodepoolpodnetworkoptiondetails   `json:"nodePoolPodNetworkOptionDetails"`
+		Size                            *int                              `json:"size"`
+		PlacementConfigs                []NodePoolPlacementConfigDetails  `json:"placementConfigs"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.NsgIds = make([]string, len(model.NsgIds))
+	for i, n := range model.NsgIds {
+		m.NsgIds[i] = n
+	}
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.IsPvEncryptionInTransitEnabled = model.IsPvEncryptionInTransitEnabled
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	nn, e = model.NodePoolPodNetworkOptionDetails.UnmarshalPolymorphicJSON(model.NodePoolPodNetworkOptionDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NodePoolPodNetworkOptionDetails = nn.(NodePoolPodNetworkOptionDetails)
+	} else {
+		m.NodePoolPodNetworkOptionDetails = nil
+	}
+
+	m.Size = model.Size
+
+	m.PlacementConfigs = make([]NodePoolPlacementConfigDetails, len(model.PlacementConfigs))
+	for i, n := range model.PlacementConfigs {
+		m.PlacementConfigs[i] = n
+	}
+
+	return
 }
