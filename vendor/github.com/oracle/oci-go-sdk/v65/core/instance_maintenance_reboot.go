@@ -25,7 +25,6 @@ type InstanceMaintenanceReboot struct {
 	// The maximum extension date and time for the maintenance reboot, in the format defined by
 	// RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// The range for the maintenance extension is between 1 and 14 days from the initial scheduled maintenance date.
-	// If this field is NULL, scheduled maintenance cannot be postponed.
 	// Example: `2018-05-25T21:10:29.600Z`
 	TimeMaintenanceRebootDueMax *common.SDKTime `mandatory:"true" json:"timeMaintenanceRebootDueMax"`
 }

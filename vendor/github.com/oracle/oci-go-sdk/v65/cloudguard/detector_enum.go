@@ -5,7 +5,7 @@
 // Cloud Guard and Security Zones API
 //
 // Use the Cloud Guard and Security Zones API to automate processes that you would otherwise perform through the Cloud Guard Console or the Security Zones Console. For more information on these services, see the Cloud Guard (https://docs.cloud.oracle.com/iaas/cloud-guard/home.htm) and Security Zones (https://docs.cloud.oracle.com/iaas/security-zone/home.htm) documentation.
-// **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations in Cloud Guard from any region.
+// **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
 //
 
 package cloudguard
@@ -23,6 +23,7 @@ const (
 	DetectorEnumIaasConfigurationDetector DetectorEnumEnum = "IAAS_CONFIGURATION_DETECTOR"
 	DetectorEnumIaasThreatDetector        DetectorEnumEnum = "IAAS_THREAT_DETECTOR"
 	DetectorEnumIaasLoggingDetector       DetectorEnumEnum = "IAAS_LOGGING_DETECTOR"
+	DetectorEnumIaasLogInsightDetector    DetectorEnumEnum = "IAAS_LOG_INSIGHT_DETECTOR"
 )
 
 var mappingDetectorEnumEnum = map[string]DetectorEnumEnum{
@@ -30,6 +31,7 @@ var mappingDetectorEnumEnum = map[string]DetectorEnumEnum{
 	"IAAS_CONFIGURATION_DETECTOR": DetectorEnumIaasConfigurationDetector,
 	"IAAS_THREAT_DETECTOR":        DetectorEnumIaasThreatDetector,
 	"IAAS_LOGGING_DETECTOR":       DetectorEnumIaasLoggingDetector,
+	"IAAS_LOG_INSIGHT_DETECTOR":   DetectorEnumIaasLogInsightDetector,
 }
 
 var mappingDetectorEnumEnumLowerCase = map[string]DetectorEnumEnum{
@@ -37,6 +39,7 @@ var mappingDetectorEnumEnumLowerCase = map[string]DetectorEnumEnum{
 	"iaas_configuration_detector": DetectorEnumIaasConfigurationDetector,
 	"iaas_threat_detector":        DetectorEnumIaasThreatDetector,
 	"iaas_logging_detector":       DetectorEnumIaasLoggingDetector,
+	"iaas_log_insight_detector":   DetectorEnumIaasLogInsightDetector,
 }
 
 // GetDetectorEnumEnumValues Enumerates the set of values for DetectorEnumEnum
@@ -55,6 +58,7 @@ func GetDetectorEnumEnumStringValues() []string {
 		"IAAS_CONFIGURATION_DETECTOR",
 		"IAAS_THREAT_DETECTOR",
 		"IAAS_LOGGING_DETECTOR",
+		"IAAS_LOG_INSIGHT_DETECTOR",
 	}
 }
 

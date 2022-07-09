@@ -957,6 +957,11 @@ func (client BdsClient) DeleteBdsLakehouseConfiguration(ctx context.Context, req
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.deleteBdsLakehouseConfiguration, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -980,7 +985,7 @@ func (client BdsClient) DeleteBdsLakehouseConfiguration(ctx context.Context, req
 // deleteBdsLakehouseConfiguration implements the OCIOperation interface (enables retrying operations)
 func (client BdsClient) deleteBdsLakehouseConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/bdsInstances/{bdsInstanceId}/lakehouseConfigs/{lakehouseConfigId}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/lakehouseConfigs/{lakehouseConfigId}/actions/delete", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

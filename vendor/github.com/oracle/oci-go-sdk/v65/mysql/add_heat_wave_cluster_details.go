@@ -25,6 +25,9 @@ type AddHeatWaveClusterDetails struct {
 	// The number of analytics-processing nodes provisioned for the
 	// HeatWave cluster.
 	ClusterSize *int `mandatory:"true" json:"clusterSize"`
+
+	// Enable/disable Datalake for the HeatWave cluster.
+	IsDatalakeEnabled *bool `mandatory:"false" json:"isDatalakeEnabled"`
 }
 
 func (m AddHeatWaveClusterDetails) String() string {

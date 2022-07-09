@@ -52,7 +52,7 @@ type CreateEsxiHostDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that
 	// is failed. This is an optional parameter. If this parameter is specified, a new ESXi
 	// host will be created to replace the failed one, and the `failedEsxiHostId` field
-	// will be udpated in the newly created Esxi host.
+	// will be updated in the newly created Esxi host.
 	FailedEsxiHostId *string `mandatory:"false" json:"failedEsxiHostId"`
 
 	// The compute shape name of the ESXi host.

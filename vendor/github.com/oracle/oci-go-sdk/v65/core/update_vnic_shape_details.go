@@ -875,6 +875,7 @@ const (
 	UpdateVnicShapeDetailsVnicShapeFixed3800A150g                  UpdateVnicShapeDetailsVnicShapeEnum = "FIXED3800_A1_50G"
 	UpdateVnicShapeDetailsVnicShapeFixed3900A150g                  UpdateVnicShapeDetailsVnicShapeEnum = "FIXED3900_A1_50G"
 	UpdateVnicShapeDetailsVnicShapeFixed4000A150g                  UpdateVnicShapeDetailsVnicShapeEnum = "FIXED4000_A1_50G"
+	UpdateVnicShapeDetailsVnicShapeFixed5000TelesisA150g           UpdateVnicShapeDetailsVnicShapeEnum = "FIXED5000_TELESIS_A1_50G"
 	UpdateVnicShapeDetailsVnicShapeEntirehostA150g                 UpdateVnicShapeDetailsVnicShapeEnum = "ENTIREHOST_A1_50G"
 	UpdateVnicShapeDetailsVnicShapeDynamicX950g                    UpdateVnicShapeDetailsVnicShapeEnum = "DYNAMIC_X9_50G"
 	UpdateVnicShapeDetailsVnicShapeFixed0040X950g                  UpdateVnicShapeDetailsVnicShapeEnum = "FIXED0040_X9_50G"
@@ -1919,6 +1920,7 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnum = map[string]UpdateVnicShapeDetai
 	"FIXED3800_A1_50G":                     UpdateVnicShapeDetailsVnicShapeFixed3800A150g,
 	"FIXED3900_A1_50G":                     UpdateVnicShapeDetailsVnicShapeFixed3900A150g,
 	"FIXED4000_A1_50G":                     UpdateVnicShapeDetailsVnicShapeFixed4000A150g,
+	"FIXED5000_TELESIS_A1_50G":             UpdateVnicShapeDetailsVnicShapeFixed5000TelesisA150g,
 	"ENTIREHOST_A1_50G":                    UpdateVnicShapeDetailsVnicShapeEntirehostA150g,
 	"DYNAMIC_X9_50G":                       UpdateVnicShapeDetailsVnicShapeDynamicX950g,
 	"FIXED0040_X9_50G":                     UpdateVnicShapeDetailsVnicShapeFixed0040X950g,
@@ -2963,6 +2965,7 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnumLowerCase = map[string]UpdateVnicS
 	"fixed3800_a1_50g":                     UpdateVnicShapeDetailsVnicShapeFixed3800A150g,
 	"fixed3900_a1_50g":                     UpdateVnicShapeDetailsVnicShapeFixed3900A150g,
 	"fixed4000_a1_50g":                     UpdateVnicShapeDetailsVnicShapeFixed4000A150g,
+	"fixed5000_telesis_a1_50g":             UpdateVnicShapeDetailsVnicShapeFixed5000TelesisA150g,
 	"entirehost_a1_50g":                    UpdateVnicShapeDetailsVnicShapeEntirehostA150g,
 	"dynamic_x9_50g":                       UpdateVnicShapeDetailsVnicShapeDynamicX950g,
 	"fixed0040_x9_50g":                     UpdateVnicShapeDetailsVnicShapeFixed0040X950g,
@@ -4018,6 +4021,7 @@ func GetUpdateVnicShapeDetailsVnicShapeEnumStringValues() []string {
 		"FIXED3800_A1_50G",
 		"FIXED3900_A1_50G",
 		"FIXED4000_A1_50G",
+		"FIXED5000_TELESIS_A1_50G",
 		"ENTIREHOST_A1_50G",
 		"DYNAMIC_X9_50G",
 		"FIXED0040_X9_50G",

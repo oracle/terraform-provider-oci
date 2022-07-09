@@ -31,6 +31,9 @@ type UpdateHeatWaveClusterDetails struct {
 	// analytics capability while the HeatWave cluster is
 	// re-provisioned.
 	ClusterSize *int `mandatory:"false" json:"clusterSize"`
+
+	// Enable/disable Datalake for the HeatWave cluster.
+	IsDatalakeEnabled *bool `mandatory:"false" json:"isDatalakeEnabled"`
 }
 
 func (m UpdateHeatWaveClusterDetails) String() string {

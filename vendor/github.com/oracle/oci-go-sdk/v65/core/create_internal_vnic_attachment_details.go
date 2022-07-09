@@ -932,6 +932,7 @@ const (
 	CreateInternalVnicAttachmentDetailsVnicShapeFixed3800A150g                  CreateInternalVnicAttachmentDetailsVnicShapeEnum = "FIXED3800_A1_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeFixed3900A150g                  CreateInternalVnicAttachmentDetailsVnicShapeEnum = "FIXED3900_A1_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeFixed4000A150g                  CreateInternalVnicAttachmentDetailsVnicShapeEnum = "FIXED4000_A1_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeFixed5000TelesisA150g           CreateInternalVnicAttachmentDetailsVnicShapeEnum = "FIXED5000_TELESIS_A1_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeEntirehostA150g                 CreateInternalVnicAttachmentDetailsVnicShapeEnum = "ENTIREHOST_A1_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeDynamicX950g                    CreateInternalVnicAttachmentDetailsVnicShapeEnum = "DYNAMIC_X9_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeFixed0040X950g                  CreateInternalVnicAttachmentDetailsVnicShapeEnum = "FIXED0040_X9_50G"
@@ -1976,6 +1977,7 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnum = map[string]CreateI
 	"FIXED3800_A1_50G":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed3800A150g,
 	"FIXED3900_A1_50G":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed3900A150g,
 	"FIXED4000_A1_50G":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed4000A150g,
+	"FIXED5000_TELESIS_A1_50G":             CreateInternalVnicAttachmentDetailsVnicShapeFixed5000TelesisA150g,
 	"ENTIREHOST_A1_50G":                    CreateInternalVnicAttachmentDetailsVnicShapeEntirehostA150g,
 	"DYNAMIC_X9_50G":                       CreateInternalVnicAttachmentDetailsVnicShapeDynamicX950g,
 	"FIXED0040_X9_50G":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed0040X950g,
@@ -3020,6 +3022,7 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnumLowerCase = map[strin
 	"fixed3800_a1_50g":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed3800A150g,
 	"fixed3900_a1_50g":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed3900A150g,
 	"fixed4000_a1_50g":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed4000A150g,
+	"fixed5000_telesis_a1_50g":             CreateInternalVnicAttachmentDetailsVnicShapeFixed5000TelesisA150g,
 	"entirehost_a1_50g":                    CreateInternalVnicAttachmentDetailsVnicShapeEntirehostA150g,
 	"dynamic_x9_50g":                       CreateInternalVnicAttachmentDetailsVnicShapeDynamicX950g,
 	"fixed0040_x9_50g":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed0040X950g,
@@ -4075,6 +4078,7 @@ func GetCreateInternalVnicAttachmentDetailsVnicShapeEnumStringValues() []string 
 		"FIXED3800_A1_50G",
 		"FIXED3900_A1_50G",
 		"FIXED4000_A1_50G",
+		"FIXED5000_TELESIS_A1_50G",
 		"ENTIREHOST_A1_50G",
 		"DYNAMIC_X9_50G",
 		"FIXED0040_X9_50G",

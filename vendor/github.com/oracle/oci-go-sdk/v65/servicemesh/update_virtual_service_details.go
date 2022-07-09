@@ -31,7 +31,7 @@ type UpdateVirtualServiceDetails struct {
 	// Can be omitted if the virtual service will only have TCP virtual deployments.
 	Hosts []string `mandatory:"false" json:"hosts"`
 
-	Mtls *CreateMutualTransportLayerSecurityDetails `mandatory:"false" json:"mtls"`
+	Mtls *VirtualServiceMutualTransportLayerSecurityDetails `mandatory:"false" json:"mtls"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
