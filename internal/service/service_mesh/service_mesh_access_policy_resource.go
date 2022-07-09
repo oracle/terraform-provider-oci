@@ -362,7 +362,7 @@ func (s *ServiceMeshAccessPolicyResourceCrud) Create() error {
 			tmp[i] = converted
 		}
 		if len(tmp) != 0 || s.D.HasChange("rules") {
-			request.Rules = tmp
+			// request.Rules = tmp
 		}
 	}
 
@@ -554,7 +554,7 @@ func (s *ServiceMeshAccessPolicyResourceCrud) Update() error {
 			tmp[i] = converted
 		}
 		if len(tmp) != 0 || s.D.HasChange("rules") {
-			request.Rules = tmp
+			// request.Rules = tmp
 		}
 	}
 

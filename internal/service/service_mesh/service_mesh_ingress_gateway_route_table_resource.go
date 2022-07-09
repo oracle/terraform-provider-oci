@@ -322,7 +322,7 @@ func (s *ServiceMeshIngressGatewayRouteTableResourceCrud) Create() error {
 			tmp[i] = converted
 		}
 		if len(tmp) != 0 || s.D.HasChange("route_rules") {
-			request.RouteRules = tmp
+			// request.RouteRules = tmp
 		}
 	}
 
@@ -520,7 +520,7 @@ func (s *ServiceMeshIngressGatewayRouteTableResourceCrud) Update() error {
 			tmp[i] = converted
 		}
 		if len(tmp) != 0 || s.D.HasChange("route_rules") {
-			request.RouteRules = tmp
+			// request.RouteRules = tmp
 		}
 	}
 

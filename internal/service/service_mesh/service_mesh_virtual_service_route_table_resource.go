@@ -281,7 +281,7 @@ func (s *ServiceMeshVirtualServiceRouteTableResourceCrud) Create() error {
 			tmp[i] = converted
 		}
 		if len(tmp) != 0 || s.D.HasChange("route_rules") {
-			request.RouteRules = tmp
+			// request.RouteRules = tmp
 		}
 	}
 
@@ -481,7 +481,7 @@ func (s *ServiceMeshVirtualServiceRouteTableResourceCrud) Update() error {
 			tmp[i] = converted
 		}
 		if len(tmp) != 0 || s.D.HasChange("route_rules") {
-			request.RouteRules = tmp
+			// request.RouteRules = tmp
 		}
 	}
 

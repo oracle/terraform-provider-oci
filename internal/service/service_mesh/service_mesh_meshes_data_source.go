@@ -88,10 +88,10 @@ func (s *ServiceMeshMeshesDataSourceCrud) Get() error {
 		request.Id = &tmp
 	}
 
-	if state, ok := s.D.GetOkExists("state"); ok {
-		tmp := state.(string)
-		request.LifecycleState = &tmp
-	}
+	// if state, ok := s.D.GetOkExists("state"); ok {
+	// 	tmp := state.(string)
+	// 	request.LifecycleState = &tmp
+	// }
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "service_mesh")
 

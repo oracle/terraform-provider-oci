@@ -387,8 +387,8 @@ func getServiceMeshIngressGatewayRouteTableIds(compartment string) ([]string, er
 
 	listIngressGatewayRouteTablesRequest := oci_service_mesh.ListIngressGatewayRouteTablesRequest{}
 	listIngressGatewayRouteTablesRequest.CompartmentId = &compartmentId
-	active := "ACTIVE"
-	listIngressGatewayRouteTablesRequest.LifecycleState = &active
+	// active := "ACTIVE"
+	// listIngressGatewayRouteTablesRequest.LifecycleState = &active
 	listIngressGatewayRouteTablesResponse, err := serviceMeshClient.ListIngressGatewayRouteTables(context.Background(), listIngressGatewayRouteTablesRequest)
 
 	if err != nil {

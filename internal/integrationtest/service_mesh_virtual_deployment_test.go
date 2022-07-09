@@ -376,8 +376,8 @@ func getServiceMeshVirtualDeploymentIds(compartment string) ([]string, error) {
 
 	listVirtualDeploymentsRequest := oci_service_mesh.ListVirtualDeploymentsRequest{}
 	listVirtualDeploymentsRequest.CompartmentId = &compartmentId
-	active := "ACTIVE"
-	listVirtualDeploymentsRequest.LifecycleState = &active
+	// active := "ACTIVE"
+	// listVirtualDeploymentsRequest.LifecycleState = &active
 	listVirtualDeploymentsResponse, err := serviceMeshClient.ListVirtualDeployments(context.Background(), listVirtualDeploymentsRequest)
 
 	if err != nil {

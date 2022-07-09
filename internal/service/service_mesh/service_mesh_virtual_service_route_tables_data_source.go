@@ -92,10 +92,10 @@ func (s *ServiceMeshVirtualServiceRouteTablesDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	if state, ok := s.D.GetOkExists("state"); ok {
-		tmp := state.(string)
-		request.LifecycleState = &tmp
-	}
+	// if state, ok := s.D.GetOkExists("state"); ok {
+	// 	tmp := state.(string)
+	// 	request.LifecycleState = &tmp
+	// }
 
 	if virtualServiceId, ok := s.D.GetOkExists("virtual_service_id"); ok {
 		tmp := virtualServiceId.(string)

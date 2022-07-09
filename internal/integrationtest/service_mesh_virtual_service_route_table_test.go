@@ -372,8 +372,8 @@ func getServiceMeshVirtualServiceRouteTableIds(compartment string) ([]string, er
 
 	listVirtualServiceRouteTablesRequest := oci_service_mesh.ListVirtualServiceRouteTablesRequest{}
 	listVirtualServiceRouteTablesRequest.CompartmentId = &compartmentId
-	active := "ACTIVE"
-	listVirtualServiceRouteTablesRequest.LifecycleState = &active
+	// active := "ACTIVE"
+	// listVirtualServiceRouteTablesRequest.LifecycleState = &active
 	listVirtualServiceRouteTablesResponse, err := serviceMeshClient.ListVirtualServiceRouteTables(context.Background(), listVirtualServiceRouteTablesRequest)
 
 	if err != nil {

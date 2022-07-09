@@ -364,8 +364,8 @@ func getServiceMeshAccessPolicyIds(compartment string) ([]string, error) {
 
 	listAccessPoliciesRequest := oci_service_mesh.ListAccessPoliciesRequest{}
 	listAccessPoliciesRequest.CompartmentId = &compartmentId
-	active := "ACTIVE"
-	listAccessPoliciesRequest.LifecycleState = &active
+	// active := "ACTIVE"
+	// listAccessPoliciesRequest.LifecycleState = &active
 	listAccessPoliciesResponse, err := serviceMeshClient.ListAccessPolicies(context.Background(), listAccessPoliciesRequest)
 
 	if err != nil {

@@ -346,8 +346,8 @@ func getServiceMeshMeshIds(compartment string) ([]string, error) {
 
 	listMeshesRequest := oci_service_mesh.ListMeshesRequest{}
 	listMeshesRequest.CompartmentId = &compartmentId
-	active := "ACTIVE"
-	listMeshesRequest.LifecycleState = &active
+	// active := "ACTIVE"
+	// listMeshesRequest.LifecycleState = &active
 	listMeshesResponse, err := serviceMeshClient.ListMeshes(context.Background(), listMeshesRequest)
 
 	if err != nil {

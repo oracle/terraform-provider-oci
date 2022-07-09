@@ -364,8 +364,8 @@ func getServiceMeshVirtualServiceIds(compartment string) ([]string, error) {
 
 	listVirtualServicesRequest := oci_service_mesh.ListVirtualServicesRequest{}
 	listVirtualServicesRequest.CompartmentId = &compartmentId
-	active := "ACTIVE"
-	listVirtualServicesRequest.LifecycleState = &active
+	// active := "ACTIVE"
+	// listVirtualServicesRequest.LifecycleState = &active
 	listVirtualServicesResponse, err := serviceMeshClient.ListVirtualServices(context.Background(), listVirtualServicesRequest)
 
 	if err != nil {
