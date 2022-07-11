@@ -189,6 +189,12 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"dbm_private_endpoint_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -847,10 +853,6 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
-		if v.OpsiPrivateEndpointId != nil {
-			s.D.Set("opsi_private_endpoint_id", *v.OpsiPrivateEndpointId)
-		}
-
 		if v.ProcessorCount != nil {
 			s.D.Set("processor_count", *v.ProcessorCount)
 		}
@@ -1329,6 +1331,10 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 		if opsiPrivateEndpointId, ok := s.D.GetOkExists("opsi_private_endpoint_id"); ok {
 			tmp := opsiPrivateEndpointId.(string)
 			details.OpsiPrivateEndpointId = &tmp
+		}
+		if dbmPrivateEndpointId, ok := s.D.GetOkExists("dbm_private_endpoint_id"); ok {
+			tmp := dbmPrivateEndpointId.(string)
+			details.DbmPrivateEndpointId = &tmp
 		}
 		if serviceName, ok := s.D.GetOkExists("service_name"); ok {
 			tmp := serviceName.(string)
