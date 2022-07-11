@@ -21,78 +21,78 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/oracle/oci-go-sdk/v65/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
+	oci_opsi "github.com/oracle/oci-go-sdk/v65/operationsinsights"
 
 	"terraform-provider-oci/httpreplay"
 )
 
 var (
-	PecomanagedDatabaseInsightRequiredOnlyResource = OpsiDatabaseInsightResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Required, acctest.Create, pecomanagedDatabaseInsightRepresentation)
+	PecomanagedDatabaseInsightDbmPeRequiredOnlyResource = OpsiDatabaseInsightResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Required, acctest.Create, pecomanagedDatabaseInsightDbmPeRepresentation)
 
-	PecomanagedDatabaseInsightResourceConfig = OpsiDatabaseInsightResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, pecomanagedDatabaseInsightRepresentation)
+	PecomanagedDatabaseInsightDbmPeResourceConfig = OpsiDatabaseInsightResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, pecomanagedDatabaseInsightDbmPeRepresentation)
 
-	pecomanagedDatabaseInsightSingularDataSourceRepresentation = map[string]interface{}{
+	pecomanagedDatabaseInsightDbmPeSingularDataSourceRepresentation = map[string]interface{}{
 		"database_insight_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_database_insight.test_database_insight.id}`},
 	}
 
-	pecomanagedDatabaseInsightDataSourceRepresentation = map[string]interface{}{
+	pecomanagedDatabaseInsightDbmPeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"database_type":             acctest.Representation{RepType: acctest.Optional, Create: []string{`COMANAGED-VM-CDB`}},
 		"fields":                    acctest.Representation{RepType: acctest.Optional, Create: []string{`databaseName`, `databaseType`, `compartmentId`, `databaseDisplayName`, `freeformTags`, `definedTags`}},
 		"id":                        acctest.Representation{RepType: acctest.Optional, Create: `${oci_opsi_database_insight.test_database_insight.id}`},
-		"opsi_private_endpoint_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.opsi_private_endpoint_id}`},
+		"opsi_private_endpoint_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_opsi_database_insight.test_database_insight.opsi_private_endpoint_id}`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
 		"status":                    acctest.Representation{RepType: acctest.Optional, Create: []string{`ENABLED`}, Update: []string{`DISABLED`}},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: pecomanagedDatabaseInsightDataSourceFilterRepresentation},
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: pecomanagedDatabaseInsightDbmPeDataSourceFilterRepresentation},
 	}
 
-	pecomanagedDatabaseInsightDataSourceFilterRepresentation = map[string]interface{}{
+	pecomanagedDatabaseInsightDbmPeDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_opsi_database_insight.test_database_insight.id}`}},
 	}
 
-	pecomanagedDatabaseInsightRepresentation = map[string]interface{}{
-		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"entity_source":            acctest.Representation{RepType: acctest.Required, Create: `PE_COMANAGED_DATABASE`, Update: `PE_COMANAGED_DATABASE`},
-		"credential_details":       acctest.RepresentationGroup{RepType: acctest.Required, Group: pecomanagedDatabaseInsightCredentialDetailsRepresentation},
-		"database_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.dbsystem_database_id}`},
-		"database_resource_type":   acctest.Representation{RepType: acctest.Required, Create: `database`},
-		"deployment_type":          acctest.Representation{RepType: acctest.Required, Create: `VIRTUAL_MACHINE`},
-		"opsi_private_endpoint_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.opsi_private_endpoint_id}`},
-		"service_name":             acctest.Representation{RepType: acctest.Required, Create: `${var.service_name}`},
-		"status":                   acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
-		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":                acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesPecomanagedDatabaseInsightRepresentation},
+	pecomanagedDatabaseInsightDbmPeRepresentation = map[string]interface{}{
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"entity_source":           acctest.Representation{RepType: acctest.Required, Create: `PE_COMANAGED_DATABASE`, Update: `PE_COMANAGED_DATABASE`},
+		"credential_details":      acctest.RepresentationGroup{RepType: acctest.Required, Group: pecomanagedDatabaseInsightDbmPeCredentialDetailsRepresentation},
+		"database_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.dbsystem_database_id}`},
+		"database_resource_type":  acctest.Representation{RepType: acctest.Required, Create: `database`},
+		"deployment_type":         acctest.Representation{RepType: acctest.Required, Create: `VIRTUAL_MACHINE`},
+		"dbm_private_endpoint_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.dbm_private_endpoint_id}`},
+		"service_name":            acctest.Representation{RepType: acctest.Required, Create: `${var.service_name}`},
+		"status":                  acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesPecomanagedDatabaseInsightDbmPeRepresentation},
 	}
 
-	pecomanagedDatabaseInsightCredentialDetailsRepresentation = map[string]interface{}{
+	pecomanagedDatabaseInsightDbmPeCredentialDetailsRepresentation = map[string]interface{}{
 		"credential_type":    acctest.Representation{RepType: acctest.Required, Create: `CREDENTIALS_BY_VAULT`},
 		"password_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${var.secret_id}`},
 		"role":               acctest.Representation{RepType: acctest.Optional, Create: `NORMAL`},
 		"user_name":          acctest.Representation{RepType: acctest.Required, Create: `${var.user_name}`},
 	}
 
-	pecomanagedDatabaseInsightCredentialDetailsForUpdateRepresentation = map[string]interface{}{
+	pecomanagedDatabaseInsightDbmPeCredentialDetailsForUpdateRepresentation = map[string]interface{}{
 		"credential_type":    acctest.Representation{RepType: acctest.Required, Create: `CREDENTIALS_BY_VAULT`},
 		"password_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${var.secret_id_for_update}`},
 		"role":               acctest.Representation{RepType: acctest.Optional, Create: `NORMAL`},
 		"user_name":          acctest.Representation{RepType: acctest.Required, Create: `${var.user_name}`},
 	}
 
-	ignoreChangesPecomanagedDatabaseInsightRepresentation = map[string]interface{}{
+	ignoreChangesPecomanagedDatabaseInsightDbmPeRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	PecomanagedDatabaseInsightResourceDependencies = DefinedTagsDependencies
+	PecomanagedDatabaseInsightDbmPeResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: opsi/controlPlane
-func TestOpsiPecomanagedDatabaseInsightResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestOpsiPecomanagedDatabaseInsightResource_basic")
+func TestOpsiPecomanagedDatabaseInsightDbmPeResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestOpsiPecomanagedDatabaseInsightDbmPeResource_basic")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -100,8 +100,8 @@ func TestOpsiPecomanagedDatabaseInsightResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	opsiPrivateEndpointId := utils.GetEnvSettingWithBlankDefault("opsi_private_endpoint_id")
-	opsiPrivateEndpointIdVariableStr := fmt.Sprintf("variable \"opsi_private_endpoint_id\" { default = \"%s\" }\n", opsiPrivateEndpointId)
+	dbmPrivateEndpointId := utils.GetEnvSettingWithBlankDefault("dbm_private_endpoint_id")
+	dbmPrivateEndpointIdVariableStr := fmt.Sprintf("variable \"dbm_private_endpoint_id\" { default = \"%s\" }\n", dbmPrivateEndpointId)
 
 	dbsystemDatabaseId := utils.GetEnvSettingWithBlankDefault("dbsystem_database_id")
 	dbsystemDatabaseIdVariableStr := fmt.Sprintf("variable \"dbsystem_database_id\" { default = \"%s\" }\n", dbsystemDatabaseId)
@@ -124,14 +124,14 @@ func TestOpsiPecomanagedDatabaseInsightResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+dbsystemDatabaseIdVariableStr+opsiPrivateEndpointIdVariableStr+serviceNameVariableStr+secretIdVariableStr+userNamedVariableStr+PecomanagedDatabaseInsightResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Create, pecomanagedDatabaseInsightRepresentation), "opsi", "databaseInsight", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+dbsystemDatabaseIdVariableStr+dbmPrivateEndpointIdVariableStr+serviceNameVariableStr+secretIdVariableStr+userNamedVariableStr+PecomanagedDatabaseInsightDbmPeResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Create, pecomanagedDatabaseInsightDbmPeRepresentation), "opsi", "databaseInsight", t)
 
-	acctest.ResourceTest(t, testAccCheckOpsiPecomanagedDatabaseInsightDestroy, []resource.TestStep{
-		// verify create with optional opsiPrivateEndpointId
+	acctest.ResourceTest(t, testAccCheckOpsiPecomanagedDatabaseInsightDbmPeDestroy, []resource.TestStep{
+		// verify create with optional dbmPrivateEndpointId
 		{
-			Config: config + compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + opsiPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Create, pecomanagedDatabaseInsightRepresentation),
+			Config: config + compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + dbmPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightDbmPeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Create, pecomanagedDatabaseInsightDbmPeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "credential_details.#", "1"),
@@ -165,10 +165,10 @@ func TestOpsiPecomanagedDatabaseInsightResource_basic(t *testing.T) {
 		},
 		// verify update to the password_secret_id (the secret_id will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + opsiPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdUVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightResourceDependencies +
+			Config: config + compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + dbmPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdUVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightDbmPeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(pecomanagedDatabaseInsightRepresentation, map[string]interface{}{
-						"credential_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: pecomanagedDatabaseInsightCredentialDetailsForUpdateRepresentation},
+					acctest.RepresentationCopyWithNewProperties(pecomanagedDatabaseInsightDbmPeRepresentation, map[string]interface{}{
+						"credential_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: pecomanagedDatabaseInsightDbmPeCredentialDetailsForUpdateRepresentation},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -202,8 +202,8 @@ func TestOpsiPecomanagedDatabaseInsightResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + opsiPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, pecomanagedDatabaseInsightRepresentation),
+			Config: config + compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + dbmPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightDbmPeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, pecomanagedDatabaseInsightDbmPeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "credential_details.#", "1"),
@@ -237,9 +237,9 @@ func TestOpsiPecomanagedDatabaseInsightResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_database_insights", "test_database_insights", acctest.Optional, acctest.Update, pecomanagedDatabaseInsightDataSourceRepresentation) +
-				compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + opsiPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, pecomanagedDatabaseInsightRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_database_insights", "test_database_insights", acctest.Optional, acctest.Update, pecomanagedDatabaseInsightDbmPeDataSourceRepresentation) +
+				compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + dbmPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightDbmPeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, pecomanagedDatabaseInsightDbmPeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
@@ -258,8 +258,8 @@ func TestOpsiPecomanagedDatabaseInsightResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Required, acctest.Create, pecomanagedDatabaseInsightSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + opsiPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Required, acctest.Create, pecomanagedDatabaseInsightDbmPeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + dbmPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightDbmPeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "credential_details.#", "1"), //??
@@ -281,13 +281,13 @@ func TestOpsiPecomanagedDatabaseInsightResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + opsiPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightResourceConfig,
+			Config: config + compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + dbmPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightDbmPeResourceConfig,
 		},
 		// verify enable
 		{
-			Config: config + compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + opsiPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightResourceDependencies +
+			Config: config + compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + dbmPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightDbmPeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(pecomanagedDatabaseInsightRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(pecomanagedDatabaseInsightDbmPeRepresentation, map[string]interface{}{
 						"status": acctest.Representation{RepType: acctest.Required, Update: `ENABLED`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -305,19 +305,20 @@ func TestOpsiPecomanagedDatabaseInsightResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + PecomanagedDatabaseInsightRequiredOnlyResource,
+			Config:            config + PecomanagedDatabaseInsightDbmPeRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"deployment_type",
 				"service_name",
+				"dbm_private_endpoint_id",
 			},
 			ResourceName: resourceName,
 		},
 	})
 }
 
-func testAccCheckOpsiPecomanagedDatabaseInsightDestroy(s *terraform.State) error {
+func testAccCheckOpsiPecomanagedDatabaseInsightDbmPeDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).OperationsInsightsClient()
 	for _, rs := range s.RootModule().Resources {
@@ -361,18 +362,18 @@ func init() {
 	if acctest.DependencyGraph == nil {
 		acctest.InitDependencyGraph()
 	}
-	if !acctest.InSweeperExcludeList("OpsiPecomanagedDatabaseInsight") {
-		resource.AddTestSweepers("OpsiPecomanagedDatabaseInsight", &resource.Sweeper{
-			Name:         "OpsiPecomanagedDatabaseInsight",
+	if !acctest.InSweeperExcludeList("OpsiPecomanagedDatabaseInsightDbmPe") {
+		resource.AddTestSweepers("OpsiPecomanagedDatabaseInsightDbmPe", &resource.Sweeper{
+			Name:         "OpsiPecomanagedDatabaseInsightDbmPe",
 			Dependencies: acctest.DependencyGraph["databaseInsight"],
-			F:            sweepOpsiPecomanagedDatabaseInsightResource,
+			F:            sweepOpsiPecomanagedDatabaseInsightDbmPeResource,
 		})
 	}
 }
 
-func sweepOpsiPecomanagedDatabaseInsightResource(compartment string) error {
+func sweepOpsiPecomanagedDatabaseInsightDbmPeResource(compartment string) error {
 	operationsInsightsClient := acctest.GetTestClients(&schema.ResourceData{}).OperationsInsightsClient()
-	databaseInsightIds, err := getPecomanagedDatabaseInsightIds(compartment)
+	databaseInsightIds, err := getPecomanagedDatabaseInsightDbmPeIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -388,14 +389,14 @@ func sweepOpsiPecomanagedDatabaseInsightResource(compartment string) error {
 				fmt.Printf("Error deleting DatabaseInsight %s %s, It is possible that the resource is already deleted. Please verify manually \n", databaseInsightId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &databaseInsightId, pecomanagedDatabaseInsightSweepWaitCondition, time.Duration(3*time.Minute),
-				pecomanagedDatabaseInsightSweepResponseFetchOperation, "opsi", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &databaseInsightId, pecomanagedDatabaseInsightDbmPeSweepWaitCondition, time.Duration(3*time.Minute),
+				pecomanagedDatabaseInsightDbmPeSweepResponseFetchOperation, "opsi", true)
 		}
 	}
 	return nil
 }
 
-func getPecomanagedDatabaseInsightIds(compartment string) ([]string, error) {
+func getPecomanagedDatabaseInsightDbmPeIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DatabaseInsightId")
 	if ids != nil {
 		return ids, nil
@@ -420,7 +421,7 @@ func getPecomanagedDatabaseInsightIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func pecomanagedDatabaseInsightSweepWaitCondition(response common.OCIOperationResponse) bool {
+func pecomanagedDatabaseInsightDbmPeSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if databaseInsightResponse, ok := response.Response.(oci_opsi.GetDatabaseInsightResponse); ok {
 		return databaseInsightResponse.GetLifecycleState() != oci_opsi.LifecycleStateDeleted
@@ -428,7 +429,7 @@ func pecomanagedDatabaseInsightSweepWaitCondition(response common.OCIOperationRe
 	return false
 }
 
-func pecomanagedDatabaseInsightSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func pecomanagedDatabaseInsightDbmPeSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.OperationsInsightsClient().GetDatabaseInsight(context.Background(), oci_opsi.GetDatabaseInsightRequest{
 		DatabaseInsightId: resourceId,
 		RequestMetadata: common.RequestMetadata{
