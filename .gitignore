@@ -27,3 +27,5 @@ vendor/github.com/oracle/oci-go-sdk/target
 .gitmodules
 internal/record
 .terraform.lock.hcl
+dist/
+examples/zips/*

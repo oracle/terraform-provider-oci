@@ -1,0 +1,75 @@
+name: Generate magic buttons for examples and publish
+
+on:
+  push:
+    branches: [ release_gh ]
+    paths: ['examples/**/**']
+
+jobs:
+
+  publish_examples_magic_buttons:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Create description files
+      run: |
+        FOLDERS=$(ls -d examples/*/ | jq -R)
+        for EXAMPLE_FOLDER in $FOLDERS;
+        do
+          RESOURCE=$(cut -d "/" -f 2 <<< "$EXAMPLE_FOLDER")
+          FILENAME=description.md
+          if [[ "$RESOURCE" != "zips" ]]; then
+            if [ -f "./examples/$RESOURCE/$FILENAME" ]; then
+              echo "./examples/$RESOURCE/$FILENAME exists."
+            else
+              touch ./examples/${RESOURCE}/${FILENAME}
+              echo "./examples/$RESOURCE/$FILENAME created."
+            fi
+          fi
+        done
+    
+    - name: Commit and Push Changes
+      run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config --global user.name "tf-oci-pub"
+            git config --global user.email "Tf-oci-pub_ww@oracle.com"
+            git pull origin release_gh
+            git add ./examples/*
+            git commit -m "Added - Description files for service examples"
+            git push
+          else
+            echo "No changes!";
+          fi
+    
+    - name: Create README files
+      run: |
+        printf '## Terraform Oracle Cloud Infrastructure Provider Examples \n###  Examples In This Directory \nThis directory contains Terraform configuration files showing how to create specific resources. The examples are intended to be as simple as possible, in most cases containing only the specific resource and any dependencies required for it to run. These do not represent production configurations or real world scenarios. The magic buttons of the examples can be found below.\n' > ./examples/${RESOURCE}/README.md
+        FOLDERS=$(ls -d examples/*/ | jq -R)
+        MAGIC_LINK="https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/releases/latest/download/"
+        for EXAMPLE_FOLDER in $FOLDERS;
+        do
+          RESOURCE=$(cut -d "/" -f 2 <<< "$EXAMPLE_FOLDER")
+          if [[ "$RESOURCE" != "zips" ]]; then
+            FILENAME=description.md
+            FILEZIP=example_${RESOURCE}.zip
+            cat ./examples/${RESOURCE}/$FILENAME > ./examples/${RESOURCE}/README.md
+            printf '\n## Magic Button \n[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)]('${MAGIC_LINK}${FILEZIP}')' >>./examples/${RESOURCE}/README.md
+            printf '%s\n' '- '${RESOURCE}'  
+            [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)]('${MAGIC_LINK}${FILEZIP}')' >> ./examples/README.md
+          fi
+        done
+        
+    - name: Commit and Push Changes
+      run: |
+        if [ -n "$(git status --porcelain)" ]; then
+          git config --global user.name "tf-oci-pub"
+          git config --global user.email "Tf-oci-pub_ww@oracle.com"
+          git pull origin release_gh
+          git add ./examples/*
+          git commit -m "Added - README.md of service examples with magic button"
+          git push
+        else
+          echo "No changes!";
+        fi
