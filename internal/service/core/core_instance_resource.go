@@ -1267,10 +1267,10 @@ func (s *CoreInstanceResourceCrud) Delete() error {
 		request.PreserveBootVolume = &tmp
 	}
 
-	if preserveDataVolumes, ok := s.D.GetOkExists("preserve_data_volumes"); ok {
-		tmp := preserveDataVolumes.(bool)
-		request.PreserveDataVolumes = &tmp
-	}
+	// if preserveDataVolumes, ok := s.D.GetOkExists("preserve_data_volumes"); ok {
+	// 	tmp := preserveDataVolumes.(bool)
+	// 	request.PreserveDataVolumes = &tmp
+	// }
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 

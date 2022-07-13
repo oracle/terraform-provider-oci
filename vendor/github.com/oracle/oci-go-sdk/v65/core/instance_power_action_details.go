@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-// InstancePowerActionDetails A base object for all types of Instance Power Action requests.
+// InstancePowerActionDetails A base object for all types of instance power action requests.
 type InstancePowerActionDetails interface {
 }
 
@@ -56,6 +56,10 @@ func (m *instancepoweractiondetails) UnmarshalPolymorphicJSON(data []byte) (inte
 	switch m.ActionType {
 	case "reset":
 		mm := ResetActionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "rebootMigrate":
+		mm := RebootMigrateActionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "softreset":

@@ -38,6 +38,9 @@ type SummarizeExadataInsightResourceStatisticsAggregationCollection struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 	ExadataInsightId *string `mandatory:"true" json:"exadataInsightId"`
+
+	// The user-friendly name for the Exadata system. The name does not have to be unique.
+	ExadataDisplayName *string `mandatory:"false" json:"exadataDisplayName"`
 }
 
 func (m SummarizeExadataInsightResourceStatisticsAggregationCollection) String() string {
@@ -65,6 +68,7 @@ func (m SummarizeExadataInsightResourceStatisticsAggregationCollection) Validate
 // UnmarshalJSON unmarshals from json
 func (m *SummarizeExadataInsightResourceStatisticsAggregationCollection) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		ExadataDisplayName    *string                                                                                 `json:"exadataDisplayName"`
 		TimeIntervalStart     *common.SDKTime                                                                         `json:"timeIntervalStart"`
 		TimeIntervalEnd       *common.SDKTime                                                                         `json:"timeIntervalEnd"`
 		Items                 []exadatainsightresourcestatisticsaggregation                                           `json:"items"`
@@ -78,6 +82,8 @@ func (m *SummarizeExadataInsightResourceStatisticsAggregationCollection) Unmarsh
 		return
 	}
 	var nn interface{}
+	m.ExadataDisplayName = model.ExadataDisplayName
+
 	m.TimeIntervalStart = model.TimeIntervalStart
 
 	m.TimeIntervalEnd = model.TimeIntervalEnd

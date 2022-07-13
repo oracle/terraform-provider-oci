@@ -45,6 +45,8 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `available_kubernetes_upgrades` - Available Kubernetes versions to which the clusters masters may be upgraded.
+* `cluster_pod_network_options` - Available CNIs and network options for existing and new node pools of the cluster
+	* `cni_type` - The CNI used by the node pools of this cluster
 * `compartment_id` - The OCID of the compartment in which the cluster exists.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `endpoint_config` - The network configuration for access to the Cluster control plane. 

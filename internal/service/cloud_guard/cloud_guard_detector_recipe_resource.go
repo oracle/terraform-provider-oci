@@ -807,10 +807,8 @@ func DetectorDetailsToMap(obj *oci_cloud_guard.DetectorDetails) map[string]inter
 	result := map[string]interface{}{}
 
 	if obj.Condition != nil {
-		condition, err := tfresource.ConvertObjectToJsonString(obj.Condition)
-		if err == nil {
-			result["condition"] = condition
-		}
+		tmp, _ := json.Marshal(obj.Condition)
+		result["condition"] = string(tmp)
 	}
 
 	configurations := []interface{}{}
@@ -976,13 +974,12 @@ func (s *CloudGuardDetectorRecipeResourceCrud) mapToUpdateDetectorRuleDetails(fi
 	//Condition Modelling
 	if condition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "condition")); ok {
 		tmp := condition.(string)
-		if len(tmp) > 0 {
-			var err error
-			result.Condition, err = jsonToCondition(tmp)
-			if err != nil {
-				return result, err
-			}
+		var conditionObj oci_cloud_guard.Condition
+		err := json.Unmarshal([]byte(tmp), &conditionObj)
+		if err != nil {
+			return result, err
 		}
+		result.Condition = &conditionObj
 	}
 
 	if configurations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configurations")); ok {
@@ -1048,39 +1045,6 @@ func (s *CloudGuardDetectorRecipeResourceCrud) updateCompartment(compartment int
 	}
 
 	return nil
-}
-
-type cloudGuardCondition struct {
-	JsonData []byte
-	Kind     string `json:"kind"`
-}
-
-func jsonToCondition(data string) (oci_cloud_guard.Condition, error) {
-	var val cloudGuardCondition
-	if err := json.Unmarshal([]byte(data), &val); err == nil {
-		if schemaData, err := UnmarshalPolymorphicConditionJSON(val.Kind, data); err == nil {
-			return schemaData, nil
-		} else {
-			return nil, err
-		}
-	}
-	return nil, nil
-}
-
-func UnmarshalPolymorphicConditionJSON(kind string, data string) (oci_cloud_guard.Condition, error) {
-	var err error
-	switch kind {
-	case "SIMPLE":
-		mm := oci_cloud_guard.SimpleCondition{}
-		err = json.Unmarshal([]byte(data), &mm)
-		return mm, err
-	case "COMPOSITE":
-		mm := oci_cloud_guard.CompositeCondition{}
-		err = json.Unmarshal([]byte(data), &mm)
-		return mm, err
-	default:
-		return nil, nil
-	}
 }
 
 func (s *CloudGuardDetectorRecipeResourceCrud) mapToDetectorConfiguration(fieldKeyFormat string) (oci_cloud_guard.DetectorConfiguration, error) {

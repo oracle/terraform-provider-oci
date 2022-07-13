@@ -1,3 +1,10 @@
+## 4.84.0 (July 13, 2022)
+
+### Added
+- Support for Native Pod Networking
+- Support for Point-in-time Recovery for non-HA MySQL Database System
+- Support for database/db system tags, fault domains, license model, node count, private ip, and time-zone to creating data guard association (with new db system) service
+
 ## 4.83.0 (July 07, 2022)
 
 ### Added
