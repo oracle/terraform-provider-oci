@@ -119,6 +119,12 @@ func (s *ContainerengineClustersDataSourceCrud) SetData() error {
 
 		cluster["available_kubernetes_upgrades"] = r.AvailableKubernetesUpgrades
 
+		clusterPodNetworkOptions := []interface{}{}
+		for _, item := range r.ClusterPodNetworkOptions {
+			clusterPodNetworkOptions = append(clusterPodNetworkOptions, ClusterPodNetworkOptionDetailsToMap(item))
+		}
+		cluster["cluster_pod_network_options"] = clusterPodNetworkOptions
+
 		if r.DefinedTags != nil {
 			cluster["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}

@@ -38,6 +38,8 @@ type CreateBackupPolicyDetails struct {
 	// Tags defined here will be copied verbatim as tags on the Backup resource created by this BackupPolicy.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	PitrPolicy *PitrPolicy `mandatory:"false" json:"pitrPolicy"`
 }
 
 func (m CreateBackupPolicyDetails) String() string {

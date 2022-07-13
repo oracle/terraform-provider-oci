@@ -178,6 +178,12 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("mysql_version", *s.Res.MysqlVersion)
 	}
 
+	if s.Res.PointInTimeRecoveryDetails != nil {
+		s.D.Set("point_in_time_recovery_details", []interface{}{PointInTimeRecoveryDetailsToMap(s.Res.PointInTimeRecoveryDetails)})
+	} else {
+		s.D.Set("point_in_time_recovery_details", nil)
+	}
+
 	if s.Res.Port != nil {
 		s.D.Set("port", *s.Res.Port)
 	}

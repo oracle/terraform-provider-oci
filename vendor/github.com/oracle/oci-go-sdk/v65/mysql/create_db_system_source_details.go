@@ -62,6 +62,10 @@ func (m *createdbsystemsourcedetails) UnmarshalPolymorphicJSON(data []byte) (int
 		mm := CreateDbSystemSourceImportFromUrlDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PITR":
+		mm := CreateDbSystemSourceFromPitrDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -90,18 +94,21 @@ type CreateDbSystemSourceDetailsSourceTypeEnum string
 const (
 	CreateDbSystemSourceDetailsSourceTypeNone      CreateDbSystemSourceDetailsSourceTypeEnum = "NONE"
 	CreateDbSystemSourceDetailsSourceTypeBackup    CreateDbSystemSourceDetailsSourceTypeEnum = "BACKUP"
+	CreateDbSystemSourceDetailsSourceTypePitr      CreateDbSystemSourceDetailsSourceTypeEnum = "PITR"
 	CreateDbSystemSourceDetailsSourceTypeImporturl CreateDbSystemSourceDetailsSourceTypeEnum = "IMPORTURL"
 )
 
 var mappingCreateDbSystemSourceDetailsSourceTypeEnum = map[string]CreateDbSystemSourceDetailsSourceTypeEnum{
 	"NONE":      CreateDbSystemSourceDetailsSourceTypeNone,
 	"BACKUP":    CreateDbSystemSourceDetailsSourceTypeBackup,
+	"PITR":      CreateDbSystemSourceDetailsSourceTypePitr,
 	"IMPORTURL": CreateDbSystemSourceDetailsSourceTypeImporturl,
 }
 
 var mappingCreateDbSystemSourceDetailsSourceTypeEnumLowerCase = map[string]CreateDbSystemSourceDetailsSourceTypeEnum{
 	"none":      CreateDbSystemSourceDetailsSourceTypeNone,
 	"backup":    CreateDbSystemSourceDetailsSourceTypeBackup,
+	"pitr":      CreateDbSystemSourceDetailsSourceTypePitr,
 	"importurl": CreateDbSystemSourceDetailsSourceTypeImporturl,
 }
 
@@ -119,6 +126,7 @@ func GetCreateDbSystemSourceDetailsSourceTypeEnumStringValues() []string {
 	return []string{
 		"NONE",
 		"BACKUP",
+		"PITR",
 		"IMPORTURL",
 	}
 }

@@ -84,16 +84,26 @@ var (
 		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"pitr_policy":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyPitrPolicyRepresentation},
 		"retention_in_days": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"window_start_time": acctest.Representation{RepType: acctest.Optional, Create: `01:00-00:00`, Update: `02:00-00:00`},
+	}
+
+	mysqlDbSystemBackupPolicyPitrPolicyRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
 	MysqlDbSystemBackupPolicyNotUpdateableRepresentation = map[string]interface{}{
 		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
 		"is_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"pitr_policy":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyPitrPolicyNotUpdateableRepresentation},
 		"retention_in_days": acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"window_start_time": acctest.Representation{RepType: acctest.Optional, Create: `01:00-00:00`},
+	}
+
+	mysqlDbSystemBackupPolicyPitrPolicyNotUpdateableRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
 	mysqlDbSystemDeletionPolicyRepresentation = map[string]interface{}{
@@ -173,6 +183,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.pitr_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.pitr_policy.0.is_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.retention_in_days", "10"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.window_start_time", "01:00-00:00"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -227,6 +239,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.pitr_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.pitr_policy.0.is_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.retention_in_days", "11"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.window_start_time", "02:00-00:00"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -329,6 +343,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.pitr_policy.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.pitr_policy.0.is_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.retention_in_days", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.window_start_time", "02:00-00:00"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "channels.#", "1"),
@@ -354,6 +370,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_highly_available", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance.0.window_start_time", "sun 01:00"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "mysql_version"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port", "3306"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port_x", "33306"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.#", "1"),

@@ -26,6 +26,23 @@ func ContainerengineClusterOptionDataSource() *schema.Resource {
 				Optional: true,
 			},
 			// Computed
+			"cluster_pod_network_options": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"cni_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"kubernetes_versions": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -85,6 +102,12 @@ func (s *ContainerengineClusterOptionDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("ContainerengineClusterOptionDataSource-", ContainerengineClusterOptionDataSource(), s.D))
+
+	clusterPodNetworkOptions := []interface{}{}
+	for _, item := range s.Res.ClusterPodNetworkOptions {
+		clusterPodNetworkOptions = append(clusterPodNetworkOptions, ClusterPodNetworkOptionDetailsToMap(item))
+	}
+	s.D.Set("cluster_pod_network_options", clusterPodNetworkOptions)
 
 	s.D.Set("kubernetes_versions", s.Res.KubernetesVersions)
 

@@ -19,18 +19,18 @@ import (
 )
 
 var (
-	DatabaseDataGuardAssociationRequiredOnlyResource = DatabaseDataGuardAssociationResourceDependencies +
+	DatabaseDataGuardAssociationRequiredOnlyResource = DatabaseDataGuardAssociationResourceDependenciesExistingDbSystem +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Required, acctest.Create, dataGuardAssociationRepresentationExistingDbSystem)
 
-	DatabaseDataGuardAssociationResourceConfig = DatabaseDataGuardAssociationResourceDependencies +
+	DatabaseDataGuardAssociationResourceConfig = DatabaseDataGuardAssociationResourceDependenciesExistingDbSystem +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Update, dataGuardAssociationRepresentationExistingDbSystem)
 
-	DatabaseDatabaseDataGuardAssociationSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDataGuardAssociationSingularDataSourceRepresentation = map[string]interface{}{
 		"data_guard_association_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_data_guard_association.test_data_guard_association.id}`},
 		"database_id":               acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_databases.db.databases.0.id}`},
 	}
 
-	DatabaseDatabaseDataGuardAssociationDataSourceRepresentation = map[string]interface{}{
+	DatabaseDataGuardAssociationDataSourceRepresentation = map[string]interface{}{
 		"database_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_databases.db.databases.0.id}`},
 		"filter":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseDataGuardAssociationDataSourceFilterRepresentation}}
 	DatabaseDataGuardAssociationDataSourceFilterRepresentation = map[string]interface{}{
@@ -64,156 +64,173 @@ var (
 		"depends_on":        acctest.Representation{RepType: acctest.Required, Create: []string{`oci_database_db_system.test_db_system`, `oci_database_db_system.test_db_system2`}},
 		"creation_type":     acctest.Representation{RepType: acctest.Required, Create: `ExistingDbSystem`},
 		"peer_db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_system.test_db_system2.id}`},
-	})
-	dataGuardAssociationRepresentationNewDbSystem = acctest.RepresentationCopyWithNewProperties(DatabaseDataGuardAssociationRepresentationBase, map[string]interface{}{
-		"creation_type":          acctest.Representation{RepType: acctest.Required, Create: `NewDbSystem`},
-		"availability_domain":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `displayName`},
-		"hostname":               acctest.Representation{RepType: acctest.Required, Create: `hostname`},
-		"subnet_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"shape":                  acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.2`},
-		"backup_network_nsg_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDataGuardAssociationRepresentationExistingDbSystem},
 	})
 
-	DataGuardAssociationResourceDependenciesBase = AvailabilityDomainConfig + DefinedTagsDependencies + CoreVcnResourceConfig +
+	ignoreDataGuardAssociationRepresentationExistingDbSystem = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`database_defined_tags`, `database_freeform_tags`, `db_system_defined_tags`, `db_system_freeform_tags`, `fault_domains`, `license_model`, `node_count`, `private_ip`, `time_zone`}},
+	}
+
+	dataGuardAssociationRepresentationNewDbSystem = acctest.RepresentationCopyWithNewProperties(DatabaseDataGuardAssociationRepresentationBase, map[string]interface{}{
+		"creation_type":           acctest.Representation{RepType: acctest.Required, Create: `NewDbSystem`},
+		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayName`},
+		"hostname":                acctest.Representation{RepType: acctest.Required, Create: `hostname`},
+		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"shape":                   acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.2`},
+		"backup_network_nsg_ids":  acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"nsg_ids":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"database_defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "databaseDefinedTags1")}`},
+		"database_freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"databaseFreeformTagsK": "databaseFreeformTagsV"}},
+		"db_system_defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "dbSystemDefinedTags1")}`},
+		"db_system_freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"dbSystemFreeformTagsK": "dbSystemFreeformTagsV"}},
+		"fault_domains":           acctest.Representation{RepType: acctest.Optional, Create: []string{`FAULT-DOMAIN-3`}},
+		"license_model":           acctest.Representation{RepType: acctest.Optional, Create: `BRING_YOUR_OWN_LICENSE`},
+		"node_count":              acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"private_ip":              acctest.Representation{RepType: acctest.Optional, Create: `10.0.2.223`},
+		"time_zone":               acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
+	})
+
+	DatabaseDataGuardAssociationResourceDependenciesBase = AvailabilityDomainConfig + DefinedTagsDependencies + CoreVcnResourceConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Optional, acctest.Update, CoreNetworkSecurityGroupRepresentation) +
 		`
-#dataguard requires the some port to be open on the subnet
-resource "oci_core_subnet" "test_subnet" {
-  availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
-  cidr_block          = "10.0.2.0/24"
-  display_name        = "TFADSubnet"
-  dns_label           = "adsubnet"
-  compartment_id      = "${var.compartment_id}"
-  vcn_id              = "${oci_core_vcn.test_vcn.id}"
-  security_list_ids   = ["${oci_core_security_list.test_security_list.id}"]
-  route_table_id      = "${oci_core_vcn.test_vcn.default_route_table_id}"
-  dhcp_options_id     = "${oci_core_vcn.test_vcn.default_dhcp_options_id}"
-}
+			#dataguard requires the some port to be open on the subnet
+			resource "oci_core_subnet" "test_subnet" {
+				availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
+				cidr_block          = "10.0.2.0/24"
+				display_name        = "TFADSubnet"
+				dns_label           = "adsubnet"
+				compartment_id      = "${var.compartment_id}"
+				vcn_id              = "${oci_core_vcn.test_vcn.id}"
+				security_list_ids   = ["${oci_core_security_list.test_security_list.id}"]
+				route_table_id      = "${oci_core_vcn.test_vcn.default_route_table_id}"
+				dhcp_options_id     = "${oci_core_vcn.test_vcn.default_dhcp_options_id}"
+			}
+	
+			resource "oci_core_security_list" "test_security_list" {
+				compartment_id = "${var.compartment_id}"
+				vcn_id         = "${oci_core_vcn.test_vcn.id}"
+				display_name   = "TFExampleSecurityList"
 
-resource "oci_core_security_list" "test_security_list" {
-  compartment_id = "${var.compartment_id}"
-  vcn_id         = "${oci_core_vcn.test_vcn.id}"
-  display_name   = "TFExampleSecurityList"
+				// allow outbound tcp traffic on all ports
+				egress_security_rules {
+					destination = "0.0.0.0/0"
+					protocol    = "6"
+				}
+				
+				ingress_security_rules {
+					protocol  = "6"
+					source    = "0.0.0.0/0"
+				}
+			}
+	
+			data "oci_database_databases" "db" {
+				compartment_id = "${var.compartment_id}"
+				db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
+			}
+	
+			data "oci_database_db_homes" "t" {
+				compartment_id = "${var.compartment_id}"
+				db_system_id = "${oci_database_db_system.test_db_system.id}"
+				filter {
+					name = "display_name"
+					values = ["TFTestDbHome1"]
+				}
+			}
+		`
 
-  // allow outbound tcp traffic on all ports
-  egress_security_rules {
-    destination = "0.0.0.0/0"
-    protocol    = "6"
-  }
+	DatabaseDataGuardAssociationResourceDependenciesExistingDbSystem = DatabaseDataGuardAssociationResourceDependenciesBase +
+		`
+			resource "oci_database_db_system" "test_db_system" {
+				availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
+				compartment_id = "${var.compartment_id}"
+				subnet_id = "${oci_core_subnet.test_subnet.id}"
+				database_edition = "ENTERPRISE_EDITION"
+				disk_redundancy = "NORMAL"
+				shape = "BM.DenseIO2.52"
+				cpu_core_count = "2"
+				ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+				domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
+				hostname = "myOracleDB"
+				data_storage_size_in_gb = "256"
+				license_model = "LICENSE_INCLUDED"
+				node_count = "1"
+				display_name = "TFTestDbSystemBM1"
+				db_home {
+					db_version = "12.1.0.2"
+					display_name = "TFTestDbHome1"
+					database {
+						admin_password = "BEstrO0ng_#11"
+						db_name = "tfDbName"
+					}
+				}
+			}
 
-  ingress_security_rules {
-    protocol  = "6"
-    source    = "0.0.0.0/0"
-  }
-}
+			resource "oci_database_db_system" "test_db_system2" {
+				availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
+				compartment_id = "${var.compartment_id}"
+				subnet_id = "${oci_core_subnet.test_subnet.id}"
+				database_edition = "ENTERPRISE_EDITION"
+				disk_redundancy = "NORMAL"
+				shape = "BM.DenseIO2.52"
+				cpu_core_count = "2"
+				ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+				domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
+				hostname = "myOracleDB"
+				data_storage_size_in_gb = "256"
+				license_model = "LICENSE_INCLUDED"
+				node_count = "1"
+				display_name = "TFTestDbSystemBM2"
+				db_home {
+					db_version = "12.1.0.2"
+					display_name = "TFTestDbHome1"
+					database {
+						admin_password = "BEstrO0ng_#11"
+						db_name = "db2"
+					}
+				}
+			}
 
-data "oci_database_databases" "db" {
-       compartment_id = "${var.compartment_id}"
-       db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
-}
+			data "oci_database_db_systems" "t" {
+				compartment_id = "${var.compartment_id}"
+				filter {
+					name   = "id"
+					values = ["${oci_database_data_guard_association.test_data_guard_association.peer_db_system_id}"]
+				}
+				filter {
+					name   = "state"
+					values = ["AVAILABLE"]
+				}
+			}
+		`
 
-data "oci_database_db_homes" "t" {
-	compartment_id = "${var.compartment_id}"
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
-	filter {
-		name = "display_name"
-		values = ["TFTestDbHome1"]
-	}
-}
-
-`
-	DatabaseDataGuardAssociationResourceDependencies = DataGuardAssociationResourceDependenciesBase + `
-resource "oci_database_db_system" "test_db_system" {
-	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
-	compartment_id = "${var.compartment_id}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
-	database_edition = "ENTERPRISE_EDITION"
-	disk_redundancy = "NORMAL"
-	shape = "BM.DenseIO2.52"
-	cpu_core_count = "2"
-	ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-	domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
-	hostname = "myOracleDB"
-	data_storage_size_in_gb = "256"
-	license_model = "LICENSE_INCLUDED"
-	node_count = "1"
-	display_name = "TFTestDbSystemBM1"
-	db_home {
-		db_version = "12.1.0.2"
-		display_name = "TFTestDbHome1"
-		database {
-			admin_password = "BEstrO0ng_#11"
-			db_name = "tfDbName"
-		}
-	}
-}
-
-resource "oci_database_db_system" "test_db_system2" {
-	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
-	compartment_id = "${var.compartment_id}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
-	database_edition = "ENTERPRISE_EDITION"
-	disk_redundancy = "NORMAL"
-	shape = "BM.DenseIO2.52"
-	cpu_core_count = "2"
-	ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-	domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
-	hostname = "myOracleDB"
-	data_storage_size_in_gb = "256"
-	license_model = "LICENSE_INCLUDED"
-	node_count = "1"
-	display_name = "TFTestDbSystemBM2"
-	db_home {
-		db_version = "12.1.0.2"
-		display_name = "TFTestDbHome1"
-		database {
-			admin_password = "BEstrO0ng_#11"
-			db_name = "db2"
-		}
-	}
-}
-`
-	DataGuardAssociationResourceDependenciesNewDbSystem = DataGuardAssociationResourceDependenciesBase + `
-resource "oci_database_db_system" "test_db_system" {
-	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
-	compartment_id = "${var.compartment_id}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
-	database_edition = "ENTERPRISE_EDITION"
-	disk_redundancy = "NORMAL"
-	shape = "VM.Standard2.2"
-	cpu_core_count = "2"
-	ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-	domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
-	hostname = "myOracleDB"
-	data_storage_size_in_gb = "256"
-	license_model = "LICENSE_INCLUDED"
-	node_count = "1"
-	display_name = "TFTestDbSystemVM"
-	db_home {
-		db_version = "12.1.0.2"
-		display_name = "TFTestDbHome1"
-		database {
-			admin_password = "BEstrO0ng_#11"
-			db_name = "tfDbName"
-		}
-	}
-}
-
-data "oci_database_db_systems" "t" {
-  compartment_id = "${var.compartment_id}"
-  filter {
-     name   = "id"
-     values = ["${oci_database_data_guard_association.test_data_guard_association.peer_db_system_id}"]
-  }
-
-  filter {
-     name   = "state"
-     values = ["AVAILABLE"]
-  }
-}
-`
+	DatabaseDataGuardAssociationResourceDependenciesNewDbSystem = DatabaseDataGuardAssociationResourceDependenciesBase +
+		`
+			resource "oci_database_db_system" "test_db_system" {
+				availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
+				compartment_id = "${var.compartment_id}"
+				subnet_id = "${oci_core_subnet.test_subnet.id}"
+				database_edition = "ENTERPRISE_EDITION"
+				disk_redundancy = "NORMAL"
+				shape = "VM.Standard2.2"
+				cpu_core_count = "2"
+				ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+				domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
+				hostname = "myOracleDB"
+				data_storage_size_in_gb = "256"
+				license_model = "LICENSE_INCLUDED"
+				node_count = "1"
+				display_name = "TFTestDbSystemVM"
+				db_home {
+					db_version = "12.1.0.2"
+					display_name = "TFTestDbHome1"
+					database {
+						admin_password = "BEstrO0ng_#11"
+						db_name = "tfDbName"
+					}
+				}
+			}
+		`
 )
 
 // issue-routing-tag: database/default
@@ -232,24 +249,33 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseDataGuardAssociationResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseDataGuardAssociationResourceDependenciesExistingDbSystem+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Create, dataGuardAssociationRepresentationExistingDbSystem), "database", "dataGuardAssociation", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create NewDbSystem
 		{
-			Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependenciesNewDbSystem +
+			Config: config + compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependenciesNewDbSystem +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Create, dataGuardAssociationRepresentationNewDbSystem),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.backup_network_nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "creation_type", "NewDbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-				resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.2"),
 				resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
+				resource.TestCheckResourceAttr(resourceName, "db_system_defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_system_freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database_defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database_freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "fault_domains.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
+				resource.TestCheckResourceAttr(resourceName, "node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_ip", "10.0.2.223"),
+				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -260,11 +286,11 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependenciesNewDbSystem,
 		},
 		// verify Create with optionals on Existing DbSystem
 		{
-			Config: config + compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependenciesExistingDbSystem +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Create, dataGuardAssociationRepresentationExistingDbSystem),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "10"),
@@ -296,7 +322,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependenciesExistingDbSystem +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Update, dataGuardAssociationRepresentationExistingDbSystem),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "10"),
@@ -317,7 +343,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
 					return err
 				},
@@ -326,8 +352,8 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_data_guard_associations", acctest.Optional, acctest.Update, DatabaseDatabaseDataGuardAssociationDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_data_guard_associations", acctest.Optional, acctest.Update, DatabaseDataGuardAssociationDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependenciesExistingDbSystem +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Update, dataGuardAssociationRepresentationExistingDbSystem),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
@@ -347,8 +373,8 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Required, acctest.Create, DatabaseDatabaseDataGuardAssociationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Required, acctest.Create, DatabaseDataGuardAssociationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDataGuardAssociationResourceDependenciesExistingDbSystem +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Update, dataGuardAssociationRepresentationExistingDbSystem),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),

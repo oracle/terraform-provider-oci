@@ -36,5 +36,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `cluster_pod_network_options` - Available CNIs and network options for existing and new node pools of the cluster
+	* `cni_type` - The CNI used by the node pools of this cluster
 * `kubernetes_versions` - Available Kubernetes versions.
 
