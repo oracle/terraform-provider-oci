@@ -1,4 +1,4 @@
-## 4.84.0 (Unreleased)
+## 4.84.0 (July 13, 2022)
 
 ### Added
 - Support for Native Pod Networking
