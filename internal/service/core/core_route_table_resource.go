@@ -95,6 +95,11 @@ func CoreRouteTableResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"route_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -411,6 +416,10 @@ func (s *CoreRouteTableResourceCrud) mapToRouteRule(fieldKeyFormat string) (oci_
 		result.NetworkEntityId = &tmp
 	}
 
+	if routeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "route_type")); ok {
+		result.RouteType = oci_core.RouteRuleRouteTypeEnum(routeType.(string))
+	}
+
 	return result, nil
 }
 
@@ -470,7 +479,13 @@ func routeRulesHashCodeForSets(v interface{}) int {
 	if networkEntityId, ok := m["network_entity_id"]; ok && networkEntityId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", networkEntityId))
 	}
+
+	if routeType, ok := m["route_type"]; ok && routeType != "" {
+		buf.WriteString(fmt.Sprintf("%v-", routeType))
+	}
+
 	return utils.GetStringHashcode(buf.String())
+
 }
 func (s *CoreRouteTableResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeRouteTableCompartmentRequest{}

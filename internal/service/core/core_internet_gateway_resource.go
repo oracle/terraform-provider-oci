@@ -60,6 +60,11 @@ func CoreInternetGatewayResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"route_table_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"state": {
@@ -172,6 +177,11 @@ func (s *CoreInternetGatewayResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
 		tmp := vcnId.(string)
 		request.VcnId = &tmp
@@ -242,6 +252,11 @@ func (s *CoreInternetGatewayResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.IgId = &tmp
 
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateInternetGateway(context.Background(), request)
@@ -283,6 +298,10 @@ func (s *CoreInternetGatewayResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.RouteTableId != nil {
+		s.D.Set("route_table_id", *s.Res.RouteTableId)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

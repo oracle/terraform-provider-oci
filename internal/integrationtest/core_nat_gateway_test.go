@@ -53,17 +53,13 @@ var (
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"public_ip_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_public_ip.test_public_ip.id}`},
+		"route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
 	}
 
-	CoreNatGatewayResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", acctest.Required, acctest.Create,
-		acctest.RepresentationCopyWithNewProperties(CorePublicIpRepresentation, map[string]interface{}{
-			"public_ip_pool_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
-		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", acctest.Required, acctest.Create, publicIpPoolCapacityRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Required, acctest.Create, CorePublicPoolRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		DefinedTagsDependencies + byoipRangeIdVariableStr + publicIpPoolCidrBlockVariableStr
+	CoreNatGatewayResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
+		DefinedTagsDependencies
 )
 
 // issue-routing-tag: core/pnp
@@ -120,6 +116,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "nat_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "public_ip_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -151,6 +148,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "nat_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "public_ip_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -177,6 +175,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "nat_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "public_ip_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -210,6 +209,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.nat_ip"),
 				resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.public_ip_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.route_table_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.vcn_id"),
