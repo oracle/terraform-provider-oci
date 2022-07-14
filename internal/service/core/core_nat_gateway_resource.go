@@ -66,6 +66,11 @@ func CoreNatGatewayResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"route_table_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"nat_ip": {
@@ -187,6 +192,11 @@ func (s *CoreNatGatewayResourceCrud) Create() error {
 		request.PublicIpId = &tmp
 	}
 
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
 		tmp := vcnId.(string)
 		request.VcnId = &tmp
@@ -257,6 +267,11 @@ func (s *CoreNatGatewayResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.NatGatewayId = &tmp
 
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateNatGateway(context.Background(), request)
@@ -305,6 +320,10 @@ func (s *CoreNatGatewayResourceCrud) SetData() error {
 
 	if s.Res.PublicIpId != nil {
 		s.D.Set("public_ip_id", *s.Res.PublicIpId)
+	}
+
+	if s.Res.RouteTableId != nil {
+		s.D.Set("route_table_id", *s.Res.RouteTableId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
