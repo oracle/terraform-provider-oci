@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-rm -r examples/zips
+# This script creates zip files of service examples to add them as release assets.
+if [ -d "./examples/zips" ]; then
+    rm -r examples/zips
+fi
 mkdir -p examples/zips
 for EXAMPLE_FOLDER in examples/*/;
 do
