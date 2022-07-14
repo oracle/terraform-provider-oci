@@ -26,7 +26,7 @@ type QueryObjectDetails struct {
 	// SQL like query to execute on the file.
 	Expression *string `mandatory:"true" json:"expression"`
 
-	// Field to specify the data format of the results. The default ResultFormat is JSON.
+	// Field to specify the data format of the results. The default ResultFormat is CSV.
 	ResultFormat QueryObjectDetailsResultFormatEnum `mandatory:"true" json:"resultFormat"`
 
 	// Optional field to specify the version ID of the object.

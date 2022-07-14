@@ -37,10 +37,6 @@ type CreateScanProxyDetails struct {
 
 	// Type indicating whether Scan proxy is IP multiplexing based or Port multiplexing based.
 	ScanMultiplexingType ScanProxyScanMultiplexingTypeEnum `mandatory:"false" json:"scanMultiplexingType,omitempty"`
-
-	// The port input from customer to which service DB client has to connect on scan proxy to initiate scan
-	// connections.
-	ScanProxyPort *int `mandatory:"false" json:"scanProxyPort"`
 }
 
 func (m CreateScanProxyDetails) String() string {

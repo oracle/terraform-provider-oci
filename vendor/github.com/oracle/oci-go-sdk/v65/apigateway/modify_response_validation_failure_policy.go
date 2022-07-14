@@ -21,8 +21,8 @@ import (
 // ModifyResponseValidationFailurePolicy Policy to specify how to modify the response code, body and headers.
 type ModifyResponseValidationFailurePolicy struct {
 
-	// HTTP response code.
-	ResponseCode *float32 `mandatory:"false" json:"responseCode"`
+	// HTTP response code, can include context variables.
+	ResponseCode *string `mandatory:"false" json:"responseCode"`
 
 	// HTTP response message.
 	ResponseMessage *string `mandatory:"false" json:"responseMessage"`

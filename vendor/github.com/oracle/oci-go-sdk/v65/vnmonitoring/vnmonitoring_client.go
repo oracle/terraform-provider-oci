@@ -132,7 +132,7 @@ func (client VnMonitoringClient) changePathAnalyzerTestCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/PathAnalyzerTest/ChangePathAnalyzerTestCompartment"
 		err = common.PostProcessServiceError(err, "VnMonitoring", "ChangePathAnalyzerTestCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -190,7 +190,7 @@ func (client VnMonitoringClient) createPathAnalyzerTest(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/PathAnalyzerTest/CreatePathAnalyzerTest"
 		err = common.PostProcessServiceError(err, "VnMonitoring", "CreatePathAnalyzerTest", apiReferenceLink)
 		return response, err
 	}
@@ -243,7 +243,7 @@ func (client VnMonitoringClient) deletePathAnalyzerTest(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/PathAnalyzerTest/DeletePathAnalyzerTest"
 		err = common.PostProcessServiceError(err, "VnMonitoring", "DeletePathAnalyzerTest", apiReferenceLink)
 		return response, err
 	}
@@ -307,7 +307,7 @@ func (client VnMonitoringClient) getPathAnalysis(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/PathAnalysisWorkRequestResult/GetPathAnalysis"
 		err = common.PostProcessServiceError(err, "VnMonitoring", "GetPathAnalysis", apiReferenceLink)
 		return response, err
 	}
@@ -360,7 +360,7 @@ func (client VnMonitoringClient) getPathAnalyzerTest(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/PathAnalyzerTest/GetPathAnalyzerTest"
 		err = common.PostProcessServiceError(err, "VnMonitoring", "GetPathAnalyzerTest", apiReferenceLink)
 		return response, err
 	}
@@ -413,7 +413,7 @@ func (client VnMonitoringClient) getWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "VnMonitoring", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -466,7 +466,7 @@ func (client VnMonitoringClient) listPathAnalyzerTests(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/PathAnalyzerTestCollection/ListPathAnalyzerTests"
 		err = common.PostProcessServiceError(err, "VnMonitoring", "ListPathAnalyzerTests", apiReferenceLink)
 		return response, err
 	}
@@ -519,7 +519,7 @@ func (client VnMonitoringClient) listWorkRequestErrors(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "VnMonitoring", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -572,7 +572,7 @@ func (client VnMonitoringClient) listWorkRequestLogs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "VnMonitoring", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -626,7 +626,7 @@ func (client VnMonitoringClient) listWorkRequestResults(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/WorkRequestResult/ListWorkRequestResults"
 		err = common.PostProcessServiceError(err, "VnMonitoring", "ListWorkRequestResults", apiReferenceLink)
 		return response, err
 	}
@@ -679,7 +679,7 @@ func (client VnMonitoringClient) listWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "VnMonitoring", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -737,7 +737,7 @@ func (client VnMonitoringClient) updatePathAnalyzerTest(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/PathAnalyzerTest/UpdatePathAnalyzerTest"
 		err = common.PostProcessServiceError(err, "VnMonitoring", "UpdatePathAnalyzerTest", apiReferenceLink)
 		return response, err
 	}

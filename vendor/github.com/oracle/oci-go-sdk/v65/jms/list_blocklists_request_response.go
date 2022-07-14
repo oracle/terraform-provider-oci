@@ -130,6 +130,7 @@ const (
 	ListBlocklistsOperationUpdateFleet                   ListBlocklistsOperationEnum = "UPDATE_FLEET"
 	ListBlocklistsOperationUpdateFleetAgentConfiguration ListBlocklistsOperationEnum = "UPDATE_FLEET_AGENT_CONFIGURATION"
 	ListBlocklistsOperationDeleteJavaInstallation        ListBlocklistsOperationEnum = "DELETE_JAVA_INSTALLATION"
+	ListBlocklistsOperationCreateJavaInstallation        ListBlocklistsOperationEnum = "CREATE_JAVA_INSTALLATION"
 )
 
 var mappingListBlocklistsOperationEnum = map[string]ListBlocklistsOperationEnum{
@@ -139,6 +140,7 @@ var mappingListBlocklistsOperationEnum = map[string]ListBlocklistsOperationEnum{
 	"UPDATE_FLEET":                     ListBlocklistsOperationUpdateFleet,
 	"UPDATE_FLEET_AGENT_CONFIGURATION": ListBlocklistsOperationUpdateFleetAgentConfiguration,
 	"DELETE_JAVA_INSTALLATION":         ListBlocklistsOperationDeleteJavaInstallation,
+	"CREATE_JAVA_INSTALLATION":         ListBlocklistsOperationCreateJavaInstallation,
 }
 
 var mappingListBlocklistsOperationEnumLowerCase = map[string]ListBlocklistsOperationEnum{
@@ -148,6 +150,7 @@ var mappingListBlocklistsOperationEnumLowerCase = map[string]ListBlocklistsOpera
 	"update_fleet":                     ListBlocklistsOperationUpdateFleet,
 	"update_fleet_agent_configuration": ListBlocklistsOperationUpdateFleetAgentConfiguration,
 	"delete_java_installation":         ListBlocklistsOperationDeleteJavaInstallation,
+	"create_java_installation":         ListBlocklistsOperationCreateJavaInstallation,
 }
 
 // GetListBlocklistsOperationEnumValues Enumerates the set of values for ListBlocklistsOperationEnum
@@ -168,6 +171,7 @@ func GetListBlocklistsOperationEnumStringValues() []string {
 		"UPDATE_FLEET",
 		"UPDATE_FLEET_AGENT_CONFIGURATION",
 		"DELETE_JAVA_INSTALLATION",
+		"CREATE_JAVA_INSTALLATION",
 	}
 }
 

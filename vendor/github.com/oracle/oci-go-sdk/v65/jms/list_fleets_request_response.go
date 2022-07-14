@@ -45,6 +45,9 @@ type ListFleetsRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Filter the list with displayName contains the given value.
+	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

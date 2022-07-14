@@ -74,6 +74,9 @@ type SummarizeApplicationUsageRequest struct {
 	// The operating system type.
 	OsFamily []OsFamilyEnum `contributesTo:"query" name:"osFamily" omitEmpty:"true" collectionFormat:"multi"`
 
+	// Filter the list with displayName contains the given value.
+	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

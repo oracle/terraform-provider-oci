@@ -108,6 +108,9 @@ type DbSystemSummary struct {
 	// The Oracle Database version of the DB system.
 	Version *string `mandatory:"false" json:"version"`
 
+	// The most recent OS Patch Version applied on the DB system.
+	OsVersion *string `mandatory:"false" json:"osVersion"`
+
 	// The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
 	ClusterName *string `mandatory:"false" json:"clusterName"`
 

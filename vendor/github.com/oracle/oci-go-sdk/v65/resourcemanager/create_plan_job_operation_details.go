@@ -21,7 +21,18 @@ import (
 
 // CreatePlanJobOperationDetails Job details that are specific to plan operations.
 type CreatePlanJobOperationDetails struct {
+
+	// Specifies whether or not to upgrade provider versions.
+	// Within the version constraints of your Terraform configuration, use the latest versions available from the source of Terraform providers.
+	// For more information about this option, see Dependency Lock File (terraform.io) (https://www.terraform.io/language/files/dependency-lock).
+	IsProviderUpgradeRequired *bool `mandatory:"false" json:"isProviderUpgradeRequired"`
+
 	TerraformAdvancedOptions *TerraformAdvancedOptions `mandatory:"false" json:"terraformAdvancedOptions"`
+}
+
+//GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
+func (m CreatePlanJobOperationDetails) GetIsProviderUpgradeRequired() *bool {
+	return m.IsProviderUpgradeRequired
 }
 
 func (m CreatePlanJobOperationDetails) String() string {

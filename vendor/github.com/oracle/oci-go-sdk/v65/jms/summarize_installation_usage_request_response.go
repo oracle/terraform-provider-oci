@@ -67,6 +67,9 @@ type SummarizeInstallationUsageRequest struct {
 	// The operating system type.
 	OsFamily []OsFamilyEnum `contributesTo:"query" name:"osFamily" omitEmpty:"true" collectionFormat:"multi"`
 
+	// Filter the list with path contains the given value.
+	PathContains *string `mandatory:"false" contributesTo:"query" name:"pathContains"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

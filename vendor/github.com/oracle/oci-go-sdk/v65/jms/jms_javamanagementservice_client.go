@@ -87,6 +87,65 @@ func (client *JavaManagementServiceClient) ConfigurationProvider() *common.Confi
 	return client.config
 }
 
+// AddFleetInstallationSites Add Java installation sites in a Fleet.
+// A default retry strategy applies to this operation AddFleetInstallationSites()
+func (client JavaManagementServiceClient) AddFleetInstallationSites(ctx context.Context, request AddFleetInstallationSitesRequest) (response AddFleetInstallationSitesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addFleetInstallationSites, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddFleetInstallationSitesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddFleetInstallationSitesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddFleetInstallationSitesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddFleetInstallationSitesResponse")
+	}
+	return
+}
+
+// addFleetInstallationSites implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) addFleetInstallationSites(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/addInstallationSites", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddFleetInstallationSitesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/InstallationSiteSummary/AddFleetInstallationSites"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "AddFleetInstallationSites", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelWorkRequest Deletes the work request specified by an identifier.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client JavaManagementServiceClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
@@ -260,6 +319,11 @@ func (client JavaManagementServiceClient) createBlocklist(ctx context.Context, r
 }
 
 // CreateFleet Create a new Fleet using the information provided.
+// `inventoryLog` is now a required parameter for CreateFleet API.
+// Update existing applications using this API
+// before July 15, 2022 to ensure the applications continue to work.
+// See the Service Change Notice (https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#JMS) for more details.
+// Migrate existing fleets using the `UpdateFleet` API to set the `inventoryLog` parameter.
 // A default retry strategy applies to this operation CreateFleet()
 func (client JavaManagementServiceClient) CreateFleet(ctx context.Context, request CreateFleetRequest) (response CreateFleetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -426,6 +490,59 @@ func (client JavaManagementServiceClient) deleteFleet(ctx context.Context, reque
 	return response, err
 }
 
+// GenerateAgentDeployScript Generates Agent Deploy Script for Fleet using the information provided.
+// A default retry strategy applies to this operation GenerateAgentDeployScript()
+func (client JavaManagementServiceClient) GenerateAgentDeployScript(ctx context.Context, request GenerateAgentDeployScriptRequest) (response GenerateAgentDeployScriptResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.generateAgentDeployScript, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateAgentDeployScriptResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateAgentDeployScriptResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateAgentDeployScriptResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateAgentDeployScriptResponse")
+	}
+	return
+}
+
+// generateAgentDeployScript implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) generateAgentDeployScript(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/generateAgentDeployScript", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateAgentDeployScriptResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/GenerateAgentDeployScript"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "GenerateAgentDeployScript", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetFleet Retrieve a Fleet with the specified identifier.
 // A default retry strategy applies to this operation GetFleet()
 func (client JavaManagementServiceClient) GetFleet(ctx context.Context, request GetFleetRequest) (response GetFleetResponse, err error) {
@@ -527,6 +644,114 @@ func (client JavaManagementServiceClient) getFleetAgentConfiguration(ctx context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/FleetAgentConfiguration/GetFleetAgentConfiguration"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetFleetAgentConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetJavaFamily Returns details of a Java release family based on specified version.
+// A default retry strategy applies to this operation GetJavaFamily()
+func (client JavaManagementServiceClient) GetJavaFamily(ctx context.Context, request GetJavaFamilyRequest) (response GetJavaFamilyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getJavaFamily, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetJavaFamilyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetJavaFamilyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetJavaFamilyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetJavaFamilyResponse")
+	}
+	return
+}
+
+// getJavaFamily implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) getJavaFamily(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/javaFamilies/{familyVersion}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetJavaFamilyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaFamily/GetJavaFamily"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "GetJavaFamily", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetJavaRelease Returns detail of a Java release.
+// A default retry strategy applies to this operation GetJavaRelease()
+func (client JavaManagementServiceClient) GetJavaRelease(ctx context.Context, request GetJavaReleaseRequest) (response GetJavaReleaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getJavaRelease, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetJavaReleaseResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetJavaReleaseResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetJavaReleaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetJavaReleaseResponse")
+	}
+	return
+}
+
+// getJavaRelease implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) getJavaRelease(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/javaReleases/{releaseVersion}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetJavaReleaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaRelease/GetJavaRelease"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "GetJavaRelease", apiReferenceLink)
 		return response, err
 	}
 
@@ -744,6 +969,115 @@ func (client JavaManagementServiceClient) listInstallationSites(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/InstallationSiteSummary/ListInstallationSites"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListInstallationSites", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListJavaFamilies Returns a list of the Java release family information.
+// A Java release family is typically a major version in the Java version identifier.
+// A default retry strategy applies to this operation ListJavaFamilies()
+func (client JavaManagementServiceClient) ListJavaFamilies(ctx context.Context, request ListJavaFamiliesRequest) (response ListJavaFamiliesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listJavaFamilies, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListJavaFamiliesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListJavaFamiliesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListJavaFamiliesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListJavaFamiliesResponse")
+	}
+	return
+}
+
+// listJavaFamilies implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listJavaFamilies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/javaFamilies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListJavaFamiliesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaFamilyCollection/ListJavaFamilies"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListJavaFamilies", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListJavaReleases Returns a list of Java releases.
+// A default retry strategy applies to this operation ListJavaReleases()
+func (client JavaManagementServiceClient) ListJavaReleases(ctx context.Context, request ListJavaReleasesRequest) (response ListJavaReleasesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listJavaReleases, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListJavaReleasesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListJavaReleasesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListJavaReleasesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListJavaReleasesResponse")
+	}
+	return
+}
+
+// listJavaReleases implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listJavaReleases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/javaReleases", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListJavaReleasesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaRelease/ListJavaReleases"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListJavaReleases", apiReferenceLink)
 		return response, err
 	}
 

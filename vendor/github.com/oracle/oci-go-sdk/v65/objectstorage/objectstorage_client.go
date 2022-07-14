@@ -2690,6 +2690,60 @@ func (client ObjectStorageClient) queryObject(ctx context.Context, request commo
 	return response, err
 }
 
+// ReadObjectSchema Returns object schema(metadata that describes columns if the object represents file in supported columnar file format) result as a json in the response body.
+// A default retry strategy applies to this operation ReadObjectSchema()
+func (client ObjectStorageClient) ReadObjectSchema(ctx context.Context, request ReadObjectSchemaRequest) (response ReadObjectSchemaResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.readObjectSchema, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReadObjectSchemaResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReadObjectSchemaResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReadObjectSchemaResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReadObjectSchemaResponse")
+	}
+	return
+}
+
+// readObjectSchema implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) readObjectSchema(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/readObjectSchema", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ReadObjectSchemaResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/ReadObjectSchema"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "ReadObjectSchema", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ReencryptBucket Re-encrypts the unique data encryption key that encrypts each object written to the bucket by using the most recent
 // version of the master encryption key assigned to the bucket. (All data encryption keys are encrypted by a master
 // encryption key. Master encryption keys are assigned to buckets and managed by Oracle by default, but you can assign

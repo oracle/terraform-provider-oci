@@ -42,8 +42,11 @@ type CreateAutonomousVmClusterDetails struct {
 	// The total number of Autonomous Container Databases that can be created.
 	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
 
-	// The number of OCPU cores to enable per VM cluster node.
+	// The number of CPU cores to enable per VM cluster node.
 	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
+
+	// The compute model of the Autonomous VM Cluster.
+	ComputeModel CreateAutonomousVmClusterDetailsComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// The amount of memory (in GBs) to be enabled per each OCPU core.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
@@ -75,6 +78,9 @@ func (m CreateAutonomousVmClusterDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingCreateAutonomousVmClusterDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateAutonomousVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCreateAutonomousVmClusterDetailsComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetCreateAutonomousVmClusterDetailsComputeModelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -121,5 +127,47 @@ func GetCreateAutonomousVmClusterDetailsLicenseModelEnumStringValues() []string 
 // GetMappingCreateAutonomousVmClusterDetailsLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateAutonomousVmClusterDetailsLicenseModelEnum(val string) (CreateAutonomousVmClusterDetailsLicenseModelEnum, bool) {
 	enum, ok := mappingCreateAutonomousVmClusterDetailsLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateAutonomousVmClusterDetailsComputeModelEnum Enum with underlying type: string
+type CreateAutonomousVmClusterDetailsComputeModelEnum string
+
+// Set of constants representing the allowable values for CreateAutonomousVmClusterDetailsComputeModelEnum
+const (
+	CreateAutonomousVmClusterDetailsComputeModelEcpu CreateAutonomousVmClusterDetailsComputeModelEnum = "ECPU"
+	CreateAutonomousVmClusterDetailsComputeModelOcpu CreateAutonomousVmClusterDetailsComputeModelEnum = "OCPU"
+)
+
+var mappingCreateAutonomousVmClusterDetailsComputeModelEnum = map[string]CreateAutonomousVmClusterDetailsComputeModelEnum{
+	"ECPU": CreateAutonomousVmClusterDetailsComputeModelEcpu,
+	"OCPU": CreateAutonomousVmClusterDetailsComputeModelOcpu,
+}
+
+var mappingCreateAutonomousVmClusterDetailsComputeModelEnumLowerCase = map[string]CreateAutonomousVmClusterDetailsComputeModelEnum{
+	"ecpu": CreateAutonomousVmClusterDetailsComputeModelEcpu,
+	"ocpu": CreateAutonomousVmClusterDetailsComputeModelOcpu,
+}
+
+// GetCreateAutonomousVmClusterDetailsComputeModelEnumValues Enumerates the set of values for CreateAutonomousVmClusterDetailsComputeModelEnum
+func GetCreateAutonomousVmClusterDetailsComputeModelEnumValues() []CreateAutonomousVmClusterDetailsComputeModelEnum {
+	values := make([]CreateAutonomousVmClusterDetailsComputeModelEnum, 0)
+	for _, v := range mappingCreateAutonomousVmClusterDetailsComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateAutonomousVmClusterDetailsComputeModelEnumStringValues Enumerates the set of values in String for CreateAutonomousVmClusterDetailsComputeModelEnum
+func GetCreateAutonomousVmClusterDetailsComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingCreateAutonomousVmClusterDetailsComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateAutonomousVmClusterDetailsComputeModelEnum(val string) (CreateAutonomousVmClusterDetailsComputeModelEnum, bool) {
+	enum, ok := mappingCreateAutonomousVmClusterDetailsComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

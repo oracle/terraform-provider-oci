@@ -186,7 +186,7 @@ type GetObjectResponse struct {
 	// Time that the object is returned to the archived state. This field is only present for restored objects.
 	TimeOfArchival *common.SDKTime `presentIn:"header" name:"time-of-archival"`
 
-	// VersionId of the object requested
+	// VersionId of the object
 	VersionId *string `presentIn:"header" name:"version-id"`
 
 	// The date and time after which the object is no longer cached by a browser, proxy, or other caching entity. See

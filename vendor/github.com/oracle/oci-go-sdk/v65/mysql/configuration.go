@@ -47,6 +47,8 @@ type Configuration struct {
 	// The display name of the Configuration.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	InitVariables *InitializationVariables `mandatory:"false" json:"initVariables"`
+
 	// The OCID of the Configuration from which this Configuration is
 	// "derived". This is entirely a metadata relationship. There is no
 	// relation between the values in this Configuration and its parent.

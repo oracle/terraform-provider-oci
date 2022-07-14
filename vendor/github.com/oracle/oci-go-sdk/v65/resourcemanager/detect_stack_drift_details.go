@@ -26,6 +26,11 @@ type DetectStackDriftDetails struct {
 	// For example, the resource address for the fourth Compute instance with the name "test_instance" is oci_core_instance.test_instance3.
 	// For more details and examples of resource addresses, see the Terraform documentation at Resource spec (https://www.terraform.io/docs/internals/resource-addressing.html#examples).
 	ResourceAddresses []string `mandatory:"false" json:"resourceAddresses"`
+
+	// Specifies whether or not to upgrade provider versions.
+	// Within the version constraints of your Terraform configuration, use the latest versions available from the source of Terraform providers.
+	// For more information about this option, see Dependency Lock File (terraform.io) (https://www.terraform.io/language/files/dependency-lock).
+	IsProviderUpgradeRequired *bool `mandatory:"false" json:"isProviderUpgradeRequired"`
 }
 
 func (m DetectStackDriftDetails) String() string {

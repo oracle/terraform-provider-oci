@@ -45,6 +45,11 @@ type Job struct {
 	// The type of job executing.
 	Operation JobOperationEnum `mandatory:"false" json:"operation,omitempty"`
 
+	// Specifies whether or not to upgrade provider versions.
+	// Within the version constraints of your Terraform configuration, use the latest versions available from the source of Terraform providers.
+	// For more information about this option, see Dependency Lock File (terraform.io) (https://www.terraform.io/language/files/dependency-lock).
+	IsProviderUpgradeRequired *bool `mandatory:"false" json:"isProviderUpgradeRequired"`
+
 	JobOperationDetails JobOperationDetails `mandatory:"false" json:"jobOperationDetails"`
 
 	ApplyJobPlanResolution *ApplyJobPlanResolution `mandatory:"false" json:"applyJobPlanResolution"`
@@ -124,24 +129,25 @@ func (m Job) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Job) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Id                     *string                           `json:"id"`
-		StackId                *string                           `json:"stackId"`
-		CompartmentId          *string                           `json:"compartmentId"`
-		DisplayName            *string                           `json:"displayName"`
-		Operation              JobOperationEnum                  `json:"operation"`
-		JobOperationDetails    joboperationdetails               `json:"jobOperationDetails"`
-		ApplyJobPlanResolution *ApplyJobPlanResolution           `json:"applyJobPlanResolution"`
-		ResolvedPlanJobId      *string                           `json:"resolvedPlanJobId"`
-		TimeCreated            *common.SDKTime                   `json:"timeCreated"`
-		TimeFinished           *common.SDKTime                   `json:"timeFinished"`
-		LifecycleState         JobLifecycleStateEnum             `json:"lifecycleState"`
-		FailureDetails         *FailureDetails                   `json:"failureDetails"`
-		CancellationDetails    *CancellationDetails              `json:"cancellationDetails"`
-		WorkingDirectory       *string                           `json:"workingDirectory"`
-		Variables              map[string]string                 `json:"variables"`
-		ConfigSource           configsourcerecord                `json:"configSource"`
-		FreeformTags           map[string]string                 `json:"freeformTags"`
-		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
+		Id                        *string                           `json:"id"`
+		StackId                   *string                           `json:"stackId"`
+		CompartmentId             *string                           `json:"compartmentId"`
+		DisplayName               *string                           `json:"displayName"`
+		Operation                 JobOperationEnum                  `json:"operation"`
+		IsProviderUpgradeRequired *bool                             `json:"isProviderUpgradeRequired"`
+		JobOperationDetails       joboperationdetails               `json:"jobOperationDetails"`
+		ApplyJobPlanResolution    *ApplyJobPlanResolution           `json:"applyJobPlanResolution"`
+		ResolvedPlanJobId         *string                           `json:"resolvedPlanJobId"`
+		TimeCreated               *common.SDKTime                   `json:"timeCreated"`
+		TimeFinished              *common.SDKTime                   `json:"timeFinished"`
+		LifecycleState            JobLifecycleStateEnum             `json:"lifecycleState"`
+		FailureDetails            *FailureDetails                   `json:"failureDetails"`
+		CancellationDetails       *CancellationDetails              `json:"cancellationDetails"`
+		WorkingDirectory          *string                           `json:"workingDirectory"`
+		Variables                 map[string]string                 `json:"variables"`
+		ConfigSource              configsourcerecord                `json:"configSource"`
+		FreeformTags              map[string]string                 `json:"freeformTags"`
+		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -158,6 +164,8 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Operation = model.Operation
+
+	m.IsProviderUpgradeRequired = model.IsProviderUpgradeRequired
 
 	nn, e = model.JobOperationDetails.UnmarshalPolymorphicJSON(model.JobOperationDetails.JsonData)
 	if e != nil {

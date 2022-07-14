@@ -59,6 +59,15 @@ type ListInstallationSitesRequest struct {
 	// The security status of the Java Runtime.
 	JreSecurityStatus ListInstallationSitesJreSecurityStatusEnum `mandatory:"false" contributesTo:"query" name:"jreSecurityStatus" omitEmpty:"true"`
 
+	// Filter the list with path contains the given value.
+	PathContains *string `mandatory:"false" contributesTo:"query" name:"pathContains"`
+
+	// The start of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
+	TimeStart *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStart"`
+
+	// The end of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
+	TimeEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEnd"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

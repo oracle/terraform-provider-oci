@@ -4666,6 +4666,64 @@ func (client VirtualNetworkClient) createInternalDrgAttachment(ctx context.Conte
 	return response, err
 }
 
+// CreateInternalDrgRouteTable Creates a route table which can be used by VCN Dataplane to route DRG traffic.
+func (client VirtualNetworkClient) CreateInternalDrgRouteTable(ctx context.Context, request CreateInternalDrgRouteTableRequest) (response CreateInternalDrgRouteTableResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createInternalDrgRouteTable, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateInternalDrgRouteTableResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateInternalDrgRouteTableResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateInternalDrgRouteTableResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateInternalDrgRouteTableResponse")
+	}
+	return
+}
+
+// createInternalDrgRouteTable implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createInternalDrgRouteTable(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/drgRouteTable", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateInternalDrgRouteTableResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalDrgRouteTable", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateInternalGenericGateway Request to create an internal generic gateway
 func (client VirtualNetworkClient) CreateInternalGenericGateway(ctx context.Context, request CreateInternalGenericGatewayRequest) (response CreateInternalGenericGatewayResponse, err error) {
 	var ociResponse common.OCIResponse

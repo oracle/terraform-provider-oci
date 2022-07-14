@@ -39,6 +39,9 @@ type PatchHistoryEntry struct {
 
 	// The date and time when the patch action completed
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
+
+	// The type of Patch operation.
+	PatchType PatchHistoryEntryPatchTypeEnum `mandatory:"false" json:"patchType,omitempty"`
 }
 
 func (m PatchHistoryEntry) String() string {
@@ -56,6 +59,9 @@ func (m PatchHistoryEntry) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingPatchHistoryEntryActionEnum(string(m.Action)); !ok && m.Action != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetPatchHistoryEntryActionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingPatchHistoryEntryPatchTypeEnum(string(m.PatchType)); !ok && m.PatchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchType: %s. Supported values are: %s.", m.PatchType, strings.Join(GetPatchHistoryEntryPatchTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -148,5 +154,51 @@ func GetPatchHistoryEntryLifecycleStateEnumStringValues() []string {
 // GetMappingPatchHistoryEntryLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingPatchHistoryEntryLifecycleStateEnum(val string) (PatchHistoryEntryLifecycleStateEnum, bool) {
 	enum, ok := mappingPatchHistoryEntryLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// PatchHistoryEntryPatchTypeEnum Enum with underlying type: string
+type PatchHistoryEntryPatchTypeEnum string
+
+// Set of constants representing the allowable values for PatchHistoryEntryPatchTypeEnum
+const (
+	PatchHistoryEntryPatchTypeOs PatchHistoryEntryPatchTypeEnum = "OS"
+	PatchHistoryEntryPatchTypeDb PatchHistoryEntryPatchTypeEnum = "DB"
+	PatchHistoryEntryPatchTypeGi PatchHistoryEntryPatchTypeEnum = "GI"
+)
+
+var mappingPatchHistoryEntryPatchTypeEnum = map[string]PatchHistoryEntryPatchTypeEnum{
+	"OS": PatchHistoryEntryPatchTypeOs,
+	"DB": PatchHistoryEntryPatchTypeDb,
+	"GI": PatchHistoryEntryPatchTypeGi,
+}
+
+var mappingPatchHistoryEntryPatchTypeEnumLowerCase = map[string]PatchHistoryEntryPatchTypeEnum{
+	"os": PatchHistoryEntryPatchTypeOs,
+	"db": PatchHistoryEntryPatchTypeDb,
+	"gi": PatchHistoryEntryPatchTypeGi,
+}
+
+// GetPatchHistoryEntryPatchTypeEnumValues Enumerates the set of values for PatchHistoryEntryPatchTypeEnum
+func GetPatchHistoryEntryPatchTypeEnumValues() []PatchHistoryEntryPatchTypeEnum {
+	values := make([]PatchHistoryEntryPatchTypeEnum, 0)
+	for _, v := range mappingPatchHistoryEntryPatchTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetPatchHistoryEntryPatchTypeEnumStringValues Enumerates the set of values in String for PatchHistoryEntryPatchTypeEnum
+func GetPatchHistoryEntryPatchTypeEnumStringValues() []string {
+	return []string{
+		"OS",
+		"DB",
+		"GI",
+	}
+}
+
+// GetMappingPatchHistoryEntryPatchTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingPatchHistoryEntryPatchTypeEnum(val string) (PatchHistoryEntryPatchTypeEnum, bool) {
+	enum, ok := mappingPatchHistoryEntryPatchTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

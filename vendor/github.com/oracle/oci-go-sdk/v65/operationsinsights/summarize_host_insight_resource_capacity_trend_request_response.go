@@ -103,7 +103,7 @@ type SummarizeHostInsightResourceCapacityTrendRequest struct {
 
 	// Filter by one or more host types.
 	// Possible values are CLOUD-HOST, EXTERNAL-HOST
-	HostType []SummarizeHostInsightResourceCapacityTrendHostTypeEnum `contributesTo:"query" name:"hostType" omitEmpty:"true" collectionFormat:"multi"`
+	HostType []string `contributesTo:"query" name:"hostType" collectionFormat:"multi"`
 
 	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
 	HostId *string `mandatory:"false" contributesTo:"query" name:"hostId"`
@@ -159,12 +159,6 @@ func (request SummarizeHostInsightResourceCapacityTrendRequest) ValidateEnumValu
 	if _, ok := GetMappingSummarizeHostInsightResourceCapacityTrendSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeHostInsightResourceCapacityTrendSortByEnumStringValues(), ",")))
 	}
-	for _, val := range request.HostType {
-		if _, ok := GetMappingSummarizeHostInsightResourceCapacityTrendHostTypeEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HostType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeHostInsightResourceCapacityTrendHostTypeEnumStringValues(), ",")))
-		}
-	}
-
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -380,47 +374,5 @@ func GetSummarizeHostInsightResourceCapacityTrendSortByEnumStringValues() []stri
 // GetMappingSummarizeHostInsightResourceCapacityTrendSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSummarizeHostInsightResourceCapacityTrendSortByEnum(val string) (SummarizeHostInsightResourceCapacityTrendSortByEnum, bool) {
 	enum, ok := mappingSummarizeHostInsightResourceCapacityTrendSortByEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// SummarizeHostInsightResourceCapacityTrendHostTypeEnum Enum with underlying type: string
-type SummarizeHostInsightResourceCapacityTrendHostTypeEnum string
-
-// Set of constants representing the allowable values for SummarizeHostInsightResourceCapacityTrendHostTypeEnum
-const (
-	SummarizeHostInsightResourceCapacityTrendHostTypeExternalHost SummarizeHostInsightResourceCapacityTrendHostTypeEnum = "EXTERNAL-HOST"
-	SummarizeHostInsightResourceCapacityTrendHostTypeCloudHost    SummarizeHostInsightResourceCapacityTrendHostTypeEnum = "CLOUD-HOST"
-)
-
-var mappingSummarizeHostInsightResourceCapacityTrendHostTypeEnum = map[string]SummarizeHostInsightResourceCapacityTrendHostTypeEnum{
-	"EXTERNAL-HOST": SummarizeHostInsightResourceCapacityTrendHostTypeExternalHost,
-	"CLOUD-HOST":    SummarizeHostInsightResourceCapacityTrendHostTypeCloudHost,
-}
-
-var mappingSummarizeHostInsightResourceCapacityTrendHostTypeEnumLowerCase = map[string]SummarizeHostInsightResourceCapacityTrendHostTypeEnum{
-	"external-host": SummarizeHostInsightResourceCapacityTrendHostTypeExternalHost,
-	"cloud-host":    SummarizeHostInsightResourceCapacityTrendHostTypeCloudHost,
-}
-
-// GetSummarizeHostInsightResourceCapacityTrendHostTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceCapacityTrendHostTypeEnum
-func GetSummarizeHostInsightResourceCapacityTrendHostTypeEnumValues() []SummarizeHostInsightResourceCapacityTrendHostTypeEnum {
-	values := make([]SummarizeHostInsightResourceCapacityTrendHostTypeEnum, 0)
-	for _, v := range mappingSummarizeHostInsightResourceCapacityTrendHostTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetSummarizeHostInsightResourceCapacityTrendHostTypeEnumStringValues Enumerates the set of values in String for SummarizeHostInsightResourceCapacityTrendHostTypeEnum
-func GetSummarizeHostInsightResourceCapacityTrendHostTypeEnumStringValues() []string {
-	return []string{
-		"EXTERNAL-HOST",
-		"CLOUD-HOST",
-	}
-}
-
-// GetMappingSummarizeHostInsightResourceCapacityTrendHostTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingSummarizeHostInsightResourceCapacityTrendHostTypeEnum(val string) (SummarizeHostInsightResourceCapacityTrendHostTypeEnum, bool) {
-	enum, ok := mappingSummarizeHostInsightResourceCapacityTrendHostTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

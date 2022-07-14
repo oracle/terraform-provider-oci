@@ -93,7 +93,7 @@ type SummarizeHostInsightResourceUsageRequest struct {
 
 	// Filter by one or more host types.
 	// Possible values are CLOUD-HOST, EXTERNAL-HOST
-	HostType []SummarizeHostInsightResourceUsageHostTypeEnum `contributesTo:"query" name:"hostType" omitEmpty:"true" collectionFormat:"multi"`
+	HostType []string `contributesTo:"query" name:"hostType" collectionFormat:"multi"`
 
 	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
 	HostId *string `mandatory:"false" contributesTo:"query" name:"hostId"`
@@ -137,12 +137,6 @@ func (request SummarizeHostInsightResourceUsageRequest) ValidateEnumValue() (boo
 	for _, val := range request.PlatformType {
 		if _, ok := GetMappingSummarizeHostInsightResourceUsagePlatformTypeEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeHostInsightResourceUsagePlatformTypeEnumStringValues(), ",")))
-		}
-	}
-
-	for _, val := range request.HostType {
-		if _, ok := GetMappingSummarizeHostInsightResourceUsageHostTypeEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HostType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeHostInsightResourceUsageHostTypeEnumStringValues(), ",")))
 		}
 	}
 
@@ -222,47 +216,5 @@ func GetSummarizeHostInsightResourceUsagePlatformTypeEnumStringValues() []string
 // GetMappingSummarizeHostInsightResourceUsagePlatformTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSummarizeHostInsightResourceUsagePlatformTypeEnum(val string) (SummarizeHostInsightResourceUsagePlatformTypeEnum, bool) {
 	enum, ok := mappingSummarizeHostInsightResourceUsagePlatformTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// SummarizeHostInsightResourceUsageHostTypeEnum Enum with underlying type: string
-type SummarizeHostInsightResourceUsageHostTypeEnum string
-
-// Set of constants representing the allowable values for SummarizeHostInsightResourceUsageHostTypeEnum
-const (
-	SummarizeHostInsightResourceUsageHostTypeExternalHost SummarizeHostInsightResourceUsageHostTypeEnum = "EXTERNAL-HOST"
-	SummarizeHostInsightResourceUsageHostTypeCloudHost    SummarizeHostInsightResourceUsageHostTypeEnum = "CLOUD-HOST"
-)
-
-var mappingSummarizeHostInsightResourceUsageHostTypeEnum = map[string]SummarizeHostInsightResourceUsageHostTypeEnum{
-	"EXTERNAL-HOST": SummarizeHostInsightResourceUsageHostTypeExternalHost,
-	"CLOUD-HOST":    SummarizeHostInsightResourceUsageHostTypeCloudHost,
-}
-
-var mappingSummarizeHostInsightResourceUsageHostTypeEnumLowerCase = map[string]SummarizeHostInsightResourceUsageHostTypeEnum{
-	"external-host": SummarizeHostInsightResourceUsageHostTypeExternalHost,
-	"cloud-host":    SummarizeHostInsightResourceUsageHostTypeCloudHost,
-}
-
-// GetSummarizeHostInsightResourceUsageHostTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceUsageHostTypeEnum
-func GetSummarizeHostInsightResourceUsageHostTypeEnumValues() []SummarizeHostInsightResourceUsageHostTypeEnum {
-	values := make([]SummarizeHostInsightResourceUsageHostTypeEnum, 0)
-	for _, v := range mappingSummarizeHostInsightResourceUsageHostTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetSummarizeHostInsightResourceUsageHostTypeEnumStringValues Enumerates the set of values in String for SummarizeHostInsightResourceUsageHostTypeEnum
-func GetSummarizeHostInsightResourceUsageHostTypeEnumStringValues() []string {
-	return []string{
-		"EXTERNAL-HOST",
-		"CLOUD-HOST",
-	}
-}
-
-// GetMappingSummarizeHostInsightResourceUsageHostTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingSummarizeHostInsightResourceUsageHostTypeEnum(val string) (SummarizeHostInsightResourceUsageHostTypeEnum, bool) {
-	enum, ok := mappingSummarizeHostInsightResourceUsageHostTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
