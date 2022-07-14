@@ -46,9 +46,12 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `MyInternetGateway`, Update: `displayName2`},
 		"enabled":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
 	}
 
 	CoreInternetGatewayResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -103,6 +106,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -131,6 +135,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -154,6 +159,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -184,6 +190,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "gateways.0.enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "gateways.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.route_table_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.vcn_id"),
