@@ -25,6 +25,7 @@ var (
 	DatabaseDatabaseAutonomousDatabaseRegionalWalletManagementSingularDataSourceRepresentation = map[string]interface{}{}
 
 	DatabaseAutonomousDatabaseRegionalWalletManagementRepresentation = map[string]interface{}{
+		"grace_period":  acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"should_rotate": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
@@ -56,6 +57,25 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseRegionalWalletManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseRegionalWalletManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseRegionalWalletManagementResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseRegionalWalletManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRegionalWalletManagementRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "grace_period", "10"),
+				resource.TestCheckResourceAttr(resourceName, "should_rotate", "false"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -73,6 +93,8 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseRegionalWalletManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Optional, acctest.Update, DatabaseAutonomousDatabaseRegionalWalletManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "grace_period", "11"),
+				resource.TestCheckResourceAttr(resourceName, "should_rotate", "true"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_rotated"),
 				func(s *terraform.State) (err error) {

@@ -21,6 +21,7 @@ resource "oci_database_autonomous_database_instance_wallet_management" "test_aut
 	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
 
 	#Optional
+	grace_period = var.autonomous_database_instance_wallet_management_grace_period
 	should_rotate = var.autonomous_database_instance_wallet_management_should_rotate
 }
 ```
@@ -30,6 +31,7 @@ resource "oci_database_autonomous_database_instance_wallet_management" "test_aut
 The following arguments are supported:
 
 * `autonomous_database_id` - (Required) (Updatable) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `grace_period` - (Optional) (Updatable) Grace period in hours to keep the existing wallet valid after rotation.
 * `should_rotate` - (Optional) (Updatable) Indicates whether to rotate the wallet or not. If `false`, the wallet will not be rotated. The default is `false`.
 
 
