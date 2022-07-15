@@ -19,6 +19,7 @@ Updates the Autonomous Database regional wallet.
 resource "oci_database_autonomous_database_regional_wallet_management" "test_autonomous_database_regional_wallet_management" {
 
 	#Optional
+	grace_period = var.autonomous_database_regional_wallet_management_grace_period
 	should_rotate = var.autonomous_database_regional_wallet_management_should_rotate
 }
 ```
@@ -27,6 +28,7 @@ resource "oci_database_autonomous_database_regional_wallet_management" "test_aut
 
 The following arguments are supported:
 
+* `grace_period` - (Optional) (Updatable) Grace period in hours to keep the existing wallet valid after rotation.
 * `should_rotate` - (Optional) (Updatable) Indicates whether to rotate the wallet or not. If `false`, the wallet will not be rotated. The default is `false`.
 
 

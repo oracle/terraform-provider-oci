@@ -29,6 +29,11 @@ func DatabaseAutonomousDatabaseRegionalWalletManagementResource() *schema.Resour
 			// Required
 
 			// Optional
+			"grace_period": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"should_rotate": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -146,6 +151,11 @@ func (s *DatabaseAutonomousDatabaseRegionalWalletManagementResourceCrud) Get() e
 
 func (s *DatabaseAutonomousDatabaseRegionalWalletManagementResourceCrud) Update() error {
 	request := oci_database.UpdateAutonomousDatabaseRegionalWalletRequest{}
+
+	if gracePeriod, ok := s.D.GetOkExists("grace_period"); ok {
+		tmp := gracePeriod.(int)
+		request.GracePeriod = &tmp
+	}
 
 	if shouldRotate, ok := s.D.GetOkExists("should_rotate"); ok {
 		tmp := shouldRotate.(bool)
