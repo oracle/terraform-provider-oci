@@ -56,11 +56,27 @@ type ServiceErrorRichInfo interface {
 	GetErrorTroubleshootingLink() string
 }
 
+// ServiceErrorLocalizationMessage models all potential errors generated the service call and has localized error message info
+type ServiceErrorLocalizationMessage interface {
+	ServiceErrorRichInfo
+	// The original error message string as sent by the service
+	GetOriginalMessage() string
+
+	// The values to be substituted into the originalMessageTemplate, expressed as a string-to-string map.
+	GetMessageArgument() map[string]string
+
+	// Template in ICU MessageFormat for the human-readable error string in English, but without the values replaced
+	GetOriginalMessageTemplate() string
+}
+
 type servicefailure struct {
-	StatusCode   int
-	Code         string `json:"code,omitempty"`
-	Message      string `json:"message,omitempty"`
-	OpcRequestID string `json:"opc-request-id"`
+	StatusCode              int
+	Code                    string            `json:"code,omitempty"`
+	Message                 string            `json:"message,omitempty"`
+	OriginalMessage         string            `json:"originalMessage"`
+	OriginalMessageTemplate string            `json:"originalMessageTemplate"`
+	MessageArgument         map[string]string `json:"messageArguments"`
+	OpcRequestID            string            `json:"opc-request-id"`
 	// debugging information
 	TargetService string  `json:"target-service"`
 	OperationName string  `json:"operation-name"`
@@ -124,7 +140,7 @@ func PostProcessServiceError(err error, service string, method string, apiRefere
 }
 
 func (se servicefailure) Error() string {
-	return fmt.Sprintf(`Error returned by %s Service. Http Status Code: %d. Error Code: %s. Opc request id: %s. Message: %s
+	return fmt.Sprintf(`Error returned by %s Service. Http Status Code: %d. Error Code: %s. Opc request id: %s. Message: %s.
 Operation Name: %s
 Timestamp: %s
 Client Version: %s
@@ -149,6 +165,18 @@ func (se servicefailure) GetHTTPStatusCode() int {
 
 func (se servicefailure) GetMessage() string {
 	return se.Message
+}
+
+func (se servicefailure) GetOriginalMessage() string {
+	return se.OriginalMessage
+}
+
+func (se servicefailure) GetOriginalMessageTemplate() string {
+	return se.OriginalMessageTemplate
+}
+
+func (se servicefailure) GetMessageArgument() map[string]string {
+	return se.MessageArgument
 }
 
 func (se servicefailure) GetCode() string {
@@ -198,6 +226,13 @@ func IsServiceError(err error) (failure ServiceError, ok bool) {
 // additionally it returns an interface representing the ServiceErrorRichInfo
 func IsServiceErrorRichInfo(err error) (failure ServiceErrorRichInfo, ok bool) {
 	failure, ok = err.(ServiceErrorRichInfo)
+	return
+}
+
+// IsServiceErrorLocalizationMessage returns false if the error is not service side, otherwise true
+// additionally it returns an interface representing the ServiceErrorOriginalMessage
+func IsServiceErrorLocalizationMessage(err error) (failure ServiceErrorLocalizationMessage, ok bool) {
+	failure, ok = err.(ServiceErrorLocalizationMessage)
 	return
 }
 
