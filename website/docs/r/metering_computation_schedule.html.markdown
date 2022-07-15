@@ -78,7 +78,7 @@ The following arguments are supported:
 		* `dynamic_date_range_type` - (Required when date_range_type=DYNAMIC) 
 		* `time_usage_ended` - (Required when date_range_type=STATIC) The usage end time.
 		* `time_usage_started` - (Required when date_range_type=STATIC) The usage start time.
-	* `filter` - (Optional) 
+	* `filter` - (Optional) The filter object for query usage.
 	* `granularity` - (Required) The usage granularity. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation.   Allowed values are: DAILY MONTHLY 
 	* `group_by` - (Optional) Aggregate the result by. For example: [ "tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName" ] 
 	* `group_by_tag` - (Optional) GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only supports one tag in the list. For example: [ { "namespace": "oracle", "key": "createdBy" ] 
@@ -115,7 +115,7 @@ The following attributes are exported:
 		* `dynamic_date_range_type` - 
 		* `time_usage_ended` - The usage end time.
 		* `time_usage_started` - The usage start time.
-	* `filter` - 
+	* `filter` - The filter object for query usage.
 	* `granularity` - The usage granularity. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation.   Allowed values are: DAILY MONTHLY 
 	* `group_by` - Aggregate the result by. For example: [ "tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName" ] 
 	* `group_by_tag` - GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only supports one tag in the list. For example: [ { "namespace": "oracle", "key": "createdBy" ] 
