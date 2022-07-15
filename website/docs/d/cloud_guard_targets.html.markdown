@@ -107,7 +107,7 @@ The following attributes are exported:
 		* `details` - Overriden settings of a Detector Rule applied on target
 			* `condition_groups` - Condition group corresponding to each compartment
 				* `compartment_id` - compartment associated with condition
-				* `condition` - 
+				* `condition` - Base condition object
 			* `configurations` - Configuration details
 				* `config_key` - Unique name of the configuration
 				* `data_type` - configuration data type
@@ -138,7 +138,7 @@ The following attributes are exported:
 		* `details` - Overriden settings of a Detector Rule applied on target
 			* `condition_groups` - Condition group corresponding to each compartment
 				* `compartment_id` - compartment associated with condition
-				* `condition` - 
+				* `condition` - Base condition object
 			* `configurations` - Configuration details
 				* `config_key` - Unique name of the configuration
 				* `data_type` - configuration data type
@@ -178,7 +178,7 @@ The following attributes are exported:
 		* `compartment_id` - Compartment Identifier
 		* `description` - ResponderRule description.
 		* `details` - Details of ResponderRule.
-			* `condition` - 
+			* `condition` - Base condition object
 			* `configurations` - ResponderRule configurations
 				* `config_key` - Unique name of the configuration
 				* `name` - configuration name
@@ -201,7 +201,7 @@ The following attributes are exported:
 		* `compartment_id` - Compartment Identifier
 		* `description` - ResponderRule description.
 		* `details` - Details of ResponderRule.
-			* `condition` - 
+			* `condition` - Base condition object
 			* `configurations` - ResponderRule configurations
 				* `config_key` - Unique name of the configuration
 				* `name` - configuration name
