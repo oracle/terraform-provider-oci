@@ -36,6 +36,10 @@ func CoreIpSecConnectionTunnelDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"bgp_ipv6state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"bgp_state": {
 							Type:     schema.TypeString,
 							Computed: true,
