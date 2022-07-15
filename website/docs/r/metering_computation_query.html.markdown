@@ -76,7 +76,7 @@ The following arguments are supported:
 	* `report_query` - (Required) (Updatable) The request of the generated Cost Analysis report.
 		* `compartment_depth` - (Optional) (Updatable) The compartment depth level.
 		* `date_range_name` - (Optional) (Updatable) The UI date range, for example, LAST_THREE_MONTHS. Conflicts with timeUsageStarted and timeUsageEnded.
-		* `filter` - (Optional) (Updatable) 
+		* `filter` - (Optional) (Updatable) The filter object for query usage.
 		* `forecast` - (Optional) (Updatable) Forecast configuration of usage/cost.
 			* `forecast_type` - (Optional) (Updatable) BASIC uses the exponential smoothing (ETS) model to project future usage/costs based on history data. The basis for projections is a periodic set of equivalent historical days for which the projection is being made.
 			* `time_forecast_ended` - (Required) (Updatable) The forecast end time.
@@ -112,7 +112,7 @@ The following attributes are exported:
 	* `report_query` - The request of the generated Cost Analysis report.
 		* `compartment_depth` - The compartment depth level.
 		* `date_range_name` - The UI date range, for example, LAST_THREE_MONTHS. Conflicts with timeUsageStarted and timeUsageEnded.
-		* `filter` - 
+		* `filter` - The filter object for query usage.
 		* `forecast` - Forecast configuration of usage/cost.
 			* `forecast_type` - BASIC uses the exponential smoothing (ETS) model to project future usage/costs based on history data. The basis for projections is a periodic set of equivalent historical days for which the projection is being made.
 			* `time_forecast_ended` - The forecast end time.

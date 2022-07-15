@@ -140,6 +140,7 @@ resource "oci_data_connectivity_registry_folder" "test_registry_folder" {
 			type = var.registry_folder_data_assets_default_connection_type
 		}
 		description = var.registry_folder_data_assets_description
+		end_points = var.registry_folder_data_assets_end_points
 		external_key = var.registry_folder_data_assets_external_key
 		metadata {
 
@@ -352,6 +353,7 @@ The following arguments are supported:
 			* `updated_by_user_name` - (Optional) (Updatable) The name of the user who updated the object.
 		* `type` - (Optional) (Updatable) Specific Connection Type
 	* `description` - (Optional) (Updatable) User-defined description of the data asset.
+	* `end_points` - (Optional) (Updatable) The list of endpoints with which this data asset is associated.
 	* `external_key` - (Optional) (Updatable) The external key for the object.
 	* `identifier` - (Required) (Updatable) Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	* `key` - (Required) (Updatable) Currently not used on data asset creation. Reserved for future.
@@ -399,7 +401,7 @@ The following arguments are supported:
 					* `is_class_field_value` - (Optional) (Updatable) Specifies whether the parameter is a class field or not.
 					* `is_static` - (Optional) (Updatable) Specifies whether the parameter is static or not.
 					* `parameter_name` - (Optional) (Updatable) This object represents the configurable properties for an object type.
-					* `parameter_type` - (Optional) (Updatable) 
+					* `parameter_type` - (Optional) (Updatable) Base type for the type system.
 				* `is_contained` - (Optional) (Updatable) Specifies whether the configuration is contained or not.
 				* `key` - (Optional) (Updatable) The key of the object.
 				* `model_type` - (Optional) (Updatable) The type of the object.
@@ -537,6 +539,7 @@ The following attributes are exported:
 			* `updated_by_user_name` - The name of the user who updated the object.
 		* `type` - Specific Connection Type
 	* `description` - User-defined description of the data asset.
+	* `end_points` - The list of endpoints with which this data asset is associated.
 	* `external_key` - The external key for the object.
 	* `identifier` - Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	* `key` - Currently not used on data asset creation. Reserved for future.
@@ -584,7 +587,7 @@ The following attributes are exported:
 					* `is_class_field_value` - Specifies whether the parameter is a class field or not.
 					* `is_static` - Specifies whether the parameter is static or not.
 					* `parameter_name` - This object represents the configurable properties for an object type.
-					* `parameter_type` - 
+					* `parameter_type` - Base type for the type system.
 				* `is_contained` - Specifies whether the configuration is contained or not.
 				* `key` - The key of the object.
 				* `model_type` - The type of the object.
