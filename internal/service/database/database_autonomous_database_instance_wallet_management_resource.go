@@ -33,6 +33,11 @@ func DatabaseAutonomousDatabaseInstanceWalletManagementResource() *schema.Resour
 			},
 
 			// Optional
+			"grace_period": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"should_rotate": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -157,6 +162,11 @@ func (s *DatabaseAutonomousDatabaseInstanceWalletManagementResourceCrud) Update(
 	if autonomousDatabaseId, ok := s.D.GetOkExists("autonomous_database_id"); ok {
 		tmp := autonomousDatabaseId.(string)
 		request.AutonomousDatabaseId = &tmp
+	}
+
+	if gracePeriod, ok := s.D.GetOkExists("grace_period"); ok {
+		tmp := gracePeriod.(int)
+		request.GracePeriod = &tmp
 	}
 
 	if shouldRotate, ok := s.D.GetOkExists("should_rotate"); ok {
