@@ -50,6 +50,7 @@ import (
 	oci_marketplace "github.com/oracle/oci-go-sdk/v65/marketplace"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v65/monitoring"
 	oci_mysql "github.com/oracle/oci-go-sdk/v65/mysql"
+	oci_network_firewall "github.com/oracle/oci-go-sdk/v65/networkfirewall"
 	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v65/networkloadbalancer"
 	oci_nosql "github.com/oracle/oci-go-sdk/v65/nosql"
 	oci_oce "github.com/oracle/oci-go-sdk/v65/oce"
@@ -2814,6 +2815,30 @@ var exportMysqlChannelHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_mysql.ChannelLifecycleStateActive),
 		string(oci_mysql.ChannelLifecycleStateNeedsAttention),
+	},
+}
+
+var exportNetworkFirewallNetworkFirewallPolicyHints = &TerraformResourceHints{
+	resourceClass:          "oci_network_firewall_network_firewall_policy",
+	datasourceClass:        "oci_network_firewall_network_firewall_policies",
+	datasourceItemsAttr:    "network_firewall_policy_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "network_firewall_policy",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_network_firewall.LifecycleStateActive),
+	},
+}
+
+var exportNetworkFirewallNetworkFirewallHints = &TerraformResourceHints{
+	resourceClass:          "oci_network_firewall_network_firewall",
+	datasourceClass:        "oci_network_firewall_network_firewalls",
+	datasourceItemsAttr:    "network_firewall_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "network_firewall",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_network_firewall.LifecycleStateActive),
 	},
 }
 

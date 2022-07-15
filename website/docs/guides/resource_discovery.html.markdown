@@ -173,7 +173,8 @@ Make sure the `output_path` is empty before running resource discovery
     * `metering_computation` - Discovers metering_computation resources across the entire tenancy
     * `monitoring` - Discovers monitoring resources within the specified compartment
     * `mysql` - Discovers mysql resources within the specified compartment
-    * `network_load_balancer` - Discovers network_load_balancer resources within the specified compartment
+    * `network_firewall` - Discovers network_firewall resources within the specified compartment
+    * `network_load_balancer` - Discovers network load balancer resources within the specified compartment
     * `nosql` - Discovers nosql resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
     * `oce` - Discovers oce resources within the specified compartment
@@ -716,6 +717,11 @@ mysql
 * oci\_mysql\_mysql\_backup
 * oci\_mysql\_mysql\_db\_system
 * oci\_mysql\_channel
+
+network_firewall
+    
+* oci\_network\_firewall\_network\_firewall\_policy
+* oci\_network\_firewall\_network\_firewall
 
 network_load_balancer
     
