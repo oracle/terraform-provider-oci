@@ -172,7 +172,7 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"lifetime": {
-										Type:     schema.TypeString,
+										Type:     schema.TypeInt,
 										Computed: true,
 									},
 									"negotiated_authentication_algorithm": {
@@ -233,7 +233,7 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"lifetime": {
-										Type:     schema.TypeString,
+										Type:     schema.TypeInt,
 										Computed: true,
 									},
 									"negotiated_authentication_algorithm": {
@@ -468,7 +468,7 @@ func TunnelPhaseOneDetailsToMap(obj *oci_core.TunnelPhaseOneDetails) map[string]
 	}
 
 	if obj.Lifetime != nil {
-		result["lifetime"] = strconv.FormatInt(*obj.Lifetime, 10)
+		result["lifetime"] = int(*obj.Lifetime)
 	}
 
 	if obj.NegotiatedAuthenticationAlgorithm != nil {
@@ -522,7 +522,7 @@ func TunnelPhaseTwoDetailsToMap(obj *oci_core.TunnelPhaseTwoDetails) map[string]
 	}
 
 	if obj.Lifetime != nil {
-		result["lifetime"] = strconv.FormatInt(*obj.Lifetime, 10)
+		result["lifetime"] = int(*obj.Lifetime)
 	}
 
 	if obj.NegotiatedAuthenticationAlgorithm != nil {
