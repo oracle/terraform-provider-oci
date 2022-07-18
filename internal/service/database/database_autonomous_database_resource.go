@@ -1046,6 +1046,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) CreatedPending() []string {
 func (s *DatabaseAutonomousDatabaseResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseLifecycleStateAvailable),
+		string(oci_database.AutonomousDatabaseLifecycleStateStandby),
 	}
 }
 
