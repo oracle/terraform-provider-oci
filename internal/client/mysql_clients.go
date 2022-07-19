@@ -13,7 +13,6 @@ func init() {
 	RegisterOracleClient("oci_mysql.ChannelsClient", &OracleClient{InitClientFn: initMysqlChannelsClient})
 	RegisterOracleClient("oci_mysql.DbBackupsClient", &OracleClient{InitClientFn: initMysqlDbBackupsClient})
 	RegisterOracleClient("oci_mysql.DbSystemClient", &OracleClient{InitClientFn: initMysqlDbSystemClient})
-	RegisterOracleClient("oci_mysql.WorkRequestsClient", &OracleClient{InitClientFn: initMysqlWorkRequestsClient})
 	RegisterOracleClient("oci_mysql.MysqlaasClient", &OracleClient{InitClientFn: initMysqlMysqlaasClient})
 }
 
@@ -75,26 +74,6 @@ func initMysqlDbSystemClient(configProvider oci_common.ConfigurationProvider, co
 
 func (m *OracleClients) DbSystemClient() *oci_mysql.DbSystemClient {
 	return m.GetClient("oci_mysql.DbSystemClient").(*oci_mysql.DbSystemClient)
-}
-
-func initMysqlWorkRequestsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
-	client, err := oci_mysql.NewWorkRequestsClientWithConfigurationProvider(configProvider)
-	if err != nil {
-		return nil, err
-	}
-	err = configureClient(&client.BaseClient)
-	if err != nil {
-		return nil, err
-	}
-
-	if serviceClientOverrides.HostUrlOverride != "" {
-		client.Host = serviceClientOverrides.HostUrlOverride
-	}
-	return &client, nil
-}
-
-func (m *OracleClients) WorkRequestsClient() *oci_mysql.WorkRequestsClient {
-	return m.GetClient("oci_mysql.WorkRequestsClient").(*oci_mysql.WorkRequestsClient)
 }
 
 func initMysqlMysqlaasClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
