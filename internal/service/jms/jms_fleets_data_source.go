@@ -26,6 +26,10 @@ func JmsFleetsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"display_name_contains": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -81,6 +85,11 @@ func (s *JmsFleetsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if displayNameContains, ok := s.D.GetOkExists("display_name_contains"); ok {
+		tmp := displayNameContains.(string)
+		request.DisplayNameContains = &tmp
 	}
 
 	if id, ok := s.D.GetOkExists("id"); ok {
