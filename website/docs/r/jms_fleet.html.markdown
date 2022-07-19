@@ -12,6 +12,12 @@ This resource provides the Fleet resource in Oracle Cloud Infrastructure Jms ser
 
 Create a new Fleet using the information provided.
 
+`inventoryLog` is now a required parameter for CreateFleet API.
+Update existing applications using this API
+before July 15, 2022 to ensure the applications continue to work.
+See the [Service Change Notice](https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#JMS) for more details.
+Migrate existing fleets using the `UpdateFleet` API to set the `inventoryLog` parameter.
+
 
 ## Example Usage
 
@@ -20,16 +26,17 @@ resource "oci_jms_fleet" "test_fleet" {
 	#Required
 	compartment_id = var.compartment_id
 	display_name = var.fleet_display_name
-
-	#Optional
-	defined_tags = {"foo-namespace.bar-key"= "value"}
-	description = var.fleet_description
-	freeform_tags = {"bar-key"= "value"}
 	inventory_log {
 		#Required
 		log_group_id = oci_logging_log_group.test_log_group.id
 		log_id = oci_logging_log.test_log.id
 	}
+
+	#Optional
+	defined_tags = {"foo-namespace.bar-key"= "value"}
+	description = var.fleet_description
+	freeform_tags = {"bar-key"= "value"}
+	is_advanced_features_enabled = var.fleet_is_advanced_features_enabled
 	operation_log {
 		#Required
 		log_group_id = oci_logging_log_group.test_log_group.id
@@ -47,9 +54,10 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) The Fleet's description. If nothing is provided, the Fleet description will be null.
 * `display_name` - (Required) (Updatable) The name of the Fleet. The displayName must be unique for Fleets in the same compartment.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`. (See [Managing Tags and Tag Namespaces](https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/understandingfreeformtags.htm).) 
-* `inventory_log` - (Optional) (Updatable) Custom Log for inventory or operation log. 
+* `inventory_log` - (Required) (Updatable) Custom Log for inventory or operation log. 
 	* `log_group_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	* `log_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
+* `is_advanced_features_enabled` - (Optional) (Updatable) Whether or not advanced features are enabled in this fleet.  By default, this is set to false. 
 * `operation_log` - (Optional) (Updatable) Custom Log for inventory or operation log. 
 	* `log_group_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	* `log_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
@@ -75,6 +83,7 @@ The following attributes are exported:
 * `inventory_log` - Custom Log for inventory or operation log. 
 	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	* `log_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
+* `is_advanced_features_enabled` - Whether or not advanced features are enabled in this fleet.  By default, this is set to false. 
 * `operation_log` - Custom Log for inventory or operation log. 
 	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	* `log_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.

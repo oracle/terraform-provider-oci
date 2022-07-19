@@ -5,8 +5,10 @@ package jms
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -55,6 +57,18 @@ func JmsFleetInstallationSiteDataSource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"path_contains": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"time_end": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"time_start": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			// Computed
 			"items": {
@@ -145,6 +159,10 @@ func JmsFleetInstallationSiteDataSource() *schema.Resource {
 									},
 									"family": {
 										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"managed_instance_count": {
+										Type:     schema.TypeInt,
 										Computed: true,
 									},
 									"name": {
@@ -252,6 +270,27 @@ func (s *JmsFleetInstallationSiteDataSourceCrud) Get() error {
 		if len(tmp) != 0 || s.D.HasChange("os_family") {
 			request.OsFamily = tmp
 		}
+	}
+
+	if pathContains, ok := s.D.GetOkExists("path_contains"); ok {
+		tmp := pathContains.(string)
+		request.PathContains = &tmp
+	}
+
+	if timeEnd, ok := s.D.GetOkExists("time_end"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeEnd.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeEnd = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if timeStart, ok := s.D.GetOkExists("time_start"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeStart.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeStart = &oci_common.SDKTime{Time: tmp}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms")

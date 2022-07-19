@@ -48,14 +48,16 @@ The following attributes are exported:
 	* `approximate_installation_count` - The approximate count of installations that are installations of this Java Runtime.
 	* `approximate_managed_instance_count` - The approximate count of the managed instances that report this Java Runtime.
 	* `approximate_pending_work_request_count` - The approximate count of work requests working on this Java Runtime.
+	* `days_under_security_baseline` - The number of days since this release has been under the security baseline.
 	* `distribution` - The distribution of a Java Runtime is the name of the lineage of product to which it belongs, for example _Java(TM) SE Runtime Environment_.
 	* `end_of_support_life_date` - The End of Support Life (EOSL) date of the Java Runtime (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)).
-	* `fleet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related fleet.  This property value is present only for /actions/listJreUsage.
+	* `fleet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related fleet.
 	* `id` - The internal identifier of the Java Runtime.
-	* `managed_instance_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related managed instance. This property value is present only for /actions/listJreUsage.
+	* `managed_instance_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related managed instance. This property value is present only for /listJreUsage.
 	* `operating_systems` - The operating systems that have this Java Runtime installed.
 		* `architecture` - The architecture of the operating system as provided by the Java system property os.arch.
 		* `family` - The operating system type, such as Windows or Linux
+		* `managed_instance_count` - Number of instances running the operating system
 		* `name` - The name of the operating system as provided by the Java system property os.name.
 		* `version` - The version of the operating system as provided by the Java system property os.version.
 	* `release_date` - The release date of the Java Runtime (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)).

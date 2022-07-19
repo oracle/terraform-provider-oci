@@ -106,6 +106,10 @@ func (s *JmsFleetDataSourceCrud) SetData() error {
 		s.D.Set("inventory_log", nil)
 	}
 
+	if s.Res.IsAdvancedFeaturesEnabled != nil {
+		s.D.Set("is_advanced_features_enabled", *s.Res.IsAdvancedFeaturesEnabled)
+	}
+
 	if s.Res.OperationLog != nil {
 		s.D.Set("operation_log", []interface{}{CustomLogToMap(s.Res.OperationLog)})
 	} else {

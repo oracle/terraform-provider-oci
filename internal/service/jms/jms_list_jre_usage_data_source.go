@@ -70,6 +70,10 @@ func JmsListJreUsageDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"days_under_security_baseline": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"distribution": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -106,6 +110,10 @@ func JmsListJreUsageDataSource() *schema.Resource {
 									},
 									"family": {
 										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"managed_instance_count": {
+										Type:     schema.TypeInt,
 										Computed: true,
 									},
 									"name": {
@@ -261,6 +269,10 @@ func JreUsageToMap(obj oci_jms.JreUsage) map[string]interface{} {
 		result["approximate_pending_work_request_count"] = int(*obj.ApproximatePendingWorkRequestCount)
 	}
 
+	if obj.DaysUnderSecurityBaseline != nil {
+		result["days_under_security_baseline"] = int(*obj.DaysUnderSecurityBaseline)
+	}
+
 	if obj.Distribution != nil {
 		result["distribution"] = string(*obj.Distribution)
 	}
@@ -328,6 +340,10 @@ func JmsOperatingSystemToMap(obj oci_jms.OperatingSystem) map[string]interface{}
 	}
 
 	result["family"] = string(obj.Family)
+
+	if obj.ManagedInstanceCount != nil {
+		result["managed_instance_count"] = int(*obj.ManagedInstanceCount)
+	}
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
