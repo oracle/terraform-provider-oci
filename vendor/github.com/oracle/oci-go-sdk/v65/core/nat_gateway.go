@@ -72,6 +72,12 @@ type NatGateway struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the public IP address associated with the NAT gateway.
 	PublicIpId *string `mandatory:"false" json:"publicIpId"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table used by the NAT gateway.
+	// If you don't specify a route table here, the NAT gateway is created without an associated route
+	// table. The Networking service does NOT automatically associate the attached VCN's default route table
+	// with the NAT gateway.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m NatGateway) String() string {

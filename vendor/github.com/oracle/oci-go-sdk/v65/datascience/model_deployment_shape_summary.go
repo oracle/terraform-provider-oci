@@ -26,6 +26,9 @@ type ModelDeploymentShapeSummary struct {
 
 	// The amount of memory in GBs associated with this model deployment shape.
 	MemoryInGBs *int `mandatory:"true" json:"memoryInGBs"`
+
+	// The family that the compute shape belongs to.
+	ShapeSeries ModelDeploymentShapeSeriesEnum `mandatory:"true" json:"shapeSeries"`
 }
 
 func (m ModelDeploymentShapeSummary) String() string {
@@ -37,6 +40,9 @@ func (m ModelDeploymentShapeSummary) String() string {
 // Not recommended for calling this function directly
 func (m ModelDeploymentShapeSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingModelDeploymentShapeSeriesEnum(string(m.ShapeSeries)); !ok && m.ShapeSeries != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeSeries: %s. Supported values are: %s.", m.ShapeSeries, strings.Join(GetModelDeploymentShapeSeriesEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

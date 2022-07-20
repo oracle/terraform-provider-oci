@@ -61,18 +61,27 @@ const (
 	DiscoveryDetailsResourceTypeWeblogicDomain DiscoveryDetailsResourceTypeEnum = "WEBLOGIC_DOMAIN"
 	DiscoveryDetailsResourceTypeEbsInstance    DiscoveryDetailsResourceTypeEnum = "EBS_INSTANCE"
 	DiscoveryDetailsResourceTypeOracleDatabase DiscoveryDetailsResourceTypeEnum = "ORACLE_DATABASE"
+	DiscoveryDetailsResourceTypeOciOracleDb    DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_DB"
+	DiscoveryDetailsResourceTypeOciOracleCdb   DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_CDB"
+	DiscoveryDetailsResourceTypeOciOraclePdb   DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_PDB"
 )
 
 var mappingDiscoveryDetailsResourceTypeEnum = map[string]DiscoveryDetailsResourceTypeEnum{
 	"WEBLOGIC_DOMAIN": DiscoveryDetailsResourceTypeWeblogicDomain,
 	"EBS_INSTANCE":    DiscoveryDetailsResourceTypeEbsInstance,
 	"ORACLE_DATABASE": DiscoveryDetailsResourceTypeOracleDatabase,
+	"OCI_ORACLE_DB":   DiscoveryDetailsResourceTypeOciOracleDb,
+	"OCI_ORACLE_CDB":  DiscoveryDetailsResourceTypeOciOracleCdb,
+	"OCI_ORACLE_PDB":  DiscoveryDetailsResourceTypeOciOraclePdb,
 }
 
 var mappingDiscoveryDetailsResourceTypeEnumLowerCase = map[string]DiscoveryDetailsResourceTypeEnum{
 	"weblogic_domain": DiscoveryDetailsResourceTypeWeblogicDomain,
 	"ebs_instance":    DiscoveryDetailsResourceTypeEbsInstance,
 	"oracle_database": DiscoveryDetailsResourceTypeOracleDatabase,
+	"oci_oracle_db":   DiscoveryDetailsResourceTypeOciOracleDb,
+	"oci_oracle_cdb":  DiscoveryDetailsResourceTypeOciOracleCdb,
+	"oci_oracle_pdb":  DiscoveryDetailsResourceTypeOciOraclePdb,
 }
 
 // GetDiscoveryDetailsResourceTypeEnumValues Enumerates the set of values for DiscoveryDetailsResourceTypeEnum
@@ -90,6 +99,9 @@ func GetDiscoveryDetailsResourceTypeEnumStringValues() []string {
 		"WEBLOGIC_DOMAIN",
 		"EBS_INSTANCE",
 		"ORACLE_DATABASE",
+		"OCI_ORACLE_DB",
+		"OCI_ORACLE_CDB",
+		"OCI_ORACLE_PDB",
 	}
 }
 

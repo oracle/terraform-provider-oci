@@ -38,6 +38,9 @@ type UpdateInternetGatewayDetails struct {
 
 	// Whether the gateway is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the Internet Gateway is using.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m UpdateInternetGatewayDetails) String() string {
