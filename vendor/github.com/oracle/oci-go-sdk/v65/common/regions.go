@@ -66,6 +66,8 @@ const (
 	RegionAFJohannesburg1 Region = "af-johannesburg-1"
 	//RegionEUParis1 region Paris
 	RegionEUParis1 Region = "eu-paris-1"
+	//RegionMXQueretaro1 region Queretaro
+	RegionMXQueretaro1 Region = "mx-queretaro-1"
 	//RegionUSLangley1 region Langley
 	RegionUSLangley1 Region = "us-langley-1"
 	//RegionUSLuke1 region Luke
@@ -122,6 +124,7 @@ var shortNameRegion = map[string]Region{
 	"arn": RegionEUStockholm1,
 	"jnb": RegionAFJohannesburg1,
 	"cdg": RegionEUParis1,
+	"qro": RegionMXQueretaro1,
 	"lfi": RegionUSLangley1,
 	"luf": RegionUSLuke1,
 	"ric": RegionUSGovAshburn1,
@@ -177,6 +180,7 @@ var regionRealm = map[Region]string{
 	RegionEUStockholm1:    "oc1",
 	RegionAFJohannesburg1: "oc1",
 	RegionEUParis1:        "oc1",
+	RegionMXQueretaro1:    "oc1",
 
 	RegionUSLangley1: "oc2",
 	RegionUSLuke1:    "oc2",

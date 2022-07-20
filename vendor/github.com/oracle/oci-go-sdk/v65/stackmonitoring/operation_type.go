@@ -25,6 +25,7 @@ const (
 	OperationTypeEnableExternalDatabase  OperationTypeEnum = "ENABLE_EXTERNAL_DATABASE"
 	OperationTypeDisableExternalDatabase OperationTypeEnum = "DISABLE_EXTERNAL_DATABASE"
 	OperationTypeAddSourcesToAgent       OperationTypeEnum = "ADD_SOURCES_TO_AGENT"
+	OperationTypeBulkAddResources        OperationTypeEnum = "BULK_ADD_RESOURCES"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -35,6 +36,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"ENABLE_EXTERNAL_DATABASE":  OperationTypeEnableExternalDatabase,
 	"DISABLE_EXTERNAL_DATABASE": OperationTypeDisableExternalDatabase,
 	"ADD_SOURCES_TO_AGENT":      OperationTypeAddSourcesToAgent,
+	"BULK_ADD_RESOURCES":        OperationTypeBulkAddResources,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -45,6 +47,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"enable_external_database":  OperationTypeEnableExternalDatabase,
 	"disable_external_database": OperationTypeDisableExternalDatabase,
 	"add_sources_to_agent":      OperationTypeAddSourcesToAgent,
+	"bulk_add_resources":        OperationTypeBulkAddResources,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -66,6 +69,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"ENABLE_EXTERNAL_DATABASE",
 		"DISABLE_EXTERNAL_DATABASE",
 		"ADD_SOURCES_TO_AGENT",
+		"BULK_ADD_RESOURCES",
 	}
 }
 
