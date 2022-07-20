@@ -1,3 +1,15 @@
+## 4.85.0 (Unreleased)
+
+### Added
+- Support for Network Firewall
+- Support for Autonomous Shared Database service wallet with GracePeriod feature during wallet rotation. Added - Support for Autonomous Shared Database service wallet with GracePeriod feature during wallet rotation.
+- Support for Operations Insights VMBM API Updates
+- routeTable support for IVR
+- Automated default description for service examples
+- Fix for rm warning in create zips script
+### Bug Fix
+Fixed UpdateIpsecTunnel API Default Params
+
 ## 4.84.0 (July 13, 2022)
 
 ### Added
