@@ -12,13 +12,15 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
-	"github.com/oracle/oci-go-sdk/v65/common"
 	"io/ioutil"
+	"math"
 	"net/http"
 	"os"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/oracle/oci-go-sdk/v65/common"
 )
 
 // federationClient is a client to retrieve the security token necessary to sign a request.
@@ -290,22 +292,24 @@ func (c *x509FederationClient) renewSecurityToken() (err error) {
 }
 
 func (c *x509FederationClient) getSecurityToken() (securityToken, error) {
-	request := c.makeX509FederationRequest()
-
 	var err error
 	var httpRequest http.Request
-	if httpRequest, err = common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "", request); err != nil {
-		return nil, fmt.Errorf("failed to make http request: %s", err.Error())
-	}
-
 	var httpResponse *http.Response
 	defer common.CloseBodyIfValid(httpResponse)
 
 	for retry := 0; retry < 5; retry++ {
+		request := c.makeX509FederationRequest()
+
+		if httpRequest, err = common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "", request); err != nil {
+			return nil, fmt.Errorf("failed to make http request: %s", err.Error())
+		}
+
 		if httpResponse, err = c.authClient.Call(context.Background(), &httpRequest); err == nil {
 			break
 		}
-		time.Sleep(250 * time.Microsecond)
+
+		nextDuration := time.Duration(1000.0*(math.Pow(2.0, float64(retry)))) * time.Millisecond
+		time.Sleep(nextDuration)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to call: %s", err.Error())
