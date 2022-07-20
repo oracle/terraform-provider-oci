@@ -25,7 +25,7 @@ variable "private_key_path" {
 variable "region" {
 }
 
-variable "compartment_id" {
+variable "compartment_ocid" {
 }
 
 variable "ssh_public_key" {
@@ -83,18 +83,18 @@ data "oci_identity_availability_domain" "ad" {
 resource "oci_core_vcn" "this" {
   cidr_block     = var.vcn_cidr
   dns_label      = "pp"
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   display_name   = "proxy_prototype"
 }
 
 resource "oci_core_nat_gateway" "nat_gateway" {
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   vcn_id         = oci_core_vcn.this.id
   display_name   = "nat_gateway"
 }
 
 resource "oci_core_internet_gateway" "ig" {
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   display_name   = "proxy_prototype"
   vcn_id         = oci_core_vcn.this.id
 }
@@ -103,7 +103,7 @@ resource "oci_core_subnet" "bastion" {
   availability_domain = local.ad
   cidr_block          = local.bastion_subnet_prefix
   display_name        = "bastion"
-  compartment_id      = var.compartment_id
+  compartment_id      = var.compartment_ocid
   vcn_id              = oci_core_vcn.this.id
   route_table_id      = oci_core_route_table.bastion.id
 
@@ -116,7 +116,7 @@ resource "oci_core_subnet" "bastion" {
 }
 
 resource "oci_core_route_table" "bastion" {
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   vcn_id         = oci_core_vcn.this.id
   display_name   = "bastion"
 
@@ -127,7 +127,7 @@ resource "oci_core_route_table" "bastion" {
 }
 
 resource "oci_core_security_list" "bastion" {
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   display_name   = "bastion"
   vcn_id         = oci_core_vcn.this.id
 
@@ -154,7 +154,7 @@ resource "oci_core_security_list" "bastion" {
 
 resource "oci_core_instance" "bastion" {
   availability_domain = local.ad
-  compartment_id      = var.compartment_id
+  compartment_id      = var.compartment_ocid
   display_name        = "bastion"
   shape               = var.instance_shape
 
@@ -184,7 +184,7 @@ resource "oci_core_subnet" "private" {
   availability_domain = local.ad
   cidr_block          = local.private_subnet_prefix
   display_name        = "private"
-  compartment_id      = var.compartment_id
+  compartment_id      = var.compartment_ocid
   vcn_id              = oci_core_vcn.this.id
   route_table_id      = oci_core_route_table.private.id
 
@@ -197,7 +197,7 @@ resource "oci_core_subnet" "private" {
 }
 
 resource "oci_core_route_table" "private" {
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   vcn_id         = oci_core_vcn.this.id
   display_name   = "private"
 
@@ -209,7 +209,7 @@ resource "oci_core_route_table" "private" {
 }
 
 resource "oci_core_security_list" "private" {
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   display_name   = "private"
   vcn_id         = oci_core_vcn.this.id
 
@@ -231,7 +231,7 @@ resource "oci_core_security_list" "private" {
 
 resource "oci_core_instance" "private" {
   availability_domain = local.ad
-  compartment_id      = var.compartment_id
+  compartment_id      = var.compartment_ocid
   display_name        = "private_test_instance"
   shape               = var.instance_shape
 

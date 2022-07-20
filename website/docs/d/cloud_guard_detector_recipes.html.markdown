@@ -76,7 +76,7 @@ The following attributes are exported:
 		* `is_preferred` - Preferred state
 	* `description` - Description for DetectorRecipeDetectorRule.
 	* `details` - Details of a Detector Rule
-		* `condition` - 
+		* `condition` - Base condition object
 		* `configurations` - Configuration details
 			* `config_key` - Unique name of the configuration
 			* `data_type` - configuration data type
@@ -109,7 +109,7 @@ The following attributes are exported:
 		* `is_preferred` - Preferred state
 	* `description` - Description for DetectorRecipeDetectorRule.
 	* `details` - Details of a Detector Rule
-		* `condition` - 
+		* `condition` - Base condition object
 		* `configurations` - Configuration details
 			* `config_key` - Unique name of the configuration
 			* `data_type` - configuration data type

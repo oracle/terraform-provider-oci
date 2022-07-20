@@ -137,6 +137,10 @@ func (s *CoreInternetGatewaysDataSourceCrud) SetData() error {
 			internetGateway["id"] = *r.Id
 		}
 
+		if r.RouteTableId != nil {
+			internetGateway["route_table_id"] = *r.RouteTableId
+		}
+
 		internetGateway["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {

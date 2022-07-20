@@ -24,7 +24,7 @@ jobs:
             if [ -f "./examples/$RESOURCE/$FILENAME" ]; then
               echo "./examples/$RESOURCE/$FILENAME exists."
             else
-              touch ./examples/${RESOURCE}/${FILENAME}
+              printf '# Overview \nThis is a Terraform configuration that creates the `'${RESOURCE}'` service on Oracle Cloud Infrastructure. \n\nThe Terraform code is used to create a Resource Manager stack, that creates the required resources and configures the application on the created resources.' > ./examples/${RESOURCE}/${FILENAME}
               echo "./examples/$RESOURCE/$FILENAME created."
             fi
           fi

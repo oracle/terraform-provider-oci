@@ -30,6 +30,7 @@ var (
 
 	DatabaseAutonomousDatabaseInstanceWalletManagementRepresentation = map[string]interface{}{
 		"autonomous_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"grace_period":           acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"should_rotate":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
@@ -63,8 +64,26 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseInstanceWalletManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
-				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseInstanceWalletManagementResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseInstanceWalletManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseInstanceWalletManagementRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "grace_period", "10"),
+				resource.TestCheckResourceAttr(resourceName, "should_rotate", "false"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
@@ -82,9 +101,10 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Optional, acctest.Update, DatabaseAutonomousDatabaseInstanceWalletManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "grace_period", "11"),
+				resource.TestCheckResourceAttr(resourceName, "should_rotate", "true"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_rotated"),
-
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {

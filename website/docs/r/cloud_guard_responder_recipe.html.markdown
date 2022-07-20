@@ -75,7 +75,7 @@ The following attributes are exported:
 	* `compartment_id` - Compartment Identifier
 	* `description` - ResponderRule description.
 	* `details` - Details of ResponderRule.
-		* `condition` - 
+		* `condition` - Base condition object
 		* `configurations` - ResponderRule configurations
 			* `config_key` - Unique name of the configuration
 			* `name` - configuration name
@@ -101,7 +101,7 @@ The following attributes are exported:
 	* `compartment_id` - Compartment Identifier
 	* `description` - ResponderRule description.
 	* `details` - Details of ResponderRule.
-		* `condition` - 
+		* `condition` - Base condition object
 		* `configurations` - ResponderRule configurations
 			* `config_key` - Unique name of the configuration
 			* `name` - configuration name
