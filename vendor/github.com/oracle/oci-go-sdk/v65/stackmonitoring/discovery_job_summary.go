@@ -100,18 +100,27 @@ const (
 	DiscoveryJobSummaryResourceTypeWeblogicDomain DiscoveryJobSummaryResourceTypeEnum = "WEBLOGIC_DOMAIN"
 	DiscoveryJobSummaryResourceTypeEbsInstance    DiscoveryJobSummaryResourceTypeEnum = "EBS_INSTANCE"
 	DiscoveryJobSummaryResourceTypeOracleDatabase DiscoveryJobSummaryResourceTypeEnum = "ORACLE_DATABASE"
+	DiscoveryJobSummaryResourceTypeOciOracleDb    DiscoveryJobSummaryResourceTypeEnum = "OCI_ORACLE_DB"
+	DiscoveryJobSummaryResourceTypeOciOracleCdb   DiscoveryJobSummaryResourceTypeEnum = "OCI_ORACLE_CDB"
+	DiscoveryJobSummaryResourceTypeOciOraclePdb   DiscoveryJobSummaryResourceTypeEnum = "OCI_ORACLE_PDB"
 )
 
 var mappingDiscoveryJobSummaryResourceTypeEnum = map[string]DiscoveryJobSummaryResourceTypeEnum{
 	"WEBLOGIC_DOMAIN": DiscoveryJobSummaryResourceTypeWeblogicDomain,
 	"EBS_INSTANCE":    DiscoveryJobSummaryResourceTypeEbsInstance,
 	"ORACLE_DATABASE": DiscoveryJobSummaryResourceTypeOracleDatabase,
+	"OCI_ORACLE_DB":   DiscoveryJobSummaryResourceTypeOciOracleDb,
+	"OCI_ORACLE_CDB":  DiscoveryJobSummaryResourceTypeOciOracleCdb,
+	"OCI_ORACLE_PDB":  DiscoveryJobSummaryResourceTypeOciOraclePdb,
 }
 
 var mappingDiscoveryJobSummaryResourceTypeEnumLowerCase = map[string]DiscoveryJobSummaryResourceTypeEnum{
 	"weblogic_domain": DiscoveryJobSummaryResourceTypeWeblogicDomain,
 	"ebs_instance":    DiscoveryJobSummaryResourceTypeEbsInstance,
 	"oracle_database": DiscoveryJobSummaryResourceTypeOracleDatabase,
+	"oci_oracle_db":   DiscoveryJobSummaryResourceTypeOciOracleDb,
+	"oci_oracle_cdb":  DiscoveryJobSummaryResourceTypeOciOracleCdb,
+	"oci_oracle_pdb":  DiscoveryJobSummaryResourceTypeOciOraclePdb,
 }
 
 // GetDiscoveryJobSummaryResourceTypeEnumValues Enumerates the set of values for DiscoveryJobSummaryResourceTypeEnum
@@ -129,6 +138,9 @@ func GetDiscoveryJobSummaryResourceTypeEnumStringValues() []string {
 		"WEBLOGIC_DOMAIN",
 		"EBS_INSTANCE",
 		"ORACLE_DATABASE",
+		"OCI_ORACLE_DB",
+		"OCI_ORACLE_CDB",
+		"OCI_ORACLE_PDB",
 	}
 }
 

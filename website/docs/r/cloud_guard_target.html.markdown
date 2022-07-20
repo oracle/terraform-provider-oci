@@ -94,7 +94,7 @@ The following arguments are supported:
 		* `details` - (Required) (Updatable) Overriden settings of a Detector Rule applied on target
 			* `condition_groups` - (Optional) (Updatable) Condition group corresponding to each compartment
 				* `compartment_id` - (Required) (Updatable) compartment associated with condition
-				* `condition` - (Required) (Updatable) 
+				* `condition` - (Required) (Updatable) Base condition object
 		* `detector_rule_id` - (Required) (Updatable) Identifier for DetectorRule.
 * `target_resource_id` - (Required) Resource ID which the target uses to monitor
 * `target_resource_type` - (Required) possible type of targets(compartment/HCMCloud/ERPCloud)
@@ -102,7 +102,7 @@ The following arguments are supported:
 	* `responder_recipe_id` - (Required) Identifier for ResponderRecipe.
 	* `responder_rules` - (Optional) (Updatable) Override responder rules associated with reponder recipe in a target.
 		* `details` - (Required) (Updatable) Details of ResponderRule.
-			* `condition` - (Optional) (Updatable) 
+			* `condition` - (Optional) (Updatable) Base condition object
 			* `configurations` - (Optional) (Updatable) Configurations associated with the ResponderRule
 				* `config_key` - (Required) (Updatable) Unique name of the configuration
 				* `name` - (Required) (Updatable) configuration name
@@ -161,7 +161,7 @@ The following attributes are exported:
 		* `details` - Overriden settings of a Detector Rule applied on target
 			* `condition_groups` - Condition group corresponding to each compartment
 				* `compartment_id` - compartment associated with condition
-				* `condition` - 
+				* `condition` - Base condition object
 			* `configurations` - Configuration details
 				* `config_key` - Unique name of the configuration
 				* `data_type` - configuration data type
@@ -192,7 +192,7 @@ The following attributes are exported:
 		* `details` - Overriden settings of a Detector Rule applied on target
 			* `condition_groups` - Condition group corresponding to each compartment
 				* `compartment_id` - compartment associated with condition
-				* `condition` - 
+				* `condition` - Base condition object
 			* `configurations` - Configuration details
 				* `config_key` - Unique name of the configuration
 				* `data_type` - configuration data type
@@ -232,7 +232,7 @@ The following attributes are exported:
 		* `compartment_id` - Compartment Identifier
 		* `description` - ResponderRule description.
 		* `details` - Details of ResponderRule.
-			* `condition` - 
+			* `condition` - Base condition object
 			* `configurations` - ResponderRule configurations
 				* `config_key` - Unique name of the configuration
 				* `name` - configuration name
@@ -255,7 +255,7 @@ The following attributes are exported:
 		* `compartment_id` - Compartment Identifier
 		* `description` - ResponderRule description.
 		* `details` - Details of ResponderRule.
-			* `condition` - 
+			* `condition` - Base condition object
 			* `configurations` - ResponderRule configurations
 				* `config_key` - Unique name of the configuration
 				* `name` - configuration name

@@ -68,7 +68,7 @@ The following arguments are supported:
 	Avoid entering confidential information. 
 * `detector_rules` - (Optional) (Updatable) Detector Rules to override from source detector recipe
 	* `details` - (Required) (Updatable) Details of a Detector Rule to be overriden in Detector Recipe
-		* `condition` - (Optional) (Updatable) 
+		* `condition` - (Optional) (Updatable) Base condition object
 		* `configurations` - (Optional) (Updatable) Configuration details
 			* `config_key` - (Required) (Updatable) Unique name of the configuration
 			* `data_type` - (Optional) (Updatable) configuration data type
@@ -109,7 +109,7 @@ The following attributes are exported:
 		* `is_preferred` - Preferred state
 	* `description` - Description for DetectorRecipeDetectorRule.
 	* `details` - Details of a Detector Rule
-		* `condition` - 
+		* `condition` - Base condition object
 		* `configurations` - Configuration details
 			* `config_key` - Unique name of the configuration
 			* `data_type` - configuration data type
@@ -142,7 +142,7 @@ The following attributes are exported:
 		* `is_preferred` - Preferred state
 	* `description` - Description for DetectorRecipeDetectorRule.
 	* `details` - Details of a Detector Rule
-		* `condition` - 
+		* `condition` - Base condition object
 		* `configurations` - Configuration details
 			* `config_key` - Unique name of the configuration
 			* `data_type` - configuration data type

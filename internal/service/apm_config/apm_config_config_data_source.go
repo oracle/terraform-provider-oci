@@ -38,7 +38,7 @@ func readSingularApmConfigConfig(d *schema.ResourceData, m interface{}) error {
 type ApmConfigConfigDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_apm_config.ConfigClient
-	Res    *oci_apm_config.Config
+	Res    *oci_apm_config.GetConfigResponse
 }
 
 func (s *ApmConfigConfigDataSourceCrud) VoidState() {
@@ -72,19 +72,18 @@ func (s *ApmConfigConfigDataSourceCrud) Get() error {
 		return err
 	}
 
-	s.Res = &(response.Config)
+	s.Res = &response
 	return nil
 }
 
 func (s *ApmConfigConfigDataSourceCrud) SetData() error {
-
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(*(*s.Res).GetId())
+	s.D.SetId(*s.Res.GetId())
 
-	switch v := (*s.Res).(type) {
+	switch v := (s.Res.Config).(type) {
 	case oci_apm_config.ApdexRules:
 		s.D.Set("config_type", "APDEX")
 
@@ -115,7 +114,6 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
-
 	case oci_apm_config.MetricGroup:
 		s.D.Set("config_type", "METRIC_GROUP")
 
@@ -160,7 +158,6 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
-
 	case oci_apm_config.SpanFilter:
 		s.D.Set("config_type", "SPAN_FILTER")
 
@@ -237,7 +234,7 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
 	default:
-		log.Printf("[WARN] Received 'config_type' of unknown type %v", *s.Res)
+		log.Printf("[WARN] Received 'config_type' of unknown type %v", s.Res.Config)
 		return nil
 	}
 

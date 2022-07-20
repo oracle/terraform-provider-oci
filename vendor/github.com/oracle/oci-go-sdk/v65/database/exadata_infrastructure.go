@@ -60,6 +60,9 @@ type ExadataInfrastructure struct {
 	// The total available DATA disk group size.
 	MaxDataStorageInTBs *float64 `mandatory:"false" json:"maxDataStorageInTBs"`
 
+	// The serial number for the Exadata infrastructure.
+	RackSerialNumber *string `mandatory:"false" json:"rackSerialNumber"`
+
 	// The number of Exadata storage servers for the Exadata infrastructure.
 	StorageCount *int `mandatory:"false" json:"storageCount"`
 

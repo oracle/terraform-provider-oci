@@ -27,10 +27,10 @@ import (
 )
 
 var (
-	PecomanagedDatabaseInsightRequiredOnlyResource = OpsiExadataInsightResourceDependencies +
+	PecomanagedDatabaseInsightRequiredOnlyResource = OpsiDatabaseInsightResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Required, acctest.Create, pecomanagedDatabaseInsightRepresentation)
 
-	PecomanagedDatabaseInsightResourceConfig = OpsiExadataInsightResourceDependencies +
+	PecomanagedDatabaseInsightResourceConfig = OpsiDatabaseInsightResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, pecomanagedDatabaseInsightRepresentation)
 
 	pecomanagedDatabaseInsightSingularDataSourceRepresentation = map[string]interface{}{
@@ -61,7 +61,7 @@ var (
 		"database_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.dbsystem_database_id}`},
 		"database_resource_type":   acctest.Representation{RepType: acctest.Required, Create: `database`},
 		"deployment_type":          acctest.Representation{RepType: acctest.Required, Create: `VIRTUAL_MACHINE`},
-		"opsi_private_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${var.opsi_private_endpoint_id}`},
+		"opsi_private_endpoint_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.opsi_private_endpoint_id}`},
 		"service_name":             acctest.Representation{RepType: acctest.Required, Create: `${var.service_name}`},
 		"status":                   acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
 		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -128,7 +128,7 @@ func TestOpsiPecomanagedDatabaseInsightResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Create, pecomanagedDatabaseInsightRepresentation), "opsi", "databaseInsight", t)
 
 	acctest.ResourceTest(t, testAccCheckOpsiPecomanagedDatabaseInsightDestroy, []resource.TestStep{
-		// verify create with optional
+		// verify create with optional opsiPrivateEndpointId
 		{
 			Config: config + compartmentIdVariableStr + dbsystemDatabaseIdVariableStr + opsiPrivateEndpointIdVariableStr + serviceNameVariableStr + secretIdVariableStr + userNamedVariableStr + PecomanagedDatabaseInsightResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Create, pecomanagedDatabaseInsightRepresentation),

@@ -139,6 +139,7 @@ The following attributes are exported:
 		* `updated_by_user_name` - The name of the user who updated the object.
 	* `type` - Specific Connection Type
 * `description` - User-defined description of the data asset.
+* `end_points` - The list of endpoints with which this data asset is associated.
 * `external_key` - The external key for the object.
 * `identifier` - Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 * `key` - Currently not used on data asset creation. Reserved for future.
@@ -186,7 +187,7 @@ The following attributes are exported:
 				* `is_class_field_value` - Specifies whether the parameter is a class field or not.
 				* `is_static` - Specifies whether the parameter is static or not.
 				* `parameter_name` - This object represents the configurable properties for an object type.
-				* `parameter_type` - 
+				* `parameter_type` - Base type for the type system.
 			* `is_contained` - Specifies whether the configuration is contained or not.
 			* `key` - The key of the object.
 			* `model_type` - The type of the object.

@@ -34,7 +34,7 @@ func readSingularOpsiHostInsight(d *schema.ResourceData, m interface{}) error {
 type OpsiHostInsightDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_opsi.OperationsInsightsClient
-	Res    *oci_opsi.HostInsight
+	Res    *oci_opsi.GetHostInsightResponse
 }
 
 func (s *OpsiHostInsightDataSourceCrud) VoidState() {
@@ -56,7 +56,7 @@ func (s *OpsiHostInsightDataSourceCrud) Get() error {
 		return err
 	}
 
-	s.Res = &response.HostInsight
+	s.Res = &response
 	return nil
 }
 
@@ -66,85 +66,9 @@ func (s *OpsiHostInsightDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("OpsiHostInsightsSingularDataSource-", OpsiHostInsightsDataSource(), s.D))
-
-	switch v := (*s.Res).(type) {
-	case oci_opsi.MacsManagedExternalHostInsight:
-		s.D.Set("entity_source", "MACS_MANAGED_EXTERNAL_HOST")
-
-		s.D.SetId(*v.GetId())
-
-		if v.GetCompartmentId() != nil {
-			s.D.Set("compartment_id", *v.GetCompartmentId())
-		}
-
-		if v.GetDefinedTags() != nil {
-			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.GetDefinedTags()))
-		}
-
-		s.D.Set("freeform_tags", v.GetFreeformTags())
-
-		if v.GetHostDisplayName() != nil {
-			s.D.Set("host_display_name", *v.GetHostDisplayName())
-		}
-
-		if v.GetHostName() != nil {
-			s.D.Set("host_name", *v.GetHostName())
-		}
-
-		if v.GetHostType() != nil {
-			s.D.Set("host_type", *v.GetHostType())
-		}
-
-		if v.GetLifecycleDetails() != nil {
-			s.D.Set("lifecycle_details", *v.GetLifecycleDetails())
-		}
-
-		if v.GetProcessorCount() != nil {
-			s.D.Set("processor_count", *v.GetProcessorCount())
-		}
-
-		s.D.Set("state", v.GetLifecycleState())
-
-		s.D.Set("status", v.GetStatus())
-
-		if v.GetSystemTags() != nil {
-			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.GetSystemTags()))
-		}
-
-		if v.GetTimeCreated() != nil {
-			s.D.Set("time_created", v.GetTimeCreated().String())
-		}
-
-		if v.GetTimeUpdated() != nil {
-			s.D.Set("time_updated", v.GetTimeUpdated().String())
-		}
-
+	switch v := (s.Res.HostInsight).(type) {
 	case oci_opsi.EmManagedExternalHostInsight:
 		s.D.Set("entity_source", "EM_MANAGED_EXTERNAL_HOST")
-
-		s.D.SetId(*v.GetId())
-
-		if v.GetCompartmentId() != nil {
-			s.D.Set("compartment_id", *v.GetCompartmentId())
-		}
-
-		if v.GetDefinedTags() != nil {
-			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.GetDefinedTags()))
-		}
-
-		s.D.Set("freeform_tags", v.GetFreeformTags())
-
-		if v.GetHostDisplayName() != nil {
-			s.D.Set("host_display_name", *v.GetHostDisplayName())
-		}
-
-		if v.GetHostName() != nil {
-			s.D.Set("host_name", *v.GetHostName())
-		}
-
-		if v.GetHostType() != nil {
-			s.D.Set("host_type", *v.GetHostType())
-		}
 
 		if v.EnterpriseManagerBridgeId != nil {
 			s.D.Set("enterprise_manager_bridge_id", *v.EnterpriseManagerBridgeId)
@@ -174,10 +98,6 @@ func (s *OpsiHostInsightDataSourceCrud) SetData() error {
 			s.D.Set("exadata_insight_id", *v.ExadataInsightId)
 		}
 
-		if v.GetLifecycleDetails() != nil {
-			s.D.Set("lifecycle_details", *v.GetLifecycleDetails())
-		}
-
 		if v.PlatformName != nil {
 			s.D.Set("platform_name", *v.PlatformName)
 		}
@@ -185,31 +105,104 @@ func (s *OpsiHostInsightDataSourceCrud) SetData() error {
 		s.D.Set("platform_type", v.PlatformType)
 
 		if v.PlatformVersion != nil {
-			s.D.Set("platform_name", *v.PlatformVersion)
+			s.D.Set("platform_version", *v.PlatformVersion)
 		}
 
-		if v.GetProcessorCount() != nil {
-			s.D.Set("processor_count", *v.GetProcessorCount())
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
 		}
 
-		s.D.Set("state", v.GetLifecycleState())
-
-		s.D.Set("status", v.GetStatus())
-
-		if v.GetSystemTags() != nil {
-			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.GetSystemTags()))
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
 		}
 
-		if v.GetTimeCreated() != nil {
-			s.D.Set("time_created", v.GetTimeCreated().String())
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.HostDisplayName != nil {
+			s.D.Set("host_display_name", *v.HostDisplayName)
 		}
 
-		if v.GetTimeUpdated() != nil {
-			s.D.Set("time_updated", v.GetTimeUpdated().String())
+		if v.HostName != nil {
+			s.D.Set("host_name", *v.HostName)
 		}
 
+		if v.HostType != nil {
+			s.D.Set("host_type", *v.HostType)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProcessorCount != nil {
+			s.D.Set("processor_count", *v.ProcessorCount)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_opsi.MacsManagedExternalHostInsight:
+		s.D.Set("entity_source", "MACS_MANAGED_EXTERNAL_HOST")
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.HostDisplayName != nil {
+			s.D.Set("host_display_name", *v.HostDisplayName)
+		}
+
+		if v.HostName != nil {
+			s.D.Set("host_name", *v.HostName)
+		}
+
+		if v.HostType != nil {
+			s.D.Set("host_type", *v.HostType)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProcessorCount != nil {
+			s.D.Set("processor_count", *v.ProcessorCount)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	default:
-		log.Printf("[WARN] Received 'entity_source' of unknown type %v", *s.Res)
+		log.Printf("[WARN] Received 'entity_source' of unknown type %v", s.Res.HostInsight)
 		return nil
 	}
 

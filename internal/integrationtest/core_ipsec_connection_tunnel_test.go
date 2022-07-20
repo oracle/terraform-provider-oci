@@ -36,12 +36,18 @@ var (
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `MyIPSecConnectionTunnel`, Update: `displayName2`},
 		"bgp_session_info": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreIpSecConnectionTunnelConfigurationBgpSessionInfoRepresentation},
 		"shared_secret":    acctest.Representation{RepType: acctest.Optional, Create: `sharedsecret1`, Update: `sharedsecret2`},
+		"dpd_config":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: ipSecConnectionTunnelConfigurationDpdConfigRepresentation},
 	}
 
 	CoreIpSecConnectionTunnelConfigurationBgpSessionInfoRepresentation = map[string]interface{}{
 		"customer_bgp_asn":      acctest.Representation{RepType: acctest.Optional, Update: `1587232876`},
 		"customer_interface_ip": acctest.Representation{RepType: acctest.Optional, Update: `10.0.0.16/31`},
 		"oracle_interface_ip":   acctest.Representation{RepType: acctest.Optional, Update: `10.0.0.17/31`},
+	}
+
+	ipSecConnectionTunnelConfigurationDpdConfigRepresentation = map[string]interface{}{
+		"dpd_mode":           acctest.Representation{RepType: acctest.Optional, Update: `RESPOND_ONLY`},
+		"dpd_timeout_in_sec": acctest.Representation{RepType: acctest.Optional, Update: `200`},
 	}
 
 	CoreIpSecConnectionTunnelResourceConfig = IpSecConnectionOptionalResource
@@ -118,6 +124,8 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "bgp_session_info.0.customer_bgp_asn", "1587232876"),
 				resource.TestCheckResourceAttr(resourceName, "bgp_session_info.0.customer_interface_ip", "10.0.0.16/31"),
 				resource.TestCheckResourceAttr(resourceName, "bgp_session_info.0.oracle_interface_ip", "10.0.0.17/31"),
+				resource.TestCheckResourceAttr(resourceName, "dpd_config.0.dpd_mode", "RESPOND_ONLY"),
+				resource.TestCheckResourceAttr(resourceName, "dpd_config.0.dpd_timeout_in_sec", "200"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -142,7 +150,6 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.display_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.dpd_mode"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.dpd_timeout_in_sec"),
-				resource.TestCheckResourceAttr(datasourceName, "ip_sec_connection_tunnels.0.encryption_domain_config.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.ike_version"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.nat_translation_enabled"),

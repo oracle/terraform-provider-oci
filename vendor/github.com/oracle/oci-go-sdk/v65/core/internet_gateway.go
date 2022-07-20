@@ -60,6 +60,9 @@ type InternetGateway struct {
 	// The date and time the internet gateway was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the Internet Gateway is using.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m InternetGateway) String() string {

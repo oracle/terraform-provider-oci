@@ -62,6 +62,7 @@ import (
 	tf_metering_computation "terraform-provider-oci/internal/service/metering_computation"
 	tf_monitoring "terraform-provider-oci/internal/service/monitoring"
 	tf_mysql "terraform-provider-oci/internal/service/mysql"
+	tf_network_firewall "terraform-provider-oci/internal/service/network_firewall"
 	tf_network_load_balancer "terraform-provider-oci/internal/service/network_load_balancer"
 	tf_nosql "terraform-provider-oci/internal/service/nosql"
 	tf_objectstorage "terraform-provider-oci/internal/service/objectstorage"
@@ -1006,6 +1007,11 @@ func init() {
 	RegisterDatasource("oci_mysql_mysql_db_systems", tf_mysql.MysqlMysqlDbSystemsDataSource())
 	RegisterDatasource("oci_mysql_mysql_versions", tf_mysql.MysqlMysqlVersionsDataSource())
 	RegisterDatasource("oci_mysql_shapes", tf_mysql.MysqlShapesDataSource())
+	// network_firewall service
+	RegisterDatasource("oci_network_firewall_network_firewall", tf_network_firewall.NetworkFirewallNetworkFirewallDataSource())
+	RegisterDatasource("oci_network_firewall_network_firewalls", tf_network_firewall.NetworkFirewallNetworkFirewallsDataSource())
+	RegisterDatasource("oci_network_firewall_network_firewall_policy", tf_network_firewall.NetworkFirewallNetworkFirewallPolicyDataSource())
+	RegisterDatasource("oci_network_firewall_network_firewall_policies", tf_network_firewall.NetworkFirewallNetworkFirewallPoliciesDataSource())
 	// network_load_balancer service
 	RegisterDatasource("oci_network_load_balancer_backend_health", tf_network_load_balancer.NetworkLoadBalancerBackendHealthDataSource())
 	RegisterDatasource("oci_network_load_balancer_backend_set", tf_network_load_balancer.NetworkLoadBalancerBackendSetDataSource())

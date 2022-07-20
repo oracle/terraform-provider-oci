@@ -97,6 +97,15 @@ type UpdateInstanceDetails struct {
 	LaunchOptions *UpdateLaunchOptions `mandatory:"false" json:"launchOptions"`
 
 	AvailabilityConfig *UpdateInstanceAvailabilityConfigDetails `mandatory:"false" json:"availabilityConfig"`
+
+	// The date and time the instance is expected to be stopped and restarted, in the format defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// If the instance hasn't been rebooted after this date, Oracle reboots the instance within 24 hours of the time
+	// and date that maintenance is due.
+	// Regardless of how the instance is stopped, this flag is reset to empty as soon as the instance reaches
+	// Stopped state.
+	// Example: `2018-05-25T21:10:29.600Z`
+	TimeMaintenanceRebootDue *common.SDKTime `mandatory:"false" json:"timeMaintenanceRebootDue"`
 }
 
 func (m UpdateInstanceDetails) String() string {

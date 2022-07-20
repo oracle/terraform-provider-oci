@@ -76,6 +76,10 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"bgp_ipv6state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -113,6 +117,23 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"dpd_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Optional
+						"dpd_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"dpd_timeout_in_sec": {
+							Type:     schema.TypeInt,
+							Optional: true,
+						},
+					},
+				},
 			},
 			"dpd_mode": {
 				Type:     schema.TypeString,
@@ -170,7 +191,7 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 							Computed: true,
 						},
 						"lifetime": {
-							Type:     schema.TypeString,
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"negotiated_authentication_algorithm": {
@@ -231,7 +252,7 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 							Computed: true,
 						},
 						"lifetime": {
-							Type:     schema.TypeString,
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"negotiated_authentication_algorithm": {
@@ -465,16 +486,18 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) Update() error {
 		request.OracleInitiation = oci_core.UpdateIpSecConnectionTunnelDetailsOracleInitiationEnum(oracleInitiation.(string))
 	}
 
-	dpdConfig := &oci_core.DpdConfig{}
-	if dpdMode, ok := s.D.GetOkExists("dpd_mode"); ok {
-		dpdConfig.DpdMode = oci_core.DpdConfigDpdModeEnum(dpdMode.(string))
+	if _, ok := s.D.GetOkExists("dpd_config"); ok {
+		dpdConfig := &oci_core.DpdConfig{}
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "dpd_config", 0)
+		if dpdMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dpd_mode")); ok {
+			dpdConfig.DpdMode = oci_core.DpdConfigDpdModeEnum(dpdMode.(string))
+		}
+		if dpdTimeout, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dpd_timeout_in_sec")); ok {
+			tmp := dpdTimeout.(int)
+			dpdConfig.DpdTimeoutInSec = &tmp
+		}
+		request.DpdConfig = dpdConfig
 	}
-
-	if dpdTimeout, ok := s.D.GetOkExists("dpd_timeout_in_sec"); ok {
-		tmp := dpdTimeout.(int)
-		dpdConfig.DpdTimeoutInSec = &tmp
-	}
-	request.DpdConfig = dpdConfig
 
 	if _, ok := s.D.GetOkExists("phase_one_details"); ok {
 		phaseOneDetails := &oci_core.PhaseOneConfigDetails{}

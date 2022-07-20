@@ -145,6 +145,10 @@ func (s *CoreNatGatewaysDataSourceCrud) SetData() error {
 			natGateway["public_ip_id"] = *r.PublicIpId
 		}
 
+		if r.RouteTableId != nil {
+			natGateway["route_table_id"] = *r.RouteTableId
+		}
+
 		natGateway["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {
