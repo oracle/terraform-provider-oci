@@ -253,39 +253,3 @@ func (s *DatabaseManagementManagedDatabaseUserDataSourceCrud) SetData() error {
 
 	return nil
 }
-
-func UserSummaryToMap(obj oci_database_management.UserSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.DefaultTablespace != nil {
-		result["default_tablespace"] = string(*obj.DefaultTablespace)
-	}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	if obj.Profile != nil {
-		result["profile"] = string(*obj.Profile)
-	}
-
-	result["status"] = string(obj.Status)
-
-	if obj.TempTablespace != nil {
-		result["temp_tablespace"] = string(*obj.TempTablespace)
-	}
-
-	if obj.TimeCreated != nil {
-		result["time_created"] = obj.TimeCreated.String()
-	}
-
-	if obj.TimeExpiring != nil {
-		result["time_expiring"] = obj.TimeExpiring.String()
-	}
-
-	if obj.TimeLocked != nil {
-		result["time_locked"] = obj.TimeLocked.String()
-	}
-
-	return result
-}

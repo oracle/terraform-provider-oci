@@ -221,3 +221,31 @@ func PrivateApplicationPackagesSummaryToMap(obj oci_service_catalog.PrivateAppli
 
 	return result
 }
+
+func PrivateApplicationPackageSummaryToMap(obj oci_service_catalog.PrivateApplicationPackageSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	result["package_type"] = string(obj.PackageType)
+
+	if obj.PrivateApplicationId != nil {
+		result["private_application_id"] = string(*obj.PrivateApplicationId)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.Version != nil {
+		result["version"] = string(*obj.Version)
+	}
+
+	return result
+}

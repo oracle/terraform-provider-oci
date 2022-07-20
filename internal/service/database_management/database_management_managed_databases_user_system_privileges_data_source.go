@@ -157,3 +157,19 @@ func (s *DatabaseManagementManagedDatabasesUserSystemPrivilegesDataSourceCrud) S
 
 	return nil
 }
+
+func SystemPrivilegeSummaryToMap(obj oci_database_management.SystemPrivilegeSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["admin_option"] = string(obj.AdminOption)
+
+	result["common"] = string(obj.Common)
+
+	result["inherited"] = string(obj.Inherited)
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}

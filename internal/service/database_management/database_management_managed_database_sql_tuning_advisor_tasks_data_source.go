@@ -5,6 +5,7 @@ package database_management
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -214,4 +215,56 @@ func (s *DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksDataSourceCrud) S
 	}
 
 	return nil
+}
+
+func SqlTuningAdvisorTaskSummaryToMap(obj oci_database_management.SqlTuningAdvisorTaskSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DaysToExpire != nil {
+		result["days_to_expire"] = int(*obj.DaysToExpire)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.InstanceId != nil {
+		result["instance_id"] = int(*obj.InstanceId)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Owner != nil {
+		result["owner"] = string(*obj.Owner)
+	}
+
+	if obj.RecommendationCount != nil {
+		result["recommendation_count"] = int(*obj.RecommendationCount)
+	}
+
+	if obj.SqlTuningAdvisorTaskId != nil {
+		result["sql_tuning_advisor_task_id"] = strconv.FormatInt(*obj.SqlTuningAdvisorTaskId, 10)
+	}
+
+	result["task_status"] = string(obj.TaskStatus)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeExecutionEnded != nil {
+		result["time_execution_ended"] = obj.TimeExecutionEnded.String()
+	}
+
+	if obj.TimeExecutionStarted != nil {
+		result["time_execution_started"] = obj.TimeExecutionStarted.String()
+	}
+
+	if obj.TotalSqlStatements != nil {
+		result["total_sql_statements"] = int(*obj.TotalSqlStatements)
+	}
+
+	return result
 }

@@ -159,23 +159,3 @@ func (s *IdentityIamWorkRequestDataSourceCrud) SetData() error {
 
 	return nil
 }
-
-func IamWorkRequestResourceToMap(obj oci_identity.IamWorkRequestResource) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["action_type"] = string(obj.ActionType)
-
-	if obj.EntityType != nil {
-		result["entity_type"] = string(*obj.EntityType)
-	}
-
-	if obj.EntityUri != nil {
-		result["entity_uri"] = string(*obj.EntityUri)
-	}
-
-	if obj.Identifier != nil {
-		result["identifier"] = string(*obj.Identifier)
-	}
-
-	return result
-}

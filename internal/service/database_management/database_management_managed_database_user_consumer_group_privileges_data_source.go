@@ -153,3 +153,17 @@ func (s *DatabaseManagementManagedDatabaseUserConsumerGroupPrivilegesDataSourceC
 
 	return nil
 }
+
+func ConsumerGroupPrivilegeSummaryToMap(obj oci_database_management.ConsumerGroupPrivilegeSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["grant_option"] = string(obj.GrantOption)
+
+	result["initial_group"] = string(obj.InitialGroup)
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}
