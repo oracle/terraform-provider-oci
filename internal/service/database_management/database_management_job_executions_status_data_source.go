@@ -153,15 +153,3 @@ func (s *DatabaseManagementJobExecutionsStatusDataSourceCrud) SetData() error {
 
 	return nil
 }
-
-func JobExecutionsStatusSummaryToMap(obj oci_database_management.JobExecutionsStatusSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Count != nil {
-		result["count"] = int(*obj.Count)
-	}
-
-	result["status"] = string(obj.Status)
-
-	return result
-}
