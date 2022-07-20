@@ -121,17 +121,3 @@ func (s *DatabaseManagementManagedDatabasesUserProxyUserDataSourceCrud) SetData(
 
 	return nil
 }
-
-func ProxyUserSummaryToMap(obj oci_database_management.ProxyUserSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["authentication"] = string(obj.Authentication)
-
-	result["flags"] = string(obj.Flags)
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	return result
-}

@@ -133,23 +133,3 @@ func (s *DatabaseManagementManagedDatabaseUserRoleDataSourceCrud) SetData() erro
 
 	return nil
 }
-
-func RoleSummaryToMap(obj oci_database_management.RoleSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["admin_option"] = string(obj.AdminOption)
-
-	result["common"] = string(obj.Common)
-
-	result["default_role"] = string(obj.DefaultRole)
-
-	result["delegate_option"] = string(obj.DelegateOption)
-
-	result["inherited"] = string(obj.Inherited)
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	return result
-}

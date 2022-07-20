@@ -162,3 +162,25 @@ func (s *DatabaseManagementManagedDatabaseSqlTuningSetsDataSourceCrud) SetData()
 
 	return nil
 }
+
+func SqlTuningSetSummaryToMap(obj oci_database_management.SqlTuningSetSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Owner != nil {
+		result["owner"] = string(*obj.Owner)
+	}
+
+	if obj.StatementCounts != nil {
+		result["statement_counts"] = int(*obj.StatementCounts)
+	}
+
+	return result
+}

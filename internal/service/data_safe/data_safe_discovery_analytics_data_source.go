@@ -223,3 +223,33 @@ func DataSafeDiscoveryAnalyticsSummaryToMap(obj oci_data_safe.DiscoveryAnalytics
 
 	return result
 }
+
+func DimensionsToMap(obj *oci_data_safe.Dimensions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.SensitiveDataModelId != nil {
+		result["sensitive_data_model_id"] = string(*obj.SensitiveDataModelId)
+	}
+
+	if obj.TargetId != nil {
+		result["target_id"] = string(*obj.TargetId)
+	}
+
+	return result
+}
+
+func DiscoveryAnalyticsSummaryToMap(obj oci_data_safe.DiscoveryAnalyticsSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Count != nil {
+		result["count"] = strconv.FormatInt(*obj.Count, 10)
+	}
+
+	if obj.Dimensions != nil {
+		result["dimensions"] = []interface{}{DimensionsToMap(obj.Dimensions)}
+	}
+
+	result["metric_name"] = string(obj.MetricName)
+
+	return result
+}

@@ -95,13 +95,3 @@ func (s *DataLabelingServiceAnnotationFormatDataSourceCrud) SetData() error {
 
 	return nil
 }
-
-func AnnotationFormatSummaryToMap(obj oci_data_labeling_service.AnnotationFormatSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	return result
-}

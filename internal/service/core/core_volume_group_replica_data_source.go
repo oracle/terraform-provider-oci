@@ -178,15 +178,3 @@ func (s *CoreVolumeGroupReplicaDataSourceCrud) SetData() error {
 
 	return nil
 }
-
-func MemberReplicaToMap(obj oci_core.MemberReplica) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["membership_state"] = string(obj.MembershipState)
-
-	if obj.VolumeReplicaId != nil {
-		result["volume_replica_id"] = string(*obj.VolumeReplicaId)
-	}
-
-	return result
-}

@@ -142,3 +142,35 @@ func (s *CoreCpeDeviceShapesDataSourceCrud) SetData() error {
 
 	return nil
 }
+
+func CpeDeviceConfigQuestionToMap(obj oci_core.CpeDeviceConfigQuestion) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Explanation != nil {
+		result["explanation"] = string(*obj.Explanation)
+	}
+
+	if obj.Key != nil {
+		result["key"] = string(*obj.Key)
+	}
+
+	return result
+}
+
+func CpeDeviceInfoToMap(obj *oci_core.CpeDeviceInfo) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PlatformSoftwareVersion != nil {
+		result["platform_software_version"] = string(*obj.PlatformSoftwareVersion)
+	}
+
+	if obj.Vendor != nil {
+		result["vendor"] = string(*obj.Vendor)
+	}
+
+	return result
+}
