@@ -532,21 +532,27 @@ func (t *OciTestT) Failed() bool {
 }
 
 func (t *OciTestT) Fatalf(format string, args ...interface{}) {
+	defer func() {
+		str := fmt.Sprintf("%v", args)
+		t.ErrorMessages = append(t.ErrorMessages, str)
+	}()
 	t.T.Fatalf(format, args...)
-	str := fmt.Sprintf("%v", args)
-	t.ErrorMessages = append(t.ErrorMessages, str)
 }
 
 func (t *OciTestT) Log(args ...interface{}) {
+	defer func() {
+		str := fmt.Sprintf("%v", args)
+		t.ErrorMessages = append(t.ErrorMessages, str)
+	}()
 	t.T.Log(args...)
-	str := fmt.Sprintf("%v", args)
-	t.ErrorMessages = append(t.ErrorMessages, str)
 }
 
 func (t *OciTestT) Logf(format string, args ...interface{}) {
+	defer func() {
+		str := fmt.Sprintf("%v", args)
+		t.ErrorMessages = append(t.ErrorMessages, str)
+	}()
 	t.T.Logf(format, args...)
-	str := fmt.Sprintf("%v", args)
-	t.ErrorMessages = append(t.ErrorMessages, str)
 }
 
 func (t *OciTestT) SkipNow() {
@@ -554,9 +560,11 @@ func (t *OciTestT) SkipNow() {
 }
 
 func (t *OciTestT) Skipf(format string, args ...interface{}) {
+	defer func() {
+		str := fmt.Sprintf("%v", args)
+		t.ErrorMessages = append(t.ErrorMessages, str)
+	}()
 	t.T.Skipf(format, args...)
-	str := fmt.Sprintf("%v", args)
-	t.ErrorMessages = append(t.ErrorMessages, str)
 }
 
 func (t *OciTestT) Skipped() bool {
@@ -577,6 +585,18 @@ func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps [
 	}
 
 	ociTest := OciTestT{t, make([]string, 0)}
+
+	defer func() {
+		// check if any error was logged
+		if len(ociTest.ErrorMessages) > 0 {
+			fmt.Println("================ Error Summary ================")
+			// print out the errors in an error summary
+			for _, error := range ociTest.ErrorMessages {
+				fmt.Println(error)
+			}
+		}
+	}()
+
 	resource.Test(&ociTest, resource.TestCase{
 		PreCheck: func() { PreCheck(t) },
 		Providers: map[string]*schema.Provider{
@@ -585,17 +605,6 @@ func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps [
 		CheckDestroy: checkDestroyFunc,
 		Steps:        steps,
 	})
-
-	// check if any error was logged
-	if len(ociTest.ErrorMessages) <= 0 {
-		return
-	}
-
-	fmt.Println("================ Error Summary ================")
-	// print out the errors in an error summary
-	for _, error := range ociTest.ErrorMessages {
-		fmt.Println(error)
-	}
 }
 
 func PreCheck(t *testing.T) {
