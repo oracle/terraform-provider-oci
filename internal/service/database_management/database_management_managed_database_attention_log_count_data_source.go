@@ -167,15 +167,3 @@ func (s *DatabaseManagementManagedDatabaseAttentionLogCountDataSourceCrud) SetDa
 
 	return nil
 }
-
-func AttentionLogCountSummaryToMap(obj oci_database_management.AttentionLogCountSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["category"] = string(obj.Category)
-
-	if obj.Count != nil {
-		result["count"] = int(*obj.Count)
-	}
-
-	return result
-}

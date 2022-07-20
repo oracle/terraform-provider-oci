@@ -5,6 +5,7 @@ package database_management
 
 import (
 	"context"
+	"strconv"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -201,4 +202,54 @@ func (s *DatabaseManagementManagedDatabaseAddmTasksDataSourceCrud) SetData() err
 	}
 
 	return nil
+}
+
+func AddmTaskSummaryToMap(obj oci_database_management.AddmTaskSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BeginSnapshotId != nil {
+		result["begin_snapshot_id"] = strconv.FormatInt(*obj.BeginSnapshotId, 10)
+	}
+
+	if obj.DbUser != nil {
+		result["db_user"] = string(*obj.DbUser)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.EndSnapshotId != nil {
+		result["end_snapshot_id"] = strconv.FormatInt(*obj.EndSnapshotId, 10)
+	}
+
+	if obj.EndSnapshotTime != nil {
+		result["end_snapshot_time"] = obj.EndSnapshotTime.String()
+	}
+
+	if obj.Findings != nil {
+		result["findings"] = strconv.FormatInt(*obj.Findings, 10)
+	}
+
+	result["how_created"] = string(obj.HowCreated)
+
+	if obj.StartSnapshotTime != nil {
+		result["start_snapshot_time"] = obj.StartSnapshotTime.String()
+	}
+
+	result["status"] = string(obj.Status)
+
+	if obj.TaskId != nil {
+		result["task_id"] = strconv.FormatInt(*obj.TaskId, 10)
+	}
+
+	if obj.TaskName != nil {
+		result["task_name"] = string(*obj.TaskName)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	return result
 }

@@ -180,3 +180,31 @@ func (s *CoreImageShapesDataSourceCrud) SetData() error {
 
 	return nil
 }
+
+func ImageMemoryConstraintsToMap(obj *oci_core.ImageMemoryConstraints) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MaxInGBs != nil {
+		result["max_in_gbs"] = int(*obj.MaxInGBs)
+	}
+
+	if obj.MinInGBs != nil {
+		result["min_in_gbs"] = int(*obj.MinInGBs)
+	}
+
+	return result
+}
+
+func ImageOcpuConstraintsToMap(obj *oci_core.ImageOcpuConstraints) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Max != nil {
+		result["max"] = int(*obj.Max)
+	}
+
+	if obj.Min != nil {
+		result["min"] = int(*obj.Min)
+	}
+
+	return result
+}

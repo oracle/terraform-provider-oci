@@ -204,3 +204,15 @@ func (s *DatabaseManagementManagedDatabaseAlertLogCountsDataSourceCrud) SetData(
 
 	return nil
 }
+
+func AlertLogCountSummaryToMap(obj oci_database_management.AlertLogCountSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["category"] = string(obj.Category)
+
+	if obj.Count != nil {
+		result["count"] = int(*obj.Count)
+	}
+
+	return result
+}

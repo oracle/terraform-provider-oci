@@ -121,17 +121,3 @@ func (s *DatabaseManagementManagedDatabaseUserProxiedForUserDataSourceCrud) SetD
 
 	return nil
 }
-
-func ProxiedForUserSummaryToMap(obj oci_database_management.ProxiedForUserSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["authentication"] = string(obj.Authentication)
-
-	result["flags"] = string(obj.Flags)
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	return result
-}

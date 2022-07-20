@@ -234,3 +234,37 @@ func AwrSnapshotsSummaryToMap(obj oci_opsi.AwrSnapshotSummary) map[string]interf
 
 	return result
 }
+
+func AwrSnapshotSummaryToMap(obj oci_opsi.AwrSnapshotSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AwrSourceDatabaseId != nil {
+		result["awr_source_database_id"] = string(*obj.AwrSourceDatabaseId)
+	}
+
+	if obj.ErrorCount != nil {
+		result["error_count"] = strconv.FormatInt(*obj.ErrorCount, 10)
+	}
+
+	if obj.InstanceNumber != nil {
+		result["instance_number"] = int(*obj.InstanceNumber)
+	}
+
+	if obj.SnapshotIdentifier != nil {
+		result["snapshot_identifier"] = int(*obj.SnapshotIdentifier)
+	}
+
+	if obj.TimeDbStartup != nil {
+		result["time_db_startup"] = obj.TimeDbStartup.String()
+	}
+
+	if obj.TimeSnapshotBegin != nil {
+		result["time_snapshot_begin"] = obj.TimeSnapshotBegin.String()
+	}
+
+	if obj.TimeSnapshotEnd != nil {
+		result["time_snapshot_end"] = obj.TimeSnapshotEnd.String()
+	}
+
+	return result
+}

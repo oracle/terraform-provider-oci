@@ -137,3 +137,13 @@ func AnnotationFormatsSummaryToMap(obj oci_data_labeling_service.AnnotationForma
 
 	return result
 }
+
+func AnnotationFormatSummaryToMap(obj oci_data_labeling_service.AnnotationFormatSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}

@@ -454,3 +454,37 @@ func (s *OsubUsageComputedUsagesDataSourceCrud) SetData() error {
 
 	return nil
 }
+
+func ProductToMap(obj *oci_osub_usage.Product) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BillingCategory != nil {
+		result["billing_category"] = string(*obj.BillingCategory)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.PartNumber != nil {
+		result["part_number"] = string(*obj.PartNumber)
+	}
+
+	if obj.ProductCategory != nil {
+		result["product_category"] = string(*obj.ProductCategory)
+	}
+
+	if obj.ProvisioningGroup != nil {
+		result["provisioning_group"] = string(*obj.ProvisioningGroup)
+	}
+
+	if obj.UcmRateCardPartType != nil {
+		result["ucm_rate_card_part_type"] = string(*obj.UcmRateCardPartType)
+	}
+
+	if obj.UnitOfMeasure != nil {
+		result["unit_of_measure"] = string(*obj.UnitOfMeasure)
+	}
+
+	return result
+}

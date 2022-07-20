@@ -153,3 +153,21 @@ func datasafeAlertPolicyRuleSummaryToMap(obj oci_data_safe.AlertPolicyRuleSummar
 
 	return result
 }
+
+func AlertPolicyRuleSummaryToMap(obj oci_data_safe.AlertPolicyRuleSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.Expression != nil {
+		result["expression"] = string(*obj.Expression)
+	}
+
+	if obj.Key != nil {
+		result["key"] = string(*obj.Key)
+	}
+
+	return result
+}

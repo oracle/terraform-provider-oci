@@ -5,7 +5,6 @@ package data_safe
 
 import (
 	"context"
-	"strconv"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -142,26 +141,4 @@ func (s *DataSafeAuditProfileCollectedAuditVolumeDataSourceCrud) SetData() error
 	s.D.Set("items", items)
 
 	return nil
-}
-
-func CollectedAuditVolumeSummaryToMap(obj oci_data_safe.CollectedAuditVolumeSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.ArchivedVolume != nil {
-		result["archived_volume"] = strconv.FormatInt(*obj.ArchivedVolume, 10)
-	}
-
-	if obj.AuditProfileId != nil {
-		result["audit_profile_id"] = string(*obj.AuditProfileId)
-	}
-
-	if obj.MonthInConsideration != nil {
-		result["month_in_consideration"] = obj.MonthInConsideration.String()
-	}
-
-	if obj.OnlineVolume != nil {
-		result["online_volume"] = strconv.FormatInt(*obj.OnlineVolume, 10)
-	}
-
-	return result
 }
