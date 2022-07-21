@@ -29,9 +29,9 @@ resource "oci_database_db_system" "test_db_system" {
 
   disk_redundancy         = var.db_disk_redundancy
   shape                   = var.db_system_shape
-  subnet_id               = "ocid1.subnet.oc1.ap-hyderabad-1.aaaaaaaaxp3p7plootrgchtk4s6olk7lmnjhp5xfxqwyh74jmr7dw2fxgjnq"
+  subnet_id               = oci_core_subnet.subnet.id
   ssh_public_keys         = [var.ssh_public_key]
-  display_name            = "MyTFDBSystemVM"
+  display_name            = var.display_name
   hostname                = var.hostname
   data_storage_size_in_gb = var.data_storage_size_in_gb
   license_model           = var.license_model
@@ -52,14 +52,24 @@ resource "oci_database_db_system" "test_db_system" {
   }
 }
 
+resource "oci_database_management_db_management_private_endpoint" "test_db_management_private_endpoint" {
+  compartment_id        = var.compartment_ocid
+  name                  = var.db_name
+  subnet_id             = oci_core_subnet.subnet.id
+}
+
 resource "oci_database_cloud_database_management" "test" {
   database_id           = data.oci_database_databases.databases.databases.0.id
   management_type       = "BASIC"
-  private_end_point_id  = "ocid1.dbmgmtprivateendpoint.oc1.ap-hyderabad-1.amaaaaaacsc5xjaamlmllhfxmxict6jf3irizwsydralyklninmwsrovggkq"
-  service_name          = "DB0809_hyd17q.sub02231620340.dbmgmtcustomer.oraclevcn.com"
+  private_end_point_id  = oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id
+  service_name          = join("", [data.oci_database_databases.databases.databases.0.db_unique_name, oci_core_subnet.subnet.subnet_domain_name])
   credentialdetails {
-    user_name           = "dbsnmp"
-    password_secret_id  = "ocid1.vaultsecret.oc1.ap-hyderabad-1.amaaaaaacsc5xjaa2q7r6kfzdm44ylxqwomht6uinb5zyhezka7sl2t62ecq"
+    user_name           = var.ssl_user_name
+    password_secret_id  = var.ssl_secret_id
   }
-  enable_management     = "true"
+  enable_management     = var.enable_management
+  protocol              = var.protocol
+  port                  = var.port
+  role                  = var.role
+  ssl_secret_id         = var.ssl_secret_id
 }

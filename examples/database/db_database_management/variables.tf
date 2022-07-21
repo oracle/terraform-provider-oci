@@ -33,6 +33,10 @@ variable "ssh_private_key" {
 }
 
 # DBSystem specific
+variable "display_name" {
+  default = "TFVMDBSystemForTCPSExample"
+}
+
 variable "db_system_shape" {
   default = "VM.Standard2.1"
 }
@@ -91,4 +95,32 @@ variable "license_model" {
 
 variable "node_count" {
   default = "1"
+}
+
+variable "ssl_secret_id" {
+  default = "secret_id"
+}
+
+variable "ssl_user_name" {
+  default = "dbsnmp"
+}
+
+variable "db_name" {
+  default = "TFPEforTCPSExample"
+}
+
+variable "enable_management" {
+  default = "true"
+}
+
+variable "protocol" {
+  default = "TCPS"
+}
+
+variable "port" {
+  default = "1521"
+}
+
+variable "role" {
+  default = "SYSDBA"
 }
