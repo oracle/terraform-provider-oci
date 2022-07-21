@@ -60,6 +60,8 @@ The following attributes are exported:
 	* `plugin_display_name` - Management Agent Plugin Identifier, can be renamed
 	* `plugin_id` - Plugin Id
 	* `plugin_name` - Management Agent Plugin Name
+	* `plugin_status` - Plugin Status
+	* `plugin_status_message` - Status message of the Plugin
 	* `plugin_version` - Plugin Version
 * `resource_artifact_version` - Version of the deployment artifact instantiated by this Management Agent. The format for Standalone resourceMode is YYMMDD.HHMM, and the format for other modes (whose artifacts are based upon Standalone but can advance independently) is YYMMDD.HHMM.VVVVVVVVVVVV. VVVVVVVVVVVV is always a numeric value between 000000000000 and 999999999999 
 * `state` - The current state of managementAgent
