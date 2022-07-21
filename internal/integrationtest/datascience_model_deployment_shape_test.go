@@ -48,6 +48,7 @@ func TestDatascienceModelDeploymentShapeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "model_deployment_shapes.0.core_count"),
 				resource.TestCheckResourceAttrSet(datasourceName, "model_deployment_shapes.0.memory_in_gbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "model_deployment_shapes.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "model_deployment_shapes.0.shape_series"),
 			),
 		},
 	})
