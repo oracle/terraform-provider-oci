@@ -1,4 +1,3 @@
-
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
@@ -138,6 +137,14 @@ variable "model_deployment_model_deployment_configuration_details_model_configur
   default = "FIXED_SIZE"
 }
 
+variable "model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_ocpus" {
+  default = 1.0
+}
+
+variable "model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_memory_in_gbs" {
+  default = 6.0
+}
+
 variable "model_deployment_state" {
 }
 
@@ -153,6 +160,14 @@ resource "oci_datascience_model_deployment" "tf_model_deployment" {
       instance_configuration {
         # Required
         instance_shape_name = var.shape
+
+        #Optional
+        model_deployment_instance_shape_config_details {
+
+          #Optional
+          memory_in_gbs = var.model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_memory_in_gbs
+          ocpus         = var.model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_ocpus
+        }
       }
       model_id = oci_datascience_model.tf_model.id
 
@@ -201,4 +216,3 @@ data "oci_datascience_model_deployments" "tf_model_deployments" {
   project_id   = var.project_ocid
   state        = var.model_deployment_state
 }
-
