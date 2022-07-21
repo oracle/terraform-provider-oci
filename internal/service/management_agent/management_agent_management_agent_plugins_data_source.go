@@ -18,6 +18,10 @@ func ManagementAgentManagementAgentPluginsDataSource() *schema.Resource {
 		Read: readManagementAgentManagementAgentPlugins,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"agent_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -109,6 +113,11 @@ func (s *ManagementAgentManagementAgentPluginsDataSourceCrud) VoidState() {
 
 func (s *ManagementAgentManagementAgentPluginsDataSourceCrud) Get() error {
 	request := oci_management_agent.ListManagementAgentPluginsRequest{}
+
+	if agentId, ok := s.D.GetOkExists("agent_id"); ok {
+		tmp := agentId.(string)
+		request.AgentId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)

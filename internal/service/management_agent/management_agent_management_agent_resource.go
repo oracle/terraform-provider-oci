@@ -144,6 +144,14 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"plugin_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"plugin_status_message": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"plugin_version": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -573,6 +581,12 @@ func ManagementAgentPluginDetailsToMap(obj oci_management_agent.ManagementAgentP
 
 	if obj.PluginName != nil {
 		result["plugin_name"] = string(*obj.PluginName)
+	}
+
+	result["plugin_status"] = string(obj.PluginStatus)
+
+	if obj.PluginStatusMessage != nil {
+		result["plugin_status_message"] = string(*obj.PluginStatusMessage)
 	}
 
 	if obj.PluginVersion != nil {
