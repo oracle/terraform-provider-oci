@@ -61,58 +61,24 @@ func DatabaseCloudDatabaseManagementResource() *schema.Resource {
 			},
 			"enable_management": {
 				Type:     schema.TypeBool,
-				Computed: true,
+				Required: true,
 			},
-			"kms_key_id": {
+			"protocol": {
 				Type:     schema.TypeString,
-				Computed: true,
+				Optional: true,
 			},
-			"kms_key_version_id": {
+			"port": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"role": {
 				Type:     schema.TypeString,
-				Computed: true,
+				Optional: true,
 			},
-			"last_backup_timestamp": {
+			"ssl_secret_id": {
 				Type:     schema.TypeString,
-				Computed: true,
+				Optional: true,
 			},
-			"lifecycle_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"ncharacter_set": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"pdb_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"sid_prefix": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"source_database_point_in_time_recovery_timestamp": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vault_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vm_cluster_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-
-			// Computed
 		},
 	}
 }
@@ -202,6 +168,24 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Create() error {
 			}
 		}
 
+		if port, ok := s.D.GetOkExists("port"); ok {
+			tmp := port.(int)
+			request.Port = &tmp
+		}
+
+		if protocol, ok := s.D.GetOkExists("protocol"); ok {
+			request.Protocol = oci_database.EnableDatabaseManagementDetailsProtocolEnum(protocol.(string))
+		}
+
+		if role, ok := s.D.GetOkExists("role"); ok {
+			request.Role = oci_database.EnableDatabaseManagementDetailsRoleEnum(role.(string))
+		}
+
+		if sslSecretId, ok := s.D.GetOkExists("ssl_secret_id"); ok {
+			tmp := sslSecretId.(string)
+			request.SslSecretId = &tmp
+		}
+
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.EnableDatabaseManagement(context.Background(), request)
@@ -285,15 +269,26 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Update() error {
 			}
 		}
 
+		if port, ok := s.D.GetOkExists("port"); ok {
+			tmp := port.(int)
+			request.Port = &tmp
+		}
+
+		if protocol, ok := s.D.GetOkExists("protocol"); ok {
+			request.Protocol = oci_database.ModifyDatabaseManagementDetailsProtocolEnum(protocol.(string))
+		}
+
+		if role, ok := s.D.GetOkExists("role"); ok {
+			request.Role = oci_database.ModifyDatabaseManagementDetailsRoleEnum(role.(string))
+		}
+
+		if sslSecretId, ok := s.D.GetOkExists("ssl_secret_id"); ok {
+			tmp := sslSecretId.(string)
+			request.SslSecretId = &tmp
+		}
+
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		if s.Res.KmsKeyVersionId != nil {
-			s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
-		}
-
-		if s.Res.LastBackupTimestamp != nil {
-			s.D.Set("last_backup_timestamp", s.Res.LastBackupTimestamp.String())
-		}
 		response, err := s.Client.ModifyDatabaseManagement(context.Background(), request)
 		if err != nil {
 			return err
@@ -341,13 +336,6 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Delete() error {
 		operation = enableManagement.(bool)
 	}
 
-	if s.Res.VaultId != nil {
-		s.D.Set("vault_id", *s.Res.VaultId)
-	}
-
-	if s.Res.VmClusterId != nil {
-		s.D.Set("vm_cluster_id", *s.Res.VmClusterId)
-	}
 	if !operation {
 		return nil
 	}
