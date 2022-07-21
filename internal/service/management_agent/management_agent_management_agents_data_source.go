@@ -18,6 +18,10 @@ func ManagementAgentManagementAgentsDataSource() *schema.Resource {
 		Read: readManagementAgentManagementAgents,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"access_level": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"availability_status": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -25,6 +29,10 @@ func ManagementAgentManagementAgentsDataSource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"compartment_id_in_subtree": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -97,6 +105,11 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) VoidState() {
 func (s *ManagementAgentManagementAgentsDataSourceCrud) Get() error {
 	request := oci_management_agent.ListManagementAgentsRequest{}
 
+	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
+		tmp := accessLevel.(string)
+		request.AccessLevel = &tmp
+	}
+
 	if availabilityStatus, ok := s.D.GetOkExists("availability_status"); ok {
 		request.AvailabilityStatus = oci_management_agent.ListManagementAgentsAvailabilityStatusEnum(availabilityStatus.(string))
 	}
@@ -104,6 +117,11 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
+		tmp := compartmentIdInSubtree.(bool)
+		request.CompartmentIdInSubtree = &tmp
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
