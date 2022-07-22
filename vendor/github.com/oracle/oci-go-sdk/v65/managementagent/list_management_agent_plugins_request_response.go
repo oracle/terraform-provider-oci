@@ -45,6 +45,9 @@ type ListManagementAgentPluginsRequest struct {
 	// Filter to return only results having the particular platform type.
 	PlatformType []PlatformTypesEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
+	// The ManagementAgentID of the agent from which the Management Agents to be filtered.
+	AgentId *string `mandatory:"false" contributesTo:"query" name:"agentId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

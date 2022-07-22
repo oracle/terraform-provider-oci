@@ -47,6 +47,15 @@ type Stack struct {
 
 	ConfigSource ConfigSource `mandatory:"false" json:"configSource"`
 
+	CustomTerraformProvider *CustomTerraformProvider `mandatory:"false" json:"customTerraformProvider"`
+
+	// When `true`, the stack sources third-party Terraform providers from
+	// Terraform Registry (https://registry.terraform.io/browse/providers) and allows
+	// CustomTerraformProvider.
+	// For more information about stack sourcing of third-party Terraform providers, see
+	// Third-party Provider Configuration (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/terraformconfigresourcemanager.htm#third-party-providers).
+	IsThirdPartyProviderExperienceEnabled *bool `mandatory:"false" json:"isThirdPartyProviderExperienceEnabled"`
+
 	// Terraform variables associated with this resource.
 	// Maximum number of variables supported is 250.
 	// The maximum size of each variable, including both name and value, is 8192 bytes.
@@ -101,19 +110,21 @@ func (m Stack) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Stack) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Id                   *string                           `json:"id"`
-		CompartmentId        *string                           `json:"compartmentId"`
-		DisplayName          *string                           `json:"displayName"`
-		Description          *string                           `json:"description"`
-		TimeCreated          *common.SDKTime                   `json:"timeCreated"`
-		LifecycleState       StackLifecycleStateEnum           `json:"lifecycleState"`
-		ConfigSource         configsource                      `json:"configSource"`
-		Variables            map[string]string                 `json:"variables"`
-		TerraformVersion     *string                           `json:"terraformVersion"`
-		StackDriftStatus     StackStackDriftStatusEnum         `json:"stackDriftStatus"`
-		TimeDriftLastChecked *common.SDKTime                   `json:"timeDriftLastChecked"`
-		FreeformTags         map[string]string                 `json:"freeformTags"`
-		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
+		Id                                    *string                           `json:"id"`
+		CompartmentId                         *string                           `json:"compartmentId"`
+		DisplayName                           *string                           `json:"displayName"`
+		Description                           *string                           `json:"description"`
+		TimeCreated                           *common.SDKTime                   `json:"timeCreated"`
+		LifecycleState                        StackLifecycleStateEnum           `json:"lifecycleState"`
+		ConfigSource                          configsource                      `json:"configSource"`
+		CustomTerraformProvider               *CustomTerraformProvider          `json:"customTerraformProvider"`
+		IsThirdPartyProviderExperienceEnabled *bool                             `json:"isThirdPartyProviderExperienceEnabled"`
+		Variables                             map[string]string                 `json:"variables"`
+		TerraformVersion                      *string                           `json:"terraformVersion"`
+		StackDriftStatus                      StackStackDriftStatusEnum         `json:"stackDriftStatus"`
+		TimeDriftLastChecked                  *common.SDKTime                   `json:"timeDriftLastChecked"`
+		FreeformTags                          map[string]string                 `json:"freeformTags"`
+		DefinedTags                           map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -142,6 +153,10 @@ func (m *Stack) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.ConfigSource = nil
 	}
+
+	m.CustomTerraformProvider = model.CustomTerraformProvider
+
+	m.IsThirdPartyProviderExperienceEnabled = model.IsThirdPartyProviderExperienceEnabled
 
 	m.Variables = model.Variables
 

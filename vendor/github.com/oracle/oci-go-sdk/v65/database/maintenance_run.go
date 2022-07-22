@@ -317,30 +317,33 @@ type MaintenanceRunMaintenanceSubtypeEnum string
 
 // Set of constants representing the allowable values for MaintenanceRunMaintenanceSubtypeEnum
 const (
-	MaintenanceRunMaintenanceSubtypeQuarterly      MaintenanceRunMaintenanceSubtypeEnum = "QUARTERLY"
-	MaintenanceRunMaintenanceSubtypeHardware       MaintenanceRunMaintenanceSubtypeEnum = "HARDWARE"
-	MaintenanceRunMaintenanceSubtypeCritical       MaintenanceRunMaintenanceSubtypeEnum = "CRITICAL"
-	MaintenanceRunMaintenanceSubtypeInfrastructure MaintenanceRunMaintenanceSubtypeEnum = "INFRASTRUCTURE"
-	MaintenanceRunMaintenanceSubtypeDatabase       MaintenanceRunMaintenanceSubtypeEnum = "DATABASE"
-	MaintenanceRunMaintenanceSubtypeOneoff         MaintenanceRunMaintenanceSubtypeEnum = "ONEOFF"
+	MaintenanceRunMaintenanceSubtypeQuarterly       MaintenanceRunMaintenanceSubtypeEnum = "QUARTERLY"
+	MaintenanceRunMaintenanceSubtypeHardware        MaintenanceRunMaintenanceSubtypeEnum = "HARDWARE"
+	MaintenanceRunMaintenanceSubtypeCritical        MaintenanceRunMaintenanceSubtypeEnum = "CRITICAL"
+	MaintenanceRunMaintenanceSubtypeInfrastructure  MaintenanceRunMaintenanceSubtypeEnum = "INFRASTRUCTURE"
+	MaintenanceRunMaintenanceSubtypeDatabase        MaintenanceRunMaintenanceSubtypeEnum = "DATABASE"
+	MaintenanceRunMaintenanceSubtypeOneoff          MaintenanceRunMaintenanceSubtypeEnum = "ONEOFF"
+	MaintenanceRunMaintenanceSubtypeSecurityMonthly MaintenanceRunMaintenanceSubtypeEnum = "SECURITY_MONTHLY"
 )
 
 var mappingMaintenanceRunMaintenanceSubtypeEnum = map[string]MaintenanceRunMaintenanceSubtypeEnum{
-	"QUARTERLY":      MaintenanceRunMaintenanceSubtypeQuarterly,
-	"HARDWARE":       MaintenanceRunMaintenanceSubtypeHardware,
-	"CRITICAL":       MaintenanceRunMaintenanceSubtypeCritical,
-	"INFRASTRUCTURE": MaintenanceRunMaintenanceSubtypeInfrastructure,
-	"DATABASE":       MaintenanceRunMaintenanceSubtypeDatabase,
-	"ONEOFF":         MaintenanceRunMaintenanceSubtypeOneoff,
+	"QUARTERLY":        MaintenanceRunMaintenanceSubtypeQuarterly,
+	"HARDWARE":         MaintenanceRunMaintenanceSubtypeHardware,
+	"CRITICAL":         MaintenanceRunMaintenanceSubtypeCritical,
+	"INFRASTRUCTURE":   MaintenanceRunMaintenanceSubtypeInfrastructure,
+	"DATABASE":         MaintenanceRunMaintenanceSubtypeDatabase,
+	"ONEOFF":           MaintenanceRunMaintenanceSubtypeOneoff,
+	"SECURITY_MONTHLY": MaintenanceRunMaintenanceSubtypeSecurityMonthly,
 }
 
 var mappingMaintenanceRunMaintenanceSubtypeEnumLowerCase = map[string]MaintenanceRunMaintenanceSubtypeEnum{
-	"quarterly":      MaintenanceRunMaintenanceSubtypeQuarterly,
-	"hardware":       MaintenanceRunMaintenanceSubtypeHardware,
-	"critical":       MaintenanceRunMaintenanceSubtypeCritical,
-	"infrastructure": MaintenanceRunMaintenanceSubtypeInfrastructure,
-	"database":       MaintenanceRunMaintenanceSubtypeDatabase,
-	"oneoff":         MaintenanceRunMaintenanceSubtypeOneoff,
+	"quarterly":        MaintenanceRunMaintenanceSubtypeQuarterly,
+	"hardware":         MaintenanceRunMaintenanceSubtypeHardware,
+	"critical":         MaintenanceRunMaintenanceSubtypeCritical,
+	"infrastructure":   MaintenanceRunMaintenanceSubtypeInfrastructure,
+	"database":         MaintenanceRunMaintenanceSubtypeDatabase,
+	"oneoff":           MaintenanceRunMaintenanceSubtypeOneoff,
+	"security_monthly": MaintenanceRunMaintenanceSubtypeSecurityMonthly,
 }
 
 // GetMaintenanceRunMaintenanceSubtypeEnumValues Enumerates the set of values for MaintenanceRunMaintenanceSubtypeEnum
@@ -361,6 +364,7 @@ func GetMaintenanceRunMaintenanceSubtypeEnumStringValues() []string {
 		"INFRASTRUCTURE",
 		"DATABASE",
 		"ONEOFF",
+		"SECURITY_MONTHLY",
 	}
 }
 

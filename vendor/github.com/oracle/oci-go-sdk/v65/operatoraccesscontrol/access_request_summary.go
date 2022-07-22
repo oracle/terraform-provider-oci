@@ -45,6 +45,9 @@ type AccessRequestSummary struct {
 	// The current state of the AccessRequest.
 	LifecycleState AccessRequestLifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// More in detail about the lifeCycleState.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// Time when the access request was created by the operator user in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.Example: '2020-05-22T21:10:29.600Z'
 	TimeOfCreation *common.SDKTime `mandatory:"false" json:"timeOfCreation"`
 
