@@ -1,4 +1,4 @@
-## 4.85.0 (Unreleased)
+## 4.85.0 (July 20, 2022)
 
 ### Added
 - Support for Network Firewall
