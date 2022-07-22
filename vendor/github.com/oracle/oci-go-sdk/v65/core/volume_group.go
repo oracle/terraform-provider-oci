@@ -167,27 +167,30 @@ type VolumeGroupLifecycleStateEnum string
 
 // Set of constants representing the allowable values for VolumeGroupLifecycleStateEnum
 const (
-	VolumeGroupLifecycleStateProvisioning VolumeGroupLifecycleStateEnum = "PROVISIONING"
-	VolumeGroupLifecycleStateAvailable    VolumeGroupLifecycleStateEnum = "AVAILABLE"
-	VolumeGroupLifecycleStateTerminating  VolumeGroupLifecycleStateEnum = "TERMINATING"
-	VolumeGroupLifecycleStateTerminated   VolumeGroupLifecycleStateEnum = "TERMINATED"
-	VolumeGroupLifecycleStateFaulty       VolumeGroupLifecycleStateEnum = "FAULTY"
+	VolumeGroupLifecycleStateProvisioning  VolumeGroupLifecycleStateEnum = "PROVISIONING"
+	VolumeGroupLifecycleStateAvailable     VolumeGroupLifecycleStateEnum = "AVAILABLE"
+	VolumeGroupLifecycleStateTerminating   VolumeGroupLifecycleStateEnum = "TERMINATING"
+	VolumeGroupLifecycleStateTerminated    VolumeGroupLifecycleStateEnum = "TERMINATED"
+	VolumeGroupLifecycleStateFaulty        VolumeGroupLifecycleStateEnum = "FAULTY"
+	VolumeGroupLifecycleStateUpdatePending VolumeGroupLifecycleStateEnum = "UPDATE_PENDING"
 )
 
 var mappingVolumeGroupLifecycleStateEnum = map[string]VolumeGroupLifecycleStateEnum{
-	"PROVISIONING": VolumeGroupLifecycleStateProvisioning,
-	"AVAILABLE":    VolumeGroupLifecycleStateAvailable,
-	"TERMINATING":  VolumeGroupLifecycleStateTerminating,
-	"TERMINATED":   VolumeGroupLifecycleStateTerminated,
-	"FAULTY":       VolumeGroupLifecycleStateFaulty,
+	"PROVISIONING":   VolumeGroupLifecycleStateProvisioning,
+	"AVAILABLE":      VolumeGroupLifecycleStateAvailable,
+	"TERMINATING":    VolumeGroupLifecycleStateTerminating,
+	"TERMINATED":     VolumeGroupLifecycleStateTerminated,
+	"FAULTY":         VolumeGroupLifecycleStateFaulty,
+	"UPDATE_PENDING": VolumeGroupLifecycleStateUpdatePending,
 }
 
 var mappingVolumeGroupLifecycleStateEnumLowerCase = map[string]VolumeGroupLifecycleStateEnum{
-	"provisioning": VolumeGroupLifecycleStateProvisioning,
-	"available":    VolumeGroupLifecycleStateAvailable,
-	"terminating":  VolumeGroupLifecycleStateTerminating,
-	"terminated":   VolumeGroupLifecycleStateTerminated,
-	"faulty":       VolumeGroupLifecycleStateFaulty,
+	"provisioning":   VolumeGroupLifecycleStateProvisioning,
+	"available":      VolumeGroupLifecycleStateAvailable,
+	"terminating":    VolumeGroupLifecycleStateTerminating,
+	"terminated":     VolumeGroupLifecycleStateTerminated,
+	"faulty":         VolumeGroupLifecycleStateFaulty,
+	"update_pending": VolumeGroupLifecycleStateUpdatePending,
 }
 
 // GetVolumeGroupLifecycleStateEnumValues Enumerates the set of values for VolumeGroupLifecycleStateEnum
@@ -207,6 +210,7 @@ func GetVolumeGroupLifecycleStateEnumStringValues() []string {
 		"TERMINATING",
 		"TERMINATED",
 		"FAULTY",
+		"UPDATE_PENDING",
 	}
 }
 
