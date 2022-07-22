@@ -21,11 +21,17 @@ import (
 
 // CreateJobOperationDetails Job details that are specific to the operation type.
 type CreateJobOperationDetails interface {
+
+	// Specifies whether or not to upgrade provider versions.
+	// Within the version constraints of your Terraform configuration, use the latest versions available from the source of Terraform providers.
+	// For more information about this option, see Dependency Lock File (terraform.io) (https://www.terraform.io/language/files/dependency-lock).
+	GetIsProviderUpgradeRequired() *bool
 }
 
 type createjoboperationdetails struct {
-	JsonData  []byte
-	Operation string `json:"operation"`
+	JsonData                  []byte
+	IsProviderUpgradeRequired *bool  `mandatory:"false" json:"isProviderUpgradeRequired"`
+	Operation                 string `json:"operation"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -39,6 +45,7 @@ func (m *createjoboperationdetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.IsProviderUpgradeRequired = s.Model.IsProviderUpgradeRequired
 	m.Operation = s.Model.Operation
 
 	return err
@@ -72,6 +79,11 @@ func (m *createjoboperationdetails) UnmarshalPolymorphicJSON(data []byte) (inter
 	default:
 		return *m, nil
 	}
+}
+
+//GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
+func (m createjoboperationdetails) GetIsProviderUpgradeRequired() *bool {
+	return m.IsProviderUpgradeRequired
 }
 
 func (m createjoboperationdetails) String() string {

@@ -21,6 +21,12 @@ import (
 
 // CreateApplyJobOperationDetails Job details that are specific to apply operations.
 type CreateApplyJobOperationDetails struct {
+
+	// Specifies whether or not to upgrade provider versions.
+	// Within the version constraints of your Terraform configuration, use the latest versions available from the source of Terraform providers.
+	// For more information about this option, see Dependency Lock File (terraform.io) (https://www.terraform.io/language/files/dependency-lock).
+	IsProviderUpgradeRequired *bool `mandatory:"false" json:"isProviderUpgradeRequired"`
+
 	TerraformAdvancedOptions *TerraformAdvancedOptions `mandatory:"false" json:"terraformAdvancedOptions"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a plan job, for use when specifying `FROM_PLAN_JOB_ID` as the `executionPlanStrategy`.
@@ -29,6 +35,11 @@ type CreateApplyJobOperationDetails struct {
 	// Specifies the source of the execution plan to apply.
 	// Use `AUTO_APPROVED` to run the job without an execution plan.
 	ExecutionPlanStrategy ApplyJobOperationDetailsExecutionPlanStrategyEnum `mandatory:"false" json:"executionPlanStrategy,omitempty"`
+}
+
+//GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
+func (m CreateApplyJobOperationDetails) GetIsProviderUpgradeRequired() *bool {
+	return m.IsProviderUpgradeRequired
 }
 
 func (m CreateApplyJobOperationDetails) String() string {

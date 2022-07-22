@@ -317,30 +317,33 @@ type MaintenanceRunSummaryMaintenanceSubtypeEnum string
 
 // Set of constants representing the allowable values for MaintenanceRunSummaryMaintenanceSubtypeEnum
 const (
-	MaintenanceRunSummaryMaintenanceSubtypeQuarterly      MaintenanceRunSummaryMaintenanceSubtypeEnum = "QUARTERLY"
-	MaintenanceRunSummaryMaintenanceSubtypeHardware       MaintenanceRunSummaryMaintenanceSubtypeEnum = "HARDWARE"
-	MaintenanceRunSummaryMaintenanceSubtypeCritical       MaintenanceRunSummaryMaintenanceSubtypeEnum = "CRITICAL"
-	MaintenanceRunSummaryMaintenanceSubtypeInfrastructure MaintenanceRunSummaryMaintenanceSubtypeEnum = "INFRASTRUCTURE"
-	MaintenanceRunSummaryMaintenanceSubtypeDatabase       MaintenanceRunSummaryMaintenanceSubtypeEnum = "DATABASE"
-	MaintenanceRunSummaryMaintenanceSubtypeOneoff         MaintenanceRunSummaryMaintenanceSubtypeEnum = "ONEOFF"
+	MaintenanceRunSummaryMaintenanceSubtypeQuarterly       MaintenanceRunSummaryMaintenanceSubtypeEnum = "QUARTERLY"
+	MaintenanceRunSummaryMaintenanceSubtypeHardware        MaintenanceRunSummaryMaintenanceSubtypeEnum = "HARDWARE"
+	MaintenanceRunSummaryMaintenanceSubtypeCritical        MaintenanceRunSummaryMaintenanceSubtypeEnum = "CRITICAL"
+	MaintenanceRunSummaryMaintenanceSubtypeInfrastructure  MaintenanceRunSummaryMaintenanceSubtypeEnum = "INFRASTRUCTURE"
+	MaintenanceRunSummaryMaintenanceSubtypeDatabase        MaintenanceRunSummaryMaintenanceSubtypeEnum = "DATABASE"
+	MaintenanceRunSummaryMaintenanceSubtypeOneoff          MaintenanceRunSummaryMaintenanceSubtypeEnum = "ONEOFF"
+	MaintenanceRunSummaryMaintenanceSubtypeSecurityMonthly MaintenanceRunSummaryMaintenanceSubtypeEnum = "SECURITY_MONTHLY"
 )
 
 var mappingMaintenanceRunSummaryMaintenanceSubtypeEnum = map[string]MaintenanceRunSummaryMaintenanceSubtypeEnum{
-	"QUARTERLY":      MaintenanceRunSummaryMaintenanceSubtypeQuarterly,
-	"HARDWARE":       MaintenanceRunSummaryMaintenanceSubtypeHardware,
-	"CRITICAL":       MaintenanceRunSummaryMaintenanceSubtypeCritical,
-	"INFRASTRUCTURE": MaintenanceRunSummaryMaintenanceSubtypeInfrastructure,
-	"DATABASE":       MaintenanceRunSummaryMaintenanceSubtypeDatabase,
-	"ONEOFF":         MaintenanceRunSummaryMaintenanceSubtypeOneoff,
+	"QUARTERLY":        MaintenanceRunSummaryMaintenanceSubtypeQuarterly,
+	"HARDWARE":         MaintenanceRunSummaryMaintenanceSubtypeHardware,
+	"CRITICAL":         MaintenanceRunSummaryMaintenanceSubtypeCritical,
+	"INFRASTRUCTURE":   MaintenanceRunSummaryMaintenanceSubtypeInfrastructure,
+	"DATABASE":         MaintenanceRunSummaryMaintenanceSubtypeDatabase,
+	"ONEOFF":           MaintenanceRunSummaryMaintenanceSubtypeOneoff,
+	"SECURITY_MONTHLY": MaintenanceRunSummaryMaintenanceSubtypeSecurityMonthly,
 }
 
 var mappingMaintenanceRunSummaryMaintenanceSubtypeEnumLowerCase = map[string]MaintenanceRunSummaryMaintenanceSubtypeEnum{
-	"quarterly":      MaintenanceRunSummaryMaintenanceSubtypeQuarterly,
-	"hardware":       MaintenanceRunSummaryMaintenanceSubtypeHardware,
-	"critical":       MaintenanceRunSummaryMaintenanceSubtypeCritical,
-	"infrastructure": MaintenanceRunSummaryMaintenanceSubtypeInfrastructure,
-	"database":       MaintenanceRunSummaryMaintenanceSubtypeDatabase,
-	"oneoff":         MaintenanceRunSummaryMaintenanceSubtypeOneoff,
+	"quarterly":        MaintenanceRunSummaryMaintenanceSubtypeQuarterly,
+	"hardware":         MaintenanceRunSummaryMaintenanceSubtypeHardware,
+	"critical":         MaintenanceRunSummaryMaintenanceSubtypeCritical,
+	"infrastructure":   MaintenanceRunSummaryMaintenanceSubtypeInfrastructure,
+	"database":         MaintenanceRunSummaryMaintenanceSubtypeDatabase,
+	"oneoff":           MaintenanceRunSummaryMaintenanceSubtypeOneoff,
+	"security_monthly": MaintenanceRunSummaryMaintenanceSubtypeSecurityMonthly,
 }
 
 // GetMaintenanceRunSummaryMaintenanceSubtypeEnumValues Enumerates the set of values for MaintenanceRunSummaryMaintenanceSubtypeEnum
@@ -361,6 +364,7 @@ func GetMaintenanceRunSummaryMaintenanceSubtypeEnumStringValues() []string {
 		"INFRASTRUCTURE",
 		"DATABASE",
 		"ONEOFF",
+		"SECURITY_MONTHLY",
 	}
 }
 

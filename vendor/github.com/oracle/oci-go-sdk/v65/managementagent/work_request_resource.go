@@ -31,6 +31,15 @@ type WorkRequestResource struct {
 	// The identifier of the resource the work request affects.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
+	// The identifier of the source the work request is requesting.
+	SourceId *string `mandatory:"false" json:"sourceId"`
+
+	// The name of the source the work request is requesting.
+	SourceName *string `mandatory:"false" json:"sourceName"`
+
+	// The version of the source the work request is requesting.
+	SourceVersion *string `mandatory:"false" json:"sourceVersion"`
+
 	// The URI path that the user can do a GET on to access the resource metadata
 	EntityUri *string `mandatory:"false" json:"entityUri"`
 
