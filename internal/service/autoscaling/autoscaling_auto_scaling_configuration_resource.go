@@ -916,7 +916,7 @@ func CreateConditionDetailsToMap(obj oci_auto_scaling.Condition) map[string]inte
 	}
 
 	if obj.Metric != nil {
-		result["metric"] = []interface{}{MetricToMap(obj.Metric)}
+		// result["metric"] = []interface{}{MetricToMap(obj.Metric)}
 	}
 
 	if obj.Id != nil {

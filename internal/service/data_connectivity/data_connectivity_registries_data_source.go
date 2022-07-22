@@ -88,9 +88,9 @@ func (s *DataConnectivityRegistriesDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_data_connectivity.RegistryLifecycleStateEnum(state.(string))
-	}
+	// if state, ok := s.D.GetOkExists("state"); ok {
+	// 	request.LifecycleState = oci_data_connectivity.RegistryLifecycleStateEnum(state.(string))
+	// }
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_connectivity")
 
