@@ -17,7 +17,7 @@ type ListEndpointsRequest struct {
 	// The OCID of the compartment containing the resources you want to list.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// DCMS registry id
+	// DCMS registry ID
 	RegistryId *string `mandatory:"false" contributesTo:"query" name:"registryId"`
 
 	// Used to filter by the name of the object.
@@ -30,12 +30,12 @@ type ListEndpointsRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Lifecycle state of the resource.
-	LifecycleState RegistryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListEndpointsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Specifies sort order to use, either `ASC` (ascending) or `DESC` (descending).
 	SortOrder ListEndpointsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// This parameter allows users to specify a sort field.  Default sort order is the descending order of `timeCreated` (most recently created objects at the top).  Sorting related parameters are ignored when parameter `query` is present (search operation and sorting order is by relevance score in descending order).
+	// This parameter allows users to specify a sort field. Default sort order is the descending order of `timeCreated` (most recently created objects at the top). Sorting related parameters are ignored when parameter `query` is present (search operation and sorting order is by relevance score in descending order).
 	SortBy ListEndpointsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request. If
@@ -79,8 +79,8 @@ func (request ListEndpointsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListEndpointsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingRegistryLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetRegistryLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingListEndpointsLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListEndpointsLifecycleStateEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListEndpointsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListEndpointsSortOrderEnumStringValues(), ",")))
@@ -103,14 +103,11 @@ type ListEndpointsResponse struct {
 	// A list of EndpointSummaryCollection instances
 	EndpointSummaryCollection `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If
-	// you need to contact Oracle about a particular request,
-	// please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of `Endpoint`s. If this header appears in the response, then this
-	// is a partial list of Registries. Include this value as the `page` parameter in a subsequent
-	// GET request to get the next batch of Endpoints.
+	// Retrieves the next page of results. When this header appears in the response, additional pages of results remain. See List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
@@ -121,6 +118,80 @@ func (response ListEndpointsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListEndpointsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListEndpointsLifecycleStateEnum Enum with underlying type: string
+type ListEndpointsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListEndpointsLifecycleStateEnum
+const (
+	ListEndpointsLifecycleStateCreating ListEndpointsLifecycleStateEnum = "CREATING"
+	ListEndpointsLifecycleStateActive   ListEndpointsLifecycleStateEnum = "ACTIVE"
+	ListEndpointsLifecycleStateInactive ListEndpointsLifecycleStateEnum = "INACTIVE"
+	ListEndpointsLifecycleStateUpdating ListEndpointsLifecycleStateEnum = "UPDATING"
+	ListEndpointsLifecycleStateDeleting ListEndpointsLifecycleStateEnum = "DELETING"
+	ListEndpointsLifecycleStateDeleted  ListEndpointsLifecycleStateEnum = "DELETED"
+	ListEndpointsLifecycleStateFailed   ListEndpointsLifecycleStateEnum = "FAILED"
+	ListEndpointsLifecycleStateStarting ListEndpointsLifecycleStateEnum = "STARTING"
+	ListEndpointsLifecycleStateStopping ListEndpointsLifecycleStateEnum = "STOPPING"
+	ListEndpointsLifecycleStateStopped  ListEndpointsLifecycleStateEnum = "STOPPED"
+)
+
+var mappingListEndpointsLifecycleStateEnum = map[string]ListEndpointsLifecycleStateEnum{
+	"CREATING": ListEndpointsLifecycleStateCreating,
+	"ACTIVE":   ListEndpointsLifecycleStateActive,
+	"INACTIVE": ListEndpointsLifecycleStateInactive,
+	"UPDATING": ListEndpointsLifecycleStateUpdating,
+	"DELETING": ListEndpointsLifecycleStateDeleting,
+	"DELETED":  ListEndpointsLifecycleStateDeleted,
+	"FAILED":   ListEndpointsLifecycleStateFailed,
+	"STARTING": ListEndpointsLifecycleStateStarting,
+	"STOPPING": ListEndpointsLifecycleStateStopping,
+	"STOPPED":  ListEndpointsLifecycleStateStopped,
+}
+
+var mappingListEndpointsLifecycleStateEnumLowerCase = map[string]ListEndpointsLifecycleStateEnum{
+	"creating": ListEndpointsLifecycleStateCreating,
+	"active":   ListEndpointsLifecycleStateActive,
+	"inactive": ListEndpointsLifecycleStateInactive,
+	"updating": ListEndpointsLifecycleStateUpdating,
+	"deleting": ListEndpointsLifecycleStateDeleting,
+	"deleted":  ListEndpointsLifecycleStateDeleted,
+	"failed":   ListEndpointsLifecycleStateFailed,
+	"starting": ListEndpointsLifecycleStateStarting,
+	"stopping": ListEndpointsLifecycleStateStopping,
+	"stopped":  ListEndpointsLifecycleStateStopped,
+}
+
+// GetListEndpointsLifecycleStateEnumValues Enumerates the set of values for ListEndpointsLifecycleStateEnum
+func GetListEndpointsLifecycleStateEnumValues() []ListEndpointsLifecycleStateEnum {
+	values := make([]ListEndpointsLifecycleStateEnum, 0)
+	for _, v := range mappingListEndpointsLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListEndpointsLifecycleStateEnumStringValues Enumerates the set of values in String for ListEndpointsLifecycleStateEnum
+func GetListEndpointsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"STARTING",
+		"STOPPING",
+		"STOPPED",
+	}
+}
+
+// GetMappingListEndpointsLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListEndpointsLifecycleStateEnum(val string) (ListEndpointsLifecycleStateEnum, bool) {
+	enum, ok := mappingListEndpointsLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListEndpointsSortOrderEnum Enum with underlying type: string

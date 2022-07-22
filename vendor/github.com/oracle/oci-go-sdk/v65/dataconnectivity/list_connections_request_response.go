@@ -14,7 +14,7 @@ import (
 // ListConnectionsRequest wrapper for the ListConnections operation
 type ListConnectionsRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// Used to filter by the data asset key of the object.
@@ -35,7 +35,7 @@ type ListConnectionsRequest struct {
 	// Type of the object to filter the results with.
 	Type *string `mandatory:"false" contributesTo:"query" name:"type"`
 
-	// Specifies the field to sort by. Accepts only one field. By default, when you sort by time fields, results are shown in descending order. All other fields default to ascending order. Sorting related parameters are ignored when parameter `query` is present (search operation and sorting order is by relevance score in descending order).
+	// Specifies the field to sort by. Accepts only one field. By default, when you sort by time fields, results are shown in descending order. All other fields default to ascending order. Sorting related parameters are ignored when parameter `query` is present (search operation and sorting order are by relevance score in descending order).
 	SortBy ListConnectionsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Specifies sort order to use, either `ASC` (ascending) or `DESC` (descending).

@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -87,10 +87,11 @@ func (client *NetworkValidationClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
-// GetNetworkConnectivityStatusCollection This api is used to get Network Connectivity Status for all the Data Assets attatched to the provided Private endpoint.
+// GetNetworkConnectivityStatusCollection This API is used to get the network connectivity status fofor all the data assets attached to the provided private endpoint.
+// A default retry strategy applies to this operation GetNetworkConnectivityStatusCollection()
 func (client NetworkValidationClient) GetNetworkConnectivityStatusCollection(ctx context.Context, request GetNetworkConnectivityStatusCollectionRequest) (response GetNetworkConnectivityStatusCollectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

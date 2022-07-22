@@ -14,10 +14,10 @@ import (
 // CreateDataProfileRequest wrapper for the CreateDataProfile operation
 type CreateDataProfileRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
-	// Request body parameters to execute data profiling
+	// Request body parameters to execute data profiling.
 	CreateDataProfileDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If
@@ -25,7 +25,7 @@ type CreateDataProfileRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again.
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without the risk of executing that same action again.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match` parameter to the value of the `etag` from a previous GET or POST response for that resource.
@@ -33,7 +33,7 @@ type CreateDataProfileRequest struct {
 	// When 'if-match' is provided and its value does not exactly match the 'etag' of the resource on the server, the request fails with the 412 response code.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// Endpoint Id used for getDataAssetFullDetails.
+	// Endpoint ID used for getDataAssetFullDetails.
 	EndpointId *string `mandatory:"false" contributesTo:"query" name:"endpointId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

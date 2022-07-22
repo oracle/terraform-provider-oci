@@ -14,10 +14,10 @@ import (
 // GetEndpointRequest wrapper for the GetEndpoint operation
 type GetEndpointRequest struct {
 
-	// DCMS Endpoint id
+	// DCMS endpoint ID.
 	EndpointId *string `mandatory:"true" contributesTo:"path" name:"endpointId"`
 
-	// DCMS registry id
+	// DCMS registry ID
 	RegistryId *string `mandatory:"false" contributesTo:"query" name:"registryId"`
 
 	// Unique Oracle-assigned identifier for the request. If
@@ -76,12 +76,11 @@ type GetEndpointResponse struct {
 	// The Endpoint instance
 	Endpoint `presentIn:"body"`
 
-	// For optimistic concurrency control. See `if-match`.
+	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
-	// Unique Oracle-assigned identifier for the request. If
-	// you need to contact Oracle about a particular request,
-	// please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 

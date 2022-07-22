@@ -28,11 +28,11 @@ type ManagedSshSessionTargetResourceDetails struct {
 	// The display name of the target Compute instance that the session connects to.
 	TargetResourceDisplayName *string `mandatory:"true" json:"targetResourceDisplayName"`
 
-	// The port number to connect to on the target resource.
-	TargetResourcePort *int `mandatory:"true" json:"targetResourcePort"`
-
 	// The private IP address of the target resource that the session connects to.
 	TargetResourcePrivateIpAddress *string `mandatory:"false" json:"targetResourcePrivateIpAddress"`
+
+	// The port number to connect to on the target resource.
+	TargetResourcePort *int `mandatory:"false" json:"targetResourcePort"`
 }
 
 func (m ManagedSshSessionTargetResourceDetails) String() string {

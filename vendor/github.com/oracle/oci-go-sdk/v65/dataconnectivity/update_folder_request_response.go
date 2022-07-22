@@ -14,13 +14,13 @@ import (
 // UpdateFolderRequest wrapper for the UpdateFolder operation
 type UpdateFolderRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The folder ID.
 	FolderKey *string `mandatory:"true" contributesTo:"path" name:"folderKey"`
 
-	// The information needed to update a folder.
+	// The information required to update a folder.
 	UpdateFolderDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If

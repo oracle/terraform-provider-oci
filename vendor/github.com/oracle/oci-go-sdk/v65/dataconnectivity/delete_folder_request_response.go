@@ -14,7 +14,7 @@ import (
 // DeleteFolderRequest wrapper for the DeleteFolder operation
 type DeleteFolderRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The folder ID.

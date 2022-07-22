@@ -14,7 +14,7 @@ import (
 // DeleteConnectionRequest wrapper for the DeleteConnection operation
 type DeleteConnectionRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The connection key.

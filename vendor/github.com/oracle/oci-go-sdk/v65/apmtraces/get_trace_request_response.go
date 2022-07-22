@@ -14,7 +14,7 @@ import (
 // GetTraceRequest wrapper for the GetTrace operation
 type GetTraceRequest struct {
 
-	// The APM Domain ID the request is intended for.
+	// The APM Domain ID for the intended request.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
 	// Unique Application Performance Monitoring trace identifier (traceId).

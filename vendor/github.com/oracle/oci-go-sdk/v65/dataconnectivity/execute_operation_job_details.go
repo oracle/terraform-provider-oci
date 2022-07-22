@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,13 +18,13 @@ import (
 // ExecuteOperationJobDetails Contains details of executeOperationJob.
 type ExecuteOperationJobDetails struct {
 
-	// Job id to track job status.
+	// Job ID to track the job status.
 	ExecuteOperationJobId *string `mandatory:"true" json:"executeOperationJobId"`
 
-	// The status of job
+	// The status of the job.
 	Status ExecuteOperationJobDetailsStatusEnum `mandatory:"true" json:"status"`
 
-	// Error message if job creation is failed.
+	// Error message when the job creation fails.
 	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
 }
 

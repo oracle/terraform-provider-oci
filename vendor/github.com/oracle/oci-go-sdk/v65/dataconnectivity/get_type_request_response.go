@@ -14,10 +14,10 @@ import (
 // GetTypeRequest wrapper for the GetType operation
 type GetTypeRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
-	// key of the a specefic Type.
+	// Key of the a specific type.
 	TypeKey *string `mandatory:"true" contributesTo:"path" name:"typeKey"`
 
 	// Unique Oracle-assigned identifier for the request. If

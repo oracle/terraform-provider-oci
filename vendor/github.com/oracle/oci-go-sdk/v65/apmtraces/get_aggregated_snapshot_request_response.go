@@ -14,7 +14,7 @@ import (
 // GetAggregatedSnapshotRequest wrapper for the GetAggregatedSnapshot operation
 type GetAggregatedSnapshotRequest struct {
 
-	// The APM Domain ID the request is intended for.
+	// The APM Domain ID for the intended request.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
 	// Unique Application Performance Monitoring trace identifier (traceId).
@@ -23,6 +23,18 @@ type GetAggregatedSnapshotRequest struct {
 	// Unique Oracle-assigned identifier for the request.  If you need to contact Oracle about a
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// Name associated with the service.
+	ServiceName *string `mandatory:"false" contributesTo:"query" name:"serviceName"`
+
+	// Name of the server.
+	ServerName *string `mandatory:"false" contributesTo:"query" name:"serverName"`
+
+	// Unique Application Performance Monitoring span identifier (spanId).
+	SpanKey *string `mandatory:"false" contributesTo:"query" name:"spanKey"`
+
+	// Name of the span associated with the trace.
+	SpanName *string `mandatory:"false" contributesTo:"query" name:"spanName"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

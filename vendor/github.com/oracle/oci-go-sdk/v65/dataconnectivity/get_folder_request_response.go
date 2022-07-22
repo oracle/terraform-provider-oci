@@ -14,7 +14,7 @@ import (
 // GetFolderRequest wrapper for the GetFolder operation
 type GetFolderRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The folder ID.

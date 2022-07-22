@@ -4,14 +4,15 @@
 
 // Autoscaling API
 //
-// APIs for dynamically scaling Compute resources to meet application requirements. For more information about
+// Use the Autoscaling API to dynamically scale compute resources to meet application requirements. For more information about
 // autoscaling, see Autoscaling (https://docs.cloud.oracle.com/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
-// Compute service, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
+// Compute service, see Compute (https://docs.cloud.oracle.com/Content/Compute/home.htm).
 //
 
 package autoscaling
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -21,7 +22,7 @@ import (
 type CreateConditionDetails struct {
 	Action *Action `mandatory:"true" json:"action"`
 
-	Metric *Metric `mandatory:"true" json:"metric"`
+	Metric MetricBase `mandatory:"true" json:"metric"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -41,4 +42,34 @@ func (m CreateConditionDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateConditionDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName *string    `json:"displayName"`
+		Action      *Action    `json:"action"`
+		Metric      metricbase `json:"metric"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.Action = model.Action
+
+	nn, e = model.Metric.UnmarshalPolymorphicJSON(model.Metric.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.Metric = nn.(MetricBase)
+	} else {
+		m.Metric = nil
+	}
+
+	return
 }

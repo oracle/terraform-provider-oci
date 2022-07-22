@@ -14,7 +14,7 @@ import (
 // ValidateDataAssetNetworkReachablityRequest wrapper for the ValidateDataAssetNetworkReachablity operation
 type ValidateDataAssetNetworkReachablityRequest struct {
 
-	// DCMS Endpoint id
+	// DCMS endpoint ID.
 	EndpointId *string `mandatory:"true" contributesTo:"path" name:"endpointId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match` parameter to the value of the `etag` from a previous GET or POST response for that resource.
@@ -27,10 +27,10 @@ type ValidateDataAssetNetworkReachablityRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again.
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without the risk of executing that same action again.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// DCMS registry id
+	// DCMS registry ID
 	RegistryId *string `mandatory:"false" contributesTo:"query" name:"registryId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -81,7 +81,7 @@ type ValidateDataAssetNetworkReachablityResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
+	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query the status of the asynchronous operation.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If

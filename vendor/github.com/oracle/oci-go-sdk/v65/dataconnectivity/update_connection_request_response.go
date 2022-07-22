@@ -14,13 +14,13 @@ import (
 // UpdateConnectionRequest wrapper for the UpdateConnection operation
 type UpdateConnectionRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The connection key.
 	ConnectionKey *string `mandatory:"true" contributesTo:"path" name:"connectionKey"`
 
-	// The information needed to update a connection.
+	// The information required to update a connection.
 	UpdateConnectionDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If

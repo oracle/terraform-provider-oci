@@ -19,9 +19,6 @@ import (
 // PortForwardingSessionTargetResourceDetails Details about a port forwarding session for a target resource.
 type PortForwardingSessionTargetResourceDetails struct {
 
-	// The port number to connect to on the target resource.
-	TargetResourcePort *int `mandatory:"true" json:"targetResourcePort"`
-
 	// The unique identifier (OCID) of the target resource (a Compute instance, for example) that the session connects to.
 	TargetResourceId *string `mandatory:"false" json:"targetResourceId"`
 
@@ -33,6 +30,9 @@ type PortForwardingSessionTargetResourceDetails struct {
 
 	// The Fully Qualified Domain Name of the target resource that the session connects to.
 	TargetResourceFqdn *string `mandatory:"false" json:"targetResourceFqdn"`
+
+	// The port number to connect to on the target resource.
+	TargetResourcePort *int `mandatory:"false" json:"targetResourcePort"`
 }
 
 func (m PortForwardingSessionTargetResourceDetails) String() string {

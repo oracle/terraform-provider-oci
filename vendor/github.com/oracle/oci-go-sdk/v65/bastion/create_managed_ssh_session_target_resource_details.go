@@ -25,11 +25,11 @@ type CreateManagedSshSessionTargetResourceDetails struct {
 	// The unique identifier (OCID) of the target resource (a Compute instance, for example) that the session connects to.
 	TargetResourceId *string `mandatory:"true" json:"targetResourceId"`
 
-	// The port number to connect to on the target resource.
-	TargetResourcePort *int `mandatory:"true" json:"targetResourcePort"`
-
 	// The private IP address of the target resource that the session connects to.
 	TargetResourcePrivateIpAddress *string `mandatory:"false" json:"targetResourcePrivateIpAddress"`
+
+	// The port number to connect to on the target resource.
+	TargetResourcePort *int `mandatory:"false" json:"targetResourcePort"`
 }
 
 func (m CreateManagedSshSessionTargetResourceDetails) String() string {

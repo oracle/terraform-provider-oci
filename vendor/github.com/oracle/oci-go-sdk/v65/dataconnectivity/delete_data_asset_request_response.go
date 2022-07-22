@@ -14,7 +14,7 @@ import (
 // DeleteDataAssetRequest wrapper for the DeleteDataAsset operation
 type DeleteDataAssetRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The data asset key.

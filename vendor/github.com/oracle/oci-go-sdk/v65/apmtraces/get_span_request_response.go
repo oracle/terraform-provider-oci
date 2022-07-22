@@ -14,7 +14,7 @@ import (
 // GetSpanRequest wrapper for the GetSpan operation
 type GetSpanRequest struct {
 
-	// The APM Domain ID the request is intended for.
+	// The APM Domain ID for the intended request.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
 	// Unique Application Performance Monitoring span identifier (spanId).

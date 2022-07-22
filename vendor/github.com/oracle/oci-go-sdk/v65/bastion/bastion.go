@@ -61,7 +61,7 @@ type Bastion struct {
 	// The maximum number of active sessions allowed on the bastion.
 	MaxSessionsAllowed *int `mandatory:"false" json:"maxSessionsAllowed"`
 
-	// The current state of the bastion dns proxy.
+	// The current dns proxy status of the bastion.
 	DnsProxyStatus BastionDnsProxyStatusEnum `mandatory:"false" json:"dnsProxyStatus,omitempty"`
 
 	// The time the bastion was updated. Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).

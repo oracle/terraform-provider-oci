@@ -26,11 +26,11 @@ type ListRegistriesRequest struct {
 	// For list pagination. The value for this parameter is the `opc-next-page` or the `opc-prev-page` response header from the previous `List` call. See List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// This parameter allows list registries to deep look at whole tenancy.
+	// This parameter allows list registries to deep look at the whole tenancy.
 	IsDeepLookup *bool `mandatory:"false" contributesTo:"query" name:"isDeepLookup"`
 
 	// Lifecycle state of the resource.
-	LifecycleState RegistryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListRegistriesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request. If
 	// you need to contact Oracle about a particular request,
@@ -73,8 +73,8 @@ func (request ListRegistriesRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListRegistriesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingRegistryLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetRegistryLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingListRegistriesLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListRegistriesLifecycleStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -91,14 +91,11 @@ type ListRegistriesResponse struct {
 	// A list of RegistrySummaryCollection instances
 	RegistrySummaryCollection `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If
-	// you need to contact Oracle about a particular request,
-	// please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of `Registry`s. If this header appears in the response, then this
-	// is a partial list of Registries. Include this value as the `page` parameter in a subsequent
-	// GET request to get the next batch of Registries.
+	// Retrieves the next page of results. When this header appears in the response, additional pages of results remain. See List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
@@ -109,4 +106,78 @@ func (response ListRegistriesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListRegistriesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListRegistriesLifecycleStateEnum Enum with underlying type: string
+type ListRegistriesLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListRegistriesLifecycleStateEnum
+const (
+	ListRegistriesLifecycleStateCreating ListRegistriesLifecycleStateEnum = "CREATING"
+	ListRegistriesLifecycleStateActive   ListRegistriesLifecycleStateEnum = "ACTIVE"
+	ListRegistriesLifecycleStateInactive ListRegistriesLifecycleStateEnum = "INACTIVE"
+	ListRegistriesLifecycleStateUpdating ListRegistriesLifecycleStateEnum = "UPDATING"
+	ListRegistriesLifecycleStateDeleting ListRegistriesLifecycleStateEnum = "DELETING"
+	ListRegistriesLifecycleStateDeleted  ListRegistriesLifecycleStateEnum = "DELETED"
+	ListRegistriesLifecycleStateFailed   ListRegistriesLifecycleStateEnum = "FAILED"
+	ListRegistriesLifecycleStateStarting ListRegistriesLifecycleStateEnum = "STARTING"
+	ListRegistriesLifecycleStateStopping ListRegistriesLifecycleStateEnum = "STOPPING"
+	ListRegistriesLifecycleStateStopped  ListRegistriesLifecycleStateEnum = "STOPPED"
+)
+
+var mappingListRegistriesLifecycleStateEnum = map[string]ListRegistriesLifecycleStateEnum{
+	"CREATING": ListRegistriesLifecycleStateCreating,
+	"ACTIVE":   ListRegistriesLifecycleStateActive,
+	"INACTIVE": ListRegistriesLifecycleStateInactive,
+	"UPDATING": ListRegistriesLifecycleStateUpdating,
+	"DELETING": ListRegistriesLifecycleStateDeleting,
+	"DELETED":  ListRegistriesLifecycleStateDeleted,
+	"FAILED":   ListRegistriesLifecycleStateFailed,
+	"STARTING": ListRegistriesLifecycleStateStarting,
+	"STOPPING": ListRegistriesLifecycleStateStopping,
+	"STOPPED":  ListRegistriesLifecycleStateStopped,
+}
+
+var mappingListRegistriesLifecycleStateEnumLowerCase = map[string]ListRegistriesLifecycleStateEnum{
+	"creating": ListRegistriesLifecycleStateCreating,
+	"active":   ListRegistriesLifecycleStateActive,
+	"inactive": ListRegistriesLifecycleStateInactive,
+	"updating": ListRegistriesLifecycleStateUpdating,
+	"deleting": ListRegistriesLifecycleStateDeleting,
+	"deleted":  ListRegistriesLifecycleStateDeleted,
+	"failed":   ListRegistriesLifecycleStateFailed,
+	"starting": ListRegistriesLifecycleStateStarting,
+	"stopping": ListRegistriesLifecycleStateStopping,
+	"stopped":  ListRegistriesLifecycleStateStopped,
+}
+
+// GetListRegistriesLifecycleStateEnumValues Enumerates the set of values for ListRegistriesLifecycleStateEnum
+func GetListRegistriesLifecycleStateEnumValues() []ListRegistriesLifecycleStateEnum {
+	values := make([]ListRegistriesLifecycleStateEnum, 0)
+	for _, v := range mappingListRegistriesLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListRegistriesLifecycleStateEnumStringValues Enumerates the set of values in String for ListRegistriesLifecycleStateEnum
+func GetListRegistriesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"STARTING",
+		"STOPPING",
+		"STOPPED",
+	}
+}
+
+// GetMappingListRegistriesLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListRegistriesLifecycleStateEnum(val string) (ListRegistriesLifecycleStateEnum, bool) {
+	enum, ok := mappingListRegistriesLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

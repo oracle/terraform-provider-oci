@@ -14,7 +14,7 @@ import (
 // GetNetworkConnectivityStatusRequest wrapper for the GetNetworkConnectivityStatus operation
 type GetNetworkConnectivityStatusRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The data asset key.
@@ -25,10 +25,10 @@ type GetNetworkConnectivityStatusRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again.
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without the risk of executing that same action again.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// Endpoint Id used for getDataAssetFullDetails.
+	// Endpoint ID used for getDataAssetFullDetails.
 	EndpointId *string `mandatory:"false" contributesTo:"query" name:"endpointId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match` parameter to the value of the `etag` from a previous GET or POST response for that resource.

@@ -14,10 +14,10 @@ import (
 // CreateFolderRequest wrapper for the CreateFolder operation
 type CreateFolderRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
-	// The information needed to create a folder.
+	// The information required to create a folder.
 	CreateFolderDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If
@@ -25,7 +25,7 @@ type CreateFolderRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again.
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without the risk of executing that same action again.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

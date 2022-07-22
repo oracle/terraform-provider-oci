@@ -14,7 +14,7 @@ import (
 // ListQuickPicksRequest wrapper for the ListQuickPicks operation
 type ListQuickPicksRequest struct {
 
-	// The APM Domain ID the request is intended for.
+	// The APM Domain ID for the intended request.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
 	// Unique Oracle-assigned identifier for the request.  If you need to contact Oracle about a
@@ -24,7 +24,7 @@ type ListQuickPicksRequest struct {
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The page token representing the page at which to start retrieving results.
+	// The page token representing the page where to start retrieving results.
 	// This is usually retrieved from a previous response.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 

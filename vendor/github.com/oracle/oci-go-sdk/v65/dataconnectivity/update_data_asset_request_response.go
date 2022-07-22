@@ -14,13 +14,13 @@ import (
 // UpdateDataAssetRequest wrapper for the UpdateDataAsset operation
 type UpdateDataAssetRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The data asset key.
 	DataAssetKey *string `mandatory:"true" contributesTo:"path" name:"dataAssetKey"`
 
-	// The information needed to update a data asset.
+	// The information required to update a data asset.
 	UpdateDataAssetDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If

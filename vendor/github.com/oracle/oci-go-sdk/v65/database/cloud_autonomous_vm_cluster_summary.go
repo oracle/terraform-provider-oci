@@ -94,6 +94,9 @@ type CloudAutonomousVmClusterSummary struct {
 	// The compute model of the Cloud Autonomous VM Cluster.
 	ComputeModel CloudAutonomousVmClusterSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
+	// The number of OCPU cores enabled per VM cluster node.
+	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
+
 	// The memory allocated in GBs.
 	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
 

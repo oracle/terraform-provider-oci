@@ -14,7 +14,7 @@ import (
 // DeleteNetworkConnectivityStatusRequest wrapper for the DeleteNetworkConnectivityStatus operation
 type DeleteNetworkConnectivityStatusRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// NetworkValidationStatus key.

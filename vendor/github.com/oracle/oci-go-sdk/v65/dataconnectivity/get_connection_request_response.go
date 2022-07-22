@@ -14,7 +14,7 @@ import (
 // GetConnectionRequest wrapper for the GetConnection operation
 type GetConnectionRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The connection key.

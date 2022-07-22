@@ -14,7 +14,7 @@ import (
 // GetTraceSnapshotRequest wrapper for the GetTraceSnapshot operation
 type GetTraceSnapshotRequest struct {
 
-	// The APM Domain ID the request is intended for.
+	// The APM Domain ID for the intended request.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
 	// Unique Application Performance Monitoring trace identifier (traceId).
@@ -24,10 +24,10 @@ type GetTraceSnapshotRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// If enabled, then only span level details will be sent.
+	// If enabled, only span level details are sent.
 	IsSummarized *bool `mandatory:"false" contributesTo:"query" name:"isSummarized"`
 
-	// Thread id for which snapshots needs to be retrieved. This is an identifier of a thread, and is a positive long number generated when when a thread is created.
+	// Thread ID for which snapshots need to be retrieved. This identifier of a thread is a long positive number generated when a thread is created.
 	ThreadId *string `mandatory:"false" contributesTo:"query" name:"threadId"`
 
 	// Epoch time of snapshot.

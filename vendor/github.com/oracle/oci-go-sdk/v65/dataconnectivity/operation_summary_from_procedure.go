@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -34,7 +34,7 @@ type OperationSummaryFromProcedure struct {
 	// The version of the object that is used to track changes in the object instance.
 	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
 
-	// The external key for the object.
+	// The external key of the object.
 	ExternalKey *string `mandatory:"false" json:"externalKey"`
 
 	// The resource name.

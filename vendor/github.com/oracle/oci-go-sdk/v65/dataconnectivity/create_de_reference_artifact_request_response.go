@@ -14,13 +14,13 @@ import (
 // CreateDeReferenceArtifactRequest wrapper for the CreateDeReferenceArtifact operation
 type CreateDeReferenceArtifactRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The ID of a dcms artifact (DataAsset or Endpoint).
 	DcmsArtifactId *string `mandatory:"true" contributesTo:"path" name:"dcmsArtifactId"`
 
-	// The information needed to delete a dcms artifact reference.
+	// The information required to delete a dcms artifact reference.
 	CreateDeReferenceArtifactDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If
@@ -28,7 +28,7 @@ type CreateDeReferenceArtifactRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again.
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without the risk of executing that same action again.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match` parameter to the value of the `etag` from a previous GET or POST response for that resource.

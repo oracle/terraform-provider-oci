@@ -14,7 +14,7 @@ import (
 // GetDataAssetRequest wrapper for the GetDataAsset operation
 type GetDataAssetRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The data asset key.

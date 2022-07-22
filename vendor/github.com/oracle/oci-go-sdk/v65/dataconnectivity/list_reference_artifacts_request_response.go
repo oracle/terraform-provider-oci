@@ -14,7 +14,7 @@ import (
 // ListReferenceArtifactsRequest wrapper for the ListReferenceArtifacts operation
 type ListReferenceArtifactsRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The ID of a dcms artifact (DataAsset or Endpoint).
@@ -32,7 +32,7 @@ type ListReferenceArtifactsRequest struct {
 	// Type of the object to filter the results with.
 	Type *string `mandatory:"false" contributesTo:"query" name:"type"`
 
-	// Specifies the field to sort by. Accepts only one field. By default, when you sort by time fields, results are shown in descending order. All other fields default to ascending order. Sorting related parameters are ignored when parameter `query` is present (search operation and sorting order is by relevance score in descending order).
+	// Specifies the field to sort by. Accepts only one field. By default, when you sort by time fields, results are shown in descending order. All other fields default to ascending order. Sorting related parameters are ignored when parameter `query` is present (search operation and sorting order are by relevance score in descending order).
 	SortBy ListReferenceArtifactsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Specifies sort order to use, either `ASC` (ascending) or `DESC` (descending).
@@ -46,7 +46,7 @@ type ListReferenceArtifactsRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Types which wont be listed while listing dataAsset/Connection
+	// The types that will be excluded from the list of data assets/connections.
 	ExcludeTypes []string `contributesTo:"query" name:"excludeTypes" collectionFormat:"multi"`
 
 	// If value is FAVORITES_ONLY, then only objects marked as favorite by the requesting user will be included in result. If value is NON_FAVORITES_ONLY, then objects marked as favorites by the requesting user will be skipped. If value is ALL or if not specified, all objects, irrespective of favorites or not will be returned. Default is ALL.
