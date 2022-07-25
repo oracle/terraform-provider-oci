@@ -45,15 +45,22 @@ jobs:
     
     - name: Create README files
       run: |
+        if [ -d "./examples/zips" ]; then
+            rm -r examples/zips
+        fi
+        mkdir -p examples/zips
         printf '## Terraform Oracle Cloud Infrastructure Provider Examples \n###  Examples In This Directory \nThis directory contains Terraform configuration files showing how to create specific resources. The examples are intended to be as simple as possible, in most cases containing only the specific resource and any dependencies required for it to run. These do not represent production configurations or real world scenarios. The magic buttons of the examples can be found below.\n' > ./examples/${RESOURCE}/README.md
         FOLDERS=$(ls -d examples/*/ | jq -R)
-        MAGIC_LINK="https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/releases/latest/download/"
+        MAGIC_LINK="https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/raw/master/examples/zips/"
         for EXAMPLE_FOLDER in $FOLDERS;
         do
           RESOURCE=$(cut -d "/" -f 2 <<< "$EXAMPLE_FOLDER")
           if [[ "$RESOURCE" != "zips" ]]; then
             FILENAME=description.md
-            FILEZIP=example_${RESOURCE}.zip
+            FILEZIP=${RESOURCE}.zip
+            FOLDER=$(echo "$EXAMPLE_FOLDER" | tr -d '"')
+            zip -r $FILEZIP $FOLDER || { printf '\n Unable to create zips.\n'; exit 1;  }
+            mv $FILEZIP ./examples/zips
             cat ./examples/${RESOURCE}/$FILENAME > ./examples/${RESOURCE}/README.md
             printf '\n## Magic Button \n[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)]('${MAGIC_LINK}${FILEZIP}')' >>./examples/${RESOURCE}/README.md
             printf '%s\n' '- '${RESOURCE}'  
