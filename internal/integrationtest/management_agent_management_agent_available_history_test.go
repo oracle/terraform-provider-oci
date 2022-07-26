@@ -15,12 +15,6 @@ import (
 )
 
 var (
-	managementAgentAvailableHistoryDataSourceRepresentation = map[string]interface{}{
-		"management_agent_id":                         acctest.Representation{RepType: acctest.Required, Create: `${var.managed_agent_id}`},
-		"time_availability_status_ended_greater_than": acctest.Representation{RepType: acctest.Optional, Create: `2020-01-01T01:01:01.000Z`},
-		"time_availability_status_started_less_than":  acctest.Representation{RepType: acctest.Optional, Create: `2030-01-01T01:01:01.000Z`},
-	}
-
 	ManagementAgentAvailableHistoryResourceConfig = ""
 )
 
@@ -34,9 +28,19 @@ func TestManagementAgentManagementAgentAvailableHistoryResource_basic(t *testing
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	managementAgentId := utils.GetEnvSettingWithBlankDefault("managed_agent_id")
-	if managementAgentId == "" {
-		t.Skip("Manual install agent and set managed_agent_id to run this test")
+	managementAgentIds, err := getManagementAgentIds(compartmentId)
+	if err != nil {
+		t.Errorf("Failed to get agents in compartment %s", err)
+	}
+	if len(managementAgentIds) == 0 {
+		t.Errorf("Failed to find any active agents in compartment %s", compartmentId)
+	}
+	managementAgentId := managementAgentIds[0]
+
+	managementAgentAvailableHistoryDataSourceRepresentation := map[string]interface{}{
+		"management_agent_id":                         acctest.Representation{RepType: acctest.Required, Create: managementAgentId},
+		"time_availability_status_ended_greater_than": acctest.Representation{RepType: acctest.Optional, Create: `2020-01-01T01:01:01.000Z`},
+		"time_availability_status_started_less_than":  acctest.Representation{RepType: acctest.Optional, Create: `2030-01-01T01:01:01.000Z`},
 	}
 
 	managementAgentIdVariableStr := fmt.Sprintf("variable \"managed_agent_id\" { default = \"%s\" }\n", managementAgentId)

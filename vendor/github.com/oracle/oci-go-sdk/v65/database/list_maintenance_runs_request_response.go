@@ -49,6 +49,9 @@ type ListMaintenanceRunsRequest struct {
 	// A filter to return only resources that match the given availability domain exactly.
 	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
 
+	// The sub-type of the maintenance run.
+	MaintenanceSubtype MaintenanceRunSummaryMaintenanceSubtypeEnum `mandatory:"false" contributesTo:"query" name:"maintenanceSubtype" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -103,6 +106,9 @@ func (request ListMaintenanceRunsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingMaintenanceRunSummaryLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetMaintenanceRunSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMaintenanceRunSummaryMaintenanceSubtypeEnum(string(request.MaintenanceSubtype)); !ok && request.MaintenanceSubtype != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceSubtype: %s. Supported values are: %s.", request.MaintenanceSubtype, strings.Join(GetMaintenanceRunSummaryMaintenanceSubtypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

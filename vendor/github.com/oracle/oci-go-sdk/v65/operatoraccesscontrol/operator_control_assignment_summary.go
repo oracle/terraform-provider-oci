@@ -65,6 +65,9 @@ type OperatorControlAssignmentSummary struct {
 	// The current lifcycle state of the OperatorControl.
 	LifecycleState OperatorControlAssignmentLifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// More in detail about the lifeCycleState.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 

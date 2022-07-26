@@ -44,6 +44,10 @@ func DatascienceModelDeploymentShapesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"shape_series": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -122,6 +126,8 @@ func (s *DatascienceModelDeploymentShapesDataSourceCrud) SetData() error {
 		if r.Name != nil {
 			modelDeploymentShape["name"] = *r.Name
 		}
+
+		modelDeploymentShape["shape_series"] = r.ShapeSeries
 
 		resources = append(resources, modelDeploymentShape)
 	}

@@ -31,6 +31,12 @@ type ManagementAgentPluginDetails struct {
 	// Plugin Version
 	PluginVersion *string `mandatory:"false" json:"pluginVersion"`
 
+	// Plugin Status
+	PluginStatus PluginStatusEnum `mandatory:"false" json:"pluginStatus,omitempty"`
+
+	// Status message of the Plugin
+	PluginStatusMessage *string `mandatory:"false" json:"pluginStatusMessage"`
+
 	// flag indicating whether the plugin is in enabled mode or disabled mode.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 }
@@ -45,6 +51,9 @@ func (m ManagementAgentPluginDetails) String() string {
 func (m ManagementAgentPluginDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingPluginStatusEnum(string(m.PluginStatus)); !ok && m.PluginStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PluginStatus: %s. Supported values are: %s.", m.PluginStatus, strings.Join(GetPluginStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

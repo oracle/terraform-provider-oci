@@ -56,6 +56,9 @@ type OperatorControlAssignment struct {
 	// The current lifcycle state of the OperatorControl.
 	LifecycleState OperatorControlAssignmentLifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// More in detail about the lifeCycleState.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// The OCID of the user who created this operator control assignment.
 	AssignerId *string `mandatory:"false" json:"assignerId"`
 

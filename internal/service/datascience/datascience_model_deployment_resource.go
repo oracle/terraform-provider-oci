@@ -79,6 +79,32 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 												},
 
 												// Optional
+												"model_deployment_instance_shape_config_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"memory_in_gbs": {
+																Type:     schema.TypeFloat,
+																Optional: true,
+																Computed: true,
+															},
+															"ocpus": {
+																Type:     schema.TypeFloat,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
 
 												// Computed
 											},
@@ -780,6 +806,17 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToInstanceConfiguration(fiel
 		result.InstanceShapeName = &tmp
 	}
 
+	if modelDeploymentInstanceShapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_deployment_instance_shape_config_details")); ok {
+		if tmpList := modelDeploymentInstanceShapeConfigDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "model_deployment_instance_shape_config_details"), 0)
+			tmp, err := s.mapToModelDeploymentInstanceShapeConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert model_deployment_instance_shape_config_details, encountered error: %v", err)
+			}
+			result.ModelDeploymentInstanceShapeConfigDetails = &tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -788,6 +825,10 @@ func InstanceConfigurationToMap(obj *oci_datascience.InstanceConfiguration) map[
 
 	if obj.InstanceShapeName != nil {
 		result["instance_shape_name"] = string(*obj.InstanceShapeName)
+	}
+
+	if obj.ModelDeploymentInstanceShapeConfigDetails != nil {
+		result["model_deployment_instance_shape_config_details"] = []interface{}{ModelDeploymentInstanceShapeConfigDetailsToMap(obj.ModelDeploymentInstanceShapeConfigDetails)}
 	}
 
 	return result
@@ -929,6 +970,42 @@ func ModelDeploymentConfigurationDetailsToMap(obj *oci_datascience.ModelDeployme
 	default:
 		log.Printf("[WARN] Received 'deployment_type' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func (s *DatascienceModelDeploymentResourceCrud) mapToModelDeploymentInstanceShapeConfigDetails(fieldKeyFormat string) (oci_datascience.ModelDeploymentInstanceShapeConfigDetails, error) {
+	result := oci_datascience.ModelDeploymentInstanceShapeConfigDetails{}
+
+	memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs"))
+	if ok {
+		tmp := memoryInGBs.(float32)
+		result.MemoryInGBs = &tmp
+	} else {
+		return result, fmt.Errorf("memory_in_gbs is required parameter")
+	}
+
+	ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus"))
+	if ok {
+		tmp := ocpus.(float32)
+		result.Ocpus = &tmp
+	} else {
+		return result, fmt.Errorf("ocpus is required parameter")
+	}
+
+	return result, nil
+}
+
+func ModelDeploymentInstanceShapeConfigDetailsToMap(obj *oci_datascience.ModelDeploymentInstanceShapeConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MemoryInGBs != nil {
+		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
+	}
+
+	if obj.Ocpus != nil {
+		result["ocpus"] = float32(*obj.Ocpus)
 	}
 
 	return result

@@ -36,7 +36,10 @@ type UpdatePrivateEndpointDetails struct {
 	// DNS Proxy forwards any DNS FQDN queries over into the consumer DNS resolver if the DNS FQDN is included in the dns zones list otherwise it goes to service provider VCN resolver.
 	DnsZones []string `mandatory:"false" json:"dnsZones"`
 
-	// An array of network security group (NSG) OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the private endpoint.
+	// The OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of
+	// network security groups (NSGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/networksecuritygroups.htm)
+	// for the private endpoint.
+	// Order does not matter.
 	NsgIdList []string `mandatory:"false" json:"nsgIdList"`
 
 	// When `true`, allows the private endpoint to be used with a configuration source provider.
