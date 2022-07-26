@@ -7,6 +7,7 @@
 - Support Message Entity for entity shape Support data preview for derived entity, Deprecated deleteConnectionValidation, listConnectionValidations, getConnectionValidation
 - Support for new Logging integration apis for Cloudguard
 - Support for resource discovery for private dns resources
+- Support for export attribute as variables in Resource Discovery
 
 ## 4.91.0 (August 31, 2022)
 

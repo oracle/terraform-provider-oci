@@ -119,6 +119,8 @@ Make sure the `output_path` is empty before running resource discovery
 * `list_export_services_path` - Path to output list of supported services in json format, must include json file name
 * `output_path` - Absolute path to output generated configurations and state files of the exported compartment
 * `parallelism` - The number of threads to use for resource discovery. By default the value is 1
+* `variables_resource_level` - List of resource-level attributes to export as variables, following the format `resourceType.attribute`. Top-level attributes (see `variables_global_level`) are excluded from this list.
+* `variables_global_level` - List of top-level attributes to export as variables, following the format `attribute1,attribute2`. Resource-level attributes (see `variables_resource_level`) are excluded from this list.
 * `retry_timeout` - The time duration for which API calls will wait and retry operation in case of API errors. By default, the retry timeout duration is 15s
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
     * `adm` - Discovers adm resources within the specified compartment

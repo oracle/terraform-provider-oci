@@ -345,7 +345,8 @@ func processInstances(ctx *resourceDiscoveryContext, resources []*OCIResource) (
 						sourceDetails["source_id"] = imageId
 
 						// The image OCID may be different if it's in a different tenancy or region, add a variable for users to specify
-						imageVarName := fmt.Sprintf("%s_source_image_id", instance.terraformName)
+						// TODO: handle nested attribute better instead of hardcode
+						imageVarName := getVarNameFromAttributeOfResources("source_details.source_id", instance.terraformClass, instance.terraformName)
 						vars[imageVarName] = fmt.Sprintf("\"%s\"", imageId)
 						refMapLock.Lock()
 						referenceMap[imageId] = tfHclVersion.getVarHclString(imageVarName)
