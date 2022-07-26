@@ -1,6 +1,8 @@
 package globalvar
 
-import "time"
+import (
+	"time"
+)
 
 const (
 	AuthAPIKeySetting                     = "ApiKey"
@@ -45,6 +47,7 @@ const (
 	DefaultConfigDirName     = ".oci"
 	ColonDelimiter           = ";"
 	EqualToOperatorDelimiter = "="
+	DotDelimiter             = "."
 
 	// Resource Discovery
 	ExportUserAgentFormatter        = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform-oci-exporter/%s)"
