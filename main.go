@@ -31,6 +31,7 @@ import (
 )
 
 func main() {
+	// TODO: input for resource discovery from a config file
 	var command = flag.String("command", "", "Command to run. Supported commands include: 'export', 'list_export_resources' and 'list_export_services'. 'list_export_services' supports json format.")
 	var listExportServicesPath = flag.String("list_export_services_path", "", "[export] Path to output list of supported services in json format")
 	var compartmentId = flag.String("compartment_id", "", "[export] OCID of a compartment to export. If no compartment id nor name is specified, the root compartment will be used.")
@@ -45,6 +46,8 @@ func main() {
 	var tfVersion = flag.String("tf_version", "0.12", "The version of terraform syntax to generate for configurations. The state file will be written in v0.12 only. The allowed values are :\n * 0.11\n * 0.12")
 	var retryTimeout = flag.String("retry_timeout", "15s", "[export] The time duration for which API calls will wait and retry operation in case of API errors. By default, the retry timeout duration is 15s")
 	var parallelism = flag.Int("parallelism", 1, "The number of threads to use for resource discovery. By default the value is 1")
+	var varsResourceLevel = flag.String("variables_resource_level", "", "[export] List of top-level attributes to be export as variable following format resourceType.attribute, if attribute is present in variables_global_level, it will be excluded for this resourceType")
+	var varsGlobalLevel = flag.String("variables_global_level", "", "[export] List of top-level attributes to be export as variable following format attribute1,attribute2, if attribute present in variables_resource_level, it will be excluded for this resourceType")
 
 	flag.Parse()
 	globalvar.PrintVersion()
@@ -93,6 +96,14 @@ func main() {
 
 			if services != nil && *services != "" {
 				args.Services = strings.Split(*services, ",")
+			}
+
+			if varsResourceLevel != nil && *varsResourceLevel != "" {
+				args.VarsExportResourceLevel = strings.Split(*varsResourceLevel, ",")
+			}
+
+			if varsGlobalLevel != nil && *varsGlobalLevel != "" {
+				args.VarExportGlobalLevel = strings.Split(*varsGlobalLevel, ",")
 			}
 
 			if excludeServices != nil && *excludeServices != "" {
