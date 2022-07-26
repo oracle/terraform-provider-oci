@@ -11,7 +11,8 @@ description: |-
 This data source provides the list of Management Agents in Oracle Cloud Infrastructure Management Agent service.
 
 Returns a list of Management Agents.
-If no explicit page size limit is specified, it will default to 5000.
+If no explicit page size limit is specified, it will default to 1000 when compartmentIdInSubtree is true and 5000 otherwise.
+The response is limited to maximum 1000 records when compartmentIdInSubtree is true.
 
 
 ## Example Usage
@@ -22,7 +23,9 @@ data "oci_management_agent_management_agents" "test_management_agents" {
 	compartment_id = var.compartment_id
 
 	#Optional
+	access_level = var.management_agent_access_level
 	availability_status = var.management_agent_availability_status
+	compartment_id_in_subtree = var.management_agent_compartment_id_in_subtree
 	display_name = var.management_agent_display_name
 	host_id = oci_management_agent_host.test_host.id
 	install_type = var.management_agent_install_type
@@ -38,16 +41,18 @@ data "oci_management_agent_management_agents" "test_management_agents" {
 
 The following arguments are supported:
 
+* `access_level` - (Optional) When the value is "ACCESSIBLE", insufficient permissions for a compartment will filter out resources in that compartment without rejecting the request. 
 * `availability_status` - (Optional) Filter to return only Management Agents in the particular availability status.
 * `compartment_id` - (Required) The OCID of the compartment to which a request will be scoped.
+* `compartment_id_in_subtree` - (Optional) if set to true then it fetches resources for all compartments where user has access to else only on the compartment specified.
 * `display_name` - (Optional) Filter to return only Management Agents having the particular display name.
 * `host_id` - (Optional) Filter to return only Management Agents having the particular agent host id.
 * `install_type` - (Optional) A filter to return either agents or gateway types depending upon install type selected by user. By default both install type will be returned.
 * `is_customer_deployed` - (Optional) true, if the agent image is manually downloaded and installed. false, if the agent is deployed as a plugin in Oracle Cloud Agent.
-* `platform_type` - (Optional) Filter to return only results having the particular platform type.
-* `plugin_name` - (Optional) Filter to return only Management Agents having the particular Plugin installed. A special pluginName of 'None' can be provided and this will return only Management Agents having no plugin installed.
+* `platform_type` - (Optional) Array of PlatformTypes to return only results having the particular platform types. Example: ["LINUX"]
+* `plugin_name` - (Optional) Array of pluginName to return only Management Agents having the particular Plugins installed. A special pluginName of 'None' can be provided and this will return only Management Agents having no plugin installed. Example: ["PluginA"]
 * `state` - (Optional) Filter to return only Management Agents in the particular lifecycle state.
-* `version` - (Optional) Filter to return only Management Agents having the particular agent version.
+* `version` - (Optional) Array of versions to return only Management Agents having the particular agent versions. Example: ["202020.0101","210201.0513"]
 
 
 ## Attributes Reference
@@ -82,6 +87,8 @@ The following attributes are exported:
 	* `plugin_display_name` - Management Agent Plugin Identifier, can be renamed
 	* `plugin_id` - Plugin Id
 	* `plugin_name` - Management Agent Plugin Name
+	* `plugin_status` - Plugin Status
+	* `plugin_status_message` - Status message of the Plugin
 	* `plugin_version` - Plugin Version
 * `resource_artifact_version` - Version of the deployment artifact instantiated by this Management Agent. The format for Standalone resourceMode is YYMMDD.HHMM, and the format for other modes (whose artifacts are based upon Standalone but can advance independently) is YYMMDD.HHMM.VVVVVVVVVVVV. VVVVVVVVVVVV is always a numeric value between 000000000000 and 999999999999 
 * `state` - The current state of managementAgent

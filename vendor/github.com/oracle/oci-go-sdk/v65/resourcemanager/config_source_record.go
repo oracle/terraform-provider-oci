@@ -91,21 +91,24 @@ type ConfigSourceRecordConfigSourceRecordTypeEnum string
 
 // Set of constants representing the allowable values for ConfigSourceRecordConfigSourceRecordTypeEnum
 const (
-	ConfigSourceRecordConfigSourceRecordTypeZipUpload                 ConfigSourceRecordConfigSourceRecordTypeEnum = "ZIP_UPLOAD"
+	ConfigSourceRecordConfigSourceRecordTypeCompartmentConfigSource   ConfigSourceRecordConfigSourceRecordTypeEnum = "COMPARTMENT_CONFIG_SOURCE"
 	ConfigSourceRecordConfigSourceRecordTypeGitConfigSource           ConfigSourceRecordConfigSourceRecordTypeEnum = "GIT_CONFIG_SOURCE"
 	ConfigSourceRecordConfigSourceRecordTypeObjectStorageConfigSource ConfigSourceRecordConfigSourceRecordTypeEnum = "OBJECT_STORAGE_CONFIG_SOURCE"
+	ConfigSourceRecordConfigSourceRecordTypeZipUpload                 ConfigSourceRecordConfigSourceRecordTypeEnum = "ZIP_UPLOAD"
 )
 
 var mappingConfigSourceRecordConfigSourceRecordTypeEnum = map[string]ConfigSourceRecordConfigSourceRecordTypeEnum{
-	"ZIP_UPLOAD":                   ConfigSourceRecordConfigSourceRecordTypeZipUpload,
+	"COMPARTMENT_CONFIG_SOURCE":    ConfigSourceRecordConfigSourceRecordTypeCompartmentConfigSource,
 	"GIT_CONFIG_SOURCE":            ConfigSourceRecordConfigSourceRecordTypeGitConfigSource,
 	"OBJECT_STORAGE_CONFIG_SOURCE": ConfigSourceRecordConfigSourceRecordTypeObjectStorageConfigSource,
+	"ZIP_UPLOAD":                   ConfigSourceRecordConfigSourceRecordTypeZipUpload,
 }
 
 var mappingConfigSourceRecordConfigSourceRecordTypeEnumLowerCase = map[string]ConfigSourceRecordConfigSourceRecordTypeEnum{
-	"zip_upload":                   ConfigSourceRecordConfigSourceRecordTypeZipUpload,
+	"compartment_config_source":    ConfigSourceRecordConfigSourceRecordTypeCompartmentConfigSource,
 	"git_config_source":            ConfigSourceRecordConfigSourceRecordTypeGitConfigSource,
 	"object_storage_config_source": ConfigSourceRecordConfigSourceRecordTypeObjectStorageConfigSource,
+	"zip_upload":                   ConfigSourceRecordConfigSourceRecordTypeZipUpload,
 }
 
 // GetConfigSourceRecordConfigSourceRecordTypeEnumValues Enumerates the set of values for ConfigSourceRecordConfigSourceRecordTypeEnum
@@ -120,9 +123,10 @@ func GetConfigSourceRecordConfigSourceRecordTypeEnumValues() []ConfigSourceRecor
 // GetConfigSourceRecordConfigSourceRecordTypeEnumStringValues Enumerates the set of values in String for ConfigSourceRecordConfigSourceRecordTypeEnum
 func GetConfigSourceRecordConfigSourceRecordTypeEnumStringValues() []string {
 	return []string{
-		"ZIP_UPLOAD",
+		"COMPARTMENT_CONFIG_SOURCE",
 		"GIT_CONFIG_SOURCE",
 		"OBJECT_STORAGE_CONFIG_SOURCE",
+		"ZIP_UPLOAD",
 	}
 }
 

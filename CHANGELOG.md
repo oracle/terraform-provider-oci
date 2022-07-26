@@ -1,3 +1,13 @@
+## 4.86.0 (July 26, 2022)
+
+### Added
+- Support for Standby lifecyclestate to created target for ADBS resource
+- Support for new fields port, protocol, role, and ssl secret id to enable/modify database management service
+- Support for Data Science - Model Deploy Omnivorous Compute/Flex shape support
+- management_agents compartment_id_in_subtree and agent in pluginlist
+### Bug Fix
+- fix for test error logging output
+
 ## 4.85.0 (July 20, 2022)
 
 ### Added

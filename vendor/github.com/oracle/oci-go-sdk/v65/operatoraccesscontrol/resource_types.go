@@ -20,21 +20,24 @@ type ResourceTypesEnum string
 
 // Set of constants representing the allowable values for ResourceTypesEnum
 const (
-	ResourceTypesExacc                 ResourceTypesEnum = "EXACC"
-	ResourceTypesExadatainfrastructure ResourceTypesEnum = "EXADATAINFRASTRUCTURE"
-	ResourceTypesAutonomousvmcluster   ResourceTypesEnum = "AUTONOMOUSVMCLUSTER"
+	ResourceTypesExacc                    ResourceTypesEnum = "EXACC"
+	ResourceTypesExadatainfrastructure    ResourceTypesEnum = "EXADATAINFRASTRUCTURE"
+	ResourceTypesAutonomousvmcluster      ResourceTypesEnum = "AUTONOMOUSVMCLUSTER"
+	ResourceTypesCloudautonomousvmcluster ResourceTypesEnum = "CLOUDAUTONOMOUSVMCLUSTER"
 )
 
 var mappingResourceTypesEnum = map[string]ResourceTypesEnum{
-	"EXACC":                 ResourceTypesExacc,
-	"EXADATAINFRASTRUCTURE": ResourceTypesExadatainfrastructure,
-	"AUTONOMOUSVMCLUSTER":   ResourceTypesAutonomousvmcluster,
+	"EXACC":                    ResourceTypesExacc,
+	"EXADATAINFRASTRUCTURE":    ResourceTypesExadatainfrastructure,
+	"AUTONOMOUSVMCLUSTER":      ResourceTypesAutonomousvmcluster,
+	"CLOUDAUTONOMOUSVMCLUSTER": ResourceTypesCloudautonomousvmcluster,
 }
 
 var mappingResourceTypesEnumLowerCase = map[string]ResourceTypesEnum{
-	"exacc":                 ResourceTypesExacc,
-	"exadatainfrastructure": ResourceTypesExadatainfrastructure,
-	"autonomousvmcluster":   ResourceTypesAutonomousvmcluster,
+	"exacc":                    ResourceTypesExacc,
+	"exadatainfrastructure":    ResourceTypesExadatainfrastructure,
+	"autonomousvmcluster":      ResourceTypesAutonomousvmcluster,
+	"cloudautonomousvmcluster": ResourceTypesCloudautonomousvmcluster,
 }
 
 // GetResourceTypesEnumValues Enumerates the set of values for ResourceTypesEnum
@@ -52,6 +55,7 @@ func GetResourceTypesEnumStringValues() []string {
 		"EXACC",
 		"EXADATAINFRASTRUCTURE",
 		"AUTONOMOUSVMCLUSTER",
+		"CLOUDAUTONOMOUSVMCLUSTER",
 	}
 }
 

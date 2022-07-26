@@ -126,6 +126,9 @@ type ExadataInfrastructureSummary struct {
 	// The software version of the database servers (dom0) in the Exadata infrastructure.
 	DbServerVersion *string `mandatory:"false" json:"dbServerVersion"`
 
+	// The monthly software version of the database servers (dom0) in the Exadata infrastructure.
+	MonthlyDbServerVersion *string `mandatory:"false" json:"monthlyDbServerVersion"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 	LastMaintenanceRunId *string `mandatory:"false" json:"lastMaintenanceRunId"`
 

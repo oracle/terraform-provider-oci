@@ -24,6 +24,9 @@ type MemberReplica struct {
 
 	// The volume replica ID.
 	VolumeReplicaId *string `mandatory:"true" json:"volumeReplicaId"`
+
+	// Membership state of the volume replica in relation to the volume group replica.
+	MembershipState MemberReplicaMembershipStateEnum `mandatory:"false" json:"membershipState,omitempty"`
 }
 
 func (m MemberReplica) String() string {
@@ -36,8 +39,57 @@ func (m MemberReplica) String() string {
 func (m MemberReplica) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingMemberReplicaMembershipStateEnum(string(m.MembershipState)); !ok && m.MembershipState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MembershipState: %s. Supported values are: %s.", m.MembershipState, strings.Join(GetMemberReplicaMembershipStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MemberReplicaMembershipStateEnum Enum with underlying type: string
+type MemberReplicaMembershipStateEnum string
+
+// Set of constants representing the allowable values for MemberReplicaMembershipStateEnum
+const (
+	MemberReplicaMembershipStateAddPending    MemberReplicaMembershipStateEnum = "ADD_PENDING"
+	MemberReplicaMembershipStateStable        MemberReplicaMembershipStateEnum = "STABLE"
+	MemberReplicaMembershipStateRemovePending MemberReplicaMembershipStateEnum = "REMOVE_PENDING"
+)
+
+var mappingMemberReplicaMembershipStateEnum = map[string]MemberReplicaMembershipStateEnum{
+	"ADD_PENDING":    MemberReplicaMembershipStateAddPending,
+	"STABLE":         MemberReplicaMembershipStateStable,
+	"REMOVE_PENDING": MemberReplicaMembershipStateRemovePending,
+}
+
+var mappingMemberReplicaMembershipStateEnumLowerCase = map[string]MemberReplicaMembershipStateEnum{
+	"add_pending":    MemberReplicaMembershipStateAddPending,
+	"stable":         MemberReplicaMembershipStateStable,
+	"remove_pending": MemberReplicaMembershipStateRemovePending,
+}
+
+// GetMemberReplicaMembershipStateEnumValues Enumerates the set of values for MemberReplicaMembershipStateEnum
+func GetMemberReplicaMembershipStateEnumValues() []MemberReplicaMembershipStateEnum {
+	values := make([]MemberReplicaMembershipStateEnum, 0)
+	for _, v := range mappingMemberReplicaMembershipStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetMemberReplicaMembershipStateEnumStringValues Enumerates the set of values in String for MemberReplicaMembershipStateEnum
+func GetMemberReplicaMembershipStateEnumStringValues() []string {
+	return []string{
+		"ADD_PENDING",
+		"STABLE",
+		"REMOVE_PENDING",
+	}
+}
+
+// GetMappingMemberReplicaMembershipStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingMemberReplicaMembershipStateEnum(val string) (MemberReplicaMembershipStateEnum, bool) {
+	enum, ok := mappingMemberReplicaMembershipStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

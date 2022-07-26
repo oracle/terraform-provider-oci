@@ -21,7 +21,7 @@ import (
 // CreatePrivateEndpointDetails Creation details for a private endpoint.
 type CreatePrivateEndpointDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing this private endpoint details.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing this private endpoint.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The private endpoint display name. Avoid entering confidential information.
@@ -39,7 +39,10 @@ type CreatePrivateEndpointDetails struct {
 	// DNS Proxy forwards any DNS FQDN queries over into the consumer DNS resolver if the DNS FQDN is included in the dns zones list otherwise it goes to service provider VCN resolver.
 	DnsZones []string `mandatory:"false" json:"dnsZones"`
 
-	// An array of network security group (NSG) OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the private endpoint. Order does not matter.
+	// The OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of
+	// network security groups (NSGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/networksecuritygroups.htm)
+	// for the private endpoint.
+	// Order does not matter.
 	NsgIdList []string `mandatory:"false" json:"nsgIdList"`
 
 	// When `true`, allows the private endpoint to be used with a configuration source provider.
