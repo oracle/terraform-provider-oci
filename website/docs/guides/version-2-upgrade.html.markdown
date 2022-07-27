@@ -35,7 +35,7 @@ Provider "oci" {
 }
 ```
 
-The provider binary filename also changes, from "terraform-provider-baremetal" to "terraform-provider-oci".
+The provider binary filename also changes, from "terraform-provider-baremetal" to "github.com/oracle/terraform-provider-oci".
 
 ## Installing the Updated Provider
 Use the following guidance to install the updated provider on a Linux or Windows computer.
@@ -125,5 +125,5 @@ provider “oci" {
 ```
 
 ## Building the Code from Source
-If you want to build the new code from source you will have to make sure that the root directory of the project is "terraform-provider-oci" instead of "terraform-provider-baremetal"
+If you want to build the new code from source you will have to make sure that the root directory of the project is "github.com/oracle/terraform-provider-oci" instead of "terraform-provider-baremetal"
 

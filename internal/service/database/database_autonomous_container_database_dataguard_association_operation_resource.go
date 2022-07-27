@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strings"
 
-	"terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/tfresource"
-	"terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 

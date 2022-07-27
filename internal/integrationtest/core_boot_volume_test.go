@@ -17,12 +17,12 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"terraform-provider-oci/httpreplay"
-	"terraform-provider-oci/internal/acctest"
-	tf_client "terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/resourcediscovery"
-	"terraform-provider-oci/internal/tfresource"
-	"terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (

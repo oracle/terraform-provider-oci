@@ -11,9 +11,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"terraform-provider-oci/httpreplay"
-	"terraform-provider-oci/internal/acctest"
-	"terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/oracle/oci-go-sdk/v65/core"
 )

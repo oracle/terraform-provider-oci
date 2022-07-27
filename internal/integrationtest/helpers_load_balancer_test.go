@@ -4,7 +4,7 @@ import (
 	"sync"
 	"testing"
 
-	tf_load_balancer "terraform-provider-oci/internal/service/load_balancer"
+	tf_load_balancer "github.com/oracle/terraform-provider-oci/internal/service/load_balancer"
 )
 
 // issue-routing-tag: terraform/default
