@@ -20,8 +20,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"terraform-provider-oci/httpreplay"
-	"terraform-provider-oci/internal/globalvar"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 )
 
 const (
