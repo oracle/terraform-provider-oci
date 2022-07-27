@@ -7,41 +7,41 @@ import (
 	"fmt"
 	"net/url"
 
-	"terraform-provider-oci/internal/service/data_safe"
+	"github.com/oracle/terraform-provider-oci/internal/service/data_safe"
 
-	"terraform-provider-oci/internal/service/bds"
+	"github.com/oracle/terraform-provider-oci/internal/service/bds"
 
-	"terraform-provider-oci/internal/service/data_connectivity"
-	tf_datascience "terraform-provider-oci/internal/service/datascience"
-	"terraform-provider-oci/internal/service/devops"
-	tf_identity "terraform-provider-oci/internal/service/identity"
-	tf_log_analytics "terraform-provider-oci/internal/service/log_analytics"
+	"github.com/oracle/terraform-provider-oci/internal/service/data_connectivity"
+	tf_datascience "github.com/oracle/terraform-provider-oci/internal/service/datascience"
+	"github.com/oracle/terraform-provider-oci/internal/service/devops"
+	tf_identity "github.com/oracle/terraform-provider-oci/internal/service/identity"
+	tf_log_analytics "github.com/oracle/terraform-provider-oci/internal/service/log_analytics"
 
-	"terraform-provider-oci/internal/service/apm_config"
+	"github.com/oracle/terraform-provider-oci/internal/service/apm_config"
 
-	tf_logging "terraform-provider-oci/internal/service/logging"
+	tf_logging "github.com/oracle/terraform-provider-oci/internal/service/logging"
 
-	tf_datacatalog "terraform-provider-oci/internal/service/datacatalog"
+	tf_datacatalog "github.com/oracle/terraform-provider-oci/internal/service/datacatalog"
 
-	tf_apm_synthetics "terraform-provider-oci/internal/service/apm_synthetics"
+	tf_apm_synthetics "github.com/oracle/terraform-provider-oci/internal/service/apm_synthetics"
 
-	tf_nosql "terraform-provider-oci/internal/service/nosql"
+	tf_nosql "github.com/oracle/terraform-provider-oci/internal/service/nosql"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	tf_kms "terraform-provider-oci/internal/service/kms"
+	tf_kms "github.com/oracle/terraform-provider-oci/internal/service/kms"
 
-	"terraform-provider-oci/internal/service/budget"
-	tf_core "terraform-provider-oci/internal/service/core"
+	"github.com/oracle/terraform-provider-oci/internal/service/budget"
+	tf_core "github.com/oracle/terraform-provider-oci/internal/service/core"
 
-	tf_blockchain "terraform-provider-oci/internal/service/blockchain"
-	tf_database "terraform-provider-oci/internal/service/database"
-	tf_license_manager "terraform-provider-oci/internal/service/license_manager"
-	tf_load_balancer "terraform-provider-oci/internal/service/load_balancer"
-	network_load_balancer "terraform-provider-oci/internal/service/network_load_balancer"
-	tf_objectstorage "terraform-provider-oci/internal/service/objectstorage"
-	"terraform-provider-oci/internal/service/osp_gateway"
-	tf_usage_proxy "terraform-provider-oci/internal/service/usage_proxy"
+	tf_blockchain "github.com/oracle/terraform-provider-oci/internal/service/blockchain"
+	tf_database "github.com/oracle/terraform-provider-oci/internal/service/database"
+	tf_license_manager "github.com/oracle/terraform-provider-oci/internal/service/license_manager"
+	tf_load_balancer "github.com/oracle/terraform-provider-oci/internal/service/load_balancer"
+	network_load_balancer "github.com/oracle/terraform-provider-oci/internal/service/network_load_balancer"
+	tf_objectstorage "github.com/oracle/terraform-provider-oci/internal/service/objectstorage"
+	"github.com/oracle/terraform-provider-oci/internal/service/osp_gateway"
+	tf_usage_proxy "github.com/oracle/terraform-provider-oci/internal/service/usage_proxy"
 )
 
 func init() {

@@ -10,13 +10,13 @@ import (
 	"regexp"
 	"strings"
 
-	"terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/client"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
-	"terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func CloudGuardCloudGuardConfigurationResource() *schema.Resource {
