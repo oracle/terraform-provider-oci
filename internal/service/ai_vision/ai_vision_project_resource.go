@@ -16,8 +16,8 @@ import (
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v65/aivision"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
-	"terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func AiVisionProjectResource() *schema.Resource {

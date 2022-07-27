@@ -11,8 +11,8 @@ import (
 
 	oci_limits "github.com/oracle/oci-go-sdk/v65/limits"
 
-	"terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func LimitsQuotaResource() *schema.Resource {

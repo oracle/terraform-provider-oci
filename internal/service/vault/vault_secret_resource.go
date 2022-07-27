@@ -17,8 +17,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_vault "github.com/oracle/oci-go-sdk/v65/vault"
 
-	"terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func VaultSecretResource() *schema.Resource {

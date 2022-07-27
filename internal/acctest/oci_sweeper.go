@@ -15,7 +15,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	utils "terraform-provider-oci/internal/utils"
+	utils "github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 /* This map holds the list of ocids for a given resourceType by compartment

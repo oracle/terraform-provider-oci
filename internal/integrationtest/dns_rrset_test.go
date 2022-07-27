@@ -8,17 +8,17 @@ import (
 	"fmt"
 	"testing"
 
-	"terraform-provider-oci/internal/acctest"
-	tf_client "terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/tfresource"
-	"terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/oracle/oci-go-sdk/v65/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 
 	oci_dns "github.com/oracle/oci-go-sdk/v65/dns"
 )
