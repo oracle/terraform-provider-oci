@@ -112,6 +112,32 @@ func DatascienceJobResource() *schema.Resource {
 						},
 
 						// Optional
+						"job_shape_config_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"memory_in_gbs": {
+										Type:     schema.TypeFloat,
+										Optional: true,
+										Computed: true,
+									},
+									"ocpus": {
+										Type:     schema.TypeFloat,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -656,6 +682,16 @@ func (s *DatascienceJobResourceCrud) mapToJobInfrastructureConfigurationDetails(
 			tmp := blockStorageSizeInGBs.(int)
 			details.BlockStorageSizeInGBs = &tmp
 		}
+		if jobShapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_shape_config_details")); ok {
+			if tmpList := jobShapeConfigDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "job_shape_config_details"), 0)
+				tmp, err := s.mapToJobShapeConfigDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert job_shape_config_details, encountered error: %v", err)
+				}
+				details.JobShapeConfigDetails = &tmp
+			}
+		}
 		if shapeName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_name")); ok {
 			tmp := shapeName.(string)
 			details.ShapeName = &tmp
@@ -666,6 +702,16 @@ func (s *DatascienceJobResourceCrud) mapToJobInfrastructureConfigurationDetails(
 		if blockStorageSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_storage_size_in_gbs")); ok {
 			tmp := blockStorageSizeInGBs.(int)
 			details.BlockStorageSizeInGBs = &tmp
+		}
+		if jobShapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_shape_config_details")); ok {
+			if tmpList := jobShapeConfigDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "job_shape_config_details"), 0)
+				tmp, err := s.mapToJobShapeConfigDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert job_shape_config_details, encountered error: %v", err)
+				}
+				details.JobShapeConfigDetails = &tmp
+			}
 		}
 		if shapeName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_name")); ok {
 			tmp := shapeName.(string)
@@ -692,6 +738,10 @@ func JobInfrastructureConfigurationDetailsToMap(obj *oci_datascience.JobInfrastr
 			result["block_storage_size_in_gbs"] = int(*v.BlockStorageSizeInGBs)
 		}
 
+		if v.JobShapeConfigDetails != nil {
+			result["job_shape_config_details"] = []interface{}{JobShapeConfigDetailsToMap(v.JobShapeConfigDetails)}
+		}
+
 		if v.ShapeName != nil {
 			result["shape_name"] = string(*v.ShapeName)
 		}
@@ -700,6 +750,10 @@ func JobInfrastructureConfigurationDetailsToMap(obj *oci_datascience.JobInfrastr
 
 		if v.BlockStorageSizeInGBs != nil {
 			result["block_storage_size_in_gbs"] = int(*v.BlockStorageSizeInGBs)
+		}
+
+		if v.JobShapeConfigDetails != nil {
+			result["job_shape_config_details"] = []interface{}{JobShapeConfigDetailsToMap(v.JobShapeConfigDetails)}
 		}
 
 		if v.ShapeName != nil {
@@ -760,6 +814,36 @@ func JobLogConfigurationDetailsToMap(obj *oci_datascience.JobLogConfigurationDet
 
 	if obj.LogId != nil {
 		result["log_id"] = string(*obj.LogId)
+	}
+
+	return result
+}
+
+func (s *DatascienceJobResourceCrud) mapToJobShapeConfigDetails(fieldKeyFormat string) (oci_datascience.JobShapeConfigDetails, error) {
+	result := oci_datascience.JobShapeConfigDetails{}
+
+	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := float32(memoryInGBs.(float64))
+		result.MemoryInGBs = &tmp
+	}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := float32(ocpus.(float64))
+		result.Ocpus = &tmp
+	}
+
+	return result, nil
+}
+
+func JobShapeConfigDetailsToMap(obj *oci_datascience.JobShapeConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MemoryInGBs != nil {
+		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
+	}
+
+	if obj.Ocpus != nil {
+		result["ocpus"] = float32(*obj.Ocpus)
 	}
 
 	return result
