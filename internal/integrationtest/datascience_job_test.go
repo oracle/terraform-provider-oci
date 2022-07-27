@@ -74,13 +74,13 @@ var (
 	}
 	DatascienceJobJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
 		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `50`, Update: `100`},
-		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `STANDALONE`},
-		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`, Update: `VM.Standard2.4`},
-		"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `ME_STANDALONE`},
+		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`},
+		"job_shape_config_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: jobJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation},
 	}
 
 	ignoreMlJobDefinedTagsChangesRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `job_infrastructure_configuration_details`}},
 	}
 
 	// easier to work with from JobRuns
@@ -94,10 +94,12 @@ var (
 		"artifact_content_disposition":             acctest.Representation{RepType: acctest.Required, Create: `attachment; filename=job-artifact.py`},
 		"lifecycle":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMlJobDefinedTagsChangesRepresentation},
 	}
+	jobJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `2.0`},
+	}
 
 	DatascienceJobResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, CoreCoreShapeDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
 		DefinedTagsDependencies
 )
@@ -142,9 +144,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.job_type", "DEFAULT"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
-					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_infrastructure_type", "STANDALONE"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.shape_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 					func(s *terraform.State) (err error) {
@@ -153,7 +153,6 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					},
 				),
 			},
-
 			// delete before next Create
 			{
 				Config: config + compartmentIdVariableStr + DatascienceJobResourceDependencies,
@@ -164,11 +163,9 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					acctest.GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", acctest.Optional, acctest.Create, DatascienceJobRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.command_line_arguments", "commandLineArguments"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.environment_variables.%", "1"),
@@ -176,9 +173,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
-					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_infrastructure_type", "STANDALONE"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.shape_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -204,11 +199,9 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 						})),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.command_line_arguments", "commandLineArguments"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.environment_variables.%", "1"),
@@ -216,9 +209,6 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
-					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_infrastructure_type", "STANDALONE"),
-					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.shape_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -239,21 +229,17 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					acctest.GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", acctest.Optional, acctest.Update, DatascienceJobRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.command_line_arguments", "commandLineArguments"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.environment_variables.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.job_type", "DEFAULT"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "100"),
-					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_infrastructure_type", "STANDALONE"),
-					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.shape_name", "VM.Standard2.4"),
-					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
+					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.shape_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -267,7 +253,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					},
 				),
 			},
-			// verify datasource - step 5
+			// verify datasource
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_jobs", "test_jobs", acctest.Optional, acctest.Update, DatascienceDatascienceJobDataSourceRepresentation) +
@@ -275,16 +261,12 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					acctest.GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", acctest.Optional, acctest.Update, DatascienceJobRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "created_by"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "project_id"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "jobs.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "jobs.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "jobs.0.created_by"),
-					resource.TestCheckResourceAttrSet(datasourceName, "jobs.0.defined_tags.%"),
 					resource.TestCheckResourceAttr(datasourceName, "jobs.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "jobs.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "jobs.0.id"),
@@ -293,7 +275,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "jobs.0.time_created"),
 				),
 			},
-			// verify singular datasource - step 6
+			// verify singular datasource
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_job", "test_job", acctest.Required, acctest.Create, DatascienceDatascienceJobSingularDataSourceRepresentation) +
@@ -302,24 +284,21 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "job_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_details.0.command_line_arguments", "commandLineArguments"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_details.0.environment_variables.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_details.0.job_type", "DEFAULT"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "100"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.job_infrastructure_type", "STANDALONE"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
-			// verify resource import - step 8
+			// verify resource import
 			{
 				Config:            config + DatascienceJobRequiredOnlyResource,
 				ImportState:       true,

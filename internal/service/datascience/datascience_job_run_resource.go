@@ -182,6 +182,27 @@ func DatascienceJobRunResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"job_shape_config_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"memory_in_gbs": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+									"ocpus": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"shape_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -621,6 +642,22 @@ func JobRunLogDetailsToMap(obj *oci_datascience.JobRunLogDetails) map[string]int
 	}
 
 	return result
+}
+
+func (s *DatascienceJobRunResourceCrud) mapToJobShapeConfigDetails(fieldKeyFormat string) (oci_datascience.JobShapeConfigDetails, error) {
+	result := oci_datascience.JobShapeConfigDetails{}
+
+	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := memoryInGBs.(float32)
+		result.MemoryInGBs = &tmp
+	}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := ocpus.(float32)
+		result.Ocpus = &tmp
+	}
+
+	return result, nil
 }
 
 func (s *DatascienceJobRunResourceCrud) updateCompartment(compartment interface{}) error {
