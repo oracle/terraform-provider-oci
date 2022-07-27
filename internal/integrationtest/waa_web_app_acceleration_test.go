@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -18,11 +18,11 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_waa "github.com/oracle/oci-go-sdk/v65/waa"
 
-	"terraform-provider-oci/httpreplay"
-	"terraform-provider-oci/internal/acctest"
-	tf_client "terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/tfresource"
-	"terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (

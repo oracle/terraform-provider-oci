@@ -17,10 +17,10 @@ import (
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
-	"terraform-provider-oci/httpreplay"
-	"terraform-provider-oci/internal/acctest"
-	"terraform-provider-oci/internal/tfresource"
-	"terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (

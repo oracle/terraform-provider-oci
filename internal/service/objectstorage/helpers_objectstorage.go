@@ -15,16 +15,16 @@ import (
 	"sync"
 	"time"
 
-	tf_client "terraform-provider-oci/internal/client"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 
-	"terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
 
-	"terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 const DefaultFilePartSize int64 = 128 * 1024 * 1024 // 128MB

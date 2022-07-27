@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
-	"terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/client"
 )
 
 func setUp(t *testing.T) {

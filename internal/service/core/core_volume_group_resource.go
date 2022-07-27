@@ -10,8 +10,8 @@ import (
 	"strconv"
 	"strings"
 
-	tf_client "terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/tfresource"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"

@@ -15,9 +15,9 @@ import (
 
 	oci_marketplace "github.com/oracle/oci-go-sdk/v65/marketplace"
 
-	"terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/tfresource"
-	"terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 func MarketplacePublicationResource() *schema.Resource {
