@@ -16,8 +16,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_em_warehouse "github.com/oracle/oci-go-sdk/v65/emwarehouse"
 
-	"terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func EmWarehouseEmWarehouseResource() *schema.Resource {

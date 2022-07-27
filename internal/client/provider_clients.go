@@ -11,12 +11,12 @@ import (
 
 	oci_kms "github.com/oracle/oci-go-sdk/v65/keymanagement"
 
-	"terraform-provider-oci/internal/globalvar"
+	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
-	utils "terraform-provider-oci/internal/utils"
+	utils "github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var OracleClientRegistrationsVar *OracleClientRegistrations // This is a global registration for all oracle clients. This is invariant information about all clients regardless of region

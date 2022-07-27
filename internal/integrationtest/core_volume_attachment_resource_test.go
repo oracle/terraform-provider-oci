@@ -6,10 +6,10 @@ package integrationtest
 import (
 	"testing"
 
-	"terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"terraform-provider-oci/httpreplay"
-	"terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
 
 	"fmt"
 

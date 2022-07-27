@@ -11,9 +11,9 @@ import (
 	"github.com/hashicorp/terraform-exec/tfexec"
 	"github.com/hashicorp/terraform-exec/tfinstall"
 
-	"terraform-provider-oci/internal/globalvar"
-	tf_provider "terraform-provider-oci/internal/provider"
-	"terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/globalvar"
+	tf_provider "github.com/oracle/terraform-provider-oci/internal/provider"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (

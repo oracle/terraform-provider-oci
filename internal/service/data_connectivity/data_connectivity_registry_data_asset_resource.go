@@ -14,15 +14,15 @@ import (
 	"strings"
 	"time"
 
-	"terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_connectivity "github.com/oracle/oci-go-sdk/v65/dataconnectivity"
 
-	"terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DataConnectivityRegistryDataAssetResource() *schema.Resource {
