@@ -109,6 +109,10 @@ func (s *OperatorAccessControlOperatorControlAssignmentDataSourceCrud) SetData()
 		s.D.Set("is_log_forwarded", *s.Res.IsLogForwarded)
 	}
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	if s.Res.OperatorControlId != nil {
 		s.D.Set("operator_control_id", *s.Res.OperatorControlId)
 	}
