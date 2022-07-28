@@ -27,13 +27,13 @@ import (
 	"github.com/hashicorp/terraform-exec/tfexec"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
-	tf_client "terraform-provider-oci/internal/client"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 
-	"terraform-provider-oci/internal/acctest"
-	"terraform-provider-oci/internal/globalvar"
-	tf_provider "terraform-provider-oci/internal/provider"
-	"terraform-provider-oci/internal/tfresource"
-	"terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/globalvar"
+	tf_provider "github.com/oracle/terraform-provider-oci/internal/provider"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/stretchr/testify/assert"
 

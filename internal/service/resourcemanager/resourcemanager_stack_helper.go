@@ -10,7 +10,7 @@ import (
 	"encoding/base64"
 	"fmt"
 
-	"terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"github.com/oracle/oci-go-sdk/v65/resourcemanager"

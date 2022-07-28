@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
 
 	"github.com/stretchr/testify/assert"
 )

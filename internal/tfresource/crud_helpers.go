@@ -21,7 +21,7 @@ import (
 	"strings"
 	"time"
 
-	"terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"sync"
 
@@ -31,7 +31,7 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
-	"terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
