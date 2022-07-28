@@ -1,3 +1,8 @@
+## 4.86.1 (July 28, 2022)
+
+### Bug Fix
+- Fix module name in go.mod
+
 ## 4.86.0 (July 26, 2022)
 
 ### Added
