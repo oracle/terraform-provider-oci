@@ -51,7 +51,7 @@ type VirtualNodeSummary struct {
 	VirtualNodeError *string `mandatory:"false" json:"virtualNodeError"`
 
 	// The state of the Virtual Node.
-	LifecycleState VirtualNodePoolLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	LifecycleState VirtualNodeLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Details about the state of the Virtual Node.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -84,8 +84,8 @@ func (m VirtualNodeSummary) String() string {
 func (m VirtualNodeSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingVirtualNodePoolLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVirtualNodePoolLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingVirtualNodeLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVirtualNodeLifecycleStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

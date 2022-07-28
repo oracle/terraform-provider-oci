@@ -15,25 +15,19 @@ import (
 	"strings"
 )
 
-// CreateAutonomousDatabaseBackupDetails Details to create an Oracle Autonomous Database backup.
-// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
-type CreateAutonomousDatabaseBackupDetails struct {
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
-	AutonomousDatabaseId *string `mandatory:"true" json:"autonomousDatabaseId"`
-
-	// The user-friendly name for the backup. The name does not have to be unique.
-	DisplayName *string `mandatory:"false" json:"displayName"`
+// RefreshableCloneCollection A list of Autonomous Database RefreshableClone containing RefreshableCloneSummary items.
+type RefreshableCloneCollection struct {
+	Items []RefreshableCloneSummary `mandatory:"true" json:"items"`
 }
 
-func (m CreateAutonomousDatabaseBackupDetails) String() string {
+func (m RefreshableCloneCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateAutonomousDatabaseBackupDetails) ValidateEnumValue() (bool, error) {
+func (m RefreshableCloneCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -88,12 +88,6 @@ type DeleteSSLCipherSuiteResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// Reflects the current version of the load balancer and the resources it contains.
-	// The value only changes when the load balancer or an associated resource is created,
-	// updated, or delete
-	// For optimistic concurrency control. See `if-match`.
-	ETag *string `presentIn:"header" name:"etag"`
 }
 
 func (response DeleteSSLCipherSuiteResponse) String() string {

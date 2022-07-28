@@ -18,8 +18,8 @@ import (
 	"strings"
 )
 
-// EqualSelectionKey Information around the set of string values for selector of a dynamic authentication/ routing branch.
-type EqualSelectionKey struct {
+// AnyOfSelectionKey Information around the set of string values for selector of a dynamic authentication/ routing branch. Selector should match any one of the values present in set of string values.
+type AnyOfSelectionKey struct {
 
 	// Name assigned to the branch.
 	Name *string `mandatory:"true" json:"name"`
@@ -32,23 +32,23 @@ type EqualSelectionKey struct {
 }
 
 //GetIsDefault returns IsDefault
-func (m EqualSelectionKey) GetIsDefault() *bool {
+func (m AnyOfSelectionKey) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
 //GetName returns Name
-func (m EqualSelectionKey) GetName() *string {
+func (m AnyOfSelectionKey) GetName() *string {
 	return m.Name
 }
 
-func (m EqualSelectionKey) String() string {
+func (m AnyOfSelectionKey) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m EqualSelectionKey) ValidateEnumValue() (bool, error) {
+func (m AnyOfSelectionKey) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -58,14 +58,14 @@ func (m EqualSelectionKey) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m EqualSelectionKey) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeEqualSelectionKey EqualSelectionKey
+func (m AnyOfSelectionKey) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeAnyOfSelectionKey AnyOfSelectionKey
 	s := struct {
 		DiscriminatorParam string `json:"type"`
-		MarshalTypeEqualSelectionKey
+		MarshalTypeAnyOfSelectionKey
 	}{
-		"EQUAL",
-		(MarshalTypeEqualSelectionKey)(m),
+		"ANY_OF",
+		(MarshalTypeAnyOfSelectionKey)(m),
 	}
 
 	return json.Marshal(&s)

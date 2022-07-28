@@ -62,12 +62,12 @@ func (m *dynamicselectionkey) UnmarshalPolymorphicJSON(data []byte) (interface{}
 
 	var err error
 	switch m.Type {
-	case "EQUAL":
-		mm := EqualSelectionKey{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "WILDCARD":
 		mm := WildcardSelectionKey{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ANY_OF":
+		mm := AnyOfSelectionKey{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -106,17 +106,17 @@ type DynamicSelectionKeyTypeEnum string
 
 // Set of constants representing the allowable values for DynamicSelectionKeyTypeEnum
 const (
-	DynamicSelectionKeyTypeEqual    DynamicSelectionKeyTypeEnum = "EQUAL"
+	DynamicSelectionKeyTypeAnyOf    DynamicSelectionKeyTypeEnum = "ANY_OF"
 	DynamicSelectionKeyTypeWildcard DynamicSelectionKeyTypeEnum = "WILDCARD"
 )
 
 var mappingDynamicSelectionKeyTypeEnum = map[string]DynamicSelectionKeyTypeEnum{
-	"EQUAL":    DynamicSelectionKeyTypeEqual,
+	"ANY_OF":   DynamicSelectionKeyTypeAnyOf,
 	"WILDCARD": DynamicSelectionKeyTypeWildcard,
 }
 
 var mappingDynamicSelectionKeyTypeEnumLowerCase = map[string]DynamicSelectionKeyTypeEnum{
-	"equal":    DynamicSelectionKeyTypeEqual,
+	"any_of":   DynamicSelectionKeyTypeAnyOf,
 	"wildcard": DynamicSelectionKeyTypeWildcard,
 }
 
@@ -132,7 +132,7 @@ func GetDynamicSelectionKeyTypeEnumValues() []DynamicSelectionKeyTypeEnum {
 // GetDynamicSelectionKeyTypeEnumStringValues Enumerates the set of values in String for DynamicSelectionKeyTypeEnum
 func GetDynamicSelectionKeyTypeEnumStringValues() []string {
 	return []string{
-		"EQUAL",
+		"ANY_OF",
 		"WILDCARD",
 	}
 }
