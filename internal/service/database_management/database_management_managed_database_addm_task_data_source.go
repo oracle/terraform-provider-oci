@@ -12,8 +12,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
-	"terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DatabaseManagementManagedDatabaseAddmTaskDataSource() *schema.Resource {

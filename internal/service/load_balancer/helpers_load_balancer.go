@@ -15,7 +15,7 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 
-	"terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var lbBackendSetMutexes SafeMutexMap

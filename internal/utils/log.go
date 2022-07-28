@@ -12,7 +12,7 @@ import (
 	"sync"
 	"syscall"
 
-	"terraform-provider-oci/internal/globalvar"
+	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 
 	"github.com/fatih/color"
 )

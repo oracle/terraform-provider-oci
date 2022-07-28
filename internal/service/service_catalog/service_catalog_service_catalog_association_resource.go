@@ -10,8 +10,8 @@ import (
 
 	oci_service_catalog "github.com/oracle/oci-go-sdk/v65/servicecatalog"
 
-	"terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func ServiceCatalogServiceCatalogAssociationResource() *schema.Resource {

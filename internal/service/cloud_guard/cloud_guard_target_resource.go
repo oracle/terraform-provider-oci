@@ -15,8 +15,8 @@ import (
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
-	"terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func CloudGuardTargetResource() *schema.Resource {

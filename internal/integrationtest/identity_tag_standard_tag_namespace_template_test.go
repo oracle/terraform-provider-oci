@@ -8,9 +8,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
 
-	"terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (

@@ -10,8 +10,8 @@ import (
 
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 
-	"terraform-provider-oci/internal/client"
-	"terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func StackMonitoringMonitoredResourcesSearchAssociationResource() *schema.Resource {
