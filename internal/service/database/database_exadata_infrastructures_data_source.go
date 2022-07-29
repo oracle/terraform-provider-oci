@@ -234,6 +234,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		exadataInfrastructure["ntp_server"] = r.NtpServer
 
+		if r.RackSerialNumber != nil {
+			exadataInfrastructure["rack_serial_number"] = *r.RackSerialNumber
+		}
+
 		if r.Shape != nil {
 			exadataInfrastructure["shape"] = *r.Shape
 		}
