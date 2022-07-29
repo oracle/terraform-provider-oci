@@ -56,7 +56,7 @@ The following attributes are exported:
 * `build_source_collection` - Collection of build sources.
 	* `items` - Collection of build sources. In case of UPDATE operation, replaces existing build sources list. Merging with existing build sources is not supported.
 		* `branch` - Branch name.
-		* `connection_id` - Connection identifier pertinent to Bitbucket Cloud source provider
+		* `connection_id` - Connection identifier pertinent to Bitbucket Server source provider
 		* `connection_type` - The type of source provider.
 		* `name` - Name of the build source. This must be unique within a build source collection. The name can be used by customers to locate the working directory pertinent to this repository.
 		* `repository_id` - The DevOps code repository ID.
@@ -77,6 +77,10 @@ The following attributes are exported:
 * `is_pass_all_parameters_enabled` - A boolean flag that specifies whether all the parameters must be passed when the deployment is triggered.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `primary_build_source` - Name of the build source where the build_spec.yml file is located. If not specified, then the first entry in the build source collection is chosen as primary build source.
+* `private_access_config` - Specifies the configuration needed when the target Oracle Cloud Infrastructure resource, i.e., OKE cluster, resides in customer's private network. 
+	* `network_channel_type` - Network channel type.
+	* `nsg_ids` - An array of network security group OCIDs.
+	* `subnet_id` - The OCID of the subnet where VNIC resources will be created for private endpoint.
 * `project_id` - The OCID of the DevOps project.
 * `stage_execution_timeout_in_seconds` - Timeout for the build stage execution. Specify value in seconds.
 * `state` - The current state of the stage. 
