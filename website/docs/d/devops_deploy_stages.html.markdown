@@ -68,7 +68,7 @@ The following attributes are exported:
 * `compute_instance_group_deploy_environment_id` - A compute instance group environment OCID for rolling deployment.
 * `config` - User provided key and value pair configuration, which is assigned through constants or parameter.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
-* `deploy_artifact_id` - Optional binary artifact OCID user may provide to this stage.
+* `deploy_artifact_id` - Optional artifact OCID. The artifact will be included in the body for the function invocation during the stage's execution. If the DeployArtifact.argumentSubstituitionMode is set to SUBSTITUTE_PLACEHOLDERS, then the pipeline parameter values will be used to replace the placeholders in the artifact content. 
 * `deploy_artifact_ids` - The list of file artifact OCIDs to deploy.
 * `deploy_environment_id_a` - First compute instance group environment OCID for deployment.
 * `deploy_environment_id_b` - Second compute instance group environment OCID for deployment.

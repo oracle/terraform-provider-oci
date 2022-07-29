@@ -790,6 +790,36 @@ func BitbucketCloudFilterAttributesToMap(obj *oci_devops.BitbucketCloudFilterAtt
 	return result
 }
 
+func (s *DevopsBuildRunResourceCrud) mapToBitbucketServerFilterAttributes(fieldKeyFormat string) (oci_devops.BitbucketServerFilterAttributes, error) {
+	result := oci_devops.BitbucketServerFilterAttributes{}
+
+	if baseRef, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "base_ref")); ok {
+		tmp := baseRef.(string)
+		result.BaseRef = &tmp
+	}
+
+	if headRef, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "head_ref")); ok {
+		tmp := headRef.(string)
+		result.HeadRef = &tmp
+	}
+
+	return result, nil
+}
+
+func BitbucketServerFilterAttributesToMap(obj *oci_devops.BitbucketServerFilterAttributes) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BaseRef != nil {
+		result["base_ref"] = string(*obj.BaseRef)
+	}
+
+	if obj.HeadRef != nil {
+		result["head_ref"] = string(*obj.HeadRef)
+	}
+
+	return result
+}
+
 func BuildOutputsToMap(obj *oci_devops.BuildOutputs) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -881,6 +911,16 @@ func BuildRunSourceToMap(obj *oci_devops.BuildRunSource) map[string]interface{} 
 		if v.TriggerInfo != nil {
 			result["trigger_info"] = []interface{}{TriggerInfoToMap(v.TriggerInfo)}
 		}
+	case oci_devops.BitbucketServerBuildRunSource:
+		result["source_type"] = "BITBUCKET_SERVER"
+
+		if v.TriggerId != nil {
+			result["trigger_id"] = string(*v.TriggerId)
+		}
+
+		if v.TriggerInfo != nil {
+			result["trigger_info"] = []interface{}{TriggerInfoToMap(v.TriggerInfo)}
+		}
 	case oci_devops.DevopsCodeRepositoryBuildRunSource:
 		result["source_type"] = "DEVOPS_CODE_REPOSITORY"
 
@@ -907,6 +947,16 @@ func BuildRunSourceToMap(obj *oci_devops.BuildRunSource) map[string]interface{} 
 		}
 	case oci_devops.GitlabBuildRunSource:
 		result["source_type"] = "GITLAB"
+
+		if v.TriggerId != nil {
+			result["trigger_id"] = string(*v.TriggerId)
+		}
+
+		if v.TriggerInfo != nil {
+			result["trigger_info"] = []interface{}{TriggerInfoToMap(v.TriggerInfo)}
+		}
+	case oci_devops.GitlabServerBuildRunSource:
+		result["source_type"] = "GITLAB_SERVER"
 
 		if v.TriggerId != nil {
 			result["trigger_id"] = string(*v.TriggerId)
@@ -1025,6 +1075,25 @@ func (s *DevopsBuildRunResourceCrud) mapToBuildSource(fieldKeyFormat string) (oc
 			details.RepositoryUrl = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("BITBUCKET_SERVER"):
+		details := oci_devops.BitbucketServerBuildSource{}
+		if connectionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_id")); ok {
+			tmp := connectionId.(string)
+			details.ConnectionId = &tmp
+		}
+		if branch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
+			tmp := branch.(string)
+			details.Branch = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		if repositoryUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repository_url")); ok {
+			tmp := repositoryUrl.(string)
+			details.RepositoryUrl = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("DEVOPS_CODE_REPOSITORY"):
 		details := oci_devops.DevopsCodeRepositoryBuildSource{}
 		if repositoryId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repository_id")); ok {
@@ -1065,6 +1134,25 @@ func (s *DevopsBuildRunResourceCrud) mapToBuildSource(fieldKeyFormat string) (oc
 		baseObject = details
 	case strings.ToLower("GITLAB"):
 		details := oci_devops.GitlabBuildSource{}
+		if connectionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_id")); ok {
+			tmp := connectionId.(string)
+			details.ConnectionId = &tmp
+		}
+		if branch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
+			tmp := branch.(string)
+			details.Branch = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		if repositoryUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repository_url")); ok {
+			tmp := repositoryUrl.(string)
+			details.RepositoryUrl = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("GITLAB_SERVER"):
+		details := oci_devops.GitlabServerBuildSource{}
 		if connectionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_id")); ok {
 			tmp := connectionId.(string)
 			details.ConnectionId = &tmp
@@ -1513,6 +1601,31 @@ func (s *DevopsBuildRunResourceCrud) mapToFilter(fieldKeyFormat string) (oci_dev
 			}
 		}
 		baseObject = details
+	case strings.ToLower("BITBUCKET_SERVER"):
+		details := oci_devops.BitbucketServerFilter{}
+		if events, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "events")); ok {
+			interfaces := events.([]interface{})
+			tmp := make([]oci_devops.BitbucketServerFilterEventsEnum, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = oci_devops.BitbucketServerFilterEventsEnum(interfaces[i].(string))
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "events")) {
+				details.Events = tmp
+			}
+		}
+		if include, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "include")); ok {
+			if tmpList := include.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "include"), 0)
+				tmp, err := s.mapToBitbucketServerFilterAttributes(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert include, encountered error: %v", err)
+				}
+				details.Include = &tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("DEVOPS_CODE_REPOSITORY"):
 		details := oci_devops.DevopsCodeRepositoryFilter{}
 		if events, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "events")); ok {
@@ -1588,6 +1701,31 @@ func (s *DevopsBuildRunResourceCrud) mapToFilter(fieldKeyFormat string) (oci_dev
 			}
 		}
 		baseObject = details
+	case strings.ToLower("GITLAB_SERVER"):
+		details := oci_devops.GitlabServerFilter{}
+		if events, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "events")); ok {
+			interfaces := events.([]interface{})
+			tmp := make([]oci_devops.GitlabServerFilterEventsEnum, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = oci_devops.GitlabServerFilterEventsEnum(interfaces[i].(string))
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "events")) {
+				details.Events = tmp
+			}
+		}
+		if include, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "include")); ok {
+			if tmpList := include.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "include"), 0)
+				tmp, err := s.mapToGitlabServerFilterAttributes(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert include, encountered error: %v", err)
+				}
+				details.Include = &tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown trigger_source '%v' was specified", triggerSource)
 	}
@@ -1604,6 +1742,14 @@ func FilterToMap(obj *oci_devops.Filter) map[string]interface{} {
 
 		if v.Include != nil {
 			result["include"] = []interface{}{BitbucketCloudFilterAttributesToMap(v.Include)}
+		}
+	case oci_devops.BitbucketServerFilter:
+		result["trigger_source"] = "BITBUCKET_SERVER"
+
+		result["events"] = v.Events
+
+		if v.Include != nil {
+			result["include"] = []interface{}{BitbucketServerFilterAttributesToMap(v.Include)}
 		}
 	case oci_devops.DevopsCodeRepositoryFilter:
 		result["trigger_source"] = "DEVOPS_CODE_REPOSITORY"
@@ -1628,6 +1774,14 @@ func FilterToMap(obj *oci_devops.Filter) map[string]interface{} {
 
 		if v.Include != nil {
 			result["include"] = []interface{}{GitlabFilterAttributesToMap(v.Include)}
+		}
+	case oci_devops.GitlabServerFilter:
+		result["trigger_source"] = "GITLAB_SERVER"
+
+		result["events"] = v.Events
+
+		if v.Include != nil {
+			result["include"] = []interface{}{GitlabServerFilterAttributesToMap(v.Include)}
 		}
 	default:
 		log.Printf("[WARN] Received 'trigger_source' of unknown type %v", *obj)
@@ -1695,6 +1849,93 @@ func GitlabFilterAttributesToMap(obj *oci_devops.GitlabFilterAttributes) map[str
 	}
 
 	return result
+}
+
+func (s *DevopsBuildRunResourceCrud) mapToGitlabServerFilterAttributes(fieldKeyFormat string) (oci_devops.GitlabServerFilterAttributes, error) {
+	result := oci_devops.GitlabServerFilterAttributes{}
+
+	if baseRef, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "base_ref")); ok {
+		tmp := baseRef.(string)
+		result.BaseRef = &tmp
+	}
+
+	if headRef, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "head_ref")); ok {
+		tmp := headRef.(string)
+		result.HeadRef = &tmp
+	}
+
+	return result, nil
+}
+
+func GitlabServerFilterAttributesToMap(obj *oci_devops.GitlabServerFilterAttributes) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BaseRef != nil {
+		result["base_ref"] = string(*obj.BaseRef)
+	}
+
+	if obj.HeadRef != nil {
+		result["head_ref"] = string(*obj.HeadRef)
+	}
+
+	return result
+}
+
+func (s *DevopsBuildRunResourceCrud) mapToNetworkChannel(fieldKeyFormat string) (oci_devops.NetworkChannel, error) {
+	var baseObject oci_devops.NetworkChannel
+	//discriminator
+	networkChannelTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_channel_type"))
+	var networkChannelType string
+	if ok {
+		networkChannelType = networkChannelTypeRaw.(string)
+	} else {
+		networkChannelType = "" // default value
+	}
+	switch strings.ToLower(networkChannelType) {
+	case strings.ToLower("PRIVATE_ENDPOINT_CHANNEL"):
+		details := oci_devops.PrivateEndpointChannel{}
+		if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+				details.NsgIds = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("SERVICE_VNIC_CHANNEL"):
+		details := oci_devops.ServiceVnicChannel{}
+		if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+				details.NsgIds = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown network_channel_type '%v' was specified", networkChannelType)
+	}
+	return baseObject, nil
 }
 
 func (s *DevopsBuildRunResourceCrud) mapToTriggerAction(fieldKeyFormat string) (oci_devops.TriggerAction, error) {

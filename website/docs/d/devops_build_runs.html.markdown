@@ -100,7 +100,7 @@ The following attributes are exported:
 		* `build_source_collection` - Collection of build sources.
 			* `items` - Collection of build sources. In case of UPDATE operation, replaces existing build sources list. Merging with existing build sources is not supported.
 				* `branch` - Branch name.
-				* `connection_id` - Connection identifier pertinent to Bitbucket Cloud source provider
+				* `connection_id` - Connection identifier pertinent to Bitbucket Server source provider
 				* `connection_type` - The type of source provider.
 				* `name` - Name of the build source. This must be unique within a build source collection. The name can be used by customers to locate the working directory pertinent to this repository.
 				* `repository_id` - The DevOps code repository ID.
@@ -124,6 +124,10 @@ The following attributes are exported:
 				* `value` - Value of the argument.
 		* `image` - Image name for the Build Environment
 		* `primary_build_source` - Name of the BuildSource in which the build_spec.yml file need to be located. If not specified, the 1st entry in the BuildSource collection will be chosen as Primary.
+		* `private_access_config` - Specifies the configuration needed when the target Oracle Cloud Infrastructure resource, i.e., OKE cluster, resides in customer's private network. 
+			* `network_channel_type` - Network channel type.
+			* `nsg_ids` - An array of network security group OCIDs.
+			* `subnet_id` - The OCID of the subnet where VNIC resources will be created for private endpoint.
 		* `stage_display_name` - Build Run display name, which can be renamed and is not necessarily unique. Avoid entering confidential information.
 		* `stage_execution_timeout_in_seconds` - Timeout for the Build Stage Execution. Value in seconds.
 		* `status` - The current status of the stage.
@@ -145,7 +149,7 @@ The following attributes are exported:
 			* `build_pipeline_id` - The OCID of the build pipeline to be triggered.
 			* `filter` - The filters for the trigger.
 				* `events` - The events, for example, PUSH, PULL_REQUEST_MERGE.
-				* `include` - Attributes to filter DevOps code repository events.
+				* `include` - Attributes to filter GitLab self-hosted server events.
 					* `base_ref` - The target branch for pull requests; not applicable for push requests.
 					* `head_ref` - Branch for push event; source branch for pull requests.
 				* `trigger_source` - Source of the trigger. Allowed values are, GITHUB and GITLAB.
