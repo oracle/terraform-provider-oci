@@ -138,6 +138,7 @@ func init() {
 	RegisterResource("oci_bds_bds_instance", tf_bds.BdsBdsInstanceResource())
 	RegisterResource("oci_bds_bds_instance_api_key", tf_bds.BdsBdsInstanceApiKeyResource())
 	RegisterResource("oci_bds_bds_instance_metastore_config", tf_bds.BdsBdsInstanceMetastoreConfigResource())
+	RegisterResource("oci_bds_bds_instance_patch_action", tf_bds.BdsBdsInstancePatchActionResource())
 	// blockchain service
 	RegisterResource("oci_blockchain_blockchain_platform", tf_blockchain.BlockchainBlockchainPlatformResource())
 	RegisterResource("oci_blockchain_osn", tf_blockchain.BlockchainOsnResource())

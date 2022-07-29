@@ -198,6 +198,8 @@ func init() {
 	RegisterDatasource("oci_bds_bds_instance_api_keys", tf_bds.BdsBdsInstanceApiKeysDataSource())
 	RegisterDatasource("oci_bds_bds_instance_metastore_config", tf_bds.BdsBdsInstanceMetastoreConfigDataSource())
 	RegisterDatasource("oci_bds_bds_instance_metastore_configs", tf_bds.BdsBdsInstanceMetastoreConfigsDataSource())
+	RegisterDatasource("oci_bds_bds_instance_patch_histories", tf_bds.BdsBdsInstancePatchHistoriesDataSource())
+	RegisterDatasource("oci_bds_bds_instance_patches", tf_bds.BdsBdsInstancePatchesDataSource())
 	RegisterDatasource("oci_bds_bds_instances", tf_bds.BdsBdsInstancesDataSource())
 	// blockchain service
 	RegisterDatasource("oci_blockchain_blockchain_platform", tf_blockchain.BlockchainBlockchainPlatformDataSource())

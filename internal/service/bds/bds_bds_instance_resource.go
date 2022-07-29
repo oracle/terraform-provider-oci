@@ -462,6 +462,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"odh_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"os_version": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1493,6 +1497,10 @@ func ClusterDetailsToMap(obj *oci_bds.ClusterDetails) map[string]interface{} {
 
 	if obj.JupyterHubUrl != nil {
 		result["jupyter_hub_url"] = string(*obj.JupyterHubUrl)
+	}
+
+	if obj.OdhVersion != nil {
+		result["odh_version"] = string(*obj.OdhVersion)
 	}
 
 	if obj.OsVersion != nil {
