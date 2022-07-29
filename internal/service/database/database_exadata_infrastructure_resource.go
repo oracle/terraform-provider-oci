@@ -321,6 +321,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"monthly_db_server_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -914,6 +918,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.MemorySizeInGBs != nil {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
+	}
+
+	if s.Res.MonthlyDbServerVersion != nil {
+		s.D.Set("monthly_db_server_version", *s.Res.MonthlyDbServerVersion)
 	}
 
 	if s.Res.Netmask != nil {
