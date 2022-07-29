@@ -142,7 +142,7 @@ The following arguments are supported:
     * `shape_config` - (Optional) The shape configuration requested for the node.
       * `memory_in_gbs` - (Optional) The total amount of memory available to the node, in gigabytes
       * `ocpus` - (Optional) The total number of OCPUs available to the node.
-* `compute_only_woker_node` - (Required) The worker node in the BDS instance
+* `compute_only_woker_node` - (Optional) The worker node in the BDS instance
     * `block_volume_size_in_gbs` - (Optional) The size of block volume in GB that needs to be attached to a given node. All the necessary details needed for attachment are managed by service itself.
     * `number_of_nodes` - (Required) The amount of worker nodes should be created
     * `shape` - (Required) Shape of the node
@@ -169,6 +169,7 @@ The following attributes are exported:
 		* `principal_name` - Name of the Kerberos principal
 	* `shape` - Shape of the node
 * `cluster_details` - Specific info about a Hadoop cluster
+    * `ambari_url` - The URL of Ambari
     * `bd_cell_version` - Cloud SQL cell version
     * `bda_version` - BDA version installed in the cluster
     * `bdm_version` - Big Data Manager version installed in the cluster
@@ -179,6 +180,7 @@ The following attributes are exported:
     * `db_version` - Query Server Database version
     * `hue_server_url` - The URL of a Hue Server
     * `jupyter_hub_url` - The URL of the Jupyterhub.
+    * `odh_version` - Version of the ODH (Oracle Distribution including Apache Hadoop) installed on the cluster.
     * `os_version` - Oracle Linux version installed in the cluster
     * `time_created` - The time the cluster was created. An RFC3339 formatted datetime string
     * `time_refreshed` - The time the BDS instance was automatically, or manually refreshed. An RFC3339 formatted datetime string 
