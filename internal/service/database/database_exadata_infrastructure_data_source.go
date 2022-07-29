@@ -190,6 +190,10 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 
 	s.D.Set("ntp_server", s.Res.NtpServer)
 
+	if s.Res.RackSerialNumber != nil {
+		s.D.Set("rack_serial_number", *s.Res.RackSerialNumber)
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}

@@ -391,6 +391,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.memory_size_in_gbs"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.netmask", "255.255.254.0"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.ntp_server.#", "2"),
+				//rack_serial_number is not available immediately in the response as it will be set by ops command
+				//resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.rack_serial_number"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.shape", "ExadataCC.Quarter3.100"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.state"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.storage_count", "3"),
@@ -450,6 +452,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "memory_size_in_gbs"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "netmask", "255.255.254.0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ntp_server.#", "2"),
+				//rack_serial_number is not available immediately in the response as it will be set by ops command
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "rack_serial_number"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "shape", "ExadataCC.Quarter3.100"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "storage_count", "3"),
