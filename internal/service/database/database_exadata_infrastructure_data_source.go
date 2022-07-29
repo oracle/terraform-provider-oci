@@ -180,6 +180,10 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
+	if s.Res.MonthlyDbServerVersion != nil {
+		s.D.Set("monthly_db_server_version", *s.Res.MonthlyDbServerVersion)
+	}
+
 	if s.Res.Netmask != nil {
 		s.D.Set("netmask", *s.Res.Netmask)
 	}
