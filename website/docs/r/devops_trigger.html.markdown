@@ -58,8 +58,8 @@ The following arguments are supported:
 	* `build_pipeline_id` - (Required) (Updatable) The OCID of the build pipeline to be triggered.
 	* `filter` - (Optional) (Updatable) The filters for the trigger.
 		* `events` - (Optional) (Updatable) The events, for example, PUSH, PULL_REQUEST_MERGE.
-		* `include` - (Optional) (Updatable) Attributes to filter DevOps code repository events.
-			* `base_ref` - (Applicable when trigger_source=BITBUCKET_CLOUD | GITHUB | GITLAB) (Updatable) The target branch for pull requests; not applicable for push requests.
+		* `include` - (Optional) (Updatable) Attributes to filter GitLab self-hosted server events.
+			* `base_ref` - (Applicable when trigger_source=BITBUCKET_CLOUD | BITBUCKET_SERVER | GITHUB | GITLAB | GITLAB_SERVER) (Updatable) The target branch for pull requests; not applicable for push requests.
 			* `head_ref` - (Optional) (Updatable) Branch for push event; source branch for pull requests.
 		* `trigger_source` - (Required) (Updatable) Source of the trigger. Allowed values are, GITHUB, GITLAB and BITBUCKET_CLOUD.
 	* `type` - (Required) (Updatable) The type of action that will be taken. Allowed value is TRIGGER_BUILD_PIPELINE.
@@ -83,7 +83,7 @@ The following attributes are exported:
 	* `build_pipeline_id` - The OCID of the build pipeline to be triggered.
 	* `filter` - The filters for the trigger.
 		* `events` - The events, for example, PUSH, PULL_REQUEST_MERGE.
-		* `include` - Attributes to filter DevOps code repository events.
+		* `include` - Attributes to filter GitLab self-hosted server events.
 			* `base_ref` - The target branch for pull requests; not applicable for push requests.
 			* `head_ref` - Branch for push event; source branch for pull requests.
 		* `trigger_source` - Source of the trigger. Allowed values are, GITHUB, GITLAB and BITBUCKET_CLOUD.
