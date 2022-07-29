@@ -284,6 +284,7 @@ github.com/oracle/oci-go-sdk/v65/adm
 github.com/oracle/oci-go-sdk/v65/aianomalydetection
 github.com/oracle/oci-go-sdk/v65/aivision
 github.com/oracle/oci-go-sdk/v65/analytics
+github.com/oracle/oci-go-sdk/v65/announcementsservice
 github.com/oracle/oci-go-sdk/v65/apigateway
 github.com/oracle/oci-go-sdk/v65/apmconfig
 github.com/oracle/oci-go-sdk/v65/apmcontrolplane
