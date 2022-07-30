@@ -1,3 +1,17 @@
+## 4.87.0 (Unreleased)
+
+### Added
+- Support of Announcements Service Subscriptions
+- support for rack SN as a system tag
+- Support for ExaCS - Monthly Security Patching
+- Support patch management
+- Support for Private Access Connection in Devops Build Service
+- Support for new data source TimeMaintenanceRebootDueMax
+- Support for Exacc Monthly Security Patching
+- support for Child Tables for NoSQL Database Cloud
+- Support for listing volumes/replicas by group/replica group id. Also support to view volume group membership status
+- Support for ExaCS in Opctl
+
 ## 4.86.1 (July 28, 2022)
 
 ### Bug Fix
