@@ -51,6 +51,10 @@ func (m *networkchannel) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 
 	var err error
 	switch m.NetworkChannelType {
+	case "SERVICE_VNIC_CHANNEL":
+		mm := ServiceVnicChannel{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "PRIVATE_ENDPOINT_CHANNEL":
 		mm := PrivateEndpointChannel{}
 		err = json.Unmarshal(data, &mm)
@@ -82,14 +86,17 @@ type NetworkChannelNetworkChannelTypeEnum string
 // Set of constants representing the allowable values for NetworkChannelNetworkChannelTypeEnum
 const (
 	NetworkChannelNetworkChannelTypePrivateEndpointChannel NetworkChannelNetworkChannelTypeEnum = "PRIVATE_ENDPOINT_CHANNEL"
+	NetworkChannelNetworkChannelTypeServiceVnicChannel     NetworkChannelNetworkChannelTypeEnum = "SERVICE_VNIC_CHANNEL"
 )
 
 var mappingNetworkChannelNetworkChannelTypeEnum = map[string]NetworkChannelNetworkChannelTypeEnum{
 	"PRIVATE_ENDPOINT_CHANNEL": NetworkChannelNetworkChannelTypePrivateEndpointChannel,
+	"SERVICE_VNIC_CHANNEL":     NetworkChannelNetworkChannelTypeServiceVnicChannel,
 }
 
 var mappingNetworkChannelNetworkChannelTypeEnumLowerCase = map[string]NetworkChannelNetworkChannelTypeEnum{
 	"private_endpoint_channel": NetworkChannelNetworkChannelTypePrivateEndpointChannel,
+	"service_vnic_channel":     NetworkChannelNetworkChannelTypeServiceVnicChannel,
 }
 
 // GetNetworkChannelNetworkChannelTypeEnumValues Enumerates the set of values for NetworkChannelNetworkChannelTypeEnum
@@ -105,6 +112,7 @@ func GetNetworkChannelNetworkChannelTypeEnumValues() []NetworkChannelNetworkChan
 func GetNetworkChannelNetworkChannelTypeEnumStringValues() []string {
 	return []string{
 		"PRIVATE_ENDPOINT_CHANNEL",
+		"SERVICE_VNIC_CHANNEL",
 	}
 }
 

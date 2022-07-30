@@ -115,6 +115,10 @@ func (m *triggercreateresult) UnmarshalPolymorphicJSON(data []byte) (interface{}
 
 	var err error
 	switch m.TriggerSource {
+	case "GITLAB_SERVER":
+		mm := GitlabServerTriggerCreateResult{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB":
 		mm := GithubTriggerCreateResult{}
 		err = json.Unmarshal(data, &mm)
@@ -129,6 +133,10 @@ func (m *triggercreateresult) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		return mm, err
 	case "BITBUCKET_CLOUD":
 		mm := BitbucketCloudTriggerCreateResult{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER":
+		mm := BitbucketServerTriggerCreateResult{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

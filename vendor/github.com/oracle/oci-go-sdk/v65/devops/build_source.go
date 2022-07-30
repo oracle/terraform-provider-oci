@@ -65,12 +65,20 @@ func (m *buildsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 
 	var err error
 	switch m.ConnectionType {
+	case "BITBUCKET_SERVER":
+		mm := BitbucketServerBuildSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB":
 		mm := GithubBuildSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "BITBUCKET_CLOUD":
 		mm := BitbucketCloudBuildSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GITLAB_SERVER":
+		mm := GitlabServerBuildSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DEVOPS_CODE_REPOSITORY":
@@ -124,21 +132,27 @@ type BuildSourceConnectionTypeEnum string
 const (
 	BuildSourceConnectionTypeGithub               BuildSourceConnectionTypeEnum = "GITHUB"
 	BuildSourceConnectionTypeGitlab               BuildSourceConnectionTypeEnum = "GITLAB"
+	BuildSourceConnectionTypeGitlabServer         BuildSourceConnectionTypeEnum = "GITLAB_SERVER"
 	BuildSourceConnectionTypeBitbucketCloud       BuildSourceConnectionTypeEnum = "BITBUCKET_CLOUD"
+	BuildSourceConnectionTypeBitbucketServer      BuildSourceConnectionTypeEnum = "BITBUCKET_SERVER"
 	BuildSourceConnectionTypeDevopsCodeRepository BuildSourceConnectionTypeEnum = "DEVOPS_CODE_REPOSITORY"
 )
 
 var mappingBuildSourceConnectionTypeEnum = map[string]BuildSourceConnectionTypeEnum{
 	"GITHUB":                 BuildSourceConnectionTypeGithub,
 	"GITLAB":                 BuildSourceConnectionTypeGitlab,
+	"GITLAB_SERVER":          BuildSourceConnectionTypeGitlabServer,
 	"BITBUCKET_CLOUD":        BuildSourceConnectionTypeBitbucketCloud,
+	"BITBUCKET_SERVER":       BuildSourceConnectionTypeBitbucketServer,
 	"DEVOPS_CODE_REPOSITORY": BuildSourceConnectionTypeDevopsCodeRepository,
 }
 
 var mappingBuildSourceConnectionTypeEnumLowerCase = map[string]BuildSourceConnectionTypeEnum{
 	"github":                 BuildSourceConnectionTypeGithub,
 	"gitlab":                 BuildSourceConnectionTypeGitlab,
+	"gitlab_server":          BuildSourceConnectionTypeGitlabServer,
 	"bitbucket_cloud":        BuildSourceConnectionTypeBitbucketCloud,
+	"bitbucket_server":       BuildSourceConnectionTypeBitbucketServer,
 	"devops_code_repository": BuildSourceConnectionTypeDevopsCodeRepository,
 }
 
@@ -156,7 +170,9 @@ func GetBuildSourceConnectionTypeEnumStringValues() []string {
 	return []string{
 		"GITHUB",
 		"GITLAB",
+		"GITLAB_SERVER",
 		"BITBUCKET_CLOUD",
+		"BITBUCKET_SERVER",
 		"DEVOPS_CODE_REPOSITORY",
 	}
 }
