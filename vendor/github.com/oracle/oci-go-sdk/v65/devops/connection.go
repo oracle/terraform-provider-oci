@@ -105,6 +105,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 
 	var err error
 	switch m.ConnectionType {
+	case "BITBUCKET_SERVER_ACCESS_TOKEN":
+		mm := BitbucketServerAccessTokenConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITLAB_ACCESS_TOKEN":
 		mm := GitlabAccessTokenConnection{}
 		err = json.Unmarshal(data, &mm)
@@ -115,6 +119,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		return mm, err
 	case "BITBUCKET_CLOUD_APP_PASSWORD":
 		mm := BitbucketCloudAppPasswordConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GITLAB_SERVER_ACCESS_TOKEN":
+		mm := GitlabServerAccessTokenConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -239,21 +247,27 @@ type ConnectionConnectionTypeEnum string
 
 // Set of constants representing the allowable values for ConnectionConnectionTypeEnum
 const (
-	ConnectionConnectionTypeGithubAccessToken         ConnectionConnectionTypeEnum = "GITHUB_ACCESS_TOKEN"
-	ConnectionConnectionTypeGitlabAccessToken         ConnectionConnectionTypeEnum = "GITLAB_ACCESS_TOKEN"
-	ConnectionConnectionTypeBitbucketCloudAppPassword ConnectionConnectionTypeEnum = "BITBUCKET_CLOUD_APP_PASSWORD"
+	ConnectionConnectionTypeGithubAccessToken          ConnectionConnectionTypeEnum = "GITHUB_ACCESS_TOKEN"
+	ConnectionConnectionTypeGitlabAccessToken          ConnectionConnectionTypeEnum = "GITLAB_ACCESS_TOKEN"
+	ConnectionConnectionTypeGitlabServerAccessToken    ConnectionConnectionTypeEnum = "GITLAB_SERVER_ACCESS_TOKEN"
+	ConnectionConnectionTypeBitbucketServerAccessToken ConnectionConnectionTypeEnum = "BITBUCKET_SERVER_ACCESS_TOKEN"
+	ConnectionConnectionTypeBitbucketCloudAppPassword  ConnectionConnectionTypeEnum = "BITBUCKET_CLOUD_APP_PASSWORD"
 )
 
 var mappingConnectionConnectionTypeEnum = map[string]ConnectionConnectionTypeEnum{
-	"GITHUB_ACCESS_TOKEN":          ConnectionConnectionTypeGithubAccessToken,
-	"GITLAB_ACCESS_TOKEN":          ConnectionConnectionTypeGitlabAccessToken,
-	"BITBUCKET_CLOUD_APP_PASSWORD": ConnectionConnectionTypeBitbucketCloudAppPassword,
+	"GITHUB_ACCESS_TOKEN":           ConnectionConnectionTypeGithubAccessToken,
+	"GITLAB_ACCESS_TOKEN":           ConnectionConnectionTypeGitlabAccessToken,
+	"GITLAB_SERVER_ACCESS_TOKEN":    ConnectionConnectionTypeGitlabServerAccessToken,
+	"BITBUCKET_SERVER_ACCESS_TOKEN": ConnectionConnectionTypeBitbucketServerAccessToken,
+	"BITBUCKET_CLOUD_APP_PASSWORD":  ConnectionConnectionTypeBitbucketCloudAppPassword,
 }
 
 var mappingConnectionConnectionTypeEnumLowerCase = map[string]ConnectionConnectionTypeEnum{
-	"github_access_token":          ConnectionConnectionTypeGithubAccessToken,
-	"gitlab_access_token":          ConnectionConnectionTypeGitlabAccessToken,
-	"bitbucket_cloud_app_password": ConnectionConnectionTypeBitbucketCloudAppPassword,
+	"github_access_token":           ConnectionConnectionTypeGithubAccessToken,
+	"gitlab_access_token":           ConnectionConnectionTypeGitlabAccessToken,
+	"gitlab_server_access_token":    ConnectionConnectionTypeGitlabServerAccessToken,
+	"bitbucket_server_access_token": ConnectionConnectionTypeBitbucketServerAccessToken,
+	"bitbucket_cloud_app_password":  ConnectionConnectionTypeBitbucketCloudAppPassword,
 }
 
 // GetConnectionConnectionTypeEnumValues Enumerates the set of values for ConnectionConnectionTypeEnum
@@ -270,6 +284,8 @@ func GetConnectionConnectionTypeEnumStringValues() []string {
 	return []string{
 		"GITHUB_ACCESS_TOKEN",
 		"GITLAB_ACCESS_TOKEN",
+		"GITLAB_SERVER_ACCESS_TOKEN",
+		"BITBUCKET_SERVER_ACCESS_TOKEN",
 		"BITBUCKET_CLOUD_APP_PASSWORD",
 	}
 }

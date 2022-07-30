@@ -117,6 +117,14 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := GitlabAccessTokenConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BITBUCKET_SERVER_ACCESS_TOKEN":
+		mm := BitbucketServerTokenConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GITLAB_SERVER_ACCESS_TOKEN":
+		mm := GitlabServerAccessTokenConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
