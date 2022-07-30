@@ -44,6 +44,8 @@ type UpdateBuildStageDetails struct {
 	// Name of the build source where the build_spec.yml file is located. If not specified, the first entry in the build source collection is chosen as primary build source.
 	PrimaryBuildSource *string `mandatory:"false" json:"primaryBuildSource"`
 
+	PrivateAccessConfig NetworkChannel `mandatory:"false" json:"privateAccessConfig"`
+
 	// Image name for the build environment.
 	Image BuildStageImageEnum `mandatory:"false" json:"image,omitempty"`
 }
@@ -104,4 +106,58 @@ func (m UpdateBuildStageDetails) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateBuildStageDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName                             *string                                  `json:"displayName"`
+		Description                             *string                                  `json:"description"`
+		BuildPipelineStagePredecessorCollection *BuildPipelineStagePredecessorCollection `json:"buildPipelineStagePredecessorCollection"`
+		FreeformTags                            map[string]string                        `json:"freeformTags"`
+		DefinedTags                             map[string]map[string]interface{}        `json:"definedTags"`
+		Image                                   BuildStageImageEnum                      `json:"image"`
+		BuildSpecFile                           *string                                  `json:"buildSpecFile"`
+		StageExecutionTimeoutInSeconds          *int                                     `json:"stageExecutionTimeoutInSeconds"`
+		BuildSourceCollection                   *BuildSourceCollection                   `json:"buildSourceCollection"`
+		PrimaryBuildSource                      *string                                  `json:"primaryBuildSource"`
+		PrivateAccessConfig                     networkchannel                           `json:"privateAccessConfig"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.Description = model.Description
+
+	m.BuildPipelineStagePredecessorCollection = model.BuildPipelineStagePredecessorCollection
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.Image = model.Image
+
+	m.BuildSpecFile = model.BuildSpecFile
+
+	m.StageExecutionTimeoutInSeconds = model.StageExecutionTimeoutInSeconds
+
+	m.BuildSourceCollection = model.BuildSourceCollection
+
+	m.PrimaryBuildSource = model.PrimaryBuildSource
+
+	nn, e = model.PrivateAccessConfig.UnmarshalPolymorphicJSON(model.PrivateAccessConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PrivateAccessConfig = nn.(NetworkChannel)
+	} else {
+		m.PrivateAccessConfig = nil
+	}
+
+	return
 }
