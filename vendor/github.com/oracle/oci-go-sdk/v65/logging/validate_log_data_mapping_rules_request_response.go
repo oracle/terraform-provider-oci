@@ -48,7 +48,7 @@ func (request ValidateLogDataMappingRulesRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ValidateLogDataMappingRulesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ValidateLogDataMappingRulesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -63,7 +63,7 @@ func (request CompleteExternalBackupJobRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CompleteExternalBackupJobRequest) RetryPolicy() *common.RetryPolicy {
+func (request CompleteExternalBackupJobRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

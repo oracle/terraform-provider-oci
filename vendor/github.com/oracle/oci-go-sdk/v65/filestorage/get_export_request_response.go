@@ -48,7 +48,7 @@ func (request GetExportRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetExportRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetExportRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -56,7 +56,7 @@ func (request ClusterMigrateToNativeVcnRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ClusterMigrateToNativeVcnRequest) RetryPolicy() *common.RetryPolicy {
+func (request ClusterMigrateToNativeVcnRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

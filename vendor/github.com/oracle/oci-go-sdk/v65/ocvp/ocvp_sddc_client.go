@@ -92,12 +92,13 @@ func (client *SddcClient) ConfigurationProvider() *common.ConfigurationProvider 
 // A default retry strategy applies to this operation CancelDowngradeHcx()
 func (client SddcClient) CancelDowngradeHcx(ctx context.Context, request CancelDowngradeHcxRequest) (response CancelDowngradeHcxResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -153,12 +154,13 @@ func (client SddcClient) cancelDowngradeHcx(ctx context.Context, request common.
 // A default retry strategy applies to this operation ChangeSddcCompartment()
 func (client SddcClient) ChangeSddcCompartment(ctx context.Context, request ChangeSddcCompartmentRequest) (response ChangeSddcCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -215,12 +217,13 @@ func (client SddcClient) changeSddcCompartment(ctx context.Context, request comm
 // A default retry strategy applies to this operation CreateSddc()
 func (client SddcClient) CreateSddc(ctx context.Context, request CreateSddcRequest) (response CreateSddcResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -278,12 +281,13 @@ func (client SddcClient) createSddc(ctx context.Context, request common.OCIReque
 // A default retry strategy applies to this operation DeleteSddc()
 func (client SddcClient) DeleteSddc(ctx context.Context, request DeleteSddcRequest) (response DeleteSddcResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteSddc, policy)
 	if err != nil {
@@ -335,12 +339,13 @@ func (client SddcClient) deleteSddc(ctx context.Context, request common.OCIReque
 // A default retry strategy applies to this operation DowngradeHcx()
 func (client SddcClient) DowngradeHcx(ctx context.Context, request DowngradeHcxRequest) (response DowngradeHcxResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -394,12 +399,13 @@ func (client SddcClient) downgradeHcx(ctx context.Context, request common.OCIReq
 // A default retry strategy applies to this operation GetSddc()
 func (client SddcClient) GetSddc(ctx context.Context, request GetSddcRequest) (response GetSddcResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSddc, policy)
 	if err != nil {
@@ -449,12 +455,13 @@ func (client SddcClient) getSddc(ctx context.Context, request common.OCIRequest,
 // A default retry strategy applies to this operation ListSddcs()
 func (client SddcClient) ListSddcs(ctx context.Context, request ListSddcsRequest) (response ListSddcsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSddcs, policy)
 	if err != nil {
@@ -503,12 +510,13 @@ func (client SddcClient) listSddcs(ctx context.Context, request common.OCIReques
 // A default retry strategy applies to this operation ListSupportedHostShapes()
 func (client SddcClient) ListSupportedHostShapes(ctx context.Context, request ListSupportedHostShapesRequest) (response ListSupportedHostShapesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSupportedHostShapes, policy)
 	if err != nil {
@@ -557,12 +565,13 @@ func (client SddcClient) listSupportedHostShapes(ctx context.Context, request co
 // A default retry strategy applies to this operation ListSupportedSkus()
 func (client SddcClient) ListSupportedSkus(ctx context.Context, request ListSupportedSkusRequest) (response ListSupportedSkusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSupportedSkus, policy)
 	if err != nil {
@@ -612,12 +621,13 @@ func (client SddcClient) listSupportedSkus(ctx context.Context, request common.O
 // A default retry strategy applies to this operation ListSupportedVmwareSoftwareVersions()
 func (client SddcClient) ListSupportedVmwareSoftwareVersions(ctx context.Context, request ListSupportedVmwareSoftwareVersionsRequest) (response ListSupportedVmwareSoftwareVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSupportedVmwareSoftwareVersions, policy)
 	if err != nil {
@@ -666,12 +676,13 @@ func (client SddcClient) listSupportedVmwareSoftwareVersions(ctx context.Context
 // A default retry strategy applies to this operation RefreshHcxLicenseStatus()
 func (client SddcClient) RefreshHcxLicenseStatus(ctx context.Context, request RefreshHcxLicenseStatusRequest) (response RefreshHcxLicenseStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -729,12 +740,13 @@ func (client SddcClient) refreshHcxLicenseStatus(ctx context.Context, request co
 // A default retry strategy applies to this operation UpdateSddc()
 func (client SddcClient) UpdateSddc(ctx context.Context, request UpdateSddcRequest) (response UpdateSddcResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateSddc, policy)
 	if err != nil {
@@ -783,12 +795,13 @@ func (client SddcClient) updateSddc(ctx context.Context, request common.OCIReque
 // A default retry strategy applies to this operation UpgradeHcx()
 func (client SddcClient) UpgradeHcx(ctx context.Context, request UpgradeHcxRequest) (response UpgradeHcxResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {

@@ -64,7 +64,7 @@ func (request RemoveContainerVersionRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveContainerVersionRequest) RetryPolicy() *common.RetryPolicy {
+func (request RemoveContainerVersionRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

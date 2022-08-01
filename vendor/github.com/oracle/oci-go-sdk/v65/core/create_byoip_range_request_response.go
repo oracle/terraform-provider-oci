@@ -55,7 +55,7 @@ func (request CreateByoipRangeRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateByoipRangeRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateByoipRangeRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

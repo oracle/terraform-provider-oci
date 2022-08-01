@@ -47,7 +47,7 @@ func (request GetBlockchainPlatformRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetBlockchainPlatformRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetBlockchainPlatformRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

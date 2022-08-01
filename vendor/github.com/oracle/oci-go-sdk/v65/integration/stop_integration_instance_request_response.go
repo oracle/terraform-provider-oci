@@ -62,7 +62,7 @@ func (request StopIntegrationInstanceRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request StopIntegrationInstanceRequest) RetryPolicy() *common.RetryPolicy {
+func (request StopIntegrationInstanceRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

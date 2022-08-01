@@ -62,7 +62,7 @@ func (request ListSourceExtendedFieldDefinitionsRequest) BinaryRequestBody() (*c
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListSourceExtendedFieldDefinitionsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListSourceExtendedFieldDefinitionsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

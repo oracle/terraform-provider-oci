@@ -59,7 +59,7 @@ func (request ScheduleSecretDeletionRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ScheduleSecretDeletionRequest) RetryPolicy() *common.RetryPolicy {
+func (request ScheduleSecretDeletionRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

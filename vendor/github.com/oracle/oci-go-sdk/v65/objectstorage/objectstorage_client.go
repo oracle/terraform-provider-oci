@@ -92,12 +92,13 @@ func (client *ObjectStorageClient) ConfigurationProvider() *common.Configuration
 // A default retry strategy applies to this operation AbortMultipartUpload()
 func (client ObjectStorageClient) AbortMultipartUpload(ctx context.Context, request AbortMultipartUploadRequest) (response AbortMultipartUploadResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.abortMultipartUpload, policy)
 	if err != nil {
@@ -148,12 +149,13 @@ func (client ObjectStorageClient) abortMultipartUpload(ctx context.Context, requ
 // A default retry strategy applies to this operation BulkCopyObjects()
 func (client ObjectStorageClient) BulkCopyObjects(ctx context.Context, request BulkCopyObjectsRequest) (response BulkCopyObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.bulkCopyObjects, policy)
 	if err != nil {
@@ -202,12 +204,13 @@ func (client ObjectStorageClient) bulkCopyObjects(ctx context.Context, request c
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client ObjectStorageClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.cancelWorkRequest, policy)
 	if err != nil {
@@ -266,12 +269,13 @@ func (client ObjectStorageClient) cancelWorkRequest(ctx context.Context, request
 // A default retry strategy applies to this operation CheckObject()
 func (client ObjectStorageClient) CheckObject(ctx context.Context, request CheckObjectRequest) (response CheckObjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.checkObject, policy)
 	if err != nil {
@@ -320,12 +324,13 @@ func (client ObjectStorageClient) checkObject(ctx context.Context, request commo
 // A default retry strategy applies to this operation CommitMultipartUpload()
 func (client ObjectStorageClient) CommitMultipartUpload(ctx context.Context, request CommitMultipartUploadRequest) (response CommitMultipartUploadResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.commitMultipartUpload, policy)
 	if err != nil {
@@ -376,12 +381,13 @@ func (client ObjectStorageClient) commitMultipartUpload(ctx context.Context, req
 // A default retry strategy applies to this operation CopyObject()
 func (client ObjectStorageClient) CopyObject(ctx context.Context, request CopyObjectRequest) (response CopyObjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.copyObject, policy)
 	if err != nil {
@@ -430,12 +436,13 @@ func (client ObjectStorageClient) copyObject(ctx context.Context, request common
 // A default retry strategy applies to this operation CopyPart()
 func (client ObjectStorageClient) CopyPart(ctx context.Context, request CopyPartRequest) (response CopyPartResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.copyPart, policy)
 	if err != nil {
@@ -485,12 +492,13 @@ func (client ObjectStorageClient) copyPart(ctx context.Context, request common.O
 // A default retry strategy applies to this operation CreateBucket()
 func (client ObjectStorageClient) CreateBucket(ctx context.Context, request CreateBucketRequest) (response CreateBucketResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createBucket, policy)
 	if err != nil {
@@ -541,12 +549,13 @@ func (client ObjectStorageClient) createBucket(ctx context.Context, request comm
 // A default retry strategy applies to this operation CreateMultipartUpload()
 func (client ObjectStorageClient) CreateMultipartUpload(ctx context.Context, request CreateMultipartUploadRequest) (response CreateMultipartUploadResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createMultipartUpload, policy)
 	if err != nil {
@@ -595,12 +604,13 @@ func (client ObjectStorageClient) createMultipartUpload(ctx context.Context, req
 // A default retry strategy applies to this operation CreatePreauthenticatedRequest()
 func (client ObjectStorageClient) CreatePreauthenticatedRequest(ctx context.Context, request CreatePreauthenticatedRequestRequest) (response CreatePreauthenticatedRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createPreauthenticatedRequest, policy)
 	if err != nil {
@@ -649,12 +659,13 @@ func (client ObjectStorageClient) createPreauthenticatedRequest(ctx context.Cont
 // A default retry strategy applies to this operation CreateReplicationPolicy()
 func (client ObjectStorageClient) CreateReplicationPolicy(ctx context.Context, request CreateReplicationPolicyRequest) (response CreateReplicationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createReplicationPolicy, policy)
 	if err != nil {
@@ -704,12 +715,13 @@ func (client ObjectStorageClient) createReplicationPolicy(ctx context.Context, r
 // A default retry strategy applies to this operation CreateRetentionRule()
 func (client ObjectStorageClient) CreateRetentionRule(ctx context.Context, request CreateRetentionRuleRequest) (response CreateRetentionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createRetentionRule, policy)
 	if err != nil {
@@ -761,12 +773,13 @@ func (client ObjectStorageClient) createRetentionRule(ctx context.Context, reque
 // A default retry strategy applies to this operation DeleteBucket()
 func (client ObjectStorageClient) DeleteBucket(ctx context.Context, request DeleteBucketRequest) (response DeleteBucketResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteBucket, policy)
 	if err != nil {
@@ -815,12 +828,13 @@ func (client ObjectStorageClient) deleteBucket(ctx context.Context, request comm
 // A default retry strategy applies to this operation DeleteObject()
 func (client ObjectStorageClient) DeleteObject(ctx context.Context, request DeleteObjectRequest) (response DeleteObjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteObject, policy)
 	if err != nil {
@@ -869,12 +883,13 @@ func (client ObjectStorageClient) deleteObject(ctx context.Context, request comm
 // A default retry strategy applies to this operation DeleteObjectLifecyclePolicy()
 func (client ObjectStorageClient) DeleteObjectLifecyclePolicy(ctx context.Context, request DeleteObjectLifecyclePolicyRequest) (response DeleteObjectLifecyclePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteObjectLifecyclePolicy, policy)
 	if err != nil {
@@ -923,12 +938,13 @@ func (client ObjectStorageClient) deleteObjectLifecyclePolicy(ctx context.Contex
 // A default retry strategy applies to this operation DeletePreauthenticatedRequest()
 func (client ObjectStorageClient) DeletePreauthenticatedRequest(ctx context.Context, request DeletePreauthenticatedRequestRequest) (response DeletePreauthenticatedRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deletePreauthenticatedRequest, policy)
 	if err != nil {
@@ -977,12 +993,13 @@ func (client ObjectStorageClient) deletePreauthenticatedRequest(ctx context.Cont
 // A default retry strategy applies to this operation DeleteReplicationPolicy()
 func (client ObjectStorageClient) DeleteReplicationPolicy(ctx context.Context, request DeleteReplicationPolicyRequest) (response DeleteReplicationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteReplicationPolicy, policy)
 	if err != nil {
@@ -1031,12 +1048,13 @@ func (client ObjectStorageClient) deleteReplicationPolicy(ctx context.Context, r
 // A default retry strategy applies to this operation DeleteRetentionRule()
 func (client ObjectStorageClient) DeleteRetentionRule(ctx context.Context, request DeleteRetentionRuleRequest) (response DeleteRetentionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteRetentionRule, policy)
 	if err != nil {
@@ -1085,12 +1103,13 @@ func (client ObjectStorageClient) deleteRetentionRule(ctx context.Context, reque
 // A default retry strategy applies to this operation GetBucket()
 func (client ObjectStorageClient) GetBucket(ctx context.Context, request GetBucketRequest) (response GetBucketResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBucket, policy)
 	if err != nil {
@@ -1140,12 +1159,13 @@ func (client ObjectStorageClient) getBucket(ctx context.Context, request common.
 // A default retry strategy applies to this operation GetBucketOptions()
 func (client ObjectStorageClient) GetBucketOptions(ctx context.Context, request GetBucketOptionsRequest) (response GetBucketOptionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBucketOptions, policy)
 	if err != nil {
@@ -1199,12 +1219,13 @@ func (client ObjectStorageClient) getBucketOptions(ctx context.Context, request 
 // A default retry strategy applies to this operation GetNamespace()
 func (client ObjectStorageClient) GetNamespace(ctx context.Context, request GetNamespaceRequest) (response GetNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getNamespace, policy)
 	if err != nil {
@@ -1253,12 +1274,13 @@ func (client ObjectStorageClient) getNamespace(ctx context.Context, request comm
 // A default retry strategy applies to this operation GetNamespaceMetadata()
 func (client ObjectStorageClient) GetNamespaceMetadata(ctx context.Context, request GetNamespaceMetadataRequest) (response GetNamespaceMetadataResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getNamespaceMetadata, policy)
 	if err != nil {
@@ -1307,12 +1329,13 @@ func (client ObjectStorageClient) getNamespaceMetadata(ctx context.Context, requ
 // A default retry strategy applies to this operation GetObject()
 func (client ObjectStorageClient) GetObject(ctx context.Context, request GetObjectRequest) (response GetObjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getObject, policy)
 	if err != nil {
@@ -1360,12 +1383,13 @@ func (client ObjectStorageClient) getObject(ctx context.Context, request common.
 // A default retry strategy applies to this operation GetObjectLifecyclePolicy()
 func (client ObjectStorageClient) GetObjectLifecyclePolicy(ctx context.Context, request GetObjectLifecyclePolicyRequest) (response GetObjectLifecyclePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getObjectLifecyclePolicy, policy)
 	if err != nil {
@@ -1414,12 +1438,13 @@ func (client ObjectStorageClient) getObjectLifecyclePolicy(ctx context.Context, 
 // A default retry strategy applies to this operation GetPreauthenticatedRequest()
 func (client ObjectStorageClient) GetPreauthenticatedRequest(ctx context.Context, request GetPreauthenticatedRequestRequest) (response GetPreauthenticatedRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getPreauthenticatedRequest, policy)
 	if err != nil {
@@ -1468,12 +1493,13 @@ func (client ObjectStorageClient) getPreauthenticatedRequest(ctx context.Context
 // A default retry strategy applies to this operation GetReplicationPolicy()
 func (client ObjectStorageClient) GetReplicationPolicy(ctx context.Context, request GetReplicationPolicyRequest) (response GetReplicationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getReplicationPolicy, policy)
 	if err != nil {
@@ -1522,12 +1548,13 @@ func (client ObjectStorageClient) getReplicationPolicy(ctx context.Context, requ
 // A default retry strategy applies to this operation GetRetentionRule()
 func (client ObjectStorageClient) GetRetentionRule(ctx context.Context, request GetRetentionRuleRequest) (response GetRetentionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getRetentionRule, policy)
 	if err != nil {
@@ -1576,12 +1603,13 @@ func (client ObjectStorageClient) getRetentionRule(ctx context.Context, request 
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client ObjectStorageClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -1630,12 +1658,13 @@ func (client ObjectStorageClient) getWorkRequest(ctx context.Context, request co
 // A default retry strategy applies to this operation HeadBucket()
 func (client ObjectStorageClient) HeadBucket(ctx context.Context, request HeadBucketRequest) (response HeadBucketResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.headBucket, policy)
 	if err != nil {
@@ -1684,12 +1713,13 @@ func (client ObjectStorageClient) headBucket(ctx context.Context, request common
 // A default retry strategy applies to this operation HeadObject()
 func (client ObjectStorageClient) HeadObject(ctx context.Context, request HeadObjectRequest) (response HeadObjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.headObject, policy)
 	if err != nil {
@@ -1744,12 +1774,13 @@ func (client ObjectStorageClient) headObject(ctx context.Context, request common
 // A default retry strategy applies to this operation ListBuckets()
 func (client ObjectStorageClient) ListBuckets(ctx context.Context, request ListBucketsRequest) (response ListBucketsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listBuckets, policy)
 	if err != nil {
@@ -1798,12 +1829,13 @@ func (client ObjectStorageClient) listBuckets(ctx context.Context, request commo
 // A default retry strategy applies to this operation ListMultipartUploadParts()
 func (client ObjectStorageClient) ListMultipartUploadParts(ctx context.Context, request ListMultipartUploadPartsRequest) (response ListMultipartUploadPartsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listMultipartUploadParts, policy)
 	if err != nil {
@@ -1852,12 +1884,13 @@ func (client ObjectStorageClient) listMultipartUploadParts(ctx context.Context, 
 // A default retry strategy applies to this operation ListMultipartUploads()
 func (client ObjectStorageClient) ListMultipartUploads(ctx context.Context, request ListMultipartUploadsRequest) (response ListMultipartUploadsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listMultipartUploads, policy)
 	if err != nil {
@@ -1911,12 +1944,13 @@ func (client ObjectStorageClient) listMultipartUploads(ctx context.Context, requ
 // A default retry strategy applies to this operation ListObjectVersions()
 func (client ObjectStorageClient) ListObjectVersions(ctx context.Context, request ListObjectVersionsRequest) (response ListObjectVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listObjectVersions, policy)
 	if err != nil {
@@ -1972,12 +2006,13 @@ func (client ObjectStorageClient) listObjectVersions(ctx context.Context, reques
 // A default retry strategy applies to this operation ListObjects()
 func (client ObjectStorageClient) ListObjects(ctx context.Context, request ListObjectsRequest) (response ListObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listObjects, policy)
 	if err != nil {
@@ -2026,12 +2061,13 @@ func (client ObjectStorageClient) listObjects(ctx context.Context, request commo
 // A default retry strategy applies to this operation ListPreauthenticatedRequests()
 func (client ObjectStorageClient) ListPreauthenticatedRequests(ctx context.Context, request ListPreauthenticatedRequestsRequest) (response ListPreauthenticatedRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listPreauthenticatedRequests, policy)
 	if err != nil {
@@ -2080,12 +2116,13 @@ func (client ObjectStorageClient) listPreauthenticatedRequests(ctx context.Conte
 // A default retry strategy applies to this operation ListReplicationPolicies()
 func (client ObjectStorageClient) ListReplicationPolicies(ctx context.Context, request ListReplicationPoliciesRequest) (response ListReplicationPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listReplicationPolicies, policy)
 	if err != nil {
@@ -2134,12 +2171,13 @@ func (client ObjectStorageClient) listReplicationPolicies(ctx context.Context, r
 // A default retry strategy applies to this operation ListReplicationSources()
 func (client ObjectStorageClient) ListReplicationSources(ctx context.Context, request ListReplicationSourcesRequest) (response ListReplicationSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listReplicationSources, policy)
 	if err != nil {
@@ -2189,12 +2227,13 @@ func (client ObjectStorageClient) listReplicationSources(ctx context.Context, re
 // A default retry strategy applies to this operation ListRetentionRules()
 func (client ObjectStorageClient) ListRetentionRules(ctx context.Context, request ListRetentionRulesRequest) (response ListRetentionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listRetentionRules, policy)
 	if err != nil {
@@ -2243,12 +2282,13 @@ func (client ObjectStorageClient) listRetentionRules(ctx context.Context, reques
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ObjectStorageClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -2297,12 +2337,13 @@ func (client ObjectStorageClient) listWorkRequestErrors(ctx context.Context, req
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ObjectStorageClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -2351,12 +2392,13 @@ func (client ObjectStorageClient) listWorkRequestLogs(ctx context.Context, reque
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client ObjectStorageClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -2408,12 +2450,13 @@ func (client ObjectStorageClient) listWorkRequests(ctx context.Context, request 
 // A default retry strategy applies to this operation MakeBucketWritable()
 func (client ObjectStorageClient) MakeBucketWritable(ctx context.Context, request MakeBucketWritableRequest) (response MakeBucketWritableResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.makeBucketWritable, policy)
 	if err != nil {
@@ -2462,12 +2505,13 @@ func (client ObjectStorageClient) makeBucketWritable(ctx context.Context, reques
 // A default retry strategy applies to this operation MergeObjectMetadata()
 func (client ObjectStorageClient) MergeObjectMetadata(ctx context.Context, request MergeObjectMetadataRequest) (response MergeObjectMetadataResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.mergeObjectMetadata, policy)
 	if err != nil {
@@ -2521,12 +2565,13 @@ func (client ObjectStorageClient) mergeObjectMetadata(ctx context.Context, reque
 // A default retry strategy applies to this operation PutObject()
 func (client ObjectStorageClient) PutObject(ctx context.Context, request PutObjectRequest) (response PutObjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.putObject, policy)
 	if err != nil {
@@ -2587,12 +2632,13 @@ func (client ObjectStorageClient) putObject(ctx context.Context, request common.
 // A default retry strategy applies to this operation PutObjectLifecyclePolicy()
 func (client ObjectStorageClient) PutObjectLifecyclePolicy(ctx context.Context, request PutObjectLifecyclePolicyRequest) (response PutObjectLifecyclePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.putObjectLifecyclePolicy, policy)
 	if err != nil {
@@ -2641,12 +2687,13 @@ func (client ObjectStorageClient) putObjectLifecyclePolicy(ctx context.Context, 
 // A default retry strategy applies to this operation QueryObject()
 func (client ObjectStorageClient) QueryObject(ctx context.Context, request QueryObjectRequest) (response QueryObjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.queryObject, policy)
 	if err != nil {
@@ -2694,12 +2741,13 @@ func (client ObjectStorageClient) queryObject(ctx context.Context, request commo
 // A default retry strategy applies to this operation ReadObjectSchema()
 func (client ObjectStorageClient) ReadObjectSchema(ctx context.Context, request ReadObjectSchemaRequest) (response ReadObjectSchemaResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.readObjectSchema, policy)
 	if err != nil {
@@ -2761,12 +2809,13 @@ func (client ObjectStorageClient) readObjectSchema(ctx context.Context, request 
 // A default retry strategy applies to this operation ReencryptBucket()
 func (client ObjectStorageClient) ReencryptBucket(ctx context.Context, request ReencryptBucketRequest) (response ReencryptBucketResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.reencryptBucket, policy)
 	if err != nil {
@@ -2820,12 +2869,13 @@ func (client ObjectStorageClient) reencryptBucket(ctx context.Context, request c
 // A default retry strategy applies to this operation ReencryptObject()
 func (client ObjectStorageClient) ReencryptObject(ctx context.Context, request ReencryptObjectRequest) (response ReencryptObjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.reencryptObject, policy)
 	if err != nil {
@@ -2876,12 +2926,13 @@ func (client ObjectStorageClient) reencryptObject(ctx context.Context, request c
 // A default retry strategy applies to this operation RenameObject()
 func (client ObjectStorageClient) RenameObject(ctx context.Context, request RenameObjectRequest) (response RenameObjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.renameObject, policy)
 	if err != nil {
@@ -2930,12 +2981,13 @@ func (client ObjectStorageClient) renameObject(ctx context.Context, request comm
 // A default retry strategy applies to this operation ReplaceObjectMetadata()
 func (client ObjectStorageClient) ReplaceObjectMetadata(ctx context.Context, request ReplaceObjectMetadataRequest) (response ReplaceObjectMetadataResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.replaceObjectMetadata, policy)
 	if err != nil {
@@ -2985,12 +3037,13 @@ func (client ObjectStorageClient) replaceObjectMetadata(ctx context.Context, req
 // A default retry strategy applies to this operation RestoreObjects()
 func (client ObjectStorageClient) RestoreObjects(ctx context.Context, request RestoreObjectsRequest) (response RestoreObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.restoreObjects, policy)
 	if err != nil {
@@ -3042,12 +3095,13 @@ func (client ObjectStorageClient) restoreObjects(ctx context.Context, request co
 // A default retry strategy applies to this operation UpdateBucket()
 func (client ObjectStorageClient) UpdateBucket(ctx context.Context, request UpdateBucketRequest) (response UpdateBucketResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateBucket, policy)
 	if err != nil {
@@ -3101,12 +3155,13 @@ func (client ObjectStorageClient) updateBucket(ctx context.Context, request comm
 // A default retry strategy applies to this operation UpdateBucketOptions()
 func (client ObjectStorageClient) UpdateBucketOptions(ctx context.Context, request UpdateBucketOptionsRequest) (response UpdateBucketOptionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateBucketOptions, policy)
 	if err != nil {
@@ -3160,12 +3215,13 @@ func (client ObjectStorageClient) updateBucketOptions(ctx context.Context, reque
 // A default retry strategy applies to this operation UpdateNamespaceMetadata()
 func (client ObjectStorageClient) UpdateNamespaceMetadata(ctx context.Context, request UpdateNamespaceMetadataRequest) (response UpdateNamespaceMetadataResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateNamespaceMetadata, policy)
 	if err != nil {
@@ -3214,12 +3270,13 @@ func (client ObjectStorageClient) updateNamespaceMetadata(ctx context.Context, r
 // A default retry strategy applies to this operation UpdateObjectStorageTier()
 func (client ObjectStorageClient) UpdateObjectStorageTier(ctx context.Context, request UpdateObjectStorageTierRequest) (response UpdateObjectStorageTierResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateObjectStorageTier, policy)
 	if err != nil {
@@ -3268,12 +3325,13 @@ func (client ObjectStorageClient) updateObjectStorageTier(ctx context.Context, r
 // A default retry strategy applies to this operation UpdateRetentionRule()
 func (client ObjectStorageClient) UpdateRetentionRule(ctx context.Context, request UpdateRetentionRuleRequest) (response UpdateRetentionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateRetentionRule, policy)
 	if err != nil {
@@ -3322,12 +3380,13 @@ func (client ObjectStorageClient) updateRetentionRule(ctx context.Context, reque
 // A default retry strategy applies to this operation UploadPart()
 func (client ObjectStorageClient) UploadPart(ctx context.Context, request UploadPartRequest) (response UploadPartResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.uploadPart, policy)
 	if err != nil {

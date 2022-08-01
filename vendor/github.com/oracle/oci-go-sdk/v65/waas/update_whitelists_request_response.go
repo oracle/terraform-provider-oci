@@ -56,7 +56,7 @@ func (request UpdateWhitelistsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateWhitelistsRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateWhitelistsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

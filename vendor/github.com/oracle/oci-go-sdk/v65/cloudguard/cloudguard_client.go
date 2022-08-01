@@ -91,12 +91,13 @@ func (client *CloudGuardClient) ConfigurationProvider() *common.ConfigurationPro
 // AddCompartment Add an existing compartment to a security zone. If you previously removed a subcompartment from a security zone, you can add it back to the same security zone. The security zone ensures that resources in the subcompartment comply with the security zone's policies.
 func (client CloudGuardClient) AddCompartment(ctx context.Context, request AddCompartmentRequest) (response AddCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -137,7 +138,7 @@ func (client CloudGuardClient) addCompartment(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityZone/AddCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "AddCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -149,12 +150,13 @@ func (client CloudGuardClient) addCompartment(ctx context.Context, request commo
 // CancelWorkRequest Cancels the work request with the given ID.
 func (client CloudGuardClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.cancelWorkRequest, policy)
 	if err != nil {
@@ -190,7 +192,7 @@ func (client CloudGuardClient) cancelWorkRequest(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -202,12 +204,13 @@ func (client CloudGuardClient) cancelWorkRequest(ctx context.Context, request co
 // ChangeDataSourceCompartment Moves the DataSource from current compartment to another.
 func (client CloudGuardClient) ChangeDataSourceCompartment(ctx context.Context, request ChangeDataSourceCompartmentRequest) (response ChangeDataSourceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -248,7 +251,7 @@ func (client CloudGuardClient) changeDataSourceCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataSource/ChangeDataSourceCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ChangeDataSourceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -260,12 +263,13 @@ func (client CloudGuardClient) changeDataSourceCompartment(ctx context.Context, 
 // ChangeDetectorRecipeCompartment Moves the DetectorRecipe from current compartment to another.
 func (client CloudGuardClient) ChangeDetectorRecipeCompartment(ctx context.Context, request ChangeDetectorRecipeCompartmentRequest) (response ChangeDetectorRecipeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -306,7 +310,7 @@ func (client CloudGuardClient) changeDetectorRecipeCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipe/ChangeDetectorRecipeCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ChangeDetectorRecipeCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -318,12 +322,13 @@ func (client CloudGuardClient) changeDetectorRecipeCompartment(ctx context.Conte
 // ChangeManagedListCompartment Moves the ManagedList from current compartment to another.
 func (client CloudGuardClient) ChangeManagedListCompartment(ctx context.Context, request ChangeManagedListCompartmentRequest) (response ChangeManagedListCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -364,7 +369,7 @@ func (client CloudGuardClient) changeManagedListCompartment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedList/ChangeManagedListCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ChangeManagedListCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -376,12 +381,13 @@ func (client CloudGuardClient) changeManagedListCompartment(ctx context.Context,
 // ChangeResponderRecipeCompartment Moves the ResponderRecipe from current compartment to another.
 func (client CloudGuardClient) ChangeResponderRecipeCompartment(ctx context.Context, request ChangeResponderRecipeCompartmentRequest) (response ChangeResponderRecipeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -422,7 +428,7 @@ func (client CloudGuardClient) changeResponderRecipeCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipe/ChangeResponderRecipeCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ChangeResponderRecipeCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -434,12 +440,13 @@ func (client CloudGuardClient) changeResponderRecipeCompartment(ctx context.Cont
 // ChangeSecurityRecipeCompartment Moves a security zone recipe to a different compartment. When provided, `If-Match` is checked against `ETag` values of the resource.
 func (client CloudGuardClient) ChangeSecurityRecipeCompartment(ctx context.Context, request ChangeSecurityRecipeCompartmentRequest) (response ChangeSecurityRecipeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -480,7 +487,7 @@ func (client CloudGuardClient) changeSecurityRecipeCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityRecipe/ChangeSecurityRecipeCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ChangeSecurityRecipeCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -492,12 +499,13 @@ func (client CloudGuardClient) changeSecurityRecipeCompartment(ctx context.Conte
 // ChangeSecurityZoneCompartment Moves a security zone to a different compartment. When provided, `If-Match` is checked against `ETag` values of the resource.
 func (client CloudGuardClient) ChangeSecurityZoneCompartment(ctx context.Context, request ChangeSecurityZoneCompartmentRequest) (response ChangeSecurityZoneCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -538,7 +546,7 @@ func (client CloudGuardClient) changeSecurityZoneCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityZone/ChangeSecurityZoneCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ChangeSecurityZoneCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -550,12 +558,13 @@ func (client CloudGuardClient) changeSecurityZoneCompartment(ctx context.Context
 // CreateDataMaskRule Creates a new Data Mask Rule Definition
 func (client CloudGuardClient) CreateDataMaskRule(ctx context.Context, request CreateDataMaskRuleRequest) (response CreateDataMaskRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -596,7 +605,7 @@ func (client CloudGuardClient) createDataMaskRule(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataMaskRule/CreateDataMaskRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateDataMaskRule", apiReferenceLink)
 		return response, err
 	}
@@ -608,12 +617,13 @@ func (client CloudGuardClient) createDataMaskRule(ctx context.Context, request c
 // CreateDataSource Creates a DataSource
 func (client CloudGuardClient) CreateDataSource(ctx context.Context, request CreateDataSourceRequest) (response CreateDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -654,7 +664,7 @@ func (client CloudGuardClient) createDataSource(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataSource/CreateDataSource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateDataSource", apiReferenceLink)
 		return response, err
 	}
@@ -666,12 +676,13 @@ func (client CloudGuardClient) createDataSource(ctx context.Context, request com
 // CreateDetectorRecipe Creates a DetectorRecipe
 func (client CloudGuardClient) CreateDetectorRecipe(ctx context.Context, request CreateDetectorRecipeRequest) (response CreateDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -712,7 +723,7 @@ func (client CloudGuardClient) createDetectorRecipe(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipe/CreateDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -724,12 +735,13 @@ func (client CloudGuardClient) createDetectorRecipe(ctx context.Context, request
 // CreateDetectorRecipeDetectorRule Create the DetectorRule
 func (client CloudGuardClient) CreateDetectorRecipeDetectorRule(ctx context.Context, request CreateDetectorRecipeDetectorRuleRequest) (response CreateDetectorRecipeDetectorRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -770,7 +782,7 @@ func (client CloudGuardClient) createDetectorRecipeDetectorRule(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRule/CreateDetectorRecipeDetectorRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateDetectorRecipeDetectorRule", apiReferenceLink)
 		return response, err
 	}
@@ -782,12 +794,13 @@ func (client CloudGuardClient) createDetectorRecipeDetectorRule(ctx context.Cont
 // CreateManagedList Creates a new ManagedList.
 func (client CloudGuardClient) CreateManagedList(ctx context.Context, request CreateManagedListRequest) (response CreateManagedListResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -828,7 +841,7 @@ func (client CloudGuardClient) createManagedList(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedList/CreateManagedList"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateManagedList", apiReferenceLink)
 		return response, err
 	}
@@ -840,12 +853,13 @@ func (client CloudGuardClient) createManagedList(ctx context.Context, request co
 // CreateResponderRecipe Create a ResponderRecipe.
 func (client CloudGuardClient) CreateResponderRecipe(ctx context.Context, request CreateResponderRecipeRequest) (response CreateResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -886,7 +900,7 @@ func (client CloudGuardClient) createResponderRecipe(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipe/CreateResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateResponderRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -898,12 +912,13 @@ func (client CloudGuardClient) createResponderRecipe(ctx context.Context, reques
 // CreateSecurityRecipe Creates a security zone recipe. A security zone recipe is a collection of security zone policies.
 func (client CloudGuardClient) CreateSecurityRecipe(ctx context.Context, request CreateSecurityRecipeRequest) (response CreateSecurityRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -944,7 +959,7 @@ func (client CloudGuardClient) createSecurityRecipe(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityRecipe/CreateSecurityRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateSecurityRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -956,12 +971,13 @@ func (client CloudGuardClient) createSecurityRecipe(ctx context.Context, request
 // CreateSecurityZone Creates a security zone for a compartment. A security zone enforces all security zone policies in a given security zone recipe. Any actions that violate a policy are denied. By default, any subcompartments are also in the same security zone.
 func (client CloudGuardClient) CreateSecurityZone(ctx context.Context, request CreateSecurityZoneRequest) (response CreateSecurityZoneResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1002,7 +1018,7 @@ func (client CloudGuardClient) createSecurityZone(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityZone/CreateSecurityZone"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateSecurityZone", apiReferenceLink)
 		return response, err
 	}
@@ -1014,12 +1030,13 @@ func (client CloudGuardClient) createSecurityZone(ctx context.Context, request c
 // CreateTarget Creates a new Target
 func (client CloudGuardClient) CreateTarget(ctx context.Context, request CreateTargetRequest) (response CreateTargetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1060,7 +1077,7 @@ func (client CloudGuardClient) createTarget(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Target/CreateTarget"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateTarget", apiReferenceLink)
 		return response, err
 	}
@@ -1072,12 +1089,13 @@ func (client CloudGuardClient) createTarget(ctx context.Context, request common.
 // CreateTargetDetectorRecipe Attach a DetectorRecipe with the Target
 func (client CloudGuardClient) CreateTargetDetectorRecipe(ctx context.Context, request CreateTargetDetectorRecipeRequest) (response CreateTargetDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1118,7 +1136,7 @@ func (client CloudGuardClient) createTargetDetectorRecipe(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipe/CreateTargetDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateTargetDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -1130,12 +1148,13 @@ func (client CloudGuardClient) createTargetDetectorRecipe(ctx context.Context, r
 // CreateTargetResponderRecipe Attach a ResponderRecipe with the Target
 func (client CloudGuardClient) CreateTargetResponderRecipe(ctx context.Context, request CreateTargetResponderRecipeRequest) (response CreateTargetResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1176,7 +1195,7 @@ func (client CloudGuardClient) createTargetResponderRecipe(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipe/CreateTargetResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "CreateTargetResponderRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -1188,12 +1207,13 @@ func (client CloudGuardClient) createTargetResponderRecipe(ctx context.Context, 
 // DeleteDataMaskRule Deletes a DataMaskRule identified by dataMaskRuleId
 func (client CloudGuardClient) DeleteDataMaskRule(ctx context.Context, request DeleteDataMaskRuleRequest) (response DeleteDataMaskRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteDataMaskRule, policy)
 	if err != nil {
@@ -1229,7 +1249,7 @@ func (client CloudGuardClient) deleteDataMaskRule(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataMaskRule/DeleteDataMaskRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteDataMaskRule", apiReferenceLink)
 		return response, err
 	}
@@ -1241,12 +1261,13 @@ func (client CloudGuardClient) deleteDataMaskRule(ctx context.Context, request c
 // DeleteDataSource Deletes a DataSource identified by dataSourceId
 func (client CloudGuardClient) DeleteDataSource(ctx context.Context, request DeleteDataSourceRequest) (response DeleteDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1287,7 +1308,7 @@ func (client CloudGuardClient) deleteDataSource(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataSource/DeleteDataSource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteDataSource", apiReferenceLink)
 		return response, err
 	}
@@ -1299,12 +1320,13 @@ func (client CloudGuardClient) deleteDataSource(ctx context.Context, request com
 // DeleteDetectorRecipe Deletes a DetectorRecipe identified by detectorRecipeId
 func (client CloudGuardClient) DeleteDetectorRecipe(ctx context.Context, request DeleteDetectorRecipeRequest) (response DeleteDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1345,7 +1367,7 @@ func (client CloudGuardClient) deleteDetectorRecipe(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipe/DeleteDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -1357,12 +1379,13 @@ func (client CloudGuardClient) deleteDetectorRecipe(ctx context.Context, request
 // DeleteDetectorRecipeDetectorRule Deletes DetectorRecipeDetectorRule
 func (client CloudGuardClient) DeleteDetectorRecipeDetectorRule(ctx context.Context, request DeleteDetectorRecipeDetectorRuleRequest) (response DeleteDetectorRecipeDetectorRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteDetectorRecipeDetectorRule, policy)
 	if err != nil {
@@ -1398,7 +1421,7 @@ func (client CloudGuardClient) deleteDetectorRecipeDetectorRule(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRule/DeleteDetectorRecipeDetectorRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteDetectorRecipeDetectorRule", apiReferenceLink)
 		return response, err
 	}
@@ -1410,12 +1433,13 @@ func (client CloudGuardClient) deleteDetectorRecipeDetectorRule(ctx context.Cont
 // DeleteDetectorRecipeDetectorRuleDataSource Delete the DetectorRecipeDetectorRuleDataSource resource by identifier
 func (client CloudGuardClient) DeleteDetectorRecipeDetectorRuleDataSource(ctx context.Context, request DeleteDetectorRecipeDetectorRuleDataSourceRequest) (response DeleteDetectorRecipeDetectorRuleDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteDetectorRecipeDetectorRuleDataSource, policy)
 	if err != nil {
@@ -1451,7 +1475,7 @@ func (client CloudGuardClient) deleteDetectorRecipeDetectorRuleDataSource(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRule/DeleteDetectorRecipeDetectorRuleDataSource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteDetectorRecipeDetectorRuleDataSource", apiReferenceLink)
 		return response, err
 	}
@@ -1463,12 +1487,13 @@ func (client CloudGuardClient) deleteDetectorRecipeDetectorRuleDataSource(ctx co
 // DeleteManagedList Deletes a managed list identified by managedListId
 func (client CloudGuardClient) DeleteManagedList(ctx context.Context, request DeleteManagedListRequest) (response DeleteManagedListResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1509,7 +1534,7 @@ func (client CloudGuardClient) deleteManagedList(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedList/DeleteManagedList"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteManagedList", apiReferenceLink)
 		return response, err
 	}
@@ -1521,12 +1546,13 @@ func (client CloudGuardClient) deleteManagedList(ctx context.Context, request co
 // DeleteResponderRecipe Delete the ResponderRecipe resource by identifier
 func (client CloudGuardClient) DeleteResponderRecipe(ctx context.Context, request DeleteResponderRecipeRequest) (response DeleteResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteResponderRecipe, policy)
 	if err != nil {
@@ -1562,7 +1588,7 @@ func (client CloudGuardClient) deleteResponderRecipe(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipe/DeleteResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteResponderRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -1574,12 +1600,13 @@ func (client CloudGuardClient) deleteResponderRecipe(ctx context.Context, reques
 // DeleteSecurityRecipe Deletes a security zone recipe. The recipe can't be associated with an existing security zone.
 func (client CloudGuardClient) DeleteSecurityRecipe(ctx context.Context, request DeleteSecurityRecipeRequest) (response DeleteSecurityRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteSecurityRecipe, policy)
 	if err != nil {
@@ -1615,7 +1642,7 @@ func (client CloudGuardClient) deleteSecurityRecipe(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityRecipe/DeleteSecurityRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteSecurityRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -1627,12 +1654,13 @@ func (client CloudGuardClient) deleteSecurityRecipe(ctx context.Context, request
 // DeleteSecurityZone Deletes an existing security zone with a given identifier.
 func (client CloudGuardClient) DeleteSecurityZone(ctx context.Context, request DeleteSecurityZoneRequest) (response DeleteSecurityZoneResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteSecurityZone, policy)
 	if err != nil {
@@ -1668,7 +1696,7 @@ func (client CloudGuardClient) deleteSecurityZone(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityZone/DeleteSecurityZone"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteSecurityZone", apiReferenceLink)
 		return response, err
 	}
@@ -1680,12 +1708,13 @@ func (client CloudGuardClient) deleteSecurityZone(ctx context.Context, request c
 // DeleteTarget Deletes a Target identified by targetId
 func (client CloudGuardClient) DeleteTarget(ctx context.Context, request DeleteTargetRequest) (response DeleteTargetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteTarget, policy)
 	if err != nil {
@@ -1721,7 +1750,7 @@ func (client CloudGuardClient) deleteTarget(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Target/DeleteTarget"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteTarget", apiReferenceLink)
 		return response, err
 	}
@@ -1733,12 +1762,13 @@ func (client CloudGuardClient) deleteTarget(ctx context.Context, request common.
 // DeleteTargetDetectorRecipe Delete the TargetDetectorRecipe resource by identifier
 func (client CloudGuardClient) DeleteTargetDetectorRecipe(ctx context.Context, request DeleteTargetDetectorRecipeRequest) (response DeleteTargetDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteTargetDetectorRecipe, policy)
 	if err != nil {
@@ -1774,7 +1804,7 @@ func (client CloudGuardClient) deleteTargetDetectorRecipe(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipe/DeleteTargetDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteTargetDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -1786,12 +1816,13 @@ func (client CloudGuardClient) deleteTargetDetectorRecipe(ctx context.Context, r
 // DeleteTargetResponderRecipe Delete the TargetResponderRecipe resource by identifier
 func (client CloudGuardClient) DeleteTargetResponderRecipe(ctx context.Context, request DeleteTargetResponderRecipeRequest) (response DeleteTargetResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteTargetResponderRecipe, policy)
 	if err != nil {
@@ -1827,7 +1858,7 @@ func (client CloudGuardClient) deleteTargetResponderRecipe(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipe/DeleteTargetResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteTargetResponderRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -1839,12 +1870,13 @@ func (client CloudGuardClient) deleteTargetResponderRecipe(ctx context.Context, 
 // ExecuteResponderExecution Executes the responder execution. When provided, If-Match is checked against ETag values of the resource.
 func (client CloudGuardClient) ExecuteResponderExecution(ctx context.Context, request ExecuteResponderExecutionRequest) (response ExecuteResponderExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1885,7 +1917,7 @@ func (client CloudGuardClient) executeResponderExecution(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecution/ExecuteResponderExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ExecuteResponderExecution", apiReferenceLink)
 		return response, err
 	}
@@ -1897,12 +1929,13 @@ func (client CloudGuardClient) executeResponderExecution(ctx context.Context, re
 // GetConditionMetadataType Returns ConditionType with its details.
 func (client CloudGuardClient) GetConditionMetadataType(ctx context.Context, request GetConditionMetadataTypeRequest) (response GetConditionMetadataTypeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getConditionMetadataType, policy)
 	if err != nil {
@@ -1938,7 +1971,7 @@ func (client CloudGuardClient) getConditionMetadataType(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ConditionMetadataType/GetConditionMetadataType"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetConditionMetadataType", apiReferenceLink)
 		return response, err
 	}
@@ -1950,12 +1983,13 @@ func (client CloudGuardClient) getConditionMetadataType(ctx context.Context, req
 // GetConfiguration GET Cloud Guard Configuration Details for a Tenancy.
 func (client CloudGuardClient) GetConfiguration(ctx context.Context, request GetConfigurationRequest) (response GetConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getConfiguration, policy)
 	if err != nil {
@@ -1991,7 +2025,7 @@ func (client CloudGuardClient) getConfiguration(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Configuration/GetConfiguration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -2003,12 +2037,13 @@ func (client CloudGuardClient) getConfiguration(ctx context.Context, request com
 // GetDataMaskRule Returns a DataMaskRule identified by DataMaskRuleId
 func (client CloudGuardClient) GetDataMaskRule(ctx context.Context, request GetDataMaskRuleRequest) (response GetDataMaskRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDataMaskRule, policy)
 	if err != nil {
@@ -2044,7 +2079,7 @@ func (client CloudGuardClient) getDataMaskRule(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataMaskRule/GetDataMaskRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetDataMaskRule", apiReferenceLink)
 		return response, err
 	}
@@ -2056,12 +2091,13 @@ func (client CloudGuardClient) getDataMaskRule(ctx context.Context, request comm
 // GetDataSource Returns a DataSource identified by dataSourceId
 func (client CloudGuardClient) GetDataSource(ctx context.Context, request GetDataSourceRequest) (response GetDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDataSource, policy)
 	if err != nil {
@@ -2097,7 +2133,7 @@ func (client CloudGuardClient) getDataSource(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataSource/GetDataSource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetDataSource", apiReferenceLink)
 		return response, err
 	}
@@ -2109,12 +2145,13 @@ func (client CloudGuardClient) getDataSource(ctx context.Context, request common
 // GetDetector Returns a Detector identified by detectorId.
 func (client CloudGuardClient) GetDetector(ctx context.Context, request GetDetectorRequest) (response GetDetectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDetector, policy)
 	if err != nil {
@@ -2150,7 +2187,7 @@ func (client CloudGuardClient) getDetector(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Detector/GetDetector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetDetector", apiReferenceLink)
 		return response, err
 	}
@@ -2162,12 +2199,13 @@ func (client CloudGuardClient) getDetector(ctx context.Context, request common.O
 // GetDetectorRecipe Returns a DetectorRecipe identified by detectorRecipeId
 func (client CloudGuardClient) GetDetectorRecipe(ctx context.Context, request GetDetectorRecipeRequest) (response GetDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDetectorRecipe, policy)
 	if err != nil {
@@ -2203,7 +2241,7 @@ func (client CloudGuardClient) getDetectorRecipe(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipe/GetDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -2215,12 +2253,13 @@ func (client CloudGuardClient) getDetectorRecipe(ctx context.Context, request co
 // GetDetectorRecipeDetectorRule Get DetectorRule by identifier
 func (client CloudGuardClient) GetDetectorRecipeDetectorRule(ctx context.Context, request GetDetectorRecipeDetectorRuleRequest) (response GetDetectorRecipeDetectorRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDetectorRecipeDetectorRule, policy)
 	if err != nil {
@@ -2256,7 +2295,7 @@ func (client CloudGuardClient) getDetectorRecipeDetectorRule(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRule/GetDetectorRecipeDetectorRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetDetectorRecipeDetectorRule", apiReferenceLink)
 		return response, err
 	}
@@ -2268,12 +2307,13 @@ func (client CloudGuardClient) getDetectorRecipeDetectorRule(ctx context.Context
 // GetDetectorRule Returns a Detector Rule identified by detectorRuleId
 func (client CloudGuardClient) GetDetectorRule(ctx context.Context, request GetDetectorRuleRequest) (response GetDetectorRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDetectorRule, policy)
 	if err != nil {
@@ -2309,7 +2349,7 @@ func (client CloudGuardClient) getDetectorRule(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRule/GetDetectorRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetDetectorRule", apiReferenceLink)
 		return response, err
 	}
@@ -2321,12 +2361,13 @@ func (client CloudGuardClient) getDetectorRule(ctx context.Context, request comm
 // GetManagedList Returns a managed list identified by managedListId
 func (client CloudGuardClient) GetManagedList(ctx context.Context, request GetManagedListRequest) (response GetManagedListResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getManagedList, policy)
 	if err != nil {
@@ -2362,7 +2403,7 @@ func (client CloudGuardClient) getManagedList(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedList/GetManagedList"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetManagedList", apiReferenceLink)
 		return response, err
 	}
@@ -2374,12 +2415,13 @@ func (client CloudGuardClient) getManagedList(ctx context.Context, request commo
 // GetProblem Returns a Problems response
 func (client CloudGuardClient) GetProblem(ctx context.Context, request GetProblemRequest) (response GetProblemResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getProblem, policy)
 	if err != nil {
@@ -2415,7 +2457,7 @@ func (client CloudGuardClient) getProblem(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Problem/GetProblem"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetProblem", apiReferenceLink)
 		return response, err
 	}
@@ -2427,12 +2469,13 @@ func (client CloudGuardClient) getProblem(ctx context.Context, request common.OC
 // GetResourceProfile Returns resource profile details
 func (client CloudGuardClient) GetResourceProfile(ctx context.Context, request GetResourceProfileRequest) (response GetResourceProfileResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getResourceProfile, policy)
 	if err != nil {
@@ -2468,7 +2511,7 @@ func (client CloudGuardClient) getResourceProfile(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceProfile/GetResourceProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetResourceProfile", apiReferenceLink)
 		return response, err
 	}
@@ -2480,12 +2523,13 @@ func (client CloudGuardClient) getResourceProfile(ctx context.Context, request c
 // GetResponderExecution Returns a Responder Execution identified by responderExecutionId
 func (client CloudGuardClient) GetResponderExecution(ctx context.Context, request GetResponderExecutionRequest) (response GetResponderExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getResponderExecution, policy)
 	if err != nil {
@@ -2521,7 +2565,7 @@ func (client CloudGuardClient) getResponderExecution(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecution/GetResponderExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetResponderExecution", apiReferenceLink)
 		return response, err
 	}
@@ -2533,12 +2577,13 @@ func (client CloudGuardClient) getResponderExecution(ctx context.Context, reques
 // GetResponderRecipe Get a ResponderRecipe by identifier
 func (client CloudGuardClient) GetResponderRecipe(ctx context.Context, request GetResponderRecipeRequest) (response GetResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getResponderRecipe, policy)
 	if err != nil {
@@ -2574,7 +2619,7 @@ func (client CloudGuardClient) getResponderRecipe(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipe/GetResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetResponderRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -2586,12 +2631,13 @@ func (client CloudGuardClient) getResponderRecipe(ctx context.Context, request c
 // GetResponderRecipeResponderRule Get ResponderRule by identifier
 func (client CloudGuardClient) GetResponderRecipeResponderRule(ctx context.Context, request GetResponderRecipeResponderRuleRequest) (response GetResponderRecipeResponderRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getResponderRecipeResponderRule, policy)
 	if err != nil {
@@ -2627,7 +2673,7 @@ func (client CloudGuardClient) getResponderRecipeResponderRule(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipeResponderRule/GetResponderRecipeResponderRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetResponderRecipeResponderRule", apiReferenceLink)
 		return response, err
 	}
@@ -2639,12 +2685,13 @@ func (client CloudGuardClient) getResponderRecipeResponderRule(ctx context.Conte
 // GetResponderRule Get a ResponderRule by identifier
 func (client CloudGuardClient) GetResponderRule(ctx context.Context, request GetResponderRuleRequest) (response GetResponderRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getResponderRule, policy)
 	if err != nil {
@@ -2680,7 +2727,7 @@ func (client CloudGuardClient) getResponderRule(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRule/GetResponderRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetResponderRule", apiReferenceLink)
 		return response, err
 	}
@@ -2692,12 +2739,13 @@ func (client CloudGuardClient) getResponderRule(ctx context.Context, request com
 // GetSecurityPolicy Gets a security zone policy using its identifier. When a policy is enabled in a security zone, then any action in the zone that attempts to violate that policy is denied.
 func (client CloudGuardClient) GetSecurityPolicy(ctx context.Context, request GetSecurityPolicyRequest) (response GetSecurityPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSecurityPolicy, policy)
 	if err != nil {
@@ -2733,7 +2781,7 @@ func (client CloudGuardClient) getSecurityPolicy(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityPolicy/GetSecurityPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetSecurityPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -2745,12 +2793,13 @@ func (client CloudGuardClient) getSecurityPolicy(ctx context.Context, request co
 // GetSecurityRecipe Gets a security zone recipe by identifier. A security zone recipe is a collection of security zone policies.
 func (client CloudGuardClient) GetSecurityRecipe(ctx context.Context, request GetSecurityRecipeRequest) (response GetSecurityRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSecurityRecipe, policy)
 	if err != nil {
@@ -2786,7 +2835,7 @@ func (client CloudGuardClient) getSecurityRecipe(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityRecipe/GetSecurityRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetSecurityRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -2798,12 +2847,13 @@ func (client CloudGuardClient) getSecurityRecipe(ctx context.Context, request co
 // GetSecurityZone Gets a security zone by its identifier. A security zone is associated with a security zone recipe and enforces all security zone policies in the recipe. Any actions in the zone's compartments that violate a policy are denied.
 func (client CloudGuardClient) GetSecurityZone(ctx context.Context, request GetSecurityZoneRequest) (response GetSecurityZoneResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSecurityZone, policy)
 	if err != nil {
@@ -2839,7 +2889,7 @@ func (client CloudGuardClient) getSecurityZone(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityZone/GetSecurityZone"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetSecurityZone", apiReferenceLink)
 		return response, err
 	}
@@ -2851,12 +2901,13 @@ func (client CloudGuardClient) getSecurityZone(ctx context.Context, request comm
 // GetSighting Returns Sighting details
 func (client CloudGuardClient) GetSighting(ctx context.Context, request GetSightingRequest) (response GetSightingResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSighting, policy)
 	if err != nil {
@@ -2892,7 +2943,7 @@ func (client CloudGuardClient) getSighting(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Sighting/GetSighting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetSighting", apiReferenceLink)
 		return response, err
 	}
@@ -2904,12 +2955,13 @@ func (client CloudGuardClient) getSighting(ctx context.Context, request common.O
 // GetTarget Returns a Target identified by targetId
 func (client CloudGuardClient) GetTarget(ctx context.Context, request GetTargetRequest) (response GetTargetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTarget, policy)
 	if err != nil {
@@ -2945,7 +2997,7 @@ func (client CloudGuardClient) getTarget(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Target/GetTarget"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetTarget", apiReferenceLink)
 		return response, err
 	}
@@ -2957,12 +3009,13 @@ func (client CloudGuardClient) getTarget(ctx context.Context, request common.OCI
 // GetTargetDetectorRecipe Get a TargetDetectorRecipe by identifier
 func (client CloudGuardClient) GetTargetDetectorRecipe(ctx context.Context, request GetTargetDetectorRecipeRequest) (response GetTargetDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTargetDetectorRecipe, policy)
 	if err != nil {
@@ -2998,7 +3051,7 @@ func (client CloudGuardClient) getTargetDetectorRecipe(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipe/GetTargetDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetTargetDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -3010,12 +3063,13 @@ func (client CloudGuardClient) getTargetDetectorRecipe(ctx context.Context, requ
 // GetTargetDetectorRecipeDetectorRule Get DetectorRule by identifier
 func (client CloudGuardClient) GetTargetDetectorRecipeDetectorRule(ctx context.Context, request GetTargetDetectorRecipeDetectorRuleRequest) (response GetTargetDetectorRecipeDetectorRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTargetDetectorRecipeDetectorRule, policy)
 	if err != nil {
@@ -3051,7 +3105,7 @@ func (client CloudGuardClient) getTargetDetectorRecipeDetectorRule(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipeDetectorRule/GetTargetDetectorRecipeDetectorRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetTargetDetectorRecipeDetectorRule", apiReferenceLink)
 		return response, err
 	}
@@ -3063,12 +3117,13 @@ func (client CloudGuardClient) getTargetDetectorRecipeDetectorRule(ctx context.C
 // GetTargetResponderRecipe Get a TargetResponderRecipe by identifier
 func (client CloudGuardClient) GetTargetResponderRecipe(ctx context.Context, request GetTargetResponderRecipeRequest) (response GetTargetResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTargetResponderRecipe, policy)
 	if err != nil {
@@ -3104,7 +3159,7 @@ func (client CloudGuardClient) getTargetResponderRecipe(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipe/GetTargetResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetTargetResponderRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -3116,12 +3171,13 @@ func (client CloudGuardClient) getTargetResponderRecipe(ctx context.Context, req
 // GetTargetResponderRecipeResponderRule Get ResponderRule by identifier
 func (client CloudGuardClient) GetTargetResponderRecipeResponderRule(ctx context.Context, request GetTargetResponderRecipeResponderRuleRequest) (response GetTargetResponderRecipeResponderRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTargetResponderRecipeResponderRule, policy)
 	if err != nil {
@@ -3157,7 +3213,7 @@ func (client CloudGuardClient) getTargetResponderRecipeResponderRule(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipeResponderRule/GetTargetResponderRecipeResponderRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetTargetResponderRecipeResponderRule", apiReferenceLink)
 		return response, err
 	}
@@ -3169,12 +3225,13 @@ func (client CloudGuardClient) getTargetResponderRecipeResponderRule(ctx context
 // GetWorkRequest Gets details of the work request with the given ID.
 func (client CloudGuardClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -3210,7 +3267,7 @@ func (client CloudGuardClient) getWorkRequest(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -3222,12 +3279,13 @@ func (client CloudGuardClient) getWorkRequest(ctx context.Context, request commo
 // ListConditionMetadataTypes Returns a list of condition types.
 func (client CloudGuardClient) ListConditionMetadataTypes(ctx context.Context, request ListConditionMetadataTypesRequest) (response ListConditionMetadataTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listConditionMetadataTypes, policy)
 	if err != nil {
@@ -3263,7 +3321,7 @@ func (client CloudGuardClient) listConditionMetadataTypes(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ConditionMetadataType/ListConditionMetadataTypes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListConditionMetadataTypes", apiReferenceLink)
 		return response, err
 	}
@@ -3275,12 +3333,13 @@ func (client CloudGuardClient) listConditionMetadataTypes(ctx context.Context, r
 // ListDataMaskRules Returns a list of all Data Mask Rules in the root 'compartmentId' passed.
 func (client CloudGuardClient) ListDataMaskRules(ctx context.Context, request ListDataMaskRulesRequest) (response ListDataMaskRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDataMaskRules, policy)
 	if err != nil {
@@ -3316,7 +3375,7 @@ func (client CloudGuardClient) listDataMaskRules(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataMaskRule/ListDataMaskRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListDataMaskRules", apiReferenceLink)
 		return response, err
 	}
@@ -3328,12 +3387,13 @@ func (client CloudGuardClient) listDataMaskRules(ctx context.Context, request co
 // ListDataSourceEvents Returns a list of events from CloudGuard DataSource
 func (client CloudGuardClient) ListDataSourceEvents(ctx context.Context, request ListDataSourceEventsRequest) (response ListDataSourceEventsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDataSourceEvents, policy)
 	if err != nil {
@@ -3369,7 +3429,7 @@ func (client CloudGuardClient) listDataSourceEvents(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataSource/ListDataSourceEvents"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListDataSourceEvents", apiReferenceLink)
 		return response, err
 	}
@@ -3392,12 +3452,13 @@ func (client CloudGuardClient) listDataSourceEvents(ctx context.Context, request
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 func (client CloudGuardClient) ListDataSources(ctx context.Context, request ListDataSourcesRequest) (response ListDataSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDataSources, policy)
 	if err != nil {
@@ -3433,7 +3494,7 @@ func (client CloudGuardClient) listDataSources(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataSource/ListDataSources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListDataSources", apiReferenceLink)
 		return response, err
 	}
@@ -3445,12 +3506,13 @@ func (client CloudGuardClient) listDataSources(ctx context.Context, request comm
 // ListDetectorRecipeDetectorRules Returns a list of DetectorRule associated with DetectorRecipe.
 func (client CloudGuardClient) ListDetectorRecipeDetectorRules(ctx context.Context, request ListDetectorRecipeDetectorRulesRequest) (response ListDetectorRecipeDetectorRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDetectorRecipeDetectorRules, policy)
 	if err != nil {
@@ -3486,7 +3548,7 @@ func (client CloudGuardClient) listDetectorRecipeDetectorRules(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRule/ListDetectorRecipeDetectorRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListDetectorRecipeDetectorRules", apiReferenceLink)
 		return response, err
 	}
@@ -3509,12 +3571,13 @@ func (client CloudGuardClient) listDetectorRecipeDetectorRules(ctx context.Conte
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 func (client CloudGuardClient) ListDetectorRecipes(ctx context.Context, request ListDetectorRecipesRequest) (response ListDetectorRecipesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDetectorRecipes, policy)
 	if err != nil {
@@ -3550,7 +3613,7 @@ func (client CloudGuardClient) listDetectorRecipes(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipe/ListDetectorRecipes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListDetectorRecipes", apiReferenceLink)
 		return response, err
 	}
@@ -3562,12 +3625,13 @@ func (client CloudGuardClient) listDetectorRecipes(ctx context.Context, request 
 // ListDetectorRules Returns a list of detector rules for the detectorId passed.
 func (client CloudGuardClient) ListDetectorRules(ctx context.Context, request ListDetectorRulesRequest) (response ListDetectorRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDetectorRules, policy)
 	if err != nil {
@@ -3603,7 +3667,7 @@ func (client CloudGuardClient) listDetectorRules(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRule/ListDetectorRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListDetectorRules", apiReferenceLink)
 		return response, err
 	}
@@ -3615,12 +3679,13 @@ func (client CloudGuardClient) listDetectorRules(ctx context.Context, request co
 // ListDetectors Returns detector catalog - list of detectors supported by Cloud Guard
 func (client CloudGuardClient) ListDetectors(ctx context.Context, request ListDetectorsRequest) (response ListDetectorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDetectors, policy)
 	if err != nil {
@@ -3656,7 +3721,7 @@ func (client CloudGuardClient) listDetectors(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Detector/ListDetectors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListDetectors", apiReferenceLink)
 		return response, err
 	}
@@ -3668,12 +3733,13 @@ func (client CloudGuardClient) listDetectors(ctx context.Context, request common
 // ListImpactedResources Returns a list of Impacted Resources for a CloudGuard Problem
 func (client CloudGuardClient) ListImpactedResources(ctx context.Context, request ListImpactedResourcesRequest) (response ListImpactedResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listImpactedResources, policy)
 	if err != nil {
@@ -3709,7 +3775,7 @@ func (client CloudGuardClient) listImpactedResources(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ImpactedResourceSummary/ListImpactedResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListImpactedResources", apiReferenceLink)
 		return response, err
 	}
@@ -3721,12 +3787,13 @@ func (client CloudGuardClient) listImpactedResources(ctx context.Context, reques
 // ListManagedListTypes Returns all ManagedList types supported by Cloud Guard
 func (client CloudGuardClient) ListManagedListTypes(ctx context.Context, request ListManagedListTypesRequest) (response ListManagedListTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listManagedListTypes, policy)
 	if err != nil {
@@ -3762,7 +3829,7 @@ func (client CloudGuardClient) listManagedListTypes(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedListTypeSummary/ListManagedListTypes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListManagedListTypes", apiReferenceLink)
 		return response, err
 	}
@@ -3785,12 +3852,13 @@ func (client CloudGuardClient) listManagedListTypes(ctx context.Context, request
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 func (client CloudGuardClient) ListManagedLists(ctx context.Context, request ListManagedListsRequest) (response ListManagedListsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listManagedLists, policy)
 	if err != nil {
@@ -3826,7 +3894,7 @@ func (client CloudGuardClient) listManagedLists(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedList/ListManagedLists"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListManagedLists", apiReferenceLink)
 		return response, err
 	}
@@ -3838,12 +3906,13 @@ func (client CloudGuardClient) listManagedLists(ctx context.Context, request com
 // ListPolicies Returns the list of global policy statements needed by Cloud Guard when enabling
 func (client CloudGuardClient) ListPolicies(ctx context.Context, request ListPoliciesRequest) (response ListPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listPolicies, policy)
 	if err != nil {
@@ -3879,7 +3948,7 @@ func (client CloudGuardClient) listPolicies(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/PolicySummary/ListPolicies"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -3891,12 +3960,13 @@ func (client CloudGuardClient) listPolicies(ctx context.Context, request common.
 // ListProblemEndpoints Returns a list of endpoints associated with a cloud guard problem
 func (client CloudGuardClient) ListProblemEndpoints(ctx context.Context, request ListProblemEndpointsRequest) (response ListProblemEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listProblemEndpoints, policy)
 	if err != nil {
@@ -3932,7 +4002,7 @@ func (client CloudGuardClient) listProblemEndpoints(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ProblemEndpointSummary/ListProblemEndpoints"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListProblemEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -3944,12 +4014,13 @@ func (client CloudGuardClient) listProblemEndpoints(ctx context.Context, request
 // ListProblemEntities Returns a list of entities for a CloudGuard Problem
 func (client CloudGuardClient) ListProblemEntities(ctx context.Context, request ListProblemEntitiesRequest) (response ListProblemEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listProblemEntities, policy)
 	if err != nil {
@@ -3985,7 +4056,7 @@ func (client CloudGuardClient) listProblemEntities(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Problem/ListProblemEntities"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListProblemEntities", apiReferenceLink)
 		return response, err
 	}
@@ -3997,12 +4068,13 @@ func (client CloudGuardClient) listProblemEntities(ctx context.Context, request 
 // ListProblemHistories Returns a list of Actions done on CloudGuard Problem
 func (client CloudGuardClient) ListProblemHistories(ctx context.Context, request ListProblemHistoriesRequest) (response ListProblemHistoriesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listProblemHistories, policy)
 	if err != nil {
@@ -4038,7 +4110,7 @@ func (client CloudGuardClient) listProblemHistories(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Problem/ListProblemHistories"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListProblemHistories", apiReferenceLink)
 		return response, err
 	}
@@ -4061,12 +4133,13 @@ func (client CloudGuardClient) listProblemHistories(ctx context.Context, request
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 func (client CloudGuardClient) ListProblems(ctx context.Context, request ListProblemsRequest) (response ListProblemsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listProblems, policy)
 	if err != nil {
@@ -4102,7 +4175,7 @@ func (client CloudGuardClient) listProblems(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Problem/ListProblems"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListProblems", apiReferenceLink)
 		return response, err
 	}
@@ -4114,12 +4187,13 @@ func (client CloudGuardClient) listProblems(ctx context.Context, request common.
 // ListRecommendations Returns a list of all Recommendations.
 func (client CloudGuardClient) ListRecommendations(ctx context.Context, request ListRecommendationsRequest) (response ListRecommendationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listRecommendations, policy)
 	if err != nil {
@@ -4155,7 +4229,7 @@ func (client CloudGuardClient) listRecommendations(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/RecommendationSummary/ListRecommendations"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListRecommendations", apiReferenceLink)
 		return response, err
 	}
@@ -4167,12 +4241,13 @@ func (client CloudGuardClient) listRecommendations(ctx context.Context, request 
 // ListResourceProfileEndpoints Returns a list of endpoints for Cloud Guard resource profile
 func (client CloudGuardClient) ListResourceProfileEndpoints(ctx context.Context, request ListResourceProfileEndpointsRequest) (response ListResourceProfileEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listResourceProfileEndpoints, policy)
 	if err != nil {
@@ -4208,7 +4283,7 @@ func (client CloudGuardClient) listResourceProfileEndpoints(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceProfileEndpointSummary/ListResourceProfileEndpoints"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResourceProfileEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -4220,12 +4295,13 @@ func (client CloudGuardClient) listResourceProfileEndpoints(ctx context.Context,
 // ListResourceProfileImpactedResources Returns a list of impacted resources for Cloud Guard resource profile
 func (client CloudGuardClient) ListResourceProfileImpactedResources(ctx context.Context, request ListResourceProfileImpactedResourcesRequest) (response ListResourceProfileImpactedResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listResourceProfileImpactedResources, policy)
 	if err != nil {
@@ -4261,7 +4337,7 @@ func (client CloudGuardClient) listResourceProfileImpactedResources(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceProfileImpactedResourceSummary/ListResourceProfileImpactedResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResourceProfileImpactedResources", apiReferenceLink)
 		return response, err
 	}
@@ -4284,12 +4360,13 @@ func (client CloudGuardClient) listResourceProfileImpactedResources(ctx context.
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 func (client CloudGuardClient) ListResourceProfiles(ctx context.Context, request ListResourceProfilesRequest) (response ListResourceProfilesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listResourceProfiles, policy)
 	if err != nil {
@@ -4325,7 +4402,7 @@ func (client CloudGuardClient) listResourceProfiles(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceProfileSummary/ListResourceProfiles"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResourceProfiles", apiReferenceLink)
 		return response, err
 	}
@@ -4337,12 +4414,13 @@ func (client CloudGuardClient) listResourceProfiles(ctx context.Context, request
 // ListResourceTypes Returns a list of resource types.
 func (client CloudGuardClient) ListResourceTypes(ctx context.Context, request ListResourceTypesRequest) (response ListResourceTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listResourceTypes, policy)
 	if err != nil {
@@ -4378,7 +4456,7 @@ func (client CloudGuardClient) listResourceTypes(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceTypeSummary/ListResourceTypes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResourceTypes", apiReferenceLink)
 		return response, err
 	}
@@ -4390,12 +4468,13 @@ func (client CloudGuardClient) listResourceTypes(ctx context.Context, request co
 // ListResponderActivities Returns a list of Responder activities done on CloudGuard Problem
 func (client CloudGuardClient) ListResponderActivities(ctx context.Context, request ListResponderActivitiesRequest) (response ListResponderActivitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listResponderActivities, policy)
 	if err != nil {
@@ -4431,7 +4510,7 @@ func (client CloudGuardClient) listResponderActivities(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderActivitySummary/ListResponderActivities"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResponderActivities", apiReferenceLink)
 		return response, err
 	}
@@ -4443,12 +4522,13 @@ func (client CloudGuardClient) listResponderActivities(ctx context.Context, requ
 // ListResponderExecutions Returns a list of Responder Executions. A Responder Execution is an entity that tracks the collective execution of multiple Responder Rule Executions for a given Problem.
 func (client CloudGuardClient) ListResponderExecutions(ctx context.Context, request ListResponderExecutionsRequest) (response ListResponderExecutionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listResponderExecutions, policy)
 	if err != nil {
@@ -4484,7 +4564,7 @@ func (client CloudGuardClient) listResponderExecutions(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecutionSummary/ListResponderExecutions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResponderExecutions", apiReferenceLink)
 		return response, err
 	}
@@ -4496,12 +4576,13 @@ func (client CloudGuardClient) listResponderExecutions(ctx context.Context, requ
 // ListResponderRecipeResponderRules Returns a list of ResponderRule associated with ResponderRecipe.
 func (client CloudGuardClient) ListResponderRecipeResponderRules(ctx context.Context, request ListResponderRecipeResponderRulesRequest) (response ListResponderRecipeResponderRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listResponderRecipeResponderRules, policy)
 	if err != nil {
@@ -4537,7 +4618,7 @@ func (client CloudGuardClient) listResponderRecipeResponderRules(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipeResponderRule/ListResponderRecipeResponderRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResponderRecipeResponderRules", apiReferenceLink)
 		return response, err
 	}
@@ -4560,12 +4641,13 @@ func (client CloudGuardClient) listResponderRecipeResponderRules(ctx context.Con
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 func (client CloudGuardClient) ListResponderRecipes(ctx context.Context, request ListResponderRecipesRequest) (response ListResponderRecipesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listResponderRecipes, policy)
 	if err != nil {
@@ -4601,7 +4683,7 @@ func (client CloudGuardClient) listResponderRecipes(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipe/ListResponderRecipes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResponderRecipes", apiReferenceLink)
 		return response, err
 	}
@@ -4613,12 +4695,13 @@ func (client CloudGuardClient) listResponderRecipes(ctx context.Context, request
 // ListResponderRules Returns a list of ResponderRule.
 func (client CloudGuardClient) ListResponderRules(ctx context.Context, request ListResponderRulesRequest) (response ListResponderRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listResponderRules, policy)
 	if err != nil {
@@ -4654,7 +4737,7 @@ func (client CloudGuardClient) listResponderRules(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRule/ListResponderRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListResponderRules", apiReferenceLink)
 		return response, err
 	}
@@ -4666,12 +4749,13 @@ func (client CloudGuardClient) listResponderRules(ctx context.Context, request c
 // ListSecurityPolicies Returns a list of security zone policies. Specify any compartment.
 func (client CloudGuardClient) ListSecurityPolicies(ctx context.Context, request ListSecurityPoliciesRequest) (response ListSecurityPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSecurityPolicies, policy)
 	if err != nil {
@@ -4707,7 +4791,7 @@ func (client CloudGuardClient) listSecurityPolicies(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityPolicyCollection/ListSecurityPolicies"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListSecurityPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -4719,12 +4803,13 @@ func (client CloudGuardClient) listSecurityPolicies(ctx context.Context, request
 // ListSecurityRecipes Gets a list of all security zone recipes in a compartment.
 func (client CloudGuardClient) ListSecurityRecipes(ctx context.Context, request ListSecurityRecipesRequest) (response ListSecurityRecipesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSecurityRecipes, policy)
 	if err != nil {
@@ -4760,7 +4845,7 @@ func (client CloudGuardClient) listSecurityRecipes(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityRecipeCollection/ListSecurityRecipes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListSecurityRecipes", apiReferenceLink)
 		return response, err
 	}
@@ -4772,12 +4857,13 @@ func (client CloudGuardClient) listSecurityRecipes(ctx context.Context, request 
 // ListSecurityZones Gets a list of all security zones in a compartment.
 func (client CloudGuardClient) ListSecurityZones(ctx context.Context, request ListSecurityZonesRequest) (response ListSecurityZonesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSecurityZones, policy)
 	if err != nil {
@@ -4813,7 +4899,7 @@ func (client CloudGuardClient) listSecurityZones(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityZoneCollection/ListSecurityZones"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListSecurityZones", apiReferenceLink)
 		return response, err
 	}
@@ -4825,12 +4911,13 @@ func (client CloudGuardClient) listSecurityZones(ctx context.Context, request co
 // ListSightingEndpoints Returns Sighting endpoints details
 func (client CloudGuardClient) ListSightingEndpoints(ctx context.Context, request ListSightingEndpointsRequest) (response ListSightingEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSightingEndpoints, policy)
 	if err != nil {
@@ -4866,7 +4953,7 @@ func (client CloudGuardClient) listSightingEndpoints(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SightingEndpointSummary/ListSightingEndpoints"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListSightingEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -4878,12 +4965,13 @@ func (client CloudGuardClient) listSightingEndpoints(ctx context.Context, reques
 // ListSightingImpactedResources Return a list of Impacted Resources for a CloudGuard Sighting
 func (client CloudGuardClient) ListSightingImpactedResources(ctx context.Context, request ListSightingImpactedResourcesRequest) (response ListSightingImpactedResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSightingImpactedResources, policy)
 	if err != nil {
@@ -4919,7 +5007,7 @@ func (client CloudGuardClient) listSightingImpactedResources(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SightingImpactedResourceSummary/ListSightingImpactedResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListSightingImpactedResources", apiReferenceLink)
 		return response, err
 	}
@@ -4941,12 +5029,13 @@ func (client CloudGuardClient) listSightingImpactedResources(ctx context.Context
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 func (client CloudGuardClient) ListSightings(ctx context.Context, request ListSightingsRequest) (response ListSightingsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSightings, policy)
 	if err != nil {
@@ -4982,7 +5071,7 @@ func (client CloudGuardClient) listSightings(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SightingSummary/ListSightings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListSightings", apiReferenceLink)
 		return response, err
 	}
@@ -4994,12 +5083,13 @@ func (client CloudGuardClient) listSightings(ctx context.Context, request common
 // ListTactics Returns a list of tactics associated with detector rules.
 func (client CloudGuardClient) ListTactics(ctx context.Context, request ListTacticsRequest) (response ListTacticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTactics, policy)
 	if err != nil {
@@ -5035,7 +5125,7 @@ func (client CloudGuardClient) listTactics(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TacticSummary/ListTactics"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListTactics", apiReferenceLink)
 		return response, err
 	}
@@ -5047,12 +5137,13 @@ func (client CloudGuardClient) listTactics(ctx context.Context, request common.O
 // ListTargetDetectorRecipeDetectorRules Returns a list of DetectorRule associated with DetectorRecipe within a Target.
 func (client CloudGuardClient) ListTargetDetectorRecipeDetectorRules(ctx context.Context, request ListTargetDetectorRecipeDetectorRulesRequest) (response ListTargetDetectorRecipeDetectorRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTargetDetectorRecipeDetectorRules, policy)
 	if err != nil {
@@ -5088,7 +5179,7 @@ func (client CloudGuardClient) listTargetDetectorRecipeDetectorRules(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipeDetectorRule/ListTargetDetectorRecipeDetectorRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListTargetDetectorRecipeDetectorRules", apiReferenceLink)
 		return response, err
 	}
@@ -5100,12 +5191,13 @@ func (client CloudGuardClient) listTargetDetectorRecipeDetectorRules(ctx context
 // ListTargetDetectorRecipes Returns a list of all detector recipes associated with the target identified by targetId
 func (client CloudGuardClient) ListTargetDetectorRecipes(ctx context.Context, request ListTargetDetectorRecipesRequest) (response ListTargetDetectorRecipesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTargetDetectorRecipes, policy)
 	if err != nil {
@@ -5141,7 +5233,7 @@ func (client CloudGuardClient) listTargetDetectorRecipes(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipe/ListTargetDetectorRecipes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListTargetDetectorRecipes", apiReferenceLink)
 		return response, err
 	}
@@ -5153,12 +5245,13 @@ func (client CloudGuardClient) listTargetDetectorRecipes(ctx context.Context, re
 // ListTargetResponderRecipeResponderRules Returns a list of ResponderRule associated with ResponderRecipe within a Target.
 func (client CloudGuardClient) ListTargetResponderRecipeResponderRules(ctx context.Context, request ListTargetResponderRecipeResponderRulesRequest) (response ListTargetResponderRecipeResponderRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTargetResponderRecipeResponderRules, policy)
 	if err != nil {
@@ -5194,7 +5287,7 @@ func (client CloudGuardClient) listTargetResponderRecipeResponderRules(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipeResponderRule/ListTargetResponderRecipeResponderRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListTargetResponderRecipeResponderRules", apiReferenceLink)
 		return response, err
 	}
@@ -5206,12 +5299,13 @@ func (client CloudGuardClient) listTargetResponderRecipeResponderRules(ctx conte
 // ListTargetResponderRecipes Returns a list of all responder recipes associated with the target identified by targetId
 func (client CloudGuardClient) ListTargetResponderRecipes(ctx context.Context, request ListTargetResponderRecipesRequest) (response ListTargetResponderRecipesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTargetResponderRecipes, policy)
 	if err != nil {
@@ -5247,7 +5341,7 @@ func (client CloudGuardClient) listTargetResponderRecipes(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipe/ListTargetResponderRecipes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListTargetResponderRecipes", apiReferenceLink)
 		return response, err
 	}
@@ -5270,12 +5364,13 @@ func (client CloudGuardClient) listTargetResponderRecipes(ctx context.Context, r
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 func (client CloudGuardClient) ListTargets(ctx context.Context, request ListTargetsRequest) (response ListTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTargets, policy)
 	if err != nil {
@@ -5311,7 +5406,7 @@ func (client CloudGuardClient) listTargets(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Target/ListTargets"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListTargets", apiReferenceLink)
 		return response, err
 	}
@@ -5323,12 +5418,13 @@ func (client CloudGuardClient) listTargets(ctx context.Context, request common.O
 // ListTechniques Returns a list of techniques associated with detector rules.
 func (client CloudGuardClient) ListTechniques(ctx context.Context, request ListTechniquesRequest) (response ListTechniquesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTechniques, policy)
 	if err != nil {
@@ -5364,7 +5460,7 @@ func (client CloudGuardClient) listTechniques(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TechniqueSummary/ListTechniques"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListTechniques", apiReferenceLink)
 		return response, err
 	}
@@ -5376,12 +5472,13 @@ func (client CloudGuardClient) listTechniques(ctx context.Context, request commo
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 func (client CloudGuardClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -5417,7 +5514,7 @@ func (client CloudGuardClient) listWorkRequestErrors(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -5429,12 +5526,13 @@ func (client CloudGuardClient) listWorkRequestErrors(ctx context.Context, reques
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 func (client CloudGuardClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -5470,7 +5568,7 @@ func (client CloudGuardClient) listWorkRequestLogs(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -5482,12 +5580,13 @@ func (client CloudGuardClient) listWorkRequestLogs(ctx context.Context, request 
 // ListWorkRequests Lists the work requests in a compartment.
 func (client CloudGuardClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -5523,7 +5622,7 @@ func (client CloudGuardClient) listWorkRequests(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -5535,12 +5634,13 @@ func (client CloudGuardClient) listWorkRequests(ctx context.Context, request com
 // RemoveCompartment Removes an existing compartment from a security zone. When you remove a subcompartment from a security zone, it no longer enforces security zone policies on the resources in the subcompartment. You can't remove the primary compartment that was used to create the security zone.
 func (client CloudGuardClient) RemoveCompartment(ctx context.Context, request RemoveCompartmentRequest) (response RemoveCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -5581,7 +5681,7 @@ func (client CloudGuardClient) removeCompartment(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityZone/RemoveCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RemoveCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -5593,12 +5693,13 @@ func (client CloudGuardClient) removeCompartment(ctx context.Context, request co
 // RequestRiskScores Examines the number of problems related to the resource and the relative severity of those problems.
 func (client CloudGuardClient) RequestRiskScores(ctx context.Context, request RequestRiskScoresRequest) (response RequestRiskScoresResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestRiskScores, policy)
 	if err != nil {
@@ -5634,7 +5735,7 @@ func (client CloudGuardClient) requestRiskScores(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/RiskScoreAggregation/RequestRiskScores"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestRiskScores", apiReferenceLink)
 		return response, err
 	}
@@ -5647,12 +5748,13 @@ func (client CloudGuardClient) requestRiskScores(ctx context.Context, request co
 // number of problems detected, for a given time period.
 func (client CloudGuardClient) RequestSecurityScoreSummarizedTrend(ctx context.Context, request RequestSecurityScoreSummarizedTrendRequest) (response RequestSecurityScoreSummarizedTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestSecurityScoreSummarizedTrend, policy)
 	if err != nil {
@@ -5688,7 +5790,7 @@ func (client CloudGuardClient) requestSecurityScoreSummarizedTrend(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityScoreTrendAggregation/RequestSecurityScoreSummarizedTrend"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSecurityScoreSummarizedTrend", apiReferenceLink)
 		return response, err
 	}
@@ -5700,12 +5802,13 @@ func (client CloudGuardClient) requestSecurityScoreSummarizedTrend(ctx context.C
 // RequestSecurityScores Measures the number of resources examined across all regions and compares it with the number of problems detected.
 func (client CloudGuardClient) RequestSecurityScores(ctx context.Context, request RequestSecurityScoresRequest) (response RequestSecurityScoresResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestSecurityScores, policy)
 	if err != nil {
@@ -5741,7 +5844,7 @@ func (client CloudGuardClient) requestSecurityScores(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityScoreAggregation/RequestSecurityScores"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSecurityScores", apiReferenceLink)
 		return response, err
 	}
@@ -5764,12 +5867,13 @@ func (client CloudGuardClient) requestSecurityScores(ctx context.Context, reques
 // compartment id (tenant-id) only.
 func (client CloudGuardClient) RequestSummarizedActivityProblems(ctx context.Context, request RequestSummarizedActivityProblemsRequest) (response RequestSummarizedActivityProblemsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestSummarizedActivityProblems, policy)
 	if err != nil {
@@ -5805,7 +5909,7 @@ func (client CloudGuardClient) requestSummarizedActivityProblems(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ActivityProblemAggregation/RequestSummarizedActivityProblems"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedActivityProblems", apiReferenceLink)
 		return response, err
 	}
@@ -5826,12 +5930,13 @@ func (client CloudGuardClient) requestSummarizedActivityProblems(ctx context.Con
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 func (client CloudGuardClient) RequestSummarizedProblems(ctx context.Context, request RequestSummarizedProblemsRequest) (response RequestSummarizedProblemsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestSummarizedProblems, policy)
 	if err != nil {
@@ -5867,7 +5972,7 @@ func (client CloudGuardClient) requestSummarizedProblems(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ProblemAggregation/RequestSummarizedProblems"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedProblems", apiReferenceLink)
 		return response, err
 	}
@@ -5888,12 +5993,13 @@ func (client CloudGuardClient) requestSummarizedProblems(ctx context.Context, re
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 func (client CloudGuardClient) RequestSummarizedResponderExecutions(ctx context.Context, request RequestSummarizedResponderExecutionsRequest) (response RequestSummarizedResponderExecutionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestSummarizedResponderExecutions, policy)
 	if err != nil {
@@ -5929,7 +6035,7 @@ func (client CloudGuardClient) requestSummarizedResponderExecutions(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecutionAggregation/RequestSummarizedResponderExecutions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedResponderExecutions", apiReferenceLink)
 		return response, err
 	}
@@ -5941,12 +6047,13 @@ func (client CloudGuardClient) requestSummarizedResponderExecutions(ctx context.
 // RequestSummarizedRiskScores DEPRECATED
 func (client CloudGuardClient) RequestSummarizedRiskScores(ctx context.Context, request RequestSummarizedRiskScoresRequest) (response RequestSummarizedRiskScoresResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestSummarizedRiskScores, policy)
 	if err != nil {
@@ -5982,7 +6089,7 @@ func (client CloudGuardClient) requestSummarizedRiskScores(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/RiskScoreAggregation/RequestSummarizedRiskScores"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedRiskScores", apiReferenceLink)
 		return response, err
 	}
@@ -5994,12 +6101,13 @@ func (client CloudGuardClient) requestSummarizedRiskScores(ctx context.Context, 
 // RequestSummarizedSecurityScores DEPRECATED
 func (client CloudGuardClient) RequestSummarizedSecurityScores(ctx context.Context, request RequestSummarizedSecurityScoresRequest) (response RequestSummarizedSecurityScoresResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestSummarizedSecurityScores, policy)
 	if err != nil {
@@ -6035,7 +6143,7 @@ func (client CloudGuardClient) requestSummarizedSecurityScores(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityScoreAggregation/RequestSummarizedSecurityScores"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedSecurityScores", apiReferenceLink)
 		return response, err
 	}
@@ -6047,12 +6155,13 @@ func (client CloudGuardClient) requestSummarizedSecurityScores(ctx context.Conte
 // RequestSummarizedTopTrendResourceProfileRiskScores Summarizes the resource profile risk score top trends for the given time range based on the search filters.
 func (client CloudGuardClient) RequestSummarizedTopTrendResourceProfileRiskScores(ctx context.Context, request RequestSummarizedTopTrendResourceProfileRiskScoresRequest) (response RequestSummarizedTopTrendResourceProfileRiskScoresResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestSummarizedTopTrendResourceProfileRiskScores, policy)
 	if err != nil {
@@ -6088,7 +6197,7 @@ func (client CloudGuardClient) requestSummarizedTopTrendResourceProfileRiskScore
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceProfileRiskScoreAggregationSummary/RequestSummarizedTopTrendResourceProfileRiskScores"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedTopTrendResourceProfileRiskScores", apiReferenceLink)
 		return response, err
 	}
@@ -6109,12 +6218,13 @@ func (client CloudGuardClient) requestSummarizedTopTrendResourceProfileRiskScore
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 func (client CloudGuardClient) RequestSummarizedTrendProblems(ctx context.Context, request RequestSummarizedTrendProblemsRequest) (response RequestSummarizedTrendProblemsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestSummarizedTrendProblems, policy)
 	if err != nil {
@@ -6150,7 +6260,7 @@ func (client CloudGuardClient) requestSummarizedTrendProblems(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ProblemTrendAggregation/RequestSummarizedTrendProblems"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedTrendProblems", apiReferenceLink)
 		return response, err
 	}
@@ -6162,12 +6272,13 @@ func (client CloudGuardClient) requestSummarizedTrendProblems(ctx context.Contex
 // RequestSummarizedTrendResourceRiskScores Summarizes the resource risk score trend for the given time range based on the search filters.
 func (client CloudGuardClient) RequestSummarizedTrendResourceRiskScores(ctx context.Context, request RequestSummarizedTrendResourceRiskScoresRequest) (response RequestSummarizedTrendResourceRiskScoresResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestSummarizedTrendResourceRiskScores, policy)
 	if err != nil {
@@ -6203,7 +6314,7 @@ func (client CloudGuardClient) requestSummarizedTrendResourceRiskScores(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceRiskScoreAggregation/RequestSummarizedTrendResourceRiskScores"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedTrendResourceRiskScores", apiReferenceLink)
 		return response, err
 	}
@@ -6224,12 +6335,13 @@ func (client CloudGuardClient) requestSummarizedTrendResourceRiskScores(ctx cont
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 func (client CloudGuardClient) RequestSummarizedTrendResponderExecutions(ctx context.Context, request RequestSummarizedTrendResponderExecutionsRequest) (response RequestSummarizedTrendResponderExecutionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestSummarizedTrendResponderExecutions, policy)
 	if err != nil {
@@ -6265,7 +6377,7 @@ func (client CloudGuardClient) requestSummarizedTrendResponderExecutions(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecutionTrendAggregation/RequestSummarizedTrendResponderExecutions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedTrendResponderExecutions", apiReferenceLink)
 		return response, err
 	}
@@ -6277,12 +6389,13 @@ func (client CloudGuardClient) requestSummarizedTrendResponderExecutions(ctx con
 // RequestSummarizedTrendSecurityScores DEPRECATED
 func (client CloudGuardClient) RequestSummarizedTrendSecurityScores(ctx context.Context, request RequestSummarizedTrendSecurityScoresRequest) (response RequestSummarizedTrendSecurityScoresResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestSummarizedTrendSecurityScores, policy)
 	if err != nil {
@@ -6318,7 +6431,7 @@ func (client CloudGuardClient) requestSummarizedTrendSecurityScores(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityScoreTrendAggregation/RequestSummarizedTrendSecurityScores"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "RequestSummarizedTrendSecurityScores", apiReferenceLink)
 		return response, err
 	}
@@ -6331,12 +6444,13 @@ func (client CloudGuardClient) requestSummarizedTrendSecurityScores(ctx context.
 // The operation is atomic in nature
 func (client CloudGuardClient) SkipBulkResponderExecution(ctx context.Context, request SkipBulkResponderExecutionRequest) (response SkipBulkResponderExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.skipBulkResponderExecution, policy)
 	if err != nil {
@@ -6372,7 +6486,7 @@ func (client CloudGuardClient) skipBulkResponderExecution(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecution/SkipBulkResponderExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "SkipBulkResponderExecution", apiReferenceLink)
 		return response, err
 	}
@@ -6384,12 +6498,13 @@ func (client CloudGuardClient) skipBulkResponderExecution(ctx context.Context, r
 // SkipResponderExecution Skips the execution of the responder execution. When provided, If-Match is checked against ETag values of the resource.
 func (client CloudGuardClient) SkipResponderExecution(ctx context.Context, request SkipResponderExecutionRequest) (response SkipResponderExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -6430,7 +6545,7 @@ func (client CloudGuardClient) skipResponderExecution(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecution/SkipResponderExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "SkipResponderExecution", apiReferenceLink)
 		return response, err
 	}
@@ -6442,12 +6557,13 @@ func (client CloudGuardClient) skipResponderExecution(ctx context.Context, reque
 // TriggerResponder push the problem to responder
 func (client CloudGuardClient) TriggerResponder(ctx context.Context, request TriggerResponderRequest) (response TriggerResponderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -6488,7 +6604,7 @@ func (client CloudGuardClient) triggerResponder(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Problem/TriggerResponder"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "TriggerResponder", apiReferenceLink)
 		return response, err
 	}
@@ -6501,12 +6617,13 @@ func (client CloudGuardClient) triggerResponder(ctx context.Context, request com
 // The operation is atomic in nature
 func (client CloudGuardClient) UpdateBulkProblemStatus(ctx context.Context, request UpdateBulkProblemStatusRequest) (response UpdateBulkProblemStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateBulkProblemStatus, policy)
 	if err != nil {
@@ -6542,7 +6659,7 @@ func (client CloudGuardClient) updateBulkProblemStatus(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Problem/UpdateBulkProblemStatus"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateBulkProblemStatus", apiReferenceLink)
 		return response, err
 	}
@@ -6554,12 +6671,13 @@ func (client CloudGuardClient) updateBulkProblemStatus(ctx context.Context, requ
 // UpdateConfiguration Enable/Disable Cloud Guard. The reporting region cannot be updated once created.
 func (client CloudGuardClient) UpdateConfiguration(ctx context.Context, request UpdateConfigurationRequest) (response UpdateConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -6600,7 +6718,7 @@ func (client CloudGuardClient) updateConfiguration(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Configuration/UpdateConfiguration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -6612,12 +6730,13 @@ func (client CloudGuardClient) updateConfiguration(ctx context.Context, request 
 // UpdateDataMaskRule Updates a DataMaskRule identified by dataMaskRuleId
 func (client CloudGuardClient) UpdateDataMaskRule(ctx context.Context, request UpdateDataMaskRuleRequest) (response UpdateDataMaskRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateDataMaskRule, policy)
 	if err != nil {
@@ -6653,7 +6772,7 @@ func (client CloudGuardClient) updateDataMaskRule(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataMaskRule/UpdateDataMaskRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateDataMaskRule", apiReferenceLink)
 		return response, err
 	}
@@ -6665,12 +6784,13 @@ func (client CloudGuardClient) updateDataMaskRule(ctx context.Context, request c
 // UpdateDataSource Updates a data source identified by dataSourceId
 func (client CloudGuardClient) UpdateDataSource(ctx context.Context, request UpdateDataSourceRequest) (response UpdateDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -6711,7 +6831,7 @@ func (client CloudGuardClient) updateDataSource(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DataSource/UpdateDataSource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateDataSource", apiReferenceLink)
 		return response, err
 	}
@@ -6723,12 +6843,13 @@ func (client CloudGuardClient) updateDataSource(ctx context.Context, request com
 // UpdateDetectorRecipe Updates a detector recipe identified by detectorRecipeId
 func (client CloudGuardClient) UpdateDetectorRecipe(ctx context.Context, request UpdateDetectorRecipeRequest) (response UpdateDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -6769,7 +6890,7 @@ func (client CloudGuardClient) updateDetectorRecipe(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipe/UpdateDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -6781,12 +6902,13 @@ func (client CloudGuardClient) updateDetectorRecipe(ctx context.Context, request
 // UpdateDetectorRecipeDetectorRule Update the DetectorRule by identifier
 func (client CloudGuardClient) UpdateDetectorRecipeDetectorRule(ctx context.Context, request UpdateDetectorRecipeDetectorRuleRequest) (response UpdateDetectorRecipeDetectorRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateDetectorRecipeDetectorRule, policy)
 	if err != nil {
@@ -6822,7 +6944,7 @@ func (client CloudGuardClient) updateDetectorRecipeDetectorRule(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRule/UpdateDetectorRecipeDetectorRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateDetectorRecipeDetectorRule", apiReferenceLink)
 		return response, err
 	}
@@ -6834,12 +6956,13 @@ func (client CloudGuardClient) updateDetectorRecipeDetectorRule(ctx context.Cont
 // UpdateManagedList Updates a managed list identified by managedListId
 func (client CloudGuardClient) UpdateManagedList(ctx context.Context, request UpdateManagedListRequest) (response UpdateManagedListResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -6880,7 +7003,7 @@ func (client CloudGuardClient) updateManagedList(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedList/UpdateManagedList"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateManagedList", apiReferenceLink)
 		return response, err
 	}
@@ -6892,12 +7015,13 @@ func (client CloudGuardClient) updateManagedList(ctx context.Context, request co
 // UpdateProblemStatus updates the problem details
 func (client CloudGuardClient) UpdateProblemStatus(ctx context.Context, request UpdateProblemStatusRequest) (response UpdateProblemStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -6938,7 +7062,7 @@ func (client CloudGuardClient) updateProblemStatus(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Problem/UpdateProblemStatus"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateProblemStatus", apiReferenceLink)
 		return response, err
 	}
@@ -6950,12 +7074,13 @@ func (client CloudGuardClient) updateProblemStatus(ctx context.Context, request 
 // UpdateResponderRecipe Update the ResponderRecipe resource by identifier
 func (client CloudGuardClient) UpdateResponderRecipe(ctx context.Context, request UpdateResponderRecipeRequest) (response UpdateResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateResponderRecipe, policy)
 	if err != nil {
@@ -6991,7 +7116,7 @@ func (client CloudGuardClient) updateResponderRecipe(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipe/UpdateResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateResponderRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -7003,12 +7128,13 @@ func (client CloudGuardClient) updateResponderRecipe(ctx context.Context, reques
 // UpdateResponderRecipeResponderRule Update the ResponderRule by identifier
 func (client CloudGuardClient) UpdateResponderRecipeResponderRule(ctx context.Context, request UpdateResponderRecipeResponderRuleRequest) (response UpdateResponderRecipeResponderRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateResponderRecipeResponderRule, policy)
 	if err != nil {
@@ -7044,7 +7170,7 @@ func (client CloudGuardClient) updateResponderRecipeResponderRule(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderRecipeResponderRule/UpdateResponderRecipeResponderRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateResponderRecipeResponderRule", apiReferenceLink)
 		return response, err
 	}
@@ -7056,12 +7182,13 @@ func (client CloudGuardClient) updateResponderRecipeResponderRule(ctx context.Co
 // UpdateSecurityRecipe Updates a security zone recipe. A security zone recipe is a collection of security zone policies.
 func (client CloudGuardClient) UpdateSecurityRecipe(ctx context.Context, request UpdateSecurityRecipeRequest) (response UpdateSecurityRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateSecurityRecipe, policy)
 	if err != nil {
@@ -7097,7 +7224,7 @@ func (client CloudGuardClient) updateSecurityRecipe(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityRecipe/UpdateSecurityRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateSecurityRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -7109,12 +7236,13 @@ func (client CloudGuardClient) updateSecurityRecipe(ctx context.Context, request
 // UpdateSecurityZone Updates the security zone identified by its id
 func (client CloudGuardClient) UpdateSecurityZone(ctx context.Context, request UpdateSecurityZoneRequest) (response UpdateSecurityZoneResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateSecurityZone, policy)
 	if err != nil {
@@ -7150,7 +7278,7 @@ func (client CloudGuardClient) updateSecurityZone(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityZone/UpdateSecurityZone"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateSecurityZone", apiReferenceLink)
 		return response, err
 	}
@@ -7162,12 +7290,13 @@ func (client CloudGuardClient) updateSecurityZone(ctx context.Context, request c
 // UpdateTarget Updates a Target identified by targetId
 func (client CloudGuardClient) UpdateTarget(ctx context.Context, request UpdateTargetRequest) (response UpdateTargetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateTarget, policy)
 	if err != nil {
@@ -7203,7 +7332,7 @@ func (client CloudGuardClient) updateTarget(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Target/UpdateTarget"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateTarget", apiReferenceLink)
 		return response, err
 	}
@@ -7215,12 +7344,13 @@ func (client CloudGuardClient) updateTarget(ctx context.Context, request common.
 // UpdateTargetDetectorRecipe Update the TargetDetectorRecipe resource by identifier
 func (client CloudGuardClient) UpdateTargetDetectorRecipe(ctx context.Context, request UpdateTargetDetectorRecipeRequest) (response UpdateTargetDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateTargetDetectorRecipe, policy)
 	if err != nil {
@@ -7256,7 +7386,7 @@ func (client CloudGuardClient) updateTargetDetectorRecipe(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipe/UpdateTargetDetectorRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateTargetDetectorRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -7268,12 +7398,13 @@ func (client CloudGuardClient) updateTargetDetectorRecipe(ctx context.Context, r
 // UpdateTargetDetectorRecipeDetectorRule Update the DetectorRule by identifier
 func (client CloudGuardClient) UpdateTargetDetectorRecipeDetectorRule(ctx context.Context, request UpdateTargetDetectorRecipeDetectorRuleRequest) (response UpdateTargetDetectorRecipeDetectorRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateTargetDetectorRecipeDetectorRule, policy)
 	if err != nil {
@@ -7309,7 +7440,7 @@ func (client CloudGuardClient) updateTargetDetectorRecipeDetectorRule(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetDetectorRecipeDetectorRule/UpdateTargetDetectorRecipeDetectorRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateTargetDetectorRecipeDetectorRule", apiReferenceLink)
 		return response, err
 	}
@@ -7321,12 +7452,13 @@ func (client CloudGuardClient) updateTargetDetectorRecipeDetectorRule(ctx contex
 // UpdateTargetResponderRecipe Update the TargetResponderRecipe resource by identifier
 func (client CloudGuardClient) UpdateTargetResponderRecipe(ctx context.Context, request UpdateTargetResponderRecipeRequest) (response UpdateTargetResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateTargetResponderRecipe, policy)
 	if err != nil {
@@ -7362,7 +7494,7 @@ func (client CloudGuardClient) updateTargetResponderRecipe(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipe/UpdateTargetResponderRecipe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateTargetResponderRecipe", apiReferenceLink)
 		return response, err
 	}
@@ -7374,12 +7506,13 @@ func (client CloudGuardClient) updateTargetResponderRecipe(ctx context.Context, 
 // UpdateTargetResponderRecipeResponderRule Update the ResponderRule by identifier
 func (client CloudGuardClient) UpdateTargetResponderRecipeResponderRule(ctx context.Context, request UpdateTargetResponderRecipeResponderRuleRequest) (response UpdateTargetResponderRecipeResponderRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateTargetResponderRecipeResponderRule, policy)
 	if err != nil {
@@ -7415,7 +7548,7 @@ func (client CloudGuardClient) updateTargetResponderRecipeResponderRule(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipeResponderRule/UpdateTargetResponderRecipeResponderRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateTargetResponderRecipeResponderRule", apiReferenceLink)
 		return response, err
 	}

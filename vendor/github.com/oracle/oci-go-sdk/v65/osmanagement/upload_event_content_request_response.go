@@ -67,7 +67,7 @@ func (request UploadEventContentRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UploadEventContentRequest) RetryPolicy() *common.RetryPolicy {
+func (request UploadEventContentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

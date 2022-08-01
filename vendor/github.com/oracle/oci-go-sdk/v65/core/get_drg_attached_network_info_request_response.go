@@ -48,7 +48,7 @@ func (request GetDrgAttachedNetworkInfoRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetDrgAttachedNetworkInfoRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetDrgAttachedNetworkInfoRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

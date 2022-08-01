@@ -94,12 +94,13 @@ func (client *VcnipInternalClient) ConfigurationProvider() *common.Configuration
 // ByoipRangeLock Lock ByoipRange
 func (client VcnipInternalClient) ByoipRangeLock(ctx context.Context, request ByoipRangeLockRequest) (response ByoipRangeLockResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.byoipRangeLock, policy)
 	if err != nil {
@@ -147,12 +148,13 @@ func (client VcnipInternalClient) byoipRangeLock(ctx context.Context, request co
 // ByoipRangeUnlock Lock ByoipRange
 func (client VcnipInternalClient) ByoipRangeUnlock(ctx context.Context, request ByoipRangeUnlockRequest) (response ByoipRangeUnlockResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.byoipRangeUnlock, policy)
 	if err != nil {

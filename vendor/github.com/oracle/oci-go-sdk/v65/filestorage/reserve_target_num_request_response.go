@@ -56,7 +56,7 @@ func (request ReserveTargetNumRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ReserveTargetNumRequest) RetryPolicy() *common.RetryPolicy {
+func (request ReserveTargetNumRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

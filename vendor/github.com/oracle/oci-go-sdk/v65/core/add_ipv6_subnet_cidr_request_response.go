@@ -63,7 +63,7 @@ func (request AddIpv6SubnetCidrRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddIpv6SubnetCidrRequest) RetryPolicy() *common.RetryPolicy {
+func (request AddIpv6SubnetCidrRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

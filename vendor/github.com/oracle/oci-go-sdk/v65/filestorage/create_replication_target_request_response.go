@@ -55,7 +55,7 @@ func (request CreateReplicationTargetRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateReplicationTargetRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateReplicationTargetRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

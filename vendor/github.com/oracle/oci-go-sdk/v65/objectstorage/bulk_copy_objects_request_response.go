@@ -54,7 +54,7 @@ func (request BulkCopyObjectsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request BulkCopyObjectsRequest) RetryPolicy() *common.RetryPolicy {
+func (request BulkCopyObjectsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

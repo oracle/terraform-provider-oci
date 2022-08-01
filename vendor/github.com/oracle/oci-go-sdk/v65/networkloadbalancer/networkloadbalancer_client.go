@@ -89,12 +89,13 @@ func (client *NetworkLoadBalancerClient) ConfigurationProvider() *common.Configu
 // A default retry strategy applies to this operation AttachNlbToPod()
 func (client NetworkLoadBalancerClient) AttachNlbToPod(ctx context.Context, request AttachNlbToPodRequest) (response AttachNlbToPodResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -149,12 +150,13 @@ func (client NetworkLoadBalancerClient) attachNlbToPod(ctx context.Context, requ
 // A default retry strategy applies to this operation ChangeNetworkLoadBalancerCompartment()
 func (client NetworkLoadBalancerClient) ChangeNetworkLoadBalancerCompartment(ctx context.Context, request ChangeNetworkLoadBalancerCompartmentRequest) (response ChangeNetworkLoadBalancerCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -208,12 +210,13 @@ func (client NetworkLoadBalancerClient) changeNetworkLoadBalancerCompartment(ctx
 // A default retry strategy applies to this operation CreateBackend()
 func (client NetworkLoadBalancerClient) CreateBackend(ctx context.Context, request CreateBackendRequest) (response CreateBackendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -267,12 +270,13 @@ func (client NetworkLoadBalancerClient) createBackend(ctx context.Context, reque
 // A default retry strategy applies to this operation CreateBackendSet()
 func (client NetworkLoadBalancerClient) CreateBackendSet(ctx context.Context, request CreateBackendSetRequest) (response CreateBackendSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -326,12 +330,13 @@ func (client NetworkLoadBalancerClient) createBackendSet(ctx context.Context, re
 // A default retry strategy applies to this operation CreateListener()
 func (client NetworkLoadBalancerClient) CreateListener(ctx context.Context, request CreateListenerRequest) (response CreateListenerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -385,12 +390,13 @@ func (client NetworkLoadBalancerClient) createListener(ctx context.Context, requ
 // A default retry strategy applies to this operation CreateNetworkLoadBalancer()
 func (client NetworkLoadBalancerClient) CreateNetworkLoadBalancer(ctx context.Context, request CreateNetworkLoadBalancerRequest) (response CreateNetworkLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -444,12 +450,13 @@ func (client NetworkLoadBalancerClient) createNetworkLoadBalancer(ctx context.Co
 // A default retry strategy applies to this operation DeleteBackend()
 func (client NetworkLoadBalancerClient) DeleteBackend(ctx context.Context, request DeleteBackendRequest) (response DeleteBackendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteBackend, policy)
 	if err != nil {
@@ -499,12 +506,13 @@ func (client NetworkLoadBalancerClient) deleteBackend(ctx context.Context, reque
 // A default retry strategy applies to this operation DeleteBackendSet()
 func (client NetworkLoadBalancerClient) DeleteBackendSet(ctx context.Context, request DeleteBackendSetRequest) (response DeleteBackendSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteBackendSet, policy)
 	if err != nil {
@@ -553,12 +561,13 @@ func (client NetworkLoadBalancerClient) deleteBackendSet(ctx context.Context, re
 // A default retry strategy applies to this operation DeleteListener()
 func (client NetworkLoadBalancerClient) DeleteListener(ctx context.Context, request DeleteListenerRequest) (response DeleteListenerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteListener, policy)
 	if err != nil {
@@ -607,12 +616,13 @@ func (client NetworkLoadBalancerClient) deleteListener(ctx context.Context, requ
 // A default retry strategy applies to this operation DeleteNetworkLoadBalancer()
 func (client NetworkLoadBalancerClient) DeleteNetworkLoadBalancer(ctx context.Context, request DeleteNetworkLoadBalancerRequest) (response DeleteNetworkLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteNetworkLoadBalancer, policy)
 	if err != nil {
@@ -661,12 +671,13 @@ func (client NetworkLoadBalancerClient) deleteNetworkLoadBalancer(ctx context.Co
 // A default retry strategy applies to this operation DetachNlbFromDestinationPod()
 func (client NetworkLoadBalancerClient) DetachNlbFromDestinationPod(ctx context.Context, request DetachNlbFromDestinationPodRequest) (response DetachNlbFromDestinationPodResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -720,12 +731,13 @@ func (client NetworkLoadBalancerClient) detachNlbFromDestinationPod(ctx context.
 // A default retry strategy applies to this operation DetachNlbFromSourcePod()
 func (client NetworkLoadBalancerClient) DetachNlbFromSourcePod(ctx context.Context, request DetachNlbFromSourcePodRequest) (response DetachNlbFromSourcePodResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -779,12 +791,13 @@ func (client NetworkLoadBalancerClient) detachNlbFromSourcePod(ctx context.Conte
 // A default retry strategy applies to this operation GetBackend()
 func (client NetworkLoadBalancerClient) GetBackend(ctx context.Context, request GetBackendRequest) (response GetBackendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBackend, policy)
 	if err != nil {
@@ -833,12 +846,13 @@ func (client NetworkLoadBalancerClient) getBackend(ctx context.Context, request 
 // A default retry strategy applies to this operation GetBackendHealth()
 func (client NetworkLoadBalancerClient) GetBackendHealth(ctx context.Context, request GetBackendHealthRequest) (response GetBackendHealthResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBackendHealth, policy)
 	if err != nil {
@@ -887,12 +901,13 @@ func (client NetworkLoadBalancerClient) getBackendHealth(ctx context.Context, re
 // A default retry strategy applies to this operation GetBackendSet()
 func (client NetworkLoadBalancerClient) GetBackendSet(ctx context.Context, request GetBackendSetRequest) (response GetBackendSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBackendSet, policy)
 	if err != nil {
@@ -941,12 +956,13 @@ func (client NetworkLoadBalancerClient) getBackendSet(ctx context.Context, reque
 // A default retry strategy applies to this operation GetBackendSetHealth()
 func (client NetworkLoadBalancerClient) GetBackendSetHealth(ctx context.Context, request GetBackendSetHealthRequest) (response GetBackendSetHealthResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBackendSetHealth, policy)
 	if err != nil {
@@ -995,12 +1011,13 @@ func (client NetworkLoadBalancerClient) getBackendSetHealth(ctx context.Context,
 // A default retry strategy applies to this operation GetHealthChecker()
 func (client NetworkLoadBalancerClient) GetHealthChecker(ctx context.Context, request GetHealthCheckerRequest) (response GetHealthCheckerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1054,12 +1071,13 @@ func (client NetworkLoadBalancerClient) getHealthChecker(ctx context.Context, re
 // A default retry strategy applies to this operation GetListener()
 func (client NetworkLoadBalancerClient) GetListener(ctx context.Context, request GetListenerRequest) (response GetListenerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getListener, policy)
 	if err != nil {
@@ -1108,12 +1126,13 @@ func (client NetworkLoadBalancerClient) getListener(ctx context.Context, request
 // A default retry strategy applies to this operation GetNetworkLoadBalancer()
 func (client NetworkLoadBalancerClient) GetNetworkLoadBalancer(ctx context.Context, request GetNetworkLoadBalancerRequest) (response GetNetworkLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getNetworkLoadBalancer, policy)
 	if err != nil {
@@ -1162,12 +1181,13 @@ func (client NetworkLoadBalancerClient) getNetworkLoadBalancer(ctx context.Conte
 // A default retry strategy applies to this operation GetNetworkLoadBalancerHealth()
 func (client NetworkLoadBalancerClient) GetNetworkLoadBalancerHealth(ctx context.Context, request GetNetworkLoadBalancerHealthRequest) (response GetNetworkLoadBalancerHealthResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getNetworkLoadBalancerHealth, policy)
 	if err != nil {
@@ -1216,12 +1236,13 @@ func (client NetworkLoadBalancerClient) getNetworkLoadBalancerHealth(ctx context
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client NetworkLoadBalancerClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -1270,12 +1291,13 @@ func (client NetworkLoadBalancerClient) getWorkRequest(ctx context.Context, requ
 // A default retry strategy applies to this operation ListBackendSets()
 func (client NetworkLoadBalancerClient) ListBackendSets(ctx context.Context, request ListBackendSetsRequest) (response ListBackendSetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listBackendSets, policy)
 	if err != nil {
@@ -1324,12 +1346,13 @@ func (client NetworkLoadBalancerClient) listBackendSets(ctx context.Context, req
 // A default retry strategy applies to this operation ListBackends()
 func (client NetworkLoadBalancerClient) ListBackends(ctx context.Context, request ListBackendsRequest) (response ListBackendsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listBackends, policy)
 	if err != nil {
@@ -1378,12 +1401,13 @@ func (client NetworkLoadBalancerClient) listBackends(ctx context.Context, reques
 // A default retry strategy applies to this operation ListListeners()
 func (client NetworkLoadBalancerClient) ListListeners(ctx context.Context, request ListListenersRequest) (response ListListenersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listListeners, policy)
 	if err != nil {
@@ -1432,12 +1456,13 @@ func (client NetworkLoadBalancerClient) listListeners(ctx context.Context, reque
 // A default retry strategy applies to this operation ListNetworkLoadBalancerHealths()
 func (client NetworkLoadBalancerClient) ListNetworkLoadBalancerHealths(ctx context.Context, request ListNetworkLoadBalancerHealthsRequest) (response ListNetworkLoadBalancerHealthsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listNetworkLoadBalancerHealths, policy)
 	if err != nil {
@@ -1486,12 +1511,13 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancerHealths(ctx conte
 // A default retry strategy applies to this operation ListNetworkLoadBalancers()
 func (client NetworkLoadBalancerClient) ListNetworkLoadBalancers(ctx context.Context, request ListNetworkLoadBalancersRequest) (response ListNetworkLoadBalancersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listNetworkLoadBalancers, policy)
 	if err != nil {
@@ -1540,12 +1566,13 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancers(ctx context.Con
 // A default retry strategy applies to this operation ListNetworkLoadBalancersPolicies()
 func (client NetworkLoadBalancerClient) ListNetworkLoadBalancersPolicies(ctx context.Context, request ListNetworkLoadBalancersPoliciesRequest) (response ListNetworkLoadBalancersPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listNetworkLoadBalancersPolicies, policy)
 	if err != nil {
@@ -1595,12 +1622,13 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancersPolicies(ctx con
 // A default retry strategy applies to this operation ListNetworkLoadBalancersProtocols()
 func (client NetworkLoadBalancerClient) ListNetworkLoadBalancersProtocols(ctx context.Context, request ListNetworkLoadBalancersProtocolsRequest) (response ListNetworkLoadBalancersProtocolsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listNetworkLoadBalancersProtocols, policy)
 	if err != nil {
@@ -1649,12 +1677,13 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancersProtocols(ctx co
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client NetworkLoadBalancerClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -1703,12 +1732,13 @@ func (client NetworkLoadBalancerClient) listWorkRequestErrors(ctx context.Contex
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client NetworkLoadBalancerClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -1757,12 +1787,13 @@ func (client NetworkLoadBalancerClient) listWorkRequestLogs(ctx context.Context,
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client NetworkLoadBalancerClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -1811,12 +1842,13 @@ func (client NetworkLoadBalancerClient) listWorkRequests(ctx context.Context, re
 // A default retry strategy applies to this operation UpdateBackend()
 func (client NetworkLoadBalancerClient) UpdateBackend(ctx context.Context, request UpdateBackendRequest) (response UpdateBackendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1870,12 +1902,13 @@ func (client NetworkLoadBalancerClient) updateBackend(ctx context.Context, reque
 // A default retry strategy applies to this operation UpdateBackendSet()
 func (client NetworkLoadBalancerClient) UpdateBackendSet(ctx context.Context, request UpdateBackendSetRequest) (response UpdateBackendSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1929,12 +1962,13 @@ func (client NetworkLoadBalancerClient) updateBackendSet(ctx context.Context, re
 // A default retry strategy applies to this operation UpdateHealthChecker()
 func (client NetworkLoadBalancerClient) UpdateHealthChecker(ctx context.Context, request UpdateHealthCheckerRequest) (response UpdateHealthCheckerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1988,12 +2022,13 @@ func (client NetworkLoadBalancerClient) updateHealthChecker(ctx context.Context,
 // A default retry strategy applies to this operation UpdateListener()
 func (client NetworkLoadBalancerClient) UpdateListener(ctx context.Context, request UpdateListenerRequest) (response UpdateListenerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2047,12 +2082,13 @@ func (client NetworkLoadBalancerClient) updateListener(ctx context.Context, requ
 // A default retry strategy applies to this operation UpdateNetworkLoadBalancer()
 func (client NetworkLoadBalancerClient) UpdateNetworkLoadBalancer(ctx context.Context, request UpdateNetworkLoadBalancerRequest) (response UpdateNetworkLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateNetworkLoadBalancer, policy)
 	if err != nil {
@@ -2101,12 +2137,13 @@ func (client NetworkLoadBalancerClient) updateNetworkLoadBalancer(ctx context.Co
 // A default retry strategy applies to this operation UpdateNetworkSecurityGroups()
 func (client NetworkLoadBalancerClient) UpdateNetworkSecurityGroups(ctx context.Context, request UpdateNetworkSecurityGroupsRequest) (response UpdateNetworkSecurityGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {

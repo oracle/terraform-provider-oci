@@ -59,7 +59,7 @@ func (request ListFastConnectProviderServicesRequest) BinaryRequestBody() (*comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListFastConnectProviderServicesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListFastConnectProviderServicesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

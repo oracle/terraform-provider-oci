@@ -58,7 +58,7 @@ func (request CreateClientVpnUserRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateClientVpnUserRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateClientVpnUserRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

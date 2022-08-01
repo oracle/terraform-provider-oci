@@ -76,7 +76,7 @@ func (request ListDkimsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListDkimsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListDkimsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

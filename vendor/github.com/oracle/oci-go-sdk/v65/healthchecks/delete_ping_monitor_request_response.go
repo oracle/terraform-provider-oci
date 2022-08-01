@@ -54,7 +54,7 @@ func (request DeletePingMonitorRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeletePingMonitorRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeletePingMonitorRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

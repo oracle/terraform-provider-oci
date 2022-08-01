@@ -51,7 +51,7 @@ func (request GetImageShapeCompatibilityEntryRequest) BinaryRequestBody() (*comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetImageShapeCompatibilityEntryRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetImageShapeCompatibilityEntryRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

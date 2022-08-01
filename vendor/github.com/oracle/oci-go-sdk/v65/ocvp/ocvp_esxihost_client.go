@@ -96,12 +96,13 @@ func (client *EsxiHostClient) ConfigurationProvider() *common.ConfigurationProvi
 // A default retry strategy applies to this operation CreateEsxiHost()
 func (client EsxiHostClient) CreateEsxiHost(ctx context.Context, request CreateEsxiHostRequest) (response CreateEsxiHostResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -165,12 +166,13 @@ func (client EsxiHostClient) createEsxiHost(ctx context.Context, request common.
 // A default retry strategy applies to this operation DeleteEsxiHost()
 func (client EsxiHostClient) DeleteEsxiHost(ctx context.Context, request DeleteEsxiHostRequest) (response DeleteEsxiHostResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteEsxiHost, policy)
 	if err != nil {
@@ -219,12 +221,13 @@ func (client EsxiHostClient) deleteEsxiHost(ctx context.Context, request common.
 // A default retry strategy applies to this operation GetEsxiHost()
 func (client EsxiHostClient) GetEsxiHost(ctx context.Context, request GetEsxiHostRequest) (response GetEsxiHostResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getEsxiHost, policy)
 	if err != nil {
@@ -280,12 +283,13 @@ func (client EsxiHostClient) getEsxiHost(ctx context.Context, request common.OCI
 // A default retry strategy applies to this operation ListEsxiHosts()
 func (client EsxiHostClient) ListEsxiHosts(ctx context.Context, request ListEsxiHostsRequest) (response ListEsxiHostsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listEsxiHosts, policy)
 	if err != nil {
@@ -334,12 +338,13 @@ func (client EsxiHostClient) listEsxiHosts(ctx context.Context, request common.O
 // A default retry strategy applies to this operation UpdateEsxiHost()
 func (client EsxiHostClient) UpdateEsxiHost(ctx context.Context, request UpdateEsxiHostRequest) (response UpdateEsxiHostResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateEsxiHost, policy)
 	if err != nil {

@@ -63,7 +63,7 @@ func (request ImportGlossaryRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ImportGlossaryRequest) RetryPolicy() *common.RetryPolicy {
+func (request ImportGlossaryRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

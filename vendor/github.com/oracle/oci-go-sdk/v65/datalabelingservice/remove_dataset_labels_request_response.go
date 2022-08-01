@@ -64,7 +64,7 @@ func (request RemoveDatasetLabelsRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveDatasetLabelsRequest) RetryPolicy() *common.RetryPolicy {
+func (request RemoveDatasetLabelsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

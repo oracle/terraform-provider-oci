@@ -55,7 +55,7 @@ func (request ListQuickPicksRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListQuickPicksRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListQuickPicksRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

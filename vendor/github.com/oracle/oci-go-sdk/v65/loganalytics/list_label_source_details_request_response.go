@@ -63,7 +63,7 @@ func (request ListLabelSourceDetailsRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListLabelSourceDetailsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListLabelSourceDetailsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -49,7 +49,7 @@ func (request GetJobTfConfigRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetJobTfConfigRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetJobTfConfigRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

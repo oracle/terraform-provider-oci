@@ -52,7 +52,7 @@ func (request AcceptRecommendationsRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AcceptRecommendationsRequest) RetryPolicy() *common.RetryPolicy {
+func (request AcceptRecommendationsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

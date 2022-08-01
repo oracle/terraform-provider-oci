@@ -53,7 +53,7 @@ func (request DeleteCrossConnectGroupRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteCrossConnectGroupRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteCrossConnectGroupRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

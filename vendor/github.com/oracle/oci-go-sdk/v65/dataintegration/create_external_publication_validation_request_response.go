@@ -58,7 +58,7 @@ func (request CreateExternalPublicationValidationRequest) BinaryRequestBody() (*
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateExternalPublicationValidationRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateExternalPublicationValidationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

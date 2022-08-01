@@ -52,7 +52,7 @@ func (request DeleteWebAppAccelerationPolicyRequest) BinaryRequestBody() (*commo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteWebAppAccelerationPolicyRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteWebAppAccelerationPolicyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

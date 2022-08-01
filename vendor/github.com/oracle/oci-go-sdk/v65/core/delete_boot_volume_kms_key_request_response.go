@@ -53,7 +53,7 @@ func (request DeleteBootVolumeKmsKeyRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteBootVolumeKmsKeyRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteBootVolumeKmsKeyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

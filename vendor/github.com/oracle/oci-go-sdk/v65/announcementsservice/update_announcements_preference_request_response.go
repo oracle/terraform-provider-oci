@@ -54,7 +54,7 @@ func (request UpdateAnnouncementsPreferenceRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateAnnouncementsPreferenceRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateAnnouncementsPreferenceRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

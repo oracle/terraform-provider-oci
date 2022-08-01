@@ -60,7 +60,7 @@ func (request DisableAutoAssociationRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DisableAutoAssociationRequest) RetryPolicy() *common.RetryPolicy {
+func (request DisableAutoAssociationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

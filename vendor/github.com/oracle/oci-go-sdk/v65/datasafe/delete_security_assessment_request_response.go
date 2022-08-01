@@ -54,7 +54,7 @@ func (request DeleteSecurityAssessmentRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteSecurityAssessmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteSecurityAssessmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

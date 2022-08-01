@@ -53,7 +53,7 @@ func (request DeleteC3DrgRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteC3DrgRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteC3DrgRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

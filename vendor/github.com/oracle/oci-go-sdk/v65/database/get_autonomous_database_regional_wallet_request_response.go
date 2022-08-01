@@ -44,7 +44,7 @@ func (request GetAutonomousDatabaseRegionalWalletRequest) BinaryRequestBody() (*
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetAutonomousDatabaseRegionalWalletRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetAutonomousDatabaseRegionalWalletRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

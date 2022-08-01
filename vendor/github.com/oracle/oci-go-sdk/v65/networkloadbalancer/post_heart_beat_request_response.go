@@ -62,7 +62,7 @@ func (request PostHeartBeatRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request PostHeartBeatRequest) RetryPolicy() *common.RetryPolicy {
+func (request PostHeartBeatRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

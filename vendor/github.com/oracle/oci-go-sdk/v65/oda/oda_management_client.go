@@ -90,12 +90,13 @@ func (client *ManagementClient) ConfigurationProvider() *common.ConfigurationPro
 // ConfigureDigitalAssistantParameters This will store the provided parameters in the Digital Assistant instance and update any Digital Assistants with matching parameters.
 func (client ManagementClient) ConfigureDigitalAssistantParameters(ctx context.Context, request ConfigureDigitalAssistantParametersRequest) (response ConfigureDigitalAssistantParametersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -148,12 +149,13 @@ func (client ManagementClient) configureDigitalAssistantParameters(ctx context.C
 // CreateAuthenticationProvider Creates a new Authentication Provider
 func (client ManagementClient) CreateAuthenticationProvider(ctx context.Context, request CreateAuthenticationProviderRequest) (response CreateAuthenticationProviderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -206,12 +208,13 @@ func (client ManagementClient) createAuthenticationProvider(ctx context.Context,
 // CreateChannel Creates a new Channel.
 func (client ManagementClient) CreateChannel(ctx context.Context, request CreateChannelRequest) (response CreateChannelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -264,12 +267,13 @@ func (client ManagementClient) createChannel(ctx context.Context, request common
 // CreateDigitalAssistant Creates a new Digital Assistant.
 func (client ManagementClient) CreateDigitalAssistant(ctx context.Context, request CreateDigitalAssistantRequest) (response CreateDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -322,12 +326,13 @@ func (client ManagementClient) createDigitalAssistant(ctx context.Context, reque
 // CreateSkill Creates a new Skill from scratch.
 func (client ManagementClient) CreateSkill(ctx context.Context, request CreateSkillRequest) (response CreateSkillResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -380,12 +385,13 @@ func (client ManagementClient) createSkill(ctx context.Context, request common.O
 // CreateSkillParameter Creates a new Skill Parameter.
 func (client ManagementClient) CreateSkillParameter(ctx context.Context, request CreateSkillParameterRequest) (response CreateSkillParameterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -438,12 +444,13 @@ func (client ManagementClient) createSkillParameter(ctx context.Context, request
 // CreateTranslator Creates a new Translator
 func (client ManagementClient) CreateTranslator(ctx context.Context, request CreateTranslatorRequest) (response CreateTranslatorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -496,12 +503,13 @@ func (client ManagementClient) createTranslator(ctx context.Context, request com
 // DeleteAuthenticationProvider Delete the specified Authentication Provider.
 func (client ManagementClient) DeleteAuthenticationProvider(ctx context.Context, request DeleteAuthenticationProviderRequest) (response DeleteAuthenticationProviderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteAuthenticationProvider, policy)
 	if err != nil {
@@ -549,12 +557,13 @@ func (client ManagementClient) deleteAuthenticationProvider(ctx context.Context,
 // DeleteChannel Delete the specified Channel.
 func (client ManagementClient) DeleteChannel(ctx context.Context, request DeleteChannelRequest) (response DeleteChannelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteChannel, policy)
 	if err != nil {
@@ -602,12 +611,13 @@ func (client ManagementClient) deleteChannel(ctx context.Context, request common
 // DeleteDigitalAssistant Delete the specified Digital Assistant.
 func (client ManagementClient) DeleteDigitalAssistant(ctx context.Context, request DeleteDigitalAssistantRequest) (response DeleteDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteDigitalAssistant, policy)
 	if err != nil {
@@ -655,12 +665,13 @@ func (client ManagementClient) deleteDigitalAssistant(ctx context.Context, reque
 // DeleteSkill Delete the specified Skill.
 func (client ManagementClient) DeleteSkill(ctx context.Context, request DeleteSkillRequest) (response DeleteSkillResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteSkill, policy)
 	if err != nil {
@@ -708,12 +719,13 @@ func (client ManagementClient) deleteSkill(ctx context.Context, request common.O
 // DeleteSkillParameter Delete the specified Skill Parameter.
 func (client ManagementClient) DeleteSkillParameter(ctx context.Context, request DeleteSkillParameterRequest) (response DeleteSkillParameterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteSkillParameter, policy)
 	if err != nil {
@@ -761,12 +773,13 @@ func (client ManagementClient) deleteSkillParameter(ctx context.Context, request
 // DeleteTranslator Delete the specified Translator.
 func (client ManagementClient) DeleteTranslator(ctx context.Context, request DeleteTranslatorRequest) (response DeleteTranslatorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteTranslator, policy)
 	if err != nil {
@@ -814,12 +827,13 @@ func (client ManagementClient) deleteTranslator(ctx context.Context, request com
 // ExportDigitalAssistant Exports the specified Digital Assistant as an archive to Object Storage.
 func (client ManagementClient) ExportDigitalAssistant(ctx context.Context, request ExportDigitalAssistantRequest) (response ExportDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.exportDigitalAssistant, policy)
 	if err != nil {
@@ -867,12 +881,13 @@ func (client ManagementClient) exportDigitalAssistant(ctx context.Context, reque
 // ExportSkill Exports the specified Skill as an archive to Object Storage.
 func (client ManagementClient) ExportSkill(ctx context.Context, request ExportSkillRequest) (response ExportSkillResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.exportSkill, policy)
 	if err != nil {
@@ -920,12 +935,13 @@ func (client ManagementClient) exportSkill(ctx context.Context, request common.O
 // GetAuthenticationProvider Gets the specified Authentication Provider.
 func (client ManagementClient) GetAuthenticationProvider(ctx context.Context, request GetAuthenticationProviderRequest) (response GetAuthenticationProviderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getAuthenticationProvider, policy)
 	if err != nil {
@@ -973,12 +989,13 @@ func (client ManagementClient) getAuthenticationProvider(ctx context.Context, re
 // GetChannel Gets the specified Channel.
 func (client ManagementClient) GetChannel(ctx context.Context, request GetChannelRequest) (response GetChannelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getChannel, policy)
 	if err != nil {
@@ -1026,12 +1043,13 @@ func (client ManagementClient) getChannel(ctx context.Context, request common.OC
 // GetDigitalAssistant Gets the specified Digital Assistant.
 func (client ManagementClient) GetDigitalAssistant(ctx context.Context, request GetDigitalAssistantRequest) (response GetDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDigitalAssistant, policy)
 	if err != nil {
@@ -1079,12 +1097,13 @@ func (client ManagementClient) getDigitalAssistant(ctx context.Context, request 
 // GetDigitalAssistantParameter Gets the specified Digital Assistant Parameter.
 func (client ManagementClient) GetDigitalAssistantParameter(ctx context.Context, request GetDigitalAssistantParameterRequest) (response GetDigitalAssistantParameterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDigitalAssistantParameter, policy)
 	if err != nil {
@@ -1132,12 +1151,13 @@ func (client ManagementClient) getDigitalAssistantParameter(ctx context.Context,
 // GetSkill Gets the specified Skill.
 func (client ManagementClient) GetSkill(ctx context.Context, request GetSkillRequest) (response GetSkillResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSkill, policy)
 	if err != nil {
@@ -1185,12 +1205,13 @@ func (client ManagementClient) getSkill(ctx context.Context, request common.OCIR
 // GetSkillParameter Gets the specified Skill Parameter.
 func (client ManagementClient) GetSkillParameter(ctx context.Context, request GetSkillParameterRequest) (response GetSkillParameterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSkillParameter, policy)
 	if err != nil {
@@ -1238,12 +1259,13 @@ func (client ManagementClient) getSkillParameter(ctx context.Context, request co
 // GetTranslator Gets the specified Translator.
 func (client ManagementClient) GetTranslator(ctx context.Context, request GetTranslatorRequest) (response GetTranslatorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTranslator, policy)
 	if err != nil {
@@ -1291,12 +1313,13 @@ func (client ManagementClient) getTranslator(ctx context.Context, request common
 // ImportBot Import a Bot archive from Object Storage.
 func (client ManagementClient) ImportBot(ctx context.Context, request ImportBotRequest) (response ImportBotResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1352,12 +1375,13 @@ func (client ManagementClient) importBot(ctx context.Context, request common.OCI
 // GET request, include the header's value as the `page` query parameter.
 func (client ManagementClient) ListAuthenticationProviders(ctx context.Context, request ListAuthenticationProvidersRequest) (response ListAuthenticationProvidersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAuthenticationProviders, policy)
 	if err != nil {
@@ -1408,12 +1432,13 @@ func (client ManagementClient) listAuthenticationProviders(ctx context.Context, 
 // GET request, include the header's value as the `page` query parameter.
 func (client ManagementClient) ListChannels(ctx context.Context, request ListChannelsRequest) (response ListChannelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listChannels, policy)
 	if err != nil {
@@ -1464,12 +1489,13 @@ func (client ManagementClient) listChannels(ctx context.Context, request common.
 // GET request, include the header's value as the `page` query parameter.
 func (client ManagementClient) ListDigitalAssistantParameters(ctx context.Context, request ListDigitalAssistantParametersRequest) (response ListDigitalAssistantParametersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDigitalAssistantParameters, policy)
 	if err != nil {
@@ -1520,12 +1546,13 @@ func (client ManagementClient) listDigitalAssistantParameters(ctx context.Contex
 // GET request, include the header's value as the `page` query parameter.
 func (client ManagementClient) ListDigitalAssistants(ctx context.Context, request ListDigitalAssistantsRequest) (response ListDigitalAssistantsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDigitalAssistants, policy)
 	if err != nil {
@@ -1576,12 +1603,13 @@ func (client ManagementClient) listDigitalAssistants(ctx context.Context, reques
 // GET request, include the header's value as the `page` query parameter.
 func (client ManagementClient) ListSkillParameters(ctx context.Context, request ListSkillParametersRequest) (response ListSkillParametersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSkillParameters, policy)
 	if err != nil {
@@ -1632,12 +1660,13 @@ func (client ManagementClient) listSkillParameters(ctx context.Context, request 
 // GET request, include the header's value as the `page` query parameter.
 func (client ManagementClient) ListSkills(ctx context.Context, request ListSkillsRequest) (response ListSkillsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSkills, policy)
 	if err != nil {
@@ -1688,12 +1717,13 @@ func (client ManagementClient) listSkills(ctx context.Context, request common.OC
 // GET request, include the header's value as the `page` query parameter.
 func (client ManagementClient) ListTranslators(ctx context.Context, request ListTranslatorsRequest) (response ListTranslatorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTranslators, policy)
 	if err != nil {
@@ -1742,12 +1772,13 @@ func (client ManagementClient) listTranslators(ctx context.Context, request comm
 // Once published the Digital Assistant cannot be modified.
 func (client ManagementClient) PublishDigitalAssistant(ctx context.Context, request PublishDigitalAssistantRequest) (response PublishDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.publishDigitalAssistant, policy)
 	if err != nil {
@@ -1796,12 +1827,13 @@ func (client ManagementClient) publishDigitalAssistant(ctx context.Context, requ
 // Once published it cannot be modified.
 func (client ManagementClient) PublishSkill(ctx context.Context, request PublishSkillRequest) (response PublishSkillResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.publishSkill, policy)
 	if err != nil {
@@ -1851,12 +1883,13 @@ func (client ManagementClient) publishSkill(ctx context.Context, request common.
 // Ensure that you take note of the newly generated keys in the response as they will not be returned again.
 func (client ManagementClient) RotateChannelKeys(ctx context.Context, request RotateChannelKeysRequest) (response RotateChannelKeysResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1909,12 +1942,13 @@ func (client ManagementClient) rotateChannelKeys(ctx context.Context, request co
 // StartChannel Starts a Channel so that it will begin accepting messages.
 func (client ManagementClient) StartChannel(ctx context.Context, request StartChannelRequest) (response StartChannelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1967,12 +2001,13 @@ func (client ManagementClient) startChannel(ctx context.Context, request common.
 // StopChannel Stops a Channel so that it will no longer accept messages.
 func (client ManagementClient) StopChannel(ctx context.Context, request StopChannelRequest) (response StopChannelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2025,12 +2060,13 @@ func (client ManagementClient) stopChannel(ctx context.Context, request common.O
 // UpdateAuthenticationProvider Updates the specified Authentication Provider with the information in the request body.
 func (client ManagementClient) UpdateAuthenticationProvider(ctx context.Context, request UpdateAuthenticationProviderRequest) (response UpdateAuthenticationProviderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateAuthenticationProvider, policy)
 	if err != nil {
@@ -2078,12 +2114,13 @@ func (client ManagementClient) updateAuthenticationProvider(ctx context.Context,
 // UpdateChannel Updates the specified Channel with the information in the request body.
 func (client ManagementClient) UpdateChannel(ctx context.Context, request UpdateChannelRequest) (response UpdateChannelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateChannel, policy)
 	if err != nil {
@@ -2131,12 +2168,13 @@ func (client ManagementClient) updateChannel(ctx context.Context, request common
 // UpdateDigitalAssistant Updates the specified Digital Assistant with the information in the request body.
 func (client ManagementClient) UpdateDigitalAssistant(ctx context.Context, request UpdateDigitalAssistantRequest) (response UpdateDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateDigitalAssistant, policy)
 	if err != nil {
@@ -2184,12 +2222,13 @@ func (client ManagementClient) updateDigitalAssistant(ctx context.Context, reque
 // UpdateDigitalAssistantParameter Updates the specified Digital Assistant Parameter with the information in the request body.
 func (client ManagementClient) UpdateDigitalAssistantParameter(ctx context.Context, request UpdateDigitalAssistantParameterRequest) (response UpdateDigitalAssistantParameterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateDigitalAssistantParameter, policy)
 	if err != nil {
@@ -2237,12 +2276,13 @@ func (client ManagementClient) updateDigitalAssistantParameter(ctx context.Conte
 // UpdateSkill Updates the specified Skill with the information in the request body.
 func (client ManagementClient) UpdateSkill(ctx context.Context, request UpdateSkillRequest) (response UpdateSkillResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateSkill, policy)
 	if err != nil {
@@ -2290,12 +2330,13 @@ func (client ManagementClient) updateSkill(ctx context.Context, request common.O
 // UpdateSkillParameter Updates the specified Skill Parameter with the information in the request body.
 func (client ManagementClient) UpdateSkillParameter(ctx context.Context, request UpdateSkillParameterRequest) (response UpdateSkillParameterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateSkillParameter, policy)
 	if err != nil {
@@ -2343,12 +2384,13 @@ func (client ManagementClient) updateSkillParameter(ctx context.Context, request
 // UpdateTranslator Updates the specified Translator with the information in the request body.
 func (client ManagementClient) UpdateTranslator(ctx context.Context, request UpdateTranslatorRequest) (response UpdateTranslatorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateTranslator, policy)
 	if err != nil {

@@ -90,12 +90,13 @@ func (client *EmDataLakeClient) ConfigurationProvider() *common.ConfigurationPro
 // CancelWorkRequest Cancels the work request with the given ID.
 func (client EmDataLakeClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.cancelWorkRequest, policy)
 	if err != nil {
@@ -143,12 +144,13 @@ func (client EmDataLakeClient) cancelWorkRequest(ctx context.Context, request co
 // ChangeEmWarehouseCompartment Moves a EmWarehouse resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
 func (client EmDataLakeClient) ChangeEmWarehouseCompartment(ctx context.Context, request ChangeEmWarehouseCompartmentRequest) (response ChangeEmWarehouseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -201,12 +203,13 @@ func (client EmDataLakeClient) changeEmWarehouseCompartment(ctx context.Context,
 // CreateEmWarehouse Creates a new EmWarehouse.
 func (client EmDataLakeClient) CreateEmWarehouse(ctx context.Context, request CreateEmWarehouseRequest) (response CreateEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -259,12 +262,13 @@ func (client EmDataLakeClient) createEmWarehouse(ctx context.Context, request co
 // DeleteEmWarehouse Deletes a EmWarehouse resource by identifier
 func (client EmDataLakeClient) DeleteEmWarehouse(ctx context.Context, request DeleteEmWarehouseRequest) (response DeleteEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteEmWarehouse, policy)
 	if err != nil {
@@ -312,12 +316,13 @@ func (client EmDataLakeClient) deleteEmWarehouse(ctx context.Context, request co
 // GetEmWarehouse Gets a EmWarehouse by identifier
 func (client EmDataLakeClient) GetEmWarehouse(ctx context.Context, request GetEmWarehouseRequest) (response GetEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getEmWarehouse, policy)
 	if err != nil {
@@ -365,12 +370,13 @@ func (client EmDataLakeClient) getEmWarehouse(ctx context.Context, request commo
 // GetEmWarehouseResourceUsage Gets a EmWarehouseResourceUsage by identifier
 func (client EmDataLakeClient) GetEmWarehouseResourceUsage(ctx context.Context, request GetEmWarehouseResourceUsageRequest) (response GetEmWarehouseResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getEmWarehouseResourceUsage, policy)
 	if err != nil {
@@ -418,12 +424,13 @@ func (client EmDataLakeClient) getEmWarehouseResourceUsage(ctx context.Context, 
 // GetWorkRequest Gets details of the work request with the given ID.
 func (client EmDataLakeClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -471,12 +478,13 @@ func (client EmDataLakeClient) getWorkRequest(ctx context.Context, request commo
 // ListEmWarehouses Returns a list of EmWarehouses.
 func (client EmDataLakeClient) ListEmWarehouses(ctx context.Context, request ListEmWarehousesRequest) (response ListEmWarehousesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listEmWarehouses, policy)
 	if err != nil {
@@ -524,12 +532,13 @@ func (client EmDataLakeClient) listEmWarehouses(ctx context.Context, request com
 // ListEtlRuns Gets a list of runs of an EmWarehouseResource by identifier
 func (client EmDataLakeClient) ListEtlRuns(ctx context.Context, request ListEtlRunsRequest) (response ListEtlRunsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listEtlRuns, policy)
 	if err != nil {
@@ -577,12 +586,13 @@ func (client EmDataLakeClient) listEtlRuns(ctx context.Context, request common.O
 // ListWorkRequestErrors Returns a (paginated) list of errors for the work request with the given ID.
 func (client EmDataLakeClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -630,12 +640,13 @@ func (client EmDataLakeClient) listWorkRequestErrors(ctx context.Context, reques
 // ListWorkRequestLogs Returns a (paginated) list of logs for the work request with the given ID.
 func (client EmDataLakeClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -683,12 +694,13 @@ func (client EmDataLakeClient) listWorkRequestLogs(ctx context.Context, request 
 // ListWorkRequests Lists the work requests in a compartment.
 func (client EmDataLakeClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -736,12 +748,13 @@ func (client EmDataLakeClient) listWorkRequests(ctx context.Context, request com
 // UpdateEmWarehouse Updates the EmWarehouse
 func (client EmDataLakeClient) UpdateEmWarehouse(ctx context.Context, request UpdateEmWarehouseRequest) (response UpdateEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateEmWarehouse, policy)
 	if err != nil {

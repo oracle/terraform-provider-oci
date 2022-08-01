@@ -61,7 +61,7 @@ func (request SkipNextScheduledJobExecutionRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SkipNextScheduledJobExecutionRequest) RetryPolicy() *common.RetryPolicy {
+func (request SkipNextScheduledJobExecutionRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -60,7 +60,7 @@ func (request UnsetUserAssessmentBaselineRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UnsetUserAssessmentBaselineRequest) RetryPolicy() *common.RetryPolicy {
+func (request UnsetUserAssessmentBaselineRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

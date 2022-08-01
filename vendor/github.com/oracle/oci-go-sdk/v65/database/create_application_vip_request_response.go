@@ -54,7 +54,7 @@ func (request CreateApplicationVipRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateApplicationVipRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateApplicationVipRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

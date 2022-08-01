@@ -146,7 +146,7 @@ func (request SummarizeHostInsightResourceStatisticsRequest) BinaryRequestBody()
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SummarizeHostInsightResourceStatisticsRequest) RetryPolicy() *common.RetryPolicy {
+func (request SummarizeHostInsightResourceStatisticsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

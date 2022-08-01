@@ -44,7 +44,7 @@ func (request GetProxyDetailsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetProxyDetailsRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetProxyDetailsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

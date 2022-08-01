@@ -54,7 +54,7 @@ func (request CreateServiceCatalogAssociationRequest) BinaryRequestBody() (*comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateServiceCatalogAssociationRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateServiceCatalogAssociationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

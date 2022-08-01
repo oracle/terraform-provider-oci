@@ -57,7 +57,7 @@ func (request RemoveManagedDatabaseFromManagedDatabaseGroupRequest) BinaryReques
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveManagedDatabaseFromManagedDatabaseGroupRequest) RetryPolicy() *common.RetryPolicy {
+func (request RemoveManagedDatabaseFromManagedDatabaseGroupRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

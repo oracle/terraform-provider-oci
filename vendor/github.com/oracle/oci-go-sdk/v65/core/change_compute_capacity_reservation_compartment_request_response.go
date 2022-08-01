@@ -63,7 +63,7 @@ func (request ChangeComputeCapacityReservationCompartmentRequest) BinaryRequestB
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeComputeCapacityReservationCompartmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangeComputeCapacityReservationCompartmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

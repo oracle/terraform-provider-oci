@@ -74,7 +74,7 @@ func (request ListAcceptedAgreementsRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListAcceptedAgreementsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListAcceptedAgreementsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

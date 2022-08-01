@@ -60,7 +60,7 @@ func (request UpdateLogAnalyticsEntityRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateLogAnalyticsEntityRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateLogAnalyticsEntityRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

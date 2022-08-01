@@ -66,7 +66,7 @@ func (request ListDedicatedVmHostInstanceShapesRequest) BinaryRequestBody() (*co
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListDedicatedVmHostInstanceShapesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListDedicatedVmHostInstanceShapesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

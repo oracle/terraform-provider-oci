@@ -60,7 +60,7 @@ func (request UnsuppressWarningRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UnsuppressWarningRequest) RetryPolicy() *common.RetryPolicy {
+func (request UnsuppressWarningRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

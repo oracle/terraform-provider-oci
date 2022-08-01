@@ -47,7 +47,7 @@ func (request GetFleetAgentConfigurationRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetFleetAgentConfigurationRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetFleetAgentConfigurationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

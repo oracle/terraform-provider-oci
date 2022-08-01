@@ -65,7 +65,7 @@ func (request ListApmDomainsRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListApmDomainsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListApmDomainsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

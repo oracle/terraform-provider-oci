@@ -62,7 +62,7 @@ func (request DeactivateServiceConnectorRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeactivateServiceConnectorRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeactivateServiceConnectorRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

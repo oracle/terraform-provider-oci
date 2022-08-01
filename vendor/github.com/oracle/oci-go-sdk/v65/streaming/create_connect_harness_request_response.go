@@ -51,7 +51,7 @@ func (request CreateConnectHarnessRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateConnectHarnessRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateConnectHarnessRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

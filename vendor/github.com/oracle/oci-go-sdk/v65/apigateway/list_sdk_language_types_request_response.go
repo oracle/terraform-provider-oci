@@ -66,7 +66,7 @@ func (request ListSdkLanguageTypesRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListSdkLanguageTypesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListSdkLanguageTypesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

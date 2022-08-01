@@ -57,7 +57,7 @@ func (request DeleteAssociationsRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteAssociationsRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteAssociationsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

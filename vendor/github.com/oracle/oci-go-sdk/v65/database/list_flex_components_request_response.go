@@ -63,7 +63,7 @@ func (request ListFlexComponentsRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListFlexComponentsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListFlexComponentsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

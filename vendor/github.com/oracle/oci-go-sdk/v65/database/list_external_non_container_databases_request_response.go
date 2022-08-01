@@ -68,7 +68,7 @@ func (request ListExternalNonContainerDatabasesRequest) BinaryRequestBody() (*co
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListExternalNonContainerDatabasesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListExternalNonContainerDatabasesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -94,12 +94,13 @@ func (client *NosqlClient) ConfigurationProvider() *common.ConfigurationProvider
 // A default retry strategy applies to this operation ChangeTableCompartment()
 func (client NosqlClient) ChangeTableCompartment(ctx context.Context, request ChangeTableCompartmentRequest) (response ChangeTableCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -153,12 +154,13 @@ func (client NosqlClient) changeTableCompartment(ctx context.Context, request co
 // A default retry strategy applies to this operation CreateIndex()
 func (client NosqlClient) CreateIndex(ctx context.Context, request CreateIndexRequest) (response CreateIndexResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -212,12 +214,13 @@ func (client NosqlClient) createIndex(ctx context.Context, request common.OCIReq
 // A default retry strategy applies to this operation CreateTable()
 func (client NosqlClient) CreateTable(ctx context.Context, request CreateTableRequest) (response CreateTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -270,12 +273,13 @@ func (client NosqlClient) createTable(ctx context.Context, request common.OCIReq
 // DeleteIndex Delete an index from the table identified by tableNameOrId.
 func (client NosqlClient) DeleteIndex(ctx context.Context, request DeleteIndexRequest) (response DeleteIndexResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteIndex, policy)
 	if err != nil {
@@ -323,12 +327,13 @@ func (client NosqlClient) deleteIndex(ctx context.Context, request common.OCIReq
 // DeleteRow Delete a single row from the table, by primary key.
 func (client NosqlClient) DeleteRow(ctx context.Context, request DeleteRowRequest) (response DeleteRowResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteRow, policy)
 	if err != nil {
@@ -376,12 +381,13 @@ func (client NosqlClient) deleteRow(ctx context.Context, request common.OCIReque
 // DeleteTable Delete a table by tableNameOrId.
 func (client NosqlClient) DeleteTable(ctx context.Context, request DeleteTableRequest) (response DeleteTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteTable, policy)
 	if err != nil {
@@ -429,12 +435,13 @@ func (client NosqlClient) deleteTable(ctx context.Context, request common.OCIReq
 // DeleteWorkRequest Cancel a work request operation with the given ID.
 func (client NosqlClient) DeleteWorkRequest(ctx context.Context, request DeleteWorkRequestRequest) (response DeleteWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteWorkRequest, policy)
 	if err != nil {
@@ -483,12 +490,13 @@ func (client NosqlClient) deleteWorkRequest(ctx context.Context, request common.
 // A default retry strategy applies to this operation GetIndex()
 func (client NosqlClient) GetIndex(ctx context.Context, request GetIndexRequest) (response GetIndexResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getIndex, policy)
 	if err != nil {
@@ -537,12 +545,13 @@ func (client NosqlClient) getIndex(ctx context.Context, request common.OCIReques
 // A default retry strategy applies to this operation GetRow()
 func (client NosqlClient) GetRow(ctx context.Context, request GetRowRequest) (response GetRowResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getRow, policy)
 	if err != nil {
@@ -591,12 +600,13 @@ func (client NosqlClient) getRow(ctx context.Context, request common.OCIRequest,
 // A default retry strategy applies to this operation GetTable()
 func (client NosqlClient) GetTable(ctx context.Context, request GetTableRequest) (response GetTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTable, policy)
 	if err != nil {
@@ -645,12 +655,13 @@ func (client NosqlClient) getTable(ctx context.Context, request common.OCIReques
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client NosqlClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -699,12 +710,13 @@ func (client NosqlClient) getWorkRequest(ctx context.Context, request common.OCI
 // A default retry strategy applies to this operation ListIndexes()
 func (client NosqlClient) ListIndexes(ctx context.Context, request ListIndexesRequest) (response ListIndexesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listIndexes, policy)
 	if err != nil {
@@ -753,12 +765,13 @@ func (client NosqlClient) listIndexes(ctx context.Context, request common.OCIReq
 // A default retry strategy applies to this operation ListTableUsage()
 func (client NosqlClient) ListTableUsage(ctx context.Context, request ListTableUsageRequest) (response ListTableUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTableUsage, policy)
 	if err != nil {
@@ -807,12 +820,13 @@ func (client NosqlClient) listTableUsage(ctx context.Context, request common.OCI
 // A default retry strategy applies to this operation ListTables()
 func (client NosqlClient) ListTables(ctx context.Context, request ListTablesRequest) (response ListTablesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTables, policy)
 	if err != nil {
@@ -861,12 +875,13 @@ func (client NosqlClient) listTables(ctx context.Context, request common.OCIRequ
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client NosqlClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -915,12 +930,13 @@ func (client NosqlClient) listWorkRequestErrors(ctx context.Context, request com
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client NosqlClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -969,12 +985,13 @@ func (client NosqlClient) listWorkRequestLogs(ctx context.Context, request commo
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client NosqlClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -1023,12 +1040,13 @@ func (client NosqlClient) listWorkRequests(ctx context.Context, request common.O
 // A default retry strategy applies to this operation PrepareStatement()
 func (client NosqlClient) PrepareStatement(ctx context.Context, request PrepareStatementRequest) (response PrepareStatementResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.prepareStatement, policy)
 	if err != nil {
@@ -1076,12 +1094,13 @@ func (client NosqlClient) prepareStatement(ctx context.Context, request common.O
 // Query Execute a SQL query.
 func (client NosqlClient) Query(ctx context.Context, request QueryRequest) (response QueryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.query, policy)
 	if err != nil {
@@ -1130,12 +1149,13 @@ func (client NosqlClient) query(ctx context.Context, request common.OCIRequest, 
 // A default retry strategy applies to this operation SummarizeStatement()
 func (client NosqlClient) SummarizeStatement(ctx context.Context, request SummarizeStatementRequest) (response SummarizeStatementResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeStatement, policy)
 	if err != nil {
@@ -1183,12 +1203,13 @@ func (client NosqlClient) summarizeStatement(ctx context.Context, request common
 // UpdateRow Write a single row into the table.
 func (client NosqlClient) UpdateRow(ctx context.Context, request UpdateRowRequest) (response UpdateRowResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateRow, policy)
 	if err != nil {
@@ -1237,12 +1258,13 @@ func (client NosqlClient) updateRow(ctx context.Context, request common.OCIReque
 // changing schema, limits, or tags
 func (client NosqlClient) UpdateTable(ctx context.Context, request UpdateTableRequest) (response UpdateTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateTable, policy)
 	if err != nil {

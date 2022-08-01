@@ -58,7 +58,7 @@ func (request ListResourceActionQueryableFieldsRequest) BinaryRequestBody() (*co
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListResourceActionQueryableFieldsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListResourceActionQueryableFieldsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

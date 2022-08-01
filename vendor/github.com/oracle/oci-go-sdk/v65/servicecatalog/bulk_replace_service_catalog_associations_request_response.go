@@ -56,7 +56,7 @@ func (request BulkReplaceServiceCatalogAssociationsRequest) BinaryRequestBody() 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request BulkReplaceServiceCatalogAssociationsRequest) RetryPolicy() *common.RetryPolicy {
+func (request BulkReplaceServiceCatalogAssociationsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -56,7 +56,7 @@ func (request UnsetGovernanceFromChildRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UnsetGovernanceFromChildRequest) RetryPolicy() *common.RetryPolicy {
+func (request UnsetGovernanceFromChildRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

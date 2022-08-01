@@ -55,7 +55,7 @@ func (request DownloadPdfContentRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DownloadPdfContentRequest) RetryPolicy() *common.RetryPolicy {
+func (request DownloadPdfContentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

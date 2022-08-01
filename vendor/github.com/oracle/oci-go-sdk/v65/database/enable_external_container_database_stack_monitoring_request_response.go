@@ -62,7 +62,7 @@ func (request EnableExternalContainerDatabaseStackMonitoringRequest) BinaryReque
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request EnableExternalContainerDatabaseStackMonitoringRequest) RetryPolicy() *common.RetryPolicy {
+func (request EnableExternalContainerDatabaseStackMonitoringRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

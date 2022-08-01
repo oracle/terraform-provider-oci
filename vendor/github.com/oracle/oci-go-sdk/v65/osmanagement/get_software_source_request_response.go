@@ -47,7 +47,7 @@ func (request GetSoftwareSourceRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetSoftwareSourceRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetSoftwareSourceRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -58,7 +58,7 @@ func (request CreateOAuthClientCredentialRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateOAuthClientCredentialRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateOAuthClientCredentialRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

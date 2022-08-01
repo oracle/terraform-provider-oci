@@ -53,7 +53,7 @@ func (request ListGoodBotsRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListGoodBotsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListGoodBotsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

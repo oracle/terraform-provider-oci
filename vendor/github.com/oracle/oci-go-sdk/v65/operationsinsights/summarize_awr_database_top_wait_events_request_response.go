@@ -80,7 +80,7 @@ func (request SummarizeAwrDatabaseTopWaitEventsRequest) BinaryRequestBody() (*co
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SummarizeAwrDatabaseTopWaitEventsRequest) RetryPolicy() *common.RetryPolicy {
+func (request SummarizeAwrDatabaseTopWaitEventsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

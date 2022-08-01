@@ -53,7 +53,7 @@ func (request DeleteDynamicGroupRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteDynamicGroupRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteDynamicGroupRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

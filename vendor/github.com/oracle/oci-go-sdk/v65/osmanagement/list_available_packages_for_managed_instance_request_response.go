@@ -66,7 +66,7 @@ func (request ListAvailablePackagesForManagedInstanceRequest) BinaryRequestBody(
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListAvailablePackagesForManagedInstanceRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListAvailablePackagesForManagedInstanceRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -51,7 +51,7 @@ func (request BulkUpdateAttributeNotesRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request BulkUpdateAttributeNotesRequest) RetryPolicy() *common.RetryPolicy {
+func (request BulkUpdateAttributeNotesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

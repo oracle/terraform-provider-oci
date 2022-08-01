@@ -64,7 +64,7 @@ func (request PurgeStorageDataRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request PurgeStorageDataRequest) RetryPolicy() *common.RetryPolicy {
+func (request PurgeStorageDataRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

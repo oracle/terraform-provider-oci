@@ -34,7 +34,7 @@ type OCIRetryableRequest interface {
 	// Each operation specifies default retry behavior. By passing no arguments to this method, the default retry
 	// behavior, as determined on a per-operation-basis, will be honored. Variadic retry policy option arguments
 	// passed to this method will override the default behavior.
-	RetryPolicy() *RetryPolicy
+	RetryPolicy() OCIRetry
 }
 
 // OCIOperationResponse represents the output of an OCIOperation, with additional context of error message
@@ -133,6 +133,7 @@ func NewOCIOperationResponseExtended(response OCIResponse, err error, attempt ui
 // RetryPolicy
 //
 
+// RetryPolicy - DEPRECATED : This is the old version of Retry Policy. Use the new structure in retryV2.go
 // RetryPolicy is the class that holds all relevant information for retrying operations.
 type RetryPolicy struct {
 	// MaximumNumberAttempts is the maximum number of times to retry a request. Zero indicates an unlimited
@@ -215,6 +216,45 @@ func (rp *RetryPolicy) validate() (success bool, err error) {
 	}
 
 	return true, nil
+}
+
+//ShouldContinueRetry is used in retry loop, this determines the retry count
+func (rp *RetryPolicy) ShouldContinueRetry(current uint) bool {
+	return rp.MaximumNumberAttempts == UnlimitedNumAttemptsValue || current <= rp.MaximumNumberAttempts
+}
+
+// Enabled is set to true for retry policy and set to false for NoRetryPolicy
+func (rp *RetryPolicy) Enabled() bool {
+	return true
+}
+
+// DeterminePolicyToUseV2 may modify the policy to handle eventual consistency; the return values are
+// the retry policy to use, the end of the eventually consistent time window, and the backoff scaling factor
+// If eventual consistency is not considered, this function should return the unmodified policy that was
+// provided as input, along with (*time.Time)(nil) (no time window), and 1.0 (unscaled backoff).
+func (rp *RetryPolicy) DeterminePolicyToUseV2() (OCIRetry, *time.Time, float64) {
+	policy, time, backoff := rp.DeterminePolicyToUse(*rp)
+	return &policy, time, backoff
+}
+
+// NextDurationV2 computes the duration to pause between operation retries.
+func (rp *RetryPolicy) NextDurationV2(r OCIOperationResponse) time.Duration {
+	return rp.NextDuration(r)
+}
+
+// ShouldRetryOperationV2 is the function that should be used for RetryPolicy.ShouldRetryOperation when
+// taking eventual consistency into account
+func (rp *RetryPolicy) ShouldRetryOperationV2(r OCIOperationResponse) bool {
+	return rp.ShouldRetryOperation(r)
+}
+
+//ShouldContinueRetryV2 is used in retry loop, this determines the retry count
+func (rp *RetryPolicy) ShouldContinueRetryV2(current uint) bool {
+	return rp.ShouldContinueRetry(current)
+}
+
+// SetRetry sets the ShouldRetryOperation for ComplexRetryPolicy
+func (rp *RetryPolicy) SetRetry(retryFunc func(r OCIOperationResponse) bool) {
 }
 
 // GetMaximumCumulativeBackoffWithoutJitter returns the maximum cumulative backoff the retry policy would do,
@@ -371,10 +411,8 @@ func DefaultShouldRetryOperation(r OCIOperationResponse) bool {
 // It will also retry on errors affected by eventual consistency.
 // The eventual consistency retry behavior is using exponential backoff with jitter, the maximum wait time is 45s plus 1s jitter
 // Under eventual consistency, the maximum cumulative backoff after all 9 attempts have been made is about 4 minutes.
-func DefaultRetryPolicy() RetryPolicy {
-	return NewRetryPolicyWithOptions(
-		ReplaceWithValuesFromRetryPolicy(DefaultRetryPolicyWithoutEventualConsistency()),
-		WithEventualConsistency())
+func DefaultRetryPolicy() OCIRetry {
+	return DefaultComplexRetryPolicyV2()
 }
 
 // DefaultRetryPolicyWithoutEventualConsistency is a helper method that assembles and returns a return policy that is defined to be a default one
@@ -787,7 +825,7 @@ func determinePolicyToUse(policy RetryPolicy) (RetryPolicy, *time.Time, float64)
 }
 
 // Retry is a package-level operation that executes the retryable request using the specified operation and retry policy.
-func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperation, policy RetryPolicy) (OCIResponse, error) {
+func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperation, policy OCIRetry) (OCIResponse, error) {
 	type retrierResult struct {
 		response OCIResponse
 		err      error
@@ -825,7 +863,7 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 		if rsc != nil && rsc.rc != nil {
 			defer rsc.rc.Close()
 		}
-		if policy.MaximumNumberAttempts != uint(1) {
+		if policy.ShouldContinueRetryV2(1) {
 			if rsc.Seekable() {
 				isSeekable = true
 				curPos, _ = rsc.Seek(0, io.SeekCurrent)
@@ -834,20 +872,20 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 
 		// this determines which policy to use, when the eventual consistency window ends, and what the backoff
 		// scaling factor should be
-		policyToUse, endOfWindowTime, backoffScalingFactor := policy.DeterminePolicyToUse(policy)
+		policyToUse, endOfWindowTime, backoffScalingFactor := policy.DeterminePolicyToUseV2()
 		Debugln(fmt.Sprintf("Retry policy to use: %v", policyToUse))
 		retryStartTime := time.Now()
 
 		extraHeaders := make(map[string]string)
 
-		if policy.MaximumNumberAttempts == 1 {
+		if policy.ShouldContinueRetryV2(1) {
 			extraHeaders[requestHeaderOpcClientRetries] = "false"
 		} else {
 			extraHeaders[requestHeaderOpcClientRetries] = "true"
 		}
 
 		// use a one-based counter because it's easier to think about operation retry in terms of attempt numbering
-		for currentOperationAttempt := uint(1); shouldContinueIssuingRequests(currentOperationAttempt, policyToUse.MaximumNumberAttempts); currentOperationAttempt++ {
+		for currentOperationAttempt := uint(1); policyToUse.ShouldContinueRetryV2(currentOperationAttempt); currentOperationAttempt++ {
 			Debugln(fmt.Sprintf("operation attempt #%v", currentOperationAttempt))
 			// rewind body once needed
 			if isSeekable {
@@ -858,7 +896,7 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 
 			operationResponse := NewOCIOperationResponseExtended(response, err, currentOperationAttempt, endOfWindowTime, backoffScalingFactor, initialAttemptTime)
 
-			if !policyToUse.ShouldRetryOperation(operationResponse) {
+			if !policyToUse.ShouldRetryOperationV2(operationResponse) {
 				// we should NOT retry operation based on response and/or error => return
 				retrierChannel <- retrierResult{response, err}
 				Debugln(fmt.Sprintf("Http Status Code: %v. Not Matching retry policy", operationResponse.Response.HTTPResponse().StatusCode))
@@ -870,7 +908,7 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 				return
 			}
 
-			duration := policyToUse.NextDuration(operationResponse)
+			duration := policyToUse.NextDurationV2(operationResponse)
 			//The following condition is kept for backwards compatibility reasons
 			if deadline, ok := ctx.Deadline(); ok && EcContext.timeNowProvider().Add(duration).After(deadline) {
 				// we want to retry the operation, but the policy is telling us to wait for a duration that exceeds

@@ -49,7 +49,7 @@ func (request GetHeatWaveClusterMemoryEstimateRequest) BinaryRequestBody() (*com
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetHeatWaveClusterMemoryEstimateRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetHeatWaveClusterMemoryEstimateRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

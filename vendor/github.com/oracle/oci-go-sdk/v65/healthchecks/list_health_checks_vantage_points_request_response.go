@@ -64,7 +64,7 @@ func (request ListHealthChecksVantagePointsRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListHealthChecksVantagePointsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListHealthChecksVantagePointsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

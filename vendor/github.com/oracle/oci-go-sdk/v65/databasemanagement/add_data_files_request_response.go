@@ -60,7 +60,7 @@ func (request AddDataFilesRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddDataFilesRequest) RetryPolicy() *common.RetryPolicy {
+func (request AddDataFilesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

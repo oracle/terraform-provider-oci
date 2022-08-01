@@ -115,7 +115,7 @@ func (request ListHostConfigurationsRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListHostConfigurationsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListHostConfigurationsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

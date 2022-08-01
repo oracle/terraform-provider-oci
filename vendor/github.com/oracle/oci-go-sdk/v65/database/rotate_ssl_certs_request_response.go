@@ -59,7 +59,7 @@ func (request RotateSslCertsRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RotateSslCertsRequest) RetryPolicy() *common.RetryPolicy {
+func (request RotateSslCertsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

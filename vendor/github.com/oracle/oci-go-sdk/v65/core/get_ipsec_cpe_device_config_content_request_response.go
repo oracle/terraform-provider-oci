@@ -49,7 +49,7 @@ func (request GetIpsecCpeDeviceConfigContentRequest) BinaryRequestBody() (*commo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetIpsecCpeDeviceConfigContentRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetIpsecCpeDeviceConfigContentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

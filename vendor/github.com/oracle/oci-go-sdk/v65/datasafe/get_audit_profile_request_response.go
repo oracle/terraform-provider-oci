@@ -47,7 +47,7 @@ func (request GetAuditProfileRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetAuditProfileRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetAuditProfileRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

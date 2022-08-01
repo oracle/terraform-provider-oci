@@ -45,7 +45,7 @@ func (request GetAllowedIkeIPSecParametersRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetAllowedIkeIPSecParametersRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetAllowedIkeIPSecParametersRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

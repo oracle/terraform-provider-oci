@@ -57,7 +57,7 @@ func (request EnableDataSafeConfigurationRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request EnableDataSafeConfigurationRequest) RetryPolicy() *common.RetryPolicy {
+func (request EnableDataSafeConfigurationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -57,7 +57,7 @@ func (request CreateAlertRuleRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateAlertRuleRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateAlertRuleRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

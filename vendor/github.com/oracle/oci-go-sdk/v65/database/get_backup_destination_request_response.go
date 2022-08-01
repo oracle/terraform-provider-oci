@@ -47,7 +47,7 @@ func (request GetBackupDestinationRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetBackupDestinationRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetBackupDestinationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

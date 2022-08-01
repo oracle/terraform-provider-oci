@@ -61,7 +61,7 @@ func (request GetExecuteOperationJobRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetExecuteOperationJobRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetExecuteOperationJobRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -62,7 +62,7 @@ func (request RemoveVirtualMachineFromVmClusterRequest) BinaryRequestBody() (*co
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveVirtualMachineFromVmClusterRequest) RetryPolicy() *common.RetryPolicy {
+func (request RemoveVirtualMachineFromVmClusterRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

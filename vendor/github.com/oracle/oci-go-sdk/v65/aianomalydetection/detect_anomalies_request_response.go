@@ -69,7 +69,7 @@ func (request DetectAnomaliesRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DetectAnomaliesRequest) RetryPolicy() *common.RetryPolicy {
+func (request DetectAnomaliesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

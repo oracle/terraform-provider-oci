@@ -53,7 +53,7 @@ func (request DeletePathAnalyzerTestRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeletePathAnalyzerTestRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeletePathAnalyzerTestRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -47,7 +47,7 @@ func (request GetAutonomousDatabaseBackupRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetAutonomousDatabaseBackupRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetAutonomousDatabaseBackupRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

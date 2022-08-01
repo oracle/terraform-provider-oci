@@ -59,7 +59,7 @@ func (request ListCrossconnectPortSpeedShapesRequest) BinaryRequestBody() (*comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListCrossconnectPortSpeedShapesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListCrossconnectPortSpeedShapesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -65,7 +65,7 @@ func (request RotateChannelKeysRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RotateChannelKeysRequest) RetryPolicy() *common.RetryPolicy {
+func (request RotateChannelKeysRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

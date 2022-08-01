@@ -51,7 +51,7 @@ func (request GetComputeGlobalImageCapabilitySchemaVersionRequest) BinaryRequest
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetComputeGlobalImageCapabilitySchemaVersionRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetComputeGlobalImageCapabilitySchemaVersionRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

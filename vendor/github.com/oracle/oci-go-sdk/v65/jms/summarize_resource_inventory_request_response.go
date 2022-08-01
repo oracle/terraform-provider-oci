@@ -53,7 +53,7 @@ func (request SummarizeResourceInventoryRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SummarizeResourceInventoryRequest) RetryPolicy() *common.RetryPolicy {
+func (request SummarizeResourceInventoryRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

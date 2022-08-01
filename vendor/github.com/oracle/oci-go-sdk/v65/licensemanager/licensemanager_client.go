@@ -91,12 +91,13 @@ func (client *LicenseManagerClient) ConfigurationProvider() *common.Configuratio
 // A default retry strategy applies to this operation BulkUploadLicenseRecords()
 func (client LicenseManagerClient) BulkUploadLicenseRecords(ctx context.Context, request BulkUploadLicenseRecordsRequest) (response BulkUploadLicenseRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.bulkUploadLicenseRecords, policy)
 	if err != nil {
@@ -132,7 +133,7 @@ func (client LicenseManagerClient) bulkUploadLicenseRecords(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/BulkUploadLicenseRecordsDetails/BulkUploadLicenseRecords"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "BulkUploadLicenseRecords", apiReferenceLink)
 		return response, err
 	}
@@ -145,12 +146,13 @@ func (client LicenseManagerClient) bulkUploadLicenseRecords(ctx context.Context,
 // A default retry strategy applies to this operation CreateLicenseRecord()
 func (client LicenseManagerClient) CreateLicenseRecord(ctx context.Context, request CreateLicenseRecordRequest) (response CreateLicenseRecordResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -191,7 +193,7 @@ func (client LicenseManagerClient) createLicenseRecord(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/LicenseRecord/CreateLicenseRecord"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "CreateLicenseRecord", apiReferenceLink)
 		return response, err
 	}
@@ -204,12 +206,13 @@ func (client LicenseManagerClient) createLicenseRecord(ctx context.Context, requ
 // A default retry strategy applies to this operation CreateProductLicense()
 func (client LicenseManagerClient) CreateProductLicense(ctx context.Context, request CreateProductLicenseRequest) (response CreateProductLicenseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -250,7 +253,7 @@ func (client LicenseManagerClient) createProductLicense(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/ProductLicense/CreateProductLicense"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "CreateProductLicense", apiReferenceLink)
 		return response, err
 	}
@@ -263,12 +266,13 @@ func (client LicenseManagerClient) createProductLicense(ctx context.Context, req
 // A default retry strategy applies to this operation DeleteLicenseRecord()
 func (client LicenseManagerClient) DeleteLicenseRecord(ctx context.Context, request DeleteLicenseRecordRequest) (response DeleteLicenseRecordResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteLicenseRecord, policy)
 	if err != nil {
@@ -304,7 +308,7 @@ func (client LicenseManagerClient) deleteLicenseRecord(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/LicenseRecord/DeleteLicenseRecord"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "DeleteLicenseRecord", apiReferenceLink)
 		return response, err
 	}
@@ -317,12 +321,13 @@ func (client LicenseManagerClient) deleteLicenseRecord(ctx context.Context, requ
 // A default retry strategy applies to this operation DeleteProductLicense()
 func (client LicenseManagerClient) DeleteProductLicense(ctx context.Context, request DeleteProductLicenseRequest) (response DeleteProductLicenseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteProductLicense, policy)
 	if err != nil {
@@ -358,7 +363,7 @@ func (client LicenseManagerClient) deleteProductLicense(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/ProductLicense/DeleteProductLicense"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "DeleteProductLicense", apiReferenceLink)
 		return response, err
 	}
@@ -371,12 +376,13 @@ func (client LicenseManagerClient) deleteProductLicense(ctx context.Context, req
 // A default retry strategy applies to this operation GetBulkUploadTemplate()
 func (client LicenseManagerClient) GetBulkUploadTemplate(ctx context.Context, request GetBulkUploadTemplateRequest) (response GetBulkUploadTemplateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBulkUploadTemplate, policy)
 	if err != nil {
@@ -412,7 +418,7 @@ func (client LicenseManagerClient) getBulkUploadTemplate(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/BulkUploadTemplate/GetBulkUploadTemplate"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "GetBulkUploadTemplate", apiReferenceLink)
 		return response, err
 	}
@@ -425,12 +431,13 @@ func (client LicenseManagerClient) getBulkUploadTemplate(ctx context.Context, re
 // A default retry strategy applies to this operation GetConfiguration()
 func (client LicenseManagerClient) GetConfiguration(ctx context.Context, request GetConfigurationRequest) (response GetConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getConfiguration, policy)
 	if err != nil {
@@ -466,7 +473,7 @@ func (client LicenseManagerClient) getConfiguration(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/Configuration/GetConfiguration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "GetConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -479,12 +486,13 @@ func (client LicenseManagerClient) getConfiguration(ctx context.Context, request
 // A default retry strategy applies to this operation GetLicenseMetric()
 func (client LicenseManagerClient) GetLicenseMetric(ctx context.Context, request GetLicenseMetricRequest) (response GetLicenseMetricResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getLicenseMetric, policy)
 	if err != nil {
@@ -520,7 +528,7 @@ func (client LicenseManagerClient) getLicenseMetric(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/LicenseMetric/GetLicenseMetric"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "GetLicenseMetric", apiReferenceLink)
 		return response, err
 	}
@@ -533,12 +541,13 @@ func (client LicenseManagerClient) getLicenseMetric(ctx context.Context, request
 // A default retry strategy applies to this operation GetLicenseRecord()
 func (client LicenseManagerClient) GetLicenseRecord(ctx context.Context, request GetLicenseRecordRequest) (response GetLicenseRecordResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getLicenseRecord, policy)
 	if err != nil {
@@ -574,7 +583,7 @@ func (client LicenseManagerClient) getLicenseRecord(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/LicenseRecord/GetLicenseRecord"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "GetLicenseRecord", apiReferenceLink)
 		return response, err
 	}
@@ -587,12 +596,13 @@ func (client LicenseManagerClient) getLicenseRecord(ctx context.Context, request
 // A default retry strategy applies to this operation GetProductLicense()
 func (client LicenseManagerClient) GetProductLicense(ctx context.Context, request GetProductLicenseRequest) (response GetProductLicenseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getProductLicense, policy)
 	if err != nil {
@@ -628,7 +638,7 @@ func (client LicenseManagerClient) getProductLicense(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/ProductLicense/GetProductLicense"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "GetProductLicense", apiReferenceLink)
 		return response, err
 	}
@@ -641,12 +651,13 @@ func (client LicenseManagerClient) getProductLicense(ctx context.Context, reques
 // A default retry strategy applies to this operation ListLicenseRecords()
 func (client LicenseManagerClient) ListLicenseRecords(ctx context.Context, request ListLicenseRecordsRequest) (response ListLicenseRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listLicenseRecords, policy)
 	if err != nil {
@@ -682,7 +693,7 @@ func (client LicenseManagerClient) listLicenseRecords(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/LicenseRecordCollection/ListLicenseRecords"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "ListLicenseRecords", apiReferenceLink)
 		return response, err
 	}
@@ -695,12 +706,13 @@ func (client LicenseManagerClient) listLicenseRecords(ctx context.Context, reque
 // A default retry strategy applies to this operation ListProductLicenseConsumers()
 func (client LicenseManagerClient) ListProductLicenseConsumers(ctx context.Context, request ListProductLicenseConsumersRequest) (response ListProductLicenseConsumersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listProductLicenseConsumers, policy)
 	if err != nil {
@@ -736,7 +748,7 @@ func (client LicenseManagerClient) listProductLicenseConsumers(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/ProductLicenseConsumerCollection/ListProductLicenseConsumers"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "ListProductLicenseConsumers", apiReferenceLink)
 		return response, err
 	}
@@ -749,12 +761,13 @@ func (client LicenseManagerClient) listProductLicenseConsumers(ctx context.Conte
 // A default retry strategy applies to this operation ListProductLicenses()
 func (client LicenseManagerClient) ListProductLicenses(ctx context.Context, request ListProductLicensesRequest) (response ListProductLicensesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listProductLicenses, policy)
 	if err != nil {
@@ -790,7 +803,7 @@ func (client LicenseManagerClient) listProductLicenses(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/ProductLicenseCollection/ListProductLicenses"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "ListProductLicenses", apiReferenceLink)
 		return response, err
 	}
@@ -803,12 +816,13 @@ func (client LicenseManagerClient) listProductLicenses(ctx context.Context, requ
 // A default retry strategy applies to this operation ListTopUtilizedProductLicenses()
 func (client LicenseManagerClient) ListTopUtilizedProductLicenses(ctx context.Context, request ListTopUtilizedProductLicensesRequest) (response ListTopUtilizedProductLicensesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTopUtilizedProductLicenses, policy)
 	if err != nil {
@@ -844,7 +858,7 @@ func (client LicenseManagerClient) listTopUtilizedProductLicenses(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/TopUtilizedProductLicenseCollection/ListTopUtilizedProductLicenses"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "ListTopUtilizedProductLicenses", apiReferenceLink)
 		return response, err
 	}
@@ -857,12 +871,13 @@ func (client LicenseManagerClient) listTopUtilizedProductLicenses(ctx context.Co
 // A default retry strategy applies to this operation ListTopUtilizedResources()
 func (client LicenseManagerClient) ListTopUtilizedResources(ctx context.Context, request ListTopUtilizedResourcesRequest) (response ListTopUtilizedResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTopUtilizedResources, policy)
 	if err != nil {
@@ -898,7 +913,7 @@ func (client LicenseManagerClient) listTopUtilizedResources(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/TopUtilizedResourceCollection/ListTopUtilizedResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "ListTopUtilizedResources", apiReferenceLink)
 		return response, err
 	}
@@ -911,12 +926,13 @@ func (client LicenseManagerClient) listTopUtilizedResources(ctx context.Context,
 // A default retry strategy applies to this operation UpdateConfiguration()
 func (client LicenseManagerClient) UpdateConfiguration(ctx context.Context, request UpdateConfigurationRequest) (response UpdateConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateConfiguration, policy)
 	if err != nil {
@@ -952,7 +968,7 @@ func (client LicenseManagerClient) updateConfiguration(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/Configuration/UpdateConfiguration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "UpdateConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -965,12 +981,13 @@ func (client LicenseManagerClient) updateConfiguration(ctx context.Context, requ
 // A default retry strategy applies to this operation UpdateLicenseRecord()
 func (client LicenseManagerClient) UpdateLicenseRecord(ctx context.Context, request UpdateLicenseRecordRequest) (response UpdateLicenseRecordResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateLicenseRecord, policy)
 	if err != nil {
@@ -1006,7 +1023,7 @@ func (client LicenseManagerClient) updateLicenseRecord(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/LicenseRecord/UpdateLicenseRecord"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "UpdateLicenseRecord", apiReferenceLink)
 		return response, err
 	}
@@ -1019,12 +1036,13 @@ func (client LicenseManagerClient) updateLicenseRecord(ctx context.Context, requ
 // A default retry strategy applies to this operation UpdateProductLicense()
 func (client LicenseManagerClient) UpdateProductLicense(ctx context.Context, request UpdateProductLicenseRequest) (response UpdateProductLicenseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateProductLicense, policy)
 	if err != nil {
@@ -1060,7 +1078,7 @@ func (client LicenseManagerClient) updateProductLicense(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/ProductLicense/UpdateProductLicense"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LicenseManager", "UpdateProductLicense", apiReferenceLink)
 		return response, err
 	}

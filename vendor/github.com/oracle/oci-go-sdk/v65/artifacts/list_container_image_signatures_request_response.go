@@ -107,7 +107,7 @@ func (request ListContainerImageSignaturesRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListContainerImageSignaturesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListContainerImageSignaturesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

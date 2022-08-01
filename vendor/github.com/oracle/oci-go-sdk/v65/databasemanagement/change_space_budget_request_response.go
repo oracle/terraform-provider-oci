@@ -50,7 +50,7 @@ func (request ChangeSpaceBudgetRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeSpaceBudgetRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangeSpaceBudgetRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -63,7 +63,7 @@ func (request AttachDavRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AttachDavRequest) RetryPolicy() *common.RetryPolicy {
+func (request AttachDavRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

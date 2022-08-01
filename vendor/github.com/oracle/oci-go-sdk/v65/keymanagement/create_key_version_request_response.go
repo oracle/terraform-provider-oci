@@ -57,7 +57,7 @@ func (request CreateKeyVersionRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateKeyVersionRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateKeyVersionRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

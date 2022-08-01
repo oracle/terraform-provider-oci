@@ -53,7 +53,7 @@ func (request DeleteInternetGatewayRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteInternetGatewayRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteInternetGatewayRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

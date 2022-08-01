@@ -85,7 +85,7 @@ func (request GetAwrDbSqlReportRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetAwrDbSqlReportRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetAwrDbSqlReportRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

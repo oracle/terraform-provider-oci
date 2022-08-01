@@ -68,7 +68,7 @@ func (request ListTopUtilizedResourcesRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListTopUtilizedResourcesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListTopUtilizedResourcesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

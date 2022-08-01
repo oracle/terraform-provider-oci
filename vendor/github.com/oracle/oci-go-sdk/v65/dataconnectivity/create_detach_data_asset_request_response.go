@@ -63,7 +63,7 @@ func (request CreateDetachDataAssetRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateDetachDataAssetRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateDetachDataAssetRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -62,7 +62,7 @@ func (request ConfigureAutonomousDatabaseVaultKeyRequest) BinaryRequestBody() (*
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ConfigureAutonomousDatabaseVaultKeyRequest) RetryPolicy() *common.RetryPolicy {
+func (request ConfigureAutonomousDatabaseVaultKeyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

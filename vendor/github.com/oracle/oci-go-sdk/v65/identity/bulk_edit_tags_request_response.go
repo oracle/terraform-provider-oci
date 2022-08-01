@@ -55,7 +55,7 @@ func (request BulkEditTagsRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request BulkEditTagsRequest) RetryPolicy() *common.RetryPolicy {
+func (request BulkEditTagsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

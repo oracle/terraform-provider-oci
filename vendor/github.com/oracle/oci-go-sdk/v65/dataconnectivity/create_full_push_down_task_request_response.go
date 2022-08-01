@@ -63,7 +63,7 @@ func (request CreateFullPushDownTaskRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateFullPushDownTaskRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateFullPushDownTaskRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

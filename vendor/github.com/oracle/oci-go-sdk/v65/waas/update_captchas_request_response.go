@@ -57,7 +57,7 @@ func (request UpdateCaptchasRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateCaptchasRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateCaptchasRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

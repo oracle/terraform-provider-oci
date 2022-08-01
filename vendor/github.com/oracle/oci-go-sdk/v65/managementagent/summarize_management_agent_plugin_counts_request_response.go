@@ -53,7 +53,7 @@ func (request SummarizeManagementAgentPluginCountsRequest) BinaryRequestBody() (
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SummarizeManagementAgentPluginCountsRequest) RetryPolicy() *common.RetryPolicy {
+func (request SummarizeManagementAgentPluginCountsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

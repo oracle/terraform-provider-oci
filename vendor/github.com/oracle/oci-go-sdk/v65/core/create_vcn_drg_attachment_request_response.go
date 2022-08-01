@@ -55,7 +55,7 @@ func (request CreateVcnDrgAttachmentRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateVcnDrgAttachmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateVcnDrgAttachmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

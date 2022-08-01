@@ -91,12 +91,13 @@ func (client *FileStorageClient) ConfigurationProvider() *common.ConfigurationPr
 // ChangeFileSystemCompartment Moves a file system and its associated snapshots into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
 func (client FileStorageClient) ChangeFileSystemCompartment(ctx context.Context, request ChangeFileSystemCompartmentRequest) (response ChangeFileSystemCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeFileSystemCompartment, policy)
 	if err != nil {
@@ -144,12 +145,13 @@ func (client FileStorageClient) changeFileSystemCompartment(ctx context.Context,
 // ChangeFilesystemSnapshotPolicyCompartment Moves a Filesystem Snapshot Policy into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
 func (client FileStorageClient) ChangeFilesystemSnapshotPolicyCompartment(ctx context.Context, request ChangeFilesystemSnapshotPolicyCompartmentRequest) (response ChangeFilesystemSnapshotPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeFilesystemSnapshotPolicyCompartment, policy)
 	if err != nil {
@@ -197,12 +199,13 @@ func (client FileStorageClient) changeFilesystemSnapshotPolicyCompartment(ctx co
 // ChangeMountTargetCompartment Moves a mount target and its associated export set into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
 func (client FileStorageClient) ChangeMountTargetCompartment(ctx context.Context, request ChangeMountTargetCompartmentRequest) (response ChangeMountTargetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeMountTargetCompartment, policy)
 	if err != nil {
@@ -252,12 +255,13 @@ func (client FileStorageClient) changeMountTargetCompartment(ctx context.Context
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
 func (client FileStorageClient) ChangeOutboundConnectorCompartment(ctx context.Context, request ChangeOutboundConnectorCompartmentRequest) (response ChangeOutboundConnectorCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeOutboundConnectorCompartment, policy)
 	if err != nil {
@@ -306,12 +310,13 @@ func (client FileStorageClient) changeOutboundConnectorCompartment(ctx context.C
 // For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
 func (client FileStorageClient) ChangeReplicationCompartment(ctx context.Context, request ChangeReplicationCompartmentRequest) (response ChangeReplicationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeReplicationCompartment, policy)
 	if err != nil {
@@ -360,12 +365,13 @@ func (client FileStorageClient) changeReplicationCompartment(ctx context.Context
 // To be used internal only.
 func (client FileStorageClient) ChangeReplicationTargetCompartment(ctx context.Context, request ChangeReplicationTargetCompartmentRequest) (response ChangeReplicationTargetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeReplicationTargetCompartment, policy)
 	if err != nil {
@@ -413,12 +419,13 @@ func (client FileStorageClient) changeReplicationTargetCompartment(ctx context.C
 // CheckReconciliation Check if provided provenance id is present in source FS.
 func (client FileStorageClient) CheckReconciliation(ctx context.Context, request CheckReconciliationRequest) (response CheckReconciliationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.checkReconciliation, policy)
 	if err != nil {
@@ -467,12 +474,13 @@ func (client FileStorageClient) checkReconciliation(ctx context.Context, request
 // file system.
 func (client FileStorageClient) CreateExport(ctx context.Context, request CreateExportRequest) (response CreateExportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -548,12 +556,13 @@ func (client FileStorageClient) createExport(ctx context.Context, request common
 // type or by viewing the resource in the Console.
 func (client FileStorageClient) CreateFileSystem(ctx context.Context, request CreateFileSystemRequest) (response CreateFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -609,12 +618,13 @@ func (client FileStorageClient) createFileSystem(ctx context.Context, request co
 // filesystems.
 func (client FileStorageClient) CreateFilesystemSnapshotPolicy(ctx context.Context, request CreateFilesystemSnapshotPolicyRequest) (response CreateFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -694,12 +704,13 @@ func (client FileStorageClient) createFilesystemSnapshotPolicy(ctx context.Conte
 // type, or by viewing the resource in the Console.
 func (client FileStorageClient) CreateMountTarget(ctx context.Context, request CreateMountTargetRequest) (response CreateMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -768,12 +779,13 @@ func (client FileStorageClient) createMountTarget(ctx context.Context, request c
 // type, or by viewing the resource in the Console.
 func (client FileStorageClient) CreateOutboundConnector(ctx context.Context, request CreateOutboundConnectorRequest) (response CreateOutboundConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -849,12 +861,13 @@ func (client FileStorageClient) createOutboundConnector(ctx context.Context, req
 // type, or by viewing the resource in the Console.
 func (client FileStorageClient) CreateReplication(ctx context.Context, request CreateReplicationRequest) (response CreateReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -908,12 +921,13 @@ func (client FileStorageClient) createReplication(ctx context.Context, request c
 // To be used for internal only purposes.
 func (client FileStorageClient) CreateReplicationTarget(ctx context.Context, request CreateReplicationTargetRequest) (response CreateReplicationTargetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -967,12 +981,13 @@ func (client FileStorageClient) createReplicationTarget(ctx context.Context, req
 // file system.
 func (client FileStorageClient) CreateShare(ctx context.Context, request CreateShareRequest) (response CreateShareResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1025,12 +1040,13 @@ func (client FileStorageClient) createShare(ctx context.Context, request common.
 // CreateShareSet Creates a new share set in the specified mount target.
 func (client FileStorageClient) CreateShareSet(ctx context.Context, request CreateShareSetRequest) (response CreateShareSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1084,12 +1100,13 @@ func (client FileStorageClient) createShareSet(ctx context.Context, request comm
 // can access the snapshot at `.snapshot/<name>`.
 func (client FileStorageClient) CreateSnapshot(ctx context.Context, request CreateSnapshotRequest) (response CreateSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1142,12 +1159,13 @@ func (client FileStorageClient) createSnapshot(ctx context.Context, request comm
 // DeleteExport Deletes the specified export.
 func (client FileStorageClient) DeleteExport(ctx context.Context, request DeleteExportRequest) (response DeleteExportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteExport, policy)
 	if err != nil {
@@ -1197,12 +1215,13 @@ func (client FileStorageClient) deleteExport(ctx context.Context, request common
 // file system also deletes all of its snapshots.
 func (client FileStorageClient) DeleteFileSystem(ctx context.Context, request DeleteFileSystemRequest) (response DeleteFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteFileSystem, policy)
 	if err != nil {
@@ -1250,12 +1269,13 @@ func (client FileStorageClient) deleteFileSystem(ctx context.Context, request co
 // DeleteFilesystemSnapshotPolicy Deletes the specified Filesystem Snapshot Policy.
 func (client FileStorageClient) DeleteFilesystemSnapshotPolicy(ctx context.Context, request DeleteFilesystemSnapshotPolicyRequest) (response DeleteFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteFilesystemSnapshotPolicy, policy)
 	if err != nil {
@@ -1304,12 +1324,13 @@ func (client FileStorageClient) deleteFilesystemSnapshotPolicy(ctx context.Conte
 // mount target's VNICs.
 func (client FileStorageClient) DeleteMountTarget(ctx context.Context, request DeleteMountTargetRequest) (response DeleteMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteMountTarget, policy)
 	if err != nil {
@@ -1357,12 +1378,13 @@ func (client FileStorageClient) deleteMountTarget(ctx context.Context, request c
 // DeleteOutboundConnector Deletes the specified outbound connector.
 func (client FileStorageClient) DeleteOutboundConnector(ctx context.Context, request DeleteOutboundConnectorRequest) (response DeleteOutboundConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteOutboundConnector, policy)
 	if err != nil {
@@ -1410,12 +1432,13 @@ func (client FileStorageClient) deleteOutboundConnector(ctx context.Context, req
 // DeleteReplication Deletes the specified replication and the the associated replication target.
 func (client FileStorageClient) DeleteReplication(ctx context.Context, request DeleteReplicationRequest) (response DeleteReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteReplication, policy)
 	if err != nil {
@@ -1466,12 +1489,13 @@ func (client FileStorageClient) deleteReplication(ctx context.Context, request c
 // delta has been completely applied.
 func (client FileStorageClient) DeleteReplicationTarget(ctx context.Context, request DeleteReplicationTargetRequest) (response DeleteReplicationTargetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteReplicationTarget, policy)
 	if err != nil {
@@ -1519,12 +1543,13 @@ func (client FileStorageClient) deleteReplicationTarget(ctx context.Context, req
 // DeleteShare Deletes the specified share.
 func (client FileStorageClient) DeleteShare(ctx context.Context, request DeleteShareRequest) (response DeleteShareResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteShare, policy)
 	if err != nil {
@@ -1572,12 +1597,13 @@ func (client FileStorageClient) deleteShare(ctx context.Context, request common.
 // DeleteShareSet Deletes the specified share set.
 func (client FileStorageClient) DeleteShareSet(ctx context.Context, request DeleteShareSetRequest) (response DeleteShareSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteShareSet, policy)
 	if err != nil {
@@ -1625,12 +1651,13 @@ func (client FileStorageClient) deleteShareSet(ctx context.Context, request comm
 // DeleteSnapshot Deletes the specified snapshot.
 func (client FileStorageClient) DeleteSnapshot(ctx context.Context, request DeleteSnapshotRequest) (response DeleteSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteSnapshot, policy)
 	if err != nil {
@@ -1681,12 +1708,13 @@ func (client FileStorageClient) deleteSnapshot(ctx context.Context, request comm
 // will be rejected by the mount target. Other Kerberos configuration is unchanged.
 func (client FileStorageClient) DiscardKerberosKeytab(ctx context.Context, request DiscardKerberosKeytabRequest) (response DiscardKerberosKeytabResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.discardKerberosKeytab, policy)
 	if err != nil {
@@ -1734,12 +1762,13 @@ func (client FileStorageClient) discardKerberosKeytab(ctx context.Context, reque
 // EstimateReplication Provides estimates for replication created using specific file system.
 func (client FileStorageClient) EstimateReplication(ctx context.Context, request EstimateReplicationRequest) (response EstimateReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.estimateReplication, policy)
 	if err != nil {
@@ -1787,12 +1816,13 @@ func (client FileStorageClient) estimateReplication(ctx context.Context, request
 // FailoverMountTarget Execute a planned failover of the mount target.
 func (client FileStorageClient) FailoverMountTarget(ctx context.Context, request FailoverMountTargetRequest) (response FailoverMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.failoverMountTarget, policy)
 	if err != nil {
@@ -1840,12 +1870,13 @@ func (client FileStorageClient) failoverMountTarget(ctx context.Context, request
 // GetExport Gets the specified export's information.
 func (client FileStorageClient) GetExport(ctx context.Context, request GetExportRequest) (response GetExportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getExport, policy)
 	if err != nil {
@@ -1893,12 +1924,13 @@ func (client FileStorageClient) getExport(ctx context.Context, request common.OC
 // GetExportSet Gets the specified export set's information.
 func (client FileStorageClient) GetExportSet(ctx context.Context, request GetExportSetRequest) (response GetExportSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getExportSet, policy)
 	if err != nil {
@@ -1946,12 +1978,13 @@ func (client FileStorageClient) getExportSet(ctx context.Context, request common
 // GetFileSystem Gets the specified file system's information.
 func (client FileStorageClient) GetFileSystem(ctx context.Context, request GetFileSystemRequest) (response GetFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getFileSystem, policy)
 	if err != nil {
@@ -1999,12 +2032,13 @@ func (client FileStorageClient) getFileSystem(ctx context.Context, request commo
 // GetFilesystemSnapshotPolicy Gets the specified Filesystem Snapshot Policy's information.
 func (client FileStorageClient) GetFilesystemSnapshotPolicy(ctx context.Context, request GetFilesystemSnapshotPolicyRequest) (response GetFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getFilesystemSnapshotPolicy, policy)
 	if err != nil {
@@ -2052,12 +2086,13 @@ func (client FileStorageClient) getFilesystemSnapshotPolicy(ctx context.Context,
 // GetMountTarget Gets the specified mount target's information.
 func (client FileStorageClient) GetMountTarget(ctx context.Context, request GetMountTargetRequest) (response GetMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getMountTarget, policy)
 	if err != nil {
@@ -2105,12 +2140,13 @@ func (client FileStorageClient) getMountTarget(ctx context.Context, request comm
 // GetOutboundConnector Gets the specified outbound connector's information.
 func (client FileStorageClient) GetOutboundConnector(ctx context.Context, request GetOutboundConnectorRequest) (response GetOutboundConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getOutboundConnector, policy)
 	if err != nil {
@@ -2158,12 +2194,13 @@ func (client FileStorageClient) getOutboundConnector(ctx context.Context, reques
 // GetReplication Gets the specified replication's information.
 func (client FileStorageClient) GetReplication(ctx context.Context, request GetReplicationRequest) (response GetReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getReplication, policy)
 	if err != nil {
@@ -2211,12 +2248,13 @@ func (client FileStorageClient) getReplication(ctx context.Context, request comm
 // GetReplicationTarget Gets the specified replication target's information.
 func (client FileStorageClient) GetReplicationTarget(ctx context.Context, request GetReplicationTargetRequest) (response GetReplicationTargetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getReplicationTarget, policy)
 	if err != nil {
@@ -2264,12 +2302,13 @@ func (client FileStorageClient) getReplicationTarget(ctx context.Context, reques
 // GetReplicationTargetProgress Get ReplicationTarget's progress in a remote region.
 func (client FileStorageClient) GetReplicationTargetProgress(ctx context.Context, request GetReplicationTargetProgressRequest) (response GetReplicationTargetProgressResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getReplicationTargetProgress, policy)
 	if err != nil {
@@ -2317,12 +2356,13 @@ func (client FileStorageClient) getReplicationTargetProgress(ctx context.Context
 // GetShare Gets the specified share's information.
 func (client FileStorageClient) GetShare(ctx context.Context, request GetShareRequest) (response GetShareResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getShare, policy)
 	if err != nil {
@@ -2370,12 +2410,13 @@ func (client FileStorageClient) getShare(ctx context.Context, request common.OCI
 // GetShareSet Gets the specified share set's information.
 func (client FileStorageClient) GetShareSet(ctx context.Context, request GetShareSetRequest) (response GetShareSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getShareSet, policy)
 	if err != nil {
@@ -2423,12 +2464,13 @@ func (client FileStorageClient) getShareSet(ctx context.Context, request common.
 // GetSnapshot Gets the specified snapshot's information.
 func (client FileStorageClient) GetSnapshot(ctx context.Context, request GetSnapshotRequest) (response GetSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSnapshot, policy)
 	if err != nil {
@@ -2476,12 +2518,13 @@ func (client FileStorageClient) getSnapshot(ctx context.Context, request common.
 // GetTagSlug gets the tagSlug value for a resource.
 func (client FileStorageClient) GetTagSlug(ctx context.Context, request GetTagSlugRequest) (response GetTagSlugResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTagSlug, policy)
 	if err != nil {
@@ -2529,12 +2572,13 @@ func (client FileStorageClient) getTagSlug(ctx context.Context, request common.O
 // ListExportSets Lists the export set resources in the specified compartment.
 func (client FileStorageClient) ListExportSets(ctx context.Context, request ListExportSetsRequest) (response ListExportSetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listExportSets, policy)
 	if err != nil {
@@ -2584,12 +2628,13 @@ func (client FileStorageClient) listExportSets(ctx context.Context, request comm
 // / or a compartment ID.
 func (client FileStorageClient) ListExports(ctx context.Context, request ListExportsRequest) (response ListExportsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listExports, policy)
 	if err != nil {
@@ -2638,12 +2683,13 @@ func (client FileStorageClient) listExports(ctx context.Context, request common.
 // filesystem snapshot policy.
 func (client FileStorageClient) ListFileSystems(ctx context.Context, request ListFileSystemsRequest) (response ListFileSystemsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listFileSystems, policy)
 	if err != nil {
@@ -2691,12 +2737,13 @@ func (client FileStorageClient) listFileSystems(ctx context.Context, request com
 // ListFilesystemSnapshotPolicies Lists Filesystem Snapshot Policies in the specified compartment.
 func (client FileStorageClient) ListFilesystemSnapshotPolicies(ctx context.Context, request ListFilesystemSnapshotPoliciesRequest) (response ListFilesystemSnapshotPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listFilesystemSnapshotPolicies, policy)
 	if err != nil {
@@ -2744,12 +2791,13 @@ func (client FileStorageClient) listFilesystemSnapshotPolicies(ctx context.Conte
 // ListMountTargets Lists the mount target resources in the specified compartment.
 func (client FileStorageClient) ListMountTargets(ctx context.Context, request ListMountTargetsRequest) (response ListMountTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listMountTargets, policy)
 	if err != nil {
@@ -2813,12 +2861,13 @@ func (m *listoutboundconnectorsummary) UnmarshalPolymorphicJSON(data []byte) (in
 // ListOutboundConnectors Lists the outbound connector resources in the specified compartment.
 func (client FileStorageClient) ListOutboundConnectors(ctx context.Context, request ListOutboundConnectorsRequest) (response ListOutboundConnectorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listOutboundConnectors, policy)
 	if err != nil {
@@ -2866,12 +2915,13 @@ func (client FileStorageClient) listOutboundConnectors(ctx context.Context, requ
 // ListReplicationTargets Lists the replication target resources in the specified compartment.
 func (client FileStorageClient) ListReplicationTargets(ctx context.Context, request ListReplicationTargetsRequest) (response ListReplicationTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listReplicationTargets, policy)
 	if err != nil {
@@ -2919,12 +2969,13 @@ func (client FileStorageClient) listReplicationTargets(ctx context.Context, requ
 // ListReplications Lists the replication resources in the specified compartment.
 func (client FileStorageClient) ListReplications(ctx context.Context, request ListReplicationsRequest) (response ListReplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listReplications, policy)
 	if err != nil {
@@ -2972,12 +3023,13 @@ func (client FileStorageClient) listReplications(ctx context.Context, request co
 // ListShareSets Lists the share set resources in the specified compartment.
 func (client FileStorageClient) ListShareSets(ctx context.Context, request ListShareSetsRequest) (response ListShareSetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listShareSets, policy)
 	if err != nil {
@@ -3027,12 +3079,13 @@ func (client FileStorageClient) listShareSets(ctx context.Context, request commo
 // / or a compartment ID.
 func (client FileStorageClient) ListShares(ctx context.Context, request ListSharesRequest) (response ListSharesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listShares, policy)
 	if err != nil {
@@ -3082,12 +3135,13 @@ func (client FileStorageClient) listShares(ctx context.Context, request common.O
 // If file system ID is not specified, a filesystem snapshot policy ID and compartment ID have to be specified.
 func (client FileStorageClient) ListSnapshots(ctx context.Context, request ListSnapshotsRequest) (response ListSnapshotsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSnapshots, policy)
 	if err != nil {
@@ -3135,12 +3189,13 @@ func (client FileStorageClient) listSnapshots(ctx context.Context, request commo
 // ModifyRootdirAttributes Allows the administrator to alter the attributes of the file system root directory.
 func (client FileStorageClient) ModifyRootdirAttributes(ctx context.Context, request ModifyRootdirAttributesRequest) (response ModifyRootdirAttributesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.modifyRootdirAttributes, policy)
 	if err != nil {
@@ -3193,12 +3248,13 @@ func (client FileStorageClient) modifyRootdirAttributes(ctx context.Context, req
 // policy would not have scheduled snapshot creation and deletion.
 func (client FileStorageClient) PauseFilesystemSnapshotPolicy(ctx context.Context, request PauseFilesystemSnapshotPolicyRequest) (response PauseFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.pauseFilesystemSnapshotPolicy, policy)
 	if err != nil {
@@ -3246,12 +3302,13 @@ func (client FileStorageClient) pauseFilesystemSnapshotPolicy(ctx context.Contex
 // ReplicationFail Update Replication to FAILED state in a remote region. This API is called as part of Replication Lifecycle Management.
 func (client FileStorageClient) ReplicationFail(ctx context.Context, request ReplicationFailRequest) (response ReplicationFailResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.replicationFail, policy)
 	if err != nil {
@@ -3299,12 +3356,13 @@ func (client FileStorageClient) replicationFail(ctx context.Context, request com
 // ReplicationStatusUpdate Update Replication Status of Replication in a remote region. This API is called as part of Replication Lifecycle Management.
 func (client FileStorageClient) ReplicationStatusUpdate(ctx context.Context, request ReplicationStatusUpdateRequest) (response ReplicationStatusUpdateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.replicationStatusUpdate, policy)
 	if err != nil {
@@ -3352,12 +3410,13 @@ func (client FileStorageClient) replicationStatusUpdate(ctx context.Context, req
 // ReplicationTargetDelete Delete ReplicationTarget in a remote region. This API is called as part of Replication Lifecycle Management.
 func (client FileStorageClient) ReplicationTargetDelete(ctx context.Context, request ReplicationTargetDeleteRequest) (response ReplicationTargetDeleteResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.replicationTargetDelete, policy)
 	if err != nil {
@@ -3405,12 +3464,13 @@ func (client FileStorageClient) replicationTargetDelete(ctx context.Context, req
 // ReplicationTargetFail Update ReplicationTarget to FAILED state in a remote region. This API is called as part of Replication Lifecycle Management.
 func (client FileStorageClient) ReplicationTargetFail(ctx context.Context, request ReplicationTargetFailRequest) (response ReplicationTargetFailResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.replicationTargetFail, policy)
 	if err != nil {
@@ -3458,12 +3518,13 @@ func (client FileStorageClient) replicationTargetFail(ctx context.Context, reque
 // ReplicationTargetFileSystemGet Get Target Filesystem in a remote region.
 func (client FileStorageClient) ReplicationTargetFileSystemGet(ctx context.Context, request ReplicationTargetFileSystemGetRequest) (response ReplicationTargetFileSystemGetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.replicationTargetFileSystemGet, policy)
 	if err != nil {
@@ -3511,12 +3572,13 @@ func (client FileStorageClient) replicationTargetFileSystemGet(ctx context.Conte
 // ReplicationTargetGet Gets the specified replication target's information.
 func (client FileStorageClient) ReplicationTargetGet(ctx context.Context, request ReplicationTargetGetRequest) (response ReplicationTargetGetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.replicationTargetGet, policy)
 	if err != nil {
@@ -3564,12 +3626,13 @@ func (client FileStorageClient) replicationTargetGet(ctx context.Context, reques
 // ReplicationTargetStatusUpdate Update Replication Status of ReplicationTarget in a remote region. This API is called as part of Replication Lifecycle Management.
 func (client FileStorageClient) ReplicationTargetStatusUpdate(ctx context.Context, request ReplicationTargetStatusUpdateRequest) (response ReplicationTargetStatusUpdateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.replicationTargetStatusUpdate, policy)
 	if err != nil {
@@ -3617,12 +3680,13 @@ func (client FileStorageClient) replicationTargetStatusUpdate(ctx context.Contex
 // ReserveTargetNum Reserve ReplicationTarget num in a remote region. This API is called as part of Create Replication.
 func (client FileStorageClient) ReserveTargetNum(ctx context.Context, request ReserveTargetNumRequest) (response ReserveTargetNumResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.reserveTargetNum, policy)
 	if err != nil {
@@ -3670,12 +3734,13 @@ func (client FileStorageClient) reserveTargetNum(ctx context.Context, request co
 // RestartStuckDelta Restarts a failed delta job for the specified replication id.
 func (client FileStorageClient) RestartStuckDelta(ctx context.Context, request RestartStuckDeltaRequest) (response RestartStuckDeltaResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.restartStuckDelta, policy)
 	if err != nil {
@@ -3723,12 +3788,13 @@ func (client FileStorageClient) restartStuckDelta(ctx context.Context, request c
 // ShareSetJoinDomain Execute a join domian of the mount target share set to a domain controller for SMB access.
 func (client FileStorageClient) ShareSetJoinDomain(ctx context.Context, request ShareSetJoinDomainRequest) (response ShareSetJoinDomainResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.shareSetJoinDomain, policy)
 	if err != nil {
@@ -3776,12 +3842,13 @@ func (client FileStorageClient) shareSetJoinDomain(ctx context.Context, request 
 // SourceTriggeredDelete Notify target region that a delete replication request has been received in source. This API will be part of Delete Replication
 func (client FileStorageClient) SourceTriggeredDelete(ctx context.Context, request SourceTriggeredDeleteRequest) (response SourceTriggeredDeleteResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.sourceTriggeredDelete, policy)
 	if err != nil {
@@ -3829,12 +3896,13 @@ func (client FileStorageClient) sourceTriggeredDelete(ctx context.Context, reque
 // StartLoggingMt Notifies FSS to enable logging for the Mount Target resource.
 func (client FileStorageClient) StartLoggingMt(ctx context.Context, request StartLoggingMtRequest) (response StartLoggingMtResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -3887,12 +3955,13 @@ func (client FileStorageClient) startLoggingMt(ctx context.Context, request comm
 // StopLoggingMt Disable logging to the log object.
 func (client FileStorageClient) StopLoggingMt(ctx context.Context, request StopLoggingMtRequest) (response StopLoggingMtResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -3945,12 +4014,13 @@ func (client FileStorageClient) stopLoggingMt(ctx context.Context, request commo
 // StopMountTargetRebalancing Stops auto rebalancing of mount targets.
 func (client FileStorageClient) StopMountTargetRebalancing(ctx context.Context, request StopMountTargetRebalancingRequest) (response StopMountTargetRebalancingResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.stopMountTargetRebalancing, policy)
 	if err != nil {
@@ -3998,12 +4068,13 @@ func (client FileStorageClient) stopMountTargetRebalancing(ctx context.Context, 
 // TargetFileSystemGet Get Target Filesystem in a remote region.
 func (client FileStorageClient) TargetFileSystemGet(ctx context.Context, request TargetFileSystemGetRequest) (response TargetFileSystemGetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.targetFileSystemGet, policy)
 	if err != nil {
@@ -4051,12 +4122,13 @@ func (client FileStorageClient) targetFileSystemGet(ctx context.Context, request
 // TestOutboundConnector Runs diagnostic test from the specified mount target to server endpoints in the specified outbound connector.
 func (client FileStorageClient) TestOutboundConnector(ctx context.Context, request TestOutboundConnectorRequest) (response TestOutboundConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.testOutboundConnector, policy)
 	if err != nil {
@@ -4109,12 +4181,13 @@ func (client FileStorageClient) testOutboundConnector(ctx context.Context, reque
 // policy will have snapshots created / deleted, according to the schedules defined in the policy.
 func (client FileStorageClient) UnpauseFilesystemSnapshotPolicy(ctx context.Context, request UnpauseFilesystemSnapshotPolicyRequest) (response UnpauseFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.unpauseFilesystemSnapshotPolicy, policy)
 	if err != nil {
@@ -4162,12 +4235,13 @@ func (client FileStorageClient) unpauseFilesystemSnapshotPolicy(ctx context.Cont
 // UpdateExport Updates the specified export's information.
 func (client FileStorageClient) UpdateExport(ctx context.Context, request UpdateExportRequest) (response UpdateExportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateExport, policy)
 	if err != nil {
@@ -4215,12 +4289,13 @@ func (client FileStorageClient) updateExport(ctx context.Context, request common
 // UpdateExportSet Updates the specified export set's information.
 func (client FileStorageClient) UpdateExportSet(ctx context.Context, request UpdateExportSetRequest) (response UpdateExportSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateExportSet, policy)
 	if err != nil {
@@ -4269,12 +4344,13 @@ func (client FileStorageClient) updateExportSet(ctx context.Context, request com
 // You can use this operation to rename a file system.
 func (client FileStorageClient) UpdateFileSystem(ctx context.Context, request UpdateFileSystemRequest) (response UpdateFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateFileSystem, policy)
 	if err != nil {
@@ -4322,12 +4398,13 @@ func (client FileStorageClient) updateFileSystem(ctx context.Context, request co
 // UpdateFilesystemSnapshotPolicy Updates the specified Filesystem Snapshot Policy's information.
 func (client FileStorageClient) UpdateFilesystemSnapshotPolicy(ctx context.Context, request UpdateFilesystemSnapshotPolicyRequest) (response UpdateFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateFilesystemSnapshotPolicy, policy)
 	if err != nil {
@@ -4375,12 +4452,13 @@ func (client FileStorageClient) updateFilesystemSnapshotPolicy(ctx context.Conte
 // UpdateLoggingMt Updates category parameters in the logging for Mount Target resource.
 func (client FileStorageClient) UpdateLoggingMt(ctx context.Context, request UpdateLoggingMtRequest) (response UpdateLoggingMtResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -4433,12 +4511,13 @@ func (client FileStorageClient) updateLoggingMt(ctx context.Context, request com
 // UpdateMountTarget Updates the specified mount target's information.
 func (client FileStorageClient) UpdateMountTarget(ctx context.Context, request UpdateMountTargetRequest) (response UpdateMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateMountTarget, policy)
 	if err != nil {
@@ -4486,12 +4565,13 @@ func (client FileStorageClient) updateMountTarget(ctx context.Context, request c
 // UpdateOutboundConnector Updates the specified outbound connector's information.
 func (client FileStorageClient) UpdateOutboundConnector(ctx context.Context, request UpdateOutboundConnectorRequest) (response UpdateOutboundConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateOutboundConnector, policy)
 	if err != nil {
@@ -4539,12 +4619,13 @@ func (client FileStorageClient) updateOutboundConnector(ctx context.Context, req
 // UpdateReplication Updates the information for the specified replication and its associated replication target.
 func (client FileStorageClient) UpdateReplication(ctx context.Context, request UpdateReplicationRequest) (response UpdateReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateReplication, policy)
 	if err != nil {
@@ -4593,12 +4674,13 @@ func (client FileStorageClient) updateReplication(ctx context.Context, request c
 // To be used internal only.
 func (client FileStorageClient) UpdateReplicationTarget(ctx context.Context, request UpdateReplicationTargetRequest) (response UpdateReplicationTargetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateReplicationTarget, policy)
 	if err != nil {
@@ -4646,12 +4728,13 @@ func (client FileStorageClient) updateReplicationTarget(ctx context.Context, req
 // UpdateShare Updates the specified share's information.
 func (client FileStorageClient) UpdateShare(ctx context.Context, request UpdateShareRequest) (response UpdateShareResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateShare, policy)
 	if err != nil {
@@ -4699,12 +4782,13 @@ func (client FileStorageClient) updateShare(ctx context.Context, request common.
 // UpdateShareSet Updates the specified share set's information.
 func (client FileStorageClient) UpdateShareSet(ctx context.Context, request UpdateShareSetRequest) (response UpdateShareSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateShareSet, policy)
 	if err != nil {
@@ -4752,12 +4836,13 @@ func (client FileStorageClient) updateShareSet(ctx context.Context, request comm
 // UpdateSnapshot Updates the specified snapshot's information.
 func (client FileStorageClient) UpdateSnapshot(ctx context.Context, request UpdateSnapshotRequest) (response UpdateSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateSnapshot, policy)
 	if err != nil {
@@ -4805,12 +4890,13 @@ func (client FileStorageClient) updateSnapshot(ctx context.Context, request comm
 // UploadKerberosKeytab Uploads keytab file to the mount target for use in the data path.
 func (client FileStorageClient) UploadKerberosKeytab(ctx context.Context, request UploadKerberosKeytabRequest) (response UploadKerberosKeytabResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.uploadKerberosKeytab, policy)
 	if err != nil {
@@ -4860,12 +4946,13 @@ func (client FileStorageClient) uploadKerberosKeytab(ctx context.Context, reques
 // and the principal, key version number and encryption type of each entry is provided as part of the response.
 func (client FileStorageClient) ValidateKeyTabs(ctx context.Context, request ValidateKeyTabsRequest) (response ValidateKeyTabsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.validateKeyTabs, policy)
 	if err != nil {

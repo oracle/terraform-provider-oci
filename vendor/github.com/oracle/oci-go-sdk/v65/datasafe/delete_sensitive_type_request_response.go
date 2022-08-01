@@ -54,7 +54,7 @@ func (request DeleteSensitiveTypeRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteSensitiveTypeRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteSensitiveTypeRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

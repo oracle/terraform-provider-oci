@@ -57,7 +57,7 @@ func (request DeleteDataFlowValidationRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteDataFlowValidationRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteDataFlowValidationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

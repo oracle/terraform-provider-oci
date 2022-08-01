@@ -49,7 +49,7 @@ func (request GetTemplateLogoRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetTemplateLogoRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetTemplateLogoRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

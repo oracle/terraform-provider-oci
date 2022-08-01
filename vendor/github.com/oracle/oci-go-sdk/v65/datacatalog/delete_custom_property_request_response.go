@@ -60,7 +60,7 @@ func (request DeleteCustomPropertyRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteCustomPropertyRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteCustomPropertyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

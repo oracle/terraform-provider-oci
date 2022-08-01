@@ -63,7 +63,7 @@ func (request ChangePeComanagedDatabaseInsightRequest) BinaryRequestBody() (*com
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangePeComanagedDatabaseInsightRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangePeComanagedDatabaseInsightRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

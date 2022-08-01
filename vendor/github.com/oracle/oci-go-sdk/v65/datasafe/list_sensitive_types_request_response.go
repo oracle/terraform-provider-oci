@@ -104,7 +104,7 @@ func (request ListSensitiveTypesRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListSensitiveTypesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListSensitiveTypesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

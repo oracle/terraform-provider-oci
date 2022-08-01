@@ -92,12 +92,13 @@ func (client *SubscribersClient) ConfigurationProvider() *common.ConfigurationPr
 // ChangeSubscriberCompartment Changes the subscriber compartment.
 func (client SubscribersClient) ChangeSubscriberCompartment(ctx context.Context, request ChangeSubscriberCompartmentRequest) (response ChangeSubscriberCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -151,12 +152,13 @@ func (client SubscribersClient) changeSubscriberCompartment(ctx context.Context,
 // A default retry strategy applies to this operation CreateSubscriber()
 func (client SubscribersClient) CreateSubscriber(ctx context.Context, request CreateSubscriberRequest) (response CreateSubscriberResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -209,12 +211,13 @@ func (client SubscribersClient) createSubscriber(ctx context.Context, request co
 // DeleteSubscriber Deletes the subscriber with the given identifier.
 func (client SubscribersClient) DeleteSubscriber(ctx context.Context, request DeleteSubscriberRequest) (response DeleteSubscriberResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteSubscriber, policy)
 	if err != nil {
@@ -263,12 +266,13 @@ func (client SubscribersClient) deleteSubscriber(ctx context.Context, request co
 // A default retry strategy applies to this operation GetSubscriber()
 func (client SubscribersClient) GetSubscriber(ctx context.Context, request GetSubscriberRequest) (response GetSubscriberResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSubscriber, policy)
 	if err != nil {
@@ -317,12 +321,13 @@ func (client SubscribersClient) getSubscriber(ctx context.Context, request commo
 // A default retry strategy applies to this operation ListSubscribers()
 func (client SubscribersClient) ListSubscribers(ctx context.Context, request ListSubscribersRequest) (response ListSubscribersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSubscribers, policy)
 	if err != nil {
@@ -370,12 +375,13 @@ func (client SubscribersClient) listSubscribers(ctx context.Context, request com
 // UpdateSubscriber Updates the subscriber with the given identifier.
 func (client SubscribersClient) UpdateSubscriber(ctx context.Context, request UpdateSubscriberRequest) (response UpdateSubscriberResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateSubscriber, policy)
 	if err != nil {

@@ -61,7 +61,7 @@ func (request AggregateNetworkDataRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AggregateNetworkDataRequest) RetryPolicy() *common.RetryPolicy {
+func (request AggregateNetworkDataRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

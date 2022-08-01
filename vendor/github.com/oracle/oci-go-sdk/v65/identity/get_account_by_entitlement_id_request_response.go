@@ -51,7 +51,7 @@ func (request GetAccountByEntitlementIdRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetAccountByEntitlementIdRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetAccountByEntitlementIdRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

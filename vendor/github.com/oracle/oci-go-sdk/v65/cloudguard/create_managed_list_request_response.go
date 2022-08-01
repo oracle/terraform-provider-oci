@@ -54,7 +54,7 @@ func (request CreateManagedListRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateManagedListRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateManagedListRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

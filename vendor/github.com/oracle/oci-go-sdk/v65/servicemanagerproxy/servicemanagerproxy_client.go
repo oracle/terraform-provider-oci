@@ -91,12 +91,13 @@ func (client *ServiceManagerProxyClient) ConfigurationProvider() *common.Configu
 // GetServiceEnvironment Get the detailed information for a specific service environment.
 func (client ServiceManagerProxyClient) GetServiceEnvironment(ctx context.Context, request GetServiceEnvironmentRequest) (response GetServiceEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getServiceEnvironment, policy)
 	if err != nil {
@@ -145,12 +146,13 @@ func (client ServiceManagerProxyClient) getServiceEnvironment(ctx context.Contex
 // Information includes the service instance endpoints and service definition details.
 func (client ServiceManagerProxyClient) ListServiceEnvironments(ctx context.Context, request ListServiceEnvironmentsRequest) (response ListServiceEnvironmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listServiceEnvironments, policy)
 	if err != nil {

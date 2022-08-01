@@ -55,7 +55,7 @@ func (request DeleteEsxiHostRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteEsxiHostRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteEsxiHostRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

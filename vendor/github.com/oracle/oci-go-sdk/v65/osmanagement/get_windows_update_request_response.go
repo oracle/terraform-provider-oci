@@ -47,7 +47,7 @@ func (request GetWindowsUpdateRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetWindowsUpdateRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetWindowsUpdateRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

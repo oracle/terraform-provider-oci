@@ -82,7 +82,7 @@ func (request ListDhcpOptionsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListDhcpOptionsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListDhcpOptionsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -59,7 +59,7 @@ func (request RotateAutonomousContainerDatabaseEncryptionKeyRequest) BinaryReque
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RotateAutonomousContainerDatabaseEncryptionKeyRequest) RetryPolicy() *common.RetryPolicy {
+func (request RotateAutonomousContainerDatabaseEncryptionKeyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

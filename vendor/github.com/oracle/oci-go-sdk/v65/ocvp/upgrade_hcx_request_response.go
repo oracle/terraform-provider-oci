@@ -62,7 +62,7 @@ func (request UpgradeHcxRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpgradeHcxRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpgradeHcxRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

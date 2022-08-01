@@ -90,12 +90,13 @@ func (client *CertificatesManagementClient) ConfigurationProvider() *common.Conf
 // CancelCertificateAuthorityDeletion Cancels the scheduled deletion of the specified certificate authority (CA).
 func (client CertificatesManagementClient) CancelCertificateAuthorityDeletion(ctx context.Context, request CancelCertificateAuthorityDeletionRequest) (response CancelCertificateAuthorityDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.cancelCertificateAuthorityDeletion, policy)
 	if err != nil {
@@ -145,12 +146,13 @@ func (client CertificatesManagementClient) cancelCertificateAuthorityDeletion(ct
 // it was before its scheduled deletion.
 func (client CertificatesManagementClient) CancelCertificateAuthorityVersionDeletion(ctx context.Context, request CancelCertificateAuthorityVersionDeletionRequest) (response CancelCertificateAuthorityVersionDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.cancelCertificateAuthorityVersionDeletion, policy)
 	if err != nil {
@@ -200,12 +202,13 @@ func (client CertificatesManagementClient) cancelCertificateAuthorityVersionDele
 // it was before you scheduled the certificate for deletion.
 func (client CertificatesManagementClient) CancelCertificateDeletion(ctx context.Context, request CancelCertificateDeletionRequest) (response CancelCertificateDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.cancelCertificateDeletion, policy)
 	if err != nil {
@@ -253,12 +256,13 @@ func (client CertificatesManagementClient) cancelCertificateDeletion(ctx context
 // CancelCertificateVersionDeletion Cancels the scheduled deletion of the specified certificate version.
 func (client CertificatesManagementClient) CancelCertificateVersionDeletion(ctx context.Context, request CancelCertificateVersionDeletionRequest) (response CancelCertificateVersionDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.cancelCertificateVersionDeletion, policy)
 	if err != nil {
@@ -308,12 +312,13 @@ func (client CertificatesManagementClient) cancelCertificateVersionDeletion(ctx 
 // When provided, if-match is checked against the ETag values of the secret.
 func (client CertificatesManagementClient) ChangeCaBundleCompartment(ctx context.Context, request ChangeCaBundleCompartmentRequest) (response ChangeCaBundleCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -368,12 +373,13 @@ func (client CertificatesManagementClient) changeCaBundleCompartment(ctx context
 // When provided, If-Match is checked against the ETag values of the source.
 func (client CertificatesManagementClient) ChangeCertificateAuthorityCompartment(ctx context.Context, request ChangeCertificateAuthorityCompartmentRequest) (response ChangeCertificateAuthorityCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -428,12 +434,13 @@ func (client CertificatesManagementClient) changeCertificateAuthorityCompartment
 // When provided, if-match is checked against the ETag values of the secret.
 func (client CertificatesManagementClient) ChangeCertificateCompartment(ctx context.Context, request ChangeCertificateCompartmentRequest) (response ChangeCertificateCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -486,12 +493,13 @@ func (client CertificatesManagementClient) changeCertificateCompartment(ctx cont
 // CreateCaBundle Creates a new CA bundle according to the details of the request.
 func (client CertificatesManagementClient) CreateCaBundle(ctx context.Context, request CreateCaBundleRequest) (response CreateCaBundleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -544,12 +552,13 @@ func (client CertificatesManagementClient) createCaBundle(ctx context.Context, r
 // CreateCertificate Creates a new certificate according to the details of the request.
 func (client CertificatesManagementClient) CreateCertificate(ctx context.Context, request CreateCertificateRequest) (response CreateCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -602,12 +611,13 @@ func (client CertificatesManagementClient) createCertificate(ctx context.Context
 // CreateCertificateAuthority Creates a new certificate authority (CA) according to the details of the request.
 func (client CertificatesManagementClient) CreateCertificateAuthority(ctx context.Context, request CreateCertificateAuthorityRequest) (response CreateCertificateAuthorityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -660,12 +670,13 @@ func (client CertificatesManagementClient) createCertificateAuthority(ctx contex
 // DeleteCaBundle Deletes the specified CA bundle.
 func (client CertificatesManagementClient) DeleteCaBundle(ctx context.Context, request DeleteCaBundleRequest) (response DeleteCaBundleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteCaBundle, policy)
 	if err != nil {
@@ -713,12 +724,13 @@ func (client CertificatesManagementClient) deleteCaBundle(ctx context.Context, r
 // GetAssociation Gets details about the specified association.
 func (client CertificatesManagementClient) GetAssociation(ctx context.Context, request GetAssociationRequest) (response GetAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getAssociation, policy)
 	if err != nil {
@@ -766,12 +778,13 @@ func (client CertificatesManagementClient) getAssociation(ctx context.Context, r
 // GetCaBundle Gets details about the specified CA bundle.
 func (client CertificatesManagementClient) GetCaBundle(ctx context.Context, request GetCaBundleRequest) (response GetCaBundleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getCaBundle, policy)
 	if err != nil {
@@ -819,12 +832,13 @@ func (client CertificatesManagementClient) getCaBundle(ctx context.Context, requ
 // GetCertificate Gets details about the specified certificate.
 func (client CertificatesManagementClient) GetCertificate(ctx context.Context, request GetCertificateRequest) (response GetCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getCertificate, policy)
 	if err != nil {
@@ -872,12 +886,13 @@ func (client CertificatesManagementClient) getCertificate(ctx context.Context, r
 // GetCertificateAuthority Gets details about the specified certificate authority (CA).
 func (client CertificatesManagementClient) GetCertificateAuthority(ctx context.Context, request GetCertificateAuthorityRequest) (response GetCertificateAuthorityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getCertificateAuthority, policy)
 	if err != nil {
@@ -925,12 +940,13 @@ func (client CertificatesManagementClient) getCertificateAuthority(ctx context.C
 // GetCertificateAuthorityVersion Gets details about the specified certificate authority (CA) version.
 func (client CertificatesManagementClient) GetCertificateAuthorityVersion(ctx context.Context, request GetCertificateAuthorityVersionRequest) (response GetCertificateAuthorityVersionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getCertificateAuthorityVersion, policy)
 	if err != nil {
@@ -978,12 +994,13 @@ func (client CertificatesManagementClient) getCertificateAuthorityVersion(ctx co
 // GetCertificateVersion Gets details about the specified version of a certificate.
 func (client CertificatesManagementClient) GetCertificateVersion(ctx context.Context, request GetCertificateVersionRequest) (response GetCertificateVersionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getCertificateVersion, policy)
 	if err != nil {
@@ -1032,12 +1049,13 @@ func (client CertificatesManagementClient) getCertificateVersion(ctx context.Con
 // Optionally, you can use the parameter `FilterByAssociationIdQueryParam` to limit the result set to a single item that matches the specified association.
 func (client CertificatesManagementClient) ListAssociations(ctx context.Context, request ListAssociationsRequest) (response ListAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAssociations, policy)
 	if err != nil {
@@ -1086,12 +1104,13 @@ func (client CertificatesManagementClient) listAssociations(ctx context.Context,
 // Optionally, you can use the parameter `FilterByCaBundleIdQueryParam` to limit the result set to a single item that matches the specified CA bundle.
 func (client CertificatesManagementClient) ListCaBundles(ctx context.Context, request ListCaBundlesRequest) (response ListCaBundlesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listCaBundles, policy)
 	if err != nil {
@@ -1140,12 +1159,13 @@ func (client CertificatesManagementClient) listCaBundles(ctx context.Context, re
 // Optionally, you can use the parameter `FilterByCertificateAuthorityIdQueryParam` to limit the results to a single item that matches the specified CA.
 func (client CertificatesManagementClient) ListCertificateAuthorities(ctx context.Context, request ListCertificateAuthoritiesRequest) (response ListCertificateAuthoritiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listCertificateAuthorities, policy)
 	if err != nil {
@@ -1194,12 +1214,13 @@ func (client CertificatesManagementClient) listCertificateAuthorities(ctx contex
 // Optionally, you can use the parameter `FilterByVersionNumberQueryParam` to limit the results to a single item that matches the specified version number.
 func (client CertificatesManagementClient) ListCertificateAuthorityVersions(ctx context.Context, request ListCertificateAuthorityVersionsRequest) (response ListCertificateAuthorityVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listCertificateAuthorityVersions, policy)
 	if err != nil {
@@ -1248,12 +1269,13 @@ func (client CertificatesManagementClient) listCertificateAuthorityVersions(ctx 
 // Optionally, you can use the parameter `FilterByVersionNumberQueryParam` to limit the result set to a single item that matches the specified version number.
 func (client CertificatesManagementClient) ListCertificateVersions(ctx context.Context, request ListCertificateVersionsRequest) (response ListCertificateVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listCertificateVersions, policy)
 	if err != nil {
@@ -1302,12 +1324,13 @@ func (client CertificatesManagementClient) listCertificateVersions(ctx context.C
 // Optionally, you can use the parameter `FilterByCertificateIdQueryParam` to limit the result set to a single item that matches the specified certificate.
 func (client CertificatesManagementClient) ListCertificates(ctx context.Context, request ListCertificatesRequest) (response ListCertificatesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listCertificates, policy)
 	if err != nil {
@@ -1355,12 +1378,13 @@ func (client CertificatesManagementClient) listCertificates(ctx context.Context,
 // RevokeCertificateAuthorityVersion Revokes a certificate authority (CA) version.
 func (client CertificatesManagementClient) RevokeCertificateAuthorityVersion(ctx context.Context, request RevokeCertificateAuthorityVersionRequest) (response RevokeCertificateAuthorityVersionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1413,12 +1437,13 @@ func (client CertificatesManagementClient) revokeCertificateAuthorityVersion(ctx
 // RevokeCertificateVersion Revokes the specified certificate version.
 func (client CertificatesManagementClient) RevokeCertificateVersion(ctx context.Context, request RevokeCertificateVersionRequest) (response RevokeCertificateVersionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1471,12 +1496,13 @@ func (client CertificatesManagementClient) revokeCertificateVersion(ctx context.
 // ScheduleCertificateAuthorityDeletion Schedules the deletion of the specified certificate authority (CA). This sets the lifecycle state of the CA to `PENDING_DELETION` and then deletes it after the specified retention period ends. If needed, you can determine the status of the deletion by using `GetCertificateAuthority`.
 func (client CertificatesManagementClient) ScheduleCertificateAuthorityDeletion(ctx context.Context, request ScheduleCertificateAuthorityDeletionRequest) (response ScheduleCertificateAuthorityDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.scheduleCertificateAuthorityDeletion, policy)
 	if err != nil {
@@ -1526,12 +1552,13 @@ func (client CertificatesManagementClient) scheduleCertificateAuthorityDeletion(
 // and then deletes it after the specified retention period ends. If needed, you can determine the status of the deletion by using `GetCertificateAuthorityVersion`.
 func (client CertificatesManagementClient) ScheduleCertificateAuthorityVersionDeletion(ctx context.Context, request ScheduleCertificateAuthorityVersionDeletionRequest) (response ScheduleCertificateAuthorityVersionDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.scheduleCertificateAuthorityVersionDeletion, policy)
 	if err != nil {
@@ -1581,12 +1608,13 @@ func (client CertificatesManagementClient) scheduleCertificateAuthorityVersionDe
 // You can subsequently use `GetCertificate` to determine the current deletion status.
 func (client CertificatesManagementClient) ScheduleCertificateDeletion(ctx context.Context, request ScheduleCertificateDeletionRequest) (response ScheduleCertificateDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.scheduleCertificateDeletion, policy)
 	if err != nil {
@@ -1636,12 +1664,13 @@ func (client CertificatesManagementClient) scheduleCertificateDeletion(ctx conte
 // You can subsequently use `GetCertificateVersion` to determine the current certificate version deletion status.
 func (client CertificatesManagementClient) ScheduleCertificateVersionDeletion(ctx context.Context, request ScheduleCertificateVersionDeletionRequest) (response ScheduleCertificateVersionDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.scheduleCertificateVersionDeletion, policy)
 	if err != nil {
@@ -1689,12 +1718,13 @@ func (client CertificatesManagementClient) scheduleCertificateVersionDeletion(ct
 // UpdateCaBundle Updates the properties of a CA bundle.
 func (client CertificatesManagementClient) UpdateCaBundle(ctx context.Context, request UpdateCaBundleRequest) (response UpdateCaBundleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateCaBundle, policy)
 	if err != nil {
@@ -1742,12 +1772,13 @@ func (client CertificatesManagementClient) updateCaBundle(ctx context.Context, r
 // UpdateCertificate Updates the properties of a certificate.
 func (client CertificatesManagementClient) UpdateCertificate(ctx context.Context, request UpdateCertificateRequest) (response UpdateCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateCertificate, policy)
 	if err != nil {
@@ -1795,12 +1826,13 @@ func (client CertificatesManagementClient) updateCertificate(ctx context.Context
 // UpdateCertificateAuthority Updates the properties of the specified certificate authority (CA).
 func (client CertificatesManagementClient) UpdateCertificateAuthority(ctx context.Context, request UpdateCertificateAuthorityRequest) (response UpdateCertificateAuthorityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateCertificateAuthority, policy)
 	if err != nil {

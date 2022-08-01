@@ -62,7 +62,7 @@ func (request RegisterHealthCheckServiceInfraDpHostRequest) BinaryRequestBody() 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RegisterHealthCheckServiceInfraDpHostRequest) RetryPolicy() *common.RetryPolicy {
+func (request RegisterHealthCheckServiceInfraDpHostRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

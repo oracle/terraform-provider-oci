@@ -74,7 +74,7 @@ func (request GetDatabaseFleetHealthMetricsRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetDatabaseFleetHealthMetricsRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetDatabaseFleetHealthMetricsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

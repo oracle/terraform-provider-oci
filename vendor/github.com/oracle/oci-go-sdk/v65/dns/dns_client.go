@@ -94,12 +94,13 @@ func (client *DnsClient) ConfigurationProvider() *common.ConfigurationProvider {
 // A default retry strategy applies to this operation ChangeResolverCompartment()
 func (client DnsClient) ChangeResolverCompartment(ctx context.Context, request ChangeResolverCompartmentRequest) (response ChangeResolverCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -153,12 +154,13 @@ func (client DnsClient) changeResolverCompartment(ctx context.Context, request c
 // A default retry strategy applies to this operation ChangeSteeringPolicyCompartment()
 func (client DnsClient) ChangeSteeringPolicyCompartment(ctx context.Context, request ChangeSteeringPolicyCompartmentRequest) (response ChangeSteeringPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -212,12 +214,13 @@ func (client DnsClient) changeSteeringPolicyCompartment(ctx context.Context, req
 // A default retry strategy applies to this operation ChangeTsigKeyCompartment()
 func (client DnsClient) ChangeTsigKeyCompartment(ctx context.Context, request ChangeTsigKeyCompartmentRequest) (response ChangeTsigKeyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -272,12 +275,13 @@ func (client DnsClient) changeTsigKeyCompartment(ctx context.Context, request co
 // A default retry strategy applies to this operation ChangeViewCompartment()
 func (client DnsClient) ChangeViewCompartment(ctx context.Context, request ChangeViewCompartmentRequest) (response ChangeViewCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -336,12 +340,13 @@ func (client DnsClient) changeViewCompartment(ctx context.Context, request commo
 // A default retry strategy applies to this operation ChangeZoneCompartment()
 func (client DnsClient) ChangeZoneCompartment(ctx context.Context, request ChangeZoneCompartmentRequest) (response ChangeZoneCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -395,12 +400,13 @@ func (client DnsClient) changeZoneCompartment(ctx context.Context, request commo
 // A default retry strategy applies to this operation CreateResolverEndpoint()
 func (client DnsClient) CreateResolverEndpoint(ctx context.Context, request CreateResolverEndpointRequest) (response CreateResolverEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -455,12 +461,13 @@ func (client DnsClient) createResolverEndpoint(ctx context.Context, request comm
 // A default retry strategy applies to this operation CreateSteeringPolicy()
 func (client DnsClient) CreateSteeringPolicy(ctx context.Context, request CreateSteeringPolicyRequest) (response CreateSteeringPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -518,12 +525,13 @@ func (client DnsClient) createSteeringPolicy(ctx context.Context, request common
 // A default retry strategy applies to this operation CreateSteeringPolicyAttachment()
 func (client DnsClient) CreateSteeringPolicyAttachment(ctx context.Context, request CreateSteeringPolicyAttachmentRequest) (response CreateSteeringPolicyAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -578,12 +586,13 @@ func (client DnsClient) createSteeringPolicyAttachment(ctx context.Context, requ
 // A default retry strategy applies to this operation CreateTsigKey()
 func (client DnsClient) CreateTsigKey(ctx context.Context, request CreateTsigKeyRequest) (response CreateTsigKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createTsigKey, policy)
 	if err != nil {
@@ -632,12 +641,13 @@ func (client DnsClient) createTsigKey(ctx context.Context, request common.OCIReq
 // A default retry strategy applies to this operation CreateView()
 func (client DnsClient) CreateView(ctx context.Context, request CreateViewRequest) (response CreateViewResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -692,12 +702,13 @@ func (client DnsClient) createView(ctx context.Context, request common.OCIReques
 // within the default protected view of a VCN-dedicated resolver is not permitted.
 func (client DnsClient) CreateZone(ctx context.Context, request CreateZoneRequest) (response CreateZoneResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createZone, policy)
 	if err != nil {
@@ -745,12 +756,13 @@ func (client DnsClient) createZone(ctx context.Context, request common.OCIReques
 // CreateZoneFromZoneFile Creates a new zone from a zone file in the specified compartment. Not supported for private zones.
 func (client DnsClient) CreateZoneFromZoneFile(ctx context.Context, request CreateZoneFromZoneFileRequest) (response CreateZoneFromZoneFileResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createZoneFromZoneFile, policy)
 	if err != nil {
@@ -801,12 +813,13 @@ func (client DnsClient) createZoneFromZoneFile(ctx context.Context, request comm
 // A default retry strategy applies to this operation DeleteDomainRecords()
 func (client DnsClient) DeleteDomainRecords(ctx context.Context, request DeleteDomainRecordsRequest) (response DeleteDomainRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteDomainRecords, policy)
 	if err != nil {
@@ -857,12 +870,13 @@ func (client DnsClient) deleteDomainRecords(ctx context.Context, request common.
 // A default retry strategy applies to this operation DeleteRRSet()
 func (client DnsClient) DeleteRRSet(ctx context.Context, request DeleteRRSetRequest) (response DeleteRRSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteRRSet, policy)
 	if err != nil {
@@ -914,12 +928,13 @@ func (client DnsClient) deleteRRSet(ctx context.Context, request common.OCIReque
 // A default retry strategy applies to this operation DeleteResolverEndpoint()
 func (client DnsClient) DeleteResolverEndpoint(ctx context.Context, request DeleteResolverEndpointRequest) (response DeleteResolverEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteResolverEndpoint, policy)
 	if err != nil {
@@ -971,12 +986,13 @@ func (client DnsClient) deleteResolverEndpoint(ctx context.Context, request comm
 // A default retry strategy applies to this operation DeleteSteeringPolicy()
 func (client DnsClient) DeleteSteeringPolicy(ctx context.Context, request DeleteSteeringPolicyRequest) (response DeleteSteeringPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteSteeringPolicy, policy)
 	if err != nil {
@@ -1026,12 +1042,13 @@ func (client DnsClient) deleteSteeringPolicy(ctx context.Context, request common
 // A default retry strategy applies to this operation DeleteSteeringPolicyAttachment()
 func (client DnsClient) DeleteSteeringPolicyAttachment(ctx context.Context, request DeleteSteeringPolicyAttachmentRequest) (response DeleteSteeringPolicyAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteSteeringPolicyAttachment, policy)
 	if err != nil {
@@ -1080,12 +1097,13 @@ func (client DnsClient) deleteSteeringPolicyAttachment(ctx context.Context, requ
 // A default retry strategy applies to this operation DeleteTsigKey()
 func (client DnsClient) DeleteTsigKey(ctx context.Context, request DeleteTsigKeyRequest) (response DeleteTsigKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteTsigKey, policy)
 	if err != nil {
@@ -1138,12 +1156,13 @@ func (client DnsClient) deleteTsigKey(ctx context.Context, request common.OCIReq
 // A default retry strategy applies to this operation DeleteView()
 func (client DnsClient) DeleteView(ctx context.Context, request DeleteViewRequest) (response DeleteViewResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteView, policy)
 	if err != nil {
@@ -1194,12 +1213,13 @@ func (client DnsClient) deleteView(ctx context.Context, request common.OCIReques
 // then the viewId query parameter is required.
 func (client DnsClient) DeleteZone(ctx context.Context, request DeleteZoneRequest) (response DeleteZoneResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteZone, policy)
 	if err != nil {
@@ -1251,12 +1271,13 @@ func (client DnsClient) deleteZone(ctx context.Context, request common.OCIReques
 // A default retry strategy applies to this operation GetDomainRecords()
 func (client DnsClient) GetDomainRecords(ctx context.Context, request GetDomainRecordsRequest) (response GetDomainRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDomainRecords, policy)
 	if err != nil {
@@ -1307,12 +1328,13 @@ func (client DnsClient) getDomainRecords(ctx context.Context, request common.OCI
 // A default retry strategy applies to this operation GetRRSet()
 func (client DnsClient) GetRRSet(ctx context.Context, request GetRRSetRequest) (response GetRRSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getRRSet, policy)
 	if err != nil {
@@ -1363,12 +1385,13 @@ func (client DnsClient) getRRSet(ctx context.Context, request common.OCIRequest,
 // A default retry strategy applies to this operation GetResolver()
 func (client DnsClient) GetResolver(ctx context.Context, request GetResolverRequest) (response GetResolverResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getResolver, policy)
 	if err != nil {
@@ -1419,12 +1442,13 @@ func (client DnsClient) getResolver(ctx context.Context, request common.OCIReque
 // A default retry strategy applies to this operation GetResolverEndpoint()
 func (client DnsClient) GetResolverEndpoint(ctx context.Context, request GetResolverEndpointRequest) (response GetResolverEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getResolverEndpoint, policy)
 	if err != nil {
@@ -1473,12 +1497,13 @@ func (client DnsClient) getResolverEndpoint(ctx context.Context, request common.
 // A default retry strategy applies to this operation GetSteeringPolicy()
 func (client DnsClient) GetSteeringPolicy(ctx context.Context, request GetSteeringPolicyRequest) (response GetSteeringPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSteeringPolicy, policy)
 	if err != nil {
@@ -1527,12 +1552,13 @@ func (client DnsClient) getSteeringPolicy(ctx context.Context, request common.OC
 // A default retry strategy applies to this operation GetSteeringPolicyAttachment()
 func (client DnsClient) GetSteeringPolicyAttachment(ctx context.Context, request GetSteeringPolicyAttachmentRequest) (response GetSteeringPolicyAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSteeringPolicyAttachment, policy)
 	if err != nil {
@@ -1581,12 +1607,13 @@ func (client DnsClient) getSteeringPolicyAttachment(ctx context.Context, request
 // A default retry strategy applies to this operation GetTsigKey()
 func (client DnsClient) GetTsigKey(ctx context.Context, request GetTsigKeyRequest) (response GetTsigKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTsigKey, policy)
 	if err != nil {
@@ -1638,12 +1665,13 @@ func (client DnsClient) getTsigKey(ctx context.Context, request common.OCIReques
 // A default retry strategy applies to this operation GetView()
 func (client DnsClient) GetView(ctx context.Context, request GetViewRequest) (response GetViewResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getView, policy)
 	if err != nil {
@@ -1694,12 +1722,13 @@ func (client DnsClient) getView(ctx context.Context, request common.OCIRequest, 
 // A default retry strategy applies to this operation GetZone()
 func (client DnsClient) GetZone(ctx context.Context, request GetZoneRequest) (response GetZoneResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getZone, policy)
 	if err != nil {
@@ -1748,12 +1777,13 @@ func (client DnsClient) getZone(ctx context.Context, request common.OCIRequest, 
 // A default retry strategy applies to this operation GetZoneContent()
 func (client DnsClient) GetZoneContent(ctx context.Context, request GetZoneContentRequest) (response GetZoneContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getZoneContent, policy)
 	if err != nil {
@@ -1805,12 +1835,13 @@ func (client DnsClient) getZoneContent(ctx context.Context, request common.OCIRe
 // A default retry strategy applies to this operation GetZoneRecords()
 func (client DnsClient) GetZoneRecords(ctx context.Context, request GetZoneRecordsRequest) (response GetZoneRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getZoneRecords, policy)
 	if err != nil {
@@ -1878,12 +1909,13 @@ func (m *listresolverendpointsummary) UnmarshalPolymorphicJSON(data []byte) (int
 // A default retry strategy applies to this operation ListResolverEndpoints()
 func (client DnsClient) ListResolverEndpoints(ctx context.Context, request ListResolverEndpointsRequest) (response ListResolverEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listResolverEndpoints, policy)
 	if err != nil {
@@ -1936,12 +1968,13 @@ func (client DnsClient) listResolverEndpoints(ctx context.Context, request commo
 // A default retry strategy applies to this operation ListResolvers()
 func (client DnsClient) ListResolvers(ctx context.Context, request ListResolversRequest) (response ListResolversResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listResolvers, policy)
 	if err != nil {
@@ -1990,12 +2023,13 @@ func (client DnsClient) listResolvers(ctx context.Context, request common.OCIReq
 // A default retry strategy applies to this operation ListSteeringPolicies()
 func (client DnsClient) ListSteeringPolicies(ctx context.Context, request ListSteeringPoliciesRequest) (response ListSteeringPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSteeringPolicies, policy)
 	if err != nil {
@@ -2044,12 +2078,13 @@ func (client DnsClient) listSteeringPolicies(ctx context.Context, request common
 // A default retry strategy applies to this operation ListSteeringPolicyAttachments()
 func (client DnsClient) ListSteeringPolicyAttachments(ctx context.Context, request ListSteeringPolicyAttachmentsRequest) (response ListSteeringPolicyAttachmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSteeringPolicyAttachments, policy)
 	if err != nil {
@@ -2098,12 +2133,13 @@ func (client DnsClient) listSteeringPolicyAttachments(ctx context.Context, reque
 // A default retry strategy applies to this operation ListTsigKeys()
 func (client DnsClient) ListTsigKeys(ctx context.Context, request ListTsigKeysRequest) (response ListTsigKeysResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTsigKeys, policy)
 	if err != nil {
@@ -2156,12 +2192,13 @@ func (client DnsClient) listTsigKeys(ctx context.Context, request common.OCIRequ
 // A default retry strategy applies to this operation ListViews()
 func (client DnsClient) ListViews(ctx context.Context, request ListViewsRequest) (response ListViewsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listViews, policy)
 	if err != nil {
@@ -2212,12 +2249,13 @@ func (client DnsClient) listViews(ctx context.Context, request common.OCIRequest
 // A default retry strategy applies to this operation ListZoneTransferServers()
 func (client DnsClient) ListZoneTransferServers(ctx context.Context, request ListZoneTransferServersRequest) (response ListZoneTransferServersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listZoneTransferServers, policy)
 	if err != nil {
@@ -2268,12 +2306,13 @@ func (client DnsClient) listZoneTransferServers(ctx context.Context, request com
 // A default retry strategy applies to this operation ListZones()
 func (client DnsClient) ListZones(ctx context.Context, request ListZonesRequest) (response ListZonesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listZones, policy)
 	if err != nil {
@@ -2326,12 +2365,13 @@ func (client DnsClient) listZones(ctx context.Context, request common.OCIRequest
 // A default retry strategy applies to this operation PatchDomainRecords()
 func (client DnsClient) PatchDomainRecords(ctx context.Context, request PatchDomainRecordsRequest) (response PatchDomainRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.patchDomainRecords, policy)
 	if err != nil {
@@ -2382,12 +2422,13 @@ func (client DnsClient) patchDomainRecords(ctx context.Context, request common.O
 // A default retry strategy applies to this operation PatchRRSet()
 func (client DnsClient) PatchRRSet(ctx context.Context, request PatchRRSetRequest) (response PatchRRSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.patchRRSet, policy)
 	if err != nil {
@@ -2440,12 +2481,13 @@ func (client DnsClient) patchRRSet(ctx context.Context, request common.OCIReques
 // A default retry strategy applies to this operation PatchZoneRecords()
 func (client DnsClient) PatchZoneRecords(ctx context.Context, request PatchZoneRecordsRequest) (response PatchZoneRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.patchZoneRecords, policy)
 	if err != nil {
@@ -2503,12 +2545,13 @@ func (client DnsClient) patchZoneRecords(ctx context.Context, request common.OCI
 // A default retry strategy applies to this operation PromoteZoneDnssecKeyVersion()
 func (client DnsClient) PromoteZoneDnssecKeyVersion(ctx context.Context, request PromoteZoneDnssecKeyVersionRequest) (response PromoteZoneDnssecKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2569,12 +2612,13 @@ func (client DnsClient) promoteZoneDnssecKeyVersion(ctx context.Context, request
 // A default retry strategy applies to this operation StageZoneDnssecKeyVersion()
 func (client DnsClient) StageZoneDnssecKeyVersion(ctx context.Context, request StageZoneDnssecKeyVersionRequest) (response StageZoneDnssecKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2632,12 +2676,13 @@ func (client DnsClient) stageZoneDnssecKeyVersion(ctx context.Context, request c
 // A default retry strategy applies to this operation UpdateDomainRecords()
 func (client DnsClient) UpdateDomainRecords(ctx context.Context, request UpdateDomainRecordsRequest) (response UpdateDomainRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateDomainRecords, policy)
 	if err != nil {
@@ -2688,12 +2733,13 @@ func (client DnsClient) updateDomainRecords(ctx context.Context, request common.
 // A default retry strategy applies to this operation UpdateRRSet()
 func (client DnsClient) UpdateRRSet(ctx context.Context, request UpdateRRSetRequest) (response UpdateRRSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateRRSet, policy)
 	if err != nil {
@@ -2742,12 +2788,13 @@ func (client DnsClient) updateRRSet(ctx context.Context, request common.OCIReque
 // A default retry strategy applies to this operation UpdateResolver()
 func (client DnsClient) UpdateResolver(ctx context.Context, request UpdateResolverRequest) (response UpdateResolverResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateResolver, policy)
 	if err != nil {
@@ -2796,12 +2843,13 @@ func (client DnsClient) updateResolver(ctx context.Context, request common.OCIRe
 // A default retry strategy applies to this operation UpdateResolverEndpoint()
 func (client DnsClient) UpdateResolverEndpoint(ctx context.Context, request UpdateResolverEndpointRequest) (response UpdateResolverEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateResolverEndpoint, policy)
 	if err != nil {
@@ -2850,12 +2898,13 @@ func (client DnsClient) updateResolverEndpoint(ctx context.Context, request comm
 // A default retry strategy applies to this operation UpdateSteeringPolicy()
 func (client DnsClient) UpdateSteeringPolicy(ctx context.Context, request UpdateSteeringPolicyRequest) (response UpdateSteeringPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateSteeringPolicy, policy)
 	if err != nil {
@@ -2904,12 +2953,13 @@ func (client DnsClient) updateSteeringPolicy(ctx context.Context, request common
 // A default retry strategy applies to this operation UpdateSteeringPolicyAttachment()
 func (client DnsClient) UpdateSteeringPolicyAttachment(ctx context.Context, request UpdateSteeringPolicyAttachmentRequest) (response UpdateSteeringPolicyAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateSteeringPolicyAttachment, policy)
 	if err != nil {
@@ -2958,12 +3008,13 @@ func (client DnsClient) updateSteeringPolicyAttachment(ctx context.Context, requ
 // A default retry strategy applies to this operation UpdateTsigKey()
 func (client DnsClient) UpdateTsigKey(ctx context.Context, request UpdateTsigKeyRequest) (response UpdateTsigKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateTsigKey, policy)
 	if err != nil {
@@ -3012,12 +3063,13 @@ func (client DnsClient) updateTsigKey(ctx context.Context, request common.OCIReq
 // A default retry strategy applies to this operation UpdateView()
 func (client DnsClient) UpdateView(ctx context.Context, request UpdateViewRequest) (response UpdateViewResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateView, policy)
 	if err != nil {
@@ -3070,12 +3122,13 @@ func (client DnsClient) updateView(ctx context.Context, request common.OCIReques
 // A default retry strategy applies to this operation UpdateZone()
 func (client DnsClient) UpdateZone(ctx context.Context, request UpdateZoneRequest) (response UpdateZoneResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateZone, policy)
 	if err != nil {
@@ -3129,12 +3182,13 @@ func (client DnsClient) updateZone(ctx context.Context, request common.OCIReques
 // A default retry strategy applies to this operation UpdateZoneRecords()
 func (client DnsClient) UpdateZoneRecords(ctx context.Context, request UpdateZoneRecordsRequest) (response UpdateZoneRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateZoneRecords, policy)
 	if err != nil {

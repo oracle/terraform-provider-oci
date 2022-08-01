@@ -58,7 +58,7 @@ func (request BulkMoveResourcesRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request BulkMoveResourcesRequest) RetryPolicy() *common.RetryPolicy {
+func (request BulkMoveResourcesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

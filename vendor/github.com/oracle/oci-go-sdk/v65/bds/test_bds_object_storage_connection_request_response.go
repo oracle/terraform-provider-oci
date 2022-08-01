@@ -53,7 +53,7 @@ func (request TestBdsObjectStorageConnectionRequest) BinaryRequestBody() (*commo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request TestBdsObjectStorageConnectionRequest) RetryPolicy() *common.RetryPolicy {
+func (request TestBdsObjectStorageConnectionRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

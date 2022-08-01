@@ -82,7 +82,7 @@ func (request ListIngestTimeRulesRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListIngestTimeRulesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListIngestTimeRulesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

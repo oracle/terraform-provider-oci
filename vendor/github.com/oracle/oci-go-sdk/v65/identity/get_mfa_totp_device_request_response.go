@@ -51,7 +51,7 @@ func (request GetMfaTotpDeviceRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetMfaTotpDeviceRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetMfaTotpDeviceRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

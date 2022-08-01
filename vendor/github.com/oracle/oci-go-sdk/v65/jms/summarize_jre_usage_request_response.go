@@ -96,7 +96,7 @@ func (request SummarizeJreUsageRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SummarizeJreUsageRequest) RetryPolicy() *common.RetryPolicy {
+func (request SummarizeJreUsageRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

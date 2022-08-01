@@ -54,7 +54,7 @@ func (request DeleteVbInstanceRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteVbInstanceRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteVbInstanceRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

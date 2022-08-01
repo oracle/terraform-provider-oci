@@ -57,7 +57,7 @@ func (request RunHistoricAddmRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RunHistoricAddmRequest) RetryPolicy() *common.RetryPolicy {
+func (request RunHistoricAddmRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

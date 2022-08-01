@@ -57,7 +57,7 @@ func (request PatchSensitiveColumnsRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request PatchSensitiveColumnsRequest) RetryPolicy() *common.RetryPolicy {
+func (request PatchSensitiveColumnsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

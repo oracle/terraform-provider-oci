@@ -57,7 +57,7 @@ func (request GetColumnNamesRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetColumnNamesRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetColumnNamesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

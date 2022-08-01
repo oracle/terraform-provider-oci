@@ -64,7 +64,7 @@ func (request RemoveCloudSqlRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveCloudSqlRequest) RetryPolicy() *common.RetryPolicy {
+func (request RemoveCloudSqlRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -67,7 +67,7 @@ func (request RestoreVaultFromObjectStoreRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RestoreVaultFromObjectStoreRequest) RetryPolicy() *common.RetryPolicy {
+func (request RestoreVaultFromObjectStoreRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

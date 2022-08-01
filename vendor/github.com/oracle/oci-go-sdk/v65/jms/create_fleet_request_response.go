@@ -54,7 +54,7 @@ func (request CreateFleetRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateFleetRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateFleetRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

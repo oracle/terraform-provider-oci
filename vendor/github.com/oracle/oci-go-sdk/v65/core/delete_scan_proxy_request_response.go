@@ -59,7 +59,7 @@ func (request DeleteScanProxyRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteScanProxyRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteScanProxyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

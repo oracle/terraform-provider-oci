@@ -47,7 +47,7 @@ func (request GetWafAddressRateLimitingRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetWafAddressRateLimitingRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetWafAddressRateLimitingRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

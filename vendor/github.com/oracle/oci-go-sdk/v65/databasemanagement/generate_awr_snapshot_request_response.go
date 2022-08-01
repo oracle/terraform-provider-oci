@@ -54,7 +54,7 @@ func (request GenerateAwrSnapshotRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GenerateAwrSnapshotRequest) RetryPolicy() *common.RetryPolicy {
+func (request GenerateAwrSnapshotRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

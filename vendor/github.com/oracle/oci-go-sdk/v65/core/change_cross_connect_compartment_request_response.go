@@ -58,7 +58,7 @@ func (request ChangeCrossConnectCompartmentRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeCrossConnectCompartmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangeCrossConnectCompartmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

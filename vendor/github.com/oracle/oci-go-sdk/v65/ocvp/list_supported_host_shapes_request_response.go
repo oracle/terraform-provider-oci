@@ -64,7 +64,7 @@ func (request ListSupportedHostShapesRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListSupportedHostShapesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListSupportedHostShapesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

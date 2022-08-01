@@ -60,7 +60,7 @@ func (request RemoveDataFileRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveDataFileRequest) RetryPolicy() *common.RetryPolicy {
+func (request RemoveDataFileRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

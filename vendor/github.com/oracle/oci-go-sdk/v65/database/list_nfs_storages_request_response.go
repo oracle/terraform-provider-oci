@@ -53,7 +53,7 @@ func (request ListNfsStoragesRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListNfsStoragesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListNfsStoragesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

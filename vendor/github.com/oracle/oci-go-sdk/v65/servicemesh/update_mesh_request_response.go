@@ -64,7 +64,7 @@ func (request UpdateMeshRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateMeshRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateMeshRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

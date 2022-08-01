@@ -92,12 +92,13 @@ func (client *AppmgmtControlClient) ConfigurationProvider() *common.Configuratio
 // remote calls to Oracle Cloud Agent and Management Agent Cloud Service.
 func (client AppmgmtControlClient) ActivateMonitoringPlugin(ctx context.Context, request ActivateMonitoringPluginRequest) (response ActivateMonitoringPluginResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.activateMonitoringPlugin, policy)
 	if err != nil {
@@ -146,12 +147,13 @@ func (client AppmgmtControlClient) activateMonitoringPlugin(ctx context.Context,
 // A default retry strategy applies to this operation GetMonitoredInstance()
 func (client AppmgmtControlClient) GetMonitoredInstance(ctx context.Context, request GetMonitoredInstanceRequest) (response GetMonitoredInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getMonitoredInstance, policy)
 	if err != nil {
@@ -200,12 +202,13 @@ func (client AppmgmtControlClient) getMonitoredInstance(ctx context.Context, req
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client AppmgmtControlClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -254,12 +257,13 @@ func (client AppmgmtControlClient) getWorkRequest(ctx context.Context, request c
 // A default retry strategy applies to this operation ListMonitoredInstances()
 func (client AppmgmtControlClient) ListMonitoredInstances(ctx context.Context, request ListMonitoredInstancesRequest) (response ListMonitoredInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listMonitoredInstances, policy)
 	if err != nil {
@@ -308,12 +312,13 @@ func (client AppmgmtControlClient) listMonitoredInstances(ctx context.Context, r
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client AppmgmtControlClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -362,12 +367,13 @@ func (client AppmgmtControlClient) listWorkRequestErrors(ctx context.Context, re
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client AppmgmtControlClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -416,12 +422,13 @@ func (client AppmgmtControlClient) listWorkRequestLogs(ctx context.Context, requ
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client AppmgmtControlClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -469,12 +476,13 @@ func (client AppmgmtControlClient) listWorkRequests(ctx context.Context, request
 // PublishTopProcessesMetrics Starts cpu and memory top processes collection.
 func (client AppmgmtControlClient) PublishTopProcessesMetrics(ctx context.Context, request PublishTopProcessesMetricsRequest) (response PublishTopProcessesMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {

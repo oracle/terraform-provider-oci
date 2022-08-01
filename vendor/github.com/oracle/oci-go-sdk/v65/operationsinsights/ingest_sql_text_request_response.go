@@ -69,7 +69,7 @@ func (request IngestSqlTextRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request IngestSqlTextRequest) RetryPolicy() *common.RetryPolicy {
+func (request IngestSqlTextRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

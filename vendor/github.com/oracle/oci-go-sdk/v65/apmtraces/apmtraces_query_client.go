@@ -91,12 +91,13 @@ func (client *QueryClient) ConfigurationProvider() *common.ConfigurationProvider
 // to choose a query to run.  There is no sorting applied on the results.
 func (client QueryClient) ListQuickPicks(ctx context.Context, request ListQuickPicksRequest) (response ListQuickPicksResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listQuickPicks, policy)
 	if err != nil {
@@ -147,12 +148,13 @@ func (client QueryClient) listQuickPicks(ctx context.Context, request common.OCI
 // ordering (asc/desc) is done by the specified attributes in the order by clause.
 func (client QueryClient) Query(ctx context.Context, request QueryRequest) (response QueryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.query, policy)
 	if err != nil {

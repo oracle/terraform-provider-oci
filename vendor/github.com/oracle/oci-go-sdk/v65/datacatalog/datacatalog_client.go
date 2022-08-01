@@ -91,12 +91,13 @@ func (client *DataCatalogClient) ConfigurationProvider() *common.ConfigurationPr
 // AddDataSelectorPatterns Add data selector pattern to the data asset.
 func (client DataCatalogClient) AddDataSelectorPatterns(ctx context.Context, request AddDataSelectorPatternsRequest) (response AddDataSelectorPatternsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -149,12 +150,13 @@ func (client DataCatalogClient) addDataSelectorPatterns(ctx context.Context, req
 // AssociateCustomProperty Associate the custom property for the given type
 func (client DataCatalogClient) AssociateCustomProperty(ctx context.Context, request AssociateCustomPropertyRequest) (response AssociateCustomPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -207,12 +209,13 @@ func (client DataCatalogClient) associateCustomProperty(ctx context.Context, req
 // AttachCatalogPrivateEndpoint Attaches a private reverse connection endpoint resource to a data catalog resource. When provided, 'If-Match' is checked against 'ETag' values of the resource.
 func (client DataCatalogClient) AttachCatalogPrivateEndpoint(ctx context.Context, request AttachCatalogPrivateEndpointRequest) (response AttachCatalogPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -265,12 +268,13 @@ func (client DataCatalogClient) attachCatalogPrivateEndpoint(ctx context.Context
 // ChangeCatalogCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
 func (client DataCatalogClient) ChangeCatalogCompartment(ctx context.Context, request ChangeCatalogCompartmentRequest) (response ChangeCatalogCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeCatalogCompartment, policy)
 	if err != nil {
@@ -318,12 +322,13 @@ func (client DataCatalogClient) changeCatalogCompartment(ctx context.Context, re
 // ChangeCatalogPrivateEndpointCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
 func (client DataCatalogClient) ChangeCatalogPrivateEndpointCompartment(ctx context.Context, request ChangeCatalogPrivateEndpointCompartmentRequest) (response ChangeCatalogPrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeCatalogPrivateEndpointCompartment, policy)
 	if err != nil {
@@ -371,12 +376,13 @@ func (client DataCatalogClient) changeCatalogPrivateEndpointCompartment(ctx cont
 // ChangeMetastoreCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
 func (client DataCatalogClient) ChangeMetastoreCompartment(ctx context.Context, request ChangeMetastoreCompartmentRequest) (response ChangeMetastoreCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeMetastoreCompartment, policy)
 	if err != nil {
@@ -424,12 +430,13 @@ func (client DataCatalogClient) changeMetastoreCompartment(ctx context.Context, 
 // CreateAttribute Creates a new entity attribute.
 func (client DataCatalogClient) CreateAttribute(ctx context.Context, request CreateAttributeRequest) (response CreateAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -482,12 +489,13 @@ func (client DataCatalogClient) createAttribute(ctx context.Context, request com
 // CreateAttributeTag Creates a new entity attribute tag.
 func (client DataCatalogClient) CreateAttributeTag(ctx context.Context, request CreateAttributeTagRequest) (response CreateAttributeTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -541,12 +549,13 @@ func (client DataCatalogClient) createAttributeTag(ctx context.Context, request 
 // For more information, please see the documentation.
 func (client DataCatalogClient) CreateCatalog(ctx context.Context, request CreateCatalogRequest) (response CreateCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -599,12 +608,13 @@ func (client DataCatalogClient) createCatalog(ctx context.Context, request commo
 // CreateCatalogPrivateEndpoint Create a new private reverse connection endpoint.
 func (client DataCatalogClient) CreateCatalogPrivateEndpoint(ctx context.Context, request CreateCatalogPrivateEndpointRequest) (response CreateCatalogPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -657,12 +667,13 @@ func (client DataCatalogClient) createCatalogPrivateEndpoint(ctx context.Context
 // CreateConnection Creates a new connection.
 func (client DataCatalogClient) CreateConnection(ctx context.Context, request CreateConnectionRequest) (response CreateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -715,12 +726,13 @@ func (client DataCatalogClient) createConnection(ctx context.Context, request co
 // CreateCustomProperty Create a new Custom Property
 func (client DataCatalogClient) CreateCustomProperty(ctx context.Context, request CreateCustomPropertyRequest) (response CreateCustomPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -773,12 +785,13 @@ func (client DataCatalogClient) createCustomProperty(ctx context.Context, reques
 // CreateDataAsset Create a new data asset.
 func (client DataCatalogClient) CreateDataAsset(ctx context.Context, request CreateDataAssetRequest) (response CreateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -831,12 +844,13 @@ func (client DataCatalogClient) createDataAsset(ctx context.Context, request com
 // CreateDataAssetTag Creates a new data asset tag.
 func (client DataCatalogClient) CreateDataAssetTag(ctx context.Context, request CreateDataAssetTagRequest) (response CreateDataAssetTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -889,12 +903,13 @@ func (client DataCatalogClient) createDataAssetTag(ctx context.Context, request 
 // CreateEntity Creates a new data entity.
 func (client DataCatalogClient) CreateEntity(ctx context.Context, request CreateEntityRequest) (response CreateEntityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -947,12 +962,13 @@ func (client DataCatalogClient) createEntity(ctx context.Context, request common
 // CreateEntityTag Creates a new entity tag.
 func (client DataCatalogClient) CreateEntityTag(ctx context.Context, request CreateEntityTagRequest) (response CreateEntityTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1005,12 +1021,13 @@ func (client DataCatalogClient) createEntityTag(ctx context.Context, request com
 // CreateFolder Creates a new folder.
 func (client DataCatalogClient) CreateFolder(ctx context.Context, request CreateFolderRequest) (response CreateFolderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1063,12 +1080,13 @@ func (client DataCatalogClient) createFolder(ctx context.Context, request common
 // CreateFolderTag Creates a new folder tag.
 func (client DataCatalogClient) CreateFolderTag(ctx context.Context, request CreateFolderTagRequest) (response CreateFolderTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1121,12 +1139,13 @@ func (client DataCatalogClient) createFolderTag(ctx context.Context, request com
 // CreateGlossary Creates a new glossary.
 func (client DataCatalogClient) CreateGlossary(ctx context.Context, request CreateGlossaryRequest) (response CreateGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1179,12 +1198,13 @@ func (client DataCatalogClient) createGlossary(ctx context.Context, request comm
 // CreateJob Creates a new job.
 func (client DataCatalogClient) CreateJob(ctx context.Context, request CreateJobRequest) (response CreateJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1237,12 +1257,13 @@ func (client DataCatalogClient) createJob(ctx context.Context, request common.OC
 // CreateJobDefinition Creates a new job definition.
 func (client DataCatalogClient) CreateJobDefinition(ctx context.Context, request CreateJobDefinitionRequest) (response CreateJobDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1295,12 +1316,13 @@ func (client DataCatalogClient) createJobDefinition(ctx context.Context, request
 // CreateJobExecution Creates a new job execution.
 func (client DataCatalogClient) CreateJobExecution(ctx context.Context, request CreateJobExecutionRequest) (response CreateJobExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1353,12 +1375,13 @@ func (client DataCatalogClient) createJobExecution(ctx context.Context, request 
 // CreateMetastore Creates a new metastore.
 func (client DataCatalogClient) CreateMetastore(ctx context.Context, request CreateMetastoreRequest) (response CreateMetastoreResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1411,12 +1434,13 @@ func (client DataCatalogClient) createMetastore(ctx context.Context, request com
 // CreateNamespace Create a new Namespace to be used by a custom property
 func (client DataCatalogClient) CreateNamespace(ctx context.Context, request CreateNamespaceRequest) (response CreateNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1469,12 +1493,13 @@ func (client DataCatalogClient) createNamespace(ctx context.Context, request com
 // CreatePattern Create a new pattern.
 func (client DataCatalogClient) CreatePattern(ctx context.Context, request CreatePatternRequest) (response CreatePatternResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1527,12 +1552,13 @@ func (client DataCatalogClient) createPattern(ctx context.Context, request commo
 // CreateTerm Create a new term within a glossary.
 func (client DataCatalogClient) CreateTerm(ctx context.Context, request CreateTermRequest) (response CreateTermResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1585,12 +1611,13 @@ func (client DataCatalogClient) createTerm(ctx context.Context, request common.O
 // CreateTermRelationship Creates a new term relationship for this term within a glossary.
 func (client DataCatalogClient) CreateTermRelationship(ctx context.Context, request CreateTermRelationshipRequest) (response CreateTermRelationshipResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1643,12 +1670,13 @@ func (client DataCatalogClient) createTermRelationship(ctx context.Context, requ
 // DeleteAttribute Deletes a specific entity attribute.
 func (client DataCatalogClient) DeleteAttribute(ctx context.Context, request DeleteAttributeRequest) (response DeleteAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteAttribute, policy)
 	if err != nil {
@@ -1696,12 +1724,13 @@ func (client DataCatalogClient) deleteAttribute(ctx context.Context, request com
 // DeleteAttributeTag Deletes a specific entity attribute tag.
 func (client DataCatalogClient) DeleteAttributeTag(ctx context.Context, request DeleteAttributeTagRequest) (response DeleteAttributeTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteAttributeTag, policy)
 	if err != nil {
@@ -1749,12 +1778,13 @@ func (client DataCatalogClient) deleteAttributeTag(ctx context.Context, request 
 // DeleteCatalog Deletes a data catalog resource by identifier.
 func (client DataCatalogClient) DeleteCatalog(ctx context.Context, request DeleteCatalogRequest) (response DeleteCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteCatalog, policy)
 	if err != nil {
@@ -1802,12 +1832,13 @@ func (client DataCatalogClient) deleteCatalog(ctx context.Context, request commo
 // DeleteCatalogPrivateEndpoint Deletes a private reverse connection endpoint by identifier.
 func (client DataCatalogClient) DeleteCatalogPrivateEndpoint(ctx context.Context, request DeleteCatalogPrivateEndpointRequest) (response DeleteCatalogPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteCatalogPrivateEndpoint, policy)
 	if err != nil {
@@ -1855,12 +1886,13 @@ func (client DataCatalogClient) deleteCatalogPrivateEndpoint(ctx context.Context
 // DeleteConnection Deletes a specific connection of a data asset.
 func (client DataCatalogClient) DeleteConnection(ctx context.Context, request DeleteConnectionRequest) (response DeleteConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteConnection, policy)
 	if err != nil {
@@ -1908,12 +1940,13 @@ func (client DataCatalogClient) deleteConnection(ctx context.Context, request co
 // DeleteCustomProperty Deletes a specific custom property identified by it's key.
 func (client DataCatalogClient) DeleteCustomProperty(ctx context.Context, request DeleteCustomPropertyRequest) (response DeleteCustomPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteCustomProperty, policy)
 	if err != nil {
@@ -1961,12 +1994,13 @@ func (client DataCatalogClient) deleteCustomProperty(ctx context.Context, reques
 // DeleteDataAsset Deletes a specific data asset identified by it's key.
 func (client DataCatalogClient) DeleteDataAsset(ctx context.Context, request DeleteDataAssetRequest) (response DeleteDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteDataAsset, policy)
 	if err != nil {
@@ -2014,12 +2048,13 @@ func (client DataCatalogClient) deleteDataAsset(ctx context.Context, request com
 // DeleteDataAssetTag Deletes a specific data asset tag.
 func (client DataCatalogClient) DeleteDataAssetTag(ctx context.Context, request DeleteDataAssetTagRequest) (response DeleteDataAssetTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteDataAssetTag, policy)
 	if err != nil {
@@ -2067,12 +2102,13 @@ func (client DataCatalogClient) deleteDataAssetTag(ctx context.Context, request 
 // DeleteEntity Deletes a specific data entity.
 func (client DataCatalogClient) DeleteEntity(ctx context.Context, request DeleteEntityRequest) (response DeleteEntityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteEntity, policy)
 	if err != nil {
@@ -2120,12 +2156,13 @@ func (client DataCatalogClient) deleteEntity(ctx context.Context, request common
 // DeleteEntityTag Deletes a specific entity tag.
 func (client DataCatalogClient) DeleteEntityTag(ctx context.Context, request DeleteEntityTagRequest) (response DeleteEntityTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteEntityTag, policy)
 	if err != nil {
@@ -2173,12 +2210,13 @@ func (client DataCatalogClient) deleteEntityTag(ctx context.Context, request com
 // DeleteFolder Deletes a specific folder of a data asset identified by it's key.
 func (client DataCatalogClient) DeleteFolder(ctx context.Context, request DeleteFolderRequest) (response DeleteFolderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteFolder, policy)
 	if err != nil {
@@ -2226,12 +2264,13 @@ func (client DataCatalogClient) deleteFolder(ctx context.Context, request common
 // DeleteFolderTag Deletes a specific folder tag.
 func (client DataCatalogClient) DeleteFolderTag(ctx context.Context, request DeleteFolderTagRequest) (response DeleteFolderTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteFolderTag, policy)
 	if err != nil {
@@ -2279,12 +2318,13 @@ func (client DataCatalogClient) deleteFolderTag(ctx context.Context, request com
 // DeleteGlossary Deletes a specific glossary identified by it's key.
 func (client DataCatalogClient) DeleteGlossary(ctx context.Context, request DeleteGlossaryRequest) (response DeleteGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteGlossary, policy)
 	if err != nil {
@@ -2332,12 +2372,13 @@ func (client DataCatalogClient) deleteGlossary(ctx context.Context, request comm
 // DeleteJob Deletes a specific job identified by it's key.
 func (client DataCatalogClient) DeleteJob(ctx context.Context, request DeleteJobRequest) (response DeleteJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteJob, policy)
 	if err != nil {
@@ -2385,12 +2426,13 @@ func (client DataCatalogClient) deleteJob(ctx context.Context, request common.OC
 // DeleteJobDefinition Deletes a specific job definition identified by it's key.
 func (client DataCatalogClient) DeleteJobDefinition(ctx context.Context, request DeleteJobDefinitionRequest) (response DeleteJobDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteJobDefinition, policy)
 	if err != nil {
@@ -2438,12 +2480,13 @@ func (client DataCatalogClient) deleteJobDefinition(ctx context.Context, request
 // DeleteMetastore Deletes a metastore resource by identifier.
 func (client DataCatalogClient) DeleteMetastore(ctx context.Context, request DeleteMetastoreRequest) (response DeleteMetastoreResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteMetastore, policy)
 	if err != nil {
@@ -2491,12 +2534,13 @@ func (client DataCatalogClient) deleteMetastore(ctx context.Context, request com
 // DeleteNamespace Deletes a specific Namespace identified by it's key.
 func (client DataCatalogClient) DeleteNamespace(ctx context.Context, request DeleteNamespaceRequest) (response DeleteNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteNamespace, policy)
 	if err != nil {
@@ -2544,12 +2588,13 @@ func (client DataCatalogClient) deleteNamespace(ctx context.Context, request com
 // DeletePattern Deletes a specific pattern identified by it's key.
 func (client DataCatalogClient) DeletePattern(ctx context.Context, request DeletePatternRequest) (response DeletePatternResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deletePattern, policy)
 	if err != nil {
@@ -2597,12 +2642,13 @@ func (client DataCatalogClient) deletePattern(ctx context.Context, request commo
 // DeleteTerm Deletes a specific glossary term.
 func (client DataCatalogClient) DeleteTerm(ctx context.Context, request DeleteTermRequest) (response DeleteTermResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteTerm, policy)
 	if err != nil {
@@ -2650,12 +2696,13 @@ func (client DataCatalogClient) deleteTerm(ctx context.Context, request common.O
 // DeleteTermRelationship Deletes a specific glossary term relationship.
 func (client DataCatalogClient) DeleteTermRelationship(ctx context.Context, request DeleteTermRelationshipRequest) (response DeleteTermRelationshipResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteTermRelationship, policy)
 	if err != nil {
@@ -2703,12 +2750,13 @@ func (client DataCatalogClient) deleteTermRelationship(ctx context.Context, requ
 // DetachCatalogPrivateEndpoint Detaches a private reverse connection endpoint resource to a data catalog resource. When provided, 'If-Match' is checked against 'ETag' values of the resource.
 func (client DataCatalogClient) DetachCatalogPrivateEndpoint(ctx context.Context, request DetachCatalogPrivateEndpointRequest) (response DetachCatalogPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.detachCatalogPrivateEndpoint, policy)
 	if err != nil {
@@ -2756,12 +2804,13 @@ func (client DataCatalogClient) detachCatalogPrivateEndpoint(ctx context.Context
 // DisassociateCustomProperty Remove the custom property for the given type
 func (client DataCatalogClient) DisassociateCustomProperty(ctx context.Context, request DisassociateCustomPropertyRequest) (response DisassociateCustomPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2815,12 +2864,13 @@ func (client DataCatalogClient) disassociateCustomProperty(ctx context.Context, 
 // A default retry strategy applies to this operation ExpandTreeForGlossary()
 func (client DataCatalogClient) ExpandTreeForGlossary(ctx context.Context, request ExpandTreeForGlossaryRequest) (response ExpandTreeForGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2873,12 +2923,13 @@ func (client DataCatalogClient) expandTreeForGlossary(ctx context.Context, reque
 // ExportGlossary Export the glossary and the terms and return the exported glossary as csv or json.
 func (client DataCatalogClient) ExportGlossary(ctx context.Context, request ExportGlossaryRequest) (response ExportGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2932,12 +2983,13 @@ func (client DataCatalogClient) exportGlossary(ctx context.Context, request comm
 // A default retry strategy applies to this operation GetAttribute()
 func (client DataCatalogClient) GetAttribute(ctx context.Context, request GetAttributeRequest) (response GetAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getAttribute, policy)
 	if err != nil {
@@ -2986,12 +3038,13 @@ func (client DataCatalogClient) getAttribute(ctx context.Context, request common
 // A default retry strategy applies to this operation GetAttributeTag()
 func (client DataCatalogClient) GetAttributeTag(ctx context.Context, request GetAttributeTagRequest) (response GetAttributeTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getAttributeTag, policy)
 	if err != nil {
@@ -3040,12 +3093,13 @@ func (client DataCatalogClient) getAttributeTag(ctx context.Context, request com
 // A default retry strategy applies to this operation GetCatalog()
 func (client DataCatalogClient) GetCatalog(ctx context.Context, request GetCatalogRequest) (response GetCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getCatalog, policy)
 	if err != nil {
@@ -3094,12 +3148,13 @@ func (client DataCatalogClient) getCatalog(ctx context.Context, request common.O
 // A default retry strategy applies to this operation GetCatalogPrivateEndpoint()
 func (client DataCatalogClient) GetCatalogPrivateEndpoint(ctx context.Context, request GetCatalogPrivateEndpointRequest) (response GetCatalogPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getCatalogPrivateEndpoint, policy)
 	if err != nil {
@@ -3148,12 +3203,13 @@ func (client DataCatalogClient) getCatalogPrivateEndpoint(ctx context.Context, r
 // A default retry strategy applies to this operation GetConnection()
 func (client DataCatalogClient) GetConnection(ctx context.Context, request GetConnectionRequest) (response GetConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getConnection, policy)
 	if err != nil {
@@ -3202,12 +3258,13 @@ func (client DataCatalogClient) getConnection(ctx context.Context, request commo
 // A default retry strategy applies to this operation GetCustomProperty()
 func (client DataCatalogClient) GetCustomProperty(ctx context.Context, request GetCustomPropertyRequest) (response GetCustomPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getCustomProperty, policy)
 	if err != nil {
@@ -3256,12 +3313,13 @@ func (client DataCatalogClient) getCustomProperty(ctx context.Context, request c
 // A default retry strategy applies to this operation GetDataAsset()
 func (client DataCatalogClient) GetDataAsset(ctx context.Context, request GetDataAssetRequest) (response GetDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDataAsset, policy)
 	if err != nil {
@@ -3310,12 +3368,13 @@ func (client DataCatalogClient) getDataAsset(ctx context.Context, request common
 // A default retry strategy applies to this operation GetDataAssetTag()
 func (client DataCatalogClient) GetDataAssetTag(ctx context.Context, request GetDataAssetTagRequest) (response GetDataAssetTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDataAssetTag, policy)
 	if err != nil {
@@ -3364,12 +3423,13 @@ func (client DataCatalogClient) getDataAssetTag(ctx context.Context, request com
 // A default retry strategy applies to this operation GetEntity()
 func (client DataCatalogClient) GetEntity(ctx context.Context, request GetEntityRequest) (response GetEntityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getEntity, policy)
 	if err != nil {
@@ -3418,12 +3478,13 @@ func (client DataCatalogClient) getEntity(ctx context.Context, request common.OC
 // A default retry strategy applies to this operation GetEntityTag()
 func (client DataCatalogClient) GetEntityTag(ctx context.Context, request GetEntityTagRequest) (response GetEntityTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getEntityTag, policy)
 	if err != nil {
@@ -3472,12 +3533,13 @@ func (client DataCatalogClient) getEntityTag(ctx context.Context, request common
 // A default retry strategy applies to this operation GetFolder()
 func (client DataCatalogClient) GetFolder(ctx context.Context, request GetFolderRequest) (response GetFolderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getFolder, policy)
 	if err != nil {
@@ -3526,12 +3588,13 @@ func (client DataCatalogClient) getFolder(ctx context.Context, request common.OC
 // A default retry strategy applies to this operation GetFolderTag()
 func (client DataCatalogClient) GetFolderTag(ctx context.Context, request GetFolderTagRequest) (response GetFolderTagResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getFolderTag, policy)
 	if err != nil {
@@ -3580,12 +3643,13 @@ func (client DataCatalogClient) getFolderTag(ctx context.Context, request common
 // A default retry strategy applies to this operation GetGlossary()
 func (client DataCatalogClient) GetGlossary(ctx context.Context, request GetGlossaryRequest) (response GetGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getGlossary, policy)
 	if err != nil {
@@ -3634,12 +3698,13 @@ func (client DataCatalogClient) getGlossary(ctx context.Context, request common.
 // A default retry strategy applies to this operation GetJob()
 func (client DataCatalogClient) GetJob(ctx context.Context, request GetJobRequest) (response GetJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getJob, policy)
 	if err != nil {
@@ -3688,12 +3753,13 @@ func (client DataCatalogClient) getJob(ctx context.Context, request common.OCIRe
 // A default retry strategy applies to this operation GetJobDefinition()
 func (client DataCatalogClient) GetJobDefinition(ctx context.Context, request GetJobDefinitionRequest) (response GetJobDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getJobDefinition, policy)
 	if err != nil {
@@ -3742,12 +3808,13 @@ func (client DataCatalogClient) getJobDefinition(ctx context.Context, request co
 // A default retry strategy applies to this operation GetJobExecution()
 func (client DataCatalogClient) GetJobExecution(ctx context.Context, request GetJobExecutionRequest) (response GetJobExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getJobExecution, policy)
 	if err != nil {
@@ -3796,12 +3863,13 @@ func (client DataCatalogClient) getJobExecution(ctx context.Context, request com
 // A default retry strategy applies to this operation GetJobLog()
 func (client DataCatalogClient) GetJobLog(ctx context.Context, request GetJobLogRequest) (response GetJobLogResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getJobLog, policy)
 	if err != nil {
@@ -3850,12 +3918,13 @@ func (client DataCatalogClient) getJobLog(ctx context.Context, request common.OC
 // A default retry strategy applies to this operation GetJobMetrics()
 func (client DataCatalogClient) GetJobMetrics(ctx context.Context, request GetJobMetricsRequest) (response GetJobMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getJobMetrics, policy)
 	if err != nil {
@@ -3904,12 +3973,13 @@ func (client DataCatalogClient) getJobMetrics(ctx context.Context, request commo
 // A default retry strategy applies to this operation GetMetastore()
 func (client DataCatalogClient) GetMetastore(ctx context.Context, request GetMetastoreRequest) (response GetMetastoreResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getMetastore, policy)
 	if err != nil {
@@ -3958,12 +4028,13 @@ func (client DataCatalogClient) getMetastore(ctx context.Context, request common
 // A default retry strategy applies to this operation GetNamespace()
 func (client DataCatalogClient) GetNamespace(ctx context.Context, request GetNamespaceRequest) (response GetNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getNamespace, policy)
 	if err != nil {
@@ -4012,12 +4083,13 @@ func (client DataCatalogClient) getNamespace(ctx context.Context, request common
 // A default retry strategy applies to this operation GetPattern()
 func (client DataCatalogClient) GetPattern(ctx context.Context, request GetPatternRequest) (response GetPatternResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getPattern, policy)
 	if err != nil {
@@ -4066,12 +4138,13 @@ func (client DataCatalogClient) getPattern(ctx context.Context, request common.O
 // A default retry strategy applies to this operation GetTerm()
 func (client DataCatalogClient) GetTerm(ctx context.Context, request GetTermRequest) (response GetTermResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTerm, policy)
 	if err != nil {
@@ -4120,12 +4193,13 @@ func (client DataCatalogClient) getTerm(ctx context.Context, request common.OCIR
 // A default retry strategy applies to this operation GetTermRelationship()
 func (client DataCatalogClient) GetTermRelationship(ctx context.Context, request GetTermRelationshipRequest) (response GetTermRelationshipResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTermRelationship, policy)
 	if err != nil {
@@ -4174,12 +4248,13 @@ func (client DataCatalogClient) getTermRelationship(ctx context.Context, request
 // A default retry strategy applies to this operation GetType()
 func (client DataCatalogClient) GetType(ctx context.Context, request GetTypeRequest) (response GetTypeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getType, policy)
 	if err != nil {
@@ -4228,12 +4303,13 @@ func (client DataCatalogClient) getType(ctx context.Context, request common.OCIR
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client DataCatalogClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -4281,12 +4357,13 @@ func (client DataCatalogClient) getWorkRequest(ctx context.Context, request comm
 // ImportConnection Import new connection for this data asset.
 func (client DataCatalogClient) ImportConnection(ctx context.Context, request ImportConnectionRequest) (response ImportConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -4339,12 +4416,13 @@ func (client DataCatalogClient) importConnection(ctx context.Context, request co
 // ImportDataAsset Import technical objects to a Data Asset
 func (client DataCatalogClient) ImportDataAsset(ctx context.Context, request ImportDataAssetRequest) (response ImportDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -4397,12 +4475,13 @@ func (client DataCatalogClient) importDataAsset(ctx context.Context, request com
 // ImportGlossary Import the glossary and the terms from csv or json files and return the imported glossary resource.
 func (client DataCatalogClient) ImportGlossary(ctx context.Context, request ImportGlossaryRequest) (response ImportGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -4456,12 +4535,13 @@ func (client DataCatalogClient) importGlossary(ctx context.Context, request comm
 // A default retry strategy applies to this operation ListAggregatedPhysicalEntities()
 func (client DataCatalogClient) ListAggregatedPhysicalEntities(ctx context.Context, request ListAggregatedPhysicalEntitiesRequest) (response ListAggregatedPhysicalEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAggregatedPhysicalEntities, policy)
 	if err != nil {
@@ -4510,12 +4590,13 @@ func (client DataCatalogClient) listAggregatedPhysicalEntities(ctx context.Conte
 // A default retry strategy applies to this operation ListAttributeTags()
 func (client DataCatalogClient) ListAttributeTags(ctx context.Context, request ListAttributeTagsRequest) (response ListAttributeTagsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAttributeTags, policy)
 	if err != nil {
@@ -4564,12 +4645,13 @@ func (client DataCatalogClient) listAttributeTags(ctx context.Context, request c
 // A default retry strategy applies to this operation ListAttributes()
 func (client DataCatalogClient) ListAttributes(ctx context.Context, request ListAttributesRequest) (response ListAttributesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAttributes, policy)
 	if err != nil {
@@ -4618,12 +4700,13 @@ func (client DataCatalogClient) listAttributes(ctx context.Context, request comm
 // A default retry strategy applies to this operation ListCatalogPrivateEndpoints()
 func (client DataCatalogClient) ListCatalogPrivateEndpoints(ctx context.Context, request ListCatalogPrivateEndpointsRequest) (response ListCatalogPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listCatalogPrivateEndpoints, policy)
 	if err != nil {
@@ -4672,12 +4755,13 @@ func (client DataCatalogClient) listCatalogPrivateEndpoints(ctx context.Context,
 // A default retry strategy applies to this operation ListCatalogs()
 func (client DataCatalogClient) ListCatalogs(ctx context.Context, request ListCatalogsRequest) (response ListCatalogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listCatalogs, policy)
 	if err != nil {
@@ -4726,12 +4810,13 @@ func (client DataCatalogClient) listCatalogs(ctx context.Context, request common
 // A default retry strategy applies to this operation ListConnections()
 func (client DataCatalogClient) ListConnections(ctx context.Context, request ListConnectionsRequest) (response ListConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listConnections, policy)
 	if err != nil {
@@ -4780,12 +4865,13 @@ func (client DataCatalogClient) listConnections(ctx context.Context, request com
 // A default retry strategy applies to this operation ListCustomProperties()
 func (client DataCatalogClient) ListCustomProperties(ctx context.Context, request ListCustomPropertiesRequest) (response ListCustomPropertiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listCustomProperties, policy)
 	if err != nil {
@@ -4834,12 +4920,13 @@ func (client DataCatalogClient) listCustomProperties(ctx context.Context, reques
 // A default retry strategy applies to this operation ListDataAssetTags()
 func (client DataCatalogClient) ListDataAssetTags(ctx context.Context, request ListDataAssetTagsRequest) (response ListDataAssetTagsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDataAssetTags, policy)
 	if err != nil {
@@ -4888,12 +4975,13 @@ func (client DataCatalogClient) listDataAssetTags(ctx context.Context, request c
 // A default retry strategy applies to this operation ListDataAssets()
 func (client DataCatalogClient) ListDataAssets(ctx context.Context, request ListDataAssetsRequest) (response ListDataAssetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDataAssets, policy)
 	if err != nil {
@@ -4942,12 +5030,13 @@ func (client DataCatalogClient) listDataAssets(ctx context.Context, request comm
 // A default retry strategy applies to this operation ListDerivedLogicalEntities()
 func (client DataCatalogClient) ListDerivedLogicalEntities(ctx context.Context, request ListDerivedLogicalEntitiesRequest) (response ListDerivedLogicalEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -5001,12 +5090,13 @@ func (client DataCatalogClient) listDerivedLogicalEntities(ctx context.Context, 
 // A default retry strategy applies to this operation ListEntities()
 func (client DataCatalogClient) ListEntities(ctx context.Context, request ListEntitiesRequest) (response ListEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listEntities, policy)
 	if err != nil {
@@ -5055,12 +5145,13 @@ func (client DataCatalogClient) listEntities(ctx context.Context, request common
 // A default retry strategy applies to this operation ListEntityTags()
 func (client DataCatalogClient) ListEntityTags(ctx context.Context, request ListEntityTagsRequest) (response ListEntityTagsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listEntityTags, policy)
 	if err != nil {
@@ -5109,12 +5200,13 @@ func (client DataCatalogClient) listEntityTags(ctx context.Context, request comm
 // A default retry strategy applies to this operation ListFolderTags()
 func (client DataCatalogClient) ListFolderTags(ctx context.Context, request ListFolderTagsRequest) (response ListFolderTagsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listFolderTags, policy)
 	if err != nil {
@@ -5163,12 +5255,13 @@ func (client DataCatalogClient) listFolderTags(ctx context.Context, request comm
 // A default retry strategy applies to this operation ListFolders()
 func (client DataCatalogClient) ListFolders(ctx context.Context, request ListFoldersRequest) (response ListFoldersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listFolders, policy)
 	if err != nil {
@@ -5217,12 +5310,13 @@ func (client DataCatalogClient) listFolders(ctx context.Context, request common.
 // A default retry strategy applies to this operation ListGlossaries()
 func (client DataCatalogClient) ListGlossaries(ctx context.Context, request ListGlossariesRequest) (response ListGlossariesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listGlossaries, policy)
 	if err != nil {
@@ -5271,12 +5365,13 @@ func (client DataCatalogClient) listGlossaries(ctx context.Context, request comm
 // A default retry strategy applies to this operation ListJobDefinitions()
 func (client DataCatalogClient) ListJobDefinitions(ctx context.Context, request ListJobDefinitionsRequest) (response ListJobDefinitionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listJobDefinitions, policy)
 	if err != nil {
@@ -5325,12 +5420,13 @@ func (client DataCatalogClient) listJobDefinitions(ctx context.Context, request 
 // A default retry strategy applies to this operation ListJobExecutions()
 func (client DataCatalogClient) ListJobExecutions(ctx context.Context, request ListJobExecutionsRequest) (response ListJobExecutionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listJobExecutions, policy)
 	if err != nil {
@@ -5379,12 +5475,13 @@ func (client DataCatalogClient) listJobExecutions(ctx context.Context, request c
 // A default retry strategy applies to this operation ListJobLogs()
 func (client DataCatalogClient) ListJobLogs(ctx context.Context, request ListJobLogsRequest) (response ListJobLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listJobLogs, policy)
 	if err != nil {
@@ -5433,12 +5530,13 @@ func (client DataCatalogClient) listJobLogs(ctx context.Context, request common.
 // A default retry strategy applies to this operation ListJobMetrics()
 func (client DataCatalogClient) ListJobMetrics(ctx context.Context, request ListJobMetricsRequest) (response ListJobMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listJobMetrics, policy)
 	if err != nil {
@@ -5487,12 +5585,13 @@ func (client DataCatalogClient) listJobMetrics(ctx context.Context, request comm
 // A default retry strategy applies to this operation ListJobs()
 func (client DataCatalogClient) ListJobs(ctx context.Context, request ListJobsRequest) (response ListJobsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listJobs, policy)
 	if err != nil {
@@ -5541,12 +5640,13 @@ func (client DataCatalogClient) listJobs(ctx context.Context, request common.OCI
 // A default retry strategy applies to this operation ListMetastores()
 func (client DataCatalogClient) ListMetastores(ctx context.Context, request ListMetastoresRequest) (response ListMetastoresResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listMetastores, policy)
 	if err != nil {
@@ -5595,12 +5695,13 @@ func (client DataCatalogClient) listMetastores(ctx context.Context, request comm
 // A default retry strategy applies to this operation ListNamespaces()
 func (client DataCatalogClient) ListNamespaces(ctx context.Context, request ListNamespacesRequest) (response ListNamespacesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listNamespaces, policy)
 	if err != nil {
@@ -5649,12 +5750,13 @@ func (client DataCatalogClient) listNamespaces(ctx context.Context, request comm
 // A default retry strategy applies to this operation ListPatterns()
 func (client DataCatalogClient) ListPatterns(ctx context.Context, request ListPatternsRequest) (response ListPatternsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listPatterns, policy)
 	if err != nil {
@@ -5703,12 +5805,13 @@ func (client DataCatalogClient) listPatterns(ctx context.Context, request common
 // A default retry strategy applies to this operation ListRules()
 func (client DataCatalogClient) ListRules(ctx context.Context, request ListRulesRequest) (response ListRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listRules, policy)
 	if err != nil {
@@ -5757,12 +5860,13 @@ func (client DataCatalogClient) listRules(ctx context.Context, request common.OC
 // A default retry strategy applies to this operation ListTags()
 func (client DataCatalogClient) ListTags(ctx context.Context, request ListTagsRequest) (response ListTagsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTags, policy)
 	if err != nil {
@@ -5811,12 +5915,13 @@ func (client DataCatalogClient) listTags(ctx context.Context, request common.OCI
 // A default retry strategy applies to this operation ListTermRelationships()
 func (client DataCatalogClient) ListTermRelationships(ctx context.Context, request ListTermRelationshipsRequest) (response ListTermRelationshipsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTermRelationships, policy)
 	if err != nil {
@@ -5865,12 +5970,13 @@ func (client DataCatalogClient) listTermRelationships(ctx context.Context, reque
 // A default retry strategy applies to this operation ListTerms()
 func (client DataCatalogClient) ListTerms(ctx context.Context, request ListTermsRequest) (response ListTermsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTerms, policy)
 	if err != nil {
@@ -5919,12 +6025,13 @@ func (client DataCatalogClient) listTerms(ctx context.Context, request common.OC
 // A default retry strategy applies to this operation ListTypes()
 func (client DataCatalogClient) ListTypes(ctx context.Context, request ListTypesRequest) (response ListTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTypes, policy)
 	if err != nil {
@@ -5973,12 +6080,13 @@ func (client DataCatalogClient) listTypes(ctx context.Context, request common.OC
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DataCatalogClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -6027,12 +6135,13 @@ func (client DataCatalogClient) listWorkRequestErrors(ctx context.Context, reque
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DataCatalogClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -6081,12 +6190,13 @@ func (client DataCatalogClient) listWorkRequestLogs(ctx context.Context, request
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client DataCatalogClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -6135,12 +6245,13 @@ func (client DataCatalogClient) listWorkRequests(ctx context.Context, request co
 // A default retry strategy applies to this operation ObjectStats()
 func (client DataCatalogClient) ObjectStats(ctx context.Context, request ObjectStatsRequest) (response ObjectStatsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.objectStats, policy)
 	if err != nil {
@@ -6188,12 +6299,13 @@ func (client DataCatalogClient) objectStats(ctx context.Context, request common.
 // ParseConnection Parse data asset references through connections from this data asset.
 func (client DataCatalogClient) ParseConnection(ctx context.Context, request ParseConnectionRequest) (response ParseConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -6247,12 +6359,13 @@ func (client DataCatalogClient) parseConnection(ctx context.Context, request com
 // is accepted, the system will link the source object (e.g. an attribute) to a target glossary term.
 func (client DataCatalogClient) ProcessRecommendation(ctx context.Context, request ProcessRecommendationRequest) (response ProcessRecommendationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.processRecommendation, policy)
 	if err != nil {
@@ -6302,12 +6415,13 @@ func (client DataCatalogClient) processRecommendation(ctx context.Context, reque
 // to return only recommendations having that status.
 func (client DataCatalogClient) Recommendations(ctx context.Context, request RecommendationsRequest) (response RecommendationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.recommendations, policy)
 	if err != nil {
@@ -6355,12 +6469,13 @@ func (client DataCatalogClient) recommendations(ctx context.Context, request com
 // RemoveDataSelectorPatterns Remove data selector pattern from the data asset.
 func (client DataCatalogClient) RemoveDataSelectorPatterns(ctx context.Context, request RemoveDataSelectorPatternsRequest) (response RemoveDataSelectorPatternsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -6414,12 +6529,13 @@ func (client DataCatalogClient) removeDataSelectorPatterns(ctx context.Context, 
 // A default retry strategy applies to this operation SearchCriteria()
 func (client DataCatalogClient) SearchCriteria(ctx context.Context, request SearchCriteriaRequest) (response SearchCriteriaResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.searchCriteria, policy)
 	if err != nil {
@@ -6468,12 +6584,13 @@ func (client DataCatalogClient) searchCriteria(ctx context.Context, request comm
 // A default retry strategy applies to this operation SuggestMatches()
 func (client DataCatalogClient) SuggestMatches(ctx context.Context, request SuggestMatchesRequest) (response SuggestMatchesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.suggestMatches, policy)
 	if err != nil {
@@ -6521,12 +6638,13 @@ func (client DataCatalogClient) suggestMatches(ctx context.Context, request comm
 // SynchronousExportDataAsset Export technical objects from a Data Asset
 func (client DataCatalogClient) SynchronousExportDataAsset(ctx context.Context, request SynchronousExportDataAssetRequest) (response SynchronousExportDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -6579,12 +6697,13 @@ func (client DataCatalogClient) synchronousExportDataAsset(ctx context.Context, 
 // A default retry strategy applies to this operation TestConnection()
 func (client DataCatalogClient) TestConnection(ctx context.Context, request TestConnectionRequest) (response TestConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -6637,12 +6756,13 @@ func (client DataCatalogClient) testConnection(ctx context.Context, request comm
 // UpdateAttribute Updates a specific data asset attribute.
 func (client DataCatalogClient) UpdateAttribute(ctx context.Context, request UpdateAttributeRequest) (response UpdateAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateAttribute, policy)
 	if err != nil {
@@ -6690,12 +6810,13 @@ func (client DataCatalogClient) updateAttribute(ctx context.Context, request com
 // UpdateCatalog Updates the data catalog.
 func (client DataCatalogClient) UpdateCatalog(ctx context.Context, request UpdateCatalogRequest) (response UpdateCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateCatalog, policy)
 	if err != nil {
@@ -6743,12 +6864,13 @@ func (client DataCatalogClient) updateCatalog(ctx context.Context, request commo
 // UpdateCatalogPrivateEndpoint Updates the private reverse connection endpoint.
 func (client DataCatalogClient) UpdateCatalogPrivateEndpoint(ctx context.Context, request UpdateCatalogPrivateEndpointRequest) (response UpdateCatalogPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateCatalogPrivateEndpoint, policy)
 	if err != nil {
@@ -6796,12 +6918,13 @@ func (client DataCatalogClient) updateCatalogPrivateEndpoint(ctx context.Context
 // UpdateConnection Updates a specific connection of a data asset.
 func (client DataCatalogClient) UpdateConnection(ctx context.Context, request UpdateConnectionRequest) (response UpdateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateConnection, policy)
 	if err != nil {
@@ -6849,12 +6972,13 @@ func (client DataCatalogClient) updateConnection(ctx context.Context, request co
 // UpdateCustomProperty Updates a specific custom property identified by the given key.
 func (client DataCatalogClient) UpdateCustomProperty(ctx context.Context, request UpdateCustomPropertyRequest) (response UpdateCustomPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateCustomProperty, policy)
 	if err != nil {
@@ -6902,12 +7026,13 @@ func (client DataCatalogClient) updateCustomProperty(ctx context.Context, reques
 // UpdateDataAsset Updates a specific data asset identified by the given key.
 func (client DataCatalogClient) UpdateDataAsset(ctx context.Context, request UpdateDataAssetRequest) (response UpdateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateDataAsset, policy)
 	if err != nil {
@@ -6955,12 +7080,13 @@ func (client DataCatalogClient) updateDataAsset(ctx context.Context, request com
 // UpdateEntity Updates a specific data entity.
 func (client DataCatalogClient) UpdateEntity(ctx context.Context, request UpdateEntityRequest) (response UpdateEntityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateEntity, policy)
 	if err != nil {
@@ -7008,12 +7134,13 @@ func (client DataCatalogClient) updateEntity(ctx context.Context, request common
 // UpdateFolder Updates a specific folder of a data asset.
 func (client DataCatalogClient) UpdateFolder(ctx context.Context, request UpdateFolderRequest) (response UpdateFolderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateFolder, policy)
 	if err != nil {
@@ -7061,12 +7188,13 @@ func (client DataCatalogClient) updateFolder(ctx context.Context, request common
 // UpdateGlossary Updates a specific glossary identified by the given key.
 func (client DataCatalogClient) UpdateGlossary(ctx context.Context, request UpdateGlossaryRequest) (response UpdateGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateGlossary, policy)
 	if err != nil {
@@ -7114,12 +7242,13 @@ func (client DataCatalogClient) updateGlossary(ctx context.Context, request comm
 // UpdateJob Updates a specific job identified by the given key.
 func (client DataCatalogClient) UpdateJob(ctx context.Context, request UpdateJobRequest) (response UpdateJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateJob, policy)
 	if err != nil {
@@ -7167,12 +7296,13 @@ func (client DataCatalogClient) updateJob(ctx context.Context, request common.OC
 // UpdateJobDefinition Update a specific job definition identified by the given key.
 func (client DataCatalogClient) UpdateJobDefinition(ctx context.Context, request UpdateJobDefinitionRequest) (response UpdateJobDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateJobDefinition, policy)
 	if err != nil {
@@ -7220,12 +7350,13 @@ func (client DataCatalogClient) updateJobDefinition(ctx context.Context, request
 // UpdateMetastore Updates a metastore resource by identifier.
 func (client DataCatalogClient) UpdateMetastore(ctx context.Context, request UpdateMetastoreRequest) (response UpdateMetastoreResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateMetastore, policy)
 	if err != nil {
@@ -7273,12 +7404,13 @@ func (client DataCatalogClient) updateMetastore(ctx context.Context, request com
 // UpdateNamespace Updates a specific namespace identified by the given key.
 func (client DataCatalogClient) UpdateNamespace(ctx context.Context, request UpdateNamespaceRequest) (response UpdateNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateNamespace, policy)
 	if err != nil {
@@ -7326,12 +7458,13 @@ func (client DataCatalogClient) updateNamespace(ctx context.Context, request com
 // UpdatePattern Updates a specific pattern identified by the given key.
 func (client DataCatalogClient) UpdatePattern(ctx context.Context, request UpdatePatternRequest) (response UpdatePatternResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updatePattern, policy)
 	if err != nil {
@@ -7379,12 +7512,13 @@ func (client DataCatalogClient) updatePattern(ctx context.Context, request commo
 // UpdateTerm Updates a specific glossary term.
 func (client DataCatalogClient) UpdateTerm(ctx context.Context, request UpdateTermRequest) (response UpdateTermResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateTerm, policy)
 	if err != nil {
@@ -7432,12 +7566,13 @@ func (client DataCatalogClient) updateTerm(ctx context.Context, request common.O
 // UpdateTermRelationship Updates a specific glossary term relationship.
 func (client DataCatalogClient) UpdateTermRelationship(ctx context.Context, request UpdateTermRelationshipRequest) (response UpdateTermRelationshipResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateTermRelationship, policy)
 	if err != nil {
@@ -7485,12 +7620,13 @@ func (client DataCatalogClient) updateTermRelationship(ctx context.Context, requ
 // UploadCredentials Upload connection credentails and metadata for this connection.
 func (client DataCatalogClient) UploadCredentials(ctx context.Context, request UploadCredentialsRequest) (response UploadCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -7544,12 +7680,13 @@ func (client DataCatalogClient) uploadCredentials(ctx context.Context, request c
 // A default retry strategy applies to this operation Users()
 func (client DataCatalogClient) Users(ctx context.Context, request UsersRequest) (response UsersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.users, policy)
 	if err != nil {
@@ -7598,12 +7735,13 @@ func (client DataCatalogClient) users(ctx context.Context, request common.OCIReq
 // A default retry strategy applies to this operation ValidateConnection()
 func (client DataCatalogClient) ValidateConnection(ctx context.Context, request ValidateConnectionRequest) (response ValidateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -7657,12 +7795,13 @@ func (client DataCatalogClient) validateConnection(ctx context.Context, request 
 // A default retry strategy applies to this operation ValidatePattern()
 func (client DataCatalogClient) ValidatePattern(ctx context.Context, request ValidatePatternRequest) (response ValidatePatternResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {

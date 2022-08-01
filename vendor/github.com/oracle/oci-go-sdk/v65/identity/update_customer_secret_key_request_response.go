@@ -59,7 +59,7 @@ func (request UpdateCustomerSecretKeyRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateCustomerSecretKeyRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateCustomerSecretKeyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

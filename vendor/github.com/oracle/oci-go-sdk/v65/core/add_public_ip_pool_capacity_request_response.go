@@ -58,7 +58,7 @@ func (request AddPublicIpPoolCapacityRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddPublicIpPoolCapacityRequest) RetryPolicy() *common.RetryPolicy {
+func (request AddPublicIpPoolCapacityRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

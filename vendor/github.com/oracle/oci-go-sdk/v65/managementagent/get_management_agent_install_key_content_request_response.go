@@ -51,7 +51,7 @@ func (request GetManagementAgentInstallKeyContentRequest) BinaryRequestBody() (*
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetManagementAgentInstallKeyContentRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetManagementAgentInstallKeyContentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

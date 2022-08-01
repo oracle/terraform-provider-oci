@@ -60,7 +60,7 @@ func (request AcceptShieldedIntegrityPolicyRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AcceptShieldedIntegrityPolicyRequest) RetryPolicy() *common.RetryPolicy {
+func (request AcceptShieldedIntegrityPolicyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 
