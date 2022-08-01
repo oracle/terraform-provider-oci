@@ -1789,10 +1789,11 @@ var exportDatascienceProjectHints = &TerraformResourceHints{
 }
 
 var exportDatascienceNotebookSessionHints = &TerraformResourceHints{
-	resourceClass:        "oci_datascience_notebook_session",
-	datasourceClass:      "oci_datascience_notebook_sessions",
-	datasourceItemsAttr:  "notebook_sessions",
-	resourceAbbreviation: "notebook_session",
+	resourceClass:          "oci_datascience_notebook_session",
+	datasourceClass:        "oci_datascience_notebook_sessions",
+	datasourceItemsAttr:    "notebook_sessions",
+	resourceAbbreviation:   "notebook_session",
+	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_datascience.NotebookSessionLifecycleStateActive),
 	},

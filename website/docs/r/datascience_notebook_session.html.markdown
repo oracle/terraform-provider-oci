@@ -52,6 +52,19 @@ resource "oci_datascience_notebook_session" "test_notebook_session" {
 			ocpus = var.notebook_session_notebook_session_configuration_details_notebook_session_shape_config_details_ocpus
 		}
 	}
+	notebook_session_runtime_config_details {
+
+		#Optional
+		custom_environment_variables = var.notebook_session_notebook_session_runtime_config_details_custom_environment_variables
+		notebook_session_git_config_details {
+
+			#Optional
+			notebook_session_git_repo_config_collection {
+				#Required
+				url = var.notebook_session_notebook_session_runtime_config_details_notebook_session_git_config_details_notebook_session_git_repo_config_collection_url
+			}
+		}
+	}
 }
 ```
 
@@ -77,6 +90,11 @@ The following arguments are supported:
 		* `ocpus` - (Optional) (Updatable) A notebook session instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 	* `shape` - (Required) (Updatable) The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the `ListNotebookSessionShapes` endpoint. 
 	* `subnet_id` - (Required) (Updatable) A notebook session instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet. 
+* `notebook_session_runtime_config_details` - (Optional) (Updatable) Notebook Session runtime configuration details.
+	* `custom_environment_variables` - (Optional) (Updatable) Custom environment variables for Notebook Session. These key-value pairs will be available for customers in Notebook Sessions.
+	* `notebook_session_git_config_details` - (Optional) (Updatable) Git configuration Details.
+		* `notebook_session_git_repo_config_collection` - (Optional) (Updatable) A collection of Git repository configurations.
+			* `url` - (Required) (Updatable) The repository URL
 * `project_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the notebook session.
 
 
@@ -108,6 +126,11 @@ The following attributes are exported:
 		* `ocpus` - A notebook session instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 	* `shape` - The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the `ListNotebookSessionShapes` endpoint. 
 	* `subnet_id` - A notebook session instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet. 
+* `notebook_session_runtime_config_details` - Notebook Session runtime configuration details.
+	* `custom_environment_variables` - Custom environment variables for Notebook Session. These key-value pairs will be available for customers in Notebook Sessions.
+	* `notebook_session_git_config_details` - Git configuration Details.
+		* `notebook_session_git_repo_config_collection` - A collection of Git repository configurations.
+			* `url` - The repository URL
 * `notebook_session_url` - The URL to interact with the notebook session.
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project associated with the notebook session.
 * `state` - The state of the notebook session.
