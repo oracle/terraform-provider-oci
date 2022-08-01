@@ -155,3 +155,6 @@ endif
 
 check-untagged-tests:
 	@sh -c "'$(CURDIR)/scripts/check-untagged-tests.sh' -s ''$(SERVICE)"
+
+check-module-name:
+	@sh -c "'$(CURDIR)/scripts/gomodnamecheck.sh'"
