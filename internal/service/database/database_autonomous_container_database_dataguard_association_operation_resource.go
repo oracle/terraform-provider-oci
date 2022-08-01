@@ -111,7 +111,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			switchoverRequest.AutonomousContainerDatabaseDataguardAssociationId = &dataguardAssociationId
 			switchoverRequest.AutonomousContainerDatabaseId = &tmpId
 			switchoverRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-			switchoverRequest.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
+			//switchoverRequest.RequestMetadata.RetryPolicy.
 			response, err := s.Client.SwitchoverAutonomousContainerDatabaseDataguardAssociation(context.Background(), switchoverRequest)
 			if err != nil {
 				return err
@@ -129,7 +129,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			failoverRequest.AutonomousContainerDatabaseDataguardAssociationId = &dataguardAssociationId
 			failoverRequest.AutonomousContainerDatabaseId = &tmpId
 			failoverRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-			failoverRequest.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
+			//failoverRequest.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
 			response, err := s.Client.FailoverAutonomousContainerDatabaseDataguardAssociation(context.Background(), failoverRequest)
 			if err != nil {
 				return err
@@ -147,7 +147,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			reinstateRequest.AutonomousContainerDatabaseDataguardAssociationId = &dataguardAssociationId
 			reinstateRequest.AutonomousContainerDatabaseId = &tmpId
 			reinstateRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-			reinstateRequest.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
+			//reinstateRequest.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
 			response, err := s.Client.ReinstateAutonomousContainerDatabaseDataguardAssociation(context.Background(), reinstateRequest)
 			if err != nil {
 				return err
