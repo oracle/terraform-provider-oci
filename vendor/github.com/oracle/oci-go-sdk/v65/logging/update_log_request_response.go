@@ -61,7 +61,7 @@ func (request UpdateLogRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateLogRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateLogRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

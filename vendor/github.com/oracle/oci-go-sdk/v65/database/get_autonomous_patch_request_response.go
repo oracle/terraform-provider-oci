@@ -48,7 +48,7 @@ func (request GetAutonomousPatchRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetAutonomousPatchRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetAutonomousPatchRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -48,7 +48,7 @@ func (request CreateOnDemandPingProbeRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateOnDemandPingProbeRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateOnDemandPingProbeRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

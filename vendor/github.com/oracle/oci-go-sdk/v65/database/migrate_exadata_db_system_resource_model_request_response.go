@@ -59,7 +59,7 @@ func (request MigrateExadataDbSystemResourceModelRequest) BinaryRequestBody() (*
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request MigrateExadataDbSystemResourceModelRequest) RetryPolicy() *common.RetryPolicy {
+func (request MigrateExadataDbSystemResourceModelRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

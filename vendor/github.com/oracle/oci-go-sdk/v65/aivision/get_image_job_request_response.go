@@ -47,7 +47,7 @@ func (request GetImageJobRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetImageJobRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetImageJobRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

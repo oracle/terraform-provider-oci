@@ -56,7 +56,7 @@ func (request ListCpeDeviceShapesRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListCpeDeviceShapesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListCpeDeviceShapesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

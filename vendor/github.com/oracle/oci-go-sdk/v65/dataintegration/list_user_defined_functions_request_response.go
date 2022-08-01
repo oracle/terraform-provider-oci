@@ -73,7 +73,7 @@ func (request ListUserDefinedFunctionsRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListUserDefinedFunctionsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListUserDefinedFunctionsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -51,7 +51,7 @@ func (request GetInstanceAgentCommandExecutionRequest) BinaryRequestBody() (*com
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetInstanceAgentCommandExecutionRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetInstanceAgentCommandExecutionRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

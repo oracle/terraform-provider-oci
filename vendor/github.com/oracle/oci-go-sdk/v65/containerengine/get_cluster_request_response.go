@@ -48,7 +48,7 @@ func (request GetClusterRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetClusterRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetClusterRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -57,7 +57,7 @@ func (request DeleteOperatorControlAssignmentRequest) BinaryRequestBody() (*comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteOperatorControlAssignmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteOperatorControlAssignmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

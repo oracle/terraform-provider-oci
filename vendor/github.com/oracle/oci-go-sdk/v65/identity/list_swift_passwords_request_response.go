@@ -48,7 +48,7 @@ func (request ListSwiftPasswordsRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListSwiftPasswordsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListSwiftPasswordsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -56,7 +56,7 @@ func (request CreateLogSavedSearchRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateLogSavedSearchRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateLogSavedSearchRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

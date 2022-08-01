@@ -61,7 +61,7 @@ func (request DeleteHostnameRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteHostnameRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteHostnameRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

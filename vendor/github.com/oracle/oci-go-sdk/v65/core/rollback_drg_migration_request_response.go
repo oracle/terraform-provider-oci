@@ -55,7 +55,7 @@ func (request RollbackDrgMigrationRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RollbackDrgMigrationRequest) RetryPolicy() *common.RetryPolicy {
+func (request RollbackDrgMigrationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

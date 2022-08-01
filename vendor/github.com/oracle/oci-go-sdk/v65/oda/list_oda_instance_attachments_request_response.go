@@ -69,7 +69,7 @@ func (request ListOdaInstanceAttachmentsRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListOdaInstanceAttachmentsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListOdaInstanceAttachmentsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -48,7 +48,7 @@ func (request GetCustomTableRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetCustomTableRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetCustomTableRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

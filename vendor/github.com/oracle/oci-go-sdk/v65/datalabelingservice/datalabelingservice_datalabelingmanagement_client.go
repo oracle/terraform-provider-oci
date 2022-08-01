@@ -91,12 +91,13 @@ func (client *DataLabelingManagementClient) ConfigurationProvider() *common.Conf
 // A default retry strategy applies to this operation AddDatasetLabels()
 func (client DataLabelingManagementClient) AddDatasetLabels(ctx context.Context, request AddDatasetLabelsRequest) (response AddDatasetLabelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -150,12 +151,13 @@ func (client DataLabelingManagementClient) addDatasetLabels(ctx context.Context,
 // A default retry strategy applies to this operation ChangeDatasetCompartment()
 func (client DataLabelingManagementClient) ChangeDatasetCompartment(ctx context.Context, request ChangeDatasetCompartmentRequest) (response ChangeDatasetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeDatasetCompartment, policy)
 	if err != nil {
@@ -204,12 +206,13 @@ func (client DataLabelingManagementClient) changeDatasetCompartment(ctx context.
 // A default retry strategy applies to this operation CreateDataset()
 func (client DataLabelingManagementClient) CreateDataset(ctx context.Context, request CreateDatasetRequest) (response CreateDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -263,12 +266,13 @@ func (client DataLabelingManagementClient) createDataset(ctx context.Context, re
 // A default retry strategy applies to this operation DeleteDataset()
 func (client DataLabelingManagementClient) DeleteDataset(ctx context.Context, request DeleteDatasetRequest) (response DeleteDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteDataset, policy)
 	if err != nil {
@@ -317,12 +321,13 @@ func (client DataLabelingManagementClient) deleteDataset(ctx context.Context, re
 // A default retry strategy applies to this operation GenerateDatasetRecords()
 func (client DataLabelingManagementClient) GenerateDatasetRecords(ctx context.Context, request GenerateDatasetRecordsRequest) (response GenerateDatasetRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -376,12 +381,13 @@ func (client DataLabelingManagementClient) generateDatasetRecords(ctx context.Co
 // A default retry strategy applies to this operation GetDataset()
 func (client DataLabelingManagementClient) GetDataset(ctx context.Context, request GetDatasetRequest) (response GetDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDataset, policy)
 	if err != nil {
@@ -430,12 +436,13 @@ func (client DataLabelingManagementClient) getDataset(ctx context.Context, reque
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client DataLabelingManagementClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -484,12 +491,13 @@ func (client DataLabelingManagementClient) getWorkRequest(ctx context.Context, r
 // A default retry strategy applies to this operation ListAnnotationFormats()
 func (client DataLabelingManagementClient) ListAnnotationFormats(ctx context.Context, request ListAnnotationFormatsRequest) (response ListAnnotationFormatsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAnnotationFormats, policy)
 	if err != nil {
@@ -538,12 +546,13 @@ func (client DataLabelingManagementClient) listAnnotationFormats(ctx context.Con
 // A default retry strategy applies to this operation ListDatasets()
 func (client DataLabelingManagementClient) ListDatasets(ctx context.Context, request ListDatasetsRequest) (response ListDatasetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDatasets, policy)
 	if err != nil {
@@ -592,12 +601,13 @@ func (client DataLabelingManagementClient) listDatasets(ctx context.Context, req
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DataLabelingManagementClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -646,12 +656,13 @@ func (client DataLabelingManagementClient) listWorkRequestErrors(ctx context.Con
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DataLabelingManagementClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -700,12 +711,13 @@ func (client DataLabelingManagementClient) listWorkRequestLogs(ctx context.Conte
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client DataLabelingManagementClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -754,12 +766,13 @@ func (client DataLabelingManagementClient) listWorkRequests(ctx context.Context,
 // A default retry strategy applies to this operation RemoveDatasetLabels()
 func (client DataLabelingManagementClient) RemoveDatasetLabels(ctx context.Context, request RemoveDatasetLabelsRequest) (response RemoveDatasetLabelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -813,12 +826,13 @@ func (client DataLabelingManagementClient) removeDatasetLabels(ctx context.Conte
 // A default retry strategy applies to this operation RenameDatasetLabels()
 func (client DataLabelingManagementClient) RenameDatasetLabels(ctx context.Context, request RenameDatasetLabelsRequest) (response RenameDatasetLabelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -873,12 +887,13 @@ func (client DataLabelingManagementClient) renameDatasetLabels(ctx context.Conte
 // A default retry strategy applies to this operation SnapshotDataset()
 func (client DataLabelingManagementClient) SnapshotDataset(ctx context.Context, request SnapshotDatasetRequest) (response SnapshotDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -932,12 +947,13 @@ func (client DataLabelingManagementClient) snapshotDataset(ctx context.Context, 
 // A default retry strategy applies to this operation UpdateDataset()
 func (client DataLabelingManagementClient) UpdateDataset(ctx context.Context, request UpdateDatasetRequest) (response UpdateDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateDataset, policy)
 	if err != nil {

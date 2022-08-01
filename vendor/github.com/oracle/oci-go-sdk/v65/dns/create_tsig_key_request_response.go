@@ -52,7 +52,7 @@ func (request CreateTsigKeyRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateTsigKeyRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateTsigKeyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

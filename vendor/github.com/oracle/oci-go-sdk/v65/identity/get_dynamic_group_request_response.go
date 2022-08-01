@@ -48,7 +48,7 @@ func (request GetDynamicGroupRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetDynamicGroupRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetDynamicGroupRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

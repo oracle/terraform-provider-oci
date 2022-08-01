@@ -63,7 +63,7 @@ func (request CascadeDeleteTagNamespaceRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CascadeDeleteTagNamespaceRequest) RetryPolicy() *common.RetryPolicy {
+func (request CascadeDeleteTagNamespaceRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

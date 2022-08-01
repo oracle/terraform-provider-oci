@@ -64,7 +64,7 @@ func (request RestoreContainerImageRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RestoreContainerImageRequest) RetryPolicy() *common.RetryPolicy {
+func (request RestoreContainerImageRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

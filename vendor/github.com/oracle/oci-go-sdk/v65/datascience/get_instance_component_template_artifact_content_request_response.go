@@ -48,7 +48,7 @@ func (request GetInstanceComponentTemplateArtifactContentRequest) BinaryRequestB
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetInstanceComponentTemplateArtifactContentRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetInstanceComponentTemplateArtifactContentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

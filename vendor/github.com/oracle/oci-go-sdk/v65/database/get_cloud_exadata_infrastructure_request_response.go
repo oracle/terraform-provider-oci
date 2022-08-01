@@ -47,7 +47,7 @@ func (request GetCloudExadataInfrastructureRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetCloudExadataInfrastructureRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetCloudExadataInfrastructureRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

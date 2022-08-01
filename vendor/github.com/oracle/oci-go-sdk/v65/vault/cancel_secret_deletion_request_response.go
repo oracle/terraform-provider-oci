@@ -56,7 +56,7 @@ func (request CancelSecretDeletionRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CancelSecretDeletionRequest) RetryPolicy() *common.RetryPolicy {
+func (request CancelSecretDeletionRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

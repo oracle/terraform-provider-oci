@@ -56,7 +56,7 @@ func (request UpdateInternalDnsRecordRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateInternalDnsRecordRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateInternalDnsRecordRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -53,7 +53,7 @@ func (request DeleteClusterRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteClusterRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteClusterRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

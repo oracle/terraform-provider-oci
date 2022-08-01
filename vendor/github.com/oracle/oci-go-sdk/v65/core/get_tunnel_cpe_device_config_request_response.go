@@ -51,7 +51,7 @@ func (request GetTunnelCpeDeviceConfigRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetTunnelCpeDeviceConfigRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetTunnelCpeDeviceConfigRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

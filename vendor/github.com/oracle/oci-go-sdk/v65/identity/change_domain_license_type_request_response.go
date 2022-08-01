@@ -63,7 +63,7 @@ func (request ChangeDomainLicenseTypeRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeDomainLicenseTypeRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangeDomainLicenseTypeRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

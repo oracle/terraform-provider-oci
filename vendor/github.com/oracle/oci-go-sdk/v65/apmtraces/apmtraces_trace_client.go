@@ -96,12 +96,13 @@ func (client *TraceClient) ConfigurationProvider() *common.ConfigurationProvider
 // request are activated.  Attributes that are activated are un-pinned by default if they are pinned.
 func (client TraceClient) BulkActivateAttribute(ctx context.Context, request BulkActivateAttributeRequest) (response BulkActivateAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.bulkActivateAttribute, policy)
 	if err != nil {
@@ -156,12 +157,13 @@ func (client TraceClient) bulkActivateAttribute(ctx context.Context, request com
 // are de-activated.
 func (client TraceClient) BulkDeActivateAttribute(ctx context.Context, request BulkDeActivateAttributeRequest) (response BulkDeActivateAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.bulkDeActivateAttribute, policy)
 	if err != nil {
@@ -210,12 +212,13 @@ func (client TraceClient) bulkDeActivateAttribute(ctx context.Context, request c
 // Attributes that are de-activated are pinned by default.
 func (client TraceClient) BulkPinAttribute(ctx context.Context, request BulkPinAttributeRequest) (response BulkPinAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.bulkPinAttribute, policy)
 	if err != nil {
@@ -263,12 +266,13 @@ func (client TraceClient) bulkPinAttribute(ctx context.Context, request common.O
 // BulkUnpinAttribute Un-pin a set of attributes in the APM Domain.
 func (client TraceClient) BulkUnpinAttribute(ctx context.Context, request BulkUnpinAttributeRequest) (response BulkUnpinAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.bulkUnpinAttribute, policy)
 	if err != nil {
@@ -318,12 +322,13 @@ func (client TraceClient) bulkUnpinAttribute(ctx context.Context, request common
 // is activated).
 func (client TraceClient) BulkUpdateAttributeNotes(ctx context.Context, request BulkUpdateAttributeNotesRequest) (response BulkUpdateAttributeNotesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.bulkUpdateAttributeNotes, policy)
 	if err != nil {
@@ -371,12 +376,13 @@ func (client TraceClient) bulkUpdateAttributeNotes(ctx context.Context, request 
 // GetAggregatedSnapshot Gets the aggregated snapshot identified by trace ID.
 func (client TraceClient) GetAggregatedSnapshot(ctx context.Context, request GetAggregatedSnapshotRequest) (response GetAggregatedSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getAggregatedSnapshot, policy)
 	if err != nil {
@@ -424,12 +430,13 @@ func (client TraceClient) getAggregatedSnapshot(ctx context.Context, request com
 // GetSpan Gets the span details identified by spanId.
 func (client TraceClient) GetSpan(ctx context.Context, request GetSpanRequest) (response GetSpanResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSpan, policy)
 	if err != nil {
@@ -477,12 +484,13 @@ func (client TraceClient) getSpan(ctx context.Context, request common.OCIRequest
 // GetStatusAutoActivate Get auto activation status for a private data key or public data key in the APM Domain.
 func (client TraceClient) GetStatusAutoActivate(ctx context.Context, request GetStatusAutoActivateRequest) (response GetStatusAutoActivateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getStatusAutoActivate, policy)
 	if err != nil {
@@ -530,12 +538,13 @@ func (client TraceClient) getStatusAutoActivate(ctx context.Context, request com
 // GetTrace Gets the trace details identified by traceId.
 func (client TraceClient) GetTrace(ctx context.Context, request GetTraceRequest) (response GetTraceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTrace, policy)
 	if err != nil {
@@ -583,12 +592,13 @@ func (client TraceClient) getTrace(ctx context.Context, request common.OCIReques
 // GetTraceSnapshot Gets the trace snapshots data identified by trace ID.
 func (client TraceClient) GetTraceSnapshot(ctx context.Context, request GetTraceSnapshotRequest) (response GetTraceSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTraceSnapshot, policy)
 	if err != nil {
@@ -636,12 +646,13 @@ func (client TraceClient) getTraceSnapshot(ctx context.Context, request common.O
 // PutToggleAutoActivate Turn on or off auto activate for private data key or public data key traffic a given APM Domain.
 func (client TraceClient) PutToggleAutoActivate(ctx context.Context, request PutToggleAutoActivateRequest) (response PutToggleAutoActivateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.putToggleAutoActivate, policy)
 	if err != nil {

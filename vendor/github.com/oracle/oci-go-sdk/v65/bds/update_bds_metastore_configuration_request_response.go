@@ -60,7 +60,7 @@ func (request UpdateBdsMetastoreConfigurationRequest) BinaryRequestBody() (*comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateBdsMetastoreConfigurationRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateBdsMetastoreConfigurationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

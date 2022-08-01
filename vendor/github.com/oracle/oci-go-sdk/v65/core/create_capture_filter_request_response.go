@@ -55,7 +55,7 @@ func (request CreateCaptureFilterRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateCaptureFilterRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateCaptureFilterRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

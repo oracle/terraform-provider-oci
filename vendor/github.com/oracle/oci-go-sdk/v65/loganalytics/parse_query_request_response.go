@@ -50,7 +50,7 @@ func (request ParseQueryRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ParseQueryRequest) RetryPolicy() *common.RetryPolicy {
+func (request ParseQueryRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -57,7 +57,7 @@ func (request PutQueryWorkRequestBackgroundRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request PutQueryWorkRequestBackgroundRequest) RetryPolicy() *common.RetryPolicy {
+func (request PutQueryWorkRequestBackgroundRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

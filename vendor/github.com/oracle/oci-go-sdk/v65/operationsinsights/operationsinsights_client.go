@@ -93,12 +93,13 @@ func (client *OperationsInsightsClient) ConfigurationProvider() *common.Configur
 // A default retry strategy applies to this operation AddExadataInsightMembers()
 func (client OperationsInsightsClient) AddExadataInsightMembers(ctx context.Context, request AddExadataInsightMembersRequest) (response AddExadataInsightMembersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -152,12 +153,13 @@ func (client OperationsInsightsClient) addExadataInsightMembers(ctx context.Cont
 // A default retry strategy applies to this operation ChangeDatabaseInsightCompartment()
 func (client OperationsInsightsClient) ChangeDatabaseInsightCompartment(ctx context.Context, request ChangeDatabaseInsightCompartmentRequest) (response ChangeDatabaseInsightCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -211,12 +213,13 @@ func (client OperationsInsightsClient) changeDatabaseInsightCompartment(ctx cont
 // A default retry strategy applies to this operation ChangeEnterpriseManagerBridgeCompartment()
 func (client OperationsInsightsClient) ChangeEnterpriseManagerBridgeCompartment(ctx context.Context, request ChangeEnterpriseManagerBridgeCompartmentRequest) (response ChangeEnterpriseManagerBridgeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeEnterpriseManagerBridgeCompartment, policy)
 	if err != nil {
@@ -265,12 +268,13 @@ func (client OperationsInsightsClient) changeEnterpriseManagerBridgeCompartment(
 // A default retry strategy applies to this operation ChangeExadataInsightCompartment()
 func (client OperationsInsightsClient) ChangeExadataInsightCompartment(ctx context.Context, request ChangeExadataInsightCompartmentRequest) (response ChangeExadataInsightCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -324,12 +328,13 @@ func (client OperationsInsightsClient) changeExadataInsightCompartment(ctx conte
 // A default retry strategy applies to this operation ChangeHostInsightCompartment()
 func (client OperationsInsightsClient) ChangeHostInsightCompartment(ctx context.Context, request ChangeHostInsightCompartmentRequest) (response ChangeHostInsightCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -383,12 +388,13 @@ func (client OperationsInsightsClient) changeHostInsightCompartment(ctx context.
 // A default retry strategy applies to this operation ChangeOperationsInsightsPrivateEndpointCompartment()
 func (client OperationsInsightsClient) ChangeOperationsInsightsPrivateEndpointCompartment(ctx context.Context, request ChangeOperationsInsightsPrivateEndpointCompartmentRequest) (response ChangeOperationsInsightsPrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -442,12 +448,13 @@ func (client OperationsInsightsClient) changeOperationsInsightsPrivateEndpointCo
 // A default retry strategy applies to this operation ChangePeComanagedDatabaseInsight()
 func (client OperationsInsightsClient) ChangePeComanagedDatabaseInsight(ctx context.Context, request ChangePeComanagedDatabaseInsightRequest) (response ChangePeComanagedDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -502,12 +509,13 @@ func (client OperationsInsightsClient) changePeComanagedDatabaseInsight(ctx cont
 // A default retry strategy applies to this operation CreateAwrHub()
 func (client OperationsInsightsClient) CreateAwrHub(ctx context.Context, request CreateAwrHubRequest) (response CreateAwrHubResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -561,12 +569,13 @@ func (client OperationsInsightsClient) createAwrHub(ctx context.Context, request
 // A default retry strategy applies to this operation CreateDatabaseInsight()
 func (client OperationsInsightsClient) CreateDatabaseInsight(ctx context.Context, request CreateDatabaseInsightRequest) (response CreateDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -620,12 +629,13 @@ func (client OperationsInsightsClient) createDatabaseInsight(ctx context.Context
 // A default retry strategy applies to this operation CreateEnterpriseManagerBridge()
 func (client OperationsInsightsClient) CreateEnterpriseManagerBridge(ctx context.Context, request CreateEnterpriseManagerBridgeRequest) (response CreateEnterpriseManagerBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -679,12 +689,13 @@ func (client OperationsInsightsClient) createEnterpriseManagerBridge(ctx context
 // A default retry strategy applies to this operation CreateExadataInsight()
 func (client OperationsInsightsClient) CreateExadataInsight(ctx context.Context, request CreateExadataInsightRequest) (response CreateExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -738,12 +749,13 @@ func (client OperationsInsightsClient) createExadataInsight(ctx context.Context,
 // A default retry strategy applies to this operation CreateHostInsight()
 func (client OperationsInsightsClient) CreateHostInsight(ctx context.Context, request CreateHostInsightRequest) (response CreateHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -798,12 +810,13 @@ func (client OperationsInsightsClient) createHostInsight(ctx context.Context, re
 // A default retry strategy applies to this operation CreateOperationsInsightsPrivateEndpoint()
 func (client OperationsInsightsClient) CreateOperationsInsightsPrivateEndpoint(ctx context.Context, request CreateOperationsInsightsPrivateEndpointRequest) (response CreateOperationsInsightsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -859,12 +872,13 @@ func (client OperationsInsightsClient) createOperationsInsightsPrivateEndpoint(c
 // A default retry strategy applies to this operation CreateOperationsInsightsWarehouse()
 func (client OperationsInsightsClient) CreateOperationsInsightsWarehouse(ctx context.Context, request CreateOperationsInsightsWarehouseRequest) (response CreateOperationsInsightsWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -919,12 +933,13 @@ func (client OperationsInsightsClient) createOperationsInsightsWarehouse(ctx con
 // A default retry strategy applies to this operation CreateOperationsInsightsWarehouseUser()
 func (client OperationsInsightsClient) CreateOperationsInsightsWarehouseUser(ctx context.Context, request CreateOperationsInsightsWarehouseUserRequest) (response CreateOperationsInsightsWarehouseUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -978,12 +993,13 @@ func (client OperationsInsightsClient) createOperationsInsightsWarehouseUser(ctx
 // A default retry strategy applies to this operation DeleteAwrHub()
 func (client OperationsInsightsClient) DeleteAwrHub(ctx context.Context, request DeleteAwrHubRequest) (response DeleteAwrHubResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteAwrHub, policy)
 	if err != nil {
@@ -1032,12 +1048,13 @@ func (client OperationsInsightsClient) deleteAwrHub(ctx context.Context, request
 // A default retry strategy applies to this operation DeleteDatabaseInsight()
 func (client OperationsInsightsClient) DeleteDatabaseInsight(ctx context.Context, request DeleteDatabaseInsightRequest) (response DeleteDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteDatabaseInsight, policy)
 	if err != nil {
@@ -1086,12 +1103,13 @@ func (client OperationsInsightsClient) deleteDatabaseInsight(ctx context.Context
 // A default retry strategy applies to this operation DeleteEnterpriseManagerBridge()
 func (client OperationsInsightsClient) DeleteEnterpriseManagerBridge(ctx context.Context, request DeleteEnterpriseManagerBridgeRequest) (response DeleteEnterpriseManagerBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteEnterpriseManagerBridge, policy)
 	if err != nil {
@@ -1140,12 +1158,13 @@ func (client OperationsInsightsClient) deleteEnterpriseManagerBridge(ctx context
 // A default retry strategy applies to this operation DeleteExadataInsight()
 func (client OperationsInsightsClient) DeleteExadataInsight(ctx context.Context, request DeleteExadataInsightRequest) (response DeleteExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteExadataInsight, policy)
 	if err != nil {
@@ -1194,12 +1213,13 @@ func (client OperationsInsightsClient) deleteExadataInsight(ctx context.Context,
 // A default retry strategy applies to this operation DeleteHostInsight()
 func (client OperationsInsightsClient) DeleteHostInsight(ctx context.Context, request DeleteHostInsightRequest) (response DeleteHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteHostInsight, policy)
 	if err != nil {
@@ -1248,12 +1268,13 @@ func (client OperationsInsightsClient) deleteHostInsight(ctx context.Context, re
 // A default retry strategy applies to this operation DeleteOperationsInsightsPrivateEndpoint()
 func (client OperationsInsightsClient) DeleteOperationsInsightsPrivateEndpoint(ctx context.Context, request DeleteOperationsInsightsPrivateEndpointRequest) (response DeleteOperationsInsightsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteOperationsInsightsPrivateEndpoint, policy)
 	if err != nil {
@@ -1305,12 +1326,13 @@ func (client OperationsInsightsClient) deleteOperationsInsightsPrivateEndpoint(c
 // A default retry strategy applies to this operation DeleteOperationsInsightsWarehouse()
 func (client OperationsInsightsClient) DeleteOperationsInsightsWarehouse(ctx context.Context, request DeleteOperationsInsightsWarehouseRequest) (response DeleteOperationsInsightsWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteOperationsInsightsWarehouse, policy)
 	if err != nil {
@@ -1359,12 +1381,13 @@ func (client OperationsInsightsClient) deleteOperationsInsightsWarehouse(ctx con
 // A default retry strategy applies to this operation DeleteOperationsInsightsWarehouseUser()
 func (client OperationsInsightsClient) DeleteOperationsInsightsWarehouseUser(ctx context.Context, request DeleteOperationsInsightsWarehouseUserRequest) (response DeleteOperationsInsightsWarehouseUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteOperationsInsightsWarehouseUser, policy)
 	if err != nil {
@@ -1413,12 +1436,13 @@ func (client OperationsInsightsClient) deleteOperationsInsightsWarehouseUser(ctx
 // A default retry strategy applies to this operation DisableDatabaseInsight()
 func (client OperationsInsightsClient) DisableDatabaseInsight(ctx context.Context, request DisableDatabaseInsightRequest) (response DisableDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1472,12 +1496,13 @@ func (client OperationsInsightsClient) disableDatabaseInsight(ctx context.Contex
 // A default retry strategy applies to this operation DisableExadataInsight()
 func (client OperationsInsightsClient) DisableExadataInsight(ctx context.Context, request DisableExadataInsightRequest) (response DisableExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1531,12 +1556,13 @@ func (client OperationsInsightsClient) disableExadataInsight(ctx context.Context
 // A default retry strategy applies to this operation DisableHostInsight()
 func (client OperationsInsightsClient) DisableHostInsight(ctx context.Context, request DisableHostInsightRequest) (response DisableHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1590,12 +1616,13 @@ func (client OperationsInsightsClient) disableHostInsight(ctx context.Context, r
 // A default retry strategy applies to this operation DownloadOperationsInsightsWarehouseWallet()
 func (client OperationsInsightsClient) DownloadOperationsInsightsWarehouseWallet(ctx context.Context, request DownloadOperationsInsightsWarehouseWalletRequest) (response DownloadOperationsInsightsWarehouseWalletResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1648,12 +1675,13 @@ func (client OperationsInsightsClient) downloadOperationsInsightsWarehouseWallet
 // A default retry strategy applies to this operation EnableDatabaseInsight()
 func (client OperationsInsightsClient) EnableDatabaseInsight(ctx context.Context, request EnableDatabaseInsightRequest) (response EnableDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1707,12 +1735,13 @@ func (client OperationsInsightsClient) enableDatabaseInsight(ctx context.Context
 // A default retry strategy applies to this operation EnableExadataInsight()
 func (client OperationsInsightsClient) EnableExadataInsight(ctx context.Context, request EnableExadataInsightRequest) (response EnableExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1766,12 +1795,13 @@ func (client OperationsInsightsClient) enableExadataInsight(ctx context.Context,
 // A default retry strategy applies to this operation EnableHostInsight()
 func (client OperationsInsightsClient) EnableHostInsight(ctx context.Context, request EnableHostInsightRequest) (response EnableHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1825,12 +1855,13 @@ func (client OperationsInsightsClient) enableHostInsight(ctx context.Context, re
 // A default retry strategy applies to this operation GetAwrDatabaseReport()
 func (client OperationsInsightsClient) GetAwrDatabaseReport(ctx context.Context, request GetAwrDatabaseReportRequest) (response GetAwrDatabaseReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getAwrDatabaseReport, policy)
 	if err != nil {
@@ -1879,12 +1910,13 @@ func (client OperationsInsightsClient) getAwrDatabaseReport(ctx context.Context,
 // A default retry strategy applies to this operation GetAwrDatabaseSqlReport()
 func (client OperationsInsightsClient) GetAwrDatabaseSqlReport(ctx context.Context, request GetAwrDatabaseSqlReportRequest) (response GetAwrDatabaseSqlReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getAwrDatabaseSqlReport, policy)
 	if err != nil {
@@ -1933,12 +1965,13 @@ func (client OperationsInsightsClient) getAwrDatabaseSqlReport(ctx context.Conte
 // A default retry strategy applies to this operation GetAwrHub()
 func (client OperationsInsightsClient) GetAwrHub(ctx context.Context, request GetAwrHubRequest) (response GetAwrHubResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getAwrHub, policy)
 	if err != nil {
@@ -1988,12 +2021,13 @@ func (client OperationsInsightsClient) getAwrHub(ctx context.Context, request co
 // A default retry strategy applies to this operation GetAwrReport()
 func (client OperationsInsightsClient) GetAwrReport(ctx context.Context, request GetAwrReportRequest) (response GetAwrReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getAwrReport, policy)
 	if err != nil {
@@ -2042,12 +2076,13 @@ func (client OperationsInsightsClient) getAwrReport(ctx context.Context, request
 // A default retry strategy applies to this operation GetDatabaseInsight()
 func (client OperationsInsightsClient) GetDatabaseInsight(ctx context.Context, request GetDatabaseInsightRequest) (response GetDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDatabaseInsight, policy)
 	if err != nil {
@@ -2096,12 +2131,13 @@ func (client OperationsInsightsClient) getDatabaseInsight(ctx context.Context, r
 // A default retry strategy applies to this operation GetEnterpriseManagerBridge()
 func (client OperationsInsightsClient) GetEnterpriseManagerBridge(ctx context.Context, request GetEnterpriseManagerBridgeRequest) (response GetEnterpriseManagerBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getEnterpriseManagerBridge, policy)
 	if err != nil {
@@ -2150,12 +2186,13 @@ func (client OperationsInsightsClient) getEnterpriseManagerBridge(ctx context.Co
 // A default retry strategy applies to this operation GetExadataInsight()
 func (client OperationsInsightsClient) GetExadataInsight(ctx context.Context, request GetExadataInsightRequest) (response GetExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getExadataInsight, policy)
 	if err != nil {
@@ -2204,12 +2241,13 @@ func (client OperationsInsightsClient) getExadataInsight(ctx context.Context, re
 // A default retry strategy applies to this operation GetHostInsight()
 func (client OperationsInsightsClient) GetHostInsight(ctx context.Context, request GetHostInsightRequest) (response GetHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getHostInsight, policy)
 	if err != nil {
@@ -2258,12 +2296,13 @@ func (client OperationsInsightsClient) getHostInsight(ctx context.Context, reque
 // A default retry strategy applies to this operation GetOperationsInsightsPrivateEndpoint()
 func (client OperationsInsightsClient) GetOperationsInsightsPrivateEndpoint(ctx context.Context, request GetOperationsInsightsPrivateEndpointRequest) (response GetOperationsInsightsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getOperationsInsightsPrivateEndpoint, policy)
 	if err != nil {
@@ -2313,12 +2352,13 @@ func (client OperationsInsightsClient) getOperationsInsightsPrivateEndpoint(ctx 
 // A default retry strategy applies to this operation GetOperationsInsightsWarehouse()
 func (client OperationsInsightsClient) GetOperationsInsightsWarehouse(ctx context.Context, request GetOperationsInsightsWarehouseRequest) (response GetOperationsInsightsWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getOperationsInsightsWarehouse, policy)
 	if err != nil {
@@ -2367,12 +2407,13 @@ func (client OperationsInsightsClient) getOperationsInsightsWarehouse(ctx contex
 // A default retry strategy applies to this operation GetOperationsInsightsWarehouseUser()
 func (client OperationsInsightsClient) GetOperationsInsightsWarehouseUser(ctx context.Context, request GetOperationsInsightsWarehouseUserRequest) (response GetOperationsInsightsWarehouseUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getOperationsInsightsWarehouseUser, policy)
 	if err != nil {
@@ -2421,12 +2462,13 @@ func (client OperationsInsightsClient) getOperationsInsightsWarehouseUser(ctx co
 // A default retry strategy applies to this operation GetOpsiDataObject()
 func (client OperationsInsightsClient) GetOpsiDataObject(ctx context.Context, request GetOpsiDataObjectRequest) (response GetOpsiDataObjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getOpsiDataObject, policy)
 	if err != nil {
@@ -2475,12 +2517,13 @@ func (client OperationsInsightsClient) getOpsiDataObject(ctx context.Context, re
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client OperationsInsightsClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -2529,12 +2572,13 @@ func (client OperationsInsightsClient) getWorkRequest(ctx context.Context, reque
 // A default retry strategy applies to this operation IngestDatabaseConfiguration()
 func (client OperationsInsightsClient) IngestDatabaseConfiguration(ctx context.Context, request IngestDatabaseConfigurationRequest) (response IngestDatabaseConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2588,12 +2632,13 @@ func (client OperationsInsightsClient) ingestDatabaseConfiguration(ctx context.C
 // A default retry strategy applies to this operation IngestHostConfiguration()
 func (client OperationsInsightsClient) IngestHostConfiguration(ctx context.Context, request IngestHostConfigurationRequest) (response IngestHostConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2647,12 +2692,13 @@ func (client OperationsInsightsClient) ingestHostConfiguration(ctx context.Conte
 // A default retry strategy applies to this operation IngestHostMetrics()
 func (client OperationsInsightsClient) IngestHostMetrics(ctx context.Context, request IngestHostMetricsRequest) (response IngestHostMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2707,12 +2753,13 @@ func (client OperationsInsightsClient) ingestHostMetrics(ctx context.Context, re
 // A default retry strategy applies to this operation IngestSqlBucket()
 func (client OperationsInsightsClient) IngestSqlBucket(ctx context.Context, request IngestSqlBucketRequest) (response IngestSqlBucketResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2767,12 +2814,13 @@ func (client OperationsInsightsClient) ingestSqlBucket(ctx context.Context, requ
 // A default retry strategy applies to this operation IngestSqlPlanLines()
 func (client OperationsInsightsClient) IngestSqlPlanLines(ctx context.Context, request IngestSqlPlanLinesRequest) (response IngestSqlPlanLinesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2827,12 +2875,13 @@ func (client OperationsInsightsClient) ingestSqlPlanLines(ctx context.Context, r
 // A default retry strategy applies to this operation IngestSqlStats()
 func (client OperationsInsightsClient) IngestSqlStats(ctx context.Context, request IngestSqlStatsRequest) (response IngestSqlStatsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2888,12 +2937,13 @@ func (client OperationsInsightsClient) ingestSqlStats(ctx context.Context, reque
 // A default retry strategy applies to this operation IngestSqlText()
 func (client OperationsInsightsClient) IngestSqlText(ctx context.Context, request IngestSqlTextRequest) (response IngestSqlTextResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2947,12 +2997,13 @@ func (client OperationsInsightsClient) ingestSqlText(ctx context.Context, reques
 // A default retry strategy applies to this operation ListAwrDatabaseSnapshots()
 func (client OperationsInsightsClient) ListAwrDatabaseSnapshots(ctx context.Context, request ListAwrDatabaseSnapshotsRequest) (response ListAwrDatabaseSnapshotsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAwrDatabaseSnapshots, policy)
 	if err != nil {
@@ -3001,12 +3052,13 @@ func (client OperationsInsightsClient) listAwrDatabaseSnapshots(ctx context.Cont
 // A default retry strategy applies to this operation ListAwrDatabases()
 func (client OperationsInsightsClient) ListAwrDatabases(ctx context.Context, request ListAwrDatabasesRequest) (response ListAwrDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAwrDatabases, policy)
 	if err != nil {
@@ -3055,12 +3107,13 @@ func (client OperationsInsightsClient) listAwrDatabases(ctx context.Context, req
 // A default retry strategy applies to this operation ListAwrHubs()
 func (client OperationsInsightsClient) ListAwrHubs(ctx context.Context, request ListAwrHubsRequest) (response ListAwrHubsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAwrHubs, policy)
 	if err != nil {
@@ -3110,12 +3163,13 @@ func (client OperationsInsightsClient) listAwrHubs(ctx context.Context, request 
 // A default retry strategy applies to this operation ListAwrSnapshots()
 func (client OperationsInsightsClient) ListAwrSnapshots(ctx context.Context, request ListAwrSnapshotsRequest) (response ListAwrSnapshotsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAwrSnapshots, policy)
 	if err != nil {
@@ -3165,12 +3219,13 @@ func (client OperationsInsightsClient) listAwrSnapshots(ctx context.Context, req
 // A default retry strategy applies to this operation ListDatabaseConfigurations()
 func (client OperationsInsightsClient) ListDatabaseConfigurations(ctx context.Context, request ListDatabaseConfigurationsRequest) (response ListDatabaseConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDatabaseConfigurations, policy)
 	if err != nil {
@@ -3220,12 +3275,13 @@ func (client OperationsInsightsClient) listDatabaseConfigurations(ctx context.Co
 // A default retry strategy applies to this operation ListDatabaseInsights()
 func (client OperationsInsightsClient) ListDatabaseInsights(ctx context.Context, request ListDatabaseInsightsRequest) (response ListDatabaseInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDatabaseInsights, policy)
 	if err != nil {
@@ -3275,12 +3331,13 @@ func (client OperationsInsightsClient) listDatabaseInsights(ctx context.Context,
 // A default retry strategy applies to this operation ListEnterpriseManagerBridges()
 func (client OperationsInsightsClient) ListEnterpriseManagerBridges(ctx context.Context, request ListEnterpriseManagerBridgesRequest) (response ListEnterpriseManagerBridgesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listEnterpriseManagerBridges, policy)
 	if err != nil {
@@ -3329,12 +3386,13 @@ func (client OperationsInsightsClient) listEnterpriseManagerBridges(ctx context.
 // A default retry strategy applies to this operation ListExadataConfigurations()
 func (client OperationsInsightsClient) ListExadataConfigurations(ctx context.Context, request ListExadataConfigurationsRequest) (response ListExadataConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listExadataConfigurations, policy)
 	if err != nil {
@@ -3384,12 +3442,13 @@ func (client OperationsInsightsClient) listExadataConfigurations(ctx context.Con
 // A default retry strategy applies to this operation ListExadataInsights()
 func (client OperationsInsightsClient) ListExadataInsights(ctx context.Context, request ListExadataInsightsRequest) (response ListExadataInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listExadataInsights, policy)
 	if err != nil {
@@ -3439,12 +3498,13 @@ func (client OperationsInsightsClient) listExadataInsights(ctx context.Context, 
 // A default retry strategy applies to this operation ListHostConfigurations()
 func (client OperationsInsightsClient) ListHostConfigurations(ctx context.Context, request ListHostConfigurationsRequest) (response ListHostConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listHostConfigurations, policy)
 	if err != nil {
@@ -3494,12 +3554,13 @@ func (client OperationsInsightsClient) listHostConfigurations(ctx context.Contex
 // A default retry strategy applies to this operation ListHostInsights()
 func (client OperationsInsightsClient) ListHostInsights(ctx context.Context, request ListHostInsightsRequest) (response ListHostInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listHostInsights, policy)
 	if err != nil {
@@ -3548,12 +3609,13 @@ func (client OperationsInsightsClient) listHostInsights(ctx context.Context, req
 // A default retry strategy applies to this operation ListHostedEntities()
 func (client OperationsInsightsClient) ListHostedEntities(ctx context.Context, request ListHostedEntitiesRequest) (response ListHostedEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listHostedEntities, policy)
 	if err != nil {
@@ -3606,12 +3668,13 @@ func (client OperationsInsightsClient) listHostedEntities(ctx context.Context, r
 // A default retry strategy applies to this operation ListImportableAgentEntities()
 func (client OperationsInsightsClient) ListImportableAgentEntities(ctx context.Context, request ListImportableAgentEntitiesRequest) (response ListImportableAgentEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listImportableAgentEntities, policy)
 	if err != nil {
@@ -3666,12 +3729,13 @@ func (client OperationsInsightsClient) listImportableAgentEntities(ctx context.C
 // A default retry strategy applies to this operation ListImportableComputeEntities()
 func (client OperationsInsightsClient) ListImportableComputeEntities(ctx context.Context, request ListImportableComputeEntitiesRequest) (response ListImportableComputeEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listImportableComputeEntities, policy)
 	if err != nil {
@@ -3720,12 +3784,13 @@ func (client OperationsInsightsClient) listImportableComputeEntities(ctx context
 // A default retry strategy applies to this operation ListImportableEnterpriseManagerEntities()
 func (client OperationsInsightsClient) ListImportableEnterpriseManagerEntities(ctx context.Context, request ListImportableEnterpriseManagerEntitiesRequest) (response ListImportableEnterpriseManagerEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listImportableEnterpriseManagerEntities, policy)
 	if err != nil {
@@ -3774,12 +3839,13 @@ func (client OperationsInsightsClient) listImportableEnterpriseManagerEntities(c
 // A default retry strategy applies to this operation ListOperationsInsightsPrivateEndpoints()
 func (client OperationsInsightsClient) ListOperationsInsightsPrivateEndpoints(ctx context.Context, request ListOperationsInsightsPrivateEndpointsRequest) (response ListOperationsInsightsPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listOperationsInsightsPrivateEndpoints, policy)
 	if err != nil {
@@ -3828,12 +3894,13 @@ func (client OperationsInsightsClient) listOperationsInsightsPrivateEndpoints(ct
 // A default retry strategy applies to this operation ListOperationsInsightsWarehouseUsers()
 func (client OperationsInsightsClient) ListOperationsInsightsWarehouseUsers(ctx context.Context, request ListOperationsInsightsWarehouseUsersRequest) (response ListOperationsInsightsWarehouseUsersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listOperationsInsightsWarehouseUsers, policy)
 	if err != nil {
@@ -3883,12 +3950,13 @@ func (client OperationsInsightsClient) listOperationsInsightsWarehouseUsers(ctx 
 // A default retry strategy applies to this operation ListOperationsInsightsWarehouses()
 func (client OperationsInsightsClient) ListOperationsInsightsWarehouses(ctx context.Context, request ListOperationsInsightsWarehousesRequest) (response ListOperationsInsightsWarehousesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listOperationsInsightsWarehouses, policy)
 	if err != nil {
@@ -3937,12 +4005,13 @@ func (client OperationsInsightsClient) listOperationsInsightsWarehouses(ctx cont
 // A default retry strategy applies to this operation ListOpsiDataObjects()
 func (client OperationsInsightsClient) ListOpsiDataObjects(ctx context.Context, request ListOpsiDataObjectsRequest) (response ListOpsiDataObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listOpsiDataObjects, policy)
 	if err != nil {
@@ -3992,12 +4061,13 @@ func (client OperationsInsightsClient) listOpsiDataObjects(ctx context.Context, 
 // A default retry strategy applies to this operation ListSqlPlans()
 func (client OperationsInsightsClient) ListSqlPlans(ctx context.Context, request ListSqlPlansRequest) (response ListSqlPlansResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSqlPlans, policy)
 	if err != nil {
@@ -4047,12 +4117,13 @@ func (client OperationsInsightsClient) listSqlPlans(ctx context.Context, request
 // A default retry strategy applies to this operation ListSqlSearches()
 func (client OperationsInsightsClient) ListSqlSearches(ctx context.Context, request ListSqlSearchesRequest) (response ListSqlSearchesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSqlSearches, policy)
 	if err != nil {
@@ -4101,12 +4172,13 @@ func (client OperationsInsightsClient) listSqlSearches(ctx context.Context, requ
 // A default retry strategy applies to this operation ListSqlTexts()
 func (client OperationsInsightsClient) ListSqlTexts(ctx context.Context, request ListSqlTextsRequest) (response ListSqlTextsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSqlTexts, policy)
 	if err != nil {
@@ -4155,12 +4227,13 @@ func (client OperationsInsightsClient) listSqlTexts(ctx context.Context, request
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client OperationsInsightsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -4209,12 +4282,13 @@ func (client OperationsInsightsClient) listWorkRequestErrors(ctx context.Context
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client OperationsInsightsClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -4263,12 +4337,13 @@ func (client OperationsInsightsClient) listWorkRequestLogs(ctx context.Context, 
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client OperationsInsightsClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -4318,12 +4393,13 @@ func (client OperationsInsightsClient) listWorkRequests(ctx context.Context, req
 // A default retry strategy applies to this operation QueryOpsiDataObjectData()
 func (client OperationsInsightsClient) QueryOpsiDataObjectData(ctx context.Context, request QueryOpsiDataObjectDataRequest) (response QueryOpsiDataObjectDataResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.queryOpsiDataObjectData, policy)
 	if err != nil {
@@ -4372,12 +4448,13 @@ func (client OperationsInsightsClient) queryOpsiDataObjectData(ctx context.Conte
 // A default retry strategy applies to this operation RotateOperationsInsightsWarehouseWallet()
 func (client OperationsInsightsClient) RotateOperationsInsightsWarehouseWallet(ctx context.Context, request RotateOperationsInsightsWarehouseWalletRequest) (response RotateOperationsInsightsWarehouseWalletResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.rotateOperationsInsightsWarehouseWallet, policy)
 	if err != nil {
@@ -4430,12 +4507,13 @@ func (client OperationsInsightsClient) rotateOperationsInsightsWarehouseWallet(c
 // A default retry strategy applies to this operation SummarizeAwrDatabaseCpuUsages()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseCpuUsages(ctx context.Context, request SummarizeAwrDatabaseCpuUsagesRequest) (response SummarizeAwrDatabaseCpuUsagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseCpuUsages, policy)
 	if err != nil {
@@ -4484,12 +4562,13 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseCpuUsages(ctx context
 // A default retry strategy applies to this operation SummarizeAwrDatabaseMetrics()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseMetrics(ctx context.Context, request SummarizeAwrDatabaseMetricsRequest) (response SummarizeAwrDatabaseMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseMetrics, policy)
 	if err != nil {
@@ -4542,12 +4621,13 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseMetrics(ctx context.C
 // A default retry strategy applies to this operation SummarizeAwrDatabaseParameterChanges()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseParameterChanges(ctx context.Context, request SummarizeAwrDatabaseParameterChangesRequest) (response SummarizeAwrDatabaseParameterChangesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseParameterChanges, policy)
 	if err != nil {
@@ -4604,12 +4684,13 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseParameterChanges(ctx 
 // A default retry strategy applies to this operation SummarizeAwrDatabaseParameters()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseParameters(ctx context.Context, request SummarizeAwrDatabaseParametersRequest) (response SummarizeAwrDatabaseParametersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseParameters, policy)
 	if err != nil {
@@ -4658,12 +4739,13 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseParameters(ctx contex
 // A default retry strategy applies to this operation SummarizeAwrDatabaseSnapshotRanges()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseSnapshotRanges(ctx context.Context, request SummarizeAwrDatabaseSnapshotRangesRequest) (response SummarizeAwrDatabaseSnapshotRangesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseSnapshotRanges, policy)
 	if err != nil {
@@ -4712,12 +4794,13 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseSnapshotRanges(ctx co
 // A default retry strategy applies to this operation SummarizeAwrDatabaseSysstats()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseSysstats(ctx context.Context, request SummarizeAwrDatabaseSysstatsRequest) (response SummarizeAwrDatabaseSysstatsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseSysstats, policy)
 	if err != nil {
@@ -4766,12 +4849,13 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseSysstats(ctx context.
 // A default retry strategy applies to this operation SummarizeAwrDatabaseTopWaitEvents()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseTopWaitEvents(ctx context.Context, request SummarizeAwrDatabaseTopWaitEventsRequest) (response SummarizeAwrDatabaseTopWaitEventsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseTopWaitEvents, policy)
 	if err != nil {
@@ -4820,12 +4904,13 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseTopWaitEvents(ctx con
 // A default retry strategy applies to this operation SummarizeAwrDatabaseWaitEventBuckets()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseWaitEventBuckets(ctx context.Context, request SummarizeAwrDatabaseWaitEventBucketsRequest) (response SummarizeAwrDatabaseWaitEventBucketsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseWaitEventBuckets, policy)
 	if err != nil {
@@ -4874,12 +4959,13 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseWaitEventBuckets(ctx 
 // A default retry strategy applies to this operation SummarizeAwrDatabaseWaitEvents()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseWaitEvents(ctx context.Context, request SummarizeAwrDatabaseWaitEventsRequest) (response SummarizeAwrDatabaseWaitEventsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseWaitEvents, policy)
 	if err != nil {
@@ -4928,12 +5014,13 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseWaitEvents(ctx contex
 // A default retry strategy applies to this operation SummarizeAwrSourcesSummaries()
 func (client OperationsInsightsClient) SummarizeAwrSourcesSummaries(ctx context.Context, request SummarizeAwrSourcesSummariesRequest) (response SummarizeAwrSourcesSummariesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrSourcesSummaries, policy)
 	if err != nil {
@@ -4984,12 +5071,13 @@ func (client OperationsInsightsClient) summarizeAwrSourcesSummaries(ctx context.
 // A default retry strategy applies to this operation SummarizeDatabaseInsightResourceCapacityTrend()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceCapacityTrend(ctx context.Context, request SummarizeDatabaseInsightResourceCapacityTrendRequest) (response SummarizeDatabaseInsightResourceCapacityTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeDatabaseInsightResourceCapacityTrend, policy)
 	if err != nil {
@@ -5039,12 +5127,13 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceCapacityT
 // A default retry strategy applies to this operation SummarizeDatabaseInsightResourceForecastTrend()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceForecastTrend(ctx context.Context, request SummarizeDatabaseInsightResourceForecastTrendRequest) (response SummarizeDatabaseInsightResourceForecastTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeDatabaseInsightResourceForecastTrend, policy)
 	if err != nil {
@@ -5094,12 +5183,13 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceForecastT
 // A default retry strategy applies to this operation SummarizeDatabaseInsightResourceStatistics()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceStatistics(ctx context.Context, request SummarizeDatabaseInsightResourceStatisticsRequest) (response SummarizeDatabaseInsightResourceStatisticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeDatabaseInsightResourceStatistics, policy)
 	if err != nil {
@@ -5151,12 +5241,13 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceStatistic
 // A default retry strategy applies to this operation SummarizeDatabaseInsightResourceUsage()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceUsage(ctx context.Context, request SummarizeDatabaseInsightResourceUsageRequest) (response SummarizeDatabaseInsightResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeDatabaseInsightResourceUsage, policy)
 	if err != nil {
@@ -5207,12 +5298,13 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUsage(ctx
 // A default retry strategy applies to this operation SummarizeDatabaseInsightResourceUsageTrend()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceUsageTrend(ctx context.Context, request SummarizeDatabaseInsightResourceUsageTrendRequest) (response SummarizeDatabaseInsightResourceUsageTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeDatabaseInsightResourceUsageTrend, policy)
 	if err != nil {
@@ -5262,12 +5354,13 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUsageTren
 // A default retry strategy applies to this operation SummarizeDatabaseInsightResourceUtilizationInsight()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceUtilizationInsight(ctx context.Context, request SummarizeDatabaseInsightResourceUtilizationInsightRequest) (response SummarizeDatabaseInsightResourceUtilizationInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeDatabaseInsightResourceUtilizationInsight, policy)
 	if err != nil {
@@ -5318,12 +5411,13 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUtilizati
 // A default retry strategy applies to this operation SummarizeDatabaseInsightTablespaceUsageTrend()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightTablespaceUsageTrend(ctx context.Context, request SummarizeDatabaseInsightTablespaceUsageTrendRequest) (response SummarizeDatabaseInsightTablespaceUsageTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeDatabaseInsightTablespaceUsageTrend, policy)
 	if err != nil {
@@ -5379,12 +5473,13 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightTablespaceUsageTr
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceCapacityTrend()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceCapacityTrend(ctx context.Context, request SummarizeExadataInsightResourceCapacityTrendRequest) (response SummarizeExadataInsightResourceCapacityTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeExadataInsightResourceCapacityTrend, policy)
 	if err != nil {
@@ -5437,12 +5532,13 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceCapacityTr
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceCapacityTrendAggregated()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceCapacityTrendAggregated(ctx context.Context, request SummarizeExadataInsightResourceCapacityTrendAggregatedRequest) (response SummarizeExadataInsightResourceCapacityTrendAggregatedResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeExadataInsightResourceCapacityTrendAggregated, policy)
 	if err != nil {
@@ -5498,12 +5594,13 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceCapacityTr
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceForecastTrend()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceForecastTrend(ctx context.Context, request SummarizeExadataInsightResourceForecastTrendRequest) (response SummarizeExadataInsightResourceForecastTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeExadataInsightResourceForecastTrend, policy)
 	if err != nil {
@@ -5555,12 +5652,13 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceForecastTr
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceForecastTrendAggregated()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceForecastTrendAggregated(ctx context.Context, request SummarizeExadataInsightResourceForecastTrendAggregatedRequest) (response SummarizeExadataInsightResourceForecastTrendAggregatedResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeExadataInsightResourceForecastTrendAggregated, policy)
 	if err != nil {
@@ -5613,12 +5711,13 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceForecastTr
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceStatistics()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceStatistics(ctx context.Context, request SummarizeExadataInsightResourceStatisticsRequest) (response SummarizeExadataInsightResourceStatisticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeExadataInsightResourceStatistics, policy)
 	if err != nil {
@@ -5672,12 +5771,13 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceStatistics
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceUsage()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceUsage(ctx context.Context, request SummarizeExadataInsightResourceUsageRequest) (response SummarizeExadataInsightResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeExadataInsightResourceUsage, policy)
 	if err != nil {
@@ -5731,12 +5831,13 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceUsage(ctx 
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceUsageAggregated()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceUsageAggregated(ctx context.Context, request SummarizeExadataInsightResourceUsageAggregatedRequest) (response SummarizeExadataInsightResourceUsageAggregatedResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeExadataInsightResourceUsageAggregated, policy)
 	if err != nil {
@@ -5785,12 +5886,13 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceUsageAggre
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceUtilizationInsight()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceUtilizationInsight(ctx context.Context, request SummarizeExadataInsightResourceUtilizationInsightRequest) (response SummarizeExadataInsightResourceUtilizationInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeExadataInsightResourceUtilizationInsight, policy)
 	if err != nil {
@@ -5839,12 +5941,13 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceUtilizatio
 // A default retry strategy applies to this operation SummarizeExadataMembers()
 func (client OperationsInsightsClient) SummarizeExadataMembers(ctx context.Context, request SummarizeExadataMembersRequest) (response SummarizeExadataMembersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeExadataMembers, policy)
 	if err != nil {
@@ -5895,12 +5998,13 @@ func (client OperationsInsightsClient) summarizeExadataMembers(ctx context.Conte
 // A default retry strategy applies to this operation SummarizeHostInsightResourceCapacityTrend()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceCapacityTrend(ctx context.Context, request SummarizeHostInsightResourceCapacityTrendRequest) (response SummarizeHostInsightResourceCapacityTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeHostInsightResourceCapacityTrend, policy)
 	if err != nil {
@@ -5950,12 +6054,13 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceCapacityTrend
 // A default retry strategy applies to this operation SummarizeHostInsightResourceForecastTrend()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceForecastTrend(ctx context.Context, request SummarizeHostInsightResourceForecastTrendRequest) (response SummarizeHostInsightResourceForecastTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeHostInsightResourceForecastTrend, policy)
 	if err != nil {
@@ -6005,12 +6110,13 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceForecastTrend
 // A default retry strategy applies to this operation SummarizeHostInsightResourceStatistics()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceStatistics(ctx context.Context, request SummarizeHostInsightResourceStatisticsRequest) (response SummarizeHostInsightResourceStatisticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeHostInsightResourceStatistics, policy)
 	if err != nil {
@@ -6062,12 +6168,13 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceStatistics(ct
 // A default retry strategy applies to this operation SummarizeHostInsightResourceUsage()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceUsage(ctx context.Context, request SummarizeHostInsightResourceUsageRequest) (response SummarizeHostInsightResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeHostInsightResourceUsage, policy)
 	if err != nil {
@@ -6118,12 +6225,13 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUsage(ctx con
 // A default retry strategy applies to this operation SummarizeHostInsightResourceUsageTrend()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceUsageTrend(ctx context.Context, request SummarizeHostInsightResourceUsageTrendRequest) (response SummarizeHostInsightResourceUsageTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeHostInsightResourceUsageTrend, policy)
 	if err != nil {
@@ -6173,12 +6281,13 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUsageTrend(ct
 // A default retry strategy applies to this operation SummarizeHostInsightResourceUtilizationInsight()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceUtilizationInsight(ctx context.Context, request SummarizeHostInsightResourceUtilizationInsightRequest) (response SummarizeHostInsightResourceUtilizationInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeHostInsightResourceUtilizationInsight, policy)
 	if err != nil {
@@ -6229,12 +6338,13 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUtilizationIn
 // A default retry strategy applies to this operation SummarizeHostInsightTopProcessesUsageTrend()
 func (client OperationsInsightsClient) SummarizeHostInsightTopProcessesUsageTrend(ctx context.Context, request SummarizeHostInsightTopProcessesUsageTrendRequest) (response SummarizeHostInsightTopProcessesUsageTrendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeHostInsightTopProcessesUsageTrend, policy)
 	if err != nil {
@@ -6284,12 +6394,13 @@ func (client OperationsInsightsClient) summarizeHostInsightTopProcessesUsageTren
 // A default retry strategy applies to this operation SummarizeOperationsInsightsWarehouseResourceUsage()
 func (client OperationsInsightsClient) SummarizeOperationsInsightsWarehouseResourceUsage(ctx context.Context, request SummarizeOperationsInsightsWarehouseResourceUsageRequest) (response SummarizeOperationsInsightsWarehouseResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeOperationsInsightsWarehouseResourceUsage, policy)
 	if err != nil {
@@ -6339,12 +6450,13 @@ func (client OperationsInsightsClient) summarizeOperationsInsightsWarehouseResou
 // A default retry strategy applies to this operation SummarizeSqlInsights()
 func (client OperationsInsightsClient) SummarizeSqlInsights(ctx context.Context, request SummarizeSqlInsightsRequest) (response SummarizeSqlInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeSqlInsights, policy)
 	if err != nil {
@@ -6394,12 +6506,13 @@ func (client OperationsInsightsClient) summarizeSqlInsights(ctx context.Context,
 // A default retry strategy applies to this operation SummarizeSqlPlanInsights()
 func (client OperationsInsightsClient) SummarizeSqlPlanInsights(ctx context.Context, request SummarizeSqlPlanInsightsRequest) (response SummarizeSqlPlanInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeSqlPlanInsights, policy)
 	if err != nil {
@@ -6449,12 +6562,13 @@ func (client OperationsInsightsClient) summarizeSqlPlanInsights(ctx context.Cont
 // A default retry strategy applies to this operation SummarizeSqlResponseTimeDistributions()
 func (client OperationsInsightsClient) SummarizeSqlResponseTimeDistributions(ctx context.Context, request SummarizeSqlResponseTimeDistributionsRequest) (response SummarizeSqlResponseTimeDistributionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeSqlResponseTimeDistributions, policy)
 	if err != nil {
@@ -6504,12 +6618,13 @@ func (client OperationsInsightsClient) summarizeSqlResponseTimeDistributions(ctx
 // A default retry strategy applies to this operation SummarizeSqlStatistics()
 func (client OperationsInsightsClient) SummarizeSqlStatistics(ctx context.Context, request SummarizeSqlStatisticsRequest) (response SummarizeSqlStatisticsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeSqlStatistics, policy)
 	if err != nil {
@@ -6559,12 +6674,13 @@ func (client OperationsInsightsClient) summarizeSqlStatistics(ctx context.Contex
 // A default retry strategy applies to this operation SummarizeSqlStatisticsTimeSeries()
 func (client OperationsInsightsClient) SummarizeSqlStatisticsTimeSeries(ctx context.Context, request SummarizeSqlStatisticsTimeSeriesRequest) (response SummarizeSqlStatisticsTimeSeriesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeSqlStatisticsTimeSeries, policy)
 	if err != nil {
@@ -6614,12 +6730,13 @@ func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeries(ctx cont
 // A default retry strategy applies to this operation SummarizeSqlStatisticsTimeSeriesByPlan()
 func (client OperationsInsightsClient) SummarizeSqlStatisticsTimeSeriesByPlan(ctx context.Context, request SummarizeSqlStatisticsTimeSeriesByPlanRequest) (response SummarizeSqlStatisticsTimeSeriesByPlanResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeSqlStatisticsTimeSeriesByPlan, policy)
 	if err != nil {
@@ -6668,12 +6785,13 @@ func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeriesByPlan(ct
 // A default retry strategy applies to this operation UpdateAwrHub()
 func (client OperationsInsightsClient) UpdateAwrHub(ctx context.Context, request UpdateAwrHubRequest) (response UpdateAwrHubResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateAwrHub, policy)
 	if err != nil {
@@ -6722,12 +6840,13 @@ func (client OperationsInsightsClient) updateAwrHub(ctx context.Context, request
 // A default retry strategy applies to this operation UpdateDatabaseInsight()
 func (client OperationsInsightsClient) UpdateDatabaseInsight(ctx context.Context, request UpdateDatabaseInsightRequest) (response UpdateDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateDatabaseInsight, policy)
 	if err != nil {
@@ -6776,12 +6895,13 @@ func (client OperationsInsightsClient) updateDatabaseInsight(ctx context.Context
 // A default retry strategy applies to this operation UpdateEnterpriseManagerBridge()
 func (client OperationsInsightsClient) UpdateEnterpriseManagerBridge(ctx context.Context, request UpdateEnterpriseManagerBridgeRequest) (response UpdateEnterpriseManagerBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateEnterpriseManagerBridge, policy)
 	if err != nil {
@@ -6830,12 +6950,13 @@ func (client OperationsInsightsClient) updateEnterpriseManagerBridge(ctx context
 // A default retry strategy applies to this operation UpdateExadataInsight()
 func (client OperationsInsightsClient) UpdateExadataInsight(ctx context.Context, request UpdateExadataInsightRequest) (response UpdateExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateExadataInsight, policy)
 	if err != nil {
@@ -6884,12 +7005,13 @@ func (client OperationsInsightsClient) updateExadataInsight(ctx context.Context,
 // A default retry strategy applies to this operation UpdateHostInsight()
 func (client OperationsInsightsClient) UpdateHostInsight(ctx context.Context, request UpdateHostInsightRequest) (response UpdateHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateHostInsight, policy)
 	if err != nil {
@@ -6938,12 +7060,13 @@ func (client OperationsInsightsClient) updateHostInsight(ctx context.Context, re
 // A default retry strategy applies to this operation UpdateOperationsInsightsPrivateEndpoint()
 func (client OperationsInsightsClient) UpdateOperationsInsightsPrivateEndpoint(ctx context.Context, request UpdateOperationsInsightsPrivateEndpointRequest) (response UpdateOperationsInsightsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateOperationsInsightsPrivateEndpoint, policy)
 	if err != nil {
@@ -6993,12 +7116,13 @@ func (client OperationsInsightsClient) updateOperationsInsightsPrivateEndpoint(c
 // A default retry strategy applies to this operation UpdateOperationsInsightsWarehouse()
 func (client OperationsInsightsClient) UpdateOperationsInsightsWarehouse(ctx context.Context, request UpdateOperationsInsightsWarehouseRequest) (response UpdateOperationsInsightsWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateOperationsInsightsWarehouse, policy)
 	if err != nil {
@@ -7047,12 +7171,13 @@ func (client OperationsInsightsClient) updateOperationsInsightsWarehouse(ctx con
 // A default retry strategy applies to this operation UpdateOperationsInsightsWarehouseUser()
 func (client OperationsInsightsClient) UpdateOperationsInsightsWarehouseUser(ctx context.Context, request UpdateOperationsInsightsWarehouseUserRequest) (response UpdateOperationsInsightsWarehouseUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateOperationsInsightsWarehouseUser, policy)
 	if err != nil {

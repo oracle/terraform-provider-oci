@@ -53,7 +53,7 @@ func (request DeleteInternalDnsRecordRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteInternalDnsRecordRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteInternalDnsRecordRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

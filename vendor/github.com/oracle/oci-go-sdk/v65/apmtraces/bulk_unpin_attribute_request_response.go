@@ -51,7 +51,7 @@ func (request BulkUnpinAttributeRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request BulkUnpinAttributeRequest) RetryPolicy() *common.RetryPolicy {
+func (request BulkUnpinAttributeRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

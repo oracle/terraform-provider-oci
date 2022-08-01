@@ -50,7 +50,7 @@ func (request EstimateReleaseDataSizeRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request EstimateReleaseDataSizeRequest) RetryPolicy() *common.RetryPolicy {
+func (request EstimateReleaseDataSizeRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -58,7 +58,7 @@ func (request ListIamWorkRequestErrorsRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListIamWorkRequestErrorsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListIamWorkRequestErrorsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

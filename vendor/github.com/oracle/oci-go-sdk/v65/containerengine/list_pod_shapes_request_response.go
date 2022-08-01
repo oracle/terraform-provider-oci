@@ -69,7 +69,7 @@ func (request ListPodShapesRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListPodShapesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListPodShapesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

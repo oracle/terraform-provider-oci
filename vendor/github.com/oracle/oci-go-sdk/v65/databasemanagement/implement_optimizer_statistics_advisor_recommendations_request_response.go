@@ -53,7 +53,7 @@ func (request ImplementOptimizerStatisticsAdvisorRecommendationsRequest) BinaryR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ImplementOptimizerStatisticsAdvisorRecommendationsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ImplementOptimizerStatisticsAdvisorRecommendationsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

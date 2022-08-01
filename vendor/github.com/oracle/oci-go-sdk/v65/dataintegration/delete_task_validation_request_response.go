@@ -57,7 +57,7 @@ func (request DeleteTaskValidationRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteTaskValidationRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteTaskValidationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

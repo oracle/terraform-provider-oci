@@ -58,7 +58,7 @@ func (request UpdateAutonomousContainerDatabaseDataguardAssociationRequest) Bina
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateAutonomousContainerDatabaseDataguardAssociationRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateAutonomousContainerDatabaseDataguardAssociationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

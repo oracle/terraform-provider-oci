@@ -49,7 +49,7 @@ func (request GetAnalyticsClusterMemoryEstimateRequest) BinaryRequestBody() (*co
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetAnalyticsClusterMemoryEstimateRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetAnalyticsClusterMemoryEstimateRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

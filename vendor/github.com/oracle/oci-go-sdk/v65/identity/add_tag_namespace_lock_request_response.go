@@ -63,7 +63,7 @@ func (request AddTagNamespaceLockRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddTagNamespaceLockRequest) RetryPolicy() *common.RetryPolicy {
+func (request AddTagNamespaceLockRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

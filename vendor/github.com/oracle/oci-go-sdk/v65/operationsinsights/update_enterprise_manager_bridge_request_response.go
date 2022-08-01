@@ -56,7 +56,7 @@ func (request UpdateEnterpriseManagerBridgeRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateEnterpriseManagerBridgeRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateEnterpriseManagerBridgeRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

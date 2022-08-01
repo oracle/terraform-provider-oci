@@ -60,7 +60,7 @@ func (request GetTraceSnapshotRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetTraceSnapshotRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetTraceSnapshotRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

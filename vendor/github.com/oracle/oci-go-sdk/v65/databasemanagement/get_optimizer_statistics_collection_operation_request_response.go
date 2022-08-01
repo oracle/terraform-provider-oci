@@ -50,7 +50,7 @@ func (request GetOptimizerStatisticsCollectionOperationRequest) BinaryRequestBod
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetOptimizerStatisticsCollectionOperationRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetOptimizerStatisticsCollectionOperationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

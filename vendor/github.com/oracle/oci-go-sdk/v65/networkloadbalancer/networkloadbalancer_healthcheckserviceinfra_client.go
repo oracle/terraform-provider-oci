@@ -89,12 +89,13 @@ func (client *HealthCheckServiceInfraClient) ConfigurationProvider() *common.Con
 // A default retry strategy applies to this operation RegisterHealthCheckServiceInfraDpHost()
 func (client HealthCheckServiceInfraClient) RegisterHealthCheckServiceInfraDpHost(ctx context.Context, request RegisterHealthCheckServiceInfraDpHostRequest) (response RegisterHealthCheckServiceInfraDpHostResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {

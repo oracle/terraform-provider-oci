@@ -49,7 +49,7 @@ func (request GetPrivateApplicationPackageActionDownloadConfigRequest) BinaryReq
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetPrivateApplicationPackageActionDownloadConfigRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetPrivateApplicationPackageActionDownloadConfigRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

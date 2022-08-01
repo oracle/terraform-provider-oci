@@ -80,7 +80,7 @@ func (request ListAlarmsStatusRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListAlarmsStatusRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListAlarmsStatusRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

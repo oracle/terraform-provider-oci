@@ -58,7 +58,7 @@ func (request ChangeIPSecConnectionCompartmentRequest) BinaryRequestBody() (*com
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeIPSecConnectionCompartmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangeIPSecConnectionCompartmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -63,7 +63,7 @@ func (request ChangeDeploymentBackupCompartmentRequest) BinaryRequestBody() (*co
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeDeploymentBackupCompartmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangeDeploymentBackupCompartmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

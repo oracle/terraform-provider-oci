@@ -80,12 +80,13 @@ func (client *FunctionsInvokeClient) ConfigurationProvider() *common.Configurati
 // InvokeFunction Invokes a function
 func (client FunctionsInvokeClient) InvokeFunction(ctx context.Context, request InvokeFunctionRequest) (response InvokeFunctionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.invokeFunction, policy)
 	if err != nil {

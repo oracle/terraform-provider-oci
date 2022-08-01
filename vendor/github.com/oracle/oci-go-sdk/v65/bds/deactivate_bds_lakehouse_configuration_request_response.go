@@ -67,7 +67,7 @@ func (request DeactivateBdsLakehouseConfigurationRequest) BinaryRequestBody() (*
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeactivateBdsLakehouseConfigurationRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeactivateBdsLakehouseConfigurationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

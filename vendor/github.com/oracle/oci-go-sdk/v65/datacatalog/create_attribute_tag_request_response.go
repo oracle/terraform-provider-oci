@@ -66,7 +66,7 @@ func (request CreateAttributeTagRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateAttributeTagRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateAttributeTagRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

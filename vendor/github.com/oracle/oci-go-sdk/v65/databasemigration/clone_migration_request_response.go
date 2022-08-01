@@ -65,7 +65,7 @@ func (request CloneMigrationRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CloneMigrationRequest) RetryPolicy() *common.RetryPolicy {
+func (request CloneMigrationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

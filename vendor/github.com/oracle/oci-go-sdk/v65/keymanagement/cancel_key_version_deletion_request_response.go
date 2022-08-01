@@ -67,7 +67,7 @@ func (request CancelKeyVersionDeletionRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CancelKeyVersionDeletionRequest) RetryPolicy() *common.RetryPolicy {
+func (request CancelKeyVersionDeletionRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

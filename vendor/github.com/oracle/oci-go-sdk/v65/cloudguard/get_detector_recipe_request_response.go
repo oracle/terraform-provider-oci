@@ -47,7 +47,7 @@ func (request GetDetectorRecipeRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetDetectorRecipeRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetDetectorRecipeRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

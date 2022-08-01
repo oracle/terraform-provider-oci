@@ -66,7 +66,7 @@ func (request ListSqlTuningSetsRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListSqlTuningSetsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListSqlTuningSetsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

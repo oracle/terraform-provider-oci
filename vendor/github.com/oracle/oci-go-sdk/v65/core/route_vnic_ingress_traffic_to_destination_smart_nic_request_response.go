@@ -63,7 +63,7 @@ func (request RouteVnicIngressTrafficToDestinationSmartNicRequest) BinaryRequest
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RouteVnicIngressTrafficToDestinationSmartNicRequest) RetryPolicy() *common.RetryPolicy {
+func (request RouteVnicIngressTrafficToDestinationSmartNicRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

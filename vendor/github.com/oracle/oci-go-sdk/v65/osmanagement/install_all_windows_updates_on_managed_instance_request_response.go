@@ -57,7 +57,7 @@ func (request InstallAllWindowsUpdatesOnManagedInstanceRequest) BinaryRequestBod
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request InstallAllWindowsUpdatesOnManagedInstanceRequest) RetryPolicy() *common.RetryPolicy {
+func (request InstallAllWindowsUpdatesOnManagedInstanceRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

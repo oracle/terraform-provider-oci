@@ -91,12 +91,13 @@ func (client *WaasClient) ConfigurationProvider() *common.ConfigurationProvider 
 // Use the `GET /waasPolicies/{waasPolicyId}/wafConfig/recommendations` method to view a list of recommended Web Application Firewall protection rules. For more information, see WAF Protection Rules (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/wafprotectionrules.htm).
 func (client WaasClient) AcceptRecommendations(ctx context.Context, request AcceptRecommendationsRequest) (response AcceptRecommendationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.acceptRecommendations, policy)
 	if err != nil {
@@ -144,12 +145,13 @@ func (client WaasClient) acceptRecommendations(ctx context.Context, request comm
 // CancelWorkRequest Cancels a specified work request.
 func (client WaasClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -204,12 +206,13 @@ func (client WaasClient) cancelWorkRequest(ctx context.Context, request common.O
 // resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client WaasClient) ChangeAddressListCompartment(ctx context.Context, request ChangeAddressListCompartmentRequest) (response ChangeAddressListCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -263,12 +266,13 @@ func (client WaasClient) changeAddressListCompartment(ctx context.Context, reque
 // For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client WaasClient) ChangeCertificateCompartment(ctx context.Context, request ChangeCertificateCompartmentRequest) (response ChangeCertificateCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -321,12 +325,13 @@ func (client WaasClient) changeCertificateCompartment(ctx context.Context, reque
 // ChangeCustomProtectionRuleCompartment Moves a custom protection rule into a different compartment within the same tenancy. When provided, If-Match is checked against ETag values of the custom protection rule. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client WaasClient) ChangeCustomProtectionRuleCompartment(ctx context.Context, request ChangeCustomProtectionRuleCompartmentRequest) (response ChangeCustomProtectionRuleCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -380,12 +385,13 @@ func (client WaasClient) changeCustomProtectionRuleCompartment(ctx context.Conte
 // For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client WaasClient) ChangeWaasPolicyCompartment(ctx context.Context, request ChangeWaasPolicyCompartmentRequest) (response ChangeWaasPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -438,12 +444,13 @@ func (client WaasClient) changeWaasPolicyCompartment(ctx context.Context, reques
 // CreateAddressList Creates an address list in a set compartment and allows it to be used in a WAAS policy and referenced by access rules. Addresses can be IP addresses and CIDR notations.
 func (client WaasClient) CreateAddressList(ctx context.Context, request CreateAddressListRequest) (response CreateAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -497,12 +504,13 @@ func (client WaasClient) createAddressList(ctx context.Context, request common.O
 // For more information, see WAF Settings (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/wafsettings.htm).
 func (client WaasClient) CreateCertificate(ctx context.Context, request CreateCertificateRequest) (response CreateCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -556,12 +564,13 @@ func (client WaasClient) createCertificate(ctx context.Context, request common.O
 // Custom protection rules allow you to create rules in addition to the rulesets provided by the Web Application Firewall service, including rules from ModSecurity (https://modsecurity.org/). The syntax for custom rules is based on the ModSecurity syntax. For more information about custom protection rules, see Custom Protection Rules (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/customprotectionrules.htm).
 func (client WaasClient) CreateCustomProtectionRule(ctx context.Context, request CreateCustomProtectionRuleRequest) (response CreateCustomProtectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -620,12 +629,13 @@ func (client WaasClient) createCustomProtectionRule(ctx context.Context, request
 // **Note:** After sending the POST request, the new object's state will temporarily be `CREATING`. Ensure that the resource's state has changed to `ACTIVE` before use.
 func (client WaasClient) CreateWaasPolicy(ctx context.Context, request CreateWaasPolicyRequest) (response CreateWaasPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -678,12 +688,13 @@ func (client WaasClient) createWaasPolicy(ctx context.Context, request common.OC
 // DeleteAddressList Deletes the address list from the compartment if it is not used.
 func (client WaasClient) DeleteAddressList(ctx context.Context, request DeleteAddressListRequest) (response DeleteAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -736,12 +747,13 @@ func (client WaasClient) deleteAddressList(ctx context.Context, request common.O
 // DeleteCertificate Deletes an SSL certificate from the WAAS service.
 func (client WaasClient) DeleteCertificate(ctx context.Context, request DeleteCertificateRequest) (response DeleteCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -794,12 +806,13 @@ func (client WaasClient) deleteCertificate(ctx context.Context, request common.O
 // DeleteCustomProtectionRule Deletes a Custom Protection rule.
 func (client WaasClient) DeleteCustomProtectionRule(ctx context.Context, request DeleteCustomProtectionRuleRequest) (response DeleteCustomProtectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -852,12 +865,13 @@ func (client WaasClient) deleteCustomProtectionRule(ctx context.Context, request
 // DeleteWaasPolicy Deletes a policy.
 func (client WaasClient) DeleteWaasPolicy(ctx context.Context, request DeleteWaasPolicyRequest) (response DeleteWaasPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -911,12 +925,13 @@ func (client WaasClient) deleteWaasPolicy(ctx context.Context, request common.OC
 // A default retry strategy applies to this operation GetAddressList()
 func (client WaasClient) GetAddressList(ctx context.Context, request GetAddressListRequest) (response GetAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getAddressList, policy)
 	if err != nil {
@@ -965,12 +980,13 @@ func (client WaasClient) getAddressList(ctx context.Context, request common.OCIR
 // A default retry strategy applies to this operation GetCertificate()
 func (client WaasClient) GetCertificate(ctx context.Context, request GetCertificateRequest) (response GetCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getCertificate, policy)
 	if err != nil {
@@ -1019,12 +1035,13 @@ func (client WaasClient) getCertificate(ctx context.Context, request common.OCIR
 // A default retry strategy applies to this operation GetCustomProtectionRule()
 func (client WaasClient) GetCustomProtectionRule(ctx context.Context, request GetCustomProtectionRuleRequest) (response GetCustomProtectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getCustomProtectionRule, policy)
 	if err != nil {
@@ -1073,12 +1090,13 @@ func (client WaasClient) getCustomProtectionRule(ctx context.Context, request co
 // A default retry strategy applies to this operation GetDeviceFingerprintChallenge()
 func (client WaasClient) GetDeviceFingerprintChallenge(ctx context.Context, request GetDeviceFingerprintChallengeRequest) (response GetDeviceFingerprintChallengeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDeviceFingerprintChallenge, policy)
 	if err != nil {
@@ -1127,12 +1145,13 @@ func (client WaasClient) getDeviceFingerprintChallenge(ctx context.Context, requ
 // A default retry strategy applies to this operation GetHumanInteractionChallenge()
 func (client WaasClient) GetHumanInteractionChallenge(ctx context.Context, request GetHumanInteractionChallengeRequest) (response GetHumanInteractionChallengeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getHumanInteractionChallenge, policy)
 	if err != nil {
@@ -1181,12 +1200,13 @@ func (client WaasClient) getHumanInteractionChallenge(ctx context.Context, reque
 // A default retry strategy applies to this operation GetJsChallenge()
 func (client WaasClient) GetJsChallenge(ctx context.Context, request GetJsChallengeRequest) (response GetJsChallengeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getJsChallenge, policy)
 	if err != nil {
@@ -1235,12 +1255,13 @@ func (client WaasClient) getJsChallenge(ctx context.Context, request common.OCIR
 // A default retry strategy applies to this operation GetPolicyConfig()
 func (client WaasClient) GetPolicyConfig(ctx context.Context, request GetPolicyConfigRequest) (response GetPolicyConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getPolicyConfig, policy)
 	if err != nil {
@@ -1289,12 +1310,13 @@ func (client WaasClient) getPolicyConfig(ctx context.Context, request common.OCI
 // A default retry strategy applies to this operation GetProtectionRule()
 func (client WaasClient) GetProtectionRule(ctx context.Context, request GetProtectionRuleRequest) (response GetProtectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getProtectionRule, policy)
 	if err != nil {
@@ -1343,12 +1365,13 @@ func (client WaasClient) getProtectionRule(ctx context.Context, request common.O
 // A default retry strategy applies to this operation GetProtectionSettings()
 func (client WaasClient) GetProtectionSettings(ctx context.Context, request GetProtectionSettingsRequest) (response GetProtectionSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getProtectionSettings, policy)
 	if err != nil {
@@ -1397,12 +1420,13 @@ func (client WaasClient) getProtectionSettings(ctx context.Context, request comm
 // A default retry strategy applies to this operation GetWaasPolicy()
 func (client WaasClient) GetWaasPolicy(ctx context.Context, request GetWaasPolicyRequest) (response GetWaasPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWaasPolicy, policy)
 	if err != nil {
@@ -1451,12 +1475,13 @@ func (client WaasClient) getWaasPolicy(ctx context.Context, request common.OCIRe
 // A default retry strategy applies to this operation GetWafAddressRateLimiting()
 func (client WaasClient) GetWafAddressRateLimiting(ctx context.Context, request GetWafAddressRateLimitingRequest) (response GetWafAddressRateLimitingResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWafAddressRateLimiting, policy)
 	if err != nil {
@@ -1505,12 +1530,13 @@ func (client WaasClient) getWafAddressRateLimiting(ctx context.Context, request 
 // A default retry strategy applies to this operation GetWafConfig()
 func (client WaasClient) GetWafConfig(ctx context.Context, request GetWafConfigRequest) (response GetWafConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWafConfig, policy)
 	if err != nil {
@@ -1559,12 +1585,13 @@ func (client WaasClient) getWafConfig(ctx context.Context, request common.OCIReq
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client WaasClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -1614,12 +1641,13 @@ func (client WaasClient) getWorkRequest(ctx context.Context, request common.OCIR
 // A default retry strategy applies to this operation ListAccessRules()
 func (client WaasClient) ListAccessRules(ctx context.Context, request ListAccessRulesRequest) (response ListAccessRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAccessRules, policy)
 	if err != nil {
@@ -1668,12 +1696,13 @@ func (client WaasClient) listAccessRules(ctx context.Context, request common.OCI
 // A default retry strategy applies to this operation ListAddressLists()
 func (client WaasClient) ListAddressLists(ctx context.Context, request ListAddressListsRequest) (response ListAddressListsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAddressLists, policy)
 	if err != nil {
@@ -1723,12 +1752,13 @@ func (client WaasClient) listAddressLists(ctx context.Context, request common.OC
 // A default retry strategy applies to this operation ListCachingRules()
 func (client WaasClient) ListCachingRules(ctx context.Context, request ListCachingRulesRequest) (response ListCachingRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listCachingRules, policy)
 	if err != nil {
@@ -1780,12 +1810,13 @@ func (client WaasClient) listCachingRules(ctx context.Context, request common.OC
 // A default retry strategy applies to this operation ListCaptchas()
 func (client WaasClient) ListCaptchas(ctx context.Context, request ListCaptchasRequest) (response ListCaptchasResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listCaptchas, policy)
 	if err != nil {
@@ -1834,12 +1865,13 @@ func (client WaasClient) listCaptchas(ctx context.Context, request common.OCIReq
 // A default retry strategy applies to this operation ListCertificates()
 func (client WaasClient) ListCertificates(ctx context.Context, request ListCertificatesRequest) (response ListCertificatesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listCertificates, policy)
 	if err != nil {
@@ -1888,12 +1920,13 @@ func (client WaasClient) listCertificates(ctx context.Context, request common.OC
 // A default retry strategy applies to this operation ListCustomProtectionRules()
 func (client WaasClient) ListCustomProtectionRules(ctx context.Context, request ListCustomProtectionRulesRequest) (response ListCustomProtectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listCustomProtectionRules, policy)
 	if err != nil {
@@ -1942,12 +1975,13 @@ func (client WaasClient) listCustomProtectionRules(ctx context.Context, request 
 // A default retry strategy applies to this operation ListEdgeSubnets()
 func (client WaasClient) ListEdgeSubnets(ctx context.Context, request ListEdgeSubnetsRequest) (response ListEdgeSubnetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listEdgeSubnets, policy)
 	if err != nil {
@@ -1997,12 +2031,13 @@ func (client WaasClient) listEdgeSubnets(ctx context.Context, request common.OCI
 // A default retry strategy applies to this operation ListGoodBots()
 func (client WaasClient) ListGoodBots(ctx context.Context, request ListGoodBotsRequest) (response ListGoodBotsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listGoodBots, policy)
 	if err != nil {
@@ -2052,12 +2087,13 @@ func (client WaasClient) listGoodBots(ctx context.Context, request common.OCIReq
 // A default retry strategy applies to this operation ListProtectionRules()
 func (client WaasClient) ListProtectionRules(ctx context.Context, request ListProtectionRulesRequest) (response ListProtectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listProtectionRules, policy)
 	if err != nil {
@@ -2108,12 +2144,13 @@ func (client WaasClient) listProtectionRules(ctx context.Context, request common
 // A default retry strategy applies to this operation ListRecommendations()
 func (client WaasClient) ListRecommendations(ctx context.Context, request ListRecommendationsRequest) (response ListRecommendationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listRecommendations, policy)
 	if err != nil {
@@ -2164,12 +2201,13 @@ func (client WaasClient) listRecommendations(ctx context.Context, request common
 // A default retry strategy applies to this operation ListThreatFeeds()
 func (client WaasClient) ListThreatFeeds(ctx context.Context, request ListThreatFeedsRequest) (response ListThreatFeedsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listThreatFeeds, policy)
 	if err != nil {
@@ -2218,12 +2256,13 @@ func (client WaasClient) listThreatFeeds(ctx context.Context, request common.OCI
 // A default retry strategy applies to this operation ListWaasPolicies()
 func (client WaasClient) ListWaasPolicies(ctx context.Context, request ListWaasPoliciesRequest) (response ListWaasPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWaasPolicies, policy)
 	if err != nil {
@@ -2272,12 +2311,13 @@ func (client WaasClient) listWaasPolicies(ctx context.Context, request common.OC
 // A default retry strategy applies to this operation ListWaasPolicyCustomProtectionRules()
 func (client WaasClient) ListWaasPolicyCustomProtectionRules(ctx context.Context, request ListWaasPolicyCustomProtectionRulesRequest) (response ListWaasPolicyCustomProtectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWaasPolicyCustomProtectionRules, policy)
 	if err != nil {
@@ -2326,12 +2366,13 @@ func (client WaasClient) listWaasPolicyCustomProtectionRules(ctx context.Context
 // A default retry strategy applies to this operation ListWafBlockedRequests()
 func (client WaasClient) ListWafBlockedRequests(ctx context.Context, request ListWafBlockedRequestsRequest) (response ListWafBlockedRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWafBlockedRequests, policy)
 	if err != nil {
@@ -2382,12 +2423,13 @@ func (client WaasClient) listWafBlockedRequests(ctx context.Context, request com
 // A default retry strategy applies to this operation ListWafLogs()
 func (client WaasClient) ListWafLogs(ctx context.Context, request ListWafLogsRequest) (response ListWafLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWafLogs, policy)
 	if err != nil {
@@ -2438,12 +2480,13 @@ func (client WaasClient) listWafLogs(ctx context.Context, request common.OCIRequ
 // A default retry strategy applies to this operation ListWafRequests()
 func (client WaasClient) ListWafRequests(ctx context.Context, request ListWafRequestsRequest) (response ListWafRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWafRequests, policy)
 	if err != nil {
@@ -2493,12 +2536,13 @@ func (client WaasClient) listWafRequests(ctx context.Context, request common.OCI
 // A default retry strategy applies to this operation ListWafTraffic()
 func (client WaasClient) ListWafTraffic(ctx context.Context, request ListWafTrafficRequest) (response ListWafTrafficResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWafTraffic, policy)
 	if err != nil {
@@ -2547,12 +2591,13 @@ func (client WaasClient) listWafTraffic(ctx context.Context, request common.OCIR
 // A default retry strategy applies to this operation ListWhitelists()
 func (client WaasClient) ListWhitelists(ctx context.Context, request ListWhitelistsRequest) (response ListWhitelistsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWhitelists, policy)
 	if err != nil {
@@ -2601,12 +2646,13 @@ func (client WaasClient) listWhitelists(ctx context.Context, request common.OCIR
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client WaasClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -2655,12 +2701,13 @@ func (client WaasClient) listWorkRequests(ctx context.Context, request common.OC
 // For more information, see Caching Rules (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/cachingrules.htm#purge).
 func (client WaasClient) PurgeCache(ctx context.Context, request PurgeCacheRequest) (response PurgeCacheResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.purgeCache, policy)
 	if err != nil {
@@ -2712,12 +2759,13 @@ func (client WaasClient) purgeCache(ctx context.Context, request common.OCIReque
 // Any existing access rules that are not specified with a `key` in the list of access rules will be deleted upon update.
 func (client WaasClient) UpdateAccessRules(ctx context.Context, request UpdateAccessRulesRequest) (response UpdateAccessRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2770,12 +2818,13 @@ func (client WaasClient) updateAccessRules(ctx context.Context, request common.O
 // UpdateAddressList Updates the details of an address list. Only the fields specified in the request body will be updated; all other properties will remain unchanged.
 func (client WaasClient) UpdateAddressList(ctx context.Context, request UpdateAddressListRequest) (response UpdateAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateAddressList, policy)
 	if err != nil {
@@ -2826,12 +2875,13 @@ func (client WaasClient) updateAddressList(ctx context.Context, request common.O
 // The order the caching rules are specified in is important. The rules are processed in the order they are specified and the first matching rule will be used when processing a request. Use `ListCachingRules` to view a list of all available caching rules in a compartment.
 func (client WaasClient) UpdateCachingRules(ctx context.Context, request UpdateCachingRulesRequest) (response UpdateCachingRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2889,12 +2939,13 @@ func (client WaasClient) updateCachingRules(ctx context.Context, request common.
 // Query parameters are allowed in CAPTCHA URL.
 func (client WaasClient) UpdateCaptchas(ctx context.Context, request UpdateCaptchasRequest) (response UpdateCaptchasResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2947,12 +2998,13 @@ func (client WaasClient) updateCaptchas(ctx context.Context, request common.OCIR
 // UpdateCertificate It is not possible to update a certificate, only create and delete. Therefore, this operation can only update the display name, freeform tags, and defined tags of a certificate.
 func (client WaasClient) UpdateCertificate(ctx context.Context, request UpdateCertificateRequest) (response UpdateCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateCertificate, policy)
 	if err != nil {
@@ -3000,12 +3052,13 @@ func (client WaasClient) updateCertificate(ctx context.Context, request common.O
 // UpdateCustomProtectionRule Updates the configuration of a custom protection rule. Only the fields specified in the request body will be updated; all other properties will remain unchanged.
 func (client WaasClient) UpdateCustomProtectionRule(ctx context.Context, request UpdateCustomProtectionRuleRequest) (response UpdateCustomProtectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -3060,12 +3113,13 @@ func (client WaasClient) updateCustomProtectionRule(ctx context.Context, request
 // DFC collects attributes to generate a hashed signature about a client - if a fingerprint is not possible, then it will result in a block or alert action. Actions can be enforced across multiple devices if they share they have the same fingerprint.
 func (client WaasClient) UpdateDeviceFingerprintChallenge(ctx context.Context, request UpdateDeviceFingerprintChallengeRequest) (response UpdateDeviceFingerprintChallengeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -3119,12 +3173,13 @@ func (client WaasClient) updateDeviceFingerprintChallenge(ctx context.Context, r
 // Good bots allows you to manage access for bots from known providers, such as Google or Baidu. For more information about good bots, see Bot Management (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/botmanagement.htm).
 func (client WaasClient) UpdateGoodBots(ctx context.Context, request UpdateGoodBotsRequest) (response UpdateGoodBotsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -3177,12 +3232,13 @@ func (client WaasClient) updateGoodBots(ctx context.Context, request common.OCIR
 // UpdateHumanInteractionChallenge Updates the Human Interaction Challenge (HIC) settings in the Web Application Firewall configuration for a WAAS policy. HIC is a countermeasure that allows the proxy to check the user's browser for various behaviors that distinguish a human presence from a bot.
 func (client WaasClient) UpdateHumanInteractionChallenge(ctx context.Context, request UpdateHumanInteractionChallengeRequest) (response UpdateHumanInteractionChallengeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -3235,12 +3291,13 @@ func (client WaasClient) updateHumanInteractionChallenge(ctx context.Context, re
 // UpdateJsChallenge Updates the JavaScript challenge settings in the Web Application Firewall configuration for a WAAS policy. JavaScript Challenge validates that the client can accept JavaScript with a binary decision. For more information, see Bot Management (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/botmanagement.htm).
 func (client WaasClient) UpdateJsChallenge(ctx context.Context, request UpdateJsChallengeRequest) (response UpdateJsChallengeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -3293,12 +3350,13 @@ func (client WaasClient) updateJsChallenge(ctx context.Context, request common.O
 // UpdatePolicyConfig Updates the configuration for a WAAS policy. Only the fields specified in the request body will be updated; all other properties will remain unchanged.
 func (client WaasClient) UpdatePolicyConfig(ctx context.Context, request UpdatePolicyConfigRequest) (response UpdatePolicyConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -3353,12 +3411,13 @@ func (client WaasClient) updatePolicyConfig(ctx context.Context, request common.
 // Protection rules can be updated by changing the properties of the protection rule object with the rule's key specified in the key field.
 func (client WaasClient) UpdateProtectionRules(ctx context.Context, request UpdateProtectionRulesRequest) (response UpdateProtectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateProtectionRules, policy)
 	if err != nil {
@@ -3406,12 +3465,13 @@ func (client WaasClient) updateProtectionRules(ctx context.Context, request comm
 // UpdateProtectionSettings Updates the protection settings in the Web Application Firewall configuration for a WAAS policy. Protection settings allow you define what action is taken when a request is blocked by the Web Application Firewall, such as returning a response code or block page. Only the fields specified in the request body will be updated; all other fields will remain unchanged.
 func (client WaasClient) UpdateProtectionSettings(ctx context.Context, request UpdateProtectionSettingsRequest) (response UpdateProtectionSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -3464,12 +3524,13 @@ func (client WaasClient) updateProtectionSettings(ctx context.Context, request c
 // UpdateThreatFeeds Updates the action to take when a request's IP address matches an address in the specified threat intelligence feed. Threat intelligence feeds are compiled lists of IP addresses with malicious reputations based on internet intelligence. Only the threat feeds specified in the request body will be updated; all other threat feeds will remain unchanged.
 func (client WaasClient) UpdateThreatFeeds(ctx context.Context, request UpdateThreatFeedsRequest) (response UpdateThreatFeedsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateThreatFeeds, policy)
 	if err != nil {
@@ -3519,12 +3580,13 @@ func (client WaasClient) updateThreatFeeds(ctx context.Context, request common.O
 // The returned list will contain objects with `key` properties that can be used to update the resource during the `UpdateWaasPolicy` request.
 func (client WaasClient) UpdateWaasPolicy(ctx context.Context, request UpdateWaasPolicyRequest) (response UpdateWaasPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -3577,12 +3639,13 @@ func (client WaasClient) updateWaasPolicy(ctx context.Context, request common.OC
 // UpdateWaasPolicyCustomProtectionRules Updates the action for each specified custom protection rule. Only the `DETECT` and `BLOCK` actions can be set. Disabled rules should not be included in the list. For more information on protection rules, see WAF Protection Rules (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/wafprotectionrules.htm).
 func (client WaasClient) UpdateWaasPolicyCustomProtectionRules(ctx context.Context, request UpdateWaasPolicyCustomProtectionRulesRequest) (response UpdateWaasPolicyCustomProtectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -3635,12 +3698,13 @@ func (client WaasClient) updateWaasPolicyCustomProtectionRules(ctx context.Conte
 // UpdateWafAddressRateLimiting Updates the address rate limiting settings in the Web Application Firewall configuration for a policy. Rate limiting allows you to configure a threshold for the number of requests from a unique IP address for the given period. You can also define the response code for the requests from the same address that exceed the threshold.
 func (client WaasClient) UpdateWafAddressRateLimiting(ctx context.Context, request UpdateWafAddressRateLimitingRequest) (response UpdateWafAddressRateLimitingResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -3698,12 +3762,13 @@ func (client WaasClient) updateWafAddressRateLimiting(ctx context.Context, reque
 // resource during the `UpdateWafConfig` request.
 func (client WaasClient) UpdateWafConfig(ctx context.Context, request UpdateWafConfigRequest) (response UpdateWafConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -3760,12 +3825,13 @@ func (client WaasClient) updateWafConfig(ctx context.Context, request common.OCI
 // Whitelists can be deleted by removing the existing whitelist object from the list. Any existing whitelists that are not specified with a `key` in the list of access rules will be deleted upon update.
 func (client WaasClient) UpdateWhitelists(ctx context.Context, request UpdateWhitelistsRequest) (response UpdateWhitelistsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {

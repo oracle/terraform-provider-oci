@@ -57,7 +57,7 @@ func (request DropSqlTuningTaskRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DropSqlTuningTaskRequest) RetryPolicy() *common.RetryPolicy {
+func (request DropSqlTuningTaskRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

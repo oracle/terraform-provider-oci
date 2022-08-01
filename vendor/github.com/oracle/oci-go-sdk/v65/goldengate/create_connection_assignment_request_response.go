@@ -54,7 +54,7 @@ func (request CreateConnectionAssignmentRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateConnectionAssignmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateConnectionAssignmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

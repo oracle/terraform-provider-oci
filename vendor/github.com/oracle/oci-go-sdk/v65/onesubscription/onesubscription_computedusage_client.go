@@ -90,12 +90,13 @@ func (client *ComputedUsageClient) ConfigurationProvider() *common.Configuration
 // GetComputedUsage This is an API which returns Computed Usage corresponding to the id passed
 func (client ComputedUsageClient) GetComputedUsage(ctx context.Context, request GetComputedUsageRequest) (response GetComputedUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getComputedUsage, policy)
 	if err != nil {
@@ -143,12 +144,13 @@ func (client ComputedUsageClient) getComputedUsage(ctx context.Context, request 
 // ListAggregatedComputedUsages This is a collection API which returns a list of aggregated computed usage details (there can be multiple Parent Products under a given SubID each of which is represented under Subscription Service Line # in SPM).
 func (client ComputedUsageClient) ListAggregatedComputedUsages(ctx context.Context, request ListAggregatedComputedUsagesRequest) (response ListAggregatedComputedUsagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAggregatedComputedUsages, policy)
 	if err != nil {
@@ -196,12 +198,13 @@ func (client ComputedUsageClient) listAggregatedComputedUsages(ctx context.Conte
 // ListComputedUsages This is a collection API which returns a list of Computed Usages for given filters.
 func (client ComputedUsageClient) ListComputedUsages(ctx context.Context, request ListComputedUsagesRequest) (response ListComputedUsagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listComputedUsages, policy)
 	if err != nil {

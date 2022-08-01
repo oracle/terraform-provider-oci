@@ -47,7 +47,7 @@ func (request SkipBulkResponderExecutionRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SkipBulkResponderExecutionRequest) RetryPolicy() *common.RetryPolicy {
+func (request SkipBulkResponderExecutionRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

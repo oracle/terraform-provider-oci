@@ -67,7 +67,7 @@ func (request ListMultipartUploadPartsRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListMultipartUploadPartsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListMultipartUploadPartsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

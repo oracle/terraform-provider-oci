@@ -63,7 +63,7 @@ func (request ModifyGlobalSettingsRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ModifyGlobalSettingsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ModifyGlobalSettingsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

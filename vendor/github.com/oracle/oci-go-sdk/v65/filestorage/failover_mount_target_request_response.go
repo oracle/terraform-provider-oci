@@ -55,7 +55,7 @@ func (request FailoverMountTargetRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request FailoverMountTargetRequest) RetryPolicy() *common.RetryPolicy {
+func (request FailoverMountTargetRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

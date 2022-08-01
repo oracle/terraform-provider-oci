@@ -57,7 +57,7 @@ func (request CreateLicenseRecordRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateLicenseRecordRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateLicenseRecordRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

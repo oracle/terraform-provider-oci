@@ -50,7 +50,7 @@ func (request LoadSqlPlanBaselinesFromCursorCacheRequest) BinaryRequestBody() (*
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request LoadSqlPlanBaselinesFromCursorCacheRequest) RetryPolicy() *common.RetryPolicy {
+func (request LoadSqlPlanBaselinesFromCursorCacheRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

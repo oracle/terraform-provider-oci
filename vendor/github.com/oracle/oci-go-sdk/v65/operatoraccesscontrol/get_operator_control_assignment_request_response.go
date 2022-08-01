@@ -47,7 +47,7 @@ func (request GetOperatorControlAssignmentRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetOperatorControlAssignmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetOperatorControlAssignmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

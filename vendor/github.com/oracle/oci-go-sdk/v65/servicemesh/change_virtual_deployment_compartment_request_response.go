@@ -64,7 +64,7 @@ func (request ChangeVirtualDeploymentCompartmentRequest) BinaryRequestBody() (*c
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeVirtualDeploymentCompartmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangeVirtualDeploymentCompartmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -62,7 +62,7 @@ func (request MigrateVaultKeyRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request MigrateVaultKeyRequest) RetryPolicy() *common.RetryPolicy {
+func (request MigrateVaultKeyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

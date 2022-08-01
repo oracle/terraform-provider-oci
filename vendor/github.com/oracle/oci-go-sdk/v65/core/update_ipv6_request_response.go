@@ -56,7 +56,7 @@ func (request UpdateIpv6Request) BinaryRequestBody() (*common.OCIReadSeekCloser,
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateIpv6Request) RetryPolicy() *common.RetryPolicy {
+func (request UpdateIpv6Request) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

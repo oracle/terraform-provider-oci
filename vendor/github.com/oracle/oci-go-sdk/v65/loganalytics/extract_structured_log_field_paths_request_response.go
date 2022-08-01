@@ -60,7 +60,7 @@ func (request ExtractStructuredLogFieldPathsRequest) BinaryRequestBody() (*commo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ExtractStructuredLogFieldPathsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ExtractStructuredLogFieldPathsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

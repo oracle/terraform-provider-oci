@@ -57,7 +57,7 @@ func (request UpdateDetectAnomalyJobRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateDetectAnomalyJobRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateDetectAnomalyJobRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

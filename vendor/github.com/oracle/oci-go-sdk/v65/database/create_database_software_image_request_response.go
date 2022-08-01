@@ -55,7 +55,7 @@ func (request CreateDatabaseSoftwareImageRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateDatabaseSoftwareImageRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateDatabaseSoftwareImageRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

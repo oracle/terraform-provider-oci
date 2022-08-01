@@ -59,7 +59,7 @@ func (request ListWafTrafficRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListWafTrafficRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListWafTrafficRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -62,7 +62,7 @@ func (request LocalClonePluggableDatabaseRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request LocalClonePluggableDatabaseRequest) RetryPolicy() *common.RetryPolicy {
+func (request LocalClonePluggableDatabaseRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

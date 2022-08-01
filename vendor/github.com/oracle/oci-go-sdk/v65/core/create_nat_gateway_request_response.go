@@ -55,7 +55,7 @@ func (request CreateNatGatewayRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateNatGatewayRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateNatGatewayRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -51,7 +51,7 @@ func (request CreateGroupCursorRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateGroupCursorRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateGroupCursorRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

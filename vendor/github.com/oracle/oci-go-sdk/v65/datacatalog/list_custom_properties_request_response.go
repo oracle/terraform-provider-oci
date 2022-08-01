@@ -94,7 +94,7 @@ func (request ListCustomPropertiesRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListCustomPropertiesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListCustomPropertiesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

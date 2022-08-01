@@ -82,7 +82,7 @@ func (request ListModelVersionSetsRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListModelVersionSetsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListModelVersionSetsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

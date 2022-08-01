@@ -77,7 +77,7 @@ func (request ListMaskedColumnsRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListMaskedColumnsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListMaskedColumnsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

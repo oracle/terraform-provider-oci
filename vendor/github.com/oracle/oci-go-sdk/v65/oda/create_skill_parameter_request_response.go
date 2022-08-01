@@ -60,7 +60,7 @@ func (request CreateSkillParameterRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateSkillParameterRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateSkillParameterRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

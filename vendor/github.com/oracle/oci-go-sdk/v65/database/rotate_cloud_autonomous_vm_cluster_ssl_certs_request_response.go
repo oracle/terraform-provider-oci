@@ -59,7 +59,7 @@ func (request RotateCloudAutonomousVmClusterSslCertsRequest) BinaryRequestBody()
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RotateCloudAutonomousVmClusterSslCertsRequest) RetryPolicy() *common.RetryPolicy {
+func (request RotateCloudAutonomousVmClusterSslCertsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

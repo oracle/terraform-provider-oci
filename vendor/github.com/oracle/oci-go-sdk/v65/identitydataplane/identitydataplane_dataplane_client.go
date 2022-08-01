@@ -90,12 +90,13 @@ func (client *DataplaneClient) ConfigurationProvider() *common.ConfigurationProv
 // GenerateScopedAccessToken Based on the calling principal and the input payload, derive the claims and create a security token.
 func (client DataplaneClient) GenerateScopedAccessToken(ctx context.Context, request GenerateScopedAccessTokenRequest) (response GenerateScopedAccessTokenResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.generateScopedAccessToken, policy)
 	if err != nil {

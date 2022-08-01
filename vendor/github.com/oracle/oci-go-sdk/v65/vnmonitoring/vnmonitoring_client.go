@@ -91,12 +91,13 @@ func (client *VnMonitoringClient) ConfigurationProvider() *common.ConfigurationP
 // ChangePathAnalyzerTestCompartment Moves a `PathAnalyzerTest` resource from one compartment to another based on the identifier.
 func (client VnMonitoringClient) ChangePathAnalyzerTestCompartment(ctx context.Context, request ChangePathAnalyzerTestCompartmentRequest) (response ChangePathAnalyzerTestCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changePathAnalyzerTestCompartment, policy)
 	if err != nil {
@@ -132,7 +133,7 @@ func (client VnMonitoringClient) changePathAnalyzerTestCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/PathAnalyzerTest/ChangePathAnalyzerTestCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "VnMonitoring", "ChangePathAnalyzerTestCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -144,12 +145,13 @@ func (client VnMonitoringClient) changePathAnalyzerTestCompartment(ctx context.C
 // CreatePathAnalyzerTest Creates a new `PathAnalyzerTest` resource.
 func (client VnMonitoringClient) CreatePathAnalyzerTest(ctx context.Context, request CreatePathAnalyzerTestRequest) (response CreatePathAnalyzerTestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -190,7 +192,7 @@ func (client VnMonitoringClient) createPathAnalyzerTest(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/PathAnalyzerTest/CreatePathAnalyzerTest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "VnMonitoring", "CreatePathAnalyzerTest", apiReferenceLink)
 		return response, err
 	}
@@ -202,12 +204,13 @@ func (client VnMonitoringClient) createPathAnalyzerTest(ctx context.Context, req
 // DeletePathAnalyzerTest Deletes a `PathAnalyzerTest` resource using its identifier.
 func (client VnMonitoringClient) DeletePathAnalyzerTest(ctx context.Context, request DeletePathAnalyzerTestRequest) (response DeletePathAnalyzerTestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deletePathAnalyzerTest, policy)
 	if err != nil {
@@ -243,7 +246,7 @@ func (client VnMonitoringClient) deletePathAnalyzerTest(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/PathAnalyzerTest/DeletePathAnalyzerTest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "VnMonitoring", "DeletePathAnalyzerTest", apiReferenceLink)
 		return response, err
 	}
@@ -261,12 +264,13 @@ func (client VnMonitoringClient) deletePathAnalyzerTest(ctx context.Context, req
 // returned from either of these methods can be used to build a final report.
 func (client VnMonitoringClient) GetPathAnalysis(ctx context.Context, request GetPathAnalysisRequest) (response GetPathAnalysisResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -307,7 +311,7 @@ func (client VnMonitoringClient) getPathAnalysis(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/PathAnalysisWorkRequestResult/GetPathAnalysis"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "VnMonitoring", "GetPathAnalysis", apiReferenceLink)
 		return response, err
 	}
@@ -319,12 +323,13 @@ func (client VnMonitoringClient) getPathAnalysis(ctx context.Context, request co
 // GetPathAnalyzerTest Gets a `PathAnalyzerTest` using its identifier.
 func (client VnMonitoringClient) GetPathAnalyzerTest(ctx context.Context, request GetPathAnalyzerTestRequest) (response GetPathAnalyzerTestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getPathAnalyzerTest, policy)
 	if err != nil {
@@ -360,7 +365,7 @@ func (client VnMonitoringClient) getPathAnalyzerTest(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/PathAnalyzerTest/GetPathAnalyzerTest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "VnMonitoring", "GetPathAnalyzerTest", apiReferenceLink)
 		return response, err
 	}
@@ -372,12 +377,13 @@ func (client VnMonitoringClient) getPathAnalyzerTest(ctx context.Context, reques
 // GetWorkRequest Gets the details of a work request.
 func (client VnMonitoringClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -413,7 +419,7 @@ func (client VnMonitoringClient) getWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "VnMonitoring", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -425,12 +431,13 @@ func (client VnMonitoringClient) getWorkRequest(ctx context.Context, request com
 // ListPathAnalyzerTests Returns a list of all `PathAnalyzerTests` in a compartment.
 func (client VnMonitoringClient) ListPathAnalyzerTests(ctx context.Context, request ListPathAnalyzerTestsRequest) (response ListPathAnalyzerTestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listPathAnalyzerTests, policy)
 	if err != nil {
@@ -466,7 +473,7 @@ func (client VnMonitoringClient) listPathAnalyzerTests(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/PathAnalyzerTestCollection/ListPathAnalyzerTests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "VnMonitoring", "ListPathAnalyzerTests", apiReferenceLink)
 		return response, err
 	}
@@ -478,12 +485,13 @@ func (client VnMonitoringClient) listPathAnalyzerTests(ctx context.Context, requ
 // ListWorkRequestErrors Returns a (paginated) list of errors for the work request with the given ID. This information is used to build the final report output.
 func (client VnMonitoringClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -519,7 +527,7 @@ func (client VnMonitoringClient) listWorkRequestErrors(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "VnMonitoring", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -531,12 +539,13 @@ func (client VnMonitoringClient) listWorkRequestErrors(ctx context.Context, requ
 // ListWorkRequestLogs Returns a (paginated) list of logs for the work request with the given ID.
 func (client VnMonitoringClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -572,7 +581,7 @@ func (client VnMonitoringClient) listWorkRequestLogs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "VnMonitoring", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -585,12 +594,13 @@ func (client VnMonitoringClient) listWorkRequestLogs(ctx context.Context, reques
 // build the final report output.
 func (client VnMonitoringClient) ListWorkRequestResults(ctx context.Context, request ListWorkRequestResultsRequest) (response ListWorkRequestResultsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestResults, policy)
 	if err != nil {
@@ -626,7 +636,7 @@ func (client VnMonitoringClient) listWorkRequestResults(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/WorkRequestResult/ListWorkRequestResults"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "VnMonitoring", "ListWorkRequestResults", apiReferenceLink)
 		return response, err
 	}
@@ -638,12 +648,13 @@ func (client VnMonitoringClient) listWorkRequestResults(ctx context.Context, req
 // ListWorkRequests Lists the work requests in a compartment.
 func (client VnMonitoringClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -679,7 +690,7 @@ func (client VnMonitoringClient) listWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "VnMonitoring", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -691,12 +702,13 @@ func (client VnMonitoringClient) listWorkRequests(ctx context.Context, request c
 // UpdatePathAnalyzerTest Updates a `PathAnalyzerTest` using its identifier.
 func (client VnMonitoringClient) UpdatePathAnalyzerTest(ctx context.Context, request UpdatePathAnalyzerTestRequest) (response UpdatePathAnalyzerTestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -737,7 +749,7 @@ func (client VnMonitoringClient) updatePathAnalyzerTest(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/NetMonitor/20160918/PathAnalyzerTest/UpdatePathAnalyzerTest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "VnMonitoring", "UpdatePathAnalyzerTest", apiReferenceLink)
 		return response, err
 	}

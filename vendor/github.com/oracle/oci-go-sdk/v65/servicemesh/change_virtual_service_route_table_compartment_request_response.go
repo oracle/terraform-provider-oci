@@ -64,7 +64,7 @@ func (request ChangeVirtualServiceRouteTableCompartmentRequest) BinaryRequestBod
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeVirtualServiceRouteTableCompartmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangeVirtualServiceRouteTableCompartmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

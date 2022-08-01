@@ -58,7 +58,7 @@ func (request ChangeLogDataModelCompartmentRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeLogDataModelCompartmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangeLogDataModelCompartmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

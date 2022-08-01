@@ -71,7 +71,7 @@ func (request RequestSummarizedActivityProblemsRequest) BinaryRequestBody() (*co
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RequestSummarizedActivityProblemsRequest) RetryPolicy() *common.RetryPolicy {
+func (request RequestSummarizedActivityProblemsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

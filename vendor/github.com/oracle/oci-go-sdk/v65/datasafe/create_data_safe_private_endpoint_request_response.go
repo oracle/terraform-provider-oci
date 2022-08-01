@@ -53,7 +53,7 @@ func (request CreateDataSafePrivateEndpointRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateDataSafePrivateEndpointRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateDataSafePrivateEndpointRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

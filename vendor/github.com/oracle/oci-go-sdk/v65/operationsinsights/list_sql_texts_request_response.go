@@ -91,7 +91,7 @@ func (request ListSqlTextsRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListSqlTextsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListSqlTextsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

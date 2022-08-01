@@ -92,12 +92,13 @@ func (client *SecretsClient) ConfigurationProvider() *common.ConfigurationProvid
 // A default retry strategy applies to this operation GetSecretBundle()
 func (client SecretsClient) GetSecretBundle(ctx context.Context, request GetSecretBundleRequest) (response GetSecretBundleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSecretBundle, policy)
 	if err != nil {
@@ -147,12 +148,13 @@ func (client SecretsClient) getSecretBundle(ctx context.Context, request common.
 // A default retry strategy applies to this operation GetSecretBundleByName()
 func (client SecretsClient) GetSecretBundleByName(ctx context.Context, request GetSecretBundleByNameRequest) (response GetSecretBundleByNameResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSecretBundleByName, policy)
 	if err != nil {
@@ -201,12 +203,13 @@ func (client SecretsClient) getSecretBundleByName(ctx context.Context, request c
 // A default retry strategy applies to this operation ListSecretBundleVersions()
 func (client SecretsClient) ListSecretBundleVersions(ctx context.Context, request ListSecretBundleVersionsRequest) (response ListSecretBundleVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSecretBundleVersions, policy)
 	if err != nil {

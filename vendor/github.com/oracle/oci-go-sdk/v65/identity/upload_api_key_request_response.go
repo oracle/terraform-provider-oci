@@ -58,7 +58,7 @@ func (request UploadApiKeyRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UploadApiKeyRequest) RetryPolicy() *common.RetryPolicy {
+func (request UploadApiKeyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

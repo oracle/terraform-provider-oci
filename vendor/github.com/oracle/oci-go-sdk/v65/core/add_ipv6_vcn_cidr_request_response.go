@@ -63,7 +63,7 @@ func (request AddIpv6VcnCidrRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddIpv6VcnCidrRequest) RetryPolicy() *common.RetryPolicy {
+func (request AddIpv6VcnCidrRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

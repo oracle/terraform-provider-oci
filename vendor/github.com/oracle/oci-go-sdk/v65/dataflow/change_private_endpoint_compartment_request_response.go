@@ -56,7 +56,7 @@ func (request ChangePrivateEndpointCompartmentRequest) BinaryRequestBody() (*com
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangePrivateEndpointCompartmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangePrivateEndpointCompartmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

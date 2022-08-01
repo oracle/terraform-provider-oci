@@ -93,7 +93,7 @@ func (request GetDomainRecordsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetDomainRecordsRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetDomainRecordsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -51,7 +51,7 @@ func (request CreateAddressListRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateAddressListRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateAddressListRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

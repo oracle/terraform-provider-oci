@@ -71,7 +71,7 @@ func (request UpdatePathRouteSetRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdatePathRouteSetRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdatePathRouteSetRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

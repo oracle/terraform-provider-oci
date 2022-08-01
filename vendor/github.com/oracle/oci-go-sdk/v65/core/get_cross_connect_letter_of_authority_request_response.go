@@ -48,7 +48,7 @@ func (request GetCrossConnectLetterOfAuthorityRequest) BinaryRequestBody() (*com
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetCrossConnectLetterOfAuthorityRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetCrossConnectLetterOfAuthorityRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

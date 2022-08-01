@@ -54,7 +54,7 @@ func (request PublishTopProcessesMetricsRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request PublishTopProcessesMetricsRequest) RetryPolicy() *common.RetryPolicy {
+func (request PublishTopProcessesMetricsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

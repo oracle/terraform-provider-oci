@@ -64,7 +64,7 @@ func (request RemoveFleetInstallationSitesRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveFleetInstallationSitesRequest) RetryPolicy() *common.RetryPolicy {
+func (request RemoveFleetInstallationSitesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

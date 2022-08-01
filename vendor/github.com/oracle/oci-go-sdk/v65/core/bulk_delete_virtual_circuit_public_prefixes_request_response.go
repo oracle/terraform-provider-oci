@@ -51,7 +51,7 @@ func (request BulkDeleteVirtualCircuitPublicPrefixesRequest) BinaryRequestBody()
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request BulkDeleteVirtualCircuitPublicPrefixesRequest) RetryPolicy() *common.RetryPolicy {
+func (request BulkDeleteVirtualCircuitPublicPrefixesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -50,7 +50,7 @@ func (request DisableAutomaticInitialPlanCaptureRequest) BinaryRequestBody() (*c
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DisableAutomaticInitialPlanCaptureRequest) RetryPolicy() *common.RetryPolicy {
+func (request DisableAutomaticInitialPlanCaptureRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

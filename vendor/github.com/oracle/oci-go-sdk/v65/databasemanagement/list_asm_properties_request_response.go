@@ -65,7 +65,7 @@ func (request ListAsmPropertiesRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListAsmPropertiesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListAsmPropertiesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

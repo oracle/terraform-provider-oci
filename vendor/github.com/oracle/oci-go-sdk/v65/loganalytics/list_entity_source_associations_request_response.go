@@ -80,7 +80,7 @@ func (request ListEntitySourceAssociationsRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListEntitySourceAssociationsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListEntitySourceAssociationsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

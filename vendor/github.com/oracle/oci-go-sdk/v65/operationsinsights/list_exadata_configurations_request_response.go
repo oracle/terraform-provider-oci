@@ -98,7 +98,7 @@ func (request ListExadataConfigurationsRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListExadataConfigurationsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListExadataConfigurationsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

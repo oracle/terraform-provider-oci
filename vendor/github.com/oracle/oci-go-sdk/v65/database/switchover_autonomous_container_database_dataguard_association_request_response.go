@@ -56,7 +56,7 @@ func (request SwitchoverAutonomousContainerDatabaseDataguardAssociationRequest) 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SwitchoverAutonomousContainerDatabaseDataguardAssociationRequest) RetryPolicy() *common.RetryPolicy {
+func (request SwitchoverAutonomousContainerDatabaseDataguardAssociationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

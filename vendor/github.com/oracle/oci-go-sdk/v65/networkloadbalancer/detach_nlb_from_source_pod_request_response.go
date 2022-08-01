@@ -62,7 +62,7 @@ func (request DetachNlbFromSourcePodRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DetachNlbFromSourcePodRequest) RetryPolicy() *common.RetryPolicy {
+func (request DetachNlbFromSourcePodRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

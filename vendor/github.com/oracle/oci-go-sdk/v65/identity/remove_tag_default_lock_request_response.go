@@ -63,7 +63,7 @@ func (request RemoveTagDefaultLockRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveTagDefaultLockRequest) RetryPolicy() *common.RetryPolicy {
+func (request RemoveTagDefaultLockRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

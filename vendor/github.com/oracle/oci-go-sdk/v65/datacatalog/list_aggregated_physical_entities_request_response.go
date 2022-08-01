@@ -76,7 +76,7 @@ func (request ListAggregatedPhysicalEntitiesRequest) BinaryRequestBody() (*commo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListAggregatedPhysicalEntitiesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListAggregatedPhysicalEntitiesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -91,12 +91,13 @@ func (client *GenericArtifactsContentClient) ConfigurationProvider() *common.Con
 // GetGenericArtifactContent Gets the specified artifact's content.
 func (client GenericArtifactsContentClient) GetGenericArtifactContent(ctx context.Context, request GetGenericArtifactContentRequest) (response GetGenericArtifactContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getGenericArtifactContent, policy)
 	if err != nil {
@@ -143,12 +144,13 @@ func (client GenericArtifactsContentClient) getGenericArtifactContent(ctx contex
 // GetGenericArtifactContentByPath Gets the content of an artifact with a specified `artifactPath` and `version`.
 func (client GenericArtifactsContentClient) GetGenericArtifactContentByPath(ctx context.Context, request GetGenericArtifactContentByPathRequest) (response GetGenericArtifactContentByPathResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getGenericArtifactContentByPath, policy)
 	if err != nil {
@@ -195,12 +197,13 @@ func (client GenericArtifactsContentClient) getGenericArtifactContentByPath(ctx 
 // PutGenericArtifactContentByPath Uploads an artifact. Provide `artifactPath`, `version` and content. Avoid entering confidential information when you define the path and version.
 func (client GenericArtifactsContentClient) PutGenericArtifactContentByPath(ctx context.Context, request PutGenericArtifactContentByPathRequest) (response PutGenericArtifactContentByPathResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.putGenericArtifactContentByPath, policy)
 	if err != nil {

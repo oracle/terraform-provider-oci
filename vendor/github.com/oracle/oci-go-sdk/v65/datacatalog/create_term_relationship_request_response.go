@@ -63,7 +63,7 @@ func (request CreateTermRelationshipRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateTermRelationshipRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateTermRelationshipRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

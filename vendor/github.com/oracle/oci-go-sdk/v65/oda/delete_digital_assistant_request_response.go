@@ -58,7 +58,7 @@ func (request DeleteDigitalAssistantRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteDigitalAssistantRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteDigitalAssistantRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

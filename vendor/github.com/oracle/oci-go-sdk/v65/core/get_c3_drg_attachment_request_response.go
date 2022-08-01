@@ -48,7 +48,7 @@ func (request GetC3DrgAttachmentRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetC3DrgAttachmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetC3DrgAttachmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

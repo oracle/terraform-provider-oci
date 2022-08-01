@@ -52,7 +52,7 @@ func (request PurgeCacheRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request PurgeCacheRequest) RetryPolicy() *common.RetryPolicy {
+func (request PurgeCacheRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

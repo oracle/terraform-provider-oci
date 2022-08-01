@@ -69,7 +69,7 @@ func (request ListAiPrivateEndpointsRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListAiPrivateEndpointsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListAiPrivateEndpointsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

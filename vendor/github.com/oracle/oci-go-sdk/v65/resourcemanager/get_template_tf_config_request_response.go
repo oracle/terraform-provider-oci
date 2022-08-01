@@ -49,7 +49,7 @@ func (request GetTemplateTfConfigRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetTemplateTfConfigRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetTemplateTfConfigRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -52,7 +52,7 @@ func (request GetUserDefinedFunctionValidationRequest) BinaryRequestBody() (*com
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetUserDefinedFunctionValidationRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetUserDefinedFunctionValidationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

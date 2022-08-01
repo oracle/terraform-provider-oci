@@ -53,7 +53,7 @@ func (request DetachBootVolumeRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DetachBootVolumeRequest) RetryPolicy() *common.RetryPolicy {
+func (request DetachBootVolumeRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

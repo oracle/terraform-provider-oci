@@ -62,7 +62,7 @@ func (request ListManagedListTypesRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListManagedListTypesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListManagedListTypesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

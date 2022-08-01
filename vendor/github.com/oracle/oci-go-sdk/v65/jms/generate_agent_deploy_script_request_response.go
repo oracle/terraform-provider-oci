@@ -51,7 +51,7 @@ func (request GenerateAgentDeployScriptRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GenerateAgentDeployScriptRequest) RetryPolicy() *common.RetryPolicy {
+func (request GenerateAgentDeployScriptRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -50,7 +50,7 @@ func (request DisableSqlPlanBaselinesUsageRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DisableSqlPlanBaselinesUsageRequest) RetryPolicy() *common.RetryPolicy {
+func (request DisableSqlPlanBaselinesUsageRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

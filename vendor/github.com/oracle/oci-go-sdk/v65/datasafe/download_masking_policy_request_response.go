@@ -51,7 +51,7 @@ func (request DownloadMaskingPolicyRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DownloadMaskingPolicyRequest) RetryPolicy() *common.RetryPolicy {
+func (request DownloadMaskingPolicyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

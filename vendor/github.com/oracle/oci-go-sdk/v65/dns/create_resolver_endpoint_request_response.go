@@ -63,7 +63,7 @@ func (request CreateResolverEndpointRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateResolverEndpointRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateResolverEndpointRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

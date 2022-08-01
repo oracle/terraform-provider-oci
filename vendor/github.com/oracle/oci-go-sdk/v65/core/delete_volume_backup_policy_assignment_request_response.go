@@ -53,7 +53,7 @@ func (request DeleteVolumeBackupPolicyAssignmentRequest) BinaryRequestBody() (*c
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteVolumeBackupPolicyAssignmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteVolumeBackupPolicyAssignmentRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

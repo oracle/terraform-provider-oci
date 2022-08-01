@@ -93,12 +93,13 @@ func (client *WaaClient) ConfigurationProvider() *common.ConfigurationProvider {
 // When provided, If-Match is checked against ETag values of the resource.
 func (client WaaClient) ChangeWebAppAccelerationCompartment(ctx context.Context, request ChangeWebAppAccelerationCompartmentRequest) (response ChangeWebAppAccelerationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeWebAppAccelerationCompartment, policy)
 	if err != nil {
@@ -134,7 +135,7 @@ func (client WaaClient) changeWebAppAccelerationCompartment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAcceleration/ChangeWebAppAccelerationCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "ChangeWebAppAccelerationCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -147,12 +148,13 @@ func (client WaaClient) changeWebAppAccelerationCompartment(ctx context.Context,
 // When provided, If-Match is checked against ETag values of the resource.
 func (client WaaClient) ChangeWebAppAccelerationPolicyCompartment(ctx context.Context, request ChangeWebAppAccelerationPolicyCompartmentRequest) (response ChangeWebAppAccelerationPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeWebAppAccelerationPolicyCompartment, policy)
 	if err != nil {
@@ -188,7 +190,7 @@ func (client WaaClient) changeWebAppAccelerationPolicyCompartment(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAccelerationPolicy/ChangeWebAppAccelerationPolicyCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "ChangeWebAppAccelerationPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -200,12 +202,13 @@ func (client WaaClient) changeWebAppAccelerationPolicyCompartment(ctx context.Co
 // CreateWebAppAcceleration Creates a new WebAppAcceleration.
 func (client WaaClient) CreateWebAppAcceleration(ctx context.Context, request CreateWebAppAccelerationRequest) (response CreateWebAppAccelerationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -246,7 +249,7 @@ func (client WaaClient) createWebAppAcceleration(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAcceleration/CreateWebAppAcceleration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "CreateWebAppAcceleration", apiReferenceLink)
 		return response, err
 	}
@@ -258,12 +261,13 @@ func (client WaaClient) createWebAppAcceleration(ctx context.Context, request co
 // CreateWebAppAccelerationPolicy Creates a new WebAppAccelerationPolicy.
 func (client WaaClient) CreateWebAppAccelerationPolicy(ctx context.Context, request CreateWebAppAccelerationPolicyRequest) (response CreateWebAppAccelerationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -304,7 +308,7 @@ func (client WaaClient) createWebAppAccelerationPolicy(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAccelerationPolicy/CreateWebAppAccelerationPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "CreateWebAppAccelerationPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -316,12 +320,13 @@ func (client WaaClient) createWebAppAccelerationPolicy(ctx context.Context, requ
 // DeleteWebAppAcceleration Deletes a WebAppAcceleration resource identified by the OCID.
 func (client WaaClient) DeleteWebAppAcceleration(ctx context.Context, request DeleteWebAppAccelerationRequest) (response DeleteWebAppAccelerationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteWebAppAcceleration, policy)
 	if err != nil {
@@ -357,7 +362,7 @@ func (client WaaClient) deleteWebAppAcceleration(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAcceleration/DeleteWebAppAcceleration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "DeleteWebAppAcceleration", apiReferenceLink)
 		return response, err
 	}
@@ -369,12 +374,13 @@ func (client WaaClient) deleteWebAppAcceleration(ctx context.Context, request co
 // DeleteWebAppAccelerationPolicy Deletes a WebAppAccelerationPolicy resource identified by the OCID.
 func (client WaaClient) DeleteWebAppAccelerationPolicy(ctx context.Context, request DeleteWebAppAccelerationPolicyRequest) (response DeleteWebAppAccelerationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteWebAppAccelerationPolicy, policy)
 	if err != nil {
@@ -410,7 +416,7 @@ func (client WaaClient) deleteWebAppAccelerationPolicy(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAccelerationPolicy/DeleteWebAppAccelerationPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "DeleteWebAppAccelerationPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -422,12 +428,13 @@ func (client WaaClient) deleteWebAppAccelerationPolicy(ctx context.Context, requ
 // GetWebAppAcceleration Gets a WebAppAcceleration by OCID.
 func (client WaaClient) GetWebAppAcceleration(ctx context.Context, request GetWebAppAccelerationRequest) (response GetWebAppAccelerationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWebAppAcceleration, policy)
 	if err != nil {
@@ -463,7 +470,7 @@ func (client WaaClient) getWebAppAcceleration(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAcceleration/GetWebAppAcceleration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "GetWebAppAcceleration", apiReferenceLink)
 		return response, err
 	}
@@ -475,12 +482,13 @@ func (client WaaClient) getWebAppAcceleration(ctx context.Context, request commo
 // GetWebAppAccelerationPolicy Gets a WebAppAccelerationPolicy with the given OCID.
 func (client WaaClient) GetWebAppAccelerationPolicy(ctx context.Context, request GetWebAppAccelerationPolicyRequest) (response GetWebAppAccelerationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWebAppAccelerationPolicy, policy)
 	if err != nil {
@@ -516,7 +524,7 @@ func (client WaaClient) getWebAppAccelerationPolicy(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAccelerationPolicy/GetWebAppAccelerationPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "GetWebAppAccelerationPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -528,12 +536,13 @@ func (client WaaClient) getWebAppAccelerationPolicy(ctx context.Context, request
 // ListWebAppAccelerationPolicies Gets a list of all WebAppAccelerationPolicies in a compartment.
 func (client WaaClient) ListWebAppAccelerationPolicies(ctx context.Context, request ListWebAppAccelerationPoliciesRequest) (response ListWebAppAccelerationPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWebAppAccelerationPolicies, policy)
 	if err != nil {
@@ -569,7 +578,7 @@ func (client WaaClient) listWebAppAccelerationPolicies(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAccelerationPolicy/ListWebAppAccelerationPolicies"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "ListWebAppAccelerationPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -581,12 +590,13 @@ func (client WaaClient) listWebAppAccelerationPolicies(ctx context.Context, requ
 // ListWebAppAccelerations Gets a list of all WebAppAccelerations in a compartment.
 func (client WaaClient) ListWebAppAccelerations(ctx context.Context, request ListWebAppAccelerationsRequest) (response ListWebAppAccelerationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWebAppAccelerations, policy)
 	if err != nil {
@@ -622,7 +632,7 @@ func (client WaaClient) listWebAppAccelerations(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAcceleration/ListWebAppAccelerations"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "ListWebAppAccelerations", apiReferenceLink)
 		return response, err
 	}
@@ -635,12 +645,13 @@ func (client WaaClient) listWebAppAccelerations(ctx context.Context, request com
 // forwarded to the origin server to fetch a new version of the resource.
 func (client WaaClient) PurgeWebAppAccelerationCache(ctx context.Context, request PurgeWebAppAccelerationCacheRequest) (response PurgeWebAppAccelerationCacheResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.purgeWebAppAccelerationCache, policy)
 	if err != nil {
@@ -676,7 +687,7 @@ func (client WaaClient) purgeWebAppAccelerationCache(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAcceleration/PurgeWebAppAccelerationCache"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "PurgeWebAppAccelerationCache", apiReferenceLink)
 		return response, err
 	}
@@ -688,12 +699,13 @@ func (client WaaClient) purgeWebAppAccelerationCache(ctx context.Context, reques
 // UpdateWebAppAcceleration Updates the WebAppAcceleration identified by the OCID.
 func (client WaaClient) UpdateWebAppAcceleration(ctx context.Context, request UpdateWebAppAccelerationRequest) (response UpdateWebAppAccelerationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateWebAppAcceleration, policy)
 	if err != nil {
@@ -729,7 +741,7 @@ func (client WaaClient) updateWebAppAcceleration(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAcceleration/UpdateWebAppAcceleration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "UpdateWebAppAcceleration", apiReferenceLink)
 		return response, err
 	}
@@ -741,12 +753,13 @@ func (client WaaClient) updateWebAppAcceleration(ctx context.Context, request co
 // UpdateWebAppAccelerationPolicy Update the WebAppAccelerationPolicy identified by the OCID.
 func (client WaaClient) UpdateWebAppAccelerationPolicy(ctx context.Context, request UpdateWebAppAccelerationPolicyRequest) (response UpdateWebAppAccelerationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateWebAppAccelerationPolicy, policy)
 	if err != nil {
@@ -782,7 +795,7 @@ func (client WaaClient) updateWebAppAccelerationPolicy(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAccelerationPolicy/UpdateWebAppAccelerationPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "UpdateWebAppAccelerationPolicy", apiReferenceLink)
 		return response, err
 	}

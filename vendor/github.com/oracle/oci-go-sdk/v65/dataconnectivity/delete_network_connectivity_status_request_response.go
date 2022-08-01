@@ -57,7 +57,7 @@ func (request DeleteNetworkConnectivityStatusRequest) BinaryRequestBody() (*comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteNetworkConnectivityStatusRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteNetworkConnectivityStatusRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

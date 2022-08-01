@@ -54,7 +54,7 @@ func (request CreateManagedInstanceGroupRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateManagedInstanceGroupRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateManagedInstanceGroupRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

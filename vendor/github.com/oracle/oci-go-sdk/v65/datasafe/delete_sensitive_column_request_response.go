@@ -57,7 +57,7 @@ func (request DeleteSensitiveColumnRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteSensitiveColumnRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteSensitiveColumnRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

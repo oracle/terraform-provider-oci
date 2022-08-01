@@ -91,12 +91,13 @@ func (client *StreamAdminClient) ConfigurationProvider() *common.ConfigurationPr
 // A default retry strategy applies to this operation ChangeConnectHarnessCompartment()
 func (client StreamAdminClient) ChangeConnectHarnessCompartment(ctx context.Context, request ChangeConnectHarnessCompartmentRequest) (response ChangeConnectHarnessCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeConnectHarnessCompartment, policy)
 	if err != nil {
@@ -147,12 +148,13 @@ func (client StreamAdminClient) changeConnectHarnessCompartment(ctx context.Cont
 // A default retry strategy applies to this operation ChangeStreamCompartment()
 func (client StreamAdminClient) ChangeStreamCompartment(ctx context.Context, request ChangeStreamCompartmentRequest) (response ChangeStreamCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeStreamCompartment, policy)
 	if err != nil {
@@ -201,12 +203,13 @@ func (client StreamAdminClient) changeStreamCompartment(ctx context.Context, req
 // A default retry strategy applies to this operation ChangeStreamPoolCompartment()
 func (client StreamAdminClient) ChangeStreamPoolCompartment(ctx context.Context, request ChangeStreamPoolCompartmentRequest) (response ChangeStreamPoolCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeStreamPoolCompartment, policy)
 	if err != nil {
@@ -256,12 +259,13 @@ func (client StreamAdminClient) changeStreamPoolCompartment(ctx context.Context,
 // A default retry strategy applies to this operation CreateConnectHarness()
 func (client StreamAdminClient) CreateConnectHarness(ctx context.Context, request CreateConnectHarnessRequest) (response CreateConnectHarnessResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -319,12 +323,13 @@ func (client StreamAdminClient) createConnectHarness(ctx context.Context, reques
 // A default retry strategy applies to this operation CreateStream()
 func (client StreamAdminClient) CreateStream(ctx context.Context, request CreateStreamRequest) (response CreateStreamResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createStream, policy)
 	if err != nil {
@@ -375,12 +380,13 @@ func (client StreamAdminClient) createStream(ctx context.Context, request common
 // A default retry strategy applies to this operation CreateStreamPool()
 func (client StreamAdminClient) CreateStreamPool(ctx context.Context, request CreateStreamPoolRequest) (response CreateStreamPoolResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -438,12 +444,13 @@ func (client StreamAdminClient) createStreamPool(ctx context.Context, request co
 // A default retry strategy applies to this operation DeleteConnectHarness()
 func (client StreamAdminClient) DeleteConnectHarness(ctx context.Context, request DeleteConnectHarnessRequest) (response DeleteConnectHarnessResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteConnectHarness, policy)
 	if err != nil {
@@ -496,12 +503,13 @@ func (client StreamAdminClient) deleteConnectHarness(ctx context.Context, reques
 // A default retry strategy applies to this operation DeleteStream()
 func (client StreamAdminClient) DeleteStream(ctx context.Context, request DeleteStreamRequest) (response DeleteStreamResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteStream, policy)
 	if err != nil {
@@ -551,12 +559,13 @@ func (client StreamAdminClient) deleteStream(ctx context.Context, request common
 // A default retry strategy applies to this operation DeleteStreamPool()
 func (client StreamAdminClient) DeleteStreamPool(ctx context.Context, request DeleteStreamPoolRequest) (response DeleteStreamPoolResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteStreamPool, policy)
 	if err != nil {
@@ -605,12 +614,13 @@ func (client StreamAdminClient) deleteStreamPool(ctx context.Context, request co
 // A default retry strategy applies to this operation GetConnectHarness()
 func (client StreamAdminClient) GetConnectHarness(ctx context.Context, request GetConnectHarnessRequest) (response GetConnectHarnessResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getConnectHarness, policy)
 	if err != nil {
@@ -659,12 +669,13 @@ func (client StreamAdminClient) getConnectHarness(ctx context.Context, request c
 // A default retry strategy applies to this operation GetStream()
 func (client StreamAdminClient) GetStream(ctx context.Context, request GetStreamRequest) (response GetStreamResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getStream, policy)
 	if err != nil {
@@ -713,12 +724,13 @@ func (client StreamAdminClient) getStream(ctx context.Context, request common.OC
 // A default retry strategy applies to this operation GetStreamPool()
 func (client StreamAdminClient) GetStreamPool(ctx context.Context, request GetStreamPoolRequest) (response GetStreamPoolResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getStreamPool, policy)
 	if err != nil {
@@ -767,12 +779,13 @@ func (client StreamAdminClient) getStreamPool(ctx context.Context, request commo
 // A default retry strategy applies to this operation ListConnectHarnesses()
 func (client StreamAdminClient) ListConnectHarnesses(ctx context.Context, request ListConnectHarnessesRequest) (response ListConnectHarnessesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listConnectHarnesses, policy)
 	if err != nil {
@@ -821,12 +834,13 @@ func (client StreamAdminClient) listConnectHarnesses(ctx context.Context, reques
 // A default retry strategy applies to this operation ListStreamPools()
 func (client StreamAdminClient) ListStreamPools(ctx context.Context, request ListStreamPoolsRequest) (response ListStreamPoolsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listStreamPools, policy)
 	if err != nil {
@@ -878,12 +892,13 @@ func (client StreamAdminClient) listStreamPools(ctx context.Context, request com
 // A default retry strategy applies to this operation ListStreams()
 func (client StreamAdminClient) ListStreams(ctx context.Context, request ListStreamsRequest) (response ListStreamsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listStreams, policy)
 	if err != nil {
@@ -932,12 +947,13 @@ func (client StreamAdminClient) listStreams(ctx context.Context, request common.
 // A default retry strategy applies to this operation UpdateConnectHarness()
 func (client StreamAdminClient) UpdateConnectHarness(ctx context.Context, request UpdateConnectHarnessRequest) (response UpdateConnectHarnessResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateConnectHarness, policy)
 	if err != nil {
@@ -986,12 +1002,13 @@ func (client StreamAdminClient) updateConnectHarness(ctx context.Context, reques
 // A default retry strategy applies to this operation UpdateStream()
 func (client StreamAdminClient) UpdateStream(ctx context.Context, request UpdateStreamRequest) (response UpdateStreamResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateStream, policy)
 	if err != nil {
@@ -1040,12 +1057,13 @@ func (client StreamAdminClient) updateStream(ctx context.Context, request common
 // A default retry strategy applies to this operation UpdateStreamPool()
 func (client StreamAdminClient) UpdateStreamPool(ctx context.Context, request UpdateStreamPoolRequest) (response UpdateStreamPoolResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateStreamPool, policy)
 	if err != nil {

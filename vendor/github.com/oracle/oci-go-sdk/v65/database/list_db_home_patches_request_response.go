@@ -54,7 +54,7 @@ func (request ListDbHomePatchesRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListDbHomePatchesRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListDbHomePatchesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

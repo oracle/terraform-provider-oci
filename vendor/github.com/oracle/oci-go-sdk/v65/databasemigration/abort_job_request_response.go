@@ -62,7 +62,7 @@ func (request AbortJobRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, b
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AbortJobRequest) RetryPolicy() *common.RetryPolicy {
+func (request AbortJobRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

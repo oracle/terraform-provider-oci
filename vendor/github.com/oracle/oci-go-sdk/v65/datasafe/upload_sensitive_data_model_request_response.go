@@ -60,7 +60,7 @@ func (request UploadSensitiveDataModelRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UploadSensitiveDataModelRequest) RetryPolicy() *common.RetryPolicy {
+func (request UploadSensitiveDataModelRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

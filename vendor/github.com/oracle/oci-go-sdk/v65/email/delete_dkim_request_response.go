@@ -52,7 +52,7 @@ func (request DeleteDkimRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteDkimRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteDkimRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

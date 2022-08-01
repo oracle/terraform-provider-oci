@@ -53,7 +53,7 @@ func (request TestPreferredCredentialRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request TestPreferredCredentialRequest) RetryPolicy() *common.RetryPolicy {
+func (request TestPreferredCredentialRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

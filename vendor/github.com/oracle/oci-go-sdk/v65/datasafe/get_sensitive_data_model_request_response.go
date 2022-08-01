@@ -47,7 +47,7 @@ func (request GetSensitiveDataModelRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetSensitiveDataModelRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetSensitiveDataModelRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

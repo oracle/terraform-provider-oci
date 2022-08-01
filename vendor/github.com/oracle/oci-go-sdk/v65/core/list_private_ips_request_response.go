@@ -69,7 +69,7 @@ func (request ListPrivateIpsRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListPrivateIpsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListPrivateIpsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

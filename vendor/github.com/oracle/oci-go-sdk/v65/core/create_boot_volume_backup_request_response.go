@@ -55,7 +55,7 @@ func (request CreateBootVolumeBackupRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateBootVolumeBackupRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateBootVolumeBackupRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

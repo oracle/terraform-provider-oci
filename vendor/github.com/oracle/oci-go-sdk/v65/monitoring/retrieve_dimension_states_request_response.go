@@ -61,7 +61,7 @@ func (request RetrieveDimensionStatesRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RetrieveDimensionStatesRequest) RetryPolicy() *common.RetryPolicy {
+func (request RetrieveDimensionStatesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

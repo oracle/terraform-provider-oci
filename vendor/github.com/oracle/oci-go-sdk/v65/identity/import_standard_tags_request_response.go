@@ -55,7 +55,7 @@ func (request ImportStandardTagsRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ImportStandardTagsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ImportStandardTagsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

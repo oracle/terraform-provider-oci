@@ -49,7 +49,7 @@ func (request GenerateDataEncryptionKeyRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GenerateDataEncryptionKeyRequest) RetryPolicy() *common.RetryPolicy {
+func (request GenerateDataEncryptionKeyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

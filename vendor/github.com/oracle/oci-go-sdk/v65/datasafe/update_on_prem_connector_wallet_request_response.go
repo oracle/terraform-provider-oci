@@ -63,7 +63,7 @@ func (request UpdateOnPremConnectorWalletRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateOnPremConnectorWalletRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateOnPremConnectorWalletRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

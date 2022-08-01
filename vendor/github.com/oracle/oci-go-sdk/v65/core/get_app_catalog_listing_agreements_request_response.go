@@ -51,7 +51,7 @@ func (request GetAppCatalogListingAgreementsRequest) BinaryRequestBody() (*commo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetAppCatalogListingAgreementsRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetAppCatalogListingAgreementsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

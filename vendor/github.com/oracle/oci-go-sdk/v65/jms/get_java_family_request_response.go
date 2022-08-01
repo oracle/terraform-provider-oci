@@ -47,7 +47,7 @@ func (request GetJavaFamilyRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetJavaFamilyRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetJavaFamilyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -75,7 +75,7 @@ func (request ListDedicatedVantagePointsRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListDedicatedVantagePointsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListDedicatedVantagePointsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

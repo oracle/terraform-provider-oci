@@ -63,7 +63,7 @@ func (request DetectStackDriftRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DetectStackDriftRequest) RetryPolicy() *common.RetryPolicy {
+func (request DetectStackDriftRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

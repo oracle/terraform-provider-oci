@@ -55,7 +55,7 @@ func (request CreateDbHomeRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateDbHomeRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateDbHomeRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

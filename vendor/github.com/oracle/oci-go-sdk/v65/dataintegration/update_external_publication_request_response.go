@@ -63,7 +63,7 @@ func (request UpdateExternalPublicationRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateExternalPublicationRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateExternalPublicationRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

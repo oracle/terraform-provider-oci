@@ -53,7 +53,7 @@ func (request DeleteSubnetRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteSubnetRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteSubnetRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

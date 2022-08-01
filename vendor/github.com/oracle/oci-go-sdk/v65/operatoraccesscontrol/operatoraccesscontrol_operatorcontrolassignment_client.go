@@ -92,12 +92,13 @@ func (client *OperatorControlAssignmentClient) ConfigurationProvider() *common.C
 // ChangeOperatorControlAssignmentCompartment Changes the compartment of the specified Operator Control assignment ID.
 func (client OperatorControlAssignmentClient) ChangeOperatorControlAssignmentCompartment(ctx context.Context, request ChangeOperatorControlAssignmentCompartmentRequest) (response ChangeOperatorControlAssignmentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -150,12 +151,13 @@ func (client OperatorControlAssignmentClient) changeOperatorControlAssignmentCom
 // CreateOperatorControlAssignment Creates an Operator Control Assignment resource. In effect, this brings the target resource under the governance of the Operator Control for specified time duration.
 func (client OperatorControlAssignmentClient) CreateOperatorControlAssignment(ctx context.Context, request CreateOperatorControlAssignmentRequest) (response CreateOperatorControlAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -208,12 +210,13 @@ func (client OperatorControlAssignmentClient) createOperatorControlAssignment(ct
 // DeleteOperatorControlAssignment Deletes the specified Operator Control Assignment. This has the effect of unassigning the specific Operator Control from the target resource.
 func (client OperatorControlAssignmentClient) DeleteOperatorControlAssignment(ctx context.Context, request DeleteOperatorControlAssignmentRequest) (response DeleteOperatorControlAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteOperatorControlAssignment, policy)
 	if err != nil {
@@ -261,12 +264,13 @@ func (client OperatorControlAssignmentClient) deleteOperatorControlAssignment(ct
 // GetOperatorControlAssignment Gets the details of an Operator Control Assignment of the specified ID.
 func (client OperatorControlAssignmentClient) GetOperatorControlAssignment(ctx context.Context, request GetOperatorControlAssignmentRequest) (response GetOperatorControlAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getOperatorControlAssignment, policy)
 	if err != nil {
@@ -314,12 +318,13 @@ func (client OperatorControlAssignmentClient) getOperatorControlAssignment(ctx c
 // ListOperatorControlAssignments Lists all Operator Control Assignments.
 func (client OperatorControlAssignmentClient) ListOperatorControlAssignments(ctx context.Context, request ListOperatorControlAssignmentsRequest) (response ListOperatorControlAssignmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listOperatorControlAssignments, policy)
 	if err != nil {
@@ -367,12 +372,13 @@ func (client OperatorControlAssignmentClient) listOperatorControlAssignments(ctx
 // UpdateOperatorControlAssignment Modifies the existing Operator Control assignment of the specified Operator Control assignment ID. Modifying the assignment does not change the Operator Control assignment ID.
 func (client OperatorControlAssignmentClient) UpdateOperatorControlAssignment(ctx context.Context, request UpdateOperatorControlAssignmentRequest) (response UpdateOperatorControlAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
+	var policy common.OCIRetry
+	policy = common.NoRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
 	}
 	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
+		policy = request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateOperatorControlAssignment, policy)
 	if err != nil {

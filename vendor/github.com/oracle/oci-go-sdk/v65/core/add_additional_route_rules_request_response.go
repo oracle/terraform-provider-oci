@@ -56,7 +56,7 @@ func (request AddAdditionalRouteRulesRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddAdditionalRouteRulesRequest) RetryPolicy() *common.RetryPolicy {
+func (request AddAdditionalRouteRulesRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

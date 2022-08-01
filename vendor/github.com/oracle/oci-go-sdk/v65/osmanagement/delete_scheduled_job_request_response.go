@@ -54,7 +54,7 @@ func (request DeleteScheduledJobRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteScheduledJobRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteScheduledJobRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

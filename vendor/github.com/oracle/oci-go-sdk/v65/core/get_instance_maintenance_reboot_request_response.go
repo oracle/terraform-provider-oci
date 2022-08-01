@@ -48,7 +48,7 @@ func (request GetInstanceMaintenanceRebootRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetInstanceMaintenanceRebootRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetInstanceMaintenanceRebootRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

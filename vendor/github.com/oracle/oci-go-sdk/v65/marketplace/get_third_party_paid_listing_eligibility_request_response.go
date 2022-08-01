@@ -48,7 +48,7 @@ func (request GetThirdPartyPaidListingEligibilityRequest) BinaryRequestBody() (*
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetThirdPartyPaidListingEligibilityRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetThirdPartyPaidListingEligibilityRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

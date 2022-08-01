@@ -60,7 +60,7 @@ func (request CreateSteeringPolicyRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateSteeringPolicyRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateSteeringPolicyRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

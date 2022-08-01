@@ -54,7 +54,7 @@ func (request DeleteManagementDashboardRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteManagementDashboardRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteManagementDashboardRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

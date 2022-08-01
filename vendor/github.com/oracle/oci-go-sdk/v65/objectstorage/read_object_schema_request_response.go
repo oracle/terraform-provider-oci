@@ -73,7 +73,7 @@ func (request ReadObjectSchemaRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ReadObjectSchemaRequest) RetryPolicy() *common.RetryPolicy {
+func (request ReadObjectSchemaRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

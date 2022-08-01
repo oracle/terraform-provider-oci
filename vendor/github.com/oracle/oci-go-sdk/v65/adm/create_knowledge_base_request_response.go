@@ -54,7 +54,7 @@ func (request CreateKnowledgeBaseRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateKnowledgeBaseRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateKnowledgeBaseRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

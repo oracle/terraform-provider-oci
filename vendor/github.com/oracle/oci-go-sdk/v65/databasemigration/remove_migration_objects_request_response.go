@@ -58,7 +58,7 @@ func (request RemoveMigrationObjectsRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveMigrationObjectsRequest) RetryPolicy() *common.RetryPolicy {
+func (request RemoveMigrationObjectsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

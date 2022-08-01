@@ -89,7 +89,7 @@ func (request SummarizeAwrDatabaseMetricsRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SummarizeAwrDatabaseMetricsRequest) RetryPolicy() *common.RetryPolicy {
+func (request SummarizeAwrDatabaseMetricsRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 

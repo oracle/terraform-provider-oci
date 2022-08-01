@@ -144,7 +144,7 @@ func (request SummarizeDatabaseInsightResourceCapacityTrendRequest) BinaryReques
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SummarizeDatabaseInsightResourceCapacityTrendRequest) RetryPolicy() *common.RetryPolicy {
+func (request SummarizeDatabaseInsightResourceCapacityTrendRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 
