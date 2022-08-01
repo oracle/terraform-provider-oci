@@ -116,6 +116,10 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 
 	s.D.Set("next_sku", s.Res.NextSku)
 
+	if s.Res.NonUpgradedEsxiHostId != nil {
+		s.D.Set("non_upgraded_esxi_host_id", *s.Res.NonUpgradedEsxiHostId)
+	}
+
 	if s.Res.ReplacementEsxiHostId != nil {
 		s.D.Set("replacement_esxi_host_id", *s.Res.ReplacementEsxiHostId)
 	}
@@ -132,6 +136,14 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.UpgradedReplacementEsxiHostId != nil {
+		s.D.Set("upgraded_replacement_esxi_host_id", *s.Res.UpgradedReplacementEsxiHostId)
+	}
+
+	if s.Res.VmwareSoftwareVersion != nil {
+		s.D.Set("vmware_software_version", *s.Res.VmwareSoftwareVersion)
 	}
 
 	return nil

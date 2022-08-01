@@ -227,6 +227,12 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	upgradeLicenses := []interface{}{}
+	for _, item := range s.Res.UpgradeLicenses {
+		upgradeLicenses = append(upgradeLicenses, VsphereLicenseToMap(item))
+	}
+	s.D.Set("upgrade_licenses", upgradeLicenses)
+
 	if s.Res.VcenterFqdn != nil {
 		s.D.Set("vcenter_fqdn", *s.Res.VcenterFqdn)
 	}
@@ -254,6 +260,16 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 	if s.Res.VsanVlanId != nil {
 		s.D.Set("vsan_vlan_id", *s.Res.VsanVlanId)
 	}
+
+	if s.Res.VsphereUpgradeGuide != nil {
+		s.D.Set("vsphere_upgrade_guide", *s.Res.VsphereUpgradeGuide)
+	}
+
+	vsphereUpgradeObjects := []interface{}{}
+	for _, item := range s.Res.VsphereUpgradeObjects {
+		vsphereUpgradeObjects = append(vsphereUpgradeObjects, VsphereUpgradeObjectToMap(item))
+	}
+	s.D.Set("vsphere_upgrade_objects", vsphereUpgradeObjects)
 
 	if s.Res.VsphereVlanId != nil {
 		s.D.Set("vsphere_vlan_id", *s.Res.VsphereVlanId)

@@ -203,6 +203,10 @@ func OcvpSddcResource() *schema.Resource {
 			},
 
 			// Computed
+			"actual_esxi_hosts_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"hcx_fqdn": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -296,6 +300,27 @@ func OcvpSddcResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"upgrade_licenses": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"license_key": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"license_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"vcenter_fqdn": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -312,9 +337,30 @@ func OcvpSddcResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"actual_esxi_hosts_count": {
-				Type:     schema.TypeInt,
+			"vsphere_upgrade_guide": {
+				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"vsphere_upgrade_objects": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"download_link": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"link_description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -1101,6 +1147,12 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	upgradeLicenses := []interface{}{}
+	for _, item := range s.Res.UpgradeLicenses {
+		upgradeLicenses = append(upgradeLicenses, VsphereLicenseToMap(item))
+	}
+	s.D.Set("upgrade_licenses", upgradeLicenses)
+
 	if s.Res.VcenterFqdn != nil {
 		s.D.Set("vcenter_fqdn", *s.Res.VcenterFqdn)
 	}
@@ -1128,6 +1180,16 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 	if s.Res.VsanVlanId != nil {
 		s.D.Set("vsan_vlan_id", *s.Res.VsanVlanId)
 	}
+
+	if s.Res.VsphereUpgradeGuide != nil {
+		s.D.Set("vsphere_upgrade_guide", *s.Res.VsphereUpgradeGuide)
+	}
+
+	vsphereUpgradeObjects := []interface{}{}
+	for _, item := range s.Res.VsphereUpgradeObjects {
+		vsphereUpgradeObjects = append(vsphereUpgradeObjects, VsphereUpgradeObjectToMap(item))
+	}
+	s.D.Set("vsphere_upgrade_objects", vsphereUpgradeObjects)
 
 	if s.Res.VsphereVlanId != nil {
 		s.D.Set("vsphere_vlan_id", *s.Res.VsphereVlanId)
@@ -1230,6 +1292,34 @@ func SddcSummaryToMap(obj oci_ocvp.SddcSummary) map[string]interface{} {
 
 	if obj.VmwareSoftwareVersion != nil {
 		result["vmware_software_version"] = string(*obj.VmwareSoftwareVersion)
+	}
+
+	return result
+}
+
+func VsphereLicenseToMap(obj oci_ocvp.VsphereLicense) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.LicenseKey != nil {
+		result["license_key"] = string(*obj.LicenseKey)
+	}
+
+	if obj.LicenseType != nil {
+		result["license_type"] = string(*obj.LicenseType)
+	}
+
+	return result
+}
+
+func VsphereUpgradeObjectToMap(obj oci_ocvp.VsphereUpgradeObject) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DownloadLink != nil {
+		result["download_link"] = string(*obj.DownloadLink)
+	}
+
+	if obj.LinkDescription != nil {
+		result["link_description"] = string(*obj.LinkDescription)
 	}
 
 	return result
