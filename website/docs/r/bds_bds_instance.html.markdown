@@ -87,6 +87,7 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 	defined_tags = var.bds_instance_defined_tags
 	freeform_tags = var.bds_instance_freeform_tags
 	kerberos_realm_name = var.bds_instance_kerberos_realm_name
+	kms_key_id = var.bds_instance_kms_key_id
 	network_config {
 
 		#Optional
@@ -115,6 +116,18 @@ The following arguments are supported:
 * `is_high_availability` - (Required) Boolean flag specifying whether or not the cluster is HA
 * `is_secure` - (Required) Boolean flag specifying whether or not the cluster should be setup as secure.
 * `kerberos_realm_name` - (Optional) The user-defined kerberos realm name.
+* `kms_key_id` - (Optional) (Updatable) The OCID of the Key Management master encryption key.
+* `network_config` - (Optional) Additional configuration of the user's network.
+	* `cidr_block` - (Optional) The CIDR IP address block of the VCN.
+	* `is_nat_gateway_required` - (Optional) A boolean flag whether to configure a NAT gateway.
+* `nodes` - (Required) The list of nodes in the Big Data Service cluster.
+	* `block_volume_size_in_gbs` - (Required) The size of block volume in GB to be attached to a given node. All the details needed for attaching the block volume are managed by service itself. 
+	* `node_type` - (Required) The Big Data Service cluster node type.
+	* `shape` - (Required) (Updatable) Shape of the node.
+	* `shape_config` - (Optional) The shape configuration requested for the node.
+		* `memory_in_gbs` - (Optional) The total amount of memory available to the node, in gigabytes
+		* `ocpus` - (Optional) The total number of OCPUs available to the node.
+	* `subnet_id` - (Required) The OCID of the subnet in which the node will be created.
 * `network_config` - (Optional) Additional configuration of customer's network.
     * `cidr_block` - (Required) The CIDR IP address block of the VCN.
     * `is_nat_gateway_required` - (Required) A boolean flag whether to configure a NAT gateway.
