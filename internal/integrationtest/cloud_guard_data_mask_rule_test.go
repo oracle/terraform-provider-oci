@@ -57,7 +57,7 @@ var (
 		"iam_group_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_group.test_group.id}`},
 		"target_selected":       acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudGuardDataMaskRuleTargetSelectedRepresentation},
 		"data_mask_rule_status": acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
-		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":           acctest.Representation{RepType: acctest.Optional, Create: `description`},
 		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
@@ -72,7 +72,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, IdentityGroupRepresentation)
 )
 
-// issue-routing-tag: cloud_guard/default
+//issue-routing-tag: cloud_guard/default
 func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCloudGuardDataMaskRuleResource_basic")
 	defer httpreplay.SaveScenario()
