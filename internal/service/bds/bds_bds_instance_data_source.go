@@ -114,6 +114,10 @@ func (s *BdsBdsInstanceDataSourceCrud) SetData() error {
 		s.D.Set("is_secure", *s.Res.IsSecure)
 	}
 
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
 	if s.Res.NetworkConfig != nil {
 		s.D.Set("network_config", []interface{}{NetworkConfigToMap(s.Res.NetworkConfig)})
 	} else {
