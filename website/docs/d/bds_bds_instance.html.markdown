@@ -67,6 +67,7 @@ The following attributes are exported:
 * `is_cloud_sql_configured` - Boolean flag specifying whether or not Cloud SQL should be configured.
 * `is_high_availability` - Boolean flag specifying whether or not the cluster is highly available (HA)
 * `is_secure` - Boolean flag specifying whether or not the cluster should be set up as secure.
+* `kms_key_id` - The OCID of the Key Management master encryption key.
 * `network_config` - Additional configuration of the user's network.
 	* `cidr_block` - The CIDR IP address block of the VCN.
 	* `is_nat_gateway_required` - A boolean flag whether to configure a NAT gateway.
