@@ -8,6 +8,7 @@ import (
 	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v65/aianomalydetection"
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v65/aivision"
 	oci_analytics "github.com/oracle/oci-go-sdk/v65/analytics"
+	oci_announcements_service "github.com/oracle/oci-go-sdk/v65/announcementsservice"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v65/apigateway"
 	oci_apm "github.com/oracle/oci-go-sdk/v65/apmcontrolplane"
 	oci_artifacts "github.com/oracle/oci-go-sdk/v65/artifacts"
@@ -200,6 +201,28 @@ var exportAnalyticsAnalyticsInstanceHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_analytics.AnalyticsInstanceLifecycleStateActive),
 	},
+}
+
+var exportAnnouncementsServiceAnnouncementSubscriptionHints = &TerraformResourceHints{
+	resourceClass:          "oci_announcements_service_announcement_subscription",
+	datasourceClass:        "oci_announcements_service_announcement_subscriptions",
+	datasourceItemsAttr:    "announcement_subscription_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "announcement_subscription",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_announcements_service.AnnouncementSubscriptionLifecycleStateActive),
+	},
+}
+
+var exportAnnouncementsServiceAnnouncementSubscriptionsActionsChangeCompartmentHints = &TerraformResourceHints{
+	resourceClass:        "oci_announcements_service_announcement_subscriptions_actions_change_compartment",
+	resourceAbbreviation: "announcement_subscriptions_actions_change_compartment",
+}
+
+var exportAnnouncementsServiceAnnouncementSubscriptionsFilterGroupHints = &TerraformResourceHints{
+	resourceClass:        "oci_announcements_service_announcement_subscriptions_filter_group",
+	resourceAbbreviation: "announcement_subscriptions_filter_group",
 }
 
 var exportApigatewayApiHints = &TerraformResourceHints{
@@ -1766,10 +1789,11 @@ var exportDatascienceProjectHints = &TerraformResourceHints{
 }
 
 var exportDatascienceNotebookSessionHints = &TerraformResourceHints{
-	resourceClass:        "oci_datascience_notebook_session",
-	datasourceClass:      "oci_datascience_notebook_sessions",
-	datasourceItemsAttr:  "notebook_sessions",
-	resourceAbbreviation: "notebook_session",
+	resourceClass:          "oci_datascience_notebook_session",
+	datasourceClass:        "oci_datascience_notebook_sessions",
+	datasourceItemsAttr:    "notebook_sessions",
+	resourceAbbreviation:   "notebook_session",
+	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_datascience.NotebookSessionLifecycleStateActive),
 	},

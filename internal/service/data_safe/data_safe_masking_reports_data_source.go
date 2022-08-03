@@ -261,3 +261,57 @@ func DataSafeMaskingReportSummaryToMap(obj oci_data_safe.MaskingReportSummary) m
 
 	return result
 }
+
+func MaskingReportSummaryToMap(obj oci_data_safe.MaskingReportSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.MaskingPolicyId != nil {
+		result["masking_policy_id"] = string(*obj.MaskingPolicyId)
+	}
+
+	if obj.MaskingWorkRequestId != nil {
+		result["masking_work_request_id"] = string(*obj.MaskingWorkRequestId)
+	}
+
+	if obj.TargetId != nil {
+		result["target_id"] = string(*obj.TargetId)
+	}
+
+	if obj.TimeMaskingFinished != nil {
+		result["time_masking_finished"] = obj.TimeMaskingFinished.String()
+	}
+
+	if obj.TimeMaskingStarted != nil {
+		result["time_masking_started"] = obj.TimeMaskingStarted.String()
+	}
+
+	if obj.TotalMaskedColumns != nil {
+		result["total_masked_columns"] = strconv.FormatInt(*obj.TotalMaskedColumns, 10)
+	}
+
+	if obj.TotalMaskedObjects != nil {
+		result["total_masked_objects"] = strconv.FormatInt(*obj.TotalMaskedObjects, 10)
+	}
+
+	if obj.TotalMaskedSchemas != nil {
+		result["total_masked_schemas"] = strconv.FormatInt(*obj.TotalMaskedSchemas, 10)
+	}
+
+	if obj.TotalMaskedSensitiveTypes != nil {
+		result["total_masked_sensitive_types"] = strconv.FormatInt(*obj.TotalMaskedSensitiveTypes, 10)
+	}
+
+	if obj.TotalMaskedValues != nil {
+		result["total_masked_values"] = strconv.FormatInt(*obj.TotalMaskedValues, 10)
+	}
+
+	return result
+}

@@ -180,11 +180,19 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
+	if s.Res.MonthlyDbServerVersion != nil {
+		s.D.Set("monthly_db_server_version", *s.Res.MonthlyDbServerVersion)
+	}
+
 	if s.Res.Netmask != nil {
 		s.D.Set("netmask", *s.Res.Netmask)
 	}
 
 	s.D.Set("ntp_server", s.Res.NtpServer)
+
+	if s.Res.RackSerialNumber != nil {
+		s.D.Set("rack_serial_number", *s.Res.RackSerialNumber)
+	}
 
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)

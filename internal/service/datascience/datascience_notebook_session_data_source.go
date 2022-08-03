@@ -100,6 +100,12 @@ func (s *DatascienceNotebookSessionDataSourceCrud) SetData() error {
 		s.D.Set("notebook_session_configuration_details", nil)
 	}
 
+	if s.Res.NotebookSessionRuntimeConfigDetails != nil {
+		s.D.Set("notebook_session_runtime_config_details", []interface{}{NotebookSessionRuntimeConfigDetailsToMap(s.Res.NotebookSessionRuntimeConfigDetails)})
+	} else {
+		s.D.Set("notebook_session_runtime_config_details", nil)
+	}
+
 	if s.Res.NotebookSessionUrl != nil {
 		s.D.Set("notebook_session_url", *s.Res.NotebookSessionUrl)
 	}

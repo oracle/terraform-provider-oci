@@ -154,8 +154,26 @@ func ipv6CompressionDiffSuppressFunction(key string, old string, new string, d *
 	oldParsedIp := net.ParseIP(oldIp[0])
 	oldSubnetMask := oldIp[1]
 	newParsedIp := net.ParseIP(newIp[0])
-	newSubnetMask := oldIp[1]
+	newSubnetMask := newIp[1]
 	return strings.EqualFold(oldParsedIp.String(), newParsedIp.String()) && strings.EqualFold(oldSubnetMask, newSubnetMask)
+}
+
+func ipv6Cidr_blocksSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
+	if key == "ipv6cidr_blocks.#" {
+		if old == "" || new == "" {
+			return false
+		}
+
+		// old and new should represent size of list
+		// if there is a difference in size between old and new values, we have a diff
+		if old != new {
+			return false
+		}
+
+		return true
+	}
+
+	return ipv6CompressionDiffSuppressFunction(key, old, new, d)
 }
 
 func Abs(x int) int {

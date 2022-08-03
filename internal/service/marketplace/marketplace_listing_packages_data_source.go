@@ -411,3 +411,97 @@ func MarketplaceListingPackagesRegionToMap(obj oci_marketplace.Region) map[strin
 
 	return result
 }
+
+func MarketplaceListingInternationalMarketPriceToMap(obj *oci_marketplace.InternationalMarketPrice) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["currency_code"] = string(obj.CurrencyCode)
+
+	if obj.CurrencySymbol != nil {
+		result["currency_symbol"] = string(*obj.CurrencySymbol)
+	}
+
+	if obj.Rate != nil {
+		result["rate"] = float64(*obj.Rate)
+	}
+
+	return result
+}
+
+func MarketplaceListingPackageRegionToMap(obj oci_marketplace.Region) interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Code != nil {
+		result["code"] = string(*obj.Code)
+	}
+
+	countries := []interface{}{}
+	for _, item := range obj.Countries {
+		countries = append(countries, MarketplaceListingPackagesItemToMap(item))
+	}
+	result["countries"] = countries
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}
+
+func MarketplaceListingPackageOperatingSystemToMap(obj *oci_marketplace.OperatingSystem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}
+
+func MarketplaceListingPackageOrchestrationVariableToMap(obj oci_marketplace.OrchestrationVariable) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["data_type"] = string(obj.DataType)
+
+	if obj.DefaultValue != nil {
+		result["default_value"] = string(*obj.DefaultValue)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.HintMessage != nil {
+		result["hint_message"] = string(*obj.HintMessage)
+	}
+
+	if obj.IsMandatory != nil {
+		result["is_mandatory"] = bool(*obj.IsMandatory)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}
+
+func MarketplaceListingPackagePricingModelToMap(obj *oci_marketplace.PricingModel) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["currency"] = string(obj.Currency)
+
+	if obj.InternationalMarketPrice != nil {
+		result["international_market_price"] = []interface{}{MarketplaceListingInternationalMarketPriceToMap(obj.InternationalMarketPrice)}
+	}
+
+	result["pay_go_strategy"] = string(obj.PayGoStrategy)
+
+	if obj.Rate != nil {
+		result["rate"] = float32(*obj.Rate)
+	}
+
+	result["type"] = string(obj.Type)
+
+	return result
+}

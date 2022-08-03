@@ -224,11 +224,19 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["memory_size_in_gbs"] = *r.MemorySizeInGBs
 		}
 
+		if r.MonthlyDbServerVersion != nil {
+			exadataInfrastructure["monthly_db_server_version"] = *r.MonthlyDbServerVersion
+		}
+
 		if r.Netmask != nil {
 			exadataInfrastructure["netmask"] = *r.Netmask
 		}
 
 		exadataInfrastructure["ntp_server"] = r.NtpServer
+
+		if r.RackSerialNumber != nil {
+			exadataInfrastructure["rack_serial_number"] = *r.RackSerialNumber
+		}
 
 		if r.Shape != nil {
 			exadataInfrastructure["shape"] = *r.Shape

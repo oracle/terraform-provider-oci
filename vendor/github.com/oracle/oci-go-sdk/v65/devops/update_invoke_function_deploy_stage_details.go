@@ -36,7 +36,8 @@ type UpdateInvokeFunctionDeployStageDetails struct {
 	// Function environment OCID.
 	FunctionDeployEnvironmentId *string `mandatory:"false" json:"functionDeployEnvironmentId"`
 
-	// Optional binary artifact OCID user may provide to this stage.
+	// Optional artifact OCID. The artifact will be included in the body for the function invocation during the stage's execution.
+	// If the DeployArtifact.argumentSubstituitionMode is set to SUBSTITUTE_PLACEHOLDERS, then the pipeline parameter values will be used to replace the placeholders in the artifact content.
 	DeployArtifactId *string `mandatory:"false" json:"deployArtifactId"`
 
 	// A boolean flag specifies whether this stage executes asynchronously.

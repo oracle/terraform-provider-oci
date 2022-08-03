@@ -44,6 +44,7 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. 
 * `id` - The OCID of the access request.
 * `is_auto_approved` - Whether the access request was automatically approved.
+* `lifecycle_details` - more in detail about the lifeCycleState.
 * `opctl_additional_message` - Additional message specific to the access request that can be specified by the approver at the time of approval.
 * `opctl_id` - The OCID of the operator control governing the target resource.
 * `opctl_name` - Name of the Operator control governing the target resource.

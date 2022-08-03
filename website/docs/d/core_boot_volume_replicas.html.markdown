@@ -17,13 +17,13 @@ Lists the boot volume replicas in the specified compartment and availability dom
 
 ```hcl
 data "oci_core_boot_volume_replicas" "test_boot_volume_replicas" {
-	#Required
-	availability_domain = var.boot_volume_replica_availability_domain
-	compartment_id = var.compartment_id
 
 	#Optional
+	availability_domain = var.boot_volume_replica_availability_domain
+	compartment_id = var.compartment_id
 	display_name = var.boot_volume_replica_display_name
 	state = var.boot_volume_replica_state
+	volume_group_replica_id = oci_core_volume_group_replica.test_volume_group_replica.id
 }
 ```
 
@@ -31,9 +31,11 @@ data "oci_core_boot_volume_replicas" "test_boot_volume_replicas" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Required) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
-* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
+* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state. The state value is case-insensitive. 
+* `volume_group_replica_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the volume group replica.
 * `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
 
 

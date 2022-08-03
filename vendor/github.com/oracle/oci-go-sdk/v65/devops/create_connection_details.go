@@ -75,6 +75,14 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.ConnectionType {
+	case "GITLAB_SERVER_ACCESS_TOKEN":
+		mm := CreateGitlabServerAccessTokenConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER_ACCESS_TOKEN":
+		mm := CreateBitbucketServerAccessTokenConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB_ACCESS_TOKEN":
 		mm := CreateGithubAccessTokenConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
