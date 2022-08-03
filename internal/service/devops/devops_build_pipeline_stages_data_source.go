@@ -6,6 +6,8 @@ package devops
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -234,6 +236,44 @@ func DevopsBuildPipelineStagesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
+									},
+									"private_access_config": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"network_channel_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"PRIVATE_ENDPOINT_CHANNEL",
+														"SERVICE_VNIC_CHANNEL",
+													}, true),
+												},
+												"subnet_id": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+												"nsg_ids": {
+													Type:     schema.TypeSet,
+													Optional: true,
+													Computed: true,
+													Set:      tfresource.LiteralTypeHashCodeForSets,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+
+												// Computed
+											},
+										},
 									},
 									"stage_execution_timeout_in_seconds": {
 										Type:     schema.TypeInt,

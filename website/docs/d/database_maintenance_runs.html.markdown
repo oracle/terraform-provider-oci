@@ -22,6 +22,7 @@ data "oci_database_maintenance_runs" "test_maintenance_runs" {
 
 	#Optional
 	availability_domain = var.maintenance_run_availability_domain
+	maintenance_subtype = var.maintenance_run_maintenance_subtype
 	maintenance_type = var.maintenance_run_maintenance_type
 	state = var.maintenance_run_state
 	target_resource_id = oci_database_target_resource.test_target_resource.id
@@ -35,6 +36,7 @@ The following arguments are supported:
 
 * `availability_domain` - (Optional) A filter to return only resources that match the given availability domain exactly.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `maintenance_subtype` - (Optional) The sub-type of the maintenance run.
 * `maintenance_type` - (Optional) The maintenance type.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 * `target_resource_id` - (Optional) The target resource ID.

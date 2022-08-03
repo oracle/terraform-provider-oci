@@ -38,8 +38,8 @@ var (
 	}
 
 	CoreCoreVolumeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":               acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVolumeDataSourceFilterRepresentation}}

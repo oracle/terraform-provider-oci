@@ -230,3 +230,47 @@ func OperatorActionsSummaryToMap(obj oci_operator_access_control.OperatorActionS
 
 	return result
 }
+
+func OperatorActionPropertiesToMap(obj oci_operator_access_control.OperatorActionProperties) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func OperatorActionSummaryToMap(obj oci_operator_access_control.OperatorActionSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.Component != nil {
+		result["component"] = string(*obj.Component)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	result["resource_type"] = string(obj.ResourceType)
+
+	result["state"] = string(obj.LifecycleState)
+
+	return result
+}

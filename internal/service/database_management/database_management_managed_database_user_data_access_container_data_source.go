@@ -113,13 +113,3 @@ func (s *DatabaseManagementManagedDatabaseUserDataAccessContainerDataSourceCrud)
 
 	return nil
 }
-
-func DataAccessContainerSummaryToMap(obj oci_database_management.DataAccessContainerSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	return result
-}

@@ -66,123 +66,76 @@ func (s *DevopsConnectionDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.GetId())
+
+	if s.Res.GetCompartmentId() != nil {
+		s.D.Set("compartment_id", *s.Res.GetCompartmentId())
+	}
+
+	if s.Res.GetDefinedTags() != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.GetDefinedTags()))
+	}
+
+	if s.Res.GetDescription() != nil {
+		s.D.Set("description", *s.Res.GetDescription())
+	}
+
+	if s.Res.GetDisplayName() != nil {
+		s.D.Set("display_name", *s.Res.GetDisplayName())
+	}
+
+	s.D.Set("freeform_tags", s.Res.GetFreeformTags())
+
+	if s.Res.GetProjectId() != nil {
+		s.D.Set("project_id", *s.Res.GetProjectId())
+	}
+
+	s.D.Set("state", s.Res.GetLifecycleState())
+
+	if s.Res.GetSystemTags() != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.GetSystemTags()))
+	}
+
+	if s.Res.GetTimeCreated() != nil {
+		s.D.Set("time_created", s.Res.GetTimeCreated().String())
+	}
+
+	if s.Res.GetTimeUpdated() != nil {
+		s.D.Set("time_updated", s.Res.GetTimeUpdated().String())
+	}
+
 	switch v := (s.Res.Connection).(type) {
-	case oci_devops.BitbucketCloudAppPasswordConnection:
-		s.D.Set("connection_type", "BITBUCKET_CLOUD_APP_PASSWORD")
-
-		if v.CompartmentId != nil {
-			s.D.Set("compartment_id", *v.CompartmentId)
-		}
-
-		if v.DefinedTags != nil {
-			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
-		}
-
-		if v.Description != nil {
-			s.D.Set("description", *v.Description)
-		}
-
-		if v.DisplayName != nil {
-			s.D.Set("display_name", *v.DisplayName)
-		}
-
-		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.ProjectId != nil {
-			s.D.Set("project_id", *v.ProjectId)
-		}
-
-		s.D.Set("state", v.LifecycleState)
-
-		if v.SystemTags != nil {
-			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
-		}
-
-		if v.TimeCreated != nil {
-			s.D.Set("time_created", v.TimeCreated.String())
-		}
-
-		if v.TimeUpdated != nil {
-			s.D.Set("time_updated", v.TimeUpdated.String())
-		}
 	case oci_devops.GithubAccessTokenConnection:
 		s.D.Set("connection_type", "GITHUB_ACCESS_TOKEN")
-
-		if v.CompartmentId != nil {
-			s.D.Set("compartment_id", *v.CompartmentId)
-		}
-
-		if v.DefinedTags != nil {
-			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
-		}
-
-		if v.Description != nil {
-			s.D.Set("description", *v.Description)
-		}
-
-		if v.DisplayName != nil {
-			s.D.Set("display_name", *v.DisplayName)
-		}
-
-		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.ProjectId != nil {
-			s.D.Set("project_id", *v.ProjectId)
-		}
-
-		s.D.Set("state", v.LifecycleState)
-
-		if v.SystemTags != nil {
-			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
-		}
-
-		if v.TimeCreated != nil {
-			s.D.Set("time_created", v.TimeCreated.String())
-		}
-
-		if v.TimeUpdated != nil {
-			s.D.Set("time_updated", v.TimeUpdated.String())
-		}
 	case oci_devops.GitlabAccessTokenConnection:
 		s.D.Set("connection_type", "GITLAB_ACCESS_TOKEN")
-
-		if v.CompartmentId != nil {
-			s.D.Set("compartment_id", *v.CompartmentId)
+	case oci_devops.BitbucketCloudAppPasswordConnection:
+		s.D.Set("connection_type", "BITBUCKET_CLOUD_APP_PASSWORD")
+	case oci_devops.BitbucketServerAccessTokenConnection:
+		s.D.Set("connection_type", "BITBUCKET_SERVER_ACCESS_TOKEN")
+		s.D.Set("base_url", v.BaseUrl)
+		if v.TlsVerifyConfig != nil {
+			tlsVerifyConfigArray := []interface{}{}
+			if tlsVerifyConfigMap := TlsVerifyConfigToMap(&v.TlsVerifyConfig); tlsVerifyConfigMap != nil {
+				tlsVerifyConfigArray = append(tlsVerifyConfigArray, tlsVerifyConfigMap)
+			}
+			s.D.Set("tls_verify_config", tlsVerifyConfigArray)
+		} else {
+			s.D.Set("tls_verify_config", nil)
 		}
-
-		if v.DefinedTags != nil {
-			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
-		}
-
-		if v.Description != nil {
-			s.D.Set("description", *v.Description)
-		}
-
-		if v.DisplayName != nil {
-			s.D.Set("display_name", *v.DisplayName)
-		}
-
-		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.ProjectId != nil {
-			s.D.Set("project_id", *v.ProjectId)
-		}
-
-		s.D.Set("state", v.LifecycleState)
-
-		if v.SystemTags != nil {
-			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
-		}
-
-		if v.TimeCreated != nil {
-			s.D.Set("time_created", v.TimeCreated.String())
-		}
-
-		if v.TimeUpdated != nil {
-			s.D.Set("time_updated", v.TimeUpdated.String())
+	case oci_devops.GitlabServerAccessTokenConnection:
+		s.D.Set("connection_type", "GITLAB_SERVER_ACCESS_TOKEN")
+		s.D.Set("base_url", v.BaseUrl)
+		if v.TlsVerifyConfig != nil {
+			tlsVerifyConfigArray := []interface{}{}
+			if tlsVerifyConfigMap := TlsVerifyConfigToMap(&v.TlsVerifyConfig); tlsVerifyConfigMap != nil {
+				tlsVerifyConfigArray = append(tlsVerifyConfigArray, tlsVerifyConfigMap)
+			}
+			s.D.Set("tls_verify_config", tlsVerifyConfigArray)
+		} else {
+			s.D.Set("tls_verify_config", nil)
 		}
 	default:
-		log.Printf("[WARN] Received 'connection_type' of unknown type %v", s.Res.Connection)
+		log.Printf("[WARN] Received 'connection_type' of unknown type %v", v)
 		return nil
 	}
 

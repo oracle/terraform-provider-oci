@@ -34,12 +34,14 @@ data "oci_datascience_notebook_session_shapes" "tf_notebook_session_shapes" {
 }
 
 variable "artifact_content_length" {
+  default = "6954"
 }
 
 variable "model_artifact" {
 }
 
 variable "shape" {
+  default = "VM.Standard2.1"
 }
 
 resource "oci_datascience_project" "tf_project" {
@@ -97,17 +99,28 @@ data "oci_datascience_notebook_sessions" "tf_notebook_sessions" {
   #state        = var.notebook_session_state
 }
 
+variable "content_disposition" {
+}
+variable "model_defined_tags" {
+}
+variable "model_description" {
+}
+variable "model_display_name" {
+}
+variable "model_freeform_tag" {
+}
+
 resource "oci_datascience_model" "tf_model" {
   #Required
   artifact_content_length = var.artifact_content_length
-  model_artifact          = var.model_artifact
+  model_artifact          = "${path.root}/artifact.zip"
   compartment_id          = var.compartment_ocid
   project_id              = oci_datascience_project.tf_project.id
   #Optional
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.model_defined_tags_value}"}
-  #description   = var.model_description
-  #display_name  = var.model_display_name
-  #freeform_tags = var.model_freeform_tags
+  artifact_content_disposition = var.content_disposition
+  description                  = var.model_description
+  display_name                 = var.model_display_name
 }
 
 data "oci_datascience_models" "tf_models" {

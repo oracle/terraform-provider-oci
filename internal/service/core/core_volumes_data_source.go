@@ -25,7 +25,7 @@ func CoreVolumesDataSource() *schema.Resource {
 			},
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -125,9 +125,7 @@ func (s *CoreVolumesDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		volume := map[string]interface{}{
-			"compartment_id": *r.CompartmentId,
-		}
+		volume := map[string]interface{}{}
 
 		if r.AutoTunedVpusPerGB != nil {
 			volume["auto_tuned_vpus_per_gb"] = strconv.FormatInt(*r.AutoTunedVpusPerGB, 10)
@@ -142,6 +140,10 @@ func (s *CoreVolumesDataSourceCrud) SetData() error {
 			blockVolumeReplicas = append(blockVolumeReplicas, BlockVolumeReplicaInfoToMap(item))
 		}
 		volume["block_volume_replicas"] = blockVolumeReplicas
+
+		if r.CompartmentId != nil {
+			volume["compartment_id"] = *r.CompartmentId
+		}
 
 		if r.DefinedTags != nil {
 			volume["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)

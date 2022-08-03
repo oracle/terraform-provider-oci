@@ -71,10 +71,10 @@ resource "oci_datascience_model" "tf_model" {
   project_id              = var.project_ocid
   # Optional
   artifact_content_disposition = var.content_disposition
-  defined_tags  = var.model_defined_tags
-  description   = var.model_description
-  display_name  = var.model_display_name
-  freeform_tags = var.model_freeform_tag
+  defined_tags                 = var.model_defined_tags
+  description                  = var.model_description
+  display_name                 = var.model_display_name
+  freeform_tags                = var.model_freeform_tag
 }
 
 # A data resource for the list of models in a specified compartment
@@ -101,9 +101,6 @@ variable "model_deployment_display_name" {
 
 variable "model_deployment_description" {
   default = "Model Deployment for terraform testing"
-}
-
-variable "shape" {
 }
 
 variable "log_group_id" {

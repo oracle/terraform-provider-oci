@@ -110,6 +110,10 @@ func OperatorAccessControlAccessRequestsDataSource() *schema.Resource {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
+									"lifecycle_details": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"opctl_additional_message": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -317,6 +321,10 @@ func AccessRequestsSummaryToMap(obj oci_operator_access_control.AccessRequestSum
 
 	if obj.IsAutoApproved != nil {
 		result["is_auto_approved"] = bool(*obj.IsAutoApproved)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
 	if obj.RequestId != nil {

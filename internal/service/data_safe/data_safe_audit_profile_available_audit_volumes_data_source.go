@@ -219,3 +219,25 @@ func AvailableAuditVolumesSummaryToMap(obj oci_data_safe.AvailableAuditVolumeSum
 
 	return result
 }
+
+func AvailableAuditVolumeSummaryToMap(obj oci_data_safe.AvailableAuditVolumeSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AuditProfileId != nil {
+		result["audit_profile_id"] = string(*obj.AuditProfileId)
+	}
+
+	if obj.MonthInConsideration != nil {
+		result["month_in_consideration"] = obj.MonthInConsideration.String()
+	}
+
+	if obj.TrailLocation != nil {
+		result["trail_location"] = string(*obj.TrailLocation)
+	}
+
+	if obj.Volume != nil {
+		result["volume"] = strconv.FormatInt(*obj.Volume, 10)
+	}
+
+	return result
+}

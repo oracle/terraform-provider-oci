@@ -136,6 +136,10 @@ func OperatorAccessControlOperatorControlAssignmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -494,6 +498,10 @@ func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) SetData() e
 		s.D.Set("is_log_forwarded", *s.Res.IsLogForwarded)
 	}
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	if s.Res.OperatorControlId != nil {
 		s.D.Set("operator_control_id", *s.Res.OperatorControlId)
 	}
@@ -580,6 +588,10 @@ func OperatorControlAssignmentSummaryToMap(obj oci_operator_access_control.Opera
 
 	if obj.IsLogForwarded != nil {
 		result["is_log_forwarded"] = bool(*obj.IsLogForwarded)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
 	if obj.OperatorControlId != nil {

@@ -95,8 +95,10 @@ The following attributes are exported:
 * `max_db_node_storage_in_gbs` - The total local node storage available in GBs.
 * `max_memory_in_gbs` - The total memory available in GBs.
 * `memory_size_in_gbs` - The memory allocated in GBs.
+* `monthly_db_server_version` - The monthly software version of the database servers (dom0) in the Exadata infrastructure.
 * `netmask` - The netmask for the control plane network.
 * `ntp_server` - The list of NTP server IP addresses. Maximum of 3 allowed.
+* `rack_serial_number` - The serial number for the Exadata infrastructure.
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
 * `state` - The current lifecycle state of the Exadata infrastructure.
 * `storage_count` - The number of Exadata storage servers for the Exadata infrastructure.

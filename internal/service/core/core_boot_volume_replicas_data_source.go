@@ -21,17 +21,21 @@ func CoreBootVolumeReplicasDataSource() *schema.Resource {
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"volume_group_replica_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -146,6 +150,11 @@ func (s *CoreBootVolumeReplicasDataSourceCrud) Get() error {
 		request.LifecycleState = oci_core.BootVolumeReplicaLifecycleStateEnum(state.(string))
 	}
 
+	if volumeGroupReplicaId, ok := s.D.GetOkExists("volume_group_replica_id"); ok {
+		tmp := volumeGroupReplicaId.(string)
+		request.VolumeGroupReplicaId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListBootVolumeReplicas(context.Background(), request)
@@ -178,13 +187,18 @@ func (s *CoreBootVolumeReplicasDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		bootVolumeReplica := map[string]interface{}{
-			"availability_domain": *r.AvailabilityDomain,
-			"compartment_id":      *r.CompartmentId,
+		bootVolumeReplica := map[string]interface{}{}
+
+		if r.AvailabilityDomain != nil {
+			bootVolumeReplica["availability_domain"] = *r.AvailabilityDomain
 		}
 
 		if r.BootVolumeId != nil {
 			bootVolumeReplica["boot_volume_id"] = *r.BootVolumeId
+		}
+
+		if r.CompartmentId != nil {
+			bootVolumeReplica["compartment_id"] = *r.CompartmentId
 		}
 
 		if r.DefinedTags != nil {

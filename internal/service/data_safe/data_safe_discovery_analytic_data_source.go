@@ -5,7 +5,6 @@ package data_safe
 
 import (
 	"context"
-	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
@@ -155,34 +154,4 @@ func (s *DataSafeDiscoveryAnalyticDataSourceCrud) SetData() error {
 	s.D.Set("items", items)
 
 	return nil
-}
-
-func DimensionsToMap(obj *oci_data_safe.Dimensions) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.SensitiveDataModelId != nil {
-		result["sensitive_data_model_id"] = string(*obj.SensitiveDataModelId)
-	}
-
-	if obj.TargetId != nil {
-		result["target_id"] = string(*obj.TargetId)
-	}
-
-	return result
-}
-
-func DiscoveryAnalyticsSummaryToMap(obj oci_data_safe.DiscoveryAnalyticsSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Count != nil {
-		result["count"] = strconv.FormatInt(*obj.Count, 10)
-	}
-
-	if obj.Dimensions != nil {
-		result["dimensions"] = []interface{}{DimensionsToMap(obj.Dimensions)}
-	}
-
-	result["metric_name"] = string(obj.MetricName)
-
-	return result
 }

@@ -266,3 +266,77 @@ func (s *DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksFindingsDataSourc
 
 	return nil
 }
+
+func SqlTuningAdvisorTaskFindingSummaryToMap(obj oci_database_management.SqlTuningAdvisorTaskFindingSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DbTimeBenefit != nil {
+		result["db_time_benefit"] = float32(*obj.DbTimeBenefit)
+	}
+
+	if obj.IsAlternativePlanFindingPresent != nil {
+		result["is_alternative_plan_finding_present"] = bool(*obj.IsAlternativePlanFindingPresent)
+	}
+
+	if obj.IsErrorFindingPresent != nil {
+		result["is_error_finding_present"] = bool(*obj.IsErrorFindingPresent)
+	}
+
+	if obj.IsIndexFindingPresent != nil {
+		result["is_index_finding_present"] = bool(*obj.IsIndexFindingPresent)
+	}
+
+	if obj.IsMiscellaneousFindingPresent != nil {
+		result["is_miscellaneous_finding_present"] = bool(*obj.IsMiscellaneousFindingPresent)
+	}
+
+	if obj.IsRestructureSqlFindingPresent != nil {
+		result["is_restructure_sql_finding_present"] = bool(*obj.IsRestructureSqlFindingPresent)
+	}
+
+	if obj.IsSqlProfileFindingImplemented != nil {
+		result["is_sql_profile_finding_implemented"] = bool(*obj.IsSqlProfileFindingImplemented)
+	}
+
+	if obj.IsSqlProfileFindingPresent != nil {
+		result["is_sql_profile_finding_present"] = bool(*obj.IsSqlProfileFindingPresent)
+	}
+
+	if obj.IsStatsFindingPresent != nil {
+		result["is_stats_finding_present"] = bool(*obj.IsStatsFindingPresent)
+	}
+
+	if obj.IsTimeoutFindingPresent != nil {
+		result["is_timeout_finding_present"] = bool(*obj.IsTimeoutFindingPresent)
+	}
+
+	if obj.ParsingSchema != nil {
+		result["parsing_schema"] = string(*obj.ParsingSchema)
+	}
+
+	if obj.PerExecutionPercentage != nil {
+		result["per_execution_percentage"] = int(*obj.PerExecutionPercentage)
+	}
+
+	if obj.SqlKey != nil {
+		result["sql_key"] = string(*obj.SqlKey)
+	}
+
+	if obj.SqlText != nil {
+		result["sql_text"] = string(*obj.SqlText)
+	}
+
+	if obj.SqlTuningAdvisorTaskId != nil {
+		result["sql_tuning_advisor_task_id"] = strconv.FormatInt(*obj.SqlTuningAdvisorTaskId, 10)
+	}
+
+	if obj.SqlTuningAdvisorTaskObjectExecutionId != nil {
+		result["sql_tuning_advisor_task_object_execution_id"] = strconv.FormatInt(*obj.SqlTuningAdvisorTaskObjectExecutionId, 10)
+	}
+
+	if obj.SqlTuningAdvisorTaskObjectId != nil {
+		result["sql_tuning_advisor_task_object_id"] = strconv.FormatInt(*obj.SqlTuningAdvisorTaskObjectId, 10)
+	}
+
+	return result
+}

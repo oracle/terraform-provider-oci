@@ -145,37 +145,3 @@ func (s *DatabaseManagementManagedDatabaseUserObjectPrivilegeDataSourceCrud) Set
 
 	return nil
 }
-
-func ObjectPrivilegeSummaryToMap(obj oci_database_management.ObjectPrivilegeSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["common"] = string(obj.Common)
-
-	result["grant_option"] = string(obj.GrantOption)
-
-	if obj.Grantor != nil {
-		result["grantor"] = string(*obj.Grantor)
-	}
-
-	result["hierarchy"] = string(obj.Hierarchy)
-
-	result["inherited"] = string(obj.Inherited)
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	if obj.Object != nil {
-		result["object"] = string(*obj.Object)
-	}
-
-	if obj.Owner != nil {
-		result["owner"] = string(*obj.Owner)
-	}
-
-	if obj.SchemaType != nil {
-		result["schema_type"] = string(*obj.SchemaType)
-	}
-
-	return result
-}

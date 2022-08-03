@@ -324,3 +324,23 @@ func DbServersPatchingDetailsToMap(obj *oci_database.DbServerPatchingDetails) ma
 
 	return result
 }
+
+func DbServerPatchingDetailsToMap(obj *oci_database.DbServerPatchingDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.EstimatedPatchDuration != nil {
+		result["estimated_patch_duration"] = int(*obj.EstimatedPatchDuration)
+	}
+
+	result["patching_status"] = string(obj.PatchingStatus)
+
+	if obj.TimePatchingEnded != nil {
+		result["time_patching_ended"] = obj.TimePatchingEnded.String()
+	}
+
+	if obj.TimePatchingStarted != nil {
+		result["time_patching_started"] = obj.TimePatchingStarted.String()
+	}
+
+	return result
+}

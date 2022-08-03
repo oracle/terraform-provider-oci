@@ -62,7 +62,7 @@ The following attributes are exported:
 	* `connector_id` - Upstream git repository connection identifer.
 	* `repository_url` - URL of external repository you want to mirror.
 	* `trigger_schedule` - Specifies a trigger schedule. Timing information for when to initiate automated syncs.
-		* `custom_schedule` - Valid if type is CUSTOM. Following RFC 5545 recurrence rules, we can specify starting time, occurrence frequency, and interval size. Example for frequency could be DAILY/WEEKLY/HOURLY or any RFC 5545 supported frequency, which is followed by start time of this window.  You can control the start time with BYHOUR, BYMINUTE and BYSECONDS. It is followed by the interval size. 
+		* `custom_schedule` - Valid if type is CUSTOM. Following RFC 5545 recurrence rules, we can specify starting time, occurrence frequency, and interval size. Example for frequency could be DAILY/WEEKLY/HOURLY or any RFC 5545 supported frequency, which is followed by start time of this window. You can control the start time with BYHOUR, BYMINUTE and BYSECONDS. It is followed by the interval size. 
 		* `schedule_type` - Different types of trigger schedule: NONE - No automated synchronization schedule. DEFAULT - Trigger schedule is every 30 minutes. CUSTOM - Custom triggering schedule. 
 * `name` - Unique name of a repository. This value is mutable.
 * `namespace` - Tenancy unique namespace.

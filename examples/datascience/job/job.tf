@@ -61,13 +61,13 @@ resource "oci_core_security_list" "regional_with_natgw" {
   egress_security_rules {
     destination = "0.0.0.0/0"
     protocol    = "all"
-    stateless = false
+    stateless   = false
   }
 }
 
 resource "oci_logging_log_group" "job" {
   compartment_id = var.compartment_ocid
-  display_name = "jobs"
+  display_name   = "jobs"
 }
 
 resource "oci_datascience_project" "job" {
@@ -75,29 +75,29 @@ resource "oci_datascience_project" "job" {
 }
 
 resource "oci_datascience_job" "job" {
-  compartment_id = var.compartment_ocid
-  project_id = oci_datascience_project.job.id
-  job_artifact = "${path.root}/job-artifact.py"
-  artifact_content_length = 1380
+  compartment_id               = var.compartment_ocid
+  project_id                   = oci_datascience_project.job.id
+  job_artifact                 = "${path.root}/job-artifact.py"
+  artifact_content_length      = 1380
   artifact_content_disposition = "attachment; filename=job_artifact.py"
-  delete_related_job_runs = true
+  delete_related_job_runs      = true
 
   job_configuration_details {
-    job_type = "DEFAULT"
+    job_type                   = "DEFAULT"
     maximum_runtime_in_minutes = 30
   }
 
   job_infrastructure_configuration_details {
-    job_infrastructure_type = "STANDALONE"
-    shape_name     = "VM.Standard2.2"
-    subnet_id      = oci_core_subnet.regional_with_natgw.id
+    job_infrastructure_type   = "STANDALONE"
+    shape_name                = "VM.Standard2.2"
+    subnet_id                 = oci_core_subnet.regional_with_natgw.id
     block_storage_size_in_gbs = 66
   }
 
   job_log_configuration_details {
-    enable_logging = true
+    enable_logging           = true
     enable_auto_log_creation = true
-    log_group_id = oci_logging_log_group.job.id
+    log_group_id             = oci_logging_log_group.job.id
   }
 }
 
@@ -116,28 +116,28 @@ data "oci_datascience_jobs" "by_compartment" {
 # terraform will wait until the JobRun reaches completion.
 resource "oci_datascience_job_run" "sync" {
   compartment_id = var.compartment_ocid
-  project_id = oci_datascience_project.job.id
-  job_id = oci_datascience_project.job.id
-  asynchronous = false
+  project_id     = oci_datascience_project.job.id
+  job_id         = oci_datascience_project.job.id
+  asynchronous   = false
 }
 
 # terraform will NOT wait for completion before returning.
 # it will move on once the JobRun has reached "In Progress" status.
 resource "oci_datascience_job_run" "async" {
   compartment_id = var.compartment_ocid
-  project_id = oci_datascience_project.job.id
-  job_id = oci_datascience_project.job.id
-  asynchronous = true
+  project_id     = oci_datascience_project.job.id
+  job_id         = oci_datascience_project.job.id
+  asynchronous   = true
 }
 
 data "oci_datascience_job_runs" "by_compartment" {
   #Required
   compartment_id = var.compartment_ocid
 
-#   #Optional
-#   created_by   = var.job_run_created_by
-#   display_name = var.job_run_display_name
-#   id           = var.job_run_id
-#   job_id       = oci_datascience_job.job.id
-#   state        = var.job_run_state
-# }
+  #   #Optional
+  #   created_by   = var.job_run_created_by
+  #   display_name = var.job_run_display_name
+  #   id           = var.job_run_id
+  #   job_id       = oci_datascience_job.job.id
+  #   state        = var.job_run_state
+}

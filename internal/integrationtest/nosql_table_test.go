@@ -102,10 +102,6 @@ func TestNosqlTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
 				resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
-				resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "10"),
-				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_storage_in_gbs", "10"),
-				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "10"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")

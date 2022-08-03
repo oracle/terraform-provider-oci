@@ -8,6 +8,7 @@ import (
 	tf_ai_anomaly_detection "github.com/oracle/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	tf_ai_vision "github.com/oracle/terraform-provider-oci/internal/service/ai_vision"
 	tf_analytics "github.com/oracle/terraform-provider-oci/internal/service/analytics"
+	tf_announcements_service "github.com/oracle/terraform-provider-oci/internal/service/announcements_service"
 	tf_apigateway "github.com/oracle/terraform-provider-oci/internal/service/apigateway"
 	tf_apm "github.com/oracle/terraform-provider-oci/internal/service/apm"
 	tf_apm_config "github.com/oracle/terraform-provider-oci/internal/service/apm_config"
@@ -124,6 +125,9 @@ func init() {
 	RegisterDatasource("oci_analytics_analytics_instance", tf_analytics.AnalyticsAnalyticsInstanceDataSource())
 	RegisterDatasource("oci_analytics_analytics_instance_private_access_channel", tf_analytics.AnalyticsAnalyticsInstancePrivateAccessChannelDataSource())
 	RegisterDatasource("oci_analytics_analytics_instances", tf_analytics.AnalyticsAnalyticsInstancesDataSource())
+	//announcements service
+	RegisterDatasource("oci_announcements_service_announcement_subscription", tf_announcements_service.AnnouncementsServiceAnnouncementSubscriptionDataSource())
+	RegisterDatasource("oci_announcements_service_announcement_subscriptions", tf_announcements_service.AnnouncementsServiceAnnouncementSubscriptionsDataSource())
 	// apigateway service
 	RegisterDatasource("oci_apigateway_api", tf_apigateway.ApigatewayApiDataSource())
 	RegisterDatasource("oci_apigateway_api_content", tf_apigateway.ApigatewayApiContentDataSource())
@@ -198,6 +202,8 @@ func init() {
 	RegisterDatasource("oci_bds_bds_instance_api_keys", tf_bds.BdsBdsInstanceApiKeysDataSource())
 	RegisterDatasource("oci_bds_bds_instance_metastore_config", tf_bds.BdsBdsInstanceMetastoreConfigDataSource())
 	RegisterDatasource("oci_bds_bds_instance_metastore_configs", tf_bds.BdsBdsInstanceMetastoreConfigsDataSource())
+	RegisterDatasource("oci_bds_bds_instance_patch_histories", tf_bds.BdsBdsInstancePatchHistoriesDataSource())
+	RegisterDatasource("oci_bds_bds_instance_patches", tf_bds.BdsBdsInstancePatchesDataSource())
 	RegisterDatasource("oci_bds_bds_instances", tf_bds.BdsBdsInstancesDataSource())
 	// blockchain service
 	RegisterDatasource("oci_blockchain_blockchain_platform", tf_blockchain.BlockchainBlockchainPlatformDataSource())
@@ -330,6 +336,7 @@ func init() {
 	RegisterDatasource("oci_core_instance_console_connections", tf_core.CoreInstanceConsoleConnectionsDataSource())
 	RegisterDatasource("oci_core_instance_credentials", tf_core.CoreInstanceCredentialDataSource())
 	RegisterDatasource("oci_core_instance_devices", tf_core.CoreInstanceDevicesDataSource())
+	RegisterDatasource("oci_core_instance_maintenance_reboot", tf_core.CoreInstanceMaintenanceRebootDataSource())
 	RegisterDatasource("oci_core_instance_measured_boot_report", tf_core.CoreInstanceMeasuredBootReportDataSource())
 	RegisterDatasource("oci_core_instance_pool", tf_core.CoreInstancePoolDataSource())
 	RegisterDatasource("oci_core_instance_pool_instances", tf_core.CoreInstancePoolInstancesDataSource())

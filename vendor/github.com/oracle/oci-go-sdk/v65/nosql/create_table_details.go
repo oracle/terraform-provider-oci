@@ -30,7 +30,7 @@ type CreateTableDetails struct {
 	// Complete CREATE TABLE DDL statement.
 	DdlStatement *string `mandatory:"true" json:"ddlStatement"`
 
-	TableLimits *TableLimits `mandatory:"true" json:"tableLimits"`
+	TableLimits *TableLimits `mandatory:"false" json:"tableLimits"`
 
 	// True if table can be reclaimed after an idle period.
 	IsAutoReclaimable *bool `mandatory:"false" json:"isAutoReclaimable"`

@@ -66,6 +66,7 @@ The following attributes are exported:
 	* `db_version` - Cloud SQL query server database version.
 	* `hue_server_url` - The URL of the Hue server.
 	* `jupyter_hub_url` - The URL of the Jupyterhub.
+	* `odh_version` - Version of the ODH (Oracle Distribution including Apache Hadoop) installed on the cluster.
 	* `os_version` - Oracle Linux version installed in the cluster.
 	* `time_created` - The time the cluster was created, shown as an RFC 3339 formatted datetime string.
 	* `time_refreshed` - The time the cluster was automatically or manually refreshed, shown as an RFC 3339 formatted datetime string. 

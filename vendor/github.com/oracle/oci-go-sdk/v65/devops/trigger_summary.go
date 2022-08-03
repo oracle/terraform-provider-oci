@@ -118,12 +118,20 @@ func (m *triggersummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := GitlabTriggerSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GITLAB_SERVER":
+		mm := GitlabServerTriggerSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB":
 		mm := GithubTriggerSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DEVOPS_CODE_REPOSITORY":
 		mm := DevopsCodeRepositoryTriggerSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER":
+		mm := BitbucketServerTriggerSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

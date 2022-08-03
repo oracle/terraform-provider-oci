@@ -207,3 +207,37 @@ func (s *CertificatesManagementAssociationsDataSourceCrud) SetData() error {
 
 	return nil
 }
+
+func AssociationSummaryToMap(obj oci_certificates_management.AssociationSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AssociatedResourceId != nil {
+		result["associated_resource_id"] = string(*obj.AssociatedResourceId)
+	}
+
+	result["association_type"] = string(obj.AssociationType)
+
+	if obj.CertificatesResourceId != nil {
+		result["certificates_resource_id"] = string(*obj.CertificatesResourceId)
+	}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	return result
+}

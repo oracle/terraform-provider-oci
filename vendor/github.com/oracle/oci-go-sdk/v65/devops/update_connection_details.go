@@ -74,12 +74,20 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateGithubAccessTokenConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BITBUCKET_SERVER_ACCESS_TOKEN":
+		mm := UpdateBitbucketServerAccessTokenConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITLAB_ACCESS_TOKEN":
 		mm := UpdateGitlabAccessTokenConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "BITBUCKET_CLOUD_APP_PASSWORD":
 		mm := UpdateBitbucketCloudAppPasswordConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GITLAB_SERVER_ACCESS_TOKEN":
+		mm := UpdateGitlabServerAccessTokenConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
