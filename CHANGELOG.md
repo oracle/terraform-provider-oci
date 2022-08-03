@@ -1,4 +1,4 @@
-## 4.87.0 (Unreleased)
+## 4.87.0 (August 03, 2022)
 
 ### Added
 - Support of Announcements Service Subscriptions
@@ -11,6 +11,10 @@
 - support for Child Tables for NoSQL Database Cloud
 - Support for listing volumes/replicas by group/replica group id. Also support to view volume group membership status
 - Support for ExaCS in Opctl
+
+### Bug Fix
+- Enabled preserve_data_volumes in oci_core_instance delete API
+- Enabled host_type in opsi_host_insights_data_source list api
 
 ## 4.86.1 (July 28, 2022)
 
