@@ -72,6 +72,7 @@ import (
 	tf_oda "github.com/oracle/terraform-provider-oci/internal/service/oda"
 	tf_onesubscription "github.com/oracle/terraform-provider-oci/internal/service/onesubscription"
 	tf_ons "github.com/oracle/terraform-provider-oci/internal/service/ons"
+	tf_opensearch "github.com/oracle/terraform-provider-oci/internal/service/opensearch"
 	tf_operator_access_control "github.com/oracle/terraform-provider-oci/internal/service/operator_access_control"
 	tf_opsi "github.com/oracle/terraform-provider-oci/internal/service/opsi"
 	tf_optimizer "github.com/oracle/terraform-provider-oci/internal/service/optimizer"
@@ -1091,6 +1092,11 @@ func init() {
 	RegisterDatasource("oci_ons_notification_topics", tf_ons.OnsNotificationTopicsDataSource())
 	RegisterDatasource("oci_ons_subscription", tf_ons.OnsSubscriptionDataSource())
 	RegisterDatasource("oci_ons_subscriptions", tf_ons.OnsSubscriptionsDataSource())
+	// opensearch service
+	RegisterDatasource("oci_opensearch_opensearch_cluster", tf_opensearch.OpensearchOpensearchClusterDataSource())
+	RegisterDatasource("oci_opensearch_opensearch_clusters", tf_opensearch.OpensearchOpensearchClustersDataSource())
+	RegisterDatasource("oci_opensearch_opensearch_version", tf_opensearch.OpensearchOpensearchVersionDataSource())
+	RegisterDatasource("oci_opensearch_opensearch_versions", tf_opensearch.OpensearchOpensearchVersionsDataSource())
 	// operator_access_control service
 	RegisterDatasource("oci_operator_access_control_access_request", tf_operator_access_control.OperatorAccessControlAccessRequestDataSource())
 	RegisterDatasource("oci_operator_access_control_access_request_history", tf_operator_access_control.OperatorAccessControlAccessRequestHistoryDataSource())

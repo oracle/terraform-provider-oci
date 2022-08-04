@@ -70,6 +70,7 @@ import (
 	tf_ocvp "github.com/oracle/terraform-provider-oci/internal/service/ocvp"
 	tf_oda "github.com/oracle/terraform-provider-oci/internal/service/oda"
 	tf_ons "github.com/oracle/terraform-provider-oci/internal/service/ons"
+	tf_opensearch "github.com/oracle/terraform-provider-oci/internal/service/opensearch"
 	tf_operator_access_control "github.com/oracle/terraform-provider-oci/internal/service/operator_access_control"
 	tf_opsi "github.com/oracle/terraform-provider-oci/internal/service/opsi"
 	tf_optimizer "github.com/oracle/terraform-provider-oci/internal/service/optimizer"

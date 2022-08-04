@@ -58,6 +58,7 @@ import (
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
 	oci_ons "github.com/oracle/oci-go-sdk/v65/ons"
+	oci_opensearch "github.com/oracle/oci-go-sdk/v65/opensearch"
 	oci_operator_access_control "github.com/oracle/oci-go-sdk/v65/operatoraccesscontrol"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 	oci_optimizer "github.com/oracle/oci-go-sdk/v65/optimizer"
