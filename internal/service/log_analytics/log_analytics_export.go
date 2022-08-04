@@ -3,7 +3,6 @@ package log_analytics
 import (
 	"context"
 	"fmt"
-
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
