@@ -70,6 +70,7 @@ import (
 	tf_ocvp "github.com/oracle/terraform-provider-oci/internal/service/ocvp"
 	tf_oda "github.com/oracle/terraform-provider-oci/internal/service/oda"
 	tf_ons "github.com/oracle/terraform-provider-oci/internal/service/ons"
+	tf_opensearch "github.com/oracle/terraform-provider-oci/internal/service/opensearch"
 	tf_operator_access_control "github.com/oracle/terraform-provider-oci/internal/service/operator_access_control"
 	tf_opsi "github.com/oracle/terraform-provider-oci/internal/service/opsi"
 	tf_optimizer "github.com/oracle/terraform-provider-oci/internal/service/optimizer"
@@ -544,6 +545,8 @@ func init() {
 	// ons service
 	RegisterResource("oci_ons_notification_topic", tf_ons.OnsNotificationTopicResource())
 	RegisterResource("oci_ons_subscription", tf_ons.OnsSubscriptionResource())
+	// opensearch service
+	RegisterResource("oci_opensearch_opensearch_cluster", tf_opensearch.OpensearchOpensearchClusterResource())
 	// operator_access_control service
 	RegisterResource("oci_operator_access_control_operator_control", tf_operator_access_control.OperatorAccessControlOperatorControlResource())
 	RegisterResource("oci_operator_access_control_operator_control_assignment", tf_operator_access_control.OperatorAccessControlOperatorControlAssignmentResource())
