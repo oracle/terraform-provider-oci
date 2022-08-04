@@ -2457,11 +2457,10 @@ var exportIdentityDataPlaneGenerateScopedAccessTokenHints = &TerraformResourceHi
 }
 
 var exportIntegrationIntegrationInstanceHints = &TerraformResourceHints{
-	resourceClass:          "oci_integration_integration_instance",
-	datasourceClass:        "oci_integration_integration_instances",
-	datasourceItemsAttr:    "integration_instances",
-	resourceAbbreviation:   "integration_instance",
-	requireResourceRefresh: true,
+	resourceClass:        "oci_integration_integration_instance",
+	datasourceClass:      "oci_integration_integration_instances",
+	datasourceItemsAttr:  "integration_instances",
+	resourceAbbreviation: "integration_instance",
 	discoverableLifecycleStates: []string{
 		string(oci_integration.IntegrationInstanceLifecycleStateActive),
 	},

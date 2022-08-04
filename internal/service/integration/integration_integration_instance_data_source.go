@@ -72,6 +72,12 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 	}
 	s.D.Set("alternate_custom_endpoints", alternateCustomEndpoints)
 
+	attachments := []interface{}{}
+	for _, item := range s.Res.Attachments {
+		attachments = append(attachments, AttachmentDetailsToMap(item))
+	}
+	s.D.Set("attachments", attachments)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -93,6 +99,12 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IdcsInfo != nil {
+		s.D.Set("idcs_info", []interface{}{IdcsInfoDetailsToMap(s.Res.IdcsInfo)})
+	} else {
+		s.D.Set("idcs_info", nil)
+	}
 
 	if s.Res.InstanceUrl != nil {
 		s.D.Set("instance_url", *s.Res.InstanceUrl)
