@@ -1,4 +1,4 @@
-package resourcediscovery
+package commonexport
 
 import (
 	"fmt"
@@ -12,18 +12,18 @@ import (
 func exportAttributeAsVariable(sourceAttributes map[string]interface{}, resourceType string, resourceName string, interpolationMap map[string]string) error {
 
 	// handle user input both flags
-	if len(varsExportForResourceLevel) > 0 && len(varsExportForGlobalLevel) > 0 {
-		return exportAttributeForResourceAndGlobalLevel(sourceAttributes, resourceType, resourceName, varsExportForResourceLevel, varsExportForGlobalLevel, interpolationMap)
+	if len(VarsExportForResourceLevel) > 0 && len(VarsExportForGlobalLevel) > 0 {
+		return exportAttributeForResourceAndGlobalLevel(sourceAttributes, resourceType, resourceName, VarsExportForResourceLevel, VarsExportForGlobalLevel, interpolationMap)
 	}
 
 	// export attribute per resource level
-	if len(varsExportForResourceLevel) > 0 {
-		return exportAttributeForResourceLevel(sourceAttributes, resourceType, resourceName, varsExportForResourceLevel, interpolationMap)
+	if len(VarsExportForResourceLevel) > 0 {
+		return exportAttributeForResourceLevel(sourceAttributes, resourceType, resourceName, VarsExportForResourceLevel, interpolationMap)
 	}
 
 	// export attribute as global level
-	if len(varsExportForGlobalLevel) > 0 {
-		return exportAttributeForGlobalLevel(sourceAttributes, resourceName, varsExportForGlobalLevel, interpolationMap)
+	if len(VarsExportForGlobalLevel) > 0 {
+		return exportAttributeForGlobalLevel(sourceAttributes, resourceName, VarsExportForGlobalLevel, interpolationMap)
 	}
 
 	// if non of the flags provided, export variable global from default list
@@ -44,10 +44,10 @@ func extractVarsExportResourceLevel(exportVars []string) (map[string][]string, e
 			// TODO: handle nested attributes later
 			return nil, fmt.Errorf("[ERROR] variables_resource_level only support top level attribute following format resourceType.attribute: %v", item)
 		}
-		isRdSupport, err := isResourceSupportImport(resourceTypeAndAttribute[0])
-		if !isRdSupport || err != nil {
-			return nil, fmt.Errorf("[ERROR] this resource is incorrect or not supported by Resource Discovery: %v", item)
-		}
+		//isRdSupport, err := resourcediscovery.isResourceSupportImport(resourceTypeAndAttribute[0])
+		//if !isRdSupport || err != nil {
+		//	return nil, fmt.Errorf("[ERROR] this resource is incorrect or not supported by Resource Discovery: %v", item)
+		//}
 		// Assuming variables_resource_level for top level attribute with format resourceType.attribute
 		result[resourceTypeAndAttribute[0]] = append(result[resourceTypeAndAttribute[0]], resourceTypeAndAttribute[1])
 	}
@@ -60,19 +60,14 @@ func exportAttributeForResourceLevel(sourceAttributes map[string]interface{}, re
 			utils.Debugf("[DEBUG] Exporting attribute %s of resource %s, sourceAttributes[attribute]: %v", attribute, resourceName, sourceAttributes[attribute])
 			if _, exist = sourceAttributes[attribute]; exist {
 				attributeVal := sourceAttributes[attribute].(string)
-				variableName := getVarNameFromAttributeOfResources(attribute, resourceType, resourceName)
+				variableName := utils.GetVarNameFromAttributeOfResources(attribute, resourceType, resourceName)
 				utils.Debugf("[DEBUG] Exporting attribute %s of resource %s with value %s and variableName: %s", attribute, resourceName, attributeVal, variableName)
-				vars[variableName] = fmt.Sprintf("\"%s\"", attributeVal)
-				interpolationMap[attributeVal] = tfHclVersion.getVarHclString(variableName)
+				Vars[variableName] = fmt.Sprintf("\"%s\"", attributeVal)
+				interpolationMap[attributeVal] = TfHclVersionvar.GetVarHclString(variableName)
 			}
 		}
 	}
 	return nil
-}
-
-func getVarNameFromAttributeOfResources(attribute string, resourceType string, resourceName string) string {
-	// Following format resourceType--attribute-attribute-...–resourceName
-	return fmt.Sprintf(globalvar.VariableResourceLevelFormat, resourceType, strings.ReplaceAll(attribute, ".", "-"), resourceName)
 }
 
 /* Functions for handling variables_global_level */
@@ -94,8 +89,8 @@ func exportAttributeForGlobalLevel(sourceAttributes map[string]interface{}, reso
 		if attributeVal, exist := sourceAttributes[tfAttribute]; exist {
 			utils.Debugf("[DEBUG] Exporting attribute %s of resource %s", tfAttribute, resourceName)
 			variableName := getVarNameFromAttributeAndValue(tfAttribute, attributeVal.(string))
-			vars[variableName] = fmt.Sprintf("\"%s\"", attributeVal)
-			interpolationMap[attributeVal.(string)] = tfHclVersion.getVarHclString(variableName)
+			Vars[variableName] = fmt.Sprintf("\"%s\"", attributeVal)
+			interpolationMap[attributeVal.(string)] = TfHclVersionvar.GetVarHclString(variableName)
 		}
 	}
 	return nil
@@ -118,9 +113,9 @@ func getVarNameFromAttributeAndValue(attribute string, value string) string {
 func exportAttributeForResourceAndGlobalLevel(sourceAttributes map[string]interface{}, resourceType string, resourceName string, varsExportResourceLevel map[string][]string, varsExportGlobalLevel []string, interpolationMap map[string]string) error {
 	// export attribute per resource level is higher priority than global level
 	if _, exist := varsExportResourceLevel[resourceType]; exist {
-		return exportAttributeForResourceLevel(sourceAttributes, resourceType, resourceName, varsExportForResourceLevel, interpolationMap)
+		return exportAttributeForResourceLevel(sourceAttributes, resourceType, resourceName, VarsExportForResourceLevel, interpolationMap)
 	}
-	return exportAttributeForGlobalLevel(sourceAttributes, resourceName, varsExportForGlobalLevel, interpolationMap)
+	return exportAttributeForGlobalLevel(sourceAttributes, resourceName, VarsExportForGlobalLevel, interpolationMap)
 }
 
 // Handle no flags provided

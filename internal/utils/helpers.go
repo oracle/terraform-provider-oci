@@ -341,3 +341,8 @@ func GetStringsHashcode(strings []string) string {
 
 	return fmt.Sprintf("%d", GetStringHashcode(buf.String()))
 }
+
+func GetVarNameFromAttributeOfResources(attribute string, resourceType string, resourceName string) string {
+	// Following format resourceType--attribute-attribute-...–resourceName
+	return fmt.Sprintf(globalvar.VariableResourceLevelFormat, resourceType, strings.ReplaceAll(attribute, ".", "-"), resourceName)
+}
