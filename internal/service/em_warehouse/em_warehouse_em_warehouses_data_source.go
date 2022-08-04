@@ -66,7 +66,7 @@ func readEmWarehouseEmWarehouses(d *schema.ResourceData, m interface{}) error {
 
 type EmWarehouseEmWarehousesDataSourceCrud struct {
 	D      *schema.ResourceData
-	Client *oci_em_warehouse.EmDataLakeClient
+	Client *oci_em_warehouse.EmWarehouseClient
 	Res    *oci_em_warehouse.ListEmWarehousesResponse
 }
 

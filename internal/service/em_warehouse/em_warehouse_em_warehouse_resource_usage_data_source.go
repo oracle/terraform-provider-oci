@@ -73,7 +73,7 @@ func readSingularEmWarehouseEmWarehouseResourceUsage(d *schema.ResourceData, m i
 
 type EmWarehouseEmWarehouseResourceUsageDataSourceCrud struct {
 	D      *schema.ResourceData
-	Client *oci_em_warehouse.EmDataLakeClient
+	Client *oci_em_warehouse.EmWarehouseClient
 	Res    *oci_em_warehouse.GetEmWarehouseResourceUsageResponse
 }
 

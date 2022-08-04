@@ -104,7 +104,7 @@ func readSingularEmWarehouseEmWarehouseEtlRun(d *schema.ResourceData, m interfac
 
 type EmWarehouseEmWarehouseEtlRunDataSourceCrud struct {
 	D      *schema.ResourceData
-	Client *oci_em_warehouse.EmDataLakeClient
+	Client *oci_em_warehouse.EmWarehouseClient
 	Res    *oci_em_warehouse.ListEtlRunsResponse
 }
 

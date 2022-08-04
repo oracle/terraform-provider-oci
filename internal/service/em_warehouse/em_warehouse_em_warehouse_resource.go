@@ -144,7 +144,7 @@ func deleteEmWarehouseEmWarehouse(d *schema.ResourceData, m interface{}) error {
 
 type EmWarehouseEmWarehouseResourceCrud struct {
 	tfresource.BaseCrud
-	Client                 *oci_em_warehouse.EmDataLakeClient
+	Client                 *oci_em_warehouse.EmWarehouseClient
 	Res                    *oci_em_warehouse.EmWarehouse
 	DisableNotFoundRetries bool
 }
@@ -274,7 +274,7 @@ func emWarehouseWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 }
 
 func emWarehouseWaitForWorkRequest(wId *string, entityType string, action oci_em_warehouse.ActionTypeEnum,
-	timeout time.Duration, disableFoundRetries bool, client *oci_em_warehouse.EmDataLakeClient) (*string, error) {
+	timeout time.Duration, disableFoundRetries bool, client *oci_em_warehouse.EmWarehouseClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "emwarehouse")
 	retryPolicy.ShouldRetryOperation = emWarehouseWorkRequestShouldRetryFunc(timeout)
 
@@ -327,7 +327,7 @@ func emWarehouseWaitForWorkRequest(wId *string, entityType string, action oci_em
 	return identifier, nil
 }
 
-func getErrorFromEmWarehouseEmWarehouseWorkRequest(client *oci_em_warehouse.EmDataLakeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_em_warehouse.ActionTypeEnum) error {
+func getErrorFromEmWarehouseEmWarehouseWorkRequest(client *oci_em_warehouse.EmWarehouseClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_em_warehouse.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_em_warehouse.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,

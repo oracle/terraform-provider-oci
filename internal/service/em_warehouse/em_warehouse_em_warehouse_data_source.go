@@ -32,7 +32,7 @@ func readSingularEmWarehouseEmWarehouse(d *schema.ResourceData, m interface{}) e
 
 type EmWarehouseEmWarehouseDataSourceCrud struct {
 	D      *schema.ResourceData
-	Client *oci_em_warehouse.EmDataLakeClient
+	Client *oci_em_warehouse.EmWarehouseClient
 	Res    *oci_em_warehouse.GetEmWarehouseResponse
 }
 
