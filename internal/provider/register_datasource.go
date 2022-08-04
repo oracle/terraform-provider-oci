@@ -580,6 +580,8 @@ func init() {
 	RegisterDatasource("oci_database_key_store", tf_database.DatabaseKeyStoreDataSource())
 	RegisterDatasource("oci_database_key_stores", tf_database.DatabaseKeyStoresDataSource())
 	RegisterDatasource("oci_database_maintenance_run", tf_database.DatabaseMaintenanceRunDataSource())
+	RegisterDatasource("oci_database_maintenance_run_histories", tf_database.DatabaseMaintenanceRunHistoriesDataSource())
+	RegisterDatasource("oci_database_maintenance_run_history", tf_database.DatabaseMaintenanceRunHistoryDataSource())
 	RegisterDatasource("oci_database_maintenance_runs", tf_database.DatabaseMaintenanceRunsDataSource())
 	RegisterDatasource("oci_database_pluggable_database", tf_database.DatabasePluggableDatabaseDataSource())
 	RegisterDatasource("oci_database_pluggable_databases", tf_database.DatabasePluggableDatabasesDataSource())
