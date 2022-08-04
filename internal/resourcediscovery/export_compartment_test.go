@@ -7,6 +7,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/hashicorp/go-version"
 	"net/http"
 	"os"
 	"path"
@@ -18,8 +19,6 @@ import (
 	"sync"
 	"testing"
 	"time"
-
-	"github.com/hashicorp/go-version"
 
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 

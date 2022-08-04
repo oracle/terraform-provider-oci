@@ -3,7 +3,6 @@ package load_balancer
 import (
 	"context"
 	"fmt"
-
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"

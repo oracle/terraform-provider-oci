@@ -2,7 +2,6 @@ package usage_proxy
 
 import (
 	"fmt"
-
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 )
 

@@ -1,6 +1,7 @@
 package commonexport
 
 import (
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 	"reflect"
 	"testing"
 
