@@ -58,6 +58,7 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
 
   idcs_at                = var.integration_instance_idcs_access_token
   is_file_server_enabled = true
+  is_visual_builder_enabled = true
   state                  = "ACTIVE"
 
   network_endpoint_details {
