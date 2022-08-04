@@ -51,6 +51,9 @@ type ListReportsRequest struct {
 	// An optional filter to return only resources that match the specified lifecycle state.
 	LifecycleState ListReportsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// An optional filter to return only resources that match the specified type.
+	Type ListReportsTypeEnum `mandatory:"false" contributesTo:"query" name:"type" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -98,6 +101,9 @@ func (request ListReportsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListReportsLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListReportsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListReportsTypeEnum(string(request.Type)); !ok && request.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetListReportsTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -295,5 +301,47 @@ func GetListReportsLifecycleStateEnumStringValues() []string {
 // GetMappingListReportsLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListReportsLifecycleStateEnum(val string) (ListReportsLifecycleStateEnum, bool) {
 	enum, ok := mappingListReportsLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListReportsTypeEnum Enum with underlying type: string
+type ListReportsTypeEnum string
+
+// Set of constants representing the allowable values for ListReportsTypeEnum
+const (
+	ListReportsTypeGenerated ListReportsTypeEnum = "GENERATED"
+	ListReportsTypeScheduled ListReportsTypeEnum = "SCHEDULED"
+)
+
+var mappingListReportsTypeEnum = map[string]ListReportsTypeEnum{
+	"GENERATED": ListReportsTypeGenerated,
+	"SCHEDULED": ListReportsTypeScheduled,
+}
+
+var mappingListReportsTypeEnumLowerCase = map[string]ListReportsTypeEnum{
+	"generated": ListReportsTypeGenerated,
+	"scheduled": ListReportsTypeScheduled,
+}
+
+// GetListReportsTypeEnumValues Enumerates the set of values for ListReportsTypeEnum
+func GetListReportsTypeEnumValues() []ListReportsTypeEnum {
+	values := make([]ListReportsTypeEnum, 0)
+	for _, v := range mappingListReportsTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListReportsTypeEnumStringValues Enumerates the set of values in String for ListReportsTypeEnum
+func GetListReportsTypeEnumStringValues() []string {
+	return []string{
+		"GENERATED",
+		"SCHEDULED",
+	}
+}
+
+// GetMappingListReportsTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListReportsTypeEnum(val string) (ListReportsTypeEnum, bool) {
+	enum, ok := mappingListReportsTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

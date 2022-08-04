@@ -68,6 +68,12 @@ type Node struct {
 
 	// The total amount of memory available to the node, in gigabytes.
 	MemoryInGBs *int `mandatory:"false" json:"memoryInGBs"`
+
+	// The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
+	Nvmes *int `mandatory:"false" json:"nvmes"`
+
+	// The aggregate size of all local disks, in gigabytes. If the instance does not have any local disks, this field is null.
+	LocalDisksTotalSizeInGBs *float64 `mandatory:"false" json:"localDisksTotalSizeInGBs"`
 }
 
 func (m Node) String() string {

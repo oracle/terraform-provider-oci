@@ -70,8 +70,9 @@ type MacsManagedCloudHostInsightSummary struct {
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// Platform type.
-	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
+	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX, WINDOWS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS].
 	PlatformType MacsManagedCloudHostInsightSummaryPlatformTypeEnum `mandatory:"false" json:"platformType,omitempty"`
 
 	// Indicates the status of a host insight in Operations Insights
@@ -204,6 +205,7 @@ const (
 	MacsManagedCloudHostInsightSummaryPlatformTypeSolaris MacsManagedCloudHostInsightSummaryPlatformTypeEnum = "SOLARIS"
 	MacsManagedCloudHostInsightSummaryPlatformTypeSunos   MacsManagedCloudHostInsightSummaryPlatformTypeEnum = "SUNOS"
 	MacsManagedCloudHostInsightSummaryPlatformTypeZlinux  MacsManagedCloudHostInsightSummaryPlatformTypeEnum = "ZLINUX"
+	MacsManagedCloudHostInsightSummaryPlatformTypeWindows MacsManagedCloudHostInsightSummaryPlatformTypeEnum = "WINDOWS"
 )
 
 var mappingMacsManagedCloudHostInsightSummaryPlatformTypeEnum = map[string]MacsManagedCloudHostInsightSummaryPlatformTypeEnum{
@@ -211,6 +213,7 @@ var mappingMacsManagedCloudHostInsightSummaryPlatformTypeEnum = map[string]MacsM
 	"SOLARIS": MacsManagedCloudHostInsightSummaryPlatformTypeSolaris,
 	"SUNOS":   MacsManagedCloudHostInsightSummaryPlatformTypeSunos,
 	"ZLINUX":  MacsManagedCloudHostInsightSummaryPlatformTypeZlinux,
+	"WINDOWS": MacsManagedCloudHostInsightSummaryPlatformTypeWindows,
 }
 
 var mappingMacsManagedCloudHostInsightSummaryPlatformTypeEnumLowerCase = map[string]MacsManagedCloudHostInsightSummaryPlatformTypeEnum{
@@ -218,6 +221,7 @@ var mappingMacsManagedCloudHostInsightSummaryPlatformTypeEnumLowerCase = map[str
 	"solaris": MacsManagedCloudHostInsightSummaryPlatformTypeSolaris,
 	"sunos":   MacsManagedCloudHostInsightSummaryPlatformTypeSunos,
 	"zlinux":  MacsManagedCloudHostInsightSummaryPlatformTypeZlinux,
+	"windows": MacsManagedCloudHostInsightSummaryPlatformTypeWindows,
 }
 
 // GetMacsManagedCloudHostInsightSummaryPlatformTypeEnumValues Enumerates the set of values for MacsManagedCloudHostInsightSummaryPlatformTypeEnum
@@ -236,6 +240,7 @@ func GetMacsManagedCloudHostInsightSummaryPlatformTypeEnumStringValues() []strin
 		"SOLARIS",
 		"SUNOS",
 		"ZLINUX",
+		"WINDOWS",
 	}
 }
 

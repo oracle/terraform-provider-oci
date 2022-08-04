@@ -27,6 +27,8 @@ type UpdateAutonomousDatabaseDetails struct {
 	// **Note:** This parameter cannot be used with the `ocpuCount` or `ecpuCount` parameter.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
+	LongTermBackupSchedule *LongTermBackUpScheduleDetails `mandatory:"false" json:"longTermBackupSchedule"`
+
 	// The number of ECPU to be made available to the database. If it's autonomous shared database, then the minimum value is 2, if it's autonomous dedicated database, then the minimum value is 0.2.
 	EcpuCount *float32 `mandatory:"false" json:"ecpuCount"`
 

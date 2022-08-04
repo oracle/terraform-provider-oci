@@ -331,6 +331,9 @@ type Sddc struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
+	// Datastores used for the Sddc.
+	Datastores []DatastoreSummary `mandatory:"false" json:"datastores"`
 }
 
 func (m Sddc) String() string {

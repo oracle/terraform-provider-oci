@@ -67,6 +67,10 @@ func (m *imagesourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 
 	var err error
 	switch m.SourceType {
+	case "volumeBackupDetails":
+		mm := ImageSourceViaVolumeBackupDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "objectStorageTuple":
 		mm := ImageSourceViaObjectStorageTupleDetails{}
 		err = json.Unmarshal(data, &mm)

@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-// ResetActionDetails Parameters for the reset InstanceAction. If omitted, default values are used.
+// ResetActionDetails Parameters for the `reset` InstanceAction. If omitted, default values are used.
 type ResetActionDetails struct {
 
 	// For instances that use a DenseIO shape, the flag denoting whether

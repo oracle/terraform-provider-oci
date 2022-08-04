@@ -41,8 +41,9 @@ type SummarizeHostInsightResourceUsageRequest struct {
 	TimeIntervalEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeIntervalEnd"`
 
 	// Filter by one or more platform types.
-	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
+	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX, WINDOWS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS].
 	PlatformType []SummarizeHostInsightResourceUsagePlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Optional list of host insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -178,6 +179,7 @@ const (
 	SummarizeHostInsightResourceUsagePlatformTypeSolaris SummarizeHostInsightResourceUsagePlatformTypeEnum = "SOLARIS"
 	SummarizeHostInsightResourceUsagePlatformTypeSunos   SummarizeHostInsightResourceUsagePlatformTypeEnum = "SUNOS"
 	SummarizeHostInsightResourceUsagePlatformTypeZlinux  SummarizeHostInsightResourceUsagePlatformTypeEnum = "ZLINUX"
+	SummarizeHostInsightResourceUsagePlatformTypeWindows SummarizeHostInsightResourceUsagePlatformTypeEnum = "WINDOWS"
 )
 
 var mappingSummarizeHostInsightResourceUsagePlatformTypeEnum = map[string]SummarizeHostInsightResourceUsagePlatformTypeEnum{
@@ -185,6 +187,7 @@ var mappingSummarizeHostInsightResourceUsagePlatformTypeEnum = map[string]Summar
 	"SOLARIS": SummarizeHostInsightResourceUsagePlatformTypeSolaris,
 	"SUNOS":   SummarizeHostInsightResourceUsagePlatformTypeSunos,
 	"ZLINUX":  SummarizeHostInsightResourceUsagePlatformTypeZlinux,
+	"WINDOWS": SummarizeHostInsightResourceUsagePlatformTypeWindows,
 }
 
 var mappingSummarizeHostInsightResourceUsagePlatformTypeEnumLowerCase = map[string]SummarizeHostInsightResourceUsagePlatformTypeEnum{
@@ -192,6 +195,7 @@ var mappingSummarizeHostInsightResourceUsagePlatformTypeEnumLowerCase = map[stri
 	"solaris": SummarizeHostInsightResourceUsagePlatformTypeSolaris,
 	"sunos":   SummarizeHostInsightResourceUsagePlatformTypeSunos,
 	"zlinux":  SummarizeHostInsightResourceUsagePlatformTypeZlinux,
+	"windows": SummarizeHostInsightResourceUsagePlatformTypeWindows,
 }
 
 // GetSummarizeHostInsightResourceUsagePlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceUsagePlatformTypeEnum
@@ -210,6 +214,7 @@ func GetSummarizeHostInsightResourceUsagePlatformTypeEnumStringValues() []string
 		"SOLARIS",
 		"SUNOS",
 		"ZLINUX",
+		"WINDOWS",
 	}
 }
 

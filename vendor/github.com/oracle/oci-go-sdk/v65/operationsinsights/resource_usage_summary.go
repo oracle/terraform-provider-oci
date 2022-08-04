@@ -26,7 +26,7 @@ type ResourceUsageSummary struct {
 	// Total amount used of the resource metric type (CPU, STORAGE).
 	Usage *float64 `mandatory:"true" json:"usage"`
 
-	// The maximum allocated amount of the resource metric type  (CPU, STORAGE).
+	// The maximum allocated amount of the resource metric type  (CPU, STORAGE) for a set of databases.
 	Capacity *float64 `mandatory:"true" json:"capacity"`
 
 	// Resource utilization in percentage

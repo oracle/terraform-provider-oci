@@ -88,8 +88,9 @@ type EmManagedExternalHostInsight struct {
 	ExadataInsightId *string `mandatory:"false" json:"exadataInsightId"`
 
 	// Platform type.
-	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
+	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX, WINDOWS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS].
 	PlatformType EmManagedExternalHostInsightPlatformTypeEnum `mandatory:"false" json:"platformType,omitempty"`
 
 	// Indicates the status of a host insight in Operations Insights
@@ -217,6 +218,7 @@ const (
 	EmManagedExternalHostInsightPlatformTypeSolaris EmManagedExternalHostInsightPlatformTypeEnum = "SOLARIS"
 	EmManagedExternalHostInsightPlatformTypeSunos   EmManagedExternalHostInsightPlatformTypeEnum = "SUNOS"
 	EmManagedExternalHostInsightPlatformTypeZlinux  EmManagedExternalHostInsightPlatformTypeEnum = "ZLINUX"
+	EmManagedExternalHostInsightPlatformTypeWindows EmManagedExternalHostInsightPlatformTypeEnum = "WINDOWS"
 )
 
 var mappingEmManagedExternalHostInsightPlatformTypeEnum = map[string]EmManagedExternalHostInsightPlatformTypeEnum{
@@ -224,6 +226,7 @@ var mappingEmManagedExternalHostInsightPlatformTypeEnum = map[string]EmManagedEx
 	"SOLARIS": EmManagedExternalHostInsightPlatformTypeSolaris,
 	"SUNOS":   EmManagedExternalHostInsightPlatformTypeSunos,
 	"ZLINUX":  EmManagedExternalHostInsightPlatformTypeZlinux,
+	"WINDOWS": EmManagedExternalHostInsightPlatformTypeWindows,
 }
 
 var mappingEmManagedExternalHostInsightPlatformTypeEnumLowerCase = map[string]EmManagedExternalHostInsightPlatformTypeEnum{
@@ -231,6 +234,7 @@ var mappingEmManagedExternalHostInsightPlatformTypeEnumLowerCase = map[string]Em
 	"solaris": EmManagedExternalHostInsightPlatformTypeSolaris,
 	"sunos":   EmManagedExternalHostInsightPlatformTypeSunos,
 	"zlinux":  EmManagedExternalHostInsightPlatformTypeZlinux,
+	"windows": EmManagedExternalHostInsightPlatformTypeWindows,
 }
 
 // GetEmManagedExternalHostInsightPlatformTypeEnumValues Enumerates the set of values for EmManagedExternalHostInsightPlatformTypeEnum
@@ -249,6 +253,7 @@ func GetEmManagedExternalHostInsightPlatformTypeEnumStringValues() []string {
 		"SOLARIS",
 		"SUNOS",
 		"ZLINUX",
+		"WINDOWS",
 	}
 }
 

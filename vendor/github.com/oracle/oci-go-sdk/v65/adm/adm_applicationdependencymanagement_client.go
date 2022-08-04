@@ -133,7 +133,7 @@ func (client ApplicationDependencyManagementClient) cancelWorkRequest(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -193,7 +193,7 @@ func (client ApplicationDependencyManagementClient) changeKnowledgeBaseCompartme
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/KnowledgeBase/ChangeKnowledgeBaseCompartment"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ChangeKnowledgeBaseCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -253,7 +253,7 @@ func (client ApplicationDependencyManagementClient) changeVulnerabilityAuditComp
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/ChangeVulnerabilityAuditCompartment"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ChangeVulnerabilityAuditCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -313,7 +313,7 @@ func (client ApplicationDependencyManagementClient) createKnowledgeBase(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/KnowledgeBase/CreateKnowledgeBase"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "CreateKnowledgeBase", apiReferenceLink)
 		return response, err
 	}
@@ -373,7 +373,7 @@ func (client ApplicationDependencyManagementClient) createVulnerabilityAudit(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/CreateVulnerabilityAudit"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "CreateVulnerabilityAudit", apiReferenceLink)
 		return response, err
 	}
@@ -428,7 +428,7 @@ func (client ApplicationDependencyManagementClient) deleteKnowledgeBase(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/KnowledgeBase/DeleteKnowledgeBase"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "DeleteKnowledgeBase", apiReferenceLink)
 		return response, err
 	}
@@ -483,7 +483,7 @@ func (client ApplicationDependencyManagementClient) deleteVulnerabilityAudit(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/DeleteVulnerabilityAudit"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "DeleteVulnerabilityAudit", apiReferenceLink)
 		return response, err
 	}
@@ -538,7 +538,7 @@ func (client ApplicationDependencyManagementClient) getKnowledgeBase(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/KnowledgeBase/GetKnowledgeBase"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "GetKnowledgeBase", apiReferenceLink)
 		return response, err
 	}
@@ -593,7 +593,7 @@ func (client ApplicationDependencyManagementClient) getVulnerabilityAudit(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/GetVulnerabilityAudit"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "GetVulnerabilityAudit", apiReferenceLink)
 		return response, err
 	}
@@ -648,7 +648,7 @@ func (client ApplicationDependencyManagementClient) getWorkRequest(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -703,7 +703,7 @@ func (client ApplicationDependencyManagementClient) listApplicationDependencyVul
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/ListApplicationDependencyVulnerabilities"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListApplicationDependencyVulnerabilities", apiReferenceLink)
 		return response, err
 	}
@@ -759,7 +759,7 @@ func (client ApplicationDependencyManagementClient) listKnowledgeBases(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/KnowledgeBase/ListKnowledgeBases"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListKnowledgeBases", apiReferenceLink)
 		return response, err
 	}
@@ -815,7 +815,7 @@ func (client ApplicationDependencyManagementClient) listVulnerabilityAudits(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/ListVulnerabilityAudits"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListVulnerabilityAudits", apiReferenceLink)
 		return response, err
 	}
@@ -870,7 +870,7 @@ func (client ApplicationDependencyManagementClient) listWorkRequestErrors(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -925,7 +925,7 @@ func (client ApplicationDependencyManagementClient) listWorkRequestLogs(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -980,7 +980,7 @@ func (client ApplicationDependencyManagementClient) listWorkRequests(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1035,7 +1035,7 @@ func (client ApplicationDependencyManagementClient) updateKnowledgeBase(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/KnowledgeBase/UpdateKnowledgeBase"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "UpdateKnowledgeBase", apiReferenceLink)
 		return response, err
 	}
@@ -1090,7 +1090,7 @@ func (client ApplicationDependencyManagementClient) updateVulnerabilityAudit(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/UpdateVulnerabilityAudit"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "UpdateVulnerabilityAudit", apiReferenceLink)
 		return response, err
 	}

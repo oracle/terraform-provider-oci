@@ -94,6 +94,8 @@ type Image struct {
 	// The size of the internal storage for this image that is subject to billing (1 GB = 1,073,741,824 bytes).
 	// Example: `100`
 	BillableSizeInGBs *int64 `mandatory:"false" json:"billableSizeInGBs"`
+
+	ImageVolumeDetails *ImageVolumeDetails `mandatory:"false" json:"imageVolumeDetails"`
 }
 
 func (m Image) String() string {

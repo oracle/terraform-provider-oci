@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-// SoftResetActionDetails Parameters for the softReset InstanceAction. If omitted, default values are used.
+// SoftResetActionDetails Parameters for the `softReset` InstanceAction. If omitted, default values are used.
 type SoftResetActionDetails struct {
 
 	// For instances that use a DenseIO shape, the flag denoting whether

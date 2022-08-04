@@ -31,8 +31,9 @@ type HostConfigurationSummary interface {
 	GetHostName() *string
 
 	// Platform type.
-	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
+	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX, WINDOWS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS].
 	GetPlatformType() HostConfigurationSummaryPlatformTypeEnum
 
 	// Platform version.
@@ -291,6 +292,7 @@ const (
 	HostConfigurationSummaryPlatformTypeSolaris HostConfigurationSummaryPlatformTypeEnum = "SOLARIS"
 	HostConfigurationSummaryPlatformTypeSunos   HostConfigurationSummaryPlatformTypeEnum = "SUNOS"
 	HostConfigurationSummaryPlatformTypeZlinux  HostConfigurationSummaryPlatformTypeEnum = "ZLINUX"
+	HostConfigurationSummaryPlatformTypeWindows HostConfigurationSummaryPlatformTypeEnum = "WINDOWS"
 )
 
 var mappingHostConfigurationSummaryPlatformTypeEnum = map[string]HostConfigurationSummaryPlatformTypeEnum{
@@ -298,6 +300,7 @@ var mappingHostConfigurationSummaryPlatformTypeEnum = map[string]HostConfigurati
 	"SOLARIS": HostConfigurationSummaryPlatformTypeSolaris,
 	"SUNOS":   HostConfigurationSummaryPlatformTypeSunos,
 	"ZLINUX":  HostConfigurationSummaryPlatformTypeZlinux,
+	"WINDOWS": HostConfigurationSummaryPlatformTypeWindows,
 }
 
 var mappingHostConfigurationSummaryPlatformTypeEnumLowerCase = map[string]HostConfigurationSummaryPlatformTypeEnum{
@@ -305,6 +308,7 @@ var mappingHostConfigurationSummaryPlatformTypeEnumLowerCase = map[string]HostCo
 	"solaris": HostConfigurationSummaryPlatformTypeSolaris,
 	"sunos":   HostConfigurationSummaryPlatformTypeSunos,
 	"zlinux":  HostConfigurationSummaryPlatformTypeZlinux,
+	"windows": HostConfigurationSummaryPlatformTypeWindows,
 }
 
 // GetHostConfigurationSummaryPlatformTypeEnumValues Enumerates the set of values for HostConfigurationSummaryPlatformTypeEnum
@@ -323,6 +327,7 @@ func GetHostConfigurationSummaryPlatformTypeEnumStringValues() []string {
 		"SOLARIS",
 		"SUNOS",
 		"ZLINUX",
+		"WINDOWS",
 	}
 }
 

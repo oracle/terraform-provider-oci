@@ -205,6 +205,66 @@ func (client DataSafeClient) addMaskingColumnsFromSdm(ctx context.Context, reque
 	return response, err
 }
 
+// AlertsUpdate Update alerts within a given compartment.
+// A default retry strategy applies to this operation AlertsUpdate()
+func (client DataSafeClient) AlertsUpdate(ctx context.Context, request AlertsUpdateRequest) (response AlertsUpdateResponse, err error) {
+	var ociResponse common.OCIResponse
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
+	}
+	if request.RetryPolicy() != nil {
+		policy = request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.alertsUpdate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AlertsUpdateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AlertsUpdateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AlertsUpdateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AlertsUpdateResponse")
+	}
+	return
+}
+
+// alertsUpdate implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) alertsUpdate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alerts/actions/updateAll", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AlertsUpdateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/Alert/AlertsUpdate"
+		err = common.PostProcessServiceError(err, "DataSafe", "AlertsUpdate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ApplyDiscoveryJobResults Applies the results of a discovery job to the specified sensitive data model. Note that the plannedAction attribute
 // of discovery results is used for processing them. You should first use PatchDiscoveryJobResults to set the plannedAction
 // attribute of the discovery results you want to process. ApplyDiscoveryJobResults automatically reads the plannedAction
@@ -7265,6 +7325,8 @@ func (client DataSafeClient) listDataSafePrivateEndpoints(ctx context.Context, r
 }
 
 // ListDiscoveryAnalytics Gets consolidated discovery analytics data based on the specified query parameters.
+// If CompartmentIdInSubtreeQueryParam is specified as true, the behaviour
+// is equivalent to accessLevel "ACCESSIBLE" by default.
 // A default retry strategy applies to this operation ListDiscoveryAnalytics()
 func (client DataSafeClient) ListDiscoveryAnalytics(ctx context.Context, request ListDiscoveryAnalyticsRequest) (response ListDiscoveryAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7653,6 +7715,8 @@ func (client DataSafeClient) listMaskedColumns(ctx context.Context, request comm
 }
 
 // ListMaskingAnalytics Gets consolidated masking analytics data based on the specified query parameters.
+// If CompartmentIdInSubtreeQueryParam is specified as true, the behaviour
+// is equivalent to accessLevel "ACCESSIBLE" by default.
 // A default retry strategy applies to this operation ListMaskingAnalytics()
 func (client DataSafeClient) ListMaskingAnalytics(ctx context.Context, request ListMaskingAnalyticsRequest) (response ListMaskingAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9240,6 +9304,61 @@ func (client DataSafeClient) patchSensitiveColumns(ctx context.Context, request 
 	return response, err
 }
 
+// PatchTargetAlertPolicyAssociation Creates new target-alert policy associations that will be applied on target.
+// A default retry strategy applies to this operation PatchTargetAlertPolicyAssociation()
+func (client DataSafeClient) PatchTargetAlertPolicyAssociation(ctx context.Context, request PatchTargetAlertPolicyAssociationRequest) (response PatchTargetAlertPolicyAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
+	}
+	if request.RetryPolicy() != nil {
+		policy = request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.patchTargetAlertPolicyAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchTargetAlertPolicyAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchTargetAlertPolicyAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchTargetAlertPolicyAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchTargetAlertPolicyAssociationResponse")
+	}
+	return
+}
+
+// patchTargetAlertPolicyAssociation implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) patchTargetAlertPolicyAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/targetAlertPolicyAssociations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchTargetAlertPolicyAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociation/PatchTargetAlertPolicyAssociation"
+		err = common.PostProcessServiceError(err, "DataSafe", "PatchTargetAlertPolicyAssociation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ProvisionAuditPolicy Provision audit policy.
 // A default retry strategy applies to this operation ProvisionAuditPolicy()
 func (client DataSafeClient) ProvisionAuditPolicy(ctx context.Context, request ProvisionAuditPolicyRequest) (response ProvisionAuditPolicyResponse, err error) {
@@ -9423,6 +9542,66 @@ func (client DataSafeClient) refreshUserAssessment(ctx context.Context, request 
 	return response, err
 }
 
+// RemoveScheduleReport Deletes schedule of a PDF or XLS report.
+// A default retry strategy applies to this operation RemoveScheduleReport()
+func (client DataSafeClient) RemoveScheduleReport(ctx context.Context, request RemoveScheduleReportRequest) (response RemoveScheduleReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
+	}
+	if request.RetryPolicy() != nil {
+		policy = request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeScheduleReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveScheduleReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveScheduleReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveScheduleReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveScheduleReportResponse")
+	}
+	return
+}
+
+// removeScheduleReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) removeScheduleReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/reportDefinitions/{reportDefinitionId}/actions/removeScheduleReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveScheduleReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReportDefinition/RemoveScheduleReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "RemoveScheduleReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ResumeAuditTrail Resumes the specified audit trail once it got stopped.
 // A default retry strategy applies to this operation ResumeAuditTrail()
 func (client DataSafeClient) ResumeAuditTrail(ctx context.Context, request ResumeAuditTrailRequest) (response ResumeAuditTrailResponse, err error) {
@@ -9591,6 +9770,66 @@ func (client DataSafeClient) retrieveAuditPolicies(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditPolicy/RetrieveAuditPolicies"
 		err = common.PostProcessServiceError(err, "DataSafe", "RetrieveAuditPolicies", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ScheduleReport Schedules a PDF or XLS report based on parameters and report definition.
+// A default retry strategy applies to this operation ScheduleReport()
+func (client DataSafeClient) ScheduleReport(ctx context.Context, request ScheduleReportRequest) (response ScheduleReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
+	}
+	if request.RetryPolicy() != nil {
+		policy = request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.scheduleReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ScheduleReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ScheduleReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ScheduleReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ScheduleReportResponse")
+	}
+	return
+}
+
+// scheduleReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) scheduleReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/reportDefinitions/{reportDefinitionId}/actions/scheduleReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ScheduleReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReportDefinition/ScheduleReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "ScheduleReport", apiReferenceLink)
 		return response, err
 	}
 

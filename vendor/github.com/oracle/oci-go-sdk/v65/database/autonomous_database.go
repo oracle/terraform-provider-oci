@@ -56,6 +56,11 @@ type AutonomousDatabase struct {
 	// AL16UTF16 or UTF8.
 	NcharacterSet *string `mandatory:"false" json:"ncharacterSet"`
 
+	// The date and time when the next long-term backup would be created.
+	NextLongTermBackupTimeStamp *common.SDKTime `mandatory:"false" json:"nextLongTermBackupTimeStamp"`
+
+	LongTermBackupSchedule *LongTermBackUpScheduleDetails `mandatory:"false" json:"longTermBackupSchedule"`
+
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
 
@@ -81,7 +86,7 @@ type AutonomousDatabase struct {
 	// The number of ECPU to be made available to the database.
 	EcpuCount *float32 `mandatory:"false" json:"ecpuCount"`
 
-	// Retention period, in days, for backups.
+	// Retention period, in days, for long-term backups
 	BackupRetentionPeriodInDays *int `mandatory:"false" json:"backupRetentionPeriodInDays"`
 
 	// The backup storage to the database.

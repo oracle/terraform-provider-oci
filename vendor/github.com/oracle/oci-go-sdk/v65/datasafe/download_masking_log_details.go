@@ -20,6 +20,9 @@ type DownloadMaskingLogDetails struct {
 
 	// The OCID of the target database for which the masking log is to be downloaded.
 	TargetId *string `mandatory:"false" json:"targetId"`
+
+	// The OCID of the masking work request that resulted in this masking log.
+	MaskingWorkRequestId *string `mandatory:"false" json:"maskingWorkRequestId"`
 }
 
 func (m DownloadMaskingLogDetails) String() string {

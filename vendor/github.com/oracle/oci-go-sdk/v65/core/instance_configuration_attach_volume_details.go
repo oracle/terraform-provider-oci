@@ -38,15 +38,23 @@ type InstanceConfigurationAttachVolumeDetails interface {
 	// that they also create their attachments in shareable mode. Only certain volume types can
 	// be attached in shareable mode. Defaults to false if not specified.
 	GetIsShareable() *bool
+
+	// When launching from a Compute Image, it is possible for more than one volume to be defined in the Image definition.
+	// If the relative index of one of these volumes is provided in this field, then the provided createVolumeDetails
+	// descriptor will be utilized to modify the default creation/attachment parameters for this volume rather than the
+	// defaults.
+	// If this field is provided, then CreateVolumeDetails must be specified.
+	GetImageVolumeIndex() *int
 }
 
 type instanceconfigurationattachvolumedetails struct {
-	JsonData    []byte
-	DisplayName *string `mandatory:"false" json:"displayName"`
-	IsReadOnly  *bool   `mandatory:"false" json:"isReadOnly"`
-	Device      *string `mandatory:"false" json:"device"`
-	IsShareable *bool   `mandatory:"false" json:"isShareable"`
-	Type        string  `json:"type"`
+	JsonData         []byte
+	DisplayName      *string `mandatory:"false" json:"displayName"`
+	IsReadOnly       *bool   `mandatory:"false" json:"isReadOnly"`
+	Device           *string `mandatory:"false" json:"device"`
+	IsShareable      *bool   `mandatory:"false" json:"isShareable"`
+	ImageVolumeIndex *int    `mandatory:"false" json:"imageVolumeIndex"`
+	Type             string  `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -64,6 +72,7 @@ func (m *instanceconfigurationattachvolumedetails) UnmarshalJSON(data []byte) er
 	m.IsReadOnly = s.Model.IsReadOnly
 	m.Device = s.Model.Device
 	m.IsShareable = s.Model.IsShareable
+	m.ImageVolumeIndex = s.Model.ImageVolumeIndex
 	m.Type = s.Model.Type
 
 	return err
@@ -109,6 +118,11 @@ func (m instanceconfigurationattachvolumedetails) GetDevice() *string {
 //GetIsShareable returns IsShareable
 func (m instanceconfigurationattachvolumedetails) GetIsShareable() *bool {
 	return m.IsShareable
+}
+
+//GetImageVolumeIndex returns ImageVolumeIndex
+func (m instanceconfigurationattachvolumedetails) GetImageVolumeIndex() *int {
+	return m.ImageVolumeIndex
 }
 
 func (m instanceconfigurationattachvolumedetails) String() string {

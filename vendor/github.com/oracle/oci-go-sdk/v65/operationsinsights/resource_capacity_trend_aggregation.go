@@ -23,10 +23,10 @@ type ResourceCapacityTrendAggregation struct {
 	// The timestamp in which the current sampling period ends in RFC 3339 format.
 	EndTimestamp *common.SDKTime `mandatory:"true" json:"endTimestamp"`
 
-	// The maximum allocated amount of the resource metric type  (CPU, STORAGE).
+	// The maximum allocated amount of the resource metric type  (CPU, STORAGE) for a set of databases.
 	Capacity *float64 `mandatory:"true" json:"capacity"`
 
-	// The base allocated amount of the resource metric type  (CPU, STORAGE).
+	// The base allocated amount of the resource metric type  (CPU, STORAGE) for a set of databases.
 	BaseCapacity *float64 `mandatory:"true" json:"baseCapacity"`
 }
 

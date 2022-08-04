@@ -30,8 +30,9 @@ type HostDetails struct {
 	HostName *string `mandatory:"true" json:"hostName"`
 
 	// Platform type.
-	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
+	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX, WINDOWS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS].
 	PlatformType HostDetailsPlatformTypeEnum `mandatory:"true" json:"platformType"`
 
 	// The identifier of the agent.
@@ -69,6 +70,7 @@ const (
 	HostDetailsPlatformTypeSolaris HostDetailsPlatformTypeEnum = "SOLARIS"
 	HostDetailsPlatformTypeSunos   HostDetailsPlatformTypeEnum = "SUNOS"
 	HostDetailsPlatformTypeZlinux  HostDetailsPlatformTypeEnum = "ZLINUX"
+	HostDetailsPlatformTypeWindows HostDetailsPlatformTypeEnum = "WINDOWS"
 )
 
 var mappingHostDetailsPlatformTypeEnum = map[string]HostDetailsPlatformTypeEnum{
@@ -76,6 +78,7 @@ var mappingHostDetailsPlatformTypeEnum = map[string]HostDetailsPlatformTypeEnum{
 	"SOLARIS": HostDetailsPlatformTypeSolaris,
 	"SUNOS":   HostDetailsPlatformTypeSunos,
 	"ZLINUX":  HostDetailsPlatformTypeZlinux,
+	"WINDOWS": HostDetailsPlatformTypeWindows,
 }
 
 var mappingHostDetailsPlatformTypeEnumLowerCase = map[string]HostDetailsPlatformTypeEnum{
@@ -83,6 +86,7 @@ var mappingHostDetailsPlatformTypeEnumLowerCase = map[string]HostDetailsPlatform
 	"solaris": HostDetailsPlatformTypeSolaris,
 	"sunos":   HostDetailsPlatformTypeSunos,
 	"zlinux":  HostDetailsPlatformTypeZlinux,
+	"windows": HostDetailsPlatformTypeWindows,
 }
 
 // GetHostDetailsPlatformTypeEnumValues Enumerates the set of values for HostDetailsPlatformTypeEnum
@@ -101,6 +105,7 @@ func GetHostDetailsPlatformTypeEnumStringValues() []string {
 		"SOLARIS",
 		"SUNOS",
 		"ZLINUX",
+		"WINDOWS",
 	}
 }
 

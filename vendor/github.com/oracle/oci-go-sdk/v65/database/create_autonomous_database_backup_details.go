@@ -24,6 +24,12 @@ type CreateAutonomousDatabaseBackupDetails struct {
 
 	// The user-friendly name for the backup. The name does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Retention period, in days, for long-term backups
+	RetentionPeriodInDays *int `mandatory:"false" json:"retentionPeriodInDays"`
+
+	// Indicates whether the backup is long-term
+	IsLongTermBackup *bool `mandatory:"false" json:"isLongTermBackup"`
 }
 
 func (m CreateAutonomousDatabaseBackupDetails) String() string {

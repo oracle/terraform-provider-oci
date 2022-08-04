@@ -435,6 +435,7 @@ const (
 	ListSensitiveColumnsSortBySchemaname  ListSensitiveColumnsSortByEnum = "schemaName"
 	ListSensitiveColumnsSortByObjectname  ListSensitiveColumnsSortByEnum = "objectName"
 	ListSensitiveColumnsSortByColumnname  ListSensitiveColumnsSortByEnum = "columnName"
+	ListSensitiveColumnsSortByDatatype    ListSensitiveColumnsSortByEnum = "dataType"
 )
 
 var mappingListSensitiveColumnsSortByEnum = map[string]ListSensitiveColumnsSortByEnum{
@@ -442,6 +443,7 @@ var mappingListSensitiveColumnsSortByEnum = map[string]ListSensitiveColumnsSortB
 	"schemaName":  ListSensitiveColumnsSortBySchemaname,
 	"objectName":  ListSensitiveColumnsSortByObjectname,
 	"columnName":  ListSensitiveColumnsSortByColumnname,
+	"dataType":    ListSensitiveColumnsSortByDatatype,
 }
 
 var mappingListSensitiveColumnsSortByEnumLowerCase = map[string]ListSensitiveColumnsSortByEnum{
@@ -449,6 +451,7 @@ var mappingListSensitiveColumnsSortByEnumLowerCase = map[string]ListSensitiveCol
 	"schemaname":  ListSensitiveColumnsSortBySchemaname,
 	"objectname":  ListSensitiveColumnsSortByObjectname,
 	"columnname":  ListSensitiveColumnsSortByColumnname,
+	"datatype":    ListSensitiveColumnsSortByDatatype,
 }
 
 // GetListSensitiveColumnsSortByEnumValues Enumerates the set of values for ListSensitiveColumnsSortByEnum
@@ -467,6 +470,7 @@ func GetListSensitiveColumnsSortByEnumStringValues() []string {
 		"schemaName",
 		"objectName",
 		"columnName",
+		"dataType",
 	}
 }
 

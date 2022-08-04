@@ -130,6 +130,10 @@ type CreateSddcDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 
+	// A list of datastore info for the SDDC.
+	// This value is required only when `initialHostShapeName` is a standard shape.
+	Datastores []DatastoreInfo `mandatory:"false" json:"datastores"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

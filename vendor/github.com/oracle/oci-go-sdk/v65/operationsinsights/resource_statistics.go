@@ -23,7 +23,7 @@ type ResourceStatistics struct {
 	// Total amount used of the resource metric type (CPU, STORAGE).
 	Usage *float64 `mandatory:"true" json:"usage"`
 
-	// The maximum allocated amount of the resource metric type  (CPU, STORAGE).
+	// The maximum allocated amount of the resource metric type  (CPU, STORAGE) for a set of databases.
 	Capacity *float64 `mandatory:"true" json:"capacity"`
 
 	// Resource utilization in percentage
@@ -32,7 +32,7 @@ type ResourceStatistics struct {
 	// Change in resource utilization in percentage
 	UsageChangePercent *float64 `mandatory:"true" json:"usageChangePercent"`
 
-	// The base allocated amount of the resource metric type  (CPU, STORAGE).
+	// The base allocated amount of the resource metric type  (CPU, STORAGE) for a set of databases.
 	BaseCapacity *float64 `mandatory:"false" json:"baseCapacity"`
 
 	// Indicates if auto scaling feature is enabled or disabled on a database. It will be false for all metrics other than CPU.

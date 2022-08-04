@@ -71,6 +71,12 @@ type CreateDataAssetFromAdwc struct {
 	AutonomousDbId *string `mandatory:"false" json:"autonomousDbId"`
 
 	DefaultConnection *CreateConnectionFromAdwc `mandatory:"false" json:"defaultConnection"`
+
+	StagingDataAsset DataAsset `mandatory:"false" json:"stagingDataAsset"`
+
+	StagingConnection Connection `mandatory:"false" json:"stagingConnection"`
+
+	BucketSchema *Schema `mandatory:"false" json:"bucketSchema"`
 }
 
 //GetKey returns Key
@@ -146,4 +152,99 @@ func (m CreateDataAssetFromAdwc) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateDataAssetFromAdwc) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Key                   *string                   `json:"key"`
+		ModelVersion          *string                   `json:"modelVersion"`
+		Description           *string                   `json:"description"`
+		ObjectStatus          *int                      `json:"objectStatus"`
+		ExternalKey           *string                   `json:"externalKey"`
+		AssetProperties       map[string]string         `json:"assetProperties"`
+		RegistryMetadata      *RegistryMetadata         `json:"registryMetadata"`
+		ServiceName           *string                   `json:"serviceName"`
+		DriverClass           *string                   `json:"driverClass"`
+		CredentialFileContent *string                   `json:"credentialFileContent"`
+		WalletSecret          *SensitiveAttribute       `json:"walletSecret"`
+		WalletPasswordSecret  *SensitiveAttribute       `json:"walletPasswordSecret"`
+		RegionId              *string                   `json:"regionId"`
+		TenancyId             *string                   `json:"tenancyId"`
+		CompartmentId         *string                   `json:"compartmentId"`
+		AutonomousDbId        *string                   `json:"autonomousDbId"`
+		DefaultConnection     *CreateConnectionFromAdwc `json:"defaultConnection"`
+		StagingDataAsset      dataasset                 `json:"stagingDataAsset"`
+		StagingConnection     connection                `json:"stagingConnection"`
+		BucketSchema          *Schema                   `json:"bucketSchema"`
+		Name                  *string                   `json:"name"`
+		Identifier            *string                   `json:"identifier"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Key = model.Key
+
+	m.ModelVersion = model.ModelVersion
+
+	m.Description = model.Description
+
+	m.ObjectStatus = model.ObjectStatus
+
+	m.ExternalKey = model.ExternalKey
+
+	m.AssetProperties = model.AssetProperties
+
+	m.RegistryMetadata = model.RegistryMetadata
+
+	m.ServiceName = model.ServiceName
+
+	m.DriverClass = model.DriverClass
+
+	m.CredentialFileContent = model.CredentialFileContent
+
+	m.WalletSecret = model.WalletSecret
+
+	m.WalletPasswordSecret = model.WalletPasswordSecret
+
+	m.RegionId = model.RegionId
+
+	m.TenancyId = model.TenancyId
+
+	m.CompartmentId = model.CompartmentId
+
+	m.AutonomousDbId = model.AutonomousDbId
+
+	m.DefaultConnection = model.DefaultConnection
+
+	nn, e = model.StagingDataAsset.UnmarshalPolymorphicJSON(model.StagingDataAsset.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.StagingDataAsset = nn.(DataAsset)
+	} else {
+		m.StagingDataAsset = nil
+	}
+
+	nn, e = model.StagingConnection.UnmarshalPolymorphicJSON(model.StagingConnection.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.StagingConnection = nn.(Connection)
+	} else {
+		m.StagingConnection = nil
+	}
+
+	m.BucketSchema = model.BucketSchema
+
+	m.Name = model.Name
+
+	m.Identifier = model.Identifier
+
+	return
 }

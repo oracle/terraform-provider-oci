@@ -24,7 +24,7 @@ type HostResourceStatistics interface {
 	// Total amount used of the resource metric type (CPU, STORAGE).
 	GetUsage() *float64
 
-	// The maximum allocated amount of the resource metric type  (CPU, STORAGE).
+	// The maximum allocated amount of the resource metric type  (CPU, STORAGE) for a set of databases.
 	GetCapacity() *float64
 
 	// Resource utilization in percentage.

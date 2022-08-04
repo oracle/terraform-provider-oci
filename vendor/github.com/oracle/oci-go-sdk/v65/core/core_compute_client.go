@@ -2934,7 +2934,8 @@ func (client ComputeClient) getInstanceConsoleConnection(ctx context.Context, re
 	return response, err
 }
 
-// GetInstanceMaintenanceReboot Gets the maximum possible date that a maintenance reboot can be extended.
+// GetInstanceMaintenanceReboot Gets the maximum possible date that a maintenance reboot can be extended. For more information, see
+// Infrastructure Maintenance (https://docs.cloud.oracle.com/iaas/Content/Compute/References/infrastructure-maintenance.htm).
 func (client ComputeClient) GetInstanceMaintenanceReboot(ctx context.Context, request GetInstanceMaintenanceRebootRequest) (response GetInstanceMaintenanceRebootResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
@@ -3341,7 +3342,8 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // Use diagnostic reboot as a final attempt to troubleshoot an unreachable instance. For virtual machine (VM) instances only.
 // For more information, see Performing a Diagnostic Reboot (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/diagnostic-reboot.htm).
 //
-// - **REBOOTMIGRATE** - Powers off the instance, moves it to new hardware, and then powers it back on.
+// - **REBOOTMIGRATE** - Powers off the instance, moves it to new hardware, and then powers it back on. For more information, see
+// Infrastructure Maintenance (https://docs.cloud.oracle.com/iaas/Content/Compute/References/infrastructure-maintenance.htm).
 //
 // For more information about managing instance lifecycle states, see
 // Stopping and Starting an Instance (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/restartinginstance.htm).
@@ -4422,7 +4424,7 @@ func (client ComputeClient) listImageShapeCompatibilityEntries(ctx context.Conte
 // platform images (https://docs.cloud.oracle.com/iaas/Content/Compute/References/images.htm) and
 // custom images (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm).
 // The list of platform images includes the three most recently published versions
-// of each major distribution.
+// of each major distribution. The list does not support filtering based on image tags.
 // The list of images returned is ordered to first show the recent platform images,
 // then all of the custom images.
 // **Caution:** Platform images are refreshed regularly. When new images are released, older versions are replaced.
@@ -4939,7 +4941,6 @@ func (client ComputeClient) removeImageShapeCompatibilityEntry(ctx context.Conte
 
 // TerminateInstance Terminates the specified instance. Any attached VNICs and volumes are automatically detached
 // when the instance terminates.
-//
 // To preserve the boot volume associated with the instance, specify `true` for `PreserveBootVolumeQueryParam`.
 // To delete the boot volume when the instance is deleted, specify `false` or do not specify a value for `PreserveBootVolumeQueryParam`.
 // This is an asynchronous operation. The instance's `lifecycleState` will change to TERMINATING temporarily

@@ -85,6 +85,7 @@ const (
 	DataFormatTypeCsv     DataFormatTypeEnum = "CSV"
 	DataFormatTypeParquet DataFormatTypeEnum = "PARQUET"
 	DataFormatTypeAvro    DataFormatTypeEnum = "AVRO"
+	DataFormatTypeDmp     DataFormatTypeEnum = "DMP"
 )
 
 var mappingDataFormatTypeEnum = map[string]DataFormatTypeEnum{
@@ -92,6 +93,7 @@ var mappingDataFormatTypeEnum = map[string]DataFormatTypeEnum{
 	"CSV":     DataFormatTypeCsv,
 	"PARQUET": DataFormatTypeParquet,
 	"AVRO":    DataFormatTypeAvro,
+	"DMP":     DataFormatTypeDmp,
 }
 
 var mappingDataFormatTypeEnumLowerCase = map[string]DataFormatTypeEnum{
@@ -99,6 +101,7 @@ var mappingDataFormatTypeEnumLowerCase = map[string]DataFormatTypeEnum{
 	"csv":     DataFormatTypeCsv,
 	"parquet": DataFormatTypeParquet,
 	"avro":    DataFormatTypeAvro,
+	"dmp":     DataFormatTypeDmp,
 }
 
 // GetDataFormatTypeEnumValues Enumerates the set of values for DataFormatTypeEnum
@@ -117,6 +120,7 @@ func GetDataFormatTypeEnumStringValues() []string {
 		"CSV",
 		"PARQUET",
 		"AVRO",
+		"DMP",
 	}
 }
 

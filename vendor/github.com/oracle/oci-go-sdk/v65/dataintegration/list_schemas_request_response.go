@@ -49,6 +49,9 @@ type ListSchemasRequest struct {
 	// Used to filter by the name of the object.
 	NameList []string `contributesTo:"query" name:"nameList" collectionFormat:"multi"`
 
+	// Artifact type which needs to be listed while listing Artifacts.
+	IncludeTypes []string `contributesTo:"query" name:"includeTypes" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

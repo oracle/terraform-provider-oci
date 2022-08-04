@@ -68,6 +68,18 @@ type AutonomousDatabaseBackup struct {
 
 	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
+
+	// Retention period, in days, for long-term backups
+	RetentionPeriodInDays *int `mandatory:"false" json:"retentionPeriodInDays"`
+
+	// Timestamp until when the backup will be available
+	TimeAvailableTill *common.SDKTime `mandatory:"false" json:"timeAvailableTill"`
+
+	// A valid Oracle Database version for Autonomous Database.
+	DbVersion *string `mandatory:"false" json:"dbVersion"`
+
+	// The backup size in terrabytes (TB).
+	SizeInTBs *int `mandatory:"false" json:"sizeInTBs"`
 }
 
 func (m AutonomousDatabaseBackup) String() string {
@@ -99,16 +111,19 @@ type AutonomousDatabaseBackupTypeEnum string
 const (
 	AutonomousDatabaseBackupTypeIncremental AutonomousDatabaseBackupTypeEnum = "INCREMENTAL"
 	AutonomousDatabaseBackupTypeFull        AutonomousDatabaseBackupTypeEnum = "FULL"
+	AutonomousDatabaseBackupTypeLongterm    AutonomousDatabaseBackupTypeEnum = "LONGTERM"
 )
 
 var mappingAutonomousDatabaseBackupTypeEnum = map[string]AutonomousDatabaseBackupTypeEnum{
 	"INCREMENTAL": AutonomousDatabaseBackupTypeIncremental,
 	"FULL":        AutonomousDatabaseBackupTypeFull,
+	"LONGTERM":    AutonomousDatabaseBackupTypeLongterm,
 }
 
 var mappingAutonomousDatabaseBackupTypeEnumLowerCase = map[string]AutonomousDatabaseBackupTypeEnum{
 	"incremental": AutonomousDatabaseBackupTypeIncremental,
 	"full":        AutonomousDatabaseBackupTypeFull,
+	"longterm":    AutonomousDatabaseBackupTypeLongterm,
 }
 
 // GetAutonomousDatabaseBackupTypeEnumValues Enumerates the set of values for AutonomousDatabaseBackupTypeEnum
@@ -125,6 +140,7 @@ func GetAutonomousDatabaseBackupTypeEnumStringValues() []string {
 	return []string{
 		"INCREMENTAL",
 		"FULL",
+		"LONGTERM",
 	}
 }
 

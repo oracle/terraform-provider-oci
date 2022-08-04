@@ -131,33 +131,42 @@ type StructuredTypeModelTypeEnum string
 
 // Set of constants representing the allowable values for StructuredTypeModelTypeEnum
 const (
-	StructuredTypeModelTypeDynamicType    StructuredTypeModelTypeEnum = "DYNAMIC_TYPE"
-	StructuredTypeModelTypeStructuredType StructuredTypeModelTypeEnum = "STRUCTURED_TYPE"
-	StructuredTypeModelTypeDataType       StructuredTypeModelTypeEnum = "DATA_TYPE"
-	StructuredTypeModelTypeJavaType       StructuredTypeModelTypeEnum = "JAVA_TYPE"
-	StructuredTypeModelTypeConfiguredType StructuredTypeModelTypeEnum = "CONFIGURED_TYPE"
-	StructuredTypeModelTypeCompositeType  StructuredTypeModelTypeEnum = "COMPOSITE_TYPE"
-	StructuredTypeModelTypeDerivedType    StructuredTypeModelTypeEnum = "DERIVED_TYPE"
+	StructuredTypeModelTypeDynamicType               StructuredTypeModelTypeEnum = "DYNAMIC_TYPE"
+	StructuredTypeModelTypeStructuredType            StructuredTypeModelTypeEnum = "STRUCTURED_TYPE"
+	StructuredTypeModelTypeDataType                  StructuredTypeModelTypeEnum = "DATA_TYPE"
+	StructuredTypeModelTypeJavaType                  StructuredTypeModelTypeEnum = "JAVA_TYPE"
+	StructuredTypeModelTypeConfiguredType            StructuredTypeModelTypeEnum = "CONFIGURED_TYPE"
+	StructuredTypeModelTypeCompositeType             StructuredTypeModelTypeEnum = "COMPOSITE_TYPE"
+	StructuredTypeModelTypeDerivedType               StructuredTypeModelTypeEnum = "DERIVED_TYPE"
+	StructuredTypeModelTypeArrayType                 StructuredTypeModelTypeEnum = "ARRAY_TYPE"
+	StructuredTypeModelTypeMapType                   StructuredTypeModelTypeEnum = "MAP_TYPE"
+	StructuredTypeModelTypeMaterializedCompositeType StructuredTypeModelTypeEnum = "MATERIALIZED_COMPOSITE_TYPE"
 )
 
 var mappingStructuredTypeModelTypeEnum = map[string]StructuredTypeModelTypeEnum{
-	"DYNAMIC_TYPE":    StructuredTypeModelTypeDynamicType,
-	"STRUCTURED_TYPE": StructuredTypeModelTypeStructuredType,
-	"DATA_TYPE":       StructuredTypeModelTypeDataType,
-	"JAVA_TYPE":       StructuredTypeModelTypeJavaType,
-	"CONFIGURED_TYPE": StructuredTypeModelTypeConfiguredType,
-	"COMPOSITE_TYPE":  StructuredTypeModelTypeCompositeType,
-	"DERIVED_TYPE":    StructuredTypeModelTypeDerivedType,
+	"DYNAMIC_TYPE":                StructuredTypeModelTypeDynamicType,
+	"STRUCTURED_TYPE":             StructuredTypeModelTypeStructuredType,
+	"DATA_TYPE":                   StructuredTypeModelTypeDataType,
+	"JAVA_TYPE":                   StructuredTypeModelTypeJavaType,
+	"CONFIGURED_TYPE":             StructuredTypeModelTypeConfiguredType,
+	"COMPOSITE_TYPE":              StructuredTypeModelTypeCompositeType,
+	"DERIVED_TYPE":                StructuredTypeModelTypeDerivedType,
+	"ARRAY_TYPE":                  StructuredTypeModelTypeArrayType,
+	"MAP_TYPE":                    StructuredTypeModelTypeMapType,
+	"MATERIALIZED_COMPOSITE_TYPE": StructuredTypeModelTypeMaterializedCompositeType,
 }
 
 var mappingStructuredTypeModelTypeEnumLowerCase = map[string]StructuredTypeModelTypeEnum{
-	"dynamic_type":    StructuredTypeModelTypeDynamicType,
-	"structured_type": StructuredTypeModelTypeStructuredType,
-	"data_type":       StructuredTypeModelTypeDataType,
-	"java_type":       StructuredTypeModelTypeJavaType,
-	"configured_type": StructuredTypeModelTypeConfiguredType,
-	"composite_type":  StructuredTypeModelTypeCompositeType,
-	"derived_type":    StructuredTypeModelTypeDerivedType,
+	"dynamic_type":                StructuredTypeModelTypeDynamicType,
+	"structured_type":             StructuredTypeModelTypeStructuredType,
+	"data_type":                   StructuredTypeModelTypeDataType,
+	"java_type":                   StructuredTypeModelTypeJavaType,
+	"configured_type":             StructuredTypeModelTypeConfiguredType,
+	"composite_type":              StructuredTypeModelTypeCompositeType,
+	"derived_type":                StructuredTypeModelTypeDerivedType,
+	"array_type":                  StructuredTypeModelTypeArrayType,
+	"map_type":                    StructuredTypeModelTypeMapType,
+	"materialized_composite_type": StructuredTypeModelTypeMaterializedCompositeType,
 }
 
 // GetStructuredTypeModelTypeEnumValues Enumerates the set of values for StructuredTypeModelTypeEnum
@@ -179,6 +188,9 @@ func GetStructuredTypeModelTypeEnumStringValues() []string {
 		"CONFIGURED_TYPE",
 		"COMPOSITE_TYPE",
 		"DERIVED_TYPE",
+		"ARRAY_TYPE",
+		"MAP_TYPE",
+		"MATERIALIZED_COMPOSITE_TYPE",
 	}
 }
 

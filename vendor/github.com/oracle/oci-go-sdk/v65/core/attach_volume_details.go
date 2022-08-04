@@ -43,6 +43,13 @@ type AttachVolumeDetails interface {
 	// be attached in shareable mode. Defaults to false if not specified.
 	GetIsShareable() *bool
 
+	// When launching from a Compute Image, it is possible for more than one volume to be defined in the Image definition.
+	// If the relative index of one of these volumes is provided in this field, then the provided createVolumeDetails
+	// descriptor will be utilized to modify the default creation/attachment parameters for this volume rather than the
+	// defaults.
+	// If this field is provided, then CreateVolumeDetails must be specified.
+	GetImageVolumeIndex() *int
+
 	// The OCID of the volume. If CreateVolumeDetails is specified, this field must be omitted from the request.
 	GetVolumeId() *string
 
@@ -56,6 +63,7 @@ type attachvolumedetails struct {
 	InstanceId          *string              `mandatory:"false" json:"instanceId"`
 	IsReadOnly          *bool                `mandatory:"false" json:"isReadOnly"`
 	IsShareable         *bool                `mandatory:"false" json:"isShareable"`
+	ImageVolumeIndex    *int                 `mandatory:"false" json:"imageVolumeIndex"`
 	VolumeId            *string              `mandatory:"false" json:"volumeId"`
 	CreateVolumeDetails *CreateVolumeDetails `mandatory:"false" json:"createVolumeDetails"`
 	Type                string               `json:"type"`
@@ -77,6 +85,7 @@ func (m *attachvolumedetails) UnmarshalJSON(data []byte) error {
 	m.InstanceId = s.Model.InstanceId
 	m.IsReadOnly = s.Model.IsReadOnly
 	m.IsShareable = s.Model.IsShareable
+	m.ImageVolumeIndex = s.Model.ImageVolumeIndex
 	m.VolumeId = s.Model.VolumeId
 	m.CreateVolumeDetails = s.Model.CreateVolumeDetails
 	m.Type = s.Model.Type
@@ -137,6 +146,11 @@ func (m attachvolumedetails) GetIsReadOnly() *bool {
 //GetIsShareable returns IsShareable
 func (m attachvolumedetails) GetIsShareable() *bool {
 	return m.IsShareable
+}
+
+//GetImageVolumeIndex returns ImageVolumeIndex
+func (m attachvolumedetails) GetImageVolumeIndex() *int {
+	return m.ImageVolumeIndex
 }
 
 //GetVolumeId returns VolumeId

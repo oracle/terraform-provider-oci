@@ -27,6 +27,16 @@ type PatchAlertsRequest struct {
 	// provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
+	// Default is false.
+	// When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
+	// Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED.
+	// Setting this to ACCESSIBLE returns only those compartments for which the
+	// user has INSPECT permissions directly or indirectly (permissions can be on a
+	// resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.
+	AccessLevel PatchAlertsAccessLevelEnum `mandatory:"false" contributesTo:"query" name:"accessLevel" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -63,6 +73,9 @@ func (request PatchAlertsRequest) RetryPolicy() common.OCIRetry {
 // Not recommended for calling this function directly
 func (request PatchAlertsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingPatchAlertsAccessLevelEnum(string(request.AccessLevel)); !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetPatchAlertsAccessLevelEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -89,4 +102,46 @@ func (response PatchAlertsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response PatchAlertsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// PatchAlertsAccessLevelEnum Enum with underlying type: string
+type PatchAlertsAccessLevelEnum string
+
+// Set of constants representing the allowable values for PatchAlertsAccessLevelEnum
+const (
+	PatchAlertsAccessLevelRestricted PatchAlertsAccessLevelEnum = "RESTRICTED"
+	PatchAlertsAccessLevelAccessible PatchAlertsAccessLevelEnum = "ACCESSIBLE"
+)
+
+var mappingPatchAlertsAccessLevelEnum = map[string]PatchAlertsAccessLevelEnum{
+	"RESTRICTED": PatchAlertsAccessLevelRestricted,
+	"ACCESSIBLE": PatchAlertsAccessLevelAccessible,
+}
+
+var mappingPatchAlertsAccessLevelEnumLowerCase = map[string]PatchAlertsAccessLevelEnum{
+	"restricted": PatchAlertsAccessLevelRestricted,
+	"accessible": PatchAlertsAccessLevelAccessible,
+}
+
+// GetPatchAlertsAccessLevelEnumValues Enumerates the set of values for PatchAlertsAccessLevelEnum
+func GetPatchAlertsAccessLevelEnumValues() []PatchAlertsAccessLevelEnum {
+	values := make([]PatchAlertsAccessLevelEnum, 0)
+	for _, v := range mappingPatchAlertsAccessLevelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetPatchAlertsAccessLevelEnumStringValues Enumerates the set of values in String for PatchAlertsAccessLevelEnum
+func GetPatchAlertsAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
+}
+
+// GetMappingPatchAlertsAccessLevelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingPatchAlertsAccessLevelEnum(val string) (PatchAlertsAccessLevelEnum, bool) {
+	enum, ok := mappingPatchAlertsAccessLevelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

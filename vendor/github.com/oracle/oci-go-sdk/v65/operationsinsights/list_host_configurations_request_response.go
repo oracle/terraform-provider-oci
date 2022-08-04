@@ -27,8 +27,9 @@ type ListHostConfigurationsRequest struct {
 	ExadataInsightId []string `contributesTo:"query" name:"exadataInsightId" collectionFormat:"multi"`
 
 	// Filter by one or more platform types.
-	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
+	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX, WINDOWS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS].
 	PlatformType []ListHostConfigurationsPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// For list pagination. The maximum number of results per page, or items to
@@ -182,6 +183,7 @@ const (
 	ListHostConfigurationsPlatformTypeSolaris ListHostConfigurationsPlatformTypeEnum = "SOLARIS"
 	ListHostConfigurationsPlatformTypeSunos   ListHostConfigurationsPlatformTypeEnum = "SUNOS"
 	ListHostConfigurationsPlatformTypeZlinux  ListHostConfigurationsPlatformTypeEnum = "ZLINUX"
+	ListHostConfigurationsPlatformTypeWindows ListHostConfigurationsPlatformTypeEnum = "WINDOWS"
 )
 
 var mappingListHostConfigurationsPlatformTypeEnum = map[string]ListHostConfigurationsPlatformTypeEnum{
@@ -189,6 +191,7 @@ var mappingListHostConfigurationsPlatformTypeEnum = map[string]ListHostConfigura
 	"SOLARIS": ListHostConfigurationsPlatformTypeSolaris,
 	"SUNOS":   ListHostConfigurationsPlatformTypeSunos,
 	"ZLINUX":  ListHostConfigurationsPlatformTypeZlinux,
+	"WINDOWS": ListHostConfigurationsPlatformTypeWindows,
 }
 
 var mappingListHostConfigurationsPlatformTypeEnumLowerCase = map[string]ListHostConfigurationsPlatformTypeEnum{
@@ -196,6 +199,7 @@ var mappingListHostConfigurationsPlatformTypeEnumLowerCase = map[string]ListHost
 	"solaris": ListHostConfigurationsPlatformTypeSolaris,
 	"sunos":   ListHostConfigurationsPlatformTypeSunos,
 	"zlinux":  ListHostConfigurationsPlatformTypeZlinux,
+	"windows": ListHostConfigurationsPlatformTypeWindows,
 }
 
 // GetListHostConfigurationsPlatformTypeEnumValues Enumerates the set of values for ListHostConfigurationsPlatformTypeEnum
@@ -214,6 +218,7 @@ func GetListHostConfigurationsPlatformTypeEnumStringValues() []string {
 		"SOLARIS",
 		"SUNOS",
 		"ZLINUX",
+		"WINDOWS",
 	}
 }
 

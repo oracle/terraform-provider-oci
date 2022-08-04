@@ -34,8 +34,9 @@ type CloudImportableComputeEntitySummary struct {
 	HostName *string `mandatory:"true" json:"hostName"`
 
 	// Platform type.
-	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
+	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX, WINDOWS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS].
 	PlatformType CloudImportableComputeEntitySummaryPlatformTypeEnum `mandatory:"true" json:"platformType"`
 }
 
@@ -96,6 +97,7 @@ const (
 	CloudImportableComputeEntitySummaryPlatformTypeSolaris CloudImportableComputeEntitySummaryPlatformTypeEnum = "SOLARIS"
 	CloudImportableComputeEntitySummaryPlatformTypeSunos   CloudImportableComputeEntitySummaryPlatformTypeEnum = "SUNOS"
 	CloudImportableComputeEntitySummaryPlatformTypeZlinux  CloudImportableComputeEntitySummaryPlatformTypeEnum = "ZLINUX"
+	CloudImportableComputeEntitySummaryPlatformTypeWindows CloudImportableComputeEntitySummaryPlatformTypeEnum = "WINDOWS"
 )
 
 var mappingCloudImportableComputeEntitySummaryPlatformTypeEnum = map[string]CloudImportableComputeEntitySummaryPlatformTypeEnum{
@@ -103,6 +105,7 @@ var mappingCloudImportableComputeEntitySummaryPlatformTypeEnum = map[string]Clou
 	"SOLARIS": CloudImportableComputeEntitySummaryPlatformTypeSolaris,
 	"SUNOS":   CloudImportableComputeEntitySummaryPlatformTypeSunos,
 	"ZLINUX":  CloudImportableComputeEntitySummaryPlatformTypeZlinux,
+	"WINDOWS": CloudImportableComputeEntitySummaryPlatformTypeWindows,
 }
 
 var mappingCloudImportableComputeEntitySummaryPlatformTypeEnumLowerCase = map[string]CloudImportableComputeEntitySummaryPlatformTypeEnum{
@@ -110,6 +113,7 @@ var mappingCloudImportableComputeEntitySummaryPlatformTypeEnumLowerCase = map[st
 	"solaris": CloudImportableComputeEntitySummaryPlatformTypeSolaris,
 	"sunos":   CloudImportableComputeEntitySummaryPlatformTypeSunos,
 	"zlinux":  CloudImportableComputeEntitySummaryPlatformTypeZlinux,
+	"windows": CloudImportableComputeEntitySummaryPlatformTypeWindows,
 }
 
 // GetCloudImportableComputeEntitySummaryPlatformTypeEnumValues Enumerates the set of values for CloudImportableComputeEntitySummaryPlatformTypeEnum
@@ -128,6 +132,7 @@ func GetCloudImportableComputeEntitySummaryPlatformTypeEnumStringValues() []stri
 		"SOLARIS",
 		"SUNOS",
 		"ZLINUX",
+		"WINDOWS",
 	}
 }
 

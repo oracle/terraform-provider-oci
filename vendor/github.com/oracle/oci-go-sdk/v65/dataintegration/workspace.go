@@ -75,6 +75,15 @@ type Workspace struct {
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in failed state.
 	StateMessage *string `mandatory:"false" json:"stateMessage"`
+
+	// OCID of the private endpoint associated with the container/workspace.
+	EndpointId *string `mandatory:"false" json:"endpointId"`
+
+	// Name of the private endpoint associated with the container/workspace.
+	EndpointName *string `mandatory:"false" json:"endpointName"`
+
+	// DCMS Registry ID associated with the container/workspace.
+	RegistryId *string `mandatory:"false" json:"registryId"`
 }
 
 func (m Workspace) String() string {

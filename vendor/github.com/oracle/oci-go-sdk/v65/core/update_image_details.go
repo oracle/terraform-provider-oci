@@ -43,6 +43,8 @@ type UpdateImageDetails struct {
 	// Operating system version
 	// Example: `7.4`
 	OperatingSystemVersion *string `mandatory:"false" json:"operatingSystemVersion"`
+
+	ImageVolumeDetails *UpdateImageVolumeDetails `mandatory:"false" json:"imageVolumeDetails"`
 }
 
 func (m UpdateImageDetails) String() string {
