@@ -2,11 +2,10 @@ package commonexport
 
 import (
 	"fmt"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 	"strings"
 	"sync"
 	"time"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"

@@ -1,7 +1,7 @@
 package opsi
 
 import (
-	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
+	oci_opsi "github.com/oracle/oci-go-sdk/v65/operationsinsights"
 
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 )
