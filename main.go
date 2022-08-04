@@ -9,25 +9,13 @@ import (
 	"os"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	"github.com/fatih/color"
-
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
-
-	"github.com/oracle/terraform-provider-oci/internal/globalvar"
-
-	//	"strings"
-
-	//"github.com/oracle/terraform-provider-oci/oci/resourcediscovery"
-
-	//	"github.com/oracle/terraform-provider-oci/oci/tfresource"
-
-	//	"github.com/fatih/color"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
-
+	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
+	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 	"github.com/oracle/terraform-provider-oci/internal/provider"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 )
 
 func main() {
@@ -68,11 +56,11 @@ func main() {
 		switch *command {
 		case "export":
 
-			var terraformVersion resourcediscovery.TfHclVersion
-			if resourcediscovery.TfVersionEnum(*tfVersion) == resourcediscovery.TfVersion11 {
-				terraformVersion = &resourcediscovery.TfHclVersion11{Value: resourcediscovery.TfVersionEnum(*tfVersion)}
-			} else if *tfVersion == "" || resourcediscovery.TfVersionEnum(*tfVersion) == resourcediscovery.TfVersion12 {
-				terraformVersion = &resourcediscovery.TfHclVersion12{Value: resourcediscovery.TfVersionEnum(*tfVersion)}
+			var terraformVersion tf_export.TfHclVersion
+			if tf_export.TfVersionEnum(*tfVersion) == tf_export.TfVersion11 {
+				terraformVersion = &tf_export.TfHclVersion11{Value: tf_export.TfVersionEnum(*tfVersion)}
+			} else if *tfVersion == "" || tf_export.TfVersionEnum(*tfVersion) == tf_export.TfVersion12 {
+				terraformVersion = &tf_export.TfHclVersion12{Value: tf_export.TfVersionEnum(*tfVersion)}
 			} else {
 				color.Red("[ERROR]: Invalid tf_version '%s', supported values: 0.11, 0.12\n", *tfVersion)
 				os.Exit(1)
@@ -83,7 +71,7 @@ func main() {
 				os.Exit(1)
 			}
 
-			args := &resourcediscovery.ExportCommandArgs{
+			args := &tf_export.ExportCommandArgs{
 				CompartmentId:                compartmentId,
 				CompartmentName:              compartmentName,
 				OutputDir:                    outputPath,
