@@ -110,12 +110,9 @@ func (s *OpsiHostInsightsDataSourceCrud) Get() error {
 
 	if hostType, ok := s.D.GetOkExists("host_type"); ok {
 		interfaces := hostType.([]interface{})
-		tmp := make([]oci_opsi.ListHostInsightsHostTypeEnum, len(interfaces))
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
-				hostType := interfaces[i].(string)
-				tmp[i] = oci_opsi.ListHostInsightsHostTypeEnum(hostType)
 				tmp[i] = interfaces[i].(string)
 			}
 		}
