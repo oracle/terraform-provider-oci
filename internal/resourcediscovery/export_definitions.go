@@ -3034,6 +3034,18 @@ var exportOnsSubscriptionHints = &TerraformResourceHints{
 	},
 }
 
+var exportOpensearchOpensearchClusterHints = &TerraformResourceHints{
+	resourceClass:          "oci_opensearch_opensearch_cluster",
+	datasourceClass:        "oci_opensearch_opensearch_clusters",
+	datasourceItemsAttr:    "opensearch_cluster_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "opensearch_cluster",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opensearch.OpensearchClusterLifecycleStateActive),
+	},
+}
+
 var exportOperatorAccessControlOperatorControlHints = &TerraformResourceHints{
 	resourceClass:          "oci_operator_access_control_operator_control",
 	datasourceClass:        "oci_operator_access_control_operator_controls",

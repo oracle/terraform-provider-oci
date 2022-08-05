@@ -545,6 +545,8 @@ func init() {
 	// ons service
 	RegisterResource("oci_ons_notification_topic", tf_ons.OnsNotificationTopicResource())
 	RegisterResource("oci_ons_subscription", tf_ons.OnsSubscriptionResource())
+	// opensearch service
+	RegisterResource("oci_opensearch_opensearch_cluster", tf_opensearch.OpensearchOpensearchClusterResource())
 	// operator_access_control service
 	RegisterResource("oci_operator_access_control_operator_control", tf_operator_access_control.OperatorAccessControlOperatorControlResource())
 	RegisterResource("oci_operator_access_control_operator_control_assignment", tf_operator_access_control.OperatorAccessControlOperatorControlAssignmentResource())
