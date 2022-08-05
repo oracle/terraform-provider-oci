@@ -22,6 +22,8 @@ type ScriptedBrowserMonitorConfiguration struct {
 	// If isFailureRetried is enabled, then a failed call will be retried.
 	IsFailureRetried *bool `mandatory:"false" json:"isFailureRetried"`
 
+	DnsConfiguration *DnsConfiguration `mandatory:"false" json:"dnsConfiguration"`
+
 	// If certificate validation is enabled, then the call will fail in case of certification errors.
 	IsCertificateValidationEnabled *bool `mandatory:"false" json:"isCertificateValidationEnabled"`
 
@@ -31,6 +33,11 @@ type ScriptedBrowserMonitorConfiguration struct {
 //GetIsFailureRetried returns IsFailureRetried
 func (m ScriptedBrowserMonitorConfiguration) GetIsFailureRetried() *bool {
 	return m.IsFailureRetried
+}
+
+//GetDnsConfiguration returns DnsConfiguration
+func (m ScriptedBrowserMonitorConfiguration) GetDnsConfiguration() *DnsConfiguration {
+	return m.DnsConfiguration
 }
 
 func (m ScriptedBrowserMonitorConfiguration) String() string {

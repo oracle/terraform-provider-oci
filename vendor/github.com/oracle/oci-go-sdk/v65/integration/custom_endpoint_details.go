@@ -26,6 +26,9 @@ type CustomEndpointDetails struct {
 
 	// The secret version used for the certificate-secret-id (if certificate-secret-id is specified).
 	CertificateSecretVersion *int `mandatory:"false" json:"certificateSecretVersion"`
+
+	// When creating the DNS CNAME record for the custom hostname, this value must be specified in the rdata.
+	Alias *string `mandatory:"false" json:"alias"`
 }
 
 func (m CustomEndpointDetails) String() string {

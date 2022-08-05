@@ -685,6 +685,11 @@ func (client LoadBalancerClient) CreateRuleSet(ctx context.Context, request Crea
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createRuleSet, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -3169,6 +3174,11 @@ func (client LoadBalancerClient) UpdateHostname(ctx context.Context, request Upd
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.updateHostname, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -3611,6 +3621,11 @@ func (client LoadBalancerClient) UpdateRuleSet(ctx context.Context, request Upda
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.updateRuleSet, policy)
 	if err != nil {
 		if ociResponse != nil {

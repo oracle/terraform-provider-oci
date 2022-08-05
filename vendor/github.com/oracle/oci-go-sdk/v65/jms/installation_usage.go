@@ -37,6 +37,9 @@ type InstallationUsage struct {
 	// The architecture of the operating system for the installation. Deprecated, use `operatingSystem` instead.
 	Architecture *string `mandatory:"true" json:"architecture"`
 
+	// The unique identifier for the installation of a Java Runtime at a specific path on a specific operating system.
+	InstallationKey *string `mandatory:"false" json:"installationKey"`
+
 	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
 
 	// The approximate count of applications running on this installation

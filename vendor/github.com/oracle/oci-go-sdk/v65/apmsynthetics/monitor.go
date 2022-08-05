@@ -56,6 +56,15 @@ type Monitor struct {
 	// Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.
 	TimeoutInSeconds *int `mandatory:"true" json:"timeoutInSeconds"`
 
+	// If isRunNow is enabled, then the monitor will run now.
+	IsRunNow *bool `mandatory:"true" json:"isRunNow"`
+
+	// Scheduling policy on Vantage points.
+	SchedulingPolicy SchedulingPolicyEnum `mandatory:"true" json:"schedulingPolicy"`
+
+	// Time interval between 2 runs in round robin batch mode (*SchedulingPolicy - BATCHED_ROUND_ROBIN).
+	BatchIntervalInSeconds *int `mandatory:"true" json:"batchIntervalInSeconds"`
+
 	// Specify the endpoint on which to run the monitor.
 	// For BROWSER and REST monitor types, target is mandatory.
 	// If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint.
@@ -101,6 +110,9 @@ func (m Monitor) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingMonitorStatusEnum(string(m.Status)); !ok && m.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetMonitorStatusEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingSchedulingPolicyEnum(string(m.SchedulingPolicy)); !ok && m.SchedulingPolicy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SchedulingPolicy: %s. Supported values are: %s.", m.SchedulingPolicy, strings.Join(GetSchedulingPolicyEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -129,6 +141,9 @@ func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 		RepeatIntervalInSeconds *int                              `json:"repeatIntervalInSeconds"`
 		IsRunOnce               *bool                             `json:"isRunOnce"`
 		TimeoutInSeconds        *int                              `json:"timeoutInSeconds"`
+		IsRunNow                *bool                             `json:"isRunNow"`
+		SchedulingPolicy        SchedulingPolicyEnum              `json:"schedulingPolicy"`
+		BatchIntervalInSeconds  *int                              `json:"batchIntervalInSeconds"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -185,6 +200,12 @@ func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 	m.IsRunOnce = model.IsRunOnce
 
 	m.TimeoutInSeconds = model.TimeoutInSeconds
+
+	m.IsRunNow = model.IsRunNow
+
+	m.SchedulingPolicy = model.SchedulingPolicy
+
+	m.BatchIntervalInSeconds = model.BatchIntervalInSeconds
 
 	return
 }

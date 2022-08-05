@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// DvpStackDetails Details of DVP Stack.
+// DvpStackDetails Details of a Dedicated Vantage Point (DVP) stack in Resource Manager.
 type DvpStackDetails interface {
 
-	// Version of DVP.
+	// Version of the dedicated vantage point.
 	GetDvpVersion() *string
 }
 
