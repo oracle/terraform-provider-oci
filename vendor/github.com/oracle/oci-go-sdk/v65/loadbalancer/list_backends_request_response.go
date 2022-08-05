@@ -29,6 +29,15 @@ type ListBackendsRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the if-match
+	// parameter to the value of the ETag for the load balancer. This value can be obtained from a GET
+	// or POST response for any resource of that load balancer.
+	// For example, the eTag returned by getListener can be specified as the ifMatch for updateRuleSets.
+	// The resource is updated or deleted only if the ETag you provide matches the resource's current
+	// ETag value.
+	// Example: `example-etag`
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -80,9 +89,15 @@ type ListBackendsResponse struct {
 	// The []Backend instance
 	Items []Backend `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// Reflects the current version of the load balancer and the resources it contains.
+	// The value only changes when the load balancer or an associated resource is created,
+	// updated, or delete
+	// For optimistic concurrency control. See `if-match`.
+	ETag *string `presentIn:"header" name:"etag"`
 }
 
 func (response ListBackendsResponse) String() string {

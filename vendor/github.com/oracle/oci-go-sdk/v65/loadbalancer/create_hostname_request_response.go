@@ -28,6 +28,15 @@ type CreateHostnameRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the if-match
+	// parameter to the value of the ETag for the load balancer. This value can be obtained from a GET
+	// or POST response for any resource of that load balancer.
+	// For example, the eTag returned by getListener can be specified as the ifMatch for updateRuleSets.
+	// The resource is updated or deleted only if the ETag you provide matches the resource's current
+	// ETag value.
+	// Example: `example-etag`
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
+
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
 	// hours, but can be invalidated before then due to conflicting operations (e.g., if a resource
@@ -86,8 +95,8 @@ type CreateHostnameResponse struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 

@@ -97,6 +97,9 @@ type SddcSummary struct {
 
 	// The initial OCPU count of the SDDC's ESXi hosts.
 	InitialHostOcpuCount *float32 `mandatory:"false" json:"initialHostOcpuCount"`
+
+	// Indicates whether this SDDC is designated for only single ESXi host.
+	IsSingleHostSddc *bool `mandatory:"false" json:"isSingleHostSddc"`
 }
 
 func (m SddcSummary) String() string {

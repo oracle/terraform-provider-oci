@@ -24,6 +24,7 @@ const (
 	OperationTypeUpdateFleet                   OperationTypeEnum = "UPDATE_FLEET"
 	OperationTypeUpdateFleetAgentConfiguration OperationTypeEnum = "UPDATE_FLEET_AGENT_CONFIGURATION"
 	OperationTypeDeleteJavaInstallation        OperationTypeEnum = "DELETE_JAVA_INSTALLATION"
+	OperationTypeCreateJavaInstallation        OperationTypeEnum = "CREATE_JAVA_INSTALLATION"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -33,6 +34,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_FLEET":                     OperationTypeUpdateFleet,
 	"UPDATE_FLEET_AGENT_CONFIGURATION": OperationTypeUpdateFleetAgentConfiguration,
 	"DELETE_JAVA_INSTALLATION":         OperationTypeDeleteJavaInstallation,
+	"CREATE_JAVA_INSTALLATION":         OperationTypeCreateJavaInstallation,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -42,6 +44,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_fleet":                     OperationTypeUpdateFleet,
 	"update_fleet_agent_configuration": OperationTypeUpdateFleetAgentConfiguration,
 	"delete_java_installation":         OperationTypeDeleteJavaInstallation,
+	"create_java_installation":         OperationTypeCreateJavaInstallation,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -62,6 +65,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_FLEET",
 		"UPDATE_FLEET_AGENT_CONFIGURATION",
 		"DELETE_JAVA_INSTALLATION",
+		"CREATE_JAVA_INSTALLATION",
 	}
 }
 
