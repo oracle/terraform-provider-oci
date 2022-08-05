@@ -30,10 +30,10 @@ type JreUsage struct {
 	// The internal identifier of the Java Runtime.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related fleet.  This property value is present only for /actions/listJreUsage.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related fleet.
 	FleetId *string `mandatory:"false" json:"fleetId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related managed instance. This property value is present only for /actions/listJreUsage.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related managed instance. This property value is present only for /listJreUsage.
 	ManagedInstanceId *string `mandatory:"false" json:"managedInstanceId"`
 
 	// The security status of the Java Runtime.
@@ -44,6 +44,9 @@ type JreUsage struct {
 
 	// The End of Support Life (EOSL) date of the Java Runtime (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	EndOfSupportLifeDate *common.SDKTime `mandatory:"false" json:"endOfSupportLifeDate"`
+
+	// The number of days since this release has been under the security baseline.
+	DaysUnderSecurityBaseline *int `mandatory:"false" json:"daysUnderSecurityBaseline"`
 
 	// The operating systems that have this Java Runtime installed.
 	OperatingSystems []OperatingSystem `mandatory:"false" json:"operatingSystems"`

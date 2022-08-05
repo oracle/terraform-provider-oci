@@ -3908,6 +3908,70 @@ func (client OperationsInsightsClient) listImportableAgentEntities(ctx context.C
 	return response, err
 }
 
+// ListImportableComputeEntities Gets a list of available compute intances running cloud agent to add a new hostInsight.  An Compute entity is "available"
+// and will be shown if all the following conditions are true:
+//    1. Compute is running OCA
+//    2. OCI Management Agent is not enabled or If OCI Management Agent is enabled
+//       2.1 The agent OCID is not already being used for an existing hostInsight.
+//       2.2 The agent availabilityStatus = 'ACTIVE'
+//       2.3 The agent lifecycleState = 'ACTIVE'
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListImportableComputeEntities.go.html to see an example of how to use ListImportableComputeEntities API.
+// A default retry strategy applies to this operation ListImportableComputeEntities()
+func (client OperationsInsightsClient) ListImportableComputeEntities(ctx context.Context, request ListImportableComputeEntitiesRequest) (response ListImportableComputeEntitiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listImportableComputeEntities, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListImportableComputeEntitiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListImportableComputeEntitiesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListImportableComputeEntitiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListImportableComputeEntitiesResponse")
+	}
+	return
+}
+
+// listImportableComputeEntities implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listImportableComputeEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/importableComputeEntities", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListImportableComputeEntitiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/ListImportableComputeEntities"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListImportableComputeEntities", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListImportableEnterpriseManagerEntities Gets a list of importable entities for an Operations Insights Enterprise Manager bridge that have not been imported before.
 //
 // See also

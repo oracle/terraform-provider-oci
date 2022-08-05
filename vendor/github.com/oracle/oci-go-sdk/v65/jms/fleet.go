@@ -56,6 +56,9 @@ type Fleet struct {
 
 	OperationLog *CustomLog `mandatory:"false" json:"operationLog"`
 
+	// Whether or not advanced features are enabled in this fleet.  By default, this is set to false.
+	IsAdvancedFeaturesEnabled *bool `mandatory:"false" json:"isAdvancedFeaturesEnabled"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`. (See Understanding Free-form Tags (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm)).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
