@@ -1,3 +1,18 @@
+## 4.88.0 (Unreleased)
+
+### Added
+- Optimizer stats feature added
+- Support for Round Robin Alerting to monitors
+- ETags support for load balancer
+- Support for [Terraform] OCI ElasticSearch Service OCI ElasticSearch Service
+support for - ExaCC Historical MR
+- Support for OIC: Instance Migration with FAaaS
+- OCI Compute Support for OPSI service
+- Support for Java Management Service 5.0
+- Support for data science notebook session runtime configuration
+### Bug Fix
+supporting terraform version 0.12+ and ignoring systemTags for security zone and recipe
+
 ## 4.87.0 (Unreleased)
 
 ### Added
