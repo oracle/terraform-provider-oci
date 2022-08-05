@@ -817,8 +817,9 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Delete() error {
 	// 	oci_integration.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	// return delWorkRequestErr
 
-	integrationInstanceWaitForWorkRequest(workId, "integration",
-		oci_integration.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
+	if _, err := integrationInstanceWaitForWorkRequest(workId, "integration", oci_integration.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client); err != nil {
+		return err
+	}
 	return nil
 
 }
