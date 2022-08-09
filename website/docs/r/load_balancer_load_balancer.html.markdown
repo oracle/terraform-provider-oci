@@ -108,7 +108,7 @@ The following arguments are supported:
 * `shape_details` - (Optional) (Updatable) The configuration details to create load balancer using Flexible shape. This is required only if shapeName is `Flexible`. 
 	* `maximum_bandwidth_in_mbps` - (Required) (Updatable) Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can achieve. This bandwidth cannot be always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps parameter.
 
-		The values must be between minimumBandwidthInMbps and 8192 (8Gbps).
+		The values must be between minimumBandwidthInMbps and 8000 (8Gbps).
 
 		Example: `1500` 
 	* `minimum_bandwidth_in_mbps` - (Required) (Updatable) Bandwidth in Mbps that determines the total pre-provisioned bandwidth (ingress plus egress). The values must be between 10 and the maximumBandwidthInMbps.  Example: `150` 
@@ -211,7 +211,7 @@ The following attributes are exported:
 * `shape_details` - The configuration details to update load balancer to a different shape. 
 	* `maximum_bandwidth_in_mbps` - Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can achieve. This bandwidth cannot be always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps parameter.
 
-		The values must be between minimumBandwidthInMbps and 8192 (8Gbps).
+		The values must be between minimumBandwidthInMbps and 8000 (8Gbps).
 
 		Example: `1500` 
 	* `minimum_bandwidth_in_mbps` - Bandwidth in Mbps that determines the total pre-provisioned bandwidth (ingress plus egress). The values must be between 0 and the maximumBandwidthInMbps in multiples of 10. The current allowed maximum value is defined in [Service Limits](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm).  Example: `150` 

@@ -64,6 +64,18 @@ variable "monitor_repeat_interval_in_seconds" {
   default = 600
 }
 
+variable "monitor_is_run_once" {
+  default = false
+}
+
+variable "monitor_is_run_now" {
+  default = false
+}
+
+variable "monitor_scheduling_policy" {
+  default = "ALL"
+}
+
 variable "monitor_script_parameters_param_name" {
   default = "testName"
 }
@@ -112,6 +124,14 @@ variable "monitor_configuration_network_configuration_transmission_rate" {
   default = 10
 }
 
+variable "monitor_configuration_dns_configuration_is_override_dns" {
+  default = false
+}
+
+variable "monitor_configuration_dns_configuration_override_dns_ip" {
+  default = "12.1.21.1"
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -145,6 +165,12 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
       protocol                 = var.monitor_configuration_network_configuration_protocol
       transmission_rate        = var.monitor_configuration_network_configuration_transmission_rate
     }
+
+    #Optional
+    dns_configuration {
+      is_override_dns          = var.monitor_configuration_dns_configuration_is_override_dns
+      override_dns_ip          = var.monitor_configuration_dns_configuration_override_dns_ip
+    }
   }
   freeform_tags = var.monitor_freeform_tags
   script_id     = oci_apm_synthetics_script.test_script.id
@@ -156,6 +182,9 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
   status             = var.monitor_status
   target             = var.monitor_target
   timeout_in_seconds = var.monitor_timeout_in_seconds
+  is_run_once        = var.monitor_is_run_once
+  is_run_now         = var.monitor_is_run_now
+  scheduling_policy  = var.monitor_scheduling_policy
 }
 
 data "oci_apm_synthetics_monitors" "test_monitors" {

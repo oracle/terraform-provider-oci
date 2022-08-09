@@ -21,14 +21,17 @@ type ImportableAgentEntitySourceEnum string
 // Set of constants representing the allowable values for ImportableAgentEntitySourceEnum
 const (
 	ImportableAgentEntitySourceMacsManagedExternalHost ImportableAgentEntitySourceEnum = "MACS_MANAGED_EXTERNAL_HOST"
+	ImportableAgentEntitySourceMacsManagedCloudHost    ImportableAgentEntitySourceEnum = "MACS_MANAGED_CLOUD_HOST"
 )
 
 var mappingImportableAgentEntitySourceEnum = map[string]ImportableAgentEntitySourceEnum{
 	"MACS_MANAGED_EXTERNAL_HOST": ImportableAgentEntitySourceMacsManagedExternalHost,
+	"MACS_MANAGED_CLOUD_HOST":    ImportableAgentEntitySourceMacsManagedCloudHost,
 }
 
 var mappingImportableAgentEntitySourceEnumLowerCase = map[string]ImportableAgentEntitySourceEnum{
 	"macs_managed_external_host": ImportableAgentEntitySourceMacsManagedExternalHost,
+	"macs_managed_cloud_host":    ImportableAgentEntitySourceMacsManagedCloudHost,
 }
 
 // GetImportableAgentEntitySourceEnumValues Enumerates the set of values for ImportableAgentEntitySourceEnum
@@ -44,6 +47,7 @@ func GetImportableAgentEntitySourceEnumValues() []ImportableAgentEntitySourceEnu
 func GetImportableAgentEntitySourceEnumStringValues() []string {
 	return []string{
 		"MACS_MANAGED_EXTERNAL_HOST",
+		"MACS_MANAGED_CLOUD_HOST",
 	}
 }
 

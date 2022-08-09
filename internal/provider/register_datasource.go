@@ -72,6 +72,7 @@ import (
 	tf_oda "github.com/oracle/terraform-provider-oci/internal/service/oda"
 	tf_onesubscription "github.com/oracle/terraform-provider-oci/internal/service/onesubscription"
 	tf_ons "github.com/oracle/terraform-provider-oci/internal/service/ons"
+	tf_opensearch "github.com/oracle/terraform-provider-oci/internal/service/opensearch"
 	tf_operator_access_control "github.com/oracle/terraform-provider-oci/internal/service/operator_access_control"
 	tf_opsi "github.com/oracle/terraform-provider-oci/internal/service/opsi"
 	tf_optimizer "github.com/oracle/terraform-provider-oci/internal/service/optimizer"
@@ -580,6 +581,8 @@ func init() {
 	RegisterDatasource("oci_database_key_store", tf_database.DatabaseKeyStoreDataSource())
 	RegisterDatasource("oci_database_key_stores", tf_database.DatabaseKeyStoresDataSource())
 	RegisterDatasource("oci_database_maintenance_run", tf_database.DatabaseMaintenanceRunDataSource())
+	RegisterDatasource("oci_database_maintenance_run_histories", tf_database.DatabaseMaintenanceRunHistoriesDataSource())
+	RegisterDatasource("oci_database_maintenance_run_history", tf_database.DatabaseMaintenanceRunHistoryDataSource())
 	RegisterDatasource("oci_database_maintenance_runs", tf_database.DatabaseMaintenanceRunsDataSource())
 	RegisterDatasource("oci_database_pluggable_database", tf_database.DatabasePluggableDatabaseDataSource())
 	RegisterDatasource("oci_database_pluggable_databases", tf_database.DatabasePluggableDatabasesDataSource())
@@ -615,6 +618,12 @@ func init() {
 	RegisterDatasource("oci_database_management_managed_database_attention_log_counts", tf_database_management.DatabaseManagementManagedDatabaseAttentionLogCountsDataSource())
 	RegisterDatasource("oci_database_management_managed_database_group", tf_database_management.DatabaseManagementManagedDatabaseGroupDataSource())
 	RegisterDatasource("oci_database_management_managed_database_groups", tf_database_management.DatabaseManagementManagedDatabaseGroupsDataSource())
+	RegisterDatasource("oci_database_management_managed_database_optimizer_statistics_advisor_execution", tf_database_management.DatabaseManagementManagedDatabaseOptimizerStatisticsAdvisorExecutionDataSource())
+	RegisterDatasource("oci_database_management_managed_database_optimizer_statistics_advisor_execution_script", tf_database_management.DatabaseManagementManagedDatabaseOptimizerStatisticsAdvisorExecutionScriptDataSource())
+	RegisterDatasource("oci_database_management_managed_database_optimizer_statistics_advisor_executions", tf_database_management.DatabaseManagementManagedDatabaseOptimizerStatisticsAdvisorExecutionsDataSource())
+	RegisterDatasource("oci_database_management_managed_database_optimizer_statistics_collection_aggregations", tf_database_management.DatabaseManagementManagedDatabaseOptimizerStatisticsCollectionAggregationsDataSource())
+	RegisterDatasource("oci_database_management_managed_database_optimizer_statistics_collection_operation", tf_database_management.DatabaseManagementManagedDatabaseOptimizerStatisticsCollectionOperationDataSource())
+	RegisterDatasource("oci_database_management_managed_database_optimizer_statistics_collection_operations", tf_database_management.DatabaseManagementManagedDatabaseOptimizerStatisticsCollectionOperationsDataSource())
 	RegisterDatasource("oci_database_management_managed_database_sql_tuning_advisor_task", tf_database_management.DatabaseManagementManagedDatabaseSqlTuningAdvisorTaskDataSource())
 	RegisterDatasource("oci_database_management_managed_database_sql_tuning_advisor_tasks", tf_database_management.DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksDataSource())
 	RegisterDatasource("oci_database_management_managed_database_sql_tuning_advisor_tasks_execution_plan_stats_comparision", tf_database_management.DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksExecutionPlanStatsComparisionDataSource())
@@ -626,6 +635,7 @@ func init() {
 	RegisterDatasource("oci_database_management_managed_database_sql_tuning_advisor_tasks_summary_report", tf_database_management.DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksSummaryReportDataSource())
 	RegisterDatasource("oci_database_management_managed_database_sql_tuning_set", tf_database_management.DatabaseManagementManagedDatabaseSqlTuningSetDataSource())
 	RegisterDatasource("oci_database_management_managed_database_sql_tuning_sets", tf_database_management.DatabaseManagementManagedDatabaseSqlTuningSetsDataSource())
+	RegisterDatasource("oci_database_management_managed_database_table_statistics", tf_database_management.DatabaseManagementManagedDatabaseTableStatisticsDataSource())
 	RegisterDatasource("oci_database_management_managed_database_user", tf_database_management.DatabaseManagementManagedDatabaseUserDataSource())
 	RegisterDatasource("oci_database_management_managed_database_user_consumer_group_privilege", tf_database_management.DatabaseManagementManagedDatabaseUserConsumerGroupPrivilegeDataSource())
 	RegisterDatasource("oci_database_management_managed_database_user_consumer_group_privileges", tf_database_management.DatabaseManagementManagedDatabaseUserConsumerGroupPrivilegesDataSource())
@@ -876,6 +886,10 @@ func init() {
 	RegisterDatasource("oci_jms_fleet_installation_site", tf_jms.JmsFleetInstallationSiteDataSource())
 	RegisterDatasource("oci_jms_fleet_installation_sites", tf_jms.JmsFleetInstallationSitesDataSource())
 	RegisterDatasource("oci_jms_fleets", tf_jms.JmsFleetsDataSource())
+	RegisterDatasource("oci_jms_java_families", tf_jms.JmsJavaFamiliesDataSource())
+	RegisterDatasource("oci_jms_java_family", tf_jms.JmsJavaFamilyDataSource())
+	RegisterDatasource("oci_jms_java_release", tf_jms.JmsJavaReleaseDataSource())
+	RegisterDatasource("oci_jms_java_releases", tf_jms.JmsJavaReleasesDataSource())
 	RegisterDatasource("oci_jms_list_jre_usage", tf_jms.JmsListJreUsageDataSource())
 	RegisterDatasource("oci_jms_summarize_resource_inventory", tf_jms.JmsSummarizeResourceInventoryDataSource())
 	// kms service
@@ -1085,6 +1099,11 @@ func init() {
 	RegisterDatasource("oci_ons_notification_topics", tf_ons.OnsNotificationTopicsDataSource())
 	RegisterDatasource("oci_ons_subscription", tf_ons.OnsSubscriptionDataSource())
 	RegisterDatasource("oci_ons_subscriptions", tf_ons.OnsSubscriptionsDataSource())
+	// opensearch service
+	RegisterDatasource("oci_opensearch_opensearch_cluster", tf_opensearch.OpensearchOpensearchClusterDataSource())
+	RegisterDatasource("oci_opensearch_opensearch_clusters", tf_opensearch.OpensearchOpensearchClustersDataSource())
+	RegisterDatasource("oci_opensearch_opensearch_version", tf_opensearch.OpensearchOpensearchVersionDataSource())
+	RegisterDatasource("oci_opensearch_opensearch_versions", tf_opensearch.OpensearchOpensearchVersionsDataSource())
 	// operator_access_control service
 	RegisterDatasource("oci_operator_access_control_access_request", tf_operator_access_control.OperatorAccessControlAccessRequestDataSource())
 	RegisterDatasource("oci_operator_access_control_access_request_history", tf_operator_access_control.OperatorAccessControlAccessRequestHistoryDataSource())
@@ -1109,6 +1128,10 @@ func init() {
 	RegisterDatasource("oci_opsi_exadata_insights", tf_opsi.OpsiExadataInsightsDataSource())
 	RegisterDatasource("oci_opsi_host_insight", tf_opsi.OpsiHostInsightDataSource())
 	RegisterDatasource("oci_opsi_host_insights", tf_opsi.OpsiHostInsightsDataSource())
+	RegisterDatasource("oci_opsi_importable_agent_entities", tf_opsi.OpsiImportableAgentEntitiesDataSource())
+	RegisterDatasource("oci_opsi_importable_agent_entity", tf_opsi.OpsiImportableAgentEntityDataSource())
+	RegisterDatasource("oci_opsi_importable_compute_entities", tf_opsi.OpsiImportableComputeEntitiesDataSource())
+	RegisterDatasource("oci_opsi_importable_compute_entity", tf_opsi.OpsiImportableComputeEntityDataSource())
 	RegisterDatasource("oci_opsi_operations_insights_private_endpoint", tf_opsi.OpsiOperationsInsightsPrivateEndpointDataSource())
 	RegisterDatasource("oci_opsi_operations_insights_private_endpoints", tf_opsi.OpsiOperationsInsightsPrivateEndpointsDataSource())
 	RegisterDatasource("oci_opsi_operations_insights_warehouse", tf_opsi.OpsiOperationsInsightsWarehouseDataSource())

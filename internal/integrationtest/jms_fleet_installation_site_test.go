@@ -25,6 +25,9 @@ var (
 		"jre_vendor":          acctest.Representation{RepType: acctest.Optional, Create: `jreVendor`},
 		"jre_version":         acctest.Representation{RepType: acctest.Optional, Create: `jreVersion`},
 		"os_family":           acctest.Representation{RepType: acctest.Optional, Create: []string{`LINUX`}},
+		"path_contains":       acctest.Representation{RepType: acctest.Optional, Create: `installationPath`},
+		"time_start":          acctest.Representation{RepType: acctest.Optional, Create: `2022-07-01T01:00:00Z`},
+		"time_end":            acctest.Representation{RepType: acctest.Optional, Create: `2022-07-20T01:00:00Z`},
 	}
 
 	JmsJmsFleetInstallationSiteDataSourceRepresentation = map[string]interface{}{
@@ -36,14 +39,18 @@ var (
 		"jre_vendor":          acctest.Representation{RepType: acctest.Optional, Create: `jreVendor`},
 		"jre_version":         acctest.Representation{RepType: acctest.Optional, Create: `jreVersion`},
 		"os_family":           acctest.Representation{RepType: acctest.Optional, Create: []string{`LINUX`}},
+		"path_contains":       acctest.Representation{RepType: acctest.Optional, Create: `installationPath`},
+		"time_start":          acctest.Representation{RepType: acctest.Optional, Create: `2022-07-01T01:00:00Z`},
+		"time_end":            acctest.Representation{RepType: acctest.Optional, Create: `2022-07-20T01:00:00Z`},
 	}
 
 	fleetForInstallationSiteRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Created Fleet for Installation Site`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet for Installation Site`},
-		"inventory_log":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetInventoryLogRepresentation},
-		"operation_log":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetInventoryLogRepresentation},
+		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":                 acctest.Representation{RepType: acctest.Required, Create: `Created Fleet for Installation Site`},
+		"description":                  acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet for Installation Site`},
+		"is_advanced_features_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"inventory_log":                acctest.RepresentationGroup{RepType: acctest.Required, Group: JmsFleetInventoryLogRepresentation},
+		"operation_log":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetOperationLogRepresentation},
 	}
 
 	FleetInstallationSiteResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Required, acctest.Create, fleetForInstallationSiteRepresentation)
@@ -59,17 +66,39 @@ func TestJmsFleetInstallationSiteResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	inventoryLogGroupId := utils.GetEnvSettingWithBlankDefault("inventory_log_group_ocid_for_create")
+	inventoryLogGroupIdVariableStr := fmt.Sprintf("variable \"inventory_log_group_id_for_create\" { default = \"%s\" }\n", inventoryLogGroupId)
+
+	operationLogGroupId := utils.GetEnvSettingWithBlankDefault("operation_log_group_ocid_for_create")
+	operationLogGroupIdVariableStr := fmt.Sprintf("variable \"operation_log_group_id_for_create\" { default = \"%s\" }\n", operationLogGroupId)
+
+	inventoryLogId := utils.GetEnvSettingWithBlankDefault("inventory_log_ocid_for_create")
+	inventoryLogIdVariableStr := fmt.Sprintf("variable \"inventory_log_id_for_create\" { default = \"%s\" }\n", inventoryLogId)
+
+	operationLogId := utils.GetEnvSettingWithBlankDefault("operation_log_ocid_for_create")
+	operationLogIdVariableStr := fmt.Sprintf("variable \"operation_log_id_for_create\" { default = \"%s\" }\n", operationLogId)
+
 	datasourceName := "data.oci_jms_fleet_installation_sites.test_fleet_installation_sites"
 	singularDatasourceName := "data.oci_jms_fleet_installation_site.test_fleet_installation_site"
 
-	acctest.SaveConfigContent("", "", "", t)
+	acctest.SaveConfigContent(config+
+		compartmentIdVariableStr+
+		inventoryLogGroupIdVariableStr+
+		inventoryLogIdVariableStr+
+		operationLogGroupIdVariableStr+
+		operationLogIdVariableStr, "", "", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_jms_fleet_installation_sites", "test_fleet_installation_sites", acctest.Optional, acctest.Create, JmsJmsFleetInstallationSiteDataSourceRepresentation) +
-				compartmentIdVariableStr + FleetInstallationSiteResourceConfig,
+				compartmentIdVariableStr +
+				inventoryLogGroupIdVariableStr +
+				inventoryLogIdVariableStr +
+				operationLogGroupIdVariableStr +
+				operationLogIdVariableStr +
+				FleetInstallationSiteResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_id"),
 				resource.TestCheckResourceAttr(datasourceName, "application_id", "dummy.application.id"),
@@ -79,6 +108,9 @@ func TestJmsFleetInstallationSiteResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "jre_vendor", "jreVendor"),
 				resource.TestCheckResourceAttr(datasourceName, "jre_version", "jreVersion"),
 				resource.TestCheckResourceAttr(datasourceName, "os_family.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "path_contains"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_end"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_start"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "installation_site_collection.#"),
 				resource.TestCheckResourceAttr(datasourceName, "installation_site_collection.0.items.#", "0"),
@@ -88,7 +120,12 @@ func TestJmsFleetInstallationSiteResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_jms_fleet_installation_site", "test_fleet_installation_site", acctest.Optional, acctest.Create, JmsJmsFleetInstallationSiteSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + FleetInstallationSiteResourceConfig,
+				compartmentIdVariableStr +
+				inventoryLogGroupIdVariableStr +
+				inventoryLogIdVariableStr +
+				operationLogGroupIdVariableStr +
+				operationLogIdVariableStr +
+				FleetInstallationSiteResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "fleet_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "application_id", "dummy.application.id"),
@@ -98,6 +135,9 @@ func TestJmsFleetInstallationSiteResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "jre_vendor", "jreVendor"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "jre_version", "jreVersion"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "os_family.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "path_contains"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_end"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_start"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "items.#", "0"),
 			),

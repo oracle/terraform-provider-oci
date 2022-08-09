@@ -51,8 +51,12 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `batch_interval_in_seconds` - Time interval between 2 runs in round robin batch mode (*SchedulingPolicy - BATCHED_ROUND_ROBIN).
 * `configuration` - Details of monitor configuration.
 	* `config_type` - Type of configuration.
+	* `dns_configuration` - Dns settings.
+		* `is_override_dns` - If isOverrideDns is true, then dns will be overridden.
+		* `override_dns_ip` - Override dns ip value. This value will be honored only if *ref-isOverrideDns is set to true.
 	* `is_certificate_validation_enabled` - If certificate validation is enabled, then the call will fail in case of certification errors.
 	* `is_failure_retried` - If isFailureRetried is enabled, then a failed call will be retried.
 	* `is_redirection_enabled` - If redirection enabled, then redirects will be allowed while accessing target URL.
@@ -90,9 +94,11 @@ The following attributes are exported:
 * `display_name` - Unique name that can be edited. The name should not contain any confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitor.
+* `is_run_now` - If isRunNow is enabled, then the monitor will run now.
 * `is_run_once` - If runOnce is enabled, then the monitor will run once.
 * `monitor_type` - Type of the monitor.
 * `repeat_interval_in_seconds` - Interval in seconds after the start time when the job should be repeated. Minimum repeatIntervalInSeconds should be 300 seconds for Scripted REST, Scripted Browser and Browser monitors, and 60 seconds for REST monitor. 
+* `scheduling_policy` - Scheduling policy on Vantage points.
 * `script_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the script. scriptId is mandatory for creation of SCRIPTED_BROWSER and SCRIPTED_REST monitor types. For other monitor types, it should be set to null. 
 * `script_name` - Name of the script.
 * `script_parameters` - List of script parameters. Example: `[{"monitorScriptParameter": {"paramName": "userid", "paramValue":"testuser"}, "isSecret": false, "isOverwritten": false}]` 

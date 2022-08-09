@@ -16,12 +16,17 @@ import (
 )
 
 // UpdateIntegrationInstanceDetails The information to be updated.
+// Some properties may not be applicable to specific integration types,
+// see Differences in Instance Management (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/application-integration&id=INTOO-GUID-931B5E33-4FE6-4997-93E5-8748516F46AA__GUID-176E43D5-4116-4828-8120-B929DF2A6B5E)
+// for details.
 type UpdateIntegrationInstanceDetails struct {
 
 	// Integration Instance Identifier.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Standard or Enterprise type
+	// Standard or Enterprise type,
+	// Oracle Integration Generation 2 uses ENTERPRISE and STANDARD,
+	// Oracle Integration 3 uses ENTERPRISEX and STANDARDX
 	IntegrationInstanceType UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum `mandatory:"false" json:"integrationInstanceType,omitempty"`
 
 	// Simple key-value pair that is applied without any predefined name,
@@ -77,18 +82,24 @@ type UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum string
 
 // Set of constants representing the allowable values for UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum
 const (
-	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandard   UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "STANDARD"
-	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "ENTERPRISE"
+	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandard    UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "STANDARD"
+	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise  UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "ENTERPRISE"
+	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandardx   UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "STANDARDX"
+	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprisex UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "ENTERPRISEX"
 )
 
 var mappingUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = map[string]UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum{
-	"STANDARD":   UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandard,
-	"ENTERPRISE": UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
+	"STANDARD":    UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandard,
+	"ENTERPRISE":  UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
+	"STANDARDX":   UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandardx,
+	"ENTERPRISEX": UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprisex,
 }
 
 var mappingUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnumLowerCase = map[string]UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum{
-	"standard":   UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandard,
-	"enterprise": UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
+	"standard":    UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandard,
+	"enterprise":  UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
+	"standardx":   UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandardx,
+	"enterprisex": UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprisex,
 }
 
 // GetUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnumValues Enumerates the set of values for UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum
@@ -105,6 +116,8 @@ func GetUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnumStringValues(
 	return []string{
 		"STANDARD",
 		"ENTERPRISE",
+		"STANDARDX",
+		"ENTERPRISEX",
 	}
 }
 

@@ -5,7 +5,11 @@ package integrationtest
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"testing"
@@ -62,15 +66,22 @@ var (
 		"message_packs":             acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 		// Not supported yet
 		// "alternate_custom_endpoints": acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceAlternateCustomEndpointsRepresentation},
-		"consumption_model":         acctest.Representation{RepType: acctest.Optional, Create: `UCM`},
-		"custom_endpoint":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceCustomEndpointRepresentation},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${var.oci_identity_tag_namespace}.${var.oci_identity_tag}", "value")}`, Update: `${map("${var.oci_identity_tag_namespace}.${var.oci_identity_tag}", "updatedValue")}`},
+		"consumption_model": acctest.Representation{RepType: acctest.Optional, Create: `UCM`},
+		"custom_endpoint":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceCustomEndpointRepresentation},
+		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"idcs_at":                   acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
 		"is_file_server_enabled":    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_visual_builder_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"network_endpoint_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceNetworkEndpointDetailsRepresentation},
+		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentationAgain},
 	}
+
+	ignoreDefinedTagsDifferencesRepresentationAgain = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
+
 	integrationInstanceAlternateCustomEndpointsRepresentation = map[string]interface{}{
 		"hostname":              acctest.Representation{RepType: acctest.Required, Create: `althostname.com`, Update: `althostname2.com`},
 		"certificate_secret_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.oci_vault_secret_id}`},
@@ -86,19 +97,12 @@ var (
 		"is_integration_vcn_allowlisted": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
-	integrationInstanceVcnRepresentation = `resource "oci_core_vcn" "vcn" {
-cidr_blocks    = ["10.0.0.0/16"]
-dns_label      = "vcn"
-compartment_id = var.compartment_id
-display_name   = "vcn"
-}`
-
 	integrationInstanceNetworkEndpointDetailsAllowlistedHttpVcnsRepresentation = map[string]interface{}{
-		"id":              acctest.Representation{RepType: acctest.Required, Create: `oci_core_vcn.vcn.id`},
+		"id":              acctest.Representation{RepType: acctest.Required, Create: `${var.allow_listed_http_vcn}`},
 		"allowlisted_ips": acctest.Representation{RepType: acctest.Optional, Create: []string{`172.16.0.239/32`}},
 	}
 
-	IntegrationIntegrationInstanceResourceDependencies = DefinedTagsDependencies + KmsVaultIdVariableStr + integrationInstanceVcnRepresentation
+	IntegrationIntegrationInstanceResourceDependencies = DefinedTagsDependencies /* + KmsVaultIdVariableStr + integrationInstanceVcnRepresentation*/
 )
 
 // issue-routing-tag: integration/default
@@ -340,10 +344,12 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.consumption_model", "UCM"),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.custom_endpoint.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.alias"),
 				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_version"),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.custom_endpoint.0.hostname", "hostname2-updated.com"),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.freeform_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.instance_url"),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.integration_instance_type", "ENTERPRISE"),
@@ -371,6 +377,8 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, integrationInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "integration_instance_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "attachments.#", "0"),
 				// resource.TestCheckResourceAttr(singularDatasourceName, "alternate_custom_endpoints.#", "1"),
 				// CheckResourceSetContainsElementWithProperties(singularDatasourceName, "alternate_custom_endpoints", map[string]string{
 				// 	"hostname": "hostname2",
@@ -381,11 +389,13 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "consumption_model", "UCM"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_endpoint.0.alias"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_endpoint.0.certificate_secret_version"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.0.hostname", "hostname2-updated.com"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "idcs_info.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_url"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "integration_instance_type", "ENTERPRISE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_byol", "true"),
@@ -556,5 +566,49 @@ func tagVariablesStr() string {
 }
 
 func readIdcsAccessToken() string {
-	return utils.GetEnvSettingWithBlankDefault("idcs_access_token")
+	// Generate new IDCS token each time calling the creation of instance to avoid expired token
+	endpoint := "https://idcs-78cbeca57ade40fb804f71678fe75ab0.identity.oraclecloud.com/oauth2/v1/token"
+
+	data := url.Values{}
+	data.Set("grant_type", "password")
+	data.Set("scope", "urn:opc:idm:__myscopes__")
+	data.Set("username", utils.GetEnvSettingWithBlankDefault("idcs_username"))
+	data.Set("password", utils.GetEnvSettingWithBlankDefault("idcs_password"))
+
+	req, err := http.NewRequest("POST", endpoint, strings.NewReader(data.Encode()))
+
+	if err != nil {
+		panic(err)
+	}
+
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=utf-8")
+	req.Header.Add("Content-Length", strconv.Itoa(len(data.Encode())))
+
+	req.SetBasicAuth("PSOATGenApp2_APPID", "d0804e8f-6d5c-4542-923d-fd5a1b4f4a67")
+
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		panic(err)
+	}
+
+	var result = new(IdcsAccessToken)
+
+	err = json.Unmarshal(body, &result)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return result.AccessToken
 }

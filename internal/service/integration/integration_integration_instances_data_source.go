@@ -124,9 +124,15 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 			integrationInstance["custom_endpoint"] = nil
 		}
 
+		if r.DefinedTags != nil {
+			integrationInstance["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			integrationInstance["display_name"] = *r.DisplayName
 		}
+
+		integrationInstance["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			integrationInstance["id"] = *r.Id

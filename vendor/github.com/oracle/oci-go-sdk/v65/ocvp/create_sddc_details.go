@@ -31,9 +31,10 @@ type CreateSddcDetails struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The number of ESXi hosts to create in the SDDC. You can add more hosts later
-	// (see CreateEsxiHost).
-	// **Note:** If you later delete EXSi hosts from the SDDC to total less than 3,
-	// you are still billed for the 3 minimum recommended ESXi hosts. Also,
+	// (see CreateEsxiHost). Creating
+	// a SDDC with a ESXi host count of 1 will be considered a single ESXi host SDDC.
+	// **Note:** If you later delete EXSi hosts from a production SDDC to total less
+	// than 3, you are still billed for the 3 minimum recommended ESXi hosts. Also,
 	// you cannot add more VMware workloads to the SDDC until it again has at least
 	// 3 ESXi hosts.
 	EsxiHostsCount *int `mandatory:"true" json:"esxiHostsCount"`
@@ -100,6 +101,9 @@ type CreateSddcDetails struct {
 
 	// Indicates whether to enable HCX Enterprise for this SDDC.
 	IsHcxEnterpriseEnabled *bool `mandatory:"false" json:"isHcxEnterpriseEnabled"`
+
+	// Indicates whether this SDDC is designated for only single ESXi host.
+	IsSingleHostSddc *bool `mandatory:"false" json:"isSingleHostSddc"`
 
 	// The CIDR block for the IP addresses that VMware VMs in the SDDC use to run application
 	// workloads.
