@@ -140,6 +140,54 @@ variable "managed_databases_asm_property_name" {
   default = "DATA"
 }
 
+variable "managed_database_optimizer_statistics_advisor_execution_end_time_less_than_or_equal_to" {
+  default = "endTimeLessThanOrEqualTo"
+}
+
+variable "managed_database_optimizer_statistics_advisor_execution_start_time_greater_than_or_equal_to" {
+  default = "startTimeGreaterThanOrEqualTo"
+}
+
+variable "managed_database_optimizer_statistics_advisor_execution_script_execution_name" {
+  default = "executionName"
+}
+
+variable "managed_database_optimizer_statistics_advisor_execution_script_task_name" {
+  default = "taskName"
+}
+
+variable "managed_database_optimizer_statistics_collection_aggregation_end_time_less_than_or_equal_to" {
+  default = "endTimeLessThanOrEqualTo"
+}
+
+variable "managed_database_optimizer_statistics_collection_aggregation_group_type" {
+  default = "TASK_STATUS"
+}
+
+variable "managed_database_optimizer_statistics_collection_aggregation_start_time_greater_than_or_equal_to" {
+  default = "startTimeGreaterThanOrEqualTo"
+}
+
+variable "managed_database_optimizer_statistics_collection_aggregation_task_type" {
+  default = "ALL"
+}
+
+variable "managed_database_optimizer_statistics_collection_operation_end_time_less_than_or_equal_to" {
+  default = "endTimeLessThanOrEqualTo"
+}
+
+variable "managed_database_optimizer_statistics_collection_operation_filter_by" {
+  default = "filterBy"
+}
+
+variable "managed_database_optimizer_statistics_collection_operation_start_time_greater_than_or_equal_to" {
+  default = "startTimeGreaterThanOrEqualTo"
+}
+
+variable "managed_database_optimizer_statistics_collection_operation_task_type" {
+  default = "ALL"
+}
+
 provider "oci" {
   tenancy_ocid = var.tenancy_ocid
   user_ocid = var.user_ocid
@@ -362,4 +410,47 @@ data "oci_database_management_managed_databases_asm_property" "test_managed_data
 
   #Optional
   name = var.managed_databases_asm_property_name
+}
+
+data "oci_database_management_managed_database_optimizer_statistics_advisor_executions" "test_managed_database_optimizer_statistics_advisor_executions" {
+  #Required
+  managed_database_id = oci_database_management_managed_database.test_managed_database.id
+
+  #Optional
+  end_time_less_than_or_equal_to      = var.managed_database_optimizer_statistics_advisor_execution_end_time_less_than_or_equal_to
+  start_time_greater_than_or_equal_to = var.managed_database_optimizer_statistics_advisor_execution_start_time_greater_than_or_equal_to
+}
+
+data "oci_database_management_managed_database_optimizer_statistics_advisor_execution_scripts" "test_managed_database_optimizer_statistics_advisor_execution_scripts" {
+  #Required
+  execution_name      = var.managed_database_optimizer_statistics_advisor_execution_script_execution_name
+  managed_database_id = oci_database_management_managed_database.test_managed_database.id
+  task_name           = var.managed_database_optimizer_statistics_advisor_execution_script_task_name
+}
+
+data "oci_database_management_managed_database_optimizer_statistics_collection_aggregations" "test_managed_database_optimizer_statistics_collection_aggregations" {
+  #Required
+  group_type          = var.managed_database_optimizer_statistics_collection_aggregation_group_type
+  managed_database_id = oci_database_management_managed_database.test_managed_database.id
+
+  #Optional
+  end_time_less_than_or_equal_to      = var.managed_database_optimizer_statistics_collection_aggregation_end_time_less_than_or_equal_to
+  start_time_greater_than_or_equal_to = var.managed_database_optimizer_statistics_collection_aggregation_start_time_greater_than_or_equal_to
+  task_type                           = var.managed_database_optimizer_statistics_collection_aggregation_task_type
+}
+
+data "oci_database_management_managed_database_optimizer_statistics_collection_operations" "test_managed_database_optimizer_statistics_collection_operations" {
+  #Required
+  managed_database_id = oci_database_management_managed_database.test_managed_database.id
+
+  #Optional
+  end_time_less_than_or_equal_to      = var.managed_database_optimizer_statistics_collection_operation_end_time_less_than_or_equal_to
+  filter_by                           = var.managed_database_optimizer_statistics_collection_operation_filter_by
+  start_time_greater_than_or_equal_to = var.managed_database_optimizer_statistics_collection_operation_start_time_greater_than_or_equal_to
+  task_type                           = var.managed_database_optimizer_statistics_collection_operation_task_type
+}
+
+data "oci_database_management_managed_database_table_statistics" "test_managed_database_table_statistics" {
+  #Required
+  managed_database_id = oci_database_management_managed_database.test_managed_database.id
 }

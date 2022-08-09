@@ -28,6 +28,9 @@ data "oci_jms_fleet_installation_site" "test_fleet_installation_site" {
 	jre_version = var.fleet_installation_site_jre_version
 	managed_instance_id = oci_osmanagement_managed_instance.test_managed_instance.id
 	os_family = var.fleet_installation_site_os_family
+	path_contains = var.fleet_installation_site_path_contains
+	time_end = var.fleet_installation_site_time_end
+	time_start = var.fleet_installation_site_time_start
 }
 ```
 
@@ -44,6 +47,9 @@ The following arguments are supported:
 * `jre_version` - (Optional) The version of the related Java Runtime.
 * `managed_instance_id` - (Optional) The Fleet-unique identifier of the related managed instance.
 * `os_family` - (Optional) The operating system type.
+* `path_contains` - (Optional) Filter the list with path contains the given value. 
+* `time_end` - (Optional) The end of the time period during which resources are searched (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)).
+* `time_start` - (Optional) The start of the time period during which resources are searched (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)).
 
 
 ## Attributes Reference
@@ -65,6 +71,7 @@ The following attributes are exported:
 	* `operating_system` - Operating System of the platform on which the Java Runtime was reported. 
 		* `architecture` - The architecture of the operating system as provided by the Java system property os.arch.
 		* `family` - The operating system type, such as Windows or Linux
+		* `managed_instance_count` - Number of instances running the operating system
 		* `name` - The name of the operating system as provided by the Java system property os.name.
 		* `version` - The version of the operating system as provided by the Java system property os.version.
 	* `path` - The file system path of the installation.

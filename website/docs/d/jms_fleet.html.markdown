@@ -45,6 +45,7 @@ The following attributes are exported:
 * `inventory_log` - Custom Log for inventory or operation log. 
 	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	* `log_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
+* `is_advanced_features_enabled` - Whether or not advanced features are enabled in this fleet.  By default, this is set to false. 
 * `operation_log` - Custom Log for inventory or operation log. 
 	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	* `log_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.

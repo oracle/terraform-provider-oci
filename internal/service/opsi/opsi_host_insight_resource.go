@@ -43,11 +43,18 @@ func OpsiHostInsightResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"EM_MANAGED_EXTERNAL_HOST",
+					"MACS_MANAGED_CLOUD_HOST",
 					"MACS_MANAGED_EXTERNAL_HOST",
 				}, true),
 			},
 
 			// Optional
+			"compute_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -652,6 +659,73 @@ func (s *OpsiHostInsightResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_opsi.MacsManagedCloudHostInsight:
+		s.D.Set("entity_source", "MACS_MANAGED_CLOUD_HOST")
+
+		if v.ComputeId != nil {
+			s.D.Set("compute_id", *v.ComputeId)
+		}
+
+		if v.ManagementAgentId != nil {
+			s.D.Set("management_agent_id", *v.ManagementAgentId)
+		}
+
+		if v.PlatformName != nil {
+			s.D.Set("platform_name", *v.PlatformName)
+		}
+
+		s.D.Set("platform_type", v.PlatformType)
+
+		if v.PlatformVersion != nil {
+			s.D.Set("platform_version", *v.PlatformVersion)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.HostDisplayName != nil {
+			s.D.Set("host_display_name", *v.HostDisplayName)
+		}
+
+		if v.HostName != nil {
+			s.D.Set("host_name", *v.HostName)
+		}
+
+		if v.HostType != nil {
+			s.D.Set("host_type", *v.HostType)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProcessorCount != nil {
+			s.D.Set("processor_count", *v.ProcessorCount)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_opsi.MacsManagedExternalHostInsight:
 		s.D.Set("entity_source", "MACS_MANAGED_EXTERNAL_HOST")
 
@@ -860,6 +934,67 @@ func HostInsightSummaryToMap(obj oci_opsi.HostInsightSummary) map[string]interfa
 		result["state"] = string(v.LifecycleState)
 		result["status"] = string(v.Status)
 
+	case oci_opsi.MacsManagedCloudHostInsightSummary:
+		result["entity_source"] = "MACS_MANAGED_CLOUD_HOST"
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
+
+		if v.CompartmentId != nil {
+			result["compartment_id"] = string(*v.CompartmentId)
+		}
+
+		if v.HostName != nil {
+			result["host_name"] = string(*v.HostName)
+		}
+
+		if v.ComputeId != nil {
+			result["compute_id"] = string(*v.ComputeId)
+		}
+
+		if v.ManagementAgentId != nil {
+			result["management_agent_id"] = string(*v.ManagementAgentId)
+		}
+
+		if v.HostDisplayName != nil {
+			result["host_display_name"] = string(*v.HostDisplayName)
+		}
+
+		if v.HostType != nil {
+			result["host_type"] = string(*v.HostType)
+		}
+
+		if v.ProcessorCount != nil {
+			result["processor_count"] = fmt.Sprint(*v.ProcessorCount)
+		}
+
+		result["freeform_tags"] = v.FreeformTags
+
+		if v.DefinedTags != nil {
+			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
+		}
+
+		if v.SystemTags != nil {
+			result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
+		}
+
+		if v.TimeCreated != nil {
+			result["time_created"] = v.TimeCreated.String()
+		}
+
+		if v.TimeUpdated != nil {
+			result["time_updated"] = v.TimeUpdated.String()
+		}
+
+		if v.LifecycleDetails != nil {
+			result["lifecycle_details"] = string(*v.LifecycleDetails)
+		}
+
+		result["platform_type"] = string(v.PlatformType)
+		result["state"] = string(v.LifecycleState)
+		result["status"] = string(v.Status)
+
 	default:
 		log.Printf("[WARN] Received 'entity_source' of unknown type %v", obj)
 		return nil
@@ -891,6 +1026,27 @@ func (s *OpsiHostInsightResourceCrud) populateTopLevelPolymorphicCreateHostInsig
 		if enterpriseManagerIdentifier, ok := s.D.GetOkExists("enterprise_manager_identifier"); ok {
 			tmp := enterpriseManagerIdentifier.(string)
 			details.EnterpriseManagerIdentifier = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateHostInsightDetails = details
+	case strings.ToLower("MACS_MANAGED_CLOUD_HOST"):
+		details := oci_opsi.CreateMacsManagedCloudHostInsightDetails{}
+		if computeId, ok := s.D.GetOkExists("compute_id"); ok {
+			tmp := computeId.(string)
+			details.ComputeId = &tmp
 		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
@@ -959,6 +1115,21 @@ func (s *OpsiHostInsightResourceCrud) populateTopLevelPolymorphicUpdateHostInsig
 		tmp := s.D.Id()
 		request.HostInsightId = &tmp
 		request.UpdateHostInsightDetails = details
+	case strings.ToLower("MACS_MANAGED_CLOUD_HOST"):
+		details := oci_opsi.UpdateMacsManagedCloudHostInsightDetails{}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		tmp := s.D.Id()
+		request.HostInsightId = &tmp
+		request.UpdateHostInsightDetails = details
 	case strings.ToLower("MACS_MANAGED_EXTERNAL_HOST"):
 		details := oci_opsi.UpdateMacsManagedExternalHostInsightDetails{}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -995,6 +1166,9 @@ func (s *OpsiHostInsightResourceCrud) populateTopLevelPolymorphicEnableHostInsig
 		request.EnableHostInsightDetails = details
 	case strings.ToLower("MACS_MANAGED_EXTERNAL_HOST"):
 		details := oci_opsi.EnableMacsManagedExternalHostInsightDetails{}
+		request.EnableHostInsightDetails = details
+	case strings.ToLower("MACS_MANAGED_CLOUD_HOST"):
+		details := oci_opsi.EnableMacsManagedCloudHostInsightDetails{}
 		request.EnableHostInsightDetails = details
 	default:
 		return fmt.Errorf("unknown entity_source '%v' was specified", entitySource)

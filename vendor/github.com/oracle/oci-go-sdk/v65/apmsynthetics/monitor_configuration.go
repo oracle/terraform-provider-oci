@@ -21,12 +21,15 @@ type MonitorConfiguration interface {
 
 	// If isFailureRetried is enabled, then a failed call will be retried.
 	GetIsFailureRetried() *bool
+
+	GetDnsConfiguration() *DnsConfiguration
 }
 
 type monitorconfiguration struct {
 	JsonData         []byte
-	IsFailureRetried *bool  `mandatory:"false" json:"isFailureRetried"`
-	ConfigType       string `json:"configType"`
+	IsFailureRetried *bool             `mandatory:"false" json:"isFailureRetried"`
+	DnsConfiguration *DnsConfiguration `mandatory:"false" json:"dnsConfiguration"`
+	ConfigType       string            `json:"configType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -41,6 +44,7 @@ func (m *monitorconfiguration) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.IsFailureRetried = s.Model.IsFailureRetried
+	m.DnsConfiguration = s.Model.DnsConfiguration
 	m.ConfigType = s.Model.ConfigType
 
 	return err
@@ -79,6 +83,11 @@ func (m *monitorconfiguration) UnmarshalPolymorphicJSON(data []byte) (interface{
 //GetIsFailureRetried returns IsFailureRetried
 func (m monitorconfiguration) GetIsFailureRetried() *bool {
 	return m.IsFailureRetried
+}
+
+//GetDnsConfiguration returns DnsConfiguration
+func (m monitorconfiguration) GetDnsConfiguration() *DnsConfiguration {
+	return m.DnsConfiguration
 }
 
 func (m monitorconfiguration) String() string {

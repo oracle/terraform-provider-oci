@@ -24,12 +24,15 @@ type CreateFleetDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Fleet.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	InventoryLog *CustomLog `mandatory:"true" json:"inventoryLog"`
+
 	// The Fleet's description. If nothing is provided, the Fleet description will be null.
 	Description *string `mandatory:"false" json:"description"`
 
-	InventoryLog *CustomLog `mandatory:"false" json:"inventoryLog"`
-
 	OperationLog *CustomLog `mandatory:"false" json:"operationLog"`
+
+	// Whether or not advanced features are enabled in this fleet.  By default, this is set to false.
+	IsAdvancedFeaturesEnabled *bool `mandatory:"false" json:"isAdvancedFeaturesEnabled"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`. (See Understanding Free-form Tags (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm)).

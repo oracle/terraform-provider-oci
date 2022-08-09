@@ -83,6 +83,10 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) SetData() error {
 
 	s.D.SetId(GetMonitorCompositeId(*s.Res.Id, s.D.Get("apm_domain_id").(string)))
 
+	if s.Res.BatchIntervalInSeconds != nil {
+		s.D.Set("batch_interval_in_seconds", *s.Res.BatchIntervalInSeconds)
+	}
+
 	if s.Res.Configuration != nil {
 		configurationArray := []interface{}{}
 		if configurationMap := MonitorConfigurationToMap(&s.Res.Configuration); configurationMap != nil {
@@ -103,6 +107,10 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsRunNow != nil {
+		s.D.Set("is_run_now", *s.Res.IsRunNow)
+	}
+
 	if s.Res.IsRunOnce != nil {
 		s.D.Set("is_run_once", *s.Res.IsRunOnce)
 	}
@@ -112,6 +120,8 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) SetData() error {
 	if s.Res.RepeatIntervalInSeconds != nil {
 		s.D.Set("repeat_interval_in_seconds", *s.Res.RepeatIntervalInSeconds)
 	}
+
+	s.D.Set("scheduling_policy", s.Res.SchedulingPolicy)
 
 	if s.Res.ScriptId != nil {
 		s.D.Set("script_id", GetMonitorCompositeId(*s.Res.ScriptId, s.D.Get("apm_domain_id").(string)))

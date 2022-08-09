@@ -22,12 +22,19 @@ type ScriptedRestMonitorConfiguration struct {
 	// If isFailureRetried is enabled, then a failed call will be retried.
 	IsFailureRetried *bool `mandatory:"false" json:"isFailureRetried"`
 
+	DnsConfiguration *DnsConfiguration `mandatory:"false" json:"dnsConfiguration"`
+
 	NetworkConfiguration *NetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
 }
 
 //GetIsFailureRetried returns IsFailureRetried
 func (m ScriptedRestMonitorConfiguration) GetIsFailureRetried() *bool {
 	return m.IsFailureRetried
+}
+
+//GetDnsConfiguration returns DnsConfiguration
+func (m ScriptedRestMonitorConfiguration) GetDnsConfiguration() *DnsConfiguration {
+	return m.DnsConfiguration
 }
 
 func (m ScriptedRestMonitorConfiguration) String() string {
