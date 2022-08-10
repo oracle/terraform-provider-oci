@@ -26,7 +26,9 @@ type UpdateLoadBalancerShapeDetails struct {
 	//   *  400Mbps
 	//   *  8000Mbps
 	//   *  Flexible
-	//   Example: `Flexible`
+	//   Example: `flexible`
+	//   * NOTE: Fixed shapes 10Mbps, 100Mbps, 400Mbps, 8000Mbps will be deprecated from May 2023. This api
+	//   * will only support `Flexible` shape after that date.
 	ShapeName *string `mandatory:"true" json:"shapeName"`
 
 	// The configuration details to update load balancer to a different profile.

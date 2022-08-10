@@ -29,8 +29,8 @@ type SummarizeHostInsightResourceUsageTrendAggregationCollection struct {
 	// Defines the type of resource metric (CPU, Physical Memory, Logical Memory)
 	ResourceMetric SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnum `mandatory:"true" json:"resourceMetric"`
 
-	// Displays usage unit (CORES, GB)
-	UsageUnit UsageUnitEnum `mandatory:"true" json:"usageUnit"`
+	// Displays usage unit ( CORES, GB , PERCENT, MBPS)
+	UsageUnit SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum `mandatory:"true" json:"usageUnit"`
 
 	// Time duration in milliseconds between data points (one hour or one day).
 	ItemDurationInMs *int64 `mandatory:"true" json:"itemDurationInMs"`
@@ -51,8 +51,8 @@ func (m SummarizeHostInsightResourceUsageTrendAggregationCollection) ValidateEnu
 	if _, ok := GetMappingSummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnum(string(m.ResourceMetric)); !ok && m.ResourceMetric != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceMetric: %s. Supported values are: %s.", m.ResourceMetric, strings.Join(GetSummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingUsageUnitEnum(string(m.UsageUnit)); !ok && m.UsageUnit != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetUsageUnitEnumStringValues(), ",")))
+	if _, ok := GetMappingSummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum(string(m.UsageUnit)); !ok && m.UsageUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetSummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
@@ -104,5 +104,59 @@ func GetSummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetri
 // GetMappingSummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnum(val string) (SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnum, bool) {
 	enum, ok := mappingSummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum Enum with underlying type: string
+type SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum string
+
+// Set of constants representing the allowable values for SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum
+const (
+	SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitCores   SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum = "CORES"
+	SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitGb      SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum = "GB"
+	SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitMbps    SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum = "MBPS"
+	SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitIops    SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum = "IOPS"
+	SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitPercent SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum = "PERCENT"
+)
+
+var mappingSummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum = map[string]SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum{
+	"CORES":   SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitCores,
+	"GB":      SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitGb,
+	"MBPS":    SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitMbps,
+	"IOPS":    SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitIops,
+	"PERCENT": SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitPercent,
+}
+
+var mappingSummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnumLowerCase = map[string]SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum{
+	"cores":   SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitCores,
+	"gb":      SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitGb,
+	"mbps":    SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitMbps,
+	"iops":    SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitIops,
+	"percent": SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitPercent,
+}
+
+// GetSummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnumValues Enumerates the set of values for SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum
+func GetSummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnumValues() []SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum {
+	values := make([]SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum, 0)
+	for _, v := range mappingSummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnumStringValues Enumerates the set of values in String for SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum
+func GetSummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnumStringValues() []string {
+	return []string{
+		"CORES",
+		"GB",
+		"MBPS",
+		"IOPS",
+		"PERCENT",
+	}
+}
+
+// GetMappingSummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum(val string) (SummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnum, bool) {
+	enum, ok := mappingSummarizeHostInsightResourceUsageTrendAggregationCollectionUsageUnitEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

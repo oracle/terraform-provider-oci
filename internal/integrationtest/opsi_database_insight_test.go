@@ -102,7 +102,6 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+emBridgeIdVariableStr+enterpriseManagerIdVariableStr+enterpriseManagerEntityIdVariableStr+OpsiDatabaseInsightResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Create, OpsiDatabaseInsightRepresentation), "opsi", "databaseInsight", t)
-
 	acctest.ResourceTest(t, testAccCheckOpsiDatabaseInsightDestroy, []resource.TestStep{
 		// verify create with optional
 		{

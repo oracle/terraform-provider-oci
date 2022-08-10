@@ -116,6 +116,13 @@ type SummarizeHostInsightResourceStatisticsRequest struct {
 	// A flag to search all resources within a given compartment and all sub-compartments.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
+	// Filter by one or more host types.
+	// Possible values are CLOUD-HOST, EXTERNAL-HOST
+	HostType []string `contributesTo:"query" name:"hostType" collectionFormat:"multi"`
+
+	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
+	HostId *string `mandatory:"false" contributesTo:"query" name:"hostId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

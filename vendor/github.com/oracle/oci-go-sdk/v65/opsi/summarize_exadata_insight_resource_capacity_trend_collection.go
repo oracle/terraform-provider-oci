@@ -35,8 +35,8 @@ type SummarizeExadataInsightResourceCapacityTrendCollection struct {
 	// The end timestamp that was passed into the request.
 	TimeIntervalEnd *common.SDKTime `mandatory:"true" json:"timeIntervalEnd"`
 
-	// Displays usage unit ( CORES, GB)
-	UsageUnit UsageUnitEnum `mandatory:"true" json:"usageUnit"`
+	// Displays usage unit ( CORES, GB , PERCENT, MBPS)
+	UsageUnit SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum `mandatory:"true" json:"usageUnit"`
 
 	// Capacity Data with time interval
 	Items []ExadataInsightResourceCapacityTrendSummary `mandatory:"true" json:"items"`
@@ -57,8 +57,8 @@ func (m SummarizeExadataInsightResourceCapacityTrendCollection) ValidateEnumValu
 	if _, ok := GetMappingSummarizeExadataInsightResourceCapacityTrendCollectionExadataResourceMetricEnum(string(m.ExadataResourceMetric)); !ok && m.ExadataResourceMetric != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExadataResourceMetric: %s. Supported values are: %s.", m.ExadataResourceMetric, strings.Join(GetSummarizeExadataInsightResourceCapacityTrendCollectionExadataResourceMetricEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingUsageUnitEnum(string(m.UsageUnit)); !ok && m.UsageUnit != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetUsageUnitEnumStringValues(), ",")))
+	if _, ok := GetMappingSummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum(string(m.UsageUnit)); !ok && m.UsageUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetSummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
@@ -172,5 +172,59 @@ func GetSummarizeExadataInsightResourceCapacityTrendCollectionExadataResourceMet
 // GetMappingSummarizeExadataInsightResourceCapacityTrendCollectionExadataResourceMetricEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSummarizeExadataInsightResourceCapacityTrendCollectionExadataResourceMetricEnum(val string) (SummarizeExadataInsightResourceCapacityTrendCollectionExadataResourceMetricEnum, bool) {
 	enum, ok := mappingSummarizeExadataInsightResourceCapacityTrendCollectionExadataResourceMetricEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum Enum with underlying type: string
+type SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum string
+
+// Set of constants representing the allowable values for SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum
+const (
+	SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitCores   SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum = "CORES"
+	SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitGb      SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum = "GB"
+	SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitMbps    SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum = "MBPS"
+	SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitIops    SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum = "IOPS"
+	SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitPercent SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum = "PERCENT"
+)
+
+var mappingSummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum = map[string]SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum{
+	"CORES":   SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitCores,
+	"GB":      SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitGb,
+	"MBPS":    SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitMbps,
+	"IOPS":    SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitIops,
+	"PERCENT": SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitPercent,
+}
+
+var mappingSummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnumLowerCase = map[string]SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum{
+	"cores":   SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitCores,
+	"gb":      SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitGb,
+	"mbps":    SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitMbps,
+	"iops":    SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitIops,
+	"percent": SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitPercent,
+}
+
+// GetSummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnumValues Enumerates the set of values for SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum
+func GetSummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnumValues() []SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum {
+	values := make([]SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum, 0)
+	for _, v := range mappingSummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum
+func GetSummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnumStringValues() []string {
+	return []string{
+		"CORES",
+		"GB",
+		"MBPS",
+		"IOPS",
+		"PERCENT",
+	}
+}
+
+// GetMappingSummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum(val string) (SummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnum, bool) {
+	enum, ok := mappingSummarizeExadataInsightResourceCapacityTrendCollectionUsageUnitEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

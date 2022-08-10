@@ -31,8 +31,8 @@ type ListHostInsightsRequest struct {
 	LifecycleState []LifecycleStateEnum `contributesTo:"query" name:"lifecycleState" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Filter by one or more host types.
-	// Possible value is EXTERNAL-HOST.
-	HostType []ListHostInsightsHostTypeEnum `contributesTo:"query" name:"hostType" omitEmpty:"true" collectionFormat:"multi"`
+	// Possible values are CLOUD-HOST, EXTERNAL-HOST
+	HostType []string `contributesTo:"query" name:"hostType" collectionFormat:"multi"`
 
 	// Filter by one or more platform types.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
@@ -118,12 +118,6 @@ func (request ListHostInsightsRequest) ValidateEnumValue() (bool, error) {
 		}
 	}
 
-	for _, val := range request.HostType {
-		if _, ok := GetMappingListHostInsightsHostTypeEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HostType: %s. Supported values are: %s.", val, strings.Join(GetListHostInsightsHostTypeEnumStringValues(), ",")))
-		}
-	}
-
 	for _, val := range request.PlatformType {
 		if _, ok := GetMappingListHostInsightsPlatformTypeEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", val, strings.Join(GetListHostInsightsPlatformTypeEnumStringValues(), ",")))
@@ -171,44 +165,6 @@ func (response ListHostInsightsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListHostInsightsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
-}
-
-// ListHostInsightsHostTypeEnum Enum with underlying type: string
-type ListHostInsightsHostTypeEnum string
-
-// Set of constants representing the allowable values for ListHostInsightsHostTypeEnum
-const (
-	ListHostInsightsHostTypeExternalHost ListHostInsightsHostTypeEnum = "EXTERNAL-HOST"
-)
-
-var mappingListHostInsightsHostTypeEnum = map[string]ListHostInsightsHostTypeEnum{
-	"EXTERNAL-HOST": ListHostInsightsHostTypeExternalHost,
-}
-
-var mappingListHostInsightsHostTypeEnumLowerCase = map[string]ListHostInsightsHostTypeEnum{
-	"external-host": ListHostInsightsHostTypeExternalHost,
-}
-
-// GetListHostInsightsHostTypeEnumValues Enumerates the set of values for ListHostInsightsHostTypeEnum
-func GetListHostInsightsHostTypeEnumValues() []ListHostInsightsHostTypeEnum {
-	values := make([]ListHostInsightsHostTypeEnum, 0)
-	for _, v := range mappingListHostInsightsHostTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListHostInsightsHostTypeEnumStringValues Enumerates the set of values in String for ListHostInsightsHostTypeEnum
-func GetListHostInsightsHostTypeEnumStringValues() []string {
-	return []string{
-		"EXTERNAL-HOST",
-	}
-}
-
-// GetMappingListHostInsightsHostTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListHostInsightsHostTypeEnum(val string) (ListHostInsightsHostTypeEnum, bool) {
-	enum, ok := mappingListHostInsightsHostTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
 
 // ListHostInsightsPlatformTypeEnum Enum with underlying type: string

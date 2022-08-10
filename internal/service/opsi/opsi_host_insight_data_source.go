@@ -116,43 +116,55 @@ func (s *OpsiHostInsightDataSourceCrud) SetData() error {
 			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
 		}
 
-		s.D.Set("freeform_tags", v.FreeformTags)
+	case oci_opsi.MacsManagedCloudHostInsight:
+		s.D.Set("entity_source", "MACS_MANAGED_CLOUD_HOST")
 
-		if v.HostDisplayName != nil {
-			s.D.Set("host_display_name", *v.HostDisplayName)
+		if v.GetCompartmentId() != nil {
+			s.D.Set("compartment_id", *v.GetCompartmentId())
 		}
 
-		if v.HostName != nil {
-			s.D.Set("host_name", *v.HostName)
+		if v.GetHostName() != nil {
+			s.D.Set("host_name", *v.GetHostName())
 		}
 
-		if v.HostType != nil {
-			s.D.Set("host_type", *v.HostType)
+		s.D.Set("freeform_tags", v.GetFreeformTags())
+
+		if v.GetDefinedTags() != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.GetDefinedTags()))
 		}
 
-		if v.LifecycleDetails != nil {
-			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		if v.GetTimeCreated() != nil {
+			s.D.Set("time_created", v.GetTimeCreated().String())
 		}
 
-		if v.ProcessorCount != nil {
-			s.D.Set("processor_count", *v.ProcessorCount)
+		if v.GetHostDisplayName() != nil {
+			s.D.Set("host_display_name", *v.GetHostDisplayName())
 		}
 
-		s.D.Set("state", v.LifecycleState)
-
-		s.D.Set("status", v.Status)
-
-		if v.SystemTags != nil {
-			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		if v.GetHostType() != nil {
+			s.D.Set("host_type", *v.GetHostType())
 		}
 
-		if v.TimeCreated != nil {
-			s.D.Set("time_created", v.TimeCreated.String())
+		if v.GetProcessorCount() != nil {
+			s.D.Set("processor_count", *v.GetProcessorCount())
 		}
 
-		if v.TimeUpdated != nil {
-			s.D.Set("time_updated", v.TimeUpdated.String())
+		if v.GetSystemTags() != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.GetSystemTags()))
 		}
+
+		if v.GetTimeUpdated() != nil {
+			s.D.Set("time_updated", v.GetTimeUpdated().String())
+		}
+
+		if v.GetLifecycleDetails() != nil {
+			s.D.Set("lifecycle_details", *v.GetLifecycleDetails())
+		}
+
+		s.D.Set("status", v.GetStatus())
+
+		s.D.Set("state", v.GetLifecycleState())
+
 	case oci_opsi.MacsManagedExternalHostInsight:
 		s.D.Set("entity_source", "MACS_MANAGED_EXTERNAL_HOST")
 
