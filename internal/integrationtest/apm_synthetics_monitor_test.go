@@ -58,6 +58,8 @@ var (
 		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_run_once":                acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_run_now":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"scheduling_policy":          acctest.Representation{RepType: acctest.Optional, Create: `ALL`, Update: `ROUND_ROBIN`},
 		"script_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_apm_synthetics_script.test_script.id}`},
 		"status":                     acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
 		"target":                     acctest.Representation{RepType: acctest.Optional, Create: `https://console.us-ashburn-1.oraclecloud.com`, Update: `https://console.us-phoenix-1.oraclecloud.com`},
@@ -67,10 +69,15 @@ var (
 	}
 
 	ApmSyntheticsmonitorConfigurationRepresentation = map[string]interface{}{
+		"dns_configuration":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsmonitorConfigurationDnsConfigurationRepresentation},
 		"config_type":                       acctest.Representation{RepType: acctest.Optional, Create: `SCRIPTED_BROWSER_CONFIG`},
 		"is_certificate_validation_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_failure_retried":                acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"network_configuration":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsmonitorConfigurationNetworkConfigurationRepresentation},
+	}
+	ApmSyntheticsmonitorConfigurationDnsConfigurationRepresentation = map[string]interface{}{
+		"is_override_dns": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"override_dns_ip": acctest.Representation{RepType: acctest.Optional, Create: `12.1.21.1`, Update: `12.1.21.2`},
 	}
 
 	ApmSyntheticsmonitorConfigurationNetworkConfigurationRepresentation = map[string]interface{}{
@@ -119,6 +126,9 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.0.is_override_dns", "false"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.0.override_dns_ip", "12.1.21.1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "SCRIPTED_BROWSER_CONFIG"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.is_certificate_validation_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.is_failure_retried", "false"),
@@ -131,8 +141,10 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_run_now", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_run_once", "false"),
 				resource.TestCheckResourceAttr(resourceName, "monitor_type", "SCRIPTED_BROWSER"),
+				resource.TestCheckResourceAttr(resourceName, "scheduling_policy", "ALL"),
 				resource.TestCheckResourceAttr(resourceName, "repeat_interval_in_seconds", "600"),
 				resource.TestCheckResourceAttrSet(resourceName, "script_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "script_name"),
@@ -169,6 +181,9 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "SCRIPTED_BROWSER_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.0.is_override_dns", "true"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.0.override_dns_ip", "12.1.21.2"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.is_certificate_validation_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.is_failure_retried", "true"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.network_configuration.#", "1"),
@@ -180,6 +195,8 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_run_now", "false"),
+				resource.TestCheckResourceAttr(resourceName, "scheduling_policy", "ROUND_ROBIN"),
 				resource.TestCheckResourceAttr(resourceName, "is_run_once", "false"),
 				resource.TestCheckResourceAttr(resourceName, "monitor_type", "SCRIPTED_BROWSER"),
 				resource.TestCheckResourceAttr(resourceName, "repeat_interval_in_seconds", "1200"),
@@ -235,6 +252,9 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.config_type", "SCRIPTED_BROWSER_CONFIG"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.dns_configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.dns_configuration.0.is_override_dns", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.dns_configuration.0.override_dns_ip", "12.1.21.2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.is_certificate_validation_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.is_failure_retried", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.network_configuration.#", "1"),
@@ -246,6 +266,8 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_run_now", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scheduling_policy", "ROUND_ROBIN"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_run_once", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "monitor_type", "SCRIPTED_BROWSER"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "repeat_interval_in_seconds", "1200"),
@@ -271,6 +293,7 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"apm_domain_id",
+				"batch_interval_in_seconds", //ignore as it does not apply to this case
 			},
 			ResourceName: resourceName,
 		},

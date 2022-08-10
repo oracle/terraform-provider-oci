@@ -52,15 +52,15 @@ var (
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"security_zone_recipe_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_guard_security_recipe.test_security_recipe.id}`},
-		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		// 		"lifecycle":               acctest.RepresentationGroup{acctest.Required, ignoreSecurityZoneSystemTagsChangesRep},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSecurityZoneSystemTagsChangesRep},
 	}
 
-	// 	ignoreSecurityZoneSystemTagsChangesRep = map[string]interface{}{
-	// 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`}},
-	// 	}
+	ignoreSecurityZoneSystemTagsChangesRep = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`}},
+	}
 
 	CloudGuardSecurityZoneResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Required, acctest.Create, CloudGuardSecurityRecipeRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_policies", "oracle_security_policy", acctest.Required, acctest.Create, CloudGuardSecurityPolicyDataSourceRepresentationPluralDataSource) +

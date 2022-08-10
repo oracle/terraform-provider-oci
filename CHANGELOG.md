@@ -1,4 +1,31 @@
-## 4.87.0 (August 03, 2022)
+
+## 4.88.0 (August 10, 2022)
+
+### Added
+- Optimizer stats feature added
+- Support for Round Robin Alerting to monitors
+- ETags support for load balancer
+- Support for [Terraform] OCI ElasticSearch Service OCI ElasticSearch Service
+support for - ExaCC Historical MR
+- Support for OIC: Instance Migration with FAaaS
+- OCI Compute Support for OPSI service
+- Support for Java Management Service 5.0
+- Support for data science notebook session runtime configuration
+- Support of Announcements Service Subscriptions
+- support for rack SN as a system tag
+- Support for ExaCS - Monthly Security Patching
+- Support patch management
+- Support for Private Access Connection in Devops Build Service
+- Support for new data source TimeMaintenanceRebootDueMax
+- Support for Exacc Monthly Security Patching
+- support for Child Tables for NoSQL Database Cloud
+- Support for listing volumes/replicas by group/replica group id. Also support to view volume group membership status
+- Support for ExaCS in Opctl
+### Bug Fix
+supporting terraform version 0.12+ and ignoring systemTags for security zone and recipe
+- enabled preserve_data_volumes in oci_core_instance delete API and host_type in opsi_host_insights_data_source list api
+
+## 4.87.0 (August 10, 2022)
 
 ### Added
 - Support of Announcements Service Subscriptions

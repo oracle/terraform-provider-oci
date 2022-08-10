@@ -22,6 +22,7 @@ data "oci_jms_fleets" "test_fleets" {
 	#Optional
 	compartment_id = var.compartment_id
 	display_name = var.fleet_display_name
+	display_name_contains = var.fleet_display_name_contains
 	id = var.fleet_id
 	state = var.fleet_state
 }
@@ -33,6 +34,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources. 
 * `display_name` - (Optional) The display name.
+* `display_name_contains` - (Optional) Filter the list with displayName contains the given value. 
 * `id` - (Optional) The ID of the Fleet.
 * `state` - (Optional) The state of the lifecycle.
 
@@ -60,6 +62,7 @@ The following attributes are exported:
 * `inventory_log` - Custom Log for inventory or operation log. 
 	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	* `log_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
+* `is_advanced_features_enabled` - Whether or not advanced features are enabled in this fleet.  By default, this is set to false. 
 * `operation_log` - Custom Log for inventory or operation log. 
 	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	* `log_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.

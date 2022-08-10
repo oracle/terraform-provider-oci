@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// OracleRmStack DVP details of Oracle RM stack.
+// OracleRmStack Details of the Oracle Resource Manager stack, which is a subtype of the Dedicated Vantage Point stack.
 type OracleRmStack struct {
 
-	// Version of DVP.
+	// Version of the dedicated vantage point.
 	DvpVersion *string `mandatory:"true" json:"dvpVersion"`
 
-	// Stack OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of DVP RM stack.
+	// Stack OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Resource Manager stack for dedicated vantage point.
 	DvpStackId *string `mandatory:"true" json:"dvpStackId"`
 
-	// Stream OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of DVP RM stack.
+	// Stream OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Resource Manager stack for dedicated vantage point.
 	DvpStreamId *string `mandatory:"true" json:"dvpStreamId"`
 }
 
