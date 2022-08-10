@@ -3,7 +3,7 @@
 ### Bug Fix
 - Fix provider registry for oracle/oci
 
-## 4.88.0 (Unreleased)
+## 4.88.0 (August 10, 2022)
 
 ### Added
 - Optimizer stats feature added
@@ -29,7 +29,7 @@ support for - ExaCC Historical MR
 supporting terraform version 0.12+ and ignoring systemTags for security zone and recipe
 - enabled preserve_data_volumes in oci_core_instance delete API and host_type in opsi_host_insights_data_source list api
 
-## 4.87.0 (Unreleased)
+## 4.87.0 (August 10, 2022)
 
 ### Added
 - Support of Announcements Service Subscriptions
