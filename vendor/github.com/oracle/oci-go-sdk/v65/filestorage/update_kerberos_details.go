@@ -22,9 +22,6 @@ type UpdateKerberosDetails struct {
 	// The realm of the kerberos server Mount Target interacts with.
 	KerberosRealm *string `mandatory:"false" json:"kerberosRealm"`
 
-	// Describes how long to keep keytab entries(in seconds) after they have been rotated.
-	KerberosKeyLifeSeconds *int `mandatory:"false" json:"kerberosKeyLifeSeconds"`
-
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the KeyTab secret in the Vault.
 	KeyTabSecretId *string `mandatory:"false" json:"keyTabSecretId"`
 

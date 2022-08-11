@@ -18,8 +18,7 @@ import (
 // UpdateDeploymentBackupDetails The information to use to update a Deployment Backup.
 type UpdateDeploymentBackupDetails struct {
 
-	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists
-	// for cross-compatibility only.
+	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 

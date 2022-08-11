@@ -19,8 +19,8 @@ import (
 // GenericRestApiAttributes Generic rest api specific attributes.
 type GenericRestApiAttributes struct {
 
-	// The server URL serving operation.
-	ServerURL *string `mandatory:"false" json:"serverURL"`
+	// The serverUrl serving operation.
+	ServerUrl *string `mandatory:"false" json:"serverUrl"`
 }
 
 func (m GenericRestApiAttributes) String() string {

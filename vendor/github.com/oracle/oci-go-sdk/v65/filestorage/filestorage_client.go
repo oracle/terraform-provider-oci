@@ -307,7 +307,7 @@ func (client FileStorageClient) changeOutboundConnectorCompartment(ctx context.C
 }
 
 // ChangeReplicationCompartment Moves a replication and its replication target into a different compartment within the same tenancy.
-// For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+// For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client FileStorageClient) ChangeReplicationCompartment(ctx context.Context, request ChangeReplicationCompartmentRequest) (response ChangeReplicationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
@@ -844,7 +844,7 @@ func (client FileStorageClient) createOutboundConnector(ctx context.Context, req
 // and sends it to the associated `ReplicationTarget`, which retrieves the delta and applies it to the target
 // file system.
 // Only unexported file systems can be used as target file systems.
-// For more information, see Using Replication (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/using-replication.htm).
+// For more information, see Using Replication (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/FSreplication.htm).
 // For information about access control and compartments, see
 // Overview of the IAM
 // Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).

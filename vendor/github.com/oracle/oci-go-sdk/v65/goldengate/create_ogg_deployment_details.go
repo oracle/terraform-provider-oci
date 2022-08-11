@@ -18,16 +18,13 @@ import (
 // CreateOggDeploymentDetails Deployment Data for creating an OggDeployment
 type CreateOggDeploymentDetails struct {
 
-	// The name given to the GoldenGate service deployment.
-	// The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter.
+	// The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter.
 	DeploymentName *string `mandatory:"true" json:"deploymentName"`
 
 	// The GoldenGate deployment console username.
 	AdminUsername *string `mandatory:"true" json:"adminUsername"`
 
-	// The password associated with the GoldenGate deployment console username.
-	// The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric,
-	// and 1 special character. Special characters such as ‘$’, ‘^’, or ‘?’ are not allowed.
+	// The password associated with the GoldenGate deployment console username. The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric, and 1 special character. Special characters such as ‘$’, ‘^’, or ‘?’ are not allowed.
 	AdminPassword *string `mandatory:"true" json:"adminPassword"`
 
 	// A PEM-encoded SSL certificate.

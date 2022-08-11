@@ -34,12 +34,6 @@ const (
 	OperationTypeGoldengateDeploymentBackupCreate     OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_CREATE"
 	OperationTypeGoldengateDeploymentBackupDelete     OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_DELETE"
 	OperationTypeGoldengateDeploymentBackupCancel     OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL"
-	OperationTypeGoldengateConnectionCreate           OperationTypeEnum = "GOLDENGATE_CONNECTION_CREATE"
-	OperationTypeGoldengateConnectionUpdate           OperationTypeEnum = "GOLDENGATE_CONNECTION_UPDATE"
-	OperationTypeGoldengateConnectionDelete           OperationTypeEnum = "GOLDENGATE_CONNECTION_DELETE"
-	OperationTypeGoldengateConnectionMove             OperationTypeEnum = "GOLDENGATE_CONNECTION_MOVE"
-	OperationTypeGoldengateConnectionAssignmentCreate OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE"
-	OperationTypeGoldengateConnectionAssigmnentDelete OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -59,12 +53,6 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_DEPLOYMENT_BACKUP_CREATE":     OperationTypeGoldengateDeploymentBackupCreate,
 	"GOLDENGATE_DEPLOYMENT_BACKUP_DELETE":     OperationTypeGoldengateDeploymentBackupDelete,
 	"GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL":     OperationTypeGoldengateDeploymentBackupCancel,
-	"GOLDENGATE_CONNECTION_CREATE":            OperationTypeGoldengateConnectionCreate,
-	"GOLDENGATE_CONNECTION_UPDATE":            OperationTypeGoldengateConnectionUpdate,
-	"GOLDENGATE_CONNECTION_DELETE":            OperationTypeGoldengateConnectionDelete,
-	"GOLDENGATE_CONNECTION_MOVE":              OperationTypeGoldengateConnectionMove,
-	"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE": OperationTypeGoldengateConnectionAssignmentCreate,
-	"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE": OperationTypeGoldengateConnectionAssigmnentDelete,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -84,12 +72,6 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"goldengate_deployment_backup_create":     OperationTypeGoldengateDeploymentBackupCreate,
 	"goldengate_deployment_backup_delete":     OperationTypeGoldengateDeploymentBackupDelete,
 	"goldengate_deployment_backup_cancel":     OperationTypeGoldengateDeploymentBackupCancel,
-	"goldengate_connection_create":            OperationTypeGoldengateConnectionCreate,
-	"goldengate_connection_update":            OperationTypeGoldengateConnectionUpdate,
-	"goldengate_connection_delete":            OperationTypeGoldengateConnectionDelete,
-	"goldengate_connection_move":              OperationTypeGoldengateConnectionMove,
-	"goldengate_connection_assignment_create": OperationTypeGoldengateConnectionAssignmentCreate,
-	"goldengate_connection_assigmnent_delete": OperationTypeGoldengateConnectionAssigmnentDelete,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -120,12 +102,6 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_DEPLOYMENT_BACKUP_CREATE",
 		"GOLDENGATE_DEPLOYMENT_BACKUP_DELETE",
 		"GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL",
-		"GOLDENGATE_CONNECTION_CREATE",
-		"GOLDENGATE_CONNECTION_UPDATE",
-		"GOLDENGATE_CONNECTION_DELETE",
-		"GOLDENGATE_CONNECTION_MOVE",
-		"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE",
-		"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE",
 	}
 }
 

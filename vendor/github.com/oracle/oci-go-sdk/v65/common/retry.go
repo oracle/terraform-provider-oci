@@ -917,7 +917,6 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 				retrierChannel <- retrierResult{response, DeadlineExceededByBackoff}
 				return
 			}
-			Debugln(fmt.Sprintf("Http Status Code: %v. Matching retry policy", operationResponse.Response.HTTPResponse().StatusCode))
 			Debugln(fmt.Sprintf("waiting %v before retrying operation", duration))
 			// sleep before retrying the operation
 			<-time.After(duration)

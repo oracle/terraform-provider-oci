@@ -27,14 +27,10 @@ type CreateDatabaseRegistrationDetails struct {
 	// A three-label Fully Qualified Domain Name (FQDN) for a resource.
 	Fqdn *string `mandatory:"true" json:"fqdn"`
 
-	// The username Oracle GoldenGate uses to connect the associated RDBMS.  This username must
-	// already exist and be available for use by the database.  It must conform to the security
-	// requirements implemented by the database including length, case sensitivity, and so on.
+	// The username Oracle GoldenGate uses to connect the associated RDBMS.  This username must already exist and be available for use by the database.  It must conform to the security requirements implemented by the database including length, case sensitivity, and so on.
 	Username *string `mandatory:"true" json:"username"`
 
-	// The password Oracle GoldenGate uses to connect the associated RDBMS.  It must conform to the
-	// specific security requirements implemented by the database including length, case
-	// sensitivity, and so on.
+	// The password Oracle GoldenGate uses to connect the associated RDBMS.  It must conform to the specific security requirements implemented by the database including length, case sensitivity, and so on.
 	Password *string `mandatory:"true" json:"password"`
 
 	// Credential store alias.
@@ -43,8 +39,7 @@ type CreateDatabaseRegistrationDetails struct {
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
-	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists
-	// for cross-compatibility only.
+	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -52,8 +47,7 @@ type CreateDatabaseRegistrationDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The private IP address in the customer's VCN of the customer's endpoint, typically a
-	// database.
+	// The private IP address in the customer's VCN of the customer's endpoint, typically a database.
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
@@ -62,39 +56,22 @@ type CreateDatabaseRegistrationDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database being referenced.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
 
-	// Connect descriptor or Easy Connect Naming method that Oracle GoldenGate uses to connect to a
-	// database.
+	// Connect descriptor or Easy Connect Naming method that Oracle GoldenGate uses to connect to a database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
-	// The mode of the database connection session to be established by the data client.
-	// 'REDIRECT' - for a RAC database, 'DIRECT' - for a non-RAC database.
-	// Connection to a RAC database involves a redirection received from the SCAN listeners
-	// to the database node to connect to. By default the mode would be DIRECT.
+	// The mode of the database connection session to be established by the data client. REDIRECT - for a RAC database, DIRECT - for a non-RAC database. Connection to a RAC database involves a redirection received from the SCAN listeners to the database node to connect to. By default the mode would be DIRECT.
 	SessionMode CreateDatabaseRegistrationDetailsSessionModeEnum `mandatory:"false" json:"sessionMode,omitempty"`
 
-	// The wallet contents Oracle GoldenGate uses to make connections to a database.  This
-	// attribute is expected to be base64 encoded.
+	// The wallet contents Oracle GoldenGate uses to make connections to a database.  This attribute is expected to be base64 encoded.
 	Wallet *string `mandatory:"false" json:"wallet"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer vault being
-	// referenced.
-	// If provided, this will reference a vault which the customer will be required to ensure
-	// the policies are established to permit the GoldenGate Service to manage secrets contained
-	// within this vault.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer vault being referenced. If provided, this will reference a vault which the customer will be required to ensure the policies are established to permit the GoldenGate Service to manage secrets contained within this vault.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer "Master" key being
-	// referenced.
-	// If provided, this will reference a key which the customer will be required to ensure
-	// the policies are established to permit the GoldenGate Service to utilize this key to
-	// manage secrets.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer "Master" key being referenced. If provided, this will reference a key which the customer will be required to ensure the policies are established to permit the GoldenGate Service to utilize this key to manage secrets.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where the
-	// the GGS Secret will be created.
-	// If provided, this will reference a key which the customer will be required to ensure
-	// the policies are established to permit the GoldenGate Service to utilize this Compartment
-	// in which to create a Secret.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where the the GGS Secret will be created. If provided, this will reference a key which the customer will be required to ensure the policies are established to permit the GoldenGate Service to utilize this Compartment in which to create a Secret.
 	SecretCompartmentId *string `mandatory:"false" json:"secretCompartmentId"`
 }
 

@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-package goldengate
+package loganalytics
 
 import (
 	"fmt"
@@ -11,11 +11,11 @@ import (
 	"strings"
 )
 
-// GetConnectionAssignmentRequest wrapper for the GetConnectionAssignment operation
-type GetConnectionAssignmentRequest struct {
+// ListEncryptionKeyInfoRequest wrapper for the ListEncryptionKeyInfo operation
+type ListEncryptionKeyInfoRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Connection Assignment.
-	ConnectionAssignmentId *string `mandatory:"true" contributesTo:"path" name:"connectionAssignmentId"`
+	// The Logging Analytics namespace used for the request.
+	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -25,12 +25,12 @@ type GetConnectionAssignmentRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetConnectionAssignmentRequest) String() string {
+func (request ListEncryptionKeyInfoRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetConnectionAssignmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request ListEncryptionKeyInfoRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -40,21 +40,21 @@ func (request GetConnectionAssignmentRequest) HTTPRequest(method, path string, b
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request GetConnectionAssignmentRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request ListEncryptionKeyInfoRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetConnectionAssignmentRequest) RetryPolicy() common.OCIRetry {
+func (request ListEncryptionKeyInfoRequest) RetryPolicy() common.OCIRetry {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request GetConnectionAssignmentRequest) ValidateEnumValue() (bool, error) {
+func (request ListEncryptionKeyInfoRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -62,28 +62,24 @@ func (request GetConnectionAssignmentRequest) ValidateEnumValue() (bool, error) 
 	return false, nil
 }
 
-// GetConnectionAssignmentResponse wrapper for the GetConnectionAssignment operation
-type GetConnectionAssignmentResponse struct {
+// ListEncryptionKeyInfoResponse wrapper for the ListEncryptionKeyInfo operation
+type ListEncryptionKeyInfoResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The ConnectionAssignment instance
-	ConnectionAssignment `presentIn:"body"`
+	// The EncryptionKeyInfoCollection instance
+	EncryptionKeyInfoCollection `presentIn:"body"`
 
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
-
-	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
-	// particular request, please include the request ID.
+	// Unique Oracle-assigned identifier for the request. When you contact Oracle about a specific request, provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response GetConnectionAssignmentResponse) String() string {
+func (response ListEncryptionKeyInfoResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetConnectionAssignmentResponse) HTTPResponse() *http.Response {
+func (response ListEncryptionKeyInfoResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

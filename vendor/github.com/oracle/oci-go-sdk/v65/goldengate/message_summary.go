@@ -22,10 +22,10 @@ type MessageSummary struct {
 	Id *string `mandatory:"true" json:"id"`
 
 	// The deployment Message in plain text with optional HTML anchor tags.
-	DeploymentMessage *string `mandatory:"false" json:"deploymentMessage"`
+	DeploymentMessage *string `mandatory:"true" json:"deploymentMessage"`
 
 	// The deployment Message Status.
-	DeploymentMessageStatus MessageSummaryDeploymentMessageStatusEnum `mandatory:"false" json:"deploymentMessageStatus,omitempty"`
+	DeploymentMessageStatus MessageSummaryDeploymentMessageStatusEnum `mandatory:"true" json:"deploymentMessageStatus"`
 }
 
 func (m MessageSummary) String() string {
@@ -37,10 +37,10 @@ func (m MessageSummary) String() string {
 // Not recommended for calling this function directly
 func (m MessageSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-
 	if _, ok := GetMappingMessageSummaryDeploymentMessageStatusEnum(string(m.DeploymentMessageStatus)); !ok && m.DeploymentMessageStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentMessageStatus: %s. Supported values are: %s.", m.DeploymentMessageStatus, strings.Join(GetMessageSummaryDeploymentMessageStatusEnumStringValues(), ",")))
 	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

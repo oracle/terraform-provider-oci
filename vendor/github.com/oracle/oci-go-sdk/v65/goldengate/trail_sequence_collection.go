@@ -18,6 +18,10 @@ import (
 // TrailSequenceCollection A list of TrailSequences.
 type TrailSequenceCollection struct {
 
+	// The time the data was last fetched from the deployment. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	TimeLastFetched *common.SDKTime `mandatory:"true" json:"timeLastFetched"`
+
 	// An array of TrailSequences.
 	Items []TrailSequenceSummary `mandatory:"true" json:"items"`
 }

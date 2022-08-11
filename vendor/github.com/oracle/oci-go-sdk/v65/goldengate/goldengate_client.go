@@ -88,10 +88,11 @@ func (client *GoldenGateClient) ConfigurationProvider() *common.ConfigurationPro
 }
 
 // CancelDeploymentBackup Cancels a Deployment Backup creation process.
+// A default retry strategy applies to this operation CancelDeploymentBackup()
 func (client GoldenGateClient) CancelDeploymentBackup(ctx context.Context, request CancelDeploymentBackupRequest) (response CancelDeploymentBackupResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -146,72 +147,12 @@ func (client GoldenGateClient) cancelDeploymentBackup(ctx context.Context, reque
 	return response, err
 }
 
-// ChangeConnectionCompartment Moves the Connection into a different compartment within the same tenancy. When
-// provided, If-Match is checked against ETag values of the resource.  For information about
-// moving resources between compartments, see Moving Resources Between
-// Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
-func (client GoldenGateClient) ChangeConnectionCompartment(ctx context.Context, request ChangeConnectionCompartmentRequest) (response ChangeConnectionCompartmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
-	}
-	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.changeConnectionCompartment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeConnectionCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangeConnectionCompartmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangeConnectionCompartmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeConnectionCompartmentResponse")
-	}
-	return
-}
-
-// changeConnectionCompartment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) changeConnectionCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/connections/{connectionId}/actions/changeCompartment", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangeConnectionCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Connection/ChangeConnectionCompartment"
-		err = common.PostProcessServiceError(err, "GoldenGate", "ChangeConnectionCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ChangeDatabaseRegistrationCompartment Note: Deprecated. Use the new resource model APIs instead.
-// Moves the DatabaseRegistration into a different compartment within the same tenancy. When
-// provided, If-Match is checked against ETag values of the resource.  For information about
-// moving resources between compartments, see Moving Resources Between
-// Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeDatabaseRegistrationCompartment Moves the DatabaseRegistration into a different compartment within the same tenancy. When provided, If-Match is checked against ETag values of the resource.  For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeDatabaseRegistrationCompartment()
 func (client GoldenGateClient) ChangeDatabaseRegistrationCompartment(ctx context.Context, request ChangeDatabaseRegistrationCompartmentRequest) (response ChangeDatabaseRegistrationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -266,14 +207,12 @@ func (client GoldenGateClient) changeDatabaseRegistrationCompartment(ctx context
 	return response, err
 }
 
-// ChangeDeploymentBackupCompartment Moves a DeploymentBackup into a different compartment within the same tenancy.  When provided,
-// If-Match is checked against ETag values of the resource.  For information about moving
-// resources between compartments, see Moving Resources Between
-// Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeDeploymentBackupCompartment Moves a DeploymentBackup into a different compartment within the same tenancy.  When provided, If-Match is checked against ETag values of the resource.  For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeDeploymentBackupCompartment()
 func (client GoldenGateClient) ChangeDeploymentBackupCompartment(ctx context.Context, request ChangeDeploymentBackupCompartmentRequest) (response ChangeDeploymentBackupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -328,14 +267,12 @@ func (client GoldenGateClient) changeDeploymentBackupCompartment(ctx context.Con
 	return response, err
 }
 
-// ChangeDeploymentCompartment Moves the Deployment into a different compartment within the same tenancy.  When provided,
-// If-Match is checked against ETag values of the resource.  For information about moving
-// resources between compartments, see Moving Resources Between
-// Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeDeploymentCompartment Moves the Deployment into a different compartment within the same tenancy.  When provided, If-Match is checked against ETag values of the resource.  For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeDeploymentCompartment()
 func (client GoldenGateClient) ChangeDeploymentCompartment(ctx context.Context, request ChangeDeploymentCompartmentRequest) (response ChangeDeploymentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -390,130 +327,12 @@ func (client GoldenGateClient) changeDeploymentCompartment(ctx context.Context, 
 	return response, err
 }
 
-// CreateConnection Creates a new Connection.
-func (client GoldenGateClient) CreateConnection(ctx context.Context, request CreateConnectionRequest) (response CreateConnectionResponse, err error) {
-	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
-	}
-	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createConnection, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateConnectionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateConnectionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateConnectionResponse")
-	}
-	return
-}
-
-// createConnection implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) createConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/connections", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateConnectionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Connection/CreateConnection"
-		err = common.PostProcessServiceError(err, "GoldenGate", "CreateConnection", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &connection{})
-	return response, err
-}
-
-// CreateConnectionAssignment Creates a new Connection Assignment.
-func (client GoldenGateClient) CreateConnectionAssignment(ctx context.Context, request CreateConnectionAssignmentRequest) (response CreateConnectionAssignmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
-	}
-	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createConnectionAssignment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateConnectionAssignmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateConnectionAssignmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateConnectionAssignmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateConnectionAssignmentResponse")
-	}
-	return
-}
-
-// createConnectionAssignment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) createConnectionAssignment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/connectionAssignments", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateConnectionAssignmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/ConnectionAssignment/CreateConnectionAssignment"
-		err = common.PostProcessServiceError(err, "GoldenGate", "CreateConnectionAssignment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CreateDatabaseRegistration Note: Deprecated. Use the new resource model APIs instead.
-// Creates a new DatabaseRegistration.
+// CreateDatabaseRegistration Creates a new DatabaseRegistration.
+// A default retry strategy applies to this operation CreateDatabaseRegistration()
 func (client GoldenGateClient) CreateDatabaseRegistration(ctx context.Context, request CreateDatabaseRegistrationRequest) (response CreateDatabaseRegistrationResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -569,10 +388,11 @@ func (client GoldenGateClient) createDatabaseRegistration(ctx context.Context, r
 }
 
 // CreateDeployment Creates a new Deployment.
+// A default retry strategy applies to this operation CreateDeployment()
 func (client GoldenGateClient) CreateDeployment(ctx context.Context, request CreateDeploymentRequest) (response CreateDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -628,10 +448,11 @@ func (client GoldenGateClient) createDeployment(ctx context.Context, request com
 }
 
 // CreateDeploymentBackup Creates a new DeploymentBackup.
+// A default retry strategy applies to this operation CreateDeploymentBackup()
 func (client GoldenGateClient) CreateDeploymentBackup(ctx context.Context, request CreateDeploymentBackupRequest) (response CreateDeploymentBackupResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -686,120 +507,12 @@ func (client GoldenGateClient) createDeploymentBackup(ctx context.Context, reque
 	return response, err
 }
 
-// DeleteConnection Deletes a Connection.
-func (client GoldenGateClient) DeleteConnection(ctx context.Context, request DeleteConnectionRequest) (response DeleteConnectionResponse, err error) {
-	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
-	}
-	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteConnection, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteConnectionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteConnectionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteConnectionResponse")
-	}
-	return
-}
-
-// deleteConnection implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) deleteConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/connections/{connectionId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteConnectionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Connection/DeleteConnection"
-		err = common.PostProcessServiceError(err, "GoldenGate", "DeleteConnection", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteConnectionAssignment Deletes a Connection Assignment.
-func (client GoldenGateClient) DeleteConnectionAssignment(ctx context.Context, request DeleteConnectionAssignmentRequest) (response DeleteConnectionAssignmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
-	}
-	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteConnectionAssignment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteConnectionAssignmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteConnectionAssignmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteConnectionAssignmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteConnectionAssignmentResponse")
-	}
-	return
-}
-
-// deleteConnectionAssignment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) deleteConnectionAssignment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/connectionAssignments/{connectionAssignmentId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteConnectionAssignmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/ConnectionAssignment/DeleteConnectionAssignment"
-		err = common.PostProcessServiceError(err, "GoldenGate", "DeleteConnectionAssignment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteDatabaseRegistration Note: Deprecated. Use the new resource model APIs instead.
-// Deletes a DatabaseRegistration.
+// DeleteDatabaseRegistration Deletes a DatabaseRegistration.
+// A default retry strategy applies to this operation DeleteDatabaseRegistration()
 func (client GoldenGateClient) DeleteDatabaseRegistration(ctx context.Context, request DeleteDatabaseRegistrationRequest) (response DeleteDatabaseRegistrationResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -850,10 +563,11 @@ func (client GoldenGateClient) deleteDatabaseRegistration(ctx context.Context, r
 }
 
 // DeleteDeployment Deletes the Deployment.
+// A default retry strategy applies to this operation DeleteDeployment()
 func (client GoldenGateClient) DeleteDeployment(ctx context.Context, request DeleteDeploymentRequest) (response DeleteDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -904,10 +618,11 @@ func (client GoldenGateClient) deleteDeployment(ctx context.Context, request com
 }
 
 // DeleteDeploymentBackup Deletes a DeploymentBackup.
+// A default retry strategy applies to this operation DeleteDeploymentBackup()
 func (client GoldenGateClient) DeleteDeploymentBackup(ctx context.Context, request DeleteDeploymentBackupRequest) (response DeleteDeploymentBackupResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -957,120 +672,12 @@ func (client GoldenGateClient) deleteDeploymentBackup(ctx context.Context, reque
 	return response, err
 }
 
-// GetConnection Retrieves a Connection.
-func (client GoldenGateClient) GetConnection(ctx context.Context, request GetConnectionRequest) (response GetConnectionResponse, err error) {
-	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
-	}
-	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getConnection, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetConnectionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetConnectionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetConnectionResponse")
-	}
-	return
-}
-
-// getConnection implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) getConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/connections/{connectionId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetConnectionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Connection/GetConnection"
-		err = common.PostProcessServiceError(err, "GoldenGate", "GetConnection", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &connection{})
-	return response, err
-}
-
-// GetConnectionAssignment Retrieves a Connection Assignment.
-func (client GoldenGateClient) GetConnectionAssignment(ctx context.Context, request GetConnectionAssignmentRequest) (response GetConnectionAssignmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
-	}
-	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getConnectionAssignment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetConnectionAssignmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetConnectionAssignmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetConnectionAssignmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetConnectionAssignmentResponse")
-	}
-	return
-}
-
-// getConnectionAssignment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) getConnectionAssignment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/connectionAssignments/{connectionAssignmentId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetConnectionAssignmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/ConnectionAssignment/GetConnectionAssignment"
-		err = common.PostProcessServiceError(err, "GoldenGate", "GetConnectionAssignment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetDatabaseRegistration Note: Deprecated. Use the new resource model APIs instead.
-// Retrieves a DatabaseRegistration.
+// GetDatabaseRegistration Retrieves a DatabaseRegistration.
+// A default retry strategy applies to this operation GetDatabaseRegistration()
 func (client GoldenGateClient) GetDatabaseRegistration(ctx context.Context, request GetDatabaseRegistrationRequest) (response GetDatabaseRegistrationResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -1121,10 +728,11 @@ func (client GoldenGateClient) getDatabaseRegistration(ctx context.Context, requ
 }
 
 // GetDeployment Retrieves a deployment.
+// A default retry strategy applies to this operation GetDeployment()
 func (client GoldenGateClient) GetDeployment(ctx context.Context, request GetDeploymentRequest) (response GetDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -1175,10 +783,11 @@ func (client GoldenGateClient) getDeployment(ctx context.Context, request common
 }
 
 // GetDeploymentBackup Retrieves a DeploymentBackup.
+// A default retry strategy applies to this operation GetDeploymentBackup()
 func (client GoldenGateClient) GetDeploymentBackup(ctx context.Context, request GetDeploymentBackupRequest) (response GetDeploymentBackupResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -1229,10 +838,11 @@ func (client GoldenGateClient) getDeploymentBackup(ctx context.Context, request 
 }
 
 // GetDeploymentUpgrade Retrieves a deployment upgrade.
+// A default retry strategy applies to this operation GetDeploymentUpgrade()
 func (client GoldenGateClient) GetDeploymentUpgrade(ctx context.Context, request GetDeploymentUpgradeRequest) (response GetDeploymentUpgradeResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -1283,10 +893,11 @@ func (client GoldenGateClient) getDeploymentUpgrade(ctx context.Context, request
 }
 
 // GetWorkRequest Retrieve the WorkRequest identified by the given OCID.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client GoldenGateClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -1336,120 +947,12 @@ func (client GoldenGateClient) getWorkRequest(ctx context.Context, request commo
 	return response, err
 }
 
-// ListConnectionAssignments Lists the Connection Assignments in the compartment.
-func (client GoldenGateClient) ListConnectionAssignments(ctx context.Context, request ListConnectionAssignmentsRequest) (response ListConnectionAssignmentsResponse, err error) {
-	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
-	}
-	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listConnectionAssignments, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListConnectionAssignmentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListConnectionAssignmentsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListConnectionAssignmentsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListConnectionAssignmentsResponse")
-	}
-	return
-}
-
-// listConnectionAssignments implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) listConnectionAssignments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/connectionAssignments", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListConnectionAssignmentsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/ConnectionAssignment/ListConnectionAssignments"
-		err = common.PostProcessServiceError(err, "GoldenGate", "ListConnectionAssignments", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListConnections Lists the Connections in the compartment.
-func (client GoldenGateClient) ListConnections(ctx context.Context, request ListConnectionsRequest) (response ListConnectionsResponse, err error) {
-	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
-	}
-	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listConnections, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListConnectionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListConnectionsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListConnectionsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListConnectionsResponse")
-	}
-	return
-}
-
-// listConnections implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) listConnections(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/connections", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListConnectionsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Connection/ListConnections"
-		err = common.PostProcessServiceError(err, "GoldenGate", "ListConnections", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListDatabaseRegistrations Note: Deprecated. Use the new resource model APIs instead.
-// Lists the DatabaseRegistrations in the compartment.
+// ListDatabaseRegistrations Lists the DatabaseRegistrations in the compartment.
+// A default retry strategy applies to this operation ListDatabaseRegistrations()
 func (client GoldenGateClient) ListDatabaseRegistrations(ctx context.Context, request ListDatabaseRegistrationsRequest) (response ListDatabaseRegistrationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -1500,10 +1003,11 @@ func (client GoldenGateClient) listDatabaseRegistrations(ctx context.Context, re
 }
 
 // ListDeploymentBackups Lists the Backups in a compartment.
+// A default retry strategy applies to this operation ListDeploymentBackups()
 func (client GoldenGateClient) ListDeploymentBackups(ctx context.Context, request ListDeploymentBackupsRequest) (response ListDeploymentBackupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -1553,65 +1057,12 @@ func (client GoldenGateClient) listDeploymentBackups(ctx context.Context, reques
 	return response, err
 }
 
-// ListDeploymentTypes Returns an array of DeploymentTypeDescriptor
-func (client GoldenGateClient) ListDeploymentTypes(ctx context.Context, request ListDeploymentTypesRequest) (response ListDeploymentTypesResponse, err error) {
-	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
-	}
-	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listDeploymentTypes, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListDeploymentTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListDeploymentTypesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListDeploymentTypesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListDeploymentTypesResponse")
-	}
-	return
-}
-
-// listDeploymentTypes implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) listDeploymentTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deploymentTypes", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListDeploymentTypesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentTypeCollection/ListDeploymentTypes"
-		err = common.PostProcessServiceError(err, "GoldenGate", "ListDeploymentTypes", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListDeploymentUpgrades Lists the Deployment Upgrades in a compartment.
+// A default retry strategy applies to this operation ListDeploymentUpgrades()
 func (client GoldenGateClient) ListDeploymentUpgrades(ctx context.Context, request ListDeploymentUpgradesRequest) (response ListDeploymentUpgradesResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -1662,10 +1113,11 @@ func (client GoldenGateClient) listDeploymentUpgrades(ctx context.Context, reque
 }
 
 // ListDeployments Lists the Deployments in a compartment.
+// A default retry strategy applies to this operation ListDeployments()
 func (client GoldenGateClient) ListDeployments(ctx context.Context, request ListDeploymentsRequest) (response ListDeploymentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -1715,11 +1167,12 @@ func (client GoldenGateClient) listDeployments(ctx context.Context, request comm
 	return response, err
 }
 
-// ListMessages Lists the DeploymentMessages for a deployment.
+// ListMessages Lists the DeploymentMessages for a deployment. The sorting order is not important. By default first will be Upgrade message, next Exception message and then Storage Utilization message.
+// A default retry strategy applies to this operation ListMessages()
 func (client GoldenGateClient) ListMessages(ctx context.Context, request ListMessagesRequest) (response ListMessagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -1770,10 +1223,11 @@ func (client GoldenGateClient) listMessages(ctx context.Context, request common.
 }
 
 // ListTrailFiles Lists the TrailFiles for a deployment.
+// A default retry strategy applies to this operation ListTrailFiles()
 func (client GoldenGateClient) ListTrailFiles(ctx context.Context, request ListTrailFilesRequest) (response ListTrailFilesResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -1824,10 +1278,11 @@ func (client GoldenGateClient) listTrailFiles(ctx context.Context, request commo
 }
 
 // ListTrailSequences Lists the Trail Sequences for a TrailFile in a given deployment.
+// A default retry strategy applies to this operation ListTrailSequences()
 func (client GoldenGateClient) ListTrailSequences(ctx context.Context, request ListTrailSequencesRequest) (response ListTrailSequencesResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -1878,10 +1333,11 @@ func (client GoldenGateClient) listTrailSequences(ctx context.Context, request c
 }
 
 // ListWorkRequestErrors Lists work request errors.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client GoldenGateClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -1932,10 +1388,11 @@ func (client GoldenGateClient) listWorkRequestErrors(ctx context.Context, reques
 }
 
 // ListWorkRequestLogs Lists work request logs.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client GoldenGateClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -1986,10 +1443,11 @@ func (client GoldenGateClient) listWorkRequestLogs(ctx context.Context, request 
 }
 
 // ListWorkRequests Lists the work requests in the compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client GoldenGateClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -2040,10 +1498,11 @@ func (client GoldenGateClient) listWorkRequests(ctx context.Context, request com
 }
 
 // RestoreDeployment Restores a Deployment from a Deployment Backup created from the same Deployment.
+// A default retry strategy applies to this operation RestoreDeployment()
 func (client GoldenGateClient) RestoreDeployment(ctx context.Context, request RestoreDeploymentRequest) (response RestoreDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -2099,10 +1558,11 @@ func (client GoldenGateClient) restoreDeployment(ctx context.Context, request co
 }
 
 // StartDeployment Starts a Deployment. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation StartDeployment()
 func (client GoldenGateClient) StartDeployment(ctx context.Context, request StartDeploymentRequest) (response StartDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -2158,10 +1618,11 @@ func (client GoldenGateClient) startDeployment(ctx context.Context, request comm
 }
 
 // StopDeployment Stops a Deployment. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation StopDeployment()
 func (client GoldenGateClient) StopDeployment(ctx context.Context, request StopDeploymentRequest) (response StopDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -2216,66 +1677,12 @@ func (client GoldenGateClient) stopDeployment(ctx context.Context, request commo
 	return response, err
 }
 
-// UpdateConnection Updates the Connection.
-func (client GoldenGateClient) UpdateConnection(ctx context.Context, request UpdateConnectionRequest) (response UpdateConnectionResponse, err error) {
-	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
-	}
-	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateConnection, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateConnectionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateConnectionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateConnectionResponse")
-	}
-	return
-}
-
-// updateConnection implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) updateConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/connections/{connectionId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateConnectionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Connection/UpdateConnection"
-		err = common.PostProcessServiceError(err, "GoldenGate", "UpdateConnection", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateDatabaseRegistration Note: Deprecated. Use the new resource model APIs instead.
-// Updates the DatabaseRegistration.
+// UpdateDatabaseRegistration Updates the DatabaseRegistration.
+// A default retry strategy applies to this operation UpdateDatabaseRegistration()
 func (client GoldenGateClient) UpdateDatabaseRegistration(ctx context.Context, request UpdateDatabaseRegistrationRequest) (response UpdateDatabaseRegistrationResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -2326,10 +1733,11 @@ func (client GoldenGateClient) updateDatabaseRegistration(ctx context.Context, r
 }
 
 // UpdateDeployment Modifies a Deployment.
+// A default retry strategy applies to this operation UpdateDeployment()
 func (client GoldenGateClient) UpdateDeployment(ctx context.Context, request UpdateDeploymentRequest) (response UpdateDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -2380,10 +1788,11 @@ func (client GoldenGateClient) updateDeployment(ctx context.Context, request com
 }
 
 // UpdateDeploymentBackup Modifies a Deployment Backup.
+// A default retry strategy applies to this operation UpdateDeploymentBackup()
 func (client GoldenGateClient) UpdateDeploymentBackup(ctx context.Context, request UpdateDeploymentBackupRequest) (response UpdateDeploymentBackupResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}
@@ -2434,10 +1843,11 @@ func (client GoldenGateClient) updateDeploymentBackup(ctx context.Context, reque
 }
 
 // UpgradeDeployment Upgrade a Deployment. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation UpgradeDeployment()
 func (client GoldenGateClient) UpgradeDeployment(ctx context.Context, request UpgradeDeploymentRequest) (response UpgradeDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
+	policy = common.DefaultComplexRetryPolicyV2()
 	if client.RetryPolicyV2() != nil {
 		policy = client.RetryPolicyV2()
 	}

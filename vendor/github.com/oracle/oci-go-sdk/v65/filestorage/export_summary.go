@@ -43,10 +43,6 @@ type ExportSummary struct {
 
 	// The export is modified to include a boolean to use ID mapping for Unix Groups rather than the group list provided within an NFS Request's RPC header. When this flag is true the Unix UID from the RPC header is used to retrieve the list of secondary groups from a the ID mapping subsystem. The primary GID is always taken from the RPC header. If ID mapping is not configured, incorrectly configured, unavailable or cannot be used to determine a list of secondary groups then the data path uses an empty secondary group list for authorization. If the number of groups exceeds the current limit of 256 groups the list retrieved from LDAP is truncated to the first 256 groups read.
 	IsIdmapGroupsForSysAuth *bool `mandatory:"false" json:"isIdmapGroupsForSysAuth"`
-
-	// Export can be created in 'ENABLED' or 'DISABLED' mode.
-	// Attempt to mount the filesystem will fail if the export is in 'DISABLED' mode.
-	ExportMode ExportSummaryExportModeEnum `mandatory:"false" json:"exportMode,omitempty"`
 }
 
 func (m ExportSummary) String() string {
@@ -62,9 +58,6 @@ func (m ExportSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetExportSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingExportSummaryExportModeEnum(string(m.ExportMode)); !ok && m.ExportMode != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExportMode: %s. Supported values are: %s.", m.ExportMode, strings.Join(GetExportSummaryExportModeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -118,47 +111,5 @@ func GetExportSummaryLifecycleStateEnumStringValues() []string {
 // GetMappingExportSummaryLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingExportSummaryLifecycleStateEnum(val string) (ExportSummaryLifecycleStateEnum, bool) {
 	enum, ok := mappingExportSummaryLifecycleStateEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// ExportSummaryExportModeEnum Enum with underlying type: string
-type ExportSummaryExportModeEnum string
-
-// Set of constants representing the allowable values for ExportSummaryExportModeEnum
-const (
-	ExportSummaryExportModeEnabled  ExportSummaryExportModeEnum = "ENABLED"
-	ExportSummaryExportModeDisabled ExportSummaryExportModeEnum = "DISABLED"
-)
-
-var mappingExportSummaryExportModeEnum = map[string]ExportSummaryExportModeEnum{
-	"ENABLED":  ExportSummaryExportModeEnabled,
-	"DISABLED": ExportSummaryExportModeDisabled,
-}
-
-var mappingExportSummaryExportModeEnumLowerCase = map[string]ExportSummaryExportModeEnum{
-	"enabled":  ExportSummaryExportModeEnabled,
-	"disabled": ExportSummaryExportModeDisabled,
-}
-
-// GetExportSummaryExportModeEnumValues Enumerates the set of values for ExportSummaryExportModeEnum
-func GetExportSummaryExportModeEnumValues() []ExportSummaryExportModeEnum {
-	values := make([]ExportSummaryExportModeEnum, 0)
-	for _, v := range mappingExportSummaryExportModeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetExportSummaryExportModeEnumStringValues Enumerates the set of values in String for ExportSummaryExportModeEnum
-func GetExportSummaryExportModeEnumStringValues() []string {
-	return []string{
-		"ENABLED",
-		"DISABLED",
-	}
-}
-
-// GetMappingExportSummaryExportModeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingExportSummaryExportModeEnum(val string) (ExportSummaryExportModeEnum, bool) {
-	enum, ok := mappingExportSummaryExportModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

@@ -20,6 +20,12 @@ type ListMessagesRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// The maximum number of items to return.
+	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
+
+	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
+	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -68,11 +74,10 @@ type ListMessagesResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The DeploymentMessageCollection instance
+	// A list of DeploymentMessageCollection instances
 	DeploymentMessageCollection `presentIn:"body"`
 
-	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
-	// particular request, please include the request ID.
+	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please include the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 

@@ -17,11 +17,7 @@ type CreateDeploymentBackupRequest struct {
 	// Specification of the DeploymentBackup to create.
 	CreateDeploymentBackupDetails `contributesTo:"body"`
 
-	// A token that uniquely identifies a request so it can be retried, in case of a timeout or
-	// server error, without risk of executing that same action again. Retry tokens expire after 24
-	// hours, but can be invalidated before then due to conflicting operations. For example, if a
-	// resource has been deleted and purged from the system, then a retry of the original creation
-	// request is rejected.
+	// A token that uniquely identifies a request so it can be retried, in case of a timeout or server error, without risk of executing that same action again. Retry tokens expire after 24 hours, but can be invalidated before then due to conflicting operations. For example, if a resource has been deleted and purged from the system, then a retry of the original creation request is rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// The client request ID for tracing.
@@ -75,12 +71,10 @@ type CreateDeploymentBackupResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// A unique Oracle-assigned identifier for an asynchronous request. You can use this to query
-	// status of the asynchronous operation.
+	// A unique Oracle-assigned identifier for an asynchronous request. You can use this to query status of the asynchronous operation.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
-	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
-	// particular request, please include the request ID.
+	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please include the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 

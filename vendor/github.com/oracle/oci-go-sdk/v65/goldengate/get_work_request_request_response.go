@@ -14,7 +14,7 @@ import (
 // GetWorkRequestRequest wrapper for the GetWorkRequest operation
 type GetWorkRequestRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the asynchronous request.
+	// The ID of the asynchronous request.
 	WorkRequestId *string `mandatory:"true" contributesTo:"path" name:"workRequestId"`
 
 	// The client request ID for tracing.
@@ -71,8 +71,7 @@ type GetWorkRequestResponse struct {
 	// The WorkRequest instance
 	WorkRequest `presentIn:"body"`
 
-	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
-	// particular request, please include the request ID.
+	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please include the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// The number of seconds the client should wait before polling this endpoint again.

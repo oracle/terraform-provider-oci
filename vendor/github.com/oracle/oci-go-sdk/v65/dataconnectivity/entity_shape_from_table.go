@@ -65,6 +65,9 @@ type EntityShapeFromTable struct {
 	// Value can only contain upper case letters, underscore and numbers. It should begin with an upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
+	// Map<String, String> for entity properties
+	EntityProperties map[string]string `mandatory:"false" json:"entityProperties"`
+
 	// The entity type.
 	EntityType EntityShapeFromTableEntityTypeEnum `mandatory:"false" json:"entityType,omitempty"`
 }
@@ -110,24 +113,25 @@ func (m EntityShapeFromTable) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *EntityShapeFromTable) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Metadata       *ObjectMetadata                    `json:"metadata"`
-		Key            *string                            `json:"key"`
-		ModelVersion   *string                            `json:"modelVersion"`
-		ParentRef      *ParentReference                   `json:"parentRef"`
-		Name           *string                            `json:"name"`
-		Description    *string                            `json:"description"`
-		ObjectVersion  *int                               `json:"objectVersion"`
-		ExternalKey    *string                            `json:"externalKey"`
-		Shape          *Shape                             `json:"shape"`
-		ShapeId        *string                            `json:"shapeId"`
-		EntityType     EntityShapeFromTableEntityTypeEnum `json:"entityType"`
-		OtherTypeLabel *string                            `json:"otherTypeLabel"`
-		UniqueKeys     []uniquekey                        `json:"uniqueKeys"`
-		ForeignKeys    []ForeignKey                       `json:"foreignKeys"`
-		ResourceName   *string                            `json:"resourceName"`
-		DataFormat     *DataFormat                        `json:"dataFormat"`
-		ObjectStatus   *int                               `json:"objectStatus"`
-		Identifier     *string                            `json:"identifier"`
+		Metadata         *ObjectMetadata                    `json:"metadata"`
+		Key              *string                            `json:"key"`
+		ModelVersion     *string                            `json:"modelVersion"`
+		ParentRef        *ParentReference                   `json:"parentRef"`
+		Name             *string                            `json:"name"`
+		Description      *string                            `json:"description"`
+		ObjectVersion    *int                               `json:"objectVersion"`
+		ExternalKey      *string                            `json:"externalKey"`
+		Shape            *Shape                             `json:"shape"`
+		ShapeId          *string                            `json:"shapeId"`
+		EntityType       EntityShapeFromTableEntityTypeEnum `json:"entityType"`
+		OtherTypeLabel   *string                            `json:"otherTypeLabel"`
+		UniqueKeys       []uniquekey                        `json:"uniqueKeys"`
+		ForeignKeys      []ForeignKey                       `json:"foreignKeys"`
+		ResourceName     *string                            `json:"resourceName"`
+		DataFormat       *DataFormat                        `json:"dataFormat"`
+		ObjectStatus     *int                               `json:"objectStatus"`
+		Identifier       *string                            `json:"identifier"`
+		EntityProperties map[string]string                  `json:"entityProperties"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -184,6 +188,8 @@ func (m *EntityShapeFromTable) UnmarshalJSON(data []byte) (e error) {
 	m.ObjectStatus = model.ObjectStatus
 
 	m.Identifier = model.Identifier
+
+	m.EntityProperties = model.EntityProperties
 
 	return
 }

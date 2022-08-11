@@ -24,6 +24,8 @@ const (
 	StorageOperationTypeReleaseRecalledStorageData StorageOperationTypeEnum = "RELEASE_RECALLED_STORAGE_DATA"
 	StorageOperationTypeArchiveStorageData         StorageOperationTypeEnum = "ARCHIVE_STORAGE_DATA"
 	StorageOperationTypeCleanupArchivalStorageData StorageOperationTypeEnum = "CLEANUP_ARCHIVAL_STORAGE_DATA"
+	StorageOperationTypeEncryptActiveData          StorageOperationTypeEnum = "ENCRYPT_ACTIVE_DATA"
+	StorageOperationTypeEncryptArchivalData        StorageOperationTypeEnum = "ENCRYPT_ARCHIVAL_DATA"
 )
 
 var mappingStorageOperationTypeEnum = map[string]StorageOperationTypeEnum{
@@ -33,6 +35,8 @@ var mappingStorageOperationTypeEnum = map[string]StorageOperationTypeEnum{
 	"RELEASE_RECALLED_STORAGE_DATA": StorageOperationTypeReleaseRecalledStorageData,
 	"ARCHIVE_STORAGE_DATA":          StorageOperationTypeArchiveStorageData,
 	"CLEANUP_ARCHIVAL_STORAGE_DATA": StorageOperationTypeCleanupArchivalStorageData,
+	"ENCRYPT_ACTIVE_DATA":           StorageOperationTypeEncryptActiveData,
+	"ENCRYPT_ARCHIVAL_DATA":         StorageOperationTypeEncryptArchivalData,
 }
 
 var mappingStorageOperationTypeEnumLowerCase = map[string]StorageOperationTypeEnum{
@@ -42,6 +46,8 @@ var mappingStorageOperationTypeEnumLowerCase = map[string]StorageOperationTypeEn
 	"release_recalled_storage_data": StorageOperationTypeReleaseRecalledStorageData,
 	"archive_storage_data":          StorageOperationTypeArchiveStorageData,
 	"cleanup_archival_storage_data": StorageOperationTypeCleanupArchivalStorageData,
+	"encrypt_active_data":           StorageOperationTypeEncryptActiveData,
+	"encrypt_archival_data":         StorageOperationTypeEncryptArchivalData,
 }
 
 // GetStorageOperationTypeEnumValues Enumerates the set of values for StorageOperationTypeEnum
@@ -62,6 +68,8 @@ func GetStorageOperationTypeEnumStringValues() []string {
 		"RELEASE_RECALLED_STORAGE_DATA",
 		"ARCHIVE_STORAGE_DATA",
 		"CLEANUP_ARCHIVAL_STORAGE_DATA",
+		"ENCRYPT_ACTIVE_DATA",
+		"ENCRYPT_ARCHIVAL_DATA",
 	}
 }
 
