@@ -382,6 +382,7 @@ resource "oci_ocvp_sddc" "test_sddc" {
   initial_host_ocpu_count     = "52.0"
   initial_host_shape_name     = "BM.DenseIO2.52"
   is_shielded_instance_enabled = false
+  is_non_production = false
   hcx_action = "upgrade"
   refresh_hcx_license_status = true
   #reserving_hcx_on_premise_license_keys = var.reserving_hcx_on_premise_license_keys
