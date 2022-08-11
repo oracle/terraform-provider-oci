@@ -28,6 +28,11 @@ resource "oci_dataflow_application" "test_application" {
 	spark_version = var.application_spark_version
 
 	#Optional
+	application_log_config {
+		#Required
+		log_group_id = oci_logging_log_group.test_log_group.id
+		log_id = oci_logging_log.test_log.id
+	}
 	archive_uri = var.application_archive_uri
 	arguments = var.application_arguments
 	class_name = var.application_class_name
@@ -65,6 +70,9 @@ resource "oci_dataflow_application" "test_application" {
 
 The following arguments are supported:
 
+* `application_log_config` - (Optional) (Updatable) Logging details of Application logs for Data Flow Run. 
+	* `log_group_id` - (Required) (Updatable) The log group id for where log objects will be for Data Flow Runs. 
+	* `log_id` - (Required) (Updatable) The log id of the log object the Application Logs of Data Flow Run will be shipped to. 
 * `archive_uri` - (Optional) (Updatable) An Oracle Cloud Infrastructure URI of an archive.zip file containing custom dependencies that may be used to support the execution a Python, Java, or Scala application. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
 * `arguments` - (Optional) (Updatable) The arguments passed to the running application as command line arguments.  An argument is either a plain text or a placeholder. Placeholders are replaced using values from the parameters map.  Each placeholder specified must be represented in the parameters map else the request (POST or PUT) will fail with a HTTP 400 status code.  Placeholders are specified as `Service Api Spec`, where `name` is the name of the parameter. Example:  `[ "--input", "${input_file}", "--name", "John Doe" ]` If "input_file" has a value of "mydata.xml", then the value above will be translated to `--input mydata.xml --name "John Doe"` 
 * `class_name` - (Optional) (Updatable) The class for the application. 
@@ -104,6 +112,9 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `application_log_config` - Logging details of Application logs for Data Flow Run. 
+	* `log_group_id` - The log group id for where log objects will be for Data Flow Runs. 
+	* `log_id` - The log id of the log object the Application Logs of Data Flow Run will be shipped to. 
 * `archive_uri` - An Oracle Cloud Infrastructure URI of an archive.zip file containing custom dependencies that may be used to support the execution a Python, Java, or Scala application. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
 * `arguments` - The arguments passed to the running application as command line arguments.  An argument is either a plain text or a placeholder. Placeholders are replaced using values from the parameters map.  Each placeholder specified must be represented in the parameters map else the request (POST or PUT) will fail with a HTTP 400 status code.  Placeholders are specified as `Service Api Spec`, where `name` is the name of the parameter. Example:  `[ "--input", "${input_file}", "--name", "John Doe" ]` If "input_file" has a value of "mydata.xml", then the value above will be translated to `--input mydata.xml --name "John Doe"` 
 * `class_name` - The class for the application. 

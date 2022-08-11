@@ -61,6 +61,30 @@ func DataflowApplicationResource() *schema.Resource {
 			},
 
 			// Optional
+			"application_log_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"log_group_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"log_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"archive_uri": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -299,6 +323,17 @@ func (s *DataflowApplicationResourceCrud) DeletedTarget() []string {
 func (s *DataflowApplicationResourceCrud) Create() error {
 	request := oci_dataflow.CreateApplicationRequest{}
 
+	if applicationLogConfig, ok := s.D.GetOkExists("application_log_config"); ok {
+		if tmpList := applicationLogConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "application_log_config", 0)
+			tmp, err := s.mapToApplicationLogConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ApplicationLogConfig = &tmp
+		}
+	}
+
 	if archiveUri, ok := s.D.GetOkExists("archive_uri"); ok {
 		tmp := archiveUri.(string)
 		request.ArchiveUri = &tmp
@@ -493,6 +528,17 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ApplicationId = &tmp
 
+	if applicationLogConfig, ok := s.D.GetOkExists("application_log_config"); ok {
+		if tmpList := applicationLogConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "application_log_config", 0)
+			tmp, err := s.mapToApplicationLogConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ApplicationLogConfig = &tmp
+		}
+	}
+
 	if archiveUri, ok := s.D.GetOkExists("archive_uri"); ok {
 		tmp := archiveUri.(string)
 		request.ArchiveUri = &tmp
@@ -659,6 +705,12 @@ func (s *DataflowApplicationResourceCrud) Delete() error {
 }
 
 func (s *DataflowApplicationResourceCrud) SetData() error {
+	if s.Res.ApplicationLogConfig != nil {
+		s.D.Set("application_log_config", []interface{}{ApplicationLogConfigToMap(s.Res.ApplicationLogConfig)})
+	} else {
+		s.D.Set("application_log_config", nil)
+	}
+
 	if s.Res.ArchiveUri != nil {
 		s.D.Set("archive_uri", *s.Res.ArchiveUri)
 	}
@@ -770,6 +822,36 @@ func (s *DataflowApplicationResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *DataflowApplicationResourceCrud) mapToApplicationLogConfig(fieldKeyFormat string) (oci_dataflow.ApplicationLogConfig, error) {
+	result := oci_dataflow.ApplicationLogConfig{}
+
+	if logGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_group_id")); ok {
+		tmp := logGroupId.(string)
+		result.LogGroupId = &tmp
+	}
+
+	if logId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_id")); ok {
+		tmp := logId.(string)
+		result.LogId = &tmp
+	}
+
+	return result, nil
+}
+
+func ApplicationLogConfigToMap(obj *oci_dataflow.ApplicationLogConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.LogGroupId != nil {
+		result["log_group_id"] = string(*obj.LogGroupId)
+	}
+
+	if obj.LogId != nil {
+		result["log_id"] = string(*obj.LogId)
+	}
+
+	return result
 }
 
 func (s *DataflowApplicationResourceCrud) mapToApplicationParameter(fieldKeyFormat string) (oci_dataflow.ApplicationParameter, error) {

@@ -54,6 +54,7 @@ var (
 		"num_executors":        acctest.Representation{RepType: acctest.Optional, Create: `1`},
 		"spark_version":        acctest.Representation{RepType: acctest.Optional, Create: `2.4.4`},
 		"warehouse_bucket_uri": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForDataFlowResource},
 	}
 
 	InvokeRunSubmitResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
