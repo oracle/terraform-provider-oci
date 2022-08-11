@@ -28,9 +28,9 @@ func BdsBdsInstanceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &tfresource.ThreeHours,
-			Update: &tfresource.ThreeHours,
-			Delete: &tfresource.ThreeHours,
+			Create: &tfresource.TwelveHours,
+			Update: &tfresource.TwelveHours,
+			Delete: &tfresource.TwelveHours,
 		},
 		Create: createBdsBdsInstance,
 		Read:   readBdsBdsInstance,
