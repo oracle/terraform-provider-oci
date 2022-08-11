@@ -48,7 +48,7 @@ var (
 	}
 
 	bdsInstanceOdhRepresentation = map[string]interface{}{
-		"cluster_admin_password":   acctest.Representation{RepType: acctest.Required, Create: `V2VsY29tZTEhCg==`},
+		"cluster_admin_password":   acctest.Representation{RepType: acctest.Required, Create: `T3JhY2xlVGVhbVVTQSExMjM=`},
 		"cluster_public_key":       acctest.Representation{RepType: acctest.Required, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDpUa4zUZKyU3AkW9yoJTBDO550wpWZOXdHswfRq75gbJ2ZYlMtifvwiO3qUL/RIZSC6e1wA5OL2LQ97UaHrLLPXgjvKGVIDRHqPkzTOayjJ4ZA7NPNhcu6f/OxhKkCYF3TAQObhMJmUSMrWSUeufaRIujDz1HHqazxOgFk09fj4i2dcGnfPcm32t8a9MzlsHSmgexYCUwxGisuuWTsnMgxbqsj6DaY51l+SEPi5tf10iFmUWqziF0eKDDQ/jHkwLJ8wgBJef9FSOmwJReHcBY+NviwFTatGj7Cwtnks6CVomsFD+rAMJ9uzM8SCv5agYunx07hnEXbR9r/TXqgXGfN bdsclusterkey@oracleoci.com`},
 		"cluster_version":          acctest.Representation{RepType: acctest.Required, Create: `ODH1`},
 		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -63,7 +63,7 @@ var (
 		"compute_only_worker_node": acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 
 		"is_cloud_sql_configured": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"kms_key_id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
+		"kms_key_id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`, Update: `${var.kms_key_id_for_update}`},
 		//"cloud_sql_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: bdsInstanceNodesOdhCloudSqlRepresentation}, // capacity issue
 
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -152,6 +152,9 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_ocid")
 	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
 
+	kmsKeyIdU := utils.GetEnvSettingWithBlankDefault("kms_key_id_for_update")
+	kmsKeyIdUVariableStr := fmt.Sprintf("variable \"kms_key_id_for_update\" { default = \"%s\" }\n", kmsKeyIdU)
+
 	bootstrapScriptUrl := utils.GetEnvSettingWithBlankDefault("bootstrap_script_url")
 	bootstrapScriptUrlVariableStr := fmt.Sprintf("variable \"bootstrap_script_url\" { default = \"%s\" }\n", bootstrapScriptUrl)
 
@@ -170,7 +173,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
-				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTEhCg=="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -198,7 +201,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create, bdsInstanceOdhRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "bootstrap_script_url", bootstrapScriptUrl),
-				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTEhCg=="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -209,7 +212,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
 				resource.TestCheckResourceAttr(resourceName, "kerberos_realm_name", "BDSCLOUDSERVICE.ORACLE.COM"),
-				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "kms_key_id", kmsKeyId),
 				resource.TestCheckResourceAttr(resourceName, "network_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "network_config.0.is_nat_gateway_required", "true"),
@@ -248,7 +251,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: resource.ComposeAggregateTestCheckFunc(
-				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTEhCg=="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -259,7 +262,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
 				resource.TestCheckResourceAttr(resourceName, "kerberos_realm_name", "BDSCLOUDSERVICE.ORACLE.COM"),
-				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "kms_key_id", kmsKeyId),
 				resource.TestCheckResourceAttr(resourceName, "network_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "network_config.0.is_nat_gateway_required", "true"),
@@ -291,10 +294,10 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 
 		// verify updates to updatable parameters, add a worker, update compute worker flex->regular, update util regular -> flex
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhResourceDependencies +
+			Config: config + compartmentIdVariableStr + kmsKeyIdUVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update, bdsInstanceOdhWithRegularComputeAndFlexMasterUtilRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
-				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTEhCg=="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -305,7 +308,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
 				resource.TestCheckResourceAttr(resourceName, "kerberos_realm_name", "BDSCLOUDSERVICE.ORACLE.COM"),
-				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "kms_key_id", kmsKeyIdU),
 				resource.TestCheckResourceAttr(resourceName, "network_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "network_config.0.is_nat_gateway_required", "true"),
@@ -342,13 +345,12 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instances", "test_bds_instances", acctest.Optional, acctest.Update, bdsInstanceOdhDataSourceRepresentation) +
-				compartmentIdVariableStr + kmsKeyIdVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhResourceDependencies +
+				compartmentIdVariableStr + kmsKeyIdUVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update, bdsInstanceOdhWithRegularComputeAndFlexMasterUtilRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.cluster_version", "ODH1"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.compartment_id", compartmentId),
@@ -367,7 +369,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + kmsKeyIdVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhWithRegularComputeWorkerResourceConfig,
+				compartmentIdVariableStr + kmsKeyIdVariableStr + kmsKeyIdUVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhWithRegularComputeWorkerResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
 
@@ -382,6 +384,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"), //empty
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "kms_key_id", kmsKeyIdU),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_cloud_sql_configured"),

@@ -120,14 +120,6 @@ The following arguments are supported:
 * `network_config` - (Optional) Additional configuration of the user's network.
 	* `cidr_block` - (Optional) The CIDR IP address block of the VCN.
 	* `is_nat_gateway_required` - (Optional) A boolean flag whether to configure a NAT gateway.
-* `nodes` - (Required) The list of nodes in the Big Data Service cluster.
-	* `block_volume_size_in_gbs` - (Required) The size of block volume in GB to be attached to a given node. All the details needed for attaching the block volume are managed by service itself. 
-	* `node_type` - (Required) The Big Data Service cluster node type.
-	* `shape` - (Required) (Updatable) Shape of the node.
-	* `shape_config` - (Optional) The shape configuration requested for the node.
-		* `memory_in_gbs` - (Optional) The total amount of memory available to the node, in gigabytes
-		* `ocpus` - (Optional) The total number of OCPUs available to the node.
-	* `subnet_id` - (Required) The OCID of the subnet in which the node will be created.
 * `network_config` - (Optional) Additional configuration of customer's network.
     * `cidr_block` - (Required) The CIDR IP address block of the VCN.
     * `is_nat_gateway_required` - (Required) A boolean flag whether to configure a NAT gateway.
@@ -180,6 +172,7 @@ The following attributes are exported:
 	* `kerberos_details` - Details about Kerberos principals
 		* `keytab_file` - Location of the keytab file
 		* `principal_name` - Name of the Kerberos principal
+	* `kms_key_id` - The OCID of the Key Management master encryption key
 	* `shape` - Shape of the node
 * `cluster_details` - Specific info about a Hadoop cluster
     * `ambari_url` - The URL of Ambari
