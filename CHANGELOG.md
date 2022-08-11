@@ -1,3 +1,8 @@
+## 4.88.1 (Aug 11, 2022)
+
+### Bug Fix
+- Fix provider registry for oracle/oci
+
 ## 4.88.0 (Unreleased)
 
 ### Added
