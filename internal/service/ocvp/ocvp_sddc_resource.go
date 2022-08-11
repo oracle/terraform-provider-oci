@@ -168,6 +168,12 @@ func OcvpSddcResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_single_host_sddc": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"provisioning_vlan_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -464,6 +470,11 @@ func (s *OcvpSddcResourceCrud) Create() error {
 	if isShieldedInstanceEnabled, ok := s.D.GetOkExists("is_shielded_instance_enabled"); ok {
 		tmp := isShieldedInstanceEnabled.(bool)
 		request.IsShieldedInstanceEnabled = &tmp
+	}
+
+	if isSingleHostSddc, ok := s.D.GetOkExists("is_single_host_sddc"); ok {
+		tmp := isSingleHostSddc.(bool)
+		request.IsSingleHostSddc = &tmp
 	}
 
 	if nsxEdgeUplink1VlanId, ok := s.D.GetOkExists("nsx_edge_uplink1vlan_id"); ok {
@@ -1012,6 +1023,10 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("is_shielded_instance_enabled", *s.Res.IsShieldedInstanceEnabled)
 	}
 
+	if s.Res.IsSingleHostSddc != nil {
+		s.D.Set("is_single_host_sddc", *s.Res.IsSingleHostSddc)
+	}
+
 	if s.Res.NsxEdgeUplink1VlanId != nil {
 		s.D.Set("nsx_edge_uplink1vlan_id", *s.Res.NsxEdgeUplink1VlanId)
 	}
@@ -1189,6 +1204,10 @@ func SddcSummaryToMap(obj oci_ocvp.SddcSummary) map[string]interface{} {
 
 	if obj.IsShieldedInstanceEnabled != nil {
 		result["is_shielded_instance_enabled"] = bool(*obj.IsShieldedInstanceEnabled)
+	}
+
+	if obj.IsSingleHostSddc != nil {
+		result["is_single_host_sddc"] = bool(*obj.IsSingleHostSddc)
 	}
 
 	if obj.NsxManagerFqdn != nil {

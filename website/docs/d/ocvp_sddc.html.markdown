@@ -64,6 +64,7 @@ The following attributes are exported:
 * `is_hcx_enterprise_enabled` - Indicates whether HCX Enterprise is enabled for this SDDC.
 * `is_hcx_pending_downgrade` - Indicates whether SDDC is pending downgrade from HCX Enterprise to HCX Advanced.
 * `is_shielded_instance_enabled` - Indicates whether shielded instance is enabled at the SDDC level. 
+* `is_single_host_sddc` - Indicates whether this SDDC is designated for only single ESXi host.
 * `nsx_edge_uplink1vlan_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC for the NSX Edge Uplink 1 component of the VMware environment.
 
 	This attribute is not guaranteed to reflect the NSX Edge Uplink 1 VLAN currently used by the ESXi hosts in the SDDC. The purpose of this attribute is to show the NSX Edge Uplink 1 VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this SDDC in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).

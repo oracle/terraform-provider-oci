@@ -81,6 +81,7 @@ var (
 		"initial_host_shape_name":      acctest.Representation{RepType: acctest.Optional, Create: `BM.DenseIO2.52`},
 		"instance_display_name_prefix": acctest.Representation{RepType: acctest.Optional, Create: `njki`},
 		"is_hcx_enabled":               acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"is_single_host_sddc":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"workload_network_cidr":        acctest.Representation{RepType: acctest.Optional, Create: `172.20.0.0/24`},
 		"provisioning_vlan_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vlan.test_provisioning_vlan.id}`},
 		"replication_vlan_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vlan.test_replication_vlan.id}`},
@@ -478,34 +479,6 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify Update VMware version
-		{
-			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Update, OcvpSddcRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
-				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.5 update 3"),
-				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					return err
-				},
-			),
-		},
-
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies,
@@ -530,6 +503,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
+				resource.TestCheckResourceAttr(resourceName, "is_single_host_sddc", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
@@ -589,6 +563,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
 				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_single_host_sddc", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
@@ -644,6 +619,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
 				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_single_host_sddc", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
@@ -701,6 +677,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_updated"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.freeform_tags.%"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.is_single_host_sddc", "false"),
 			),
 		},
 		// verify singular datasource
@@ -732,6 +709,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_hcx_enterprise_enabled", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_hcx_pending_downgrade"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_shielded_instance_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_single_host_sddc", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_edge_uplink_ip_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_fqdn"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_initial_password"),
