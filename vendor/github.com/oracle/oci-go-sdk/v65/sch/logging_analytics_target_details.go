@@ -25,6 +25,11 @@ type LoggingAnalyticsTargetDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Logging Analytics log group.
 	LogGroupId *string `mandatory:"true" json:"logGroupId"`
+
+	// Identifier of the log source that you want to use for processing data received from the service connector source.
+	// Applies to `StreamingSource` only.
+	// Equivalent to `name` at LogAnalyticsSource.
+	LogSourceIdentifier *string `mandatory:"false" json:"logSourceIdentifier"`
 }
 
 func (m LoggingAnalyticsTargetDetails) String() string {
