@@ -5,7 +5,7 @@
 // Cloud Guard and Security Zones API
 //
 // Use the Cloud Guard and Security Zones API to automate processes that you would otherwise perform through the Cloud Guard Console or the Security Zones Console. For more information on these services, see the Cloud Guard (https://docs.cloud.oracle.com/iaas/cloud-guard/home.htm) and Security Zones (https://docs.cloud.oracle.com/iaas/security-zone/home.htm) documentation.
-// **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations in Cloud Guard from any region.
+// **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
 //
 
 package cloudguard
@@ -33,6 +33,18 @@ type UpdateDetectorRuleDetails struct {
 
 	// user defined labels for a detector rule
 	Labels []string `mandatory:"false" json:"labels"`
+
+	// Description for DetectorRecipeDetectorRule.
+	Description *string `mandatory:"false" json:"description"`
+
+	// Recommendation for DetectorRecipeDetectorRule
+	Recommendation *string `mandatory:"false" json:"recommendation"`
+
+	// The id of the attached DataSource.
+	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
+
+	// Data Source entities mapping for a Detector Rule
+	EntitiesMappings []EntitiesMapping `mandatory:"false" json:"entitiesMappings"`
 }
 
 func (m UpdateDetectorRuleDetails) String() string {
@@ -57,11 +69,15 @@ func (m UpdateDetectorRuleDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateDetectorRuleDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		RiskLevel      RiskLevelEnum           `json:"riskLevel"`
-		Configurations []DetectorConfiguration `json:"configurations"`
-		Condition      condition               `json:"condition"`
-		Labels         []string                `json:"labels"`
-		IsEnabled      *bool                   `json:"isEnabled"`
+		RiskLevel        RiskLevelEnum           `json:"riskLevel"`
+		Configurations   []DetectorConfiguration `json:"configurations"`
+		Condition        condition               `json:"condition"`
+		Labels           []string                `json:"labels"`
+		Description      *string                 `json:"description"`
+		Recommendation   *string                 `json:"recommendation"`
+		DataSourceId     *string                 `json:"dataSourceId"`
+		EntitiesMappings []EntitiesMapping       `json:"entitiesMappings"`
+		IsEnabled        *bool                   `json:"isEnabled"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -89,6 +105,17 @@ func (m *UpdateDetectorRuleDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Labels = make([]string, len(model.Labels))
 	for i, n := range model.Labels {
 		m.Labels[i] = n
+	}
+
+	m.Description = model.Description
+
+	m.Recommendation = model.Recommendation
+
+	m.DataSourceId = model.DataSourceId
+
+	m.EntitiesMappings = make([]EntitiesMapping, len(model.EntitiesMappings))
+	for i, n := range model.EntitiesMappings {
+		m.EntitiesMappings[i] = n
 	}
 
 	m.IsEnabled = model.IsEnabled

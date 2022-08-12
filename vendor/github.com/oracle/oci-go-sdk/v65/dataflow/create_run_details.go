@@ -19,6 +19,7 @@ import (
 // set in the associated application:
 //   - applicationId
 //   - archiveUri
+//   - applicationLogConfig
 //   - arguments
 //   - configuration
 //   - definedTags
@@ -50,6 +51,8 @@ type CreateRunDetails struct {
 
 	// The OCID of a compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	ApplicationLogConfig *ApplicationLogConfig `mandatory:"false" json:"applicationLogConfig"`
 
 	// The OCID of the associated application. If this value is set, then no value for the execute parameter is required. If this value is not set, then a value for the execute parameter is required, and a new application is created and associated with the new run.
 	ApplicationId *string `mandatory:"false" json:"applicationId"`

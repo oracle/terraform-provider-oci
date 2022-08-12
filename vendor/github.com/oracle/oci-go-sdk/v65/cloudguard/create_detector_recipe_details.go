@@ -5,7 +5,7 @@
 // Cloud Guard and Security Zones API
 //
 // Use the Cloud Guard and Security Zones API to automate processes that you would otherwise perform through the Cloud Guard Console or the Security Zones Console. For more information on these services, see the Cloud Guard (https://docs.cloud.oracle.com/iaas/cloud-guard/home.htm) and Security Zones (https://docs.cloud.oracle.com/iaas/security-zone/home.htm) documentation.
-// **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations in Cloud Guard from any region.
+// **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
 //
 
 package cloudguard
@@ -23,15 +23,18 @@ type CreateDetectorRecipeDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The id of the source detector recipe.
-	SourceDetectorRecipeId *string `mandatory:"true" json:"sourceDetectorRecipeId"`
-
 	// Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Detector recipe description.
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
+
+	// detector for the rule
+	Detector DetectorEnumEnum `mandatory:"false" json:"detector,omitempty"`
+
+	// The id of the source detector recipe.
+	SourceDetectorRecipeId *string `mandatory:"false" json:"sourceDetectorRecipeId"`
 
 	// Detector Rules to override from source detector recipe
 	DetectorRules []UpdateDetectorRecipeDetectorRule `mandatory:"false" json:"detectorRules"`
@@ -56,6 +59,9 @@ func (m CreateDetectorRecipeDetails) String() string {
 func (m CreateDetectorRecipeDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingDetectorEnumEnum(string(m.Detector)); !ok && m.Detector != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Detector: %s. Supported values are: %s.", m.Detector, strings.Join(GetDetectorEnumEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
