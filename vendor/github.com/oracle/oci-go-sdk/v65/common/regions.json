@@ -340,5 +340,11 @@
         "realmDomainComponent": "oraclecloud14.com", 
         "regionIdentifier": "eu-dcc-rating-1", 
         "realmKey": "oc14"
+    }, 
+    {
+        "regionKey": "kvo", 
+        "realmDomainComponent": "oraclecloud.com", 
+        "regionIdentifier": "eu-kragujevac-1", 
+        "realmKey": "oc1"
     }
 ]
