@@ -18,6 +18,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 )
 
+var filterFlag tf_export.Filter
+
+func init() {
+	// Tie the command-line flag to the intervalFlag variable and
+	// set a usage message.
+	flag.Var(&filterFlag, "filter", "pass a filter to filter resources discovered. Use the flag multiple times to pass multiple filters")
+}
+
 func main() {
 	// TODO: input for resource discovery from a config file
 	var command = flag.String("command", "", "Command to run. Supported commands include: 'export', 'list_export_resources' and 'list_export_services'. 'list_export_services' supports json format.")
@@ -101,6 +109,11 @@ func main() {
 			if ids != nil && *ids != "" {
 				args.IDs = strings.Split(*ids, ",")
 			}
+
+			if filterFlag != nil {
+				args.Filters = filterFlag
+			}
+
 			err, status := resourcediscovery.RunExportCommand(args)
 			if err != nil {
 				color.Red("%v", err)
