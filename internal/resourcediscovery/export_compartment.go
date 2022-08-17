@@ -300,6 +300,8 @@ func RunExportCommand(args *tf_export.ExportCommandArgs) (err error, status Stat
 	utils.Debugf("[INFO] Setting MaxParalleFindResources=%d, MaxParallelChunks=%d", MaxParallelFindResource, MaxParallelChunks)
 
 	ctx, err := createResourceDiscoveryContext(clients.(*tf_client.OracleClients), args, tenancyOcid)
+	ctx.Filters = args.Filters
+
 	if err != nil {
 		utils.Logln(err.Error())
 		return err, StatusFail
@@ -896,6 +898,29 @@ func getDiscoverResourceWithGraphSteps(ctx *tf_export.ResourceDiscoveryContext) 
 	return result, nil
 }
 
+func runFilters(resources []*tf_export.OCIResource, filters []tf_export.ResourceFilter) ([]*tf_export.OCIResource, error) {
+
+	if resources == nil || filters == nil || len(filters) == 0 {
+		return resources, nil
+	}
+
+	results := make([]*tf_export.OCIResource, 0)
+	for _, resource := range resources {
+		includeResource := true
+		for _, filter := range filters {
+			if !filter.Filter(resource) {
+				includeResource = false
+				break
+			}
+		}
+		// include resource if it satisfied filter criteria
+		if includeResource {
+			results = append(results, resource)
+		}
+	}
+	return results, nil
+}
+
 func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIResource, resourceGraph tf_export.TerraformResourceGraph, discoveryParallelism bool) (foundResources []*tf_export.OCIResource, err error) {
 	// findResources will never return error, it will add the errors encountered to the errorList and print those after the discovery finishes
 	// If find resources needs to fail in some scenario, this func needs to be modified to return error instead of continuing discovery
@@ -1012,6 +1037,22 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 	totalFindResourcesTime := time.Since(findResourcesStart)
 	utils.Debugf("finding resources for %s took %v\n", root.GetTerraformReference(), totalFindResourcesTime)
 
+	// create copies of filters so that in each thread, they are not shared
+	// since number of filters is expected to be less than the number of threads running in parallel, this is a cost effective approach than locking
+	filtersCopies := make([]tf_export.ResourceFilter, 0)
+	if ctx != nil && ctx.ExportCommandArgs != nil && ctx.Filters != nil {
+		filtersCopies, err = tf_export.GetFiltersDeepCopy(ctx.Filters)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	// run filters on output of foundResources
+	// we can later optimize to run certain filters even before discovery but for now run filter upon discovery
+	foundResources, err = runFilters(foundResources, filtersCopies)
+	if err != nil {
+		return nil, err
+	}
 	return foundResources, nil
 }
 
