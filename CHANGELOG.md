@@ -1,4 +1,4 @@
-## 4.89.0 (Unreleased)
+## 4.89.0 (August 17, 2022)
 
 ### Added
 - OCI Connector Hub supports support for Logging Analytics as a target for Streaming Source
