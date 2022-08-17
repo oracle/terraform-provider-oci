@@ -30,9 +30,6 @@ type UpdateSnapshotDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Not used by File Systems but required for SPLAT tag integration.
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-
 	// The UTC time when this snapshot will be deleted. To remove the expirationTime, set this field
 	// to be the min value of DateTime, Date(0) i.e. Thu Jan 01 01:00:00 GMT 1970.
 	ExpirationTime *common.SDKTime `mandatory:"false" json:"expirationTime"`

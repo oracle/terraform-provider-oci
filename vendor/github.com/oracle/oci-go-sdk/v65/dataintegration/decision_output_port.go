@@ -42,10 +42,10 @@ type DecisionOutputPort struct {
 	Fields []TypedObject `mandatory:"false" json:"fields"`
 
 	// The port details for the data asset.Type.
-	PortType DecisionOutputPortPortTypeEnum `mandatory:"false" json:"portType,omitempty"`
+	PortType DecisionOutputPortPortTypeEnum `mandatory:"true" json:"portType"`
 
 	// The port based on what decision expression evaluates to.
-	DecisionOutputPortType DecisionOutputPortDecisionOutputPortTypeEnum `mandatory:"false" json:"decisionOutputPortType,omitempty"`
+	DecisionOutputPortType DecisionOutputPortDecisionOutputPortTypeEnum `mandatory:"true" json:"decisionOutputPortType"`
 }
 
 //GetKey returns Key
@@ -129,8 +129,8 @@ func (m *DecisionOutputPort) UnmarshalJSON(data []byte) (e error) {
 		ObjectStatus           *int                                         `json:"objectStatus"`
 		Name                   *string                                      `json:"name"`
 		Description            *string                                      `json:"description"`
-		PortType               DecisionOutputPortPortTypeEnum               `json:"portType"`
 		Fields                 []typedobject                                `json:"fields"`
+		PortType               DecisionOutputPortPortTypeEnum               `json:"portType"`
 		DecisionOutputPortType DecisionOutputPortDecisionOutputPortTypeEnum `json:"decisionOutputPortType"`
 	}{}
 
@@ -153,8 +153,6 @@ func (m *DecisionOutputPort) UnmarshalJSON(data []byte) (e error) {
 
 	m.Description = model.Description
 
-	m.PortType = model.PortType
-
 	m.Fields = make([]TypedObject, len(model.Fields))
 	for i, n := range model.Fields {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -167,6 +165,8 @@ func (m *DecisionOutputPort) UnmarshalJSON(data []byte) (e error) {
 			m.Fields[i] = nil
 		}
 	}
+
+	m.PortType = model.PortType
 
 	m.DecisionOutputPortType = model.DecisionOutputPortType
 

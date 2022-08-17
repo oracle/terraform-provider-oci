@@ -56,7 +56,7 @@ type DataAssetFromRestDetails struct {
 	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
 
 	// The base url of the rest server.
-	BaseURL *string `mandatory:"false" json:"baseURL"`
+	BaseUrl *string `mandatory:"false" json:"baseUrl"`
 
 	// The manifest file content of the rest APIs.
 	ManifestFileContent *string `mandatory:"false" json:"manifestFileContent"`
@@ -175,7 +175,7 @@ func (m *DataAssetFromRestDetails) UnmarshalJSON(data []byte) (e error) {
 		ParentRef           *ParentReference  `json:"parentRef"`
 		Metadata            *ObjectMetadata   `json:"metadata"`
 		KeyMap              map[string]string `json:"keyMap"`
-		BaseURL             *string           `json:"baseURL"`
+		BaseUrl             *string           `json:"baseUrl"`
 		ManifestFileContent *string           `json:"manifestFileContent"`
 		DefaultConnection   connectiondetails `json:"defaultConnection"`
 	}{}
@@ -211,7 +211,7 @@ func (m *DataAssetFromRestDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.KeyMap = model.KeyMap
 
-	m.BaseURL = model.BaseURL
+	m.BaseUrl = model.BaseUrl
 
 	m.ManifestFileContent = model.ManifestFileContent
 

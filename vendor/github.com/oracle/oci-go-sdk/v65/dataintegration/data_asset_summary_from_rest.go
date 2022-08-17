@@ -53,7 +53,7 @@ type DataAssetSummaryFromRest struct {
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
 	// The base url of the rest server.
-	BaseURL *string `mandatory:"false" json:"baseURL"`
+	BaseUrl *string `mandatory:"false" json:"baseUrl"`
 
 	// The manifest file content of the rest APIs.
 	ManifestFileContent *string `mandatory:"false" json:"manifestFileContent"`
@@ -166,7 +166,7 @@ func (m *DataAssetSummaryFromRest) UnmarshalJSON(data []byte) (e error) {
 		ObjectVersion       *int              `json:"objectVersion"`
 		ParentRef           *ParentReference  `json:"parentRef"`
 		Metadata            *ObjectMetadata   `json:"metadata"`
-		BaseURL             *string           `json:"baseURL"`
+		BaseUrl             *string           `json:"baseUrl"`
 		ManifestFileContent *string           `json:"manifestFileContent"`
 		DefaultConnection   connectionsummary `json:"defaultConnection"`
 	}{}
@@ -200,7 +200,7 @@ func (m *DataAssetSummaryFromRest) UnmarshalJSON(data []byte) (e error) {
 
 	m.Metadata = model.Metadata
 
-	m.BaseURL = model.BaseURL
+	m.BaseUrl = model.BaseUrl
 
 	m.ManifestFileContent = model.ManifestFileContent
 

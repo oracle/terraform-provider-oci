@@ -42,9 +42,6 @@ type CreateFileSystemDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Not used by File Systems but required for SPLAT tag integration.
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the KMS key used to encrypt the encryption keys associated with this file system.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 

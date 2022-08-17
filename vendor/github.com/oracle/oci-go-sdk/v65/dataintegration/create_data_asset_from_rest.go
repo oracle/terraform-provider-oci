@@ -26,7 +26,7 @@ type CreateDataAssetFromRest struct {
 	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// The base url of the rest server.
-	BaseURL *string `mandatory:"true" json:"baseURL"`
+	BaseUrl *string `mandatory:"true" json:"baseUrl"`
 
 	// The manifest file content of the rest APIs.
 	ManifestFileContent *string `mandatory:"true" json:"manifestFileContent"`
@@ -141,7 +141,7 @@ func (m *CreateDataAssetFromRest) UnmarshalJSON(data []byte) (e error) {
 		RegistryMetadata    *RegistryMetadata       `json:"registryMetadata"`
 		Name                *string                 `json:"name"`
 		Identifier          *string                 `json:"identifier"`
-		BaseURL             *string                 `json:"baseURL"`
+		BaseUrl             *string                 `json:"baseUrl"`
 		ManifestFileContent *string                 `json:"manifestFileContent"`
 		DefaultConnection   createconnectiondetails `json:"defaultConnection"`
 	}{}
@@ -169,7 +169,7 @@ func (m *CreateDataAssetFromRest) UnmarshalJSON(data []byte) (e error) {
 
 	m.Identifier = model.Identifier
 
-	m.BaseURL = model.BaseURL
+	m.BaseUrl = model.BaseUrl
 
 	m.ManifestFileContent = model.ManifestFileContent
 

@@ -26,7 +26,7 @@ type UpdateDataAssetFromRest struct {
 	ObjectVersion *int `mandatory:"true" json:"objectVersion"`
 
 	// The base url of the rest server.
-	BaseURL *string `mandatory:"true" json:"baseURL"`
+	BaseUrl *string `mandatory:"true" json:"baseUrl"`
 
 	// The manifest file content of the rest APIs.
 	ManifestFileContent *string `mandatory:"true" json:"manifestFileContent"`
@@ -150,7 +150,7 @@ func (m *UpdateDataAssetFromRest) UnmarshalJSON(data []byte) (e error) {
 		RegistryMetadata    *RegistryMetadata       `json:"registryMetadata"`
 		Key                 *string                 `json:"key"`
 		ObjectVersion       *int                    `json:"objectVersion"`
-		BaseURL             *string                 `json:"baseURL"`
+		BaseUrl             *string                 `json:"baseUrl"`
 		ManifestFileContent *string                 `json:"manifestFileContent"`
 		DefaultConnection   updateconnectiondetails `json:"defaultConnection"`
 	}{}
@@ -180,7 +180,7 @@ func (m *UpdateDataAssetFromRest) UnmarshalJSON(data []byte) (e error) {
 
 	m.ObjectVersion = model.ObjectVersion
 
-	m.BaseURL = model.BaseURL
+	m.BaseUrl = model.BaseUrl
 
 	m.ManifestFileContent = model.ManifestFileContent
 

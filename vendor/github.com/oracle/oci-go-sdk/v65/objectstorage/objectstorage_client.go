@@ -3088,6 +3088,61 @@ func (client ObjectStorageClient) restoreObjects(ctx context.Context, request co
 	return response, err
 }
 
+// StartPrefixRename Rename prefix of all the objects in the given source prefix with destination prefix.
+// A default retry strategy applies to this operation StartPrefixRename()
+func (client ObjectStorageClient) StartPrefixRename(ctx context.Context, request StartPrefixRenameRequest) (response StartPrefixRenameResponse, err error) {
+	var ociResponse common.OCIResponse
+	var policy common.OCIRetry
+	policy = common.DefaultComplexRetryPolicyV2()
+	if client.RetryPolicyV2() != nil {
+		policy = client.RetryPolicyV2()
+	}
+	if request.RetryPolicy() != nil {
+		policy = request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.startPrefixRename, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StartPrefixRenameResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StartPrefixRenameResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartPrefixRenameResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartPrefixRenameResponse")
+	}
+	return
+}
+
+// startPrefixRename implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) startPrefixRename(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/prefixRename", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StartPrefixRenameResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/StartPrefixRename"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "StartPrefixRename", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateBucket Performs a partial or full update of a bucket's user-defined metadata.
 // Use UpdateBucket to move a bucket from one compartment to another within the same tenancy. Supply the compartmentID
 // of the compartment that you want to move the bucket to. For more information about moving resources between compartments,

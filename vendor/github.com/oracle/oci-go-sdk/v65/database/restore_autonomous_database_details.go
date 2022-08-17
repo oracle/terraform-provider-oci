@@ -19,7 +19,7 @@ import (
 type RestoreAutonomousDatabaseDetails struct {
 
 	// The time to restore the database to.
-	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
+	Timestamp *common.SDKTime `mandatory:"false" json:"timestamp"`
 
 	// Restores using the backup with the System Change Number (SCN) specified.
 	DatabaseSCN *string `mandatory:"false" json:"databaseSCN"`
