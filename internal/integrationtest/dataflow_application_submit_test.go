@@ -54,6 +54,7 @@ var (
 		"logs_bucket_uri":      acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_logs_bucket_uri}`},
 		"warehouse_bucket_uri": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
 		"metastore_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.metastore_id}`},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForDataFlowResource},
 	}
 
 	dataFlowApplicationSubmitResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
@@ -84,8 +85,6 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 	logsBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_logs_bucket_uri\" { default = \"%s\" }\n", logsBucketUri)
 	warehouseBucketUri := utils.GetEnvSettingWithBlankDefault("dataflow_warehouse_bucket_uri")
 	warehouseBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_warehouse_bucket_uri\" { default = \"%s\" }\n", warehouseBucketUri)
-	classNameUpdated := ""
-	classNameStrUpdated := fmt.Sprintf("variable \"dataflow_submit_class_name_updated\" { default = \"%s\" }\n", classNameUpdated)
 	resourceName := "oci_dataflow_application.test_application_submit"
 	datasourceName := "data.oci_dataflow_applications.test_applications_submit"
 	singularDatasourceName := "data.oci_dataflow_application.test_application_submit"
@@ -206,7 +205,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + fileUriVariableStr + classNameStrUpdated + fileUriVariableStrUpdated + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataFlowApplicationResourceDependencies +
+			Config: config + compartmentIdVariableStr + fileUriVariableStr + fileUriVariableStrUpdated + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataFlowApplicationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", acctest.Optional, acctest.Update,
 					dataFlowApplicationSubmitRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -245,10 +244,8 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_applications", "test_applications_submit", acctest.Optional, acctest.Update, dataFlowApplicationSubmitDataSourceRepresentation) +
-				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
-					"class_name": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_submit_class_name_updated}`},
-				})),
+				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", acctest.Optional, acctest.Update, dataFlowApplicationSubmitRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "test_wordcount_app_submit2"),
@@ -269,10 +266,8 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", acctest.Required, acctest.Create, dataFlowApplicationSubmitSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
-					"class_name": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_submit_class_name_updated}`},
-				})),
+				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", acctest.Optional, acctest.Update, dataFlowApplicationSubmitRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
 

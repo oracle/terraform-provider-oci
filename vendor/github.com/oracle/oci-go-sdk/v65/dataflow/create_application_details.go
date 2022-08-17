@@ -57,6 +57,8 @@ type CreateApplicationDetails struct {
 	// `--input mydata.xml --name "John Doe"`
 	Arguments []string `mandatory:"false" json:"arguments"`
 
+	ApplicationLogConfig *ApplicationLogConfig `mandatory:"false" json:"applicationLogConfig"`
+
 	// The class for the application.
 	ClassName *string `mandatory:"false" json:"className"`
 

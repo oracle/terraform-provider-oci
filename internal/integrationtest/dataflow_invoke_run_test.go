@@ -46,21 +46,28 @@ var (
 	}
 
 	DataflowInvokeRunRepresentation = map[string]interface{}{
-		"application_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_dataflow_application.test_application.id}`},
-		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `test_wordcount_run`},
-		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"arguments":             acctest.Representation{RepType: acctest.Optional, Create: []string{`arguments`}},
-		"configuration":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"spark.shuffle.io.maxRetries": "10"}},
-		"driver_shape_config":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowInvokeRunDriverShapeConfigRepresentation},
-		"executor_shape":        acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.1`},
-		"executor_shape_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowInvokeRunExecutorShapeConfigRepresentation},
-		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"logs_bucket_uri":       acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_logs_bucket_uri}`},
-		"metastore_id":          acctest.Representation{RepType: acctest.Optional, Create: `${var.metastore_id}`},
-		"num_executors":         acctest.Representation{RepType: acctest.Optional, Create: `1`},
-		"parameters":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowInvokeRunParametersRepresentation},
-		"type":                  acctest.Representation{RepType: acctest.Optional, Create: `BATCH`},
-		"warehouse_bucket_uri":  acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
+		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"application_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_dataflow_application.test_application.id}`},
+		"application_log_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowInvokeRunApplicationLogConfigRepresentation},
+		"arguments":              acctest.Representation{RepType: acctest.Optional, Create: []string{`arguments`}},
+		"configuration":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"spark.shuffle.io.maxRetries": "10"}},
+		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `test_wordcount_run`},
+		"driver_shape":           acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.1`},
+		"driver_shape_config":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowInvokeRunDriverShapeConfigRepresentation},
+		"executor_shape":         acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.1`},
+		"executor_shape_config":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowInvokeRunExecutorShapeConfigRepresentation},
+		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"logs_bucket_uri":        acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_logs_bucket_uri}`},
+		"metastore_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.metastore_id}`},
+		"num_executors":          acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"parameters":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowInvokeRunParametersRepresentation},
+		"type":                   acctest.Representation{RepType: acctest.Optional, Create: `BATCH`},
+		"warehouse_bucket_uri":   acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
+		"lifecycle":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForDataFlowResource},
+	}
+	DataflowInvokeRunApplicationLogConfigRepresentation = map[string]interface{}{
+		"log_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_group.test_log_group.id}`},
+		"log_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log.test_log.id}`},
 	}
 	DataflowInvokeRunDriverShapeConfigRepresentation = map[string]interface{}{
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `15`},
@@ -80,7 +87,11 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Optional, acctest.Create, DataflowPrivateEndpointRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Create, DataflowApplicationRepresentation) +
-		DefinedTagsDependencies
+		DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, DataflowApplicationLogRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, DataflowApplicationLogGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: dataflow/default
@@ -142,6 +153,10 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", acctest.Optional, acctest.Create, DataflowInvokeRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
+				resource.TestCheckResourceAttr(resourceName, "application_log_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_id"),
+				resource.TestCheckResourceAttr(resourceName, "archive_uri", archiveUri),
 				resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
@@ -195,6 +210,10 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
+				resource.TestCheckResourceAttr(resourceName, "application_log_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_id"),
+				resource.TestCheckResourceAttr(resourceName, "archive_uri", archiveUri),
 				resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
@@ -240,6 +259,9 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", acctest.Optional, acctest.Update, DataflowInvokeRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
+				resource.TestCheckResourceAttr(resourceName, "application_log_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_id"),
 				resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
@@ -315,8 +337,8 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataflowInvokeRunResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "run_id"),
-
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "archive_uri"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "application_log_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "archive_uri", archiveUri),
 				resource.TestCheckResourceAttr(singularDatasourceName, "arguments.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.%", "1"),

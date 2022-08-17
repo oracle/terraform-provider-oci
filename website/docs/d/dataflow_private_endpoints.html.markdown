@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_dataflow_private_endpoints
 This data source provides the list of Private Endpoints in Oracle Cloud Infrastructure Data Flow service.
 
-Lists all private endpoints in the specified compartment.
+Lists all private endpoints in the specified compartment. The query must include compartmentId. The query may also include one other parameter. If the query does not include compartmentId, or includes compartmentId, but with two or more other parameters, an error is returned.
 
 
 ## Example Usage

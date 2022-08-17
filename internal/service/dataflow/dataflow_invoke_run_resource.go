@@ -6,7 +6,10 @@ package dataflow
 import (
 	"context"
 	"fmt"
+	"net/url"
+	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -39,6 +42,33 @@ func DataflowInvokeRunResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"application_log_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"log_group_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"log_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
 			},
 			"archive_uri": {
 				Type:     schema.TypeString,
@@ -413,6 +443,17 @@ func (s *DataflowInvokeRunResourceCrud) Create() error {
 		request.ApplicationId = &tmp
 	}
 
+	if applicationLogConfig, ok := s.D.GetOkExists("application_log_config"); ok {
+		if tmpList := applicationLogConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "application_log_config", 0)
+			tmp, err := s.mapToApplicationLogConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ApplicationLogConfig = &tmp
+		}
+	}
+
 	if archiveUri, ok := s.D.GetOkExists("archive_uri"); ok {
 		tmp := archiveUri.(string)
 		request.ArchiveUri = &tmp
@@ -638,6 +679,12 @@ func (s *DataflowInvokeRunResourceCrud) SetData() error {
 		s.D.Set("application_id", *s.Res.ApplicationId)
 	}
 
+	if s.Res.ApplicationLogConfig != nil {
+		s.D.Set("application_log_config", []interface{}{DataflowRunApplicationLogConfigToMap(s.Res.ApplicationLogConfig)})
+	} else {
+		s.D.Set("application_log_config", nil)
+	}
+
 	if s.Res.ArchiveUri != nil {
 		s.D.Set("archive_uri", *s.Res.ArchiveUri)
 	}
@@ -781,6 +828,54 @@ func (s *DataflowInvokeRunResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func GetInvokeRunCompositeId(runId string) string {
+	runId = url.PathEscape(runId)
+	compositeId := "runs/" + runId
+	return compositeId
+}
+
+func parseInvokeRunCompositeId(compositeId string) (runId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("runs/.*", compositeId)
+	if !match || len(parts) != 2 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	runId, _ = url.PathUnescape(parts[1])
+
+	return
+}
+
+func (s *DataflowInvokeRunResourceCrud) mapToApplicationLogConfig(fieldKeyFormat string) (oci_dataflow.ApplicationLogConfig, error) {
+	result := oci_dataflow.ApplicationLogConfig{}
+
+	if logGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_group_id")); ok {
+		tmp := logGroupId.(string)
+		result.LogGroupId = &tmp
+	}
+
+	if logId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_id")); ok {
+		tmp := logId.(string)
+		result.LogId = &tmp
+	}
+
+	return result, nil
+}
+
+func DataflowRunApplicationLogConfigToMap(obj *oci_dataflow.ApplicationLogConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.LogGroupId != nil {
+		result["log_group_id"] = string(*obj.LogGroupId)
+	}
+
+	if obj.LogId != nil {
+		result["log_id"] = string(*obj.LogId)
+	}
+
+	return result
 }
 
 func (s *DataflowInvokeRunResourceCrud) mapToApplicationParameter(fieldKeyFormat string) (oci_dataflow.ApplicationParameter, error) {

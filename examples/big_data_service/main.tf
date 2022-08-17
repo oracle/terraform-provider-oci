@@ -20,7 +20,10 @@ variable "compartment_id" {
 }
 
 variable "bds_instance_cluster_admin_password" {
-  default = "V2VsY29tZTE="
+  default = "T3JhY2xlVGVhbVVTQSExMjM="
+}
+
+variable "kms_key_id" {
 }
 
 variable "bds_instance_cluster_public_key" {
@@ -150,6 +153,7 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
   display_name           = var.bds_instance_display_name
   is_high_availability   = var.bds_instance_is_high_availability
   is_secure              = var.bds_instance_is_secure
+  kms_key_id             = var.kms_key_id
 
   master_node {
     #Required

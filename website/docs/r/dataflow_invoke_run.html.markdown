@@ -22,6 +22,11 @@ resource "oci_dataflow_invoke_run" "test_invoke_run" {
 
 	#Optional
 	application_id = oci_dataflow_application.test_application.id
+	application_log_config {
+		#Required
+		log_group_id = oci_logging_log_group.test_log_group.id
+		log_id = oci_logging_log.test_log.id
+	}
 	archive_uri = var.invoke_run_archive_uri
 	arguments = var.invoke_run_arguments
 	configuration = var.invoke_run_configuration
@@ -62,6 +67,9 @@ resource "oci_dataflow_invoke_run" "test_invoke_run" {
 The following arguments are supported:
 
 * `application_id` - (Optional) The OCID of the associated application. If this value is set, then no value for the execute parameter is required. If this value is not set, then a value for the execute parameter is required, and a new application is created and associated with the new run. 
+* `application_log_config` - (Optional) Logging details of Application logs for Data Flow Run. 
+	* `log_group_id` - (Required) The log group id for where log objects will be for Data Flow Runs. 
+	* `log_id` - (Required) The log id of the log object the Application Logs of Data Flow Run will be shipped to. 
 * `archive_uri` - (Optional) An Oracle Cloud Infrastructure URI of an archive.zip file containing custom dependencies that may be used to support the execution a Python, Java, or Scala application. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
 * `arguments` - (Optional) The arguments passed to the running application as command line arguments.  An argument is either a plain text or a placeholder. Placeholders are replaced using values from the parameters map.  Each placeholder specified must be represented in the parameters map else the request (POST or PUT) will fail with a HTTP 400 status code.  Placeholders are specified as `Service Api Spec`, where `name` is the name of the parameter. Example:  `[ "--input", "${input_file}", "--name", "John Doe" ]` If "input_file" has a value of "mydata.xml", then the value above will be translated to `--input mydata.xml --name "John Doe"` 
 * `asynchronous` -  (Optional) Flag to invoke run asynchronously. The default is true and Terraform provider will not wait for run resource to reach target state of `SUCCEEDED`, `FAILED` or `CANCELLED` before exiting. User must wait to perform operations that need resource to be in target states. Set this to false to override this behavior. 
@@ -98,6 +106,9 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `application_id` - The application ID. 
+* `application_log_config` - Logging details of Application logs for Data Flow Run. 
+	* `log_group_id` - The log group id for where log objects will be for Data Flow Runs. 
+	* `log_id` - The log id of the log object the Application Logs of Data Flow Run will be shipped to. 
 * `archive_uri` - An Oracle Cloud Infrastructure URI of an archive.zip file containing custom dependencies that may be used to support the execution a Python, Java, or Scala application. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
 * `arguments` - The arguments passed to the running application as command line arguments.  An argument is either a plain text or a placeholder. Placeholders are replaced using values from the parameters map.  Each placeholder specified must be represented in the parameters map else the request (POST or PUT) will fail with a HTTP 400 status code.  Placeholders are specified as `Service Api Spec`, where `name` is the name of the parameter. Example:  `[ "--input", "${input_file}", "--name", "John Doe" ]` If "input_file" has a value of "mydata.xml", then the value above will be translated to `--input mydata.xml --name "John Doe"` 
 * `class_name` - The class for the application. 

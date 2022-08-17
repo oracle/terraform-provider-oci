@@ -312,6 +312,11 @@ func SchServiceConnectorResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"log_source_identifier": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"metric": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -1468,6 +1473,10 @@ func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat stri
 			tmp := logGroupId.(string)
 			details.LogGroupId = &tmp
 		}
+		if logSourceIdentifier, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_source_identifier")); ok {
+			tmp := logSourceIdentifier.(string)
+			details.LogSourceIdentifier = &tmp
+		}
 		baseObject = details
 	case strings.ToLower("monitoring"):
 		details := oci_sch.MonitoringTargetDetails{}
@@ -1561,6 +1570,10 @@ func TargetDetailsToMap(obj *oci_sch.TargetDetails) map[string]interface{} {
 
 		if v.LogGroupId != nil {
 			result["log_group_id"] = string(*v.LogGroupId)
+		}
+
+		if v.LogSourceIdentifier != nil {
+			result["log_source_identifier"] = string(*v.LogSourceIdentifier)
 		}
 	case oci_sch.MonitoringTargetDetails:
 		result["kind"] = "monitoring"

@@ -44,30 +44,41 @@ var (
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_dataflow_application.test_application.id}`}},
 	}
+	DataflowApplicationApplicationLogConfigRepresentation = map[string]interface{}{
+		"log_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_group.test_log_group.id}`},
+		"log_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log.test_log.id}`},
+	}
 
 	DataflowApplicationRepresentation = map[string]interface{}{
-		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `test_wordcount_app`, Update: `displayName2`},
-		"driver_shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.2`},
-		"executor_shape":        acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.2`},
-		"file_uri":              acctest.Representation{RepType: acctest.Required, Create: `${var.dataflow_file_uri}`, Update: `${var.dataflow_file_uri_updated}`},
-		"language":              acctest.Representation{RepType: acctest.Required, Create: `PYTHON`, Update: `SCALA`},
-		"num_executors":         acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
-		"spark_version":         acctest.Representation{RepType: acctest.Required, Create: `2.4`, Update: `2.4.4`},
-		"archive_uri":           acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_archive_uri}`},
-		"arguments":             acctest.Representation{RepType: acctest.Optional, Create: []string{`arguments`}, Update: []string{`arguments2`}},
-		"configuration":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"configuration": "configuration"}, Update: map[string]string{"configuration2": "configuration2"}},
-		"description":           acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"driver_shape_config":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowApplicationDriverShapeConfigRepresentation},
-		"executor_shape_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowApplicationExecutorShapeConfigRepresentation},
-		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"logs_bucket_uri":       acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_logs_bucket_uri}`},
-		"metastore_id":          acctest.Representation{RepType: acctest.Optional, Create: `${var.metastore_id}`},
-		"parameters":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowApplicationParametersRepresentation},
-		"private_endpoint_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_dataflow_private_endpoint.test_private_endpoint.id}`},
-		"type":                  acctest.Representation{RepType: acctest.Optional, Create: `BATCH`},
-		"warehouse_bucket_uri":  acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
+		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `test_wordcount_app`, Update: `displayName2`},
+		"driver_shape":           acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.2`},
+		"executor_shape":         acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.2`},
+		"file_uri":               acctest.Representation{RepType: acctest.Required, Create: `${var.dataflow_file_uri}`, Update: `${var.dataflow_file_uri_updated}`},
+		"language":               acctest.Representation{RepType: acctest.Required, Create: `PYTHON`, Update: `SCALA`},
+		"num_executors":          acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
+		"spark_version":          acctest.Representation{RepType: acctest.Required, Create: `2.4`, Update: `2.4.4`},
+		"application_log_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowApplicationApplicationLogConfigRepresentation},
+		"archive_uri":            acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_archive_uri}`},
+		"arguments":              acctest.Representation{RepType: acctest.Optional, Create: []string{`arguments`}, Update: []string{`arguments2`}},
+		"configuration":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"configuration": "configuration"}, Update: map[string]string{"configuration2": "configuration2"}},
+		"description":            acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"driver_shape_config":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowApplicationDriverShapeConfigRepresentation},
+		"executor_shape_config":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowApplicationExecutorShapeConfigRepresentation},
+		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"logs_bucket_uri":        acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_logs_bucket_uri}`},
+		"metastore_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.metastore_id}`},
+		"parameters":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowApplicationParametersRepresentation},
+		"private_endpoint_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_dataflow_private_endpoint.test_private_endpoint.id}`},
+		"type":                   acctest.Representation{RepType: acctest.Optional, Create: `BATCH`},
+		"warehouse_bucket_uri":   acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
+		"lifecycle":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForDataFlowResource},
 	}
+
+	ignoreDefinedTagsChangesForDataFlowResource = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags"}},
+	}
+
 	DataflowApplicationDriverShapeConfigRepresentation = map[string]interface{}{
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `15`, Update: `30`},
 		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
@@ -80,10 +91,27 @@ var (
 		"name":  acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"value": acctest.Representation{RepType: acctest.Required, Create: `value`, Update: `value2`},
 	}
+
+	DataflowApplicationLogGroupRepresentation = acctest.RepresentationCopyWithNewProperties(LoggingLogGroupRepresentation, map[string]interface{}{
+		"display_name": acctest.Representation{RepType: acctest.Required, Create: `terraform_test_custom_log_group`},
+	})
+
+	DataflowApplicationLogRepresentation = map[string]interface{}{
+		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `terraform_test_custom_log`},
+		"log_group_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_group.test_log_group.id}`},
+		"log_type":           acctest.Representation{RepType: acctest.Required, Create: `CUSTOM`},
+		"is_enabled":         acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"retention_duration": acctest.Representation{RepType: acctest.Optional, Create: `30`},
+	}
+
 	DataFlowApplicationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Required, acctest.Create, DataflowPrivateEndpointRepresentation) +
-		DefinedTagsDependencies
+		DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, DataflowApplicationLogRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, DataflowApplicationLogGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: dataflow/default
@@ -154,6 +182,9 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataFlowApplicationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Create, DataflowApplicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "application_log_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
 				resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -207,6 +238,9 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "application_log_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
 				resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -258,6 +292,9 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 						"class_name": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_class_name_updated}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "application_log_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
 				resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -338,6 +375,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "application_log_config.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "archive_uri"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "arguments.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
