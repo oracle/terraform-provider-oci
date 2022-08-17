@@ -1,3 +1,12 @@
+## 4.89.0 (August 17, 2022)
+
+### Added
+- OCI Connector Hub supports support for Logging Analytics as a target for Streaming Source
+- Customer Managed Encryption Key for BDS cluster
+- Data Flow - add applicationLogConfig support
+- Support for Single Node SDDC
+- support for E3, E4, Standard3, and Optimized3 flexible compute shapes for Data Science Jobs, Model Deployment, and Jobs
+
 ## 4.88.1 (August 11, 2022)
 
 ### Bug Fix

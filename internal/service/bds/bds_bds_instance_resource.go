@@ -28,9 +28,9 @@ func BdsBdsInstanceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &tfresource.ThreeHours,
-			Update: &tfresource.ThreeHours,
-			Delete: &tfresource.ThreeHours,
+			Create: &tfresource.TwelveHours,
+			Update: &tfresource.TwelveHours,
+			Delete: &tfresource.TwelveHours,
 		},
 		Create: createBdsBdsInstance,
 		Read:   readBdsBdsInstance,
@@ -378,6 +378,11 @@ func BdsBdsInstanceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"network_config": {
 				Type:     schema.TypeList,
@@ -781,6 +786,11 @@ func (s *BdsBdsInstanceResourceCrud) Create() error {
 	if kerberosRealmName, ok := s.D.GetOkExists("kerberos_realm_name"); ok {
 		tmp := kerberosRealmName.(string)
 		request.KerberosRealmName = &tmp
+	}
+
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+		tmp := kmsKeyId.(string)
+		request.KmsKeyId = &tmp
 	}
 
 	if networkConfig, ok := s.D.GetOkExists("network_config"); ok {
@@ -1250,6 +1260,11 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+		tmp := kmsKeyId.(string)
+		request.KmsKeyId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.UpdateBdsInstance(context.Background(), request)
@@ -1366,6 +1381,10 @@ func (s *BdsBdsInstanceResourceCrud) SetData() error {
 
 	if s.Res.IsSecure != nil {
 		s.D.Set("is_secure", *s.Res.IsSecure)
+	}
+
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
 
 	if s.Res.NetworkConfig != nil {

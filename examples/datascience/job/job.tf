@@ -18,53 +18,6 @@ provider "oci" {
   private_key_path = var.private_key_path
 }
 
-resource "oci_core_vcn" "job" {
-  cidr_block     = "10.0.0.0/16"
-  compartment_id = var.compartment_ocid
-  display_name   = "dsmljobs"
-  dns_label      = "dsmljobs"
-}
-
-resource "oci_core_nat_gateway" "job" {
-  compartment_id = var.compartment_ocid
-  vcn_id         = oci_core_vcn.job.id
-  display_name   = "job"
-}
-
-resource "oci_core_subnet" "regional_with_natgw" {
-  cidr_block        = "10.0.1.0/24"
-  display_name      = "regional_with_natgw"
-  dns_label         = "regwithnatgw"
-  compartment_id    = var.compartment_ocid
-  vcn_id            = oci_core_vcn.job.id
-  security_list_ids = [oci_core_security_list.regional_with_natgw.id]
-  route_table_id    = oci_core_route_table.regional_with_natgw.id
-}
-
-resource "oci_core_route_table" "regional_with_natgw" {
-  compartment_id = var.compartment_ocid
-  vcn_id         = oci_core_vcn.job.id
-  display_name   = "regional_with_natgw"
-
-  route_rules {
-    destination       = "0.0.0.0/0"
-    destination_type  = "CIDR_BLOCK"
-    network_entity_id = oci_core_nat_gateway.job.id
-  }
-}
-
-resource "oci_core_security_list" "regional_with_natgw" {
-  compartment_id = var.compartment_ocid
-  display_name   = "regional_with_natgw"
-  vcn_id         = oci_core_vcn.job.id
-
-  egress_security_rules {
-    destination = "0.0.0.0/0"
-    protocol    = "all"
-    stateless   = false
-  }
-}
-
 resource "oci_logging_log_group" "job" {
   compartment_id = var.compartment_ocid
   display_name   = "jobs"
@@ -88,10 +41,15 @@ resource "oci_datascience_job" "job" {
   }
 
   job_infrastructure_configuration_details {
-    job_infrastructure_type   = "STANDALONE"
+    job_infrastructure_type   = "ME_STANDALONE"
     shape_name                = "VM.Standard2.2"
-    subnet_id                 = oci_core_subnet.regional_with_natgw.id
-    block_storage_size_in_gbs = 66
+    block_storage_size_in_gbs = 100
+
+    # Optional
+    job_shape_config_details {
+      memory_in_gbs = 16
+      ocpus         = 2
+    }
   }
 
   job_log_configuration_details {

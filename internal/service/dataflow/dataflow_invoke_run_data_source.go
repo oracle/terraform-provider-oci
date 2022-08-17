@@ -71,6 +71,12 @@ func (s *DataflowInvokeRunDataSourceCrud) SetData() error {
 		s.D.Set("application_id", *s.Res.ApplicationId)
 	}
 
+	if s.Res.ApplicationLogConfig != nil {
+		s.D.Set("application_log_config", []interface{}{DataflowRunApplicationLogConfigToMap(s.Res.ApplicationLogConfig)})
+	} else {
+		s.D.Set("application_log_config", nil)
+	}
+
 	if s.Res.ArchiveUri != nil {
 		s.D.Set("archive_uri", *s.Res.ArchiveUri)
 	}

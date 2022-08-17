@@ -149,6 +149,10 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("is_shielded_instance_enabled", *s.Res.IsShieldedInstanceEnabled)
 	}
 
+	if s.Res.IsSingleHostSddc != nil {
+		s.D.Set("is_single_host_sddc", *s.Res.IsSingleHostSddc)
+	}
+
 	if s.Res.NsxEdgeUplink1VlanId != nil {
 		s.D.Set("nsx_edge_uplink1vlan_id", *s.Res.NsxEdgeUplink1VlanId)
 	}
