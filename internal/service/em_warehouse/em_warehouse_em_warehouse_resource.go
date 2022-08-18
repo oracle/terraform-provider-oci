@@ -112,7 +112,7 @@ func EmWarehouseEmWarehouseResource() *schema.Resource {
 func createEmWarehouseEmWarehouse(d *schema.ResourceData, m interface{}) error {
 	sync := &EmWarehouseEmWarehouseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).EmDataLakeClient()
+	sync.Client = m.(*client.OracleClients).EmWarehouseClient()
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -120,7 +120,7 @@ func createEmWarehouseEmWarehouse(d *schema.ResourceData, m interface{}) error {
 func readEmWarehouseEmWarehouse(d *schema.ResourceData, m interface{}) error {
 	sync := &EmWarehouseEmWarehouseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).EmDataLakeClient()
+	sync.Client = m.(*client.OracleClients).EmWarehouseClient()
 
 	return tfresource.ReadResource(sync)
 }
@@ -128,7 +128,7 @@ func readEmWarehouseEmWarehouse(d *schema.ResourceData, m interface{}) error {
 func updateEmWarehouseEmWarehouse(d *schema.ResourceData, m interface{}) error {
 	sync := &EmWarehouseEmWarehouseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).EmDataLakeClient()
+	sync.Client = m.(*client.OracleClients).EmWarehouseClient()
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -136,7 +136,7 @@ func updateEmWarehouseEmWarehouse(d *schema.ResourceData, m interface{}) error {
 func deleteEmWarehouseEmWarehouse(d *schema.ResourceData, m interface{}) error {
 	sync := &EmWarehouseEmWarehouseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).EmDataLakeClient()
+	sync.Client = m.(*client.OracleClients).EmWarehouseClient()
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)
@@ -275,6 +275,7 @@ func emWarehouseWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 
 func emWarehouseWaitForWorkRequest(wId *string, entityType string, action oci_em_warehouse.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_em_warehouse.EmWarehouseClient) (*string, error) {
+
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "emwarehouse")
 	retryPolicy.ShouldRetryOperation = emWarehouseWorkRequestShouldRetryFunc(timeout)
 

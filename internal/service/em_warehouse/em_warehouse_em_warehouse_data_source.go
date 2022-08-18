@@ -25,7 +25,7 @@ func EmWarehouseEmWarehouseDataSource() *schema.Resource {
 func readSingularEmWarehouseEmWarehouse(d *schema.ResourceData, m interface{}) error {
 	sync := &EmWarehouseEmWarehouseDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).EmDataLakeClient()
+	sync.Client = m.(*client.OracleClients).EmWarehouseClient()
 
 	return tfresource.ReadResource(sync)
 }

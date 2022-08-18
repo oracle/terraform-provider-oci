@@ -10,10 +10,10 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_em_warehouse.EmWarehouseClient", &OracleClient{InitClientFn: initEmwarehouseEmDataLakeClient})
+	RegisterOracleClient("oci_em_warehouse.EmWarehouseClient", &OracleClient{InitClientFn: initEmwarehouseEmWarehouseClient})
 }
 
-func initEmwarehouseEmDataLakeClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+func initEmwarehouseEmWarehouseClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_em_warehouse.NewEmWarehouseClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -29,6 +29,6 @@ func initEmwarehouseEmDataLakeClient(configProvider oci_common.ConfigurationProv
 	return &client, nil
 }
 
-func (m *OracleClients) EmDataLakeClient() *oci_em_warehouse.EmWarehouseClient {
+func (m *OracleClients) EmWarehouseClient() *oci_em_warehouse.EmWarehouseClient {
 	return m.GetClient("oci_em_warehouse.EmWarehouseClient").(*oci_em_warehouse.EmWarehouseClient)
 }
