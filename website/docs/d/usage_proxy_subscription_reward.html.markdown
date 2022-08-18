@@ -50,7 +50,7 @@ The following attributes are exported:
 	* `usage_period_key` - The usage period ID. 
 * `summary` - The overall monthly reward summary.
 	* `currency` - The currency unit for the reward amount.
-	* `redemption_code` - The redemption code used in the billing center during the reward redemption process
+	* `redemption_code` - The redemption code used in the Billing Center during the reward redemption process.
 	* `rewards_rate` - The current Rewards percentage in decimal format.
 	* `subscription_id` - The entitlement ID from MQS, which is the same as the subcription ID.
 	* `tenancy_id` - The OCID of the target tenancy.

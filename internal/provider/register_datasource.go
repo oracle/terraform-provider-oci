@@ -1246,6 +1246,8 @@ func init() {
 	RegisterDatasource("oci_usage_proxy_subscription_products", tf_usage_proxy.UsageProxySubscriptionProductsDataSource())
 	RegisterDatasource("oci_usage_proxy_subscription_redeemable_user", tf_usage_proxy.UsageProxySubscriptionRedeemableUserDataSource())
 	RegisterDatasource("oci_usage_proxy_subscription_redeemable_users", tf_usage_proxy.UsageProxySubscriptionRedeemableUsersDataSource())
+	RegisterDatasource("oci_usage_proxy_subscription_redemption", tf_usage_proxy.UsageProxySubscriptionRedemptionDataSource())
+	RegisterDatasource("oci_usage_proxy_subscription_redemptions", tf_usage_proxy.UsageProxySubscriptionRedemptionsDataSource())
 	RegisterDatasource("oci_usage_proxy_subscription_reward", tf_usage_proxy.UsageProxySubscriptionRewardDataSource())
 	RegisterDatasource("oci_usage_proxy_subscription_rewards", tf_usage_proxy.UsageProxySubscriptionRewardsDataSource())
 	// vault service
