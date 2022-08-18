@@ -29,9 +29,10 @@ var (
 	}
 
 	OptimizerOptimizerRecommendationDataSourceRepresentation = map[string]interface{}{
-		"category_id":               acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}`},
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"category_id":               acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}`},
+		"include_organization":      acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"name":                      acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"status":                    acctest.Representation{RepType: acctest.Optional, Create: `PENDING`, Update: `DISMISSED`},
@@ -161,7 +162,6 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "recommendation_collection.0.items.0.name"),
 				resource.TestCheckResourceAttr(datasourceName, "recommendation_collection.0.items.0.state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "recommendation_collection.0.items.0.status", "DISMISSED"),
-
 				resource.TestCheckResourceAttrSet(datasourceName, "recommendation_collection.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "recommendation_collection.0.items.#"),
 			),
