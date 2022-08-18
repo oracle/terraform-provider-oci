@@ -26,6 +26,10 @@ func OptimizerCategoryDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"compartment_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"description": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -147,6 +151,10 @@ func (s *OptimizerCategoryDataSourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.CompartmentName != nil {
+		s.D.Set("compartment_name", *s.Res.CompartmentName)
 	}
 
 	if s.Res.Description != nil {

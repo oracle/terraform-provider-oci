@@ -20,7 +20,18 @@ func OptimizerRecommendationsDataSource() *schema.Resource {
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"category_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
+			},
+			"category_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"child_tenancy_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -29,6 +40,10 @@ func OptimizerRecommendationsDataSource() *schema.Resource {
 			"compartment_id_in_subtree": {
 				Type:     schema.TypeBool,
 				Required: true,
+			},
+			"include_organization": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -86,6 +101,24 @@ func (s *OptimizerRecommendationsDataSourceCrud) Get() error {
 		request.CategoryId = &tmp
 	}
 
+	if categoryName, ok := s.D.GetOkExists("category_name"); ok {
+		tmp := categoryName.(string)
+		request.CategoryName = &tmp
+	}
+
+	if childTenancyIds, ok := s.D.GetOkExists("child_tenancy_ids"); ok {
+		interfaces := childTenancyIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("child_tenancy_ids") {
+			request.ChildTenancyIds = tmp
+		}
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -94,6 +127,11 @@ func (s *OptimizerRecommendationsDataSourceCrud) Get() error {
 	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
 		tmp := compartmentIdInSubtree.(bool)
 		request.CompartmentIdInSubtree = &tmp
+	}
+
+	if includeOrganization, ok := s.D.GetOkExists("include_organization"); ok {
+		tmp := includeOrganization.(bool)
+		request.IncludeOrganization = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
