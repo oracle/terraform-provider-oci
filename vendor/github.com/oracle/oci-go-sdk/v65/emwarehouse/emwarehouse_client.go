@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// EmdwControlPlane API
+// EM Warehouse API
 //
-// A description of the EmdwControlPlane API
+// Use the EM Warehouse API to manage EM Warehouse data collection.
 //
 
 package emwarehouse
@@ -17,15 +17,15 @@ import (
 	"net/http"
 )
 
-//EmDataLakeClient a client for EmDataLake
-type EmDataLakeClient struct {
+//EmWarehouseClient a client for EmWarehouse
+type EmWarehouseClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
 }
 
-// NewEmDataLakeClientWithConfigurationProvider Creates a new default EmDataLake client with the given configuration provider.
+// NewEmWarehouseClientWithConfigurationProvider Creates a new default EmWarehouse client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
-func NewEmDataLakeClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client EmDataLakeClient, err error) {
+func NewEmWarehouseClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client EmWarehouseClient, err error) {
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -34,40 +34,40 @@ func NewEmDataLakeClientWithConfigurationProvider(configProvider common.Configur
 	if e != nil {
 		return client, e
 	}
-	return newEmDataLakeClientFromBaseClient(baseClient, provider)
+	return newEmWarehouseClientFromBaseClient(baseClient, provider)
 }
 
-// NewEmDataLakeClientWithOboToken Creates a new default EmDataLake client with the given configuration provider.
+// NewEmWarehouseClientWithOboToken Creates a new default EmWarehouse client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
 //  as well as reading the region
-func NewEmDataLakeClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client EmDataLakeClient, err error) {
+func NewEmWarehouseClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client EmWarehouseClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
 		return client, err
 	}
 
-	return newEmDataLakeClientFromBaseClient(baseClient, configProvider)
+	return newEmWarehouseClientFromBaseClient(baseClient, configProvider)
 }
 
-func newEmDataLakeClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client EmDataLakeClient, err error) {
-	// EmDataLake service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("EmDataLake"))
+func newEmWarehouseClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client EmWarehouseClient, err error) {
+	// EmWarehouse service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("EmWarehouse"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
-	client = EmDataLakeClient{BaseClient: baseClient}
+	client = EmWarehouseClient{BaseClient: baseClient}
 	client.BasePath = "20180828"
 	err = client.setConfigurationProvider(configProvider)
 	return
 }
 
 // SetRegion overrides the region of this client.
-func (client *EmDataLakeClient) SetRegion(region string) {
+func (client *EmWarehouseClient) SetRegion(region string) {
 	client.Host = common.StringToRegion(region).EndpointForTemplate("emwarehouse", "https://operationsinsights.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
-func (client *EmDataLakeClient) setConfigurationProvider(configProvider common.ConfigurationProvider) error {
+func (client *EmWarehouseClient) setConfigurationProvider(configProvider common.ConfigurationProvider) error {
 	if ok, err := common.IsConfigurationProviderValid(configProvider); !ok {
 		return err
 	}
@@ -83,7 +83,7 @@ func (client *EmDataLakeClient) setConfigurationProvider(configProvider common.C
 }
 
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
-func (client *EmDataLakeClient) ConfigurationProvider() *common.ConfigurationProvider {
+func (client *EmWarehouseClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
 }
 
@@ -92,7 +92,7 @@ func (client *EmDataLakeClient) ConfigurationProvider() *common.ConfigurationPro
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
-func (client EmDataLakeClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
+func (client EmWarehouseClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -122,7 +122,7 @@ func (client EmDataLakeClient) CancelWorkRequest(ctx context.Context, request Ca
 }
 
 // cancelWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client EmDataLakeClient) cancelWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client EmWarehouseClient) cancelWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -136,7 +136,7 @@ func (client EmDataLakeClient) cancelWorkRequest(ctx context.Context, request co
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "EmDataLake", "CancelWorkRequest", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "EmWarehouse", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -149,7 +149,7 @@ func (client EmDataLakeClient) cancelWorkRequest(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/ChangeEmWarehouseCompartment.go.html to see an example of how to use ChangeEmWarehouseCompartment API.
-func (client EmDataLakeClient) ChangeEmWarehouseCompartment(ctx context.Context, request ChangeEmWarehouseCompartmentRequest) (response ChangeEmWarehouseCompartmentResponse, err error) {
+func (client EmWarehouseClient) ChangeEmWarehouseCompartment(ctx context.Context, request ChangeEmWarehouseCompartmentRequest) (response ChangeEmWarehouseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -184,7 +184,7 @@ func (client EmDataLakeClient) ChangeEmWarehouseCompartment(ctx context.Context,
 }
 
 // changeEmWarehouseCompartment implements the OCIOperation interface (enables retrying operations)
-func (client EmDataLakeClient) changeEmWarehouseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client EmWarehouseClient) changeEmWarehouseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emWarehouses/{emWarehouseId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -198,7 +198,7 @@ func (client EmDataLakeClient) changeEmWarehouseCompartment(ctx context.Context,
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "EmDataLake", "ChangeEmWarehouseCompartment", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "EmWarehouse", "ChangeEmWarehouseCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -211,7 +211,7 @@ func (client EmDataLakeClient) changeEmWarehouseCompartment(ctx context.Context,
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/CreateEmWarehouse.go.html to see an example of how to use CreateEmWarehouse API.
-func (client EmDataLakeClient) CreateEmWarehouse(ctx context.Context, request CreateEmWarehouseRequest) (response CreateEmWarehouseResponse, err error) {
+func (client EmWarehouseClient) CreateEmWarehouse(ctx context.Context, request CreateEmWarehouseRequest) (response CreateEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -246,7 +246,7 @@ func (client EmDataLakeClient) CreateEmWarehouse(ctx context.Context, request Cr
 }
 
 // createEmWarehouse implements the OCIOperation interface (enables retrying operations)
-func (client EmDataLakeClient) createEmWarehouse(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client EmWarehouseClient) createEmWarehouse(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emWarehouses", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -260,7 +260,7 @@ func (client EmDataLakeClient) createEmWarehouse(ctx context.Context, request co
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "EmDataLake", "CreateEmWarehouse", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "EmWarehouse", "CreateEmWarehouse", apiReferenceLink)
 		return response, err
 	}
 
@@ -273,7 +273,7 @@ func (client EmDataLakeClient) createEmWarehouse(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/DeleteEmWarehouse.go.html to see an example of how to use DeleteEmWarehouse API.
-func (client EmDataLakeClient) DeleteEmWarehouse(ctx context.Context, request DeleteEmWarehouseRequest) (response DeleteEmWarehouseResponse, err error) {
+func (client EmWarehouseClient) DeleteEmWarehouse(ctx context.Context, request DeleteEmWarehouseRequest) (response DeleteEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -303,7 +303,7 @@ func (client EmDataLakeClient) DeleteEmWarehouse(ctx context.Context, request De
 }
 
 // deleteEmWarehouse implements the OCIOperation interface (enables retrying operations)
-func (client EmDataLakeClient) deleteEmWarehouse(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client EmWarehouseClient) deleteEmWarehouse(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/emWarehouses/{emWarehouseId}", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -317,7 +317,7 @@ func (client EmDataLakeClient) deleteEmWarehouse(ctx context.Context, request co
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "EmDataLake", "DeleteEmWarehouse", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "EmWarehouse", "DeleteEmWarehouse", apiReferenceLink)
 		return response, err
 	}
 
@@ -330,7 +330,7 @@ func (client EmDataLakeClient) deleteEmWarehouse(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/GetEmWarehouse.go.html to see an example of how to use GetEmWarehouse API.
-func (client EmDataLakeClient) GetEmWarehouse(ctx context.Context, request GetEmWarehouseRequest) (response GetEmWarehouseResponse, err error) {
+func (client EmWarehouseClient) GetEmWarehouse(ctx context.Context, request GetEmWarehouseRequest) (response GetEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -360,7 +360,7 @@ func (client EmDataLakeClient) GetEmWarehouse(ctx context.Context, request GetEm
 }
 
 // getEmWarehouse implements the OCIOperation interface (enables retrying operations)
-func (client EmDataLakeClient) getEmWarehouse(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client EmWarehouseClient) getEmWarehouse(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emWarehouses/{emWarehouseId}", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -374,7 +374,7 @@ func (client EmDataLakeClient) getEmWarehouse(ctx context.Context, request commo
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "EmDataLake", "GetEmWarehouse", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "EmWarehouse", "GetEmWarehouse", apiReferenceLink)
 		return response, err
 	}
 
@@ -387,7 +387,7 @@ func (client EmDataLakeClient) getEmWarehouse(ctx context.Context, request commo
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/GetEmWarehouseResourceUsage.go.html to see an example of how to use GetEmWarehouseResourceUsage API.
-func (client EmDataLakeClient) GetEmWarehouseResourceUsage(ctx context.Context, request GetEmWarehouseResourceUsageRequest) (response GetEmWarehouseResourceUsageResponse, err error) {
+func (client EmWarehouseClient) GetEmWarehouseResourceUsage(ctx context.Context, request GetEmWarehouseResourceUsageRequest) (response GetEmWarehouseResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -417,7 +417,7 @@ func (client EmDataLakeClient) GetEmWarehouseResourceUsage(ctx context.Context, 
 }
 
 // getEmWarehouseResourceUsage implements the OCIOperation interface (enables retrying operations)
-func (client EmDataLakeClient) getEmWarehouseResourceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client EmWarehouseClient) getEmWarehouseResourceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emWarehouses/{emWarehouseId}/resourceUsage", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -431,7 +431,7 @@ func (client EmDataLakeClient) getEmWarehouseResourceUsage(ctx context.Context, 
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "EmDataLake", "GetEmWarehouseResourceUsage", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "EmWarehouse", "GetEmWarehouseResourceUsage", apiReferenceLink)
 		return response, err
 	}
 
@@ -444,7 +444,7 @@ func (client EmDataLakeClient) getEmWarehouseResourceUsage(ctx context.Context, 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
-func (client EmDataLakeClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
+func (client EmWarehouseClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -474,7 +474,7 @@ func (client EmDataLakeClient) GetWorkRequest(ctx context.Context, request GetWo
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client EmDataLakeClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client EmWarehouseClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -488,7 +488,7 @@ func (client EmDataLakeClient) getWorkRequest(ctx context.Context, request commo
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "EmDataLake", "GetWorkRequest", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "EmWarehouse", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -501,7 +501,7 @@ func (client EmDataLakeClient) getWorkRequest(ctx context.Context, request commo
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/ListEmWarehouses.go.html to see an example of how to use ListEmWarehouses API.
-func (client EmDataLakeClient) ListEmWarehouses(ctx context.Context, request ListEmWarehousesRequest) (response ListEmWarehousesResponse, err error) {
+func (client EmWarehouseClient) ListEmWarehouses(ctx context.Context, request ListEmWarehousesRequest) (response ListEmWarehousesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -531,7 +531,7 @@ func (client EmDataLakeClient) ListEmWarehouses(ctx context.Context, request Lis
 }
 
 // listEmWarehouses implements the OCIOperation interface (enables retrying operations)
-func (client EmDataLakeClient) listEmWarehouses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client EmWarehouseClient) listEmWarehouses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emWarehouses", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -545,7 +545,7 @@ func (client EmDataLakeClient) listEmWarehouses(ctx context.Context, request com
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "EmDataLake", "ListEmWarehouses", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "EmWarehouse", "ListEmWarehouses", apiReferenceLink)
 		return response, err
 	}
 
@@ -558,7 +558,7 @@ func (client EmDataLakeClient) listEmWarehouses(ctx context.Context, request com
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/ListEtlRuns.go.html to see an example of how to use ListEtlRuns API.
-func (client EmDataLakeClient) ListEtlRuns(ctx context.Context, request ListEtlRunsRequest) (response ListEtlRunsResponse, err error) {
+func (client EmWarehouseClient) ListEtlRuns(ctx context.Context, request ListEtlRunsRequest) (response ListEtlRunsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -588,7 +588,7 @@ func (client EmDataLakeClient) ListEtlRuns(ctx context.Context, request ListEtlR
 }
 
 // listEtlRuns implements the OCIOperation interface (enables retrying operations)
-func (client EmDataLakeClient) listEtlRuns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client EmWarehouseClient) listEtlRuns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emWarehouses/{emWarehouseId}/etlRuns", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -602,7 +602,7 @@ func (client EmDataLakeClient) listEtlRuns(ctx context.Context, request common.O
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "EmDataLake", "ListEtlRuns", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "EmWarehouse", "ListEtlRuns", apiReferenceLink)
 		return response, err
 	}
 
@@ -615,7 +615,7 @@ func (client EmDataLakeClient) listEtlRuns(ctx context.Context, request common.O
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
-func (client EmDataLakeClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
+func (client EmWarehouseClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -645,7 +645,7 @@ func (client EmDataLakeClient) ListWorkRequestErrors(ctx context.Context, reques
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client EmDataLakeClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client EmWarehouseClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -659,7 +659,7 @@ func (client EmDataLakeClient) listWorkRequestErrors(ctx context.Context, reques
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "EmDataLake", "ListWorkRequestErrors", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "EmWarehouse", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -672,7 +672,7 @@ func (client EmDataLakeClient) listWorkRequestErrors(ctx context.Context, reques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
-func (client EmDataLakeClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
+func (client EmWarehouseClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -702,7 +702,7 @@ func (client EmDataLakeClient) ListWorkRequestLogs(ctx context.Context, request 
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client EmDataLakeClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client EmWarehouseClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -716,7 +716,7 @@ func (client EmDataLakeClient) listWorkRequestLogs(ctx context.Context, request 
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "EmDataLake", "ListWorkRequestLogs", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "EmWarehouse", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -729,7 +729,7 @@ func (client EmDataLakeClient) listWorkRequestLogs(ctx context.Context, request 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
-func (client EmDataLakeClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
+func (client EmWarehouseClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -759,7 +759,7 @@ func (client EmDataLakeClient) ListWorkRequests(ctx context.Context, request Lis
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client EmDataLakeClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client EmWarehouseClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -773,7 +773,7 @@ func (client EmDataLakeClient) listWorkRequests(ctx context.Context, request com
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "EmDataLake", "ListWorkRequests", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "EmWarehouse", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -786,7 +786,7 @@ func (client EmDataLakeClient) listWorkRequests(ctx context.Context, request com
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/UpdateEmWarehouse.go.html to see an example of how to use UpdateEmWarehouse API.
-func (client EmDataLakeClient) UpdateEmWarehouse(ctx context.Context, request UpdateEmWarehouseRequest) (response UpdateEmWarehouseResponse, err error) {
+func (client EmWarehouseClient) UpdateEmWarehouse(ctx context.Context, request UpdateEmWarehouseRequest) (response UpdateEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -816,7 +816,7 @@ func (client EmDataLakeClient) UpdateEmWarehouse(ctx context.Context, request Up
 }
 
 // updateEmWarehouse implements the OCIOperation interface (enables retrying operations)
-func (client EmDataLakeClient) updateEmWarehouse(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+func (client EmWarehouseClient) updateEmWarehouse(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodPut, "/emWarehouses/{emWarehouseId}", binaryReqBody, extraHeaders)
 	if err != nil {
@@ -830,7 +830,7 @@ func (client EmDataLakeClient) updateEmWarehouse(ctx context.Context, request co
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "EmDataLake", "UpdateEmWarehouse", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "EmWarehouse", "UpdateEmWarehouse", apiReferenceLink)
 		return response, err
 	}
 

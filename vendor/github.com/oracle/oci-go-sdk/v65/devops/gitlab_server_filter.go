@@ -20,6 +20,8 @@ import (
 type GitlabServerFilter struct {
 	Include *GitlabServerFilterAttributes `mandatory:"false" json:"include"`
 
+	Exclude *GitlabServerFilterExclusionAttributes `mandatory:"false" json:"exclude"`
+
 	// The events, for example, PUSH, PULL_REQUEST_MERGE.
 	Events []GitlabServerFilterEventsEnum `mandatory:"false" json:"events,omitempty"`
 }

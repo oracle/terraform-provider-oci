@@ -23,6 +23,8 @@ type GithubFilterAttributes struct {
 
 	// The target branch for pull requests; not applicable for push requests.
 	BaseRef *string `mandatory:"false" json:"baseRef"`
+
+	FileFilter *FileFilter `mandatory:"false" json:"fileFilter"`
 }
 
 func (m GithubFilterAttributes) String() string {

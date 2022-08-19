@@ -30,6 +30,8 @@ type CreateConfigurationDetails struct {
 	// The display name of the Configuration.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	InitVariables *InitializationVariables `mandatory:"false" json:"initVariables"`
+
 	Variables *ConfigurationVariables `mandatory:"false" json:"variables"`
 
 	// The OCID of the Configuration from which the new Configuration is derived. The values in CreateConfigurationDetails.variables supersede the variables of the parent Configuration.
