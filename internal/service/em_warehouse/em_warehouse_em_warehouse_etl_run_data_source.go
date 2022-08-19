@@ -97,14 +97,14 @@ func EmWarehouseEmWarehouseEtlRunDataSource() *schema.Resource {
 func readSingularEmWarehouseEmWarehouseEtlRun(d *schema.ResourceData, m interface{}) error {
 	sync := &EmWarehouseEmWarehouseEtlRunDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).EmDataLakeClient()
+	sync.Client = m.(*client.OracleClients).EmWarehouseClient()
 
 	return tfresource.ReadResource(sync)
 }
 
 type EmWarehouseEmWarehouseEtlRunDataSourceCrud struct {
 	D      *schema.ResourceData
-	Client *oci_em_warehouse.EmDataLakeClient
+	Client *oci_em_warehouse.EmWarehouseClient
 	Res    *oci_em_warehouse.ListEtlRunsResponse
 }
 
