@@ -34,10 +34,12 @@ The following attributes are exported:
 
 * `em_instance_count` - EmInstanceCount
 * `em_instances` - List of emInstances
+	* `em_discoverer_url` - emdDiscoverer url
 	* `em_host` - emHost name
 	* `em_id` - operations Insights Warehouse Identifier
 	* `targets_count` - EmInstance Target count
 * `id` - Unique identifier that is immutable on creation
 * `operations_insights_warehouse_id` - operations Insights Warehouse Identifier
+* `schema_name` - schema name
 * `targets_count` - EmInstance Target count
 
