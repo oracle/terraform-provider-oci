@@ -244,7 +244,7 @@ func TestEmWarehouseEmWarehouseResource_basic(t *testing.T) {
 
 func testAccCheckEmWarehouseEmWarehouseDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).EmDataLakeClient()
+	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).EmWarehouseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_em_warehouse_em_warehouse" {
 			noResourceFound = false
@@ -296,7 +296,7 @@ func init() {
 }
 
 func sweepEmWarehouseEmWarehouseResource(compartment string) error {
-	emDataLakeClient := acctest.GetTestClients(&schema.ResourceData{}).EmDataLakeClient()
+	emWarehouseClient := acctest.GetTestClients(&schema.ResourceData{}).EmWarehouseClient()
 	emWarehouseIds, err := getEmWarehouseIds(compartment)
 	if err != nil {
 		return err
@@ -308,7 +308,7 @@ func sweepEmWarehouseEmWarehouseResource(compartment string) error {
 			deleteEmWarehouseRequest.EmWarehouseId = &emWarehouseId
 
 			deleteEmWarehouseRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "em_warehouse")
-			_, error := emDataLakeClient.DeleteEmWarehouse(context.Background(), deleteEmWarehouseRequest)
+			_, error := emWarehouseClient.DeleteEmWarehouse(context.Background(), deleteEmWarehouseRequest)
 			if error != nil {
 				fmt.Printf("Error deleting EmWarehouse %s %s, It is possible that the resource is already deleted. Please verify manually \n", emWarehouseId, error)
 				continue
@@ -327,12 +327,12 @@ func getEmWarehouseIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	emDataLakeClient := acctest.GetTestClients(&schema.ResourceData{}).EmDataLakeClient()
+	emWarehouseClient := acctest.GetTestClients(&schema.ResourceData{}).EmWarehouseClient()
 
 	listEmWarehousesRequest := oci_em_warehouse.ListEmWarehousesRequest{}
 	listEmWarehousesRequest.CompartmentId = &compartmentId
 	listEmWarehousesRequest.LifecycleState = oci_em_warehouse.EmWarehouseLifecycleStateActive
-	listEmWarehousesResponse, err := emDataLakeClient.ListEmWarehouses(context.Background(), listEmWarehousesRequest)
+	listEmWarehousesResponse, err := emWarehouseClient.ListEmWarehouses(context.Background(), listEmWarehousesRequest)
 
 	if err != nil {
 		return resourceIds, fmt.Errorf("Error getting EmWarehouse list for compartment id : %s , %s \n", compartmentId, err)
@@ -354,7 +354,7 @@ func emWarehouseSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func emWarehouseSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.EmDataLakeClient().GetEmWarehouse(context.Background(), oci_em_warehouse.GetEmWarehouseRequest{
+	_, err := client.EmWarehouseClient().GetEmWarehouse(context.Background(), oci_em_warehouse.GetEmWarehouseRequest{
 		EmWarehouseId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

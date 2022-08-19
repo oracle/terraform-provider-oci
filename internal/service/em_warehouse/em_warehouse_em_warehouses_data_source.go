@@ -59,14 +59,14 @@ func EmWarehouseEmWarehousesDataSource() *schema.Resource {
 func readEmWarehouseEmWarehouses(d *schema.ResourceData, m interface{}) error {
 	sync := &EmWarehouseEmWarehousesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).EmDataLakeClient()
+	sync.Client = m.(*client.OracleClients).EmWarehouseClient()
 
 	return tfresource.ReadResource(sync)
 }
 
 type EmWarehouseEmWarehousesDataSourceCrud struct {
 	D      *schema.ResourceData
-	Client *oci_em_warehouse.EmDataLakeClient
+	Client *oci_em_warehouse.EmWarehouseClient
 	Res    *oci_em_warehouse.ListEmWarehousesResponse
 }
 
