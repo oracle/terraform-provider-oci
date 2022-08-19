@@ -116,11 +116,19 @@ func (s *DevopsTriggerDataSourceCrud) SetData() error {
 	case oci_devops.GithubTrigger:
 		s.D.Set("trigger_source", "GITHUB")
 
+		if v.ConnectionId != nil {
+			s.D.Set("connection_id", v.ConnectionId)
+		}
+
 		if v.TriggerUrl != nil {
 			s.D.Set("trigger_url", v.TriggerUrl)
 		}
 	case oci_devops.GitlabTrigger:
 		s.D.Set("trigger_source", "GITLAB")
+
+		if v.ConnectionId != nil {
+			s.D.Set("connection_id", v.ConnectionId)
+		}
 
 		if v.TriggerUrl != nil {
 			s.D.Set("trigger_url", v.TriggerUrl)
@@ -139,6 +147,10 @@ func (s *DevopsTriggerDataSourceCrud) SetData() error {
 		}
 	case oci_devops.BitbucketCloudTrigger:
 		s.D.Set("trigger_source", "BITBUCKET_CLOUD")
+
+		if v.ConnectionId != nil {
+			s.D.Set("connection_id", v.ConnectionId)
+		}
 
 		if v.TriggerUrl != nil {
 			s.D.Set("trigger_url", v.TriggerUrl)
