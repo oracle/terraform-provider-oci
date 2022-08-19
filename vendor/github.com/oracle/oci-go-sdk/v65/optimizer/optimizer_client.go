@@ -270,7 +270,7 @@ func (client OptimizerClient) deleteProfile(ctx context.Context, request common.
 	return response, err
 }
 
-// FilterResourceActions Queries the Cloud Advisor resource actions that are supported by the specified recommendation.
+// FilterResourceActions Queries the Cloud Advisor resource actions that are supported.
 //
 // See also
 //
@@ -1012,7 +1012,7 @@ func (client OptimizerClient) listRecommendationStrategies(ctx context.Context, 
 	return response, err
 }
 
-// ListRecommendations Lists the Cloud Advisor recommendations that are currently supported in the specified category.
+// ListRecommendations Lists the Cloud Advisor recommendations that are currently supported.
 //
 // See also
 //
@@ -1126,7 +1126,7 @@ func (client OptimizerClient) listResourceActionQueryableFields(ctx context.Cont
 	return response, err
 }
 
-// ListResourceActions Lists the Cloud Advisor resource actions that are supported by the specified recommendation.
+// ListResourceActions Lists the Cloud Advisor resource actions that are supported.
 //
 // See also
 //

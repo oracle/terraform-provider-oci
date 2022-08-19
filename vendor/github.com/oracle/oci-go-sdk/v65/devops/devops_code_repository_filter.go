@@ -20,6 +20,8 @@ import (
 type DevopsCodeRepositoryFilter struct {
 	Include *DevopsCodeRepositoryFilterAttributes `mandatory:"false" json:"include"`
 
+	Exclude *DevopsCodeRepositoryFilterExclusionAttributes `mandatory:"false" json:"exclude"`
+
 	// The events only support PUSH.
 	Events []DevopsCodeRepositoryFilterEventsEnum `mandatory:"false" json:"events,omitempty"`
 }

@@ -20,6 +20,8 @@ import (
 type BitbucketCloudFilter struct {
 	Include *BitbucketCloudFilterAttributes `mandatory:"false" json:"include"`
 
+	Exclude *BitbucketCloudFilterExclusionAttributes `mandatory:"false" json:"exclude"`
+
 	// The events, for example, PUSH, PULL_REQUEST_MERGE.
 	Events []BitbucketCloudFilterEventsEnum `mandatory:"false" json:"events,omitempty"`
 }
